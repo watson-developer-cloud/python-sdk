@@ -1657,6 +1657,10 @@ class EntitiesResult(object):
     :attr str text: (optional) The name of the entity.
     :attr float relevance: (optional) Relevance score from 0 to 1. Higher values indicate
     greater relevance.
+    :attr float confidence: (optional) Confidence in the entity identification from 0 to
+    1. Higher values indicate higher confidence. In standard entities requests, confidence
+    is returned only for English text. All entities requests that use custom models return
+    the confidence score.
     :attr list[EntityMention] mentions: (optional) Entity mentions and locations.
     :attr int count: (optional) How many times the entity was mentioned in the text.
     :attr EmotionScores emotion: (optional) Emotion analysis results for the entity,
@@ -1671,6 +1675,7 @@ class EntitiesResult(object):
                  type=None,
                  text=None,
                  relevance=None,
+                 confidence=None,
                  mentions=None,
                  count=None,
                  emotion=None,
@@ -1683,6 +1688,10 @@ class EntitiesResult(object):
         :param str text: (optional) The name of the entity.
         :param float relevance: (optional) Relevance score from 0 to 1. Higher values
         indicate greater relevance.
+        :param float confidence: (optional) Confidence in the entity identification from 0
+        to 1. Higher values indicate higher confidence. In standard entities requests,
+        confidence is returned only for English text. All entities requests that use
+        custom models return the confidence score.
         :param list[EntityMention] mentions: (optional) Entity mentions and locations.
         :param int count: (optional) How many times the entity was mentioned in the text.
         :param EmotionScores emotion: (optional) Emotion analysis results for the entity,
@@ -1695,6 +1704,7 @@ class EntitiesResult(object):
         self.type = type
         self.text = text
         self.relevance = relevance
+        self.confidence = confidence
         self.mentions = mentions
         self.count = count
         self.emotion = emotion
@@ -1706,8 +1716,8 @@ class EntitiesResult(object):
         """Initialize a EntitiesResult object from a json dictionary."""
         args = {}
         validKeys = [
-            'type', 'text', 'relevance', 'mentions', 'count', 'emotion',
-            'sentiment', 'disambiguation'
+            'type', 'text', 'relevance', 'confidence', 'mentions', 'count',
+            'emotion', 'sentiment', 'disambiguation'
         ]
         badKeys = set(_dict.keys()) - set(validKeys)
         if badKeys:
@@ -1720,6 +1730,8 @@ class EntitiesResult(object):
             args['text'] = _dict.get('text')
         if 'relevance' in _dict:
             args['relevance'] = _dict.get('relevance')
+        if 'confidence' in _dict:
+            args['confidence'] = _dict.get('confidence')
         if 'mentions' in _dict:
             args['mentions'] = [
                 EntityMention._from_dict(x) for x in (_dict.get('mentions'))
@@ -1745,6 +1757,8 @@ class EntitiesResult(object):
             _dict['text'] = self.text
         if hasattr(self, 'relevance') and self.relevance is not None:
             _dict['relevance'] = self.relevance
+        if hasattr(self, 'confidence') and self.confidence is not None:
+            _dict['confidence'] = self.confidence
         if hasattr(self, 'mentions') and self.mentions is not None:
             _dict['mentions'] = [x._to_dict() for x in self.mentions]
         if hasattr(self, 'count') and self.count is not None:
@@ -1779,24 +1793,33 @@ class EntityMention(object):
     :attr str text: (optional) Entity mention text.
     :attr list[int] location: (optional) Character offsets indicating the beginning and
     end of the mention in the analyzed text.
+    :attr float confidence: (optional) Confidence in the entity identification from 0 to
+    1. Higher values indicate higher confidence. In standard entities requests, confidence
+    is returned only for English text. All entities requests that use custom models return
+    the confidence score.
     """
 
-    def __init__(self, text=None, location=None):
+    def __init__(self, text=None, location=None, confidence=None):
         """
         Initialize a EntityMention object.
 
         :param str text: (optional) Entity mention text.
         :param list[int] location: (optional) Character offsets indicating the beginning
         and end of the mention in the analyzed text.
+        :param float confidence: (optional) Confidence in the entity identification from 0
+        to 1. Higher values indicate higher confidence. In standard entities requests,
+        confidence is returned only for English text. All entities requests that use
+        custom models return the confidence score.
         """
         self.text = text
         self.location = location
+        self.confidence = confidence
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a EntityMention object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'location']
+        validKeys = ['text', 'location', 'confidence']
         badKeys = set(_dict.keys()) - set(validKeys)
         if badKeys:
             raise ValueError(
@@ -1806,6 +1829,8 @@ class EntityMention(object):
             args['text'] = _dict.get('text')
         if 'location' in _dict:
             args['location'] = _dict.get('location')
+        if 'confidence' in _dict:
+            args['confidence'] = _dict.get('confidence')
         return cls(**args)
 
     def _to_dict(self):
@@ -1815,6 +1840,8 @@ class EntityMention(object):
             _dict['text'] = self.text
         if hasattr(self, 'location') and self.location is not None:
             _dict['location'] = self.location
+        if hasattr(self, 'confidence') and self.confidence is not None:
+            _dict['confidence'] = self.confidence
         return _dict
 
     def __str__(self):

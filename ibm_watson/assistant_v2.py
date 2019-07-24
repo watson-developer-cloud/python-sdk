@@ -722,6 +722,10 @@ class DialogRuntimeResponseGeneric(object):
     the possible matching dialog nodes from which the user can choose.
     **Note:** The **suggestions** property is part of the disambiguation feature, which is
     only available for Premium users.
+    :attr str header: (optional) The title or introductory text to show before the
+    response. This text is defined in the search skill configuration.
+    :attr list[SearchResult] results: (optional) An array of objects containing search
+    results.
     """
 
     def __init__(self,
@@ -736,7 +740,9 @@ class DialogRuntimeResponseGeneric(object):
                  options=None,
                  message_to_human_agent=None,
                  topic=None,
-                 suggestions=None):
+                 suggestions=None,
+                 header=None,
+                 results=None):
         """
         Initialize a DialogRuntimeResponseGeneric object.
 
@@ -763,6 +769,10 @@ class DialogRuntimeResponseGeneric(object):
         describing the possible matching dialog nodes from which the user can choose.
         **Note:** The **suggestions** property is part of the disambiguation feature,
         which is only available for Premium users.
+        :param str header: (optional) The title or introductory text to show before the
+        response. This text is defined in the search skill configuration.
+        :param list[SearchResult] results: (optional) An array of objects containing
+        search results.
         """
         self.response_type = response_type
         self.text = text
@@ -776,6 +786,8 @@ class DialogRuntimeResponseGeneric(object):
         self.message_to_human_agent = message_to_human_agent
         self.topic = topic
         self.suggestions = suggestions
+        self.header = header
+        self.results = results
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -784,7 +796,7 @@ class DialogRuntimeResponseGeneric(object):
         validKeys = [
             'response_type', 'text', 'time', 'typing', 'source', 'title',
             'description', 'preference', 'options', 'message_to_human_agent',
-            'topic', 'suggestions'
+            'topic', 'suggestions', 'header', 'results'
         ]
         badKeys = set(_dict.keys()) - set(validKeys)
         if badKeys:
@@ -825,6 +837,12 @@ class DialogRuntimeResponseGeneric(object):
                 DialogSuggestion._from_dict(x)
                 for x in (_dict.get('suggestions'))
             ]
+        if 'header' in _dict:
+            args['header'] = _dict.get('header')
+        if 'results' in _dict:
+            args['results'] = [
+                SearchResult._from_dict(x) for x in (_dict.get('results'))
+            ]
         return cls(**args)
 
     def _to_dict(self):
@@ -855,6 +873,10 @@ class DialogRuntimeResponseGeneric(object):
             _dict['topic'] = self.topic
         if hasattr(self, 'suggestions') and self.suggestions is not None:
             _dict['suggestions'] = [x._to_dict() for x in self.suggestions]
+        if hasattr(self, 'header') and self.header is not None:
+            _dict['header'] = self.header
+        if hasattr(self, 'results') and self.results is not None:
+            _dict['results'] = [x._to_dict() for x in self.results]
         return _dict
 
     def __str__(self):
@@ -1811,14 +1833,14 @@ class MessageResponse(object):
 
 class RuntimeEntity(object):
     """
-    A term from the request that was identified as an entity.
+    The entity value that was recognized in the user input.
 
     :attr str entity: An entity detected in the input.
     :attr list[int] location: An array of zero-based character offsets that indicate where
     the detected entity values begin and end in the input text.
     :attr str value: The term in the input text that was recognized as an entity value.
     :attr float confidence: (optional) A decimal percentage that represents Watson's
-    confidence in the entity.
+    confidence in the recognized entity.
     :attr dict metadata: (optional) Any metadata for the entity.
     :attr list[CaptureGroup] groups: (optional) The recognized capture groups for the
     entity, as defined by the entity pattern.
@@ -1840,7 +1862,7 @@ class RuntimeEntity(object):
         :param str value: The term in the input text that was recognized as an entity
         value.
         :param float confidence: (optional) A decimal percentage that represents Watson's
-        confidence in the entity.
+        confidence in the recognized entity.
         :param dict metadata: (optional) Any metadata for the entity.
         :param list[CaptureGroup] groups: (optional) The recognized capture groups for the
         entity, as defined by the entity pattern.
@@ -1978,6 +2000,285 @@ class RuntimeIntent(object):
 
     def __str__(self):
         """Return a `str` version of this RuntimeIntent object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SearchResult(object):
+    """
+    SearchResult.
+
+    :attr str id: The unique identifier of the document in the Discovery service
+    collection.
+    This property is included in responses from search skills, which are a beta feature
+    available only to Plus or Premium plan users.
+    :attr SearchResultMetadata result_metadata: An object containing search result
+    metadata from the Discovery service.
+    :attr str body: (optional) A description of the search result. This is taken from an
+    abstract, summary, or highlight field in the Discovery service response, as specified
+    in the search skill configuration.
+    :attr str title: (optional) The title of the search result. This is taken from a title
+    or name field in the Discovery service response, as specified in the search skill
+    configuration.
+    :attr str url: (optional) The URL of the original data object in its native data
+    source.
+    :attr SearchResultHighlight highlight: (optional) An object containing segments of
+    text from search results with query-matching text highlighted using HTML <em> tags.
+    """
+
+    def __init__(self,
+                 id,
+                 result_metadata,
+                 body=None,
+                 title=None,
+                 url=None,
+                 highlight=None):
+        """
+        Initialize a SearchResult object.
+
+        :param str id: The unique identifier of the document in the Discovery service
+        collection.
+        This property is included in responses from search skills, which are a beta
+        feature available only to Plus or Premium plan users.
+        :param SearchResultMetadata result_metadata: An object containing search result
+        metadata from the Discovery service.
+        :param str body: (optional) A description of the search result. This is taken from
+        an abstract, summary, or highlight field in the Discovery service response, as
+        specified in the search skill configuration.
+        :param str title: (optional) The title of the search result. This is taken from a
+        title or name field in the Discovery service response, as specified in the search
+        skill configuration.
+        :param str url: (optional) The URL of the original data object in its native data
+        source.
+        :param SearchResultHighlight highlight: (optional) An object containing segments
+        of text from search results with query-matching text highlighted using HTML <em>
+        tags.
+        """
+        self.id = id
+        self.result_metadata = result_metadata
+        self.body = body
+        self.title = title
+        self.url = url
+        self.highlight = highlight
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SearchResult object from a json dictionary."""
+        args = {}
+        validKeys = [
+            'id', 'result_metadata', 'body', 'title', 'url', 'highlight'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class SearchResult: '
+                + ', '.join(badKeys))
+        if 'id' in _dict:
+            args['id'] = _dict.get('id')
+        else:
+            raise ValueError(
+                'Required property \'id\' not present in SearchResult JSON')
+        if 'result_metadata' in _dict:
+            args['result_metadata'] = SearchResultMetadata._from_dict(
+                _dict.get('result_metadata'))
+        else:
+            raise ValueError(
+                'Required property \'result_metadata\' not present in SearchResult JSON'
+            )
+        if 'body' in _dict:
+            args['body'] = _dict.get('body')
+        if 'title' in _dict:
+            args['title'] = _dict.get('title')
+        if 'url' in _dict:
+            args['url'] = _dict.get('url')
+        if 'highlight' in _dict:
+            args['highlight'] = SearchResultHighlight._from_dict(
+                _dict.get('highlight'))
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'id') and self.id is not None:
+            _dict['id'] = self.id
+        if hasattr(self,
+                   'result_metadata') and self.result_metadata is not None:
+            _dict['result_metadata'] = self.result_metadata._to_dict()
+        if hasattr(self, 'body') and self.body is not None:
+            _dict['body'] = self.body
+        if hasattr(self, 'title') and self.title is not None:
+            _dict['title'] = self.title
+        if hasattr(self, 'url') and self.url is not None:
+            _dict['url'] = self.url
+        if hasattr(self, 'highlight') and self.highlight is not None:
+            _dict['highlight'] = self.highlight._to_dict()
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this SearchResult object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SearchResultHighlight(object):
+    """
+    An object containing segments of text from search results with query-matching text
+    highlighted using HTML <em> tags.
+
+    :attr list[str] body: (optional) An array of strings containing segments taken from
+    body text in the search results, with query-matching substrings highlighted.
+    :attr list[str] title: (optional) An array of strings containing segments taken from
+    title text in the search results, with query-matching substrings highlighted.
+    :attr list[str] url: (optional) An array of strings containing segments taken from
+    URLs in the search results, with query-matching substrings highlighted.
+    """
+
+    def __init__(self, body=None, title=None, url=None, **kwargs):
+        """
+        Initialize a SearchResultHighlight object.
+
+        :param list[str] body: (optional) An array of strings containing segments taken
+        from body text in the search results, with query-matching substrings highlighted.
+        :param list[str] title: (optional) An array of strings containing segments taken
+        from title text in the search results, with query-matching substrings highlighted.
+        :param list[str] url: (optional) An array of strings containing segments taken
+        from URLs in the search results, with query-matching substrings highlighted.
+        :param **kwargs: (optional) Any additional properties.
+        """
+        self.body = body
+        self.title = title
+        self.url = url
+        for _key, _value in kwargs.items():
+            setattr(self, _key, _value)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SearchResultHighlight object from a json dictionary."""
+        args = {}
+        xtra = _dict.copy()
+        if 'body' in _dict:
+            args['body'] = _dict.get('body')
+            del xtra['body']
+        if 'title' in _dict:
+            args['title'] = _dict.get('title')
+            del xtra['title']
+        if 'url' in _dict:
+            args['url'] = _dict.get('url')
+            del xtra['url']
+        args.update(xtra)
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'body') and self.body is not None:
+            _dict['body'] = self.body
+        if hasattr(self, 'title') and self.title is not None:
+            _dict['title'] = self.title
+        if hasattr(self, 'url') and self.url is not None:
+            _dict['url'] = self.url
+        if hasattr(self, '_additionalProperties'):
+            for _key in self._additionalProperties:
+                _value = getattr(self, _key, None)
+                if _value is not None:
+                    _dict[_key] = _value
+        return _dict
+
+    def __setattr__(self, name, value):
+        properties = {'body', 'title', 'url'}
+        if not hasattr(self, '_additionalProperties'):
+            super(SearchResultHighlight, self).__setattr__(
+                '_additionalProperties', set())
+        if name not in properties:
+            self._additionalProperties.add(name)
+        super(SearchResultHighlight, self).__setattr__(name, value)
+
+    def __str__(self):
+        """Return a `str` version of this SearchResultHighlight object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SearchResultMetadata(object):
+    """
+    An object containing search result metadata from the Discovery service.
+
+    :attr float confidence: (optional) The confidence score for the given result. For more
+    information about how the confidence is calculated, see the Discovery service
+    [documentation](../discovery#query-your-collection).
+    :attr float score: (optional) An unbounded measure of the relevance of a particular
+    result, dependent on the query and matching document. A higher score indicates a
+    greater match to the query parameters.
+    """
+
+    def __init__(self, confidence=None, score=None):
+        """
+        Initialize a SearchResultMetadata object.
+
+        :param float confidence: (optional) The confidence score for the given result. For
+        more information about how the confidence is calculated, see the Discovery service
+        [documentation](../discovery#query-your-collection).
+        :param float score: (optional) An unbounded measure of the relevance of a
+        particular result, dependent on the query and matching document. A higher score
+        indicates a greater match to the query parameters.
+        """
+        self.confidence = confidence
+        self.score = score
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SearchResultMetadata object from a json dictionary."""
+        args = {}
+        validKeys = ['confidence', 'score']
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class SearchResultMetadata: '
+                + ', '.join(badKeys))
+        if 'confidence' in _dict:
+            args['confidence'] = _dict.get('confidence')
+        if 'score' in _dict:
+            args['score'] = _dict.get('score')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'confidence') and self.confidence is not None:
+            _dict['confidence'] = self.confidence
+        if hasattr(self, 'score') and self.score is not None:
+            _dict['score'] = self.score
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this SearchResultMetadata object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):

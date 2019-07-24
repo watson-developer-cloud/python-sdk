@@ -1249,8 +1249,9 @@ class SpeechToTextV1(BaseService):
         * No training data have been added to the custom model.
         * The custom model contains one or more invalid corpora, grammars, or words (for
         example, a custom word has an invalid sounds-like pronunciation). You can correct
-        the invalid resources. The model must contain at least one valid resource for training
-        to succeed.
+        the invalid resources or set the `strict` parameter to `false` to exclude the
+        invalid resources from the training. The model must contain at least one valid
+        resource for training to succeed.
 
         :param str customization_id: The customization ID (GUID) of the custom language
         model that is to be used for the request. You must make the request with
@@ -1481,11 +1482,17 @@ class SpeechToTextV1(BaseService):
         Use a localized name that matches the language of the custom model and reflects
         the contents of the corpus.
         * Include a maximum of 128 characters in the name.
-        * Do not include spaces, slashes, or backslashes in the name.
+        * Do not use characters that need to be URL-encoded. For example, do not use
+        spaces, slashes, backslashes, colons, ampersands, double quotes, plus signs,
+        equals signs, questions marks, and so on in the name. (The service does not
+        prevent the use of these characters. But because they must be URL-encoded wherever
+        used, their use is strongly discouraged.)
         * Do not use the name of an existing corpus or grammar that is already defined for
         the custom model.
         * Do not use the name `user`, which is reserved by the service to denote custom
         words that are added or modified by the user.
+        * Do not use the name `base_lm` or `default_lm`. Both names are reserved for
+        future use by the service.
         :param file corpus_file: A plain text file that contains the training data for the
         corpus. Encode the file in UTF-8 if it contains non-ASCII characters; the service
         assumes UTF-8 encoding if it encounters non-ASCII characters.
@@ -1644,7 +1651,7 @@ class SpeechToTextV1(BaseService):
         descending order. By default, words are sorted in ascending alphabetical order.
         For alphabetical ordering, the lexicographical precedence is numeric values,
         uppercase letters, and lowercase letters. For count ordering, values with the same
-        count are ordered alphabetically. With the `curl` command, URL encode the `+`
+        count are ordered alphabetically. With the `curl` command, URL-encode the `+`
         symbol as `%2B`.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -2032,11 +2039,17 @@ class SpeechToTextV1(BaseService):
         model. Use a localized name that matches the language of the custom model and
         reflects the contents of the grammar.
         * Include a maximum of 128 characters in the name.
-        * Do not include spaces, slashes, or backslashes in the name.
+        * Do not use characters that need to be URL-encoded. For example, do not use
+        spaces, slashes, backslashes, colons, ampersands, double quotes, plus signs,
+        equals signs, questions marks, and so on in the name. (The service does not
+        prevent the use of these characters. But because they must be URL-encoded wherever
+        used, their use is strongly discouraged.)
         * Do not use the name of an existing grammar or corpus that is already defined for
         the custom model.
         * Do not use the name `user`, which is reserved by the service to denote custom
         words that are added or modified by the user.
+        * Do not use the name `base_lm` or `default_lm`. Both names are reserved for
+        future use by the service.
         :param str grammar_file: A plain text file that contains the grammar in the format
         specified by the `Content-Type` header. Encode the file in UTF-8 (ASCII is a
         subset of UTF-8). Using any other encoding can lead to issues when compiling the
@@ -2360,8 +2373,10 @@ class SpeechToTextV1(BaseService):
         model** method to poll the model's status. Use a loop to check the status once a
         minute. The method returns an `AcousticModel` object that includes `status` and
         `progress` fields. A status of `available` indicates that the custom model is
-        trained and ready to use. The service cannot accept subsequent training requests,
-        or requests to add new audio resources, until the existing request completes.
+        trained and ready to use. The service cannot train a model while it is handling
+        another request for the model. The service cannot accept subsequent training
+        requests, or requests to add new audio resources, until the existing training
+        request completes.
         You can use the optional `custom_language_model_id` parameter to specify the GUID
         of a separately created custom language model that is to be used during training.
         Train with a custom language model if you have verbatim transcriptions of the
@@ -2384,7 +2399,8 @@ class SpeechToTextV1(BaseService):
         `custom_language_model_id` query parameter. Both custom models must be based on
         the same version of the same base model.
         * The custom model contains one or more invalid audio resources. You can correct
-        the invalid audio resources. The model must contain at least one valid
+        the invalid audio resources or set the `strict` parameter to `false` to exclude
+        the invalid resources from the training. The model must contain at least one valid
         resource for training to succeed.
 
         :param str customization_id: The customization ID (GUID) of the custom acoustic
@@ -2412,9 +2428,7 @@ class SpeechToTextV1(BaseService):
                                       'train_acoustic_model')
         headers.update(sdk_headers)
 
-        params = {
-            'custom_language_model_id': custom_language_model_id
-        }
+        params = {'custom_language_model_id': custom_language_model_id}
 
         url = '/v1/acoustic_customizations/{0}/train'.format(
             *self._encode_path_vars(customization_id))
@@ -2433,8 +2447,11 @@ class SpeechToTextV1(BaseService):
         Resets a custom acoustic model by removing all audio resources from the model.
         Resetting a custom acoustic model initializes the model to its state when it was
         first created. Metadata such as the name and language of the model are preserved,
-        but the model's audio resources are removed and must be re-created. You must use
-        credentials for the instance of the service that owns a model to reset it.
+        but the model's audio resources are removed and must be re-created. The service
+        cannot reset a model while it is handling another request for the model. The
+        service cannot accept subsequent requests for the model until the existing reset
+        request completes. You must use credentials for the instance of the service that
+        owns a model to reset it.
         **See also:** [Resetting a custom acoustic
         model](https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-manageAcousticModels#resetModel-acoustic).
 
@@ -2483,8 +2500,10 @@ class SpeechToTextV1(BaseService):
         returns an `AcousticModel` object that includes `status` and `progress` fields.
         Use a loop to check the status once a minute. While it is being upgraded, the
         custom model has the status `upgrading`. When the upgrade is complete, the model
-        resumes the status that it had prior to upgrade. The service cannot accept
-        subsequent requests for the model until the upgrade completes.
+        resumes the status that it had prior to upgrade. The service cannot upgrade a
+        model while it is handling another request for the model. The service cannot
+        accept subsequent requests for the model until the existing upgrade request
+        completes.
         If the custom acoustic model was trained with a separately created custom language
         model, you must use the `custom_language_model_id` parameter to specify the GUID
         of that custom language model. The custom language model must be upgraded before
@@ -2600,21 +2619,21 @@ class SpeechToTextV1(BaseService):
         efficient than adding each file individually. You can add audio resources in any
         format that the service supports for speech recognition.
         You can use this method to add any number of audio resources to a custom model by
-        calling the method once for each audio or archive file. But the addition of one
-        audio resource must be fully complete before you can add another. You must add a
-        minimum of 10 minutes and a maximum of 200 hours of audio that includes speech,
-        not just silence, to a custom acoustic model before you can train it. No audio
-        resource, audio- or archive-type, can be larger than 100 MB. To add an audio
-        resource that has the same name as an existing audio resource, set the
-        `allow_overwrite` parameter to `true`; otherwise, the request fails.
+        calling the method once for each audio or archive file. You can add multiple
+        different audio resources at the same time. You must add a minimum of 10 minutes
+        and a maximum of 200 hours of audio that includes speech, not just silence, to a
+        custom acoustic model before you can train it. No audio resource, audio- or
+        archive-type, can be larger than 100 MB. To add an audio resource that has the
+        same name as an existing audio resource, set the `allow_overwrite` parameter to
+        `true`; otherwise, the request fails.
         The method is asynchronous. It can take several seconds to complete depending on
         the duration of the audio and, in the case of an archive file, the total number of
         audio files being processed. The service returns a 201 response code if the audio
         is valid. It then asynchronously analyzes the contents of the audio file or files
         and automatically extracts information about the audio such as its length,
-        sampling rate, and encoding. You cannot submit requests to add additional audio
-        resources to a custom acoustic model, or to train the model, until the service's
-        analysis of all audio files for the current request completes.
+        sampling rate, and encoding. You cannot submit requests to train or upgrade the
+        model until the service's analysis of all audio resources for current requests
+        completes.
         To determine the status of the service's analysis of the audio, use the **Get an
         audio resource** method to poll the status of the audio. The method accepts the
         customization ID of the custom model and the name of the audio resource, and it
@@ -2671,13 +2690,9 @@ class SpeechToTextV1(BaseService):
         have the same format.
         Do not use the `Contained-Content-Type` header when adding an audio-type resource.
         ### Naming restrictions for embedded audio files
-         The name of an audio file that is embedded within an archive-type resource must
-        meet the following restrictions:
-        * Include a maximum of 128 characters in the file name; this includes the file
-        extension.
-        * Do not include spaces, slashes, or backslashes in the file name.
-        * Do not use the name of an audio file that has already been added to the custom
-        model as part of an archive-type resource.
+         The name of an audio file that is contained in an archive-type resource can
+        include a maximum of 128 characters. This includes the file extension and all
+        elements of the name (for example, slashes).
 
         :param str customization_id: The customization ID (GUID) of the custom acoustic
         model that is to be used for the request. You must make the request with
@@ -2686,7 +2701,11 @@ class SpeechToTextV1(BaseService):
         model. Use a localized name that matches the language of the custom model and
         reflects the contents of the resource.
         * Include a maximum of 128 characters in the name.
-        * Do not include spaces, slashes, or backslashes in the name.
+        * Do not use characters that need to be URL-encoded. For example, do not use
+        spaces, slashes, backslashes, colons, ampersands, double quotes, plus signs,
+        equals signs, questions marks, and so on in the name. (The service does not
+        prevent the use of these characters. But because they must be URL-encoded wherever
+        used, their use is strongly discouraged.)
         * Do not use the name of an audio resource that has already been added to the
         custom model.
         :param file audio_resource: The audio resource that is to be added to the custom
@@ -2808,12 +2827,13 @@ class SpeechToTextV1(BaseService):
         Delete an audio resource.
 
         Deletes an existing audio resource from a custom acoustic model. Deleting an
-        archive-type audio resource removes the entire archive of files; the current
-        interface does not allow deletion of individual files from an archive resource.
+        archive-type audio resource removes the entire archive of files. The service does
+        not allow deletion of individual files from an archive resource.
         Removing an audio resource does not affect the custom model until you train the
         model on its updated data by using the **Train a custom acoustic model** method.
-        You must use credentials for the instance of the service that owns a model to
-        delete its audio resources.
+        You can delete an existing audio resource from a model while a different resource
+        is being added to the model. You must use credentials for the instance of the
+        service that owns a model to delete its audio resources.
         **See also:** [Deleting an audio resource from a custom acoustic
         model](https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-manageAudio#deleteAudio).
 
@@ -2905,6 +2925,10 @@ class AcousticModel(object):
     :attr str created: (optional) The date and time in Coordinated Universal Time (UTC) at
     which the custom acoustic model was created. The value is provided in full ISO 8601
     format (`YYYY-MM-DDThh:mm:ss.sTZD`).
+    :attr str updated: (optional) The date and time in Coordinated Universal Time (UTC) at
+    which the custom acoustic model was last modified. The `created` and `updated` fields
+    are equal when an acoustic model is first added but has yet to be updated. The value
+    is provided in full ISO 8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
     :attr str language: (optional) The language identifier of the custom acoustic model
     (for example, `en-US`).
     :attr list[str] versions: (optional) A list of the available versions of the custom
@@ -2920,7 +2944,8 @@ class AcousticModel(object):
     :attr str status: (optional) The current status of the custom acoustic model:
     * `pending`: The model was created but is waiting either for valid training data to be
     added or for the service to finish analyzing added data.
-    * `ready`: The model contains valid data and is ready to be trained.
+    * `ready`: The model contains valid data and is ready to be trained. If the model
+    contains a mix of valid and invalid resources, you need to set the `strict` parameter
     to `false` for the training to proceed.
     * `training`: The model is currently being trained.
     * `available`: The model is trained and ready to use.
@@ -2946,7 +2971,8 @@ class AcousticModel(object):
                  base_model_name=None,
                  status=None,
                  progress=None,
-                 warnings=None):
+                 warnings=None,
+                 updated=None):
         """
         Initialize a AcousticModel object.
 
@@ -2956,6 +2982,10 @@ class AcousticModel(object):
         :param str created: (optional) The date and time in Coordinated Universal Time
         (UTC) at which the custom acoustic model was created. The value is provided in
         full ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`).
+        :param str updated: (optional) The date and time in Coordinated Universal Time
+        (UTC) at which the custom acoustic model was last modified. The `created` and
+        `updated` fields are equal when an acoustic model is first added but has yet to be
+        updated. The value is provided in full ISO 8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
         :param str language: (optional) The language identifier of the custom acoustic
         model (for example, `en-US`).
         :param list[str] versions: (optional) A list of the available versions of the
@@ -2971,7 +3001,8 @@ class AcousticModel(object):
         :param str status: (optional) The current status of the custom acoustic model:
         * `pending`: The model was created but is waiting either for valid training data
         to be added or for the service to finish analyzing added data.
-        * `ready`: The model contains valid data and is ready to be trained.
+        * `ready`: The model contains valid data and is ready to be trained. If the model
+        contains a mix of valid and invalid resources, you need to set the `strict`
         parameter to `false` for the training to proceed.
         * `training`: The model is currently being trained.
         * `available`: The model is trained and ready to use.
@@ -2988,6 +3019,7 @@ class AcousticModel(object):
         """
         self.customization_id = customization_id
         self.created = created
+        self.updated = updated
         self.language = language
         self.versions = versions
         self.owner = owner
@@ -3003,9 +3035,9 @@ class AcousticModel(object):
         """Initialize a AcousticModel object from a json dictionary."""
         args = {}
         validKeys = [
-            'customization_id', 'created', 'language', 'versions', 'owner',
-            'name', 'description', 'base_model_name', 'status', 'progress',
-            'warnings'
+            'customization_id', 'created', 'updated', 'language', 'versions',
+            'owner', 'name', 'description', 'base_model_name', 'status',
+            'progress', 'warnings'
         ]
         badKeys = set(_dict.keys()) - set(validKeys)
         if badKeys:
@@ -3020,6 +3052,8 @@ class AcousticModel(object):
             )
         if 'created' in _dict:
             args['created'] = _dict.get('created')
+        if 'updated' in _dict:
+            args['updated'] = _dict.get('updated')
         if 'language' in _dict:
             args['language'] = _dict.get('language')
         if 'versions' in _dict:
@@ -3048,6 +3082,8 @@ class AcousticModel(object):
             _dict['customization_id'] = self.customization_id
         if hasattr(self, 'created') and self.created is not None:
             _dict['created'] = self.created
+        if hasattr(self, 'updated') and self.updated is not None:
+            _dict['updated'] = self.updated
         if hasattr(self, 'language') and self.language is not None:
             _dict['language'] = self.language
         if hasattr(self, 'versions') and self.versions is not None:
@@ -4512,6 +4548,10 @@ class LanguageModel(object):
     :attr str created: (optional) The date and time in Coordinated Universal Time (UTC) at
     which the custom language model was created. The value is provided in full ISO 8601
     format (`YYYY-MM-DDThh:mm:ss.sTZD`).
+    :attr str updated: (optional) The date and time in Coordinated Universal Time (UTC) at
+    which the custom language model was last modified. The `created` and `updated` fields
+    are equal when a language model is first added but has yet to be updated. The value is
+    provided in full ISO 8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
     :attr str language: (optional) The language identifier of the custom language model
     (for example, `en-US`).
     :attr str dialect: (optional) The dialect of the language for the custom language
@@ -4534,7 +4574,9 @@ class LanguageModel(object):
     :attr str status: (optional) The current status of the custom language model:
     * `pending`: The model was created but is waiting either for valid training data to be
     added or for the service to finish analyzing added data.
-    * `ready`: The model contains valid data and is ready to be trained.
+    * `ready`: The model contains valid data and is ready to be trained. If the model
+    contains a mix of valid and invalid resources, you need to set the `strict` parameter
+    to `false` for the training to proceed.
     * `training`: The model is currently being trained.
     * `available`: The model is trained and ready to use.
     * `upgrading`: The model is currently being upgraded.
@@ -4565,7 +4607,8 @@ class LanguageModel(object):
                  status=None,
                  progress=None,
                  error=None,
-                 warnings=None):
+                 warnings=None,
+                 updated=None):
         """
         Initialize a LanguageModel object.
 
@@ -4575,6 +4618,10 @@ class LanguageModel(object):
         :param str created: (optional) The date and time in Coordinated Universal Time
         (UTC) at which the custom language model was created. The value is provided in
         full ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`).
+        :param str updated: (optional) The date and time in Coordinated Universal Time
+        (UTC) at which the custom language model was last modified. The `created` and
+        `updated` fields are equal when a language model is first added but has yet to be
+        updated. The value is provided in full ISO 8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
         :param str language: (optional) The language identifier of the custom language
         model (for example, `en-US`).
         :param str dialect: (optional) The dialect of the language for the custom language
@@ -4597,7 +4644,8 @@ class LanguageModel(object):
         :param str status: (optional) The current status of the custom language model:
         * `pending`: The model was created but is waiting either for valid training data
         to be added or for the service to finish analyzing added data.
-        * `ready`: The model contains valid data and is ready to be trained.
+        * `ready`: The model contains valid data and is ready to be trained. If the model
+        contains a mix of valid and invalid resources, you need to set the `strict`
         parameter to `false` for the training to proceed.
         * `training`: The model is currently being trained.
         * `available`: The model is trained and ready to use.
@@ -4618,6 +4666,7 @@ class LanguageModel(object):
         """
         self.customization_id = customization_id
         self.created = created
+        self.updated = updated
         self.language = language
         self.dialect = dialect
         self.versions = versions
@@ -4635,9 +4684,9 @@ class LanguageModel(object):
         """Initialize a LanguageModel object from a json dictionary."""
         args = {}
         validKeys = [
-            'customization_id', 'created', 'language', 'dialect', 'versions',
-            'owner', 'name', 'description', 'base_model_name', 'status',
-            'progress', 'error', 'warnings'
+            'customization_id', 'created', 'updated', 'language', 'dialect',
+            'versions', 'owner', 'name', 'description', 'base_model_name',
+            'status', 'progress', 'error', 'warnings'
         ]
         badKeys = set(_dict.keys()) - set(validKeys)
         if badKeys:
@@ -4652,6 +4701,8 @@ class LanguageModel(object):
             )
         if 'created' in _dict:
             args['created'] = _dict.get('created')
+        if 'updated' in _dict:
+            args['updated'] = _dict.get('updated')
         if 'language' in _dict:
             args['language'] = _dict.get('language')
         if 'dialect' in _dict:
@@ -4684,6 +4735,8 @@ class LanguageModel(object):
             _dict['customization_id'] = self.customization_id
         if hasattr(self, 'created') and self.created is not None:
             _dict['created'] = self.created
+        if hasattr(self, 'updated') and self.updated is not None:
+            _dict['updated'] = self.updated
         if hasattr(self, 'language') and self.language is not None:
             _dict['language'] = self.language
         if hasattr(self, 'dialect') and self.dialect is not None:
@@ -4915,7 +4968,8 @@ class ProcessedAudio(object):
 class ProcessingMetrics(object):
     """
     If processing metrics are requested, information about the service's processing of the
-    input audio.
+    input audio. Processing metrics are not available with the synchronous **Recognize
+    audio** method.
 
     :attr ProcessedAudio processed_audio: Detailed timing information about the service's
     processing of the input audio.
@@ -5892,7 +5946,8 @@ class SpeechRecognitionResults(object):
     methods that support them, it is possible for a `SpeechRecognitionResults` object to
     include only the `speaker_labels` field.
     :attr ProcessingMetrics processing_metrics: (optional) If processing metrics are
-    requested, information about the service's processing of the input audio.
+    requested, information about the service's processing of the input audio. Processing
+    metrics are not available with the synchronous **Recognize audio** method.
     :attr AudioMetrics audio_metrics: (optional) If audio metrics are requested,
     information about the signal characteristics of the input audio.
     :attr list[str] warnings: (optional) An array of warning messages associated with the
@@ -5915,7 +5970,8 @@ class SpeechRecognitionResults(object):
                  result_index=None,
                  speaker_labels=None,
                  audio_metrics=None,
-                 warnings=None):
+                 warnings=None,
+                 processing_metrics=None):
         """
         Initialize a SpeechRecognitionResults object.
 
@@ -5937,6 +5993,8 @@ class SpeechRecognitionResults(object):
         to include only the `speaker_labels` field.
         :param ProcessingMetrics processing_metrics: (optional) If processing metrics are
         requested, information about the service's processing of the input audio.
+        Processing metrics are not available with the synchronous **Recognize audio**
+        method.
         :param AudioMetrics audio_metrics: (optional) If audio metrics are requested,
         information about the signal characteristics of the input audio.
         :param list[str] warnings: (optional) An array of warning messages associated with
@@ -5957,6 +6015,7 @@ class SpeechRecognitionResults(object):
         self.results = results
         self.result_index = result_index
         self.speaker_labels = speaker_labels
+        self.processing_metrics = processing_metrics
         self.audio_metrics = audio_metrics
         self.warnings = warnings
 
@@ -5985,6 +6044,9 @@ class SpeechRecognitionResults(object):
                 SpeakerLabelsResult._from_dict(x)
                 for x in (_dict.get('speaker_labels'))
             ]
+        if 'processing_metrics' in _dict:
+            args['processing_metrics'] = ProcessingMetrics._from_dict(
+                _dict.get('processing_metrics'))
         if 'audio_metrics' in _dict:
             args['audio_metrics'] = AudioMetrics._from_dict(
                 _dict.get('audio_metrics'))
@@ -6003,6 +6065,10 @@ class SpeechRecognitionResults(object):
             _dict['speaker_labels'] = [
                 x._to_dict() for x in self.speaker_labels
             ]
+        if hasattr(
+                self,
+                'processing_metrics') and self.processing_metrics is not None:
+            _dict['processing_metrics'] = self.processing_metrics._to_dict()
         if hasattr(self, 'audio_metrics') and self.audio_metrics is not None:
             _dict['audio_metrics'] = self.audio_metrics._to_dict()
         if hasattr(self, 'warnings') and self.warnings is not None:
@@ -6101,7 +6167,8 @@ class TrainingResponse(object):
 
     :attr list[TrainingWarning] warnings: (optional) An array of `TrainingWarning` objects
     that lists any invalid resources contained in the custom model. For custom language
-    models, invalid resources are grouped and identified by type of resource.
+    models, invalid resources are grouped and identified by type of resource. The method
+    can return warnings only if the `strict` parameter is set to `false`.
     """
 
     def __init__(self, warnings=None):
@@ -6111,6 +6178,7 @@ class TrainingResponse(object):
         :param list[TrainingWarning] warnings: (optional) An array of `TrainingWarning`
         objects that lists any invalid resources contained in the custom model. For custom
         language models, invalid resources are grouped and identified by type of resource.
+        The method can return warnings only if the `strict` parameter is set to `false`.
         """
         self.warnings = warnings
 
@@ -6156,60 +6224,60 @@ class TrainingWarning(object):
     """
     A warning from training of a custom language or custom acoustic model.
 
-    :attr str description: A warning message that lists the invalid resources that are
+    :attr str code: An identifier for the type of invalid resources listed in the
+    `description` field.
+    :attr str message: A warning message that lists the invalid resources that are
     excluded from the custom model's training. The message has the following format:
     `Analysis of the following {resource_type} has not completed successfully:
     [{resource_names}]. They will be excluded from custom {model_type} model training.`.
-    :attr str warning_id: An identifier for the type of invalid resources listed in the
-    `description` field.
     """
 
-    def __init__(self, description, warning_id):
+    def __init__(self, code, message):
         """
         Initialize a TrainingWarning object.
 
-        :param str description: A warning message that lists the invalid resources that
-        are excluded from the custom model's training. The message has the following
-        format: `Analysis of the following {resource_type} has not completed successfully:
+        :param str code: An identifier for the type of invalid resources listed in the
+        `description` field.
+        :param str message: A warning message that lists the invalid resources that are
+        excluded from the custom model's training. The message has the following format:
+        `Analysis of the following {resource_type} has not completed successfully:
         [{resource_names}]. They will be excluded from custom {model_type} model
         training.`.
-        :param str warning_id: An identifier for the type of invalid resources listed in
-        the `description` field.
         """
-        self.description = description
-        self.warning_id = warning_id
+        self.code = code
+        self.message = message
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a TrainingWarning object from a json dictionary."""
         args = {}
-        validKeys = ['description', 'warning_id']
+        validKeys = ['code', 'message']
         badKeys = set(_dict.keys()) - set(validKeys)
         if badKeys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TrainingWarning: '
                 + ', '.join(badKeys))
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
+        if 'code' in _dict:
+            args['code'] = _dict.get('code')
         else:
             raise ValueError(
-                'Required property \'description\' not present in TrainingWarning JSON'
+                'Required property \'code\' not present in TrainingWarning JSON'
             )
-        if 'warning_id' in _dict:
-            args['warning_id'] = _dict.get('warning_id')
+        if 'message' in _dict:
+            args['message'] = _dict.get('message')
         else:
             raise ValueError(
-                'Required property \'warning_id\' not present in TrainingWarning JSON'
+                'Required property \'message\' not present in TrainingWarning JSON'
             )
         return cls(**args)
 
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'description') and self.description is not None:
-            _dict['description'] = self.description
-        if hasattr(self, 'warning_id') and self.warning_id is not None:
-            _dict['warning_id'] = self.warning_id
+        if hasattr(self, 'code') and self.code is not None:
+            _dict['code'] = self.code
+        if hasattr(self, 'message') and self.message is not None:
+            _dict['message'] = self.message
         return _dict
 
     def __str__(self):

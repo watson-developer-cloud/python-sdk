@@ -161,17 +161,17 @@ class TextToSpeechV1(BaseService):
 
         Gets information about the specified voice. The information includes the name,
         language, gender, and other details about the voice. Specify a customization ID to
-        obtain information for that custom voice model of the specified voice. To list
-        information about all available voices, use the **List voices** method.
+        obtain information for a custom voice model that is defined for the language of
+        the specified voice. To list information about all available voices, use the
+        **List voices** method.
         **See also:** [Listing a specific
         voice](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-voices#listVoice).
 
         :param str voice: The voice for which information is to be returned.
         :param str customization_id: The customization ID (GUID) of a custom voice model
-        for which information is to be returned. You must make the request with service
-        credentials created for the instance of the service that owns the custom model.
-        Omit the parameter to see information about the specified voice with no
-        customization.
+        for which information is to be returned. You must make the request with
+        credentials for the instance of the service that owns the custom model. Omit the
+        parameter to see information about the specified voice with no customization.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -282,14 +282,12 @@ class TextToSpeechV1(BaseService):
         :param str customization_id: The customization ID (GUID) of a custom voice model
         to use for the synthesis. If a custom voice model is specified, it is guaranteed
         to work only if it matches the language of the indicated voice. You must make the
-        request with service credentials created for the instance of the service that owns
-        the custom model. Omit the parameter to use the specified voice with no
-        customization.
+        request with credentials for the instance of the service that owns the custom
+        model. Omit the parameter to use the specified voice with no customization.
         :param str accept: The requested format (MIME type) of the audio. You can use the
         `Accept` header or the `accept` parameter to specify the audio format. For more
         information about specifying an audio format, see **Audio formats (accept types)**
         in the method description.
-        Default: `audio/ogg;codecs=opus`.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -349,9 +347,9 @@ class TextToSpeechV1(BaseService):
         for which the pronunciation is to be returned. The language of a specified custom
         model must match the language of the specified voice. If the word is not defined
         in the specified custom model, the service returns the default translation for the
-        custom model's language. You must make the request with service credentials
-        created for the instance of the service that owns the custom model. Omit the
-        parameter to see the translation for the specified voice with no customization.
+        custom model's language. You must make the request with credentials for the
+        instance of the service that owns the custom model. Omit the parameter to see the
+        translation for the specified voice with no customization.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -449,8 +447,8 @@ class TextToSpeechV1(BaseService):
         models](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customModels#cuModelsQueryAll).
 
         :param str language: The language for which custom voice models that are owned by
-        the requesting service credentials are to be returned. Omit the parameter to see
-        all custom voice models that are owned by the requester.
+        the requesting credentials are to be returned. Omit the parameter to see all
+        custom voice models that are owned by the requester.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -509,8 +507,8 @@ class TextToSpeechV1(BaseService):
         customization](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customIntro#customIntro).
 
         :param str customization_id: The customization ID (GUID) of the custom voice
-        model. You must make the request with service credentials created for the instance
-        of the service that owns the custom model.
+        model. You must make the request with credentials for the instance of the service
+        that owns the custom model.
         :param str name: A new name for the custom voice model.
         :param str description: A new description for the custom voice model.
         :param list[Word] words: An array of `Word` objects that provides the words and
@@ -558,8 +556,8 @@ class TextToSpeechV1(BaseService):
         model](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customModels#cuModelsQuery).
 
         :param str customization_id: The customization ID (GUID) of the custom voice
-        model. You must make the request with service credentials created for the instance
-        of the service that owns the custom model.
+        model. You must make the request with credentials for the instance of the service
+        that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -591,8 +589,8 @@ class TextToSpeechV1(BaseService):
         model](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customModels#cuModelsDelete).
 
         :param str customization_id: The customization ID (GUID) of the custom voice
-        model. You must make the request with service credentials created for the instance
-        of the service that owns the custom model.
+        model. You must make the request with credentials for the instance of the service
+        that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -647,8 +645,8 @@ class TextToSpeechV1(BaseService):
         customization](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customIntro#customIntro).
 
         :param str customization_id: The customization ID (GUID) of the custom voice
-        model. You must make the request with service credentials created for the instance
-        of the service that owns the custom model.
+        model. You must make the request with credentials for the instance of the service
+        that owns the custom model.
         :param list[Word] words: The **Add custom words** method accepts an array of
         `Word` objects. Each object provides a word that is to be added or updated for the
         custom voice model and the word's translation.
@@ -698,8 +696,8 @@ class TextToSpeechV1(BaseService):
         model](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customWords#cuWordsQueryModel).
 
         :param str customization_id: The customization ID (GUID) of the custom voice
-        model. You must make the request with service credentials created for the instance
-        of the service that owns the custom model.
+        model. You must make the request with credentials for the instance of the service
+        that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -754,8 +752,8 @@ class TextToSpeechV1(BaseService):
         customization](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customIntro#customIntro).
 
         :param str customization_id: The customization ID (GUID) of the custom voice
-        model. You must make the request with service credentials created for the instance
-        of the service that owns the custom model.
+        model. You must make the request with credentials for the instance of the service
+        that owns the custom model.
         :param str word: The word that is to be added or updated for the custom voice
         model.
         :param str translation: The phonetic or sounds-like translation for the word. A
@@ -810,8 +808,8 @@ class TextToSpeechV1(BaseService):
         model](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customWords#cuWordQueryModel).
 
         :param str customization_id: The customization ID (GUID) of the custom voice
-        model. You must make the request with service credentials created for the instance
-        of the service that owns the custom model.
+        model. You must make the request with credentials for the instance of the service
+        that owns the custom model.
         :param str word: The word that is to be queried from the custom voice model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -846,8 +844,8 @@ class TextToSpeechV1(BaseService):
         model](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customWords#cuWordDelete).
 
         :param str customization_id: The customization ID (GUID) of the custom voice
-        model. You must make the request with service credentials created for the instance
-        of the service that owns the custom model.
+        model. You must make the request with credentials for the instance of the service
+        that owns the custom model.
         :param str word: The word that is to be deleted from the custom voice model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -1292,15 +1290,15 @@ class VoiceModel(object):
     :attr str name: (optional) The name of the custom voice model.
     :attr str language: (optional) The language identifier of the custom voice model (for
     example, `en-US`).
-    :attr str owner: (optional) The GUID of the service credentials for the instance of
-    the service that owns the custom voice model.
+    :attr str owner: (optional) The GUID of the credentials for the instance of the
+    service that owns the custom voice model.
     :attr str created: (optional) The date and time in Coordinated Universal Time (UTC) at
     which the custom voice model was created. The value is provided in full ISO 8601
     format (`YYYY-MM-DDThh:mm:ss.sTZD`).
     :attr str last_modified: (optional) The date and time in Coordinated Universal Time
-    (UTC) at which the custom voice model was last modified. Equals `created` when a new
-    voice model is first added but has yet to be updated. The value is provided in full
-    ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`).
+    (UTC) at which the custom voice model was last modified. The `created` and `updated`
+    fields are equal when a voice model is first added but has yet to be updated. The
+    value is provided in full ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`).
     :attr str description: (optional) The description of the custom voice model.
     :attr list[Word] words: (optional) An array of `Word` objects that lists the words and
     their translations from the custom voice model. The words are listed in alphabetical
@@ -1327,15 +1325,16 @@ class VoiceModel(object):
         :param str name: (optional) The name of the custom voice model.
         :param str language: (optional) The language identifier of the custom voice model
         (for example, `en-US`).
-        :param str owner: (optional) The GUID of the service credentials for the instance
-        of the service that owns the custom voice model.
+        :param str owner: (optional) The GUID of the credentials for the instance of the
+        service that owns the custom voice model.
         :param str created: (optional) The date and time in Coordinated Universal Time
         (UTC) at which the custom voice model was created. The value is provided in full
         ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`).
         :param str last_modified: (optional) The date and time in Coordinated Universal
-        Time (UTC) at which the custom voice model was last modified. Equals `created`
-        when a new voice model is first added but has yet to be updated. The value is
-        provided in full ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`).
+        Time (UTC) at which the custom voice model was last modified. The `created` and
+        `updated` fields are equal when a voice model is first added but has yet to be
+        updated. The value is provided in full ISO 8601 format
+        (`YYYY-MM-DDThh:mm:ss.sTZD`).
         :param str description: (optional) The description of the custom voice model.
         :param list[Word] words: (optional) An array of `Word` objects that lists the
         words and their translations from the custom voice model. The words are listed in
@@ -1431,8 +1430,8 @@ class VoiceModels(object):
 
     :attr list[VoiceModel] customizations: An array of `VoiceModel` objects that provides
     information about each available custom voice model. The array is empty if the
-    requesting service credentials own no custom voice models (if no language is
-    specified) or own no custom voice models for the specified language.
+    requesting credentials own no custom voice models (if no language is specified) or own
+    no custom voice models for the specified language.
     """
 
     def __init__(self, customizations):
@@ -1441,8 +1440,8 @@ class VoiceModels(object):
 
         :param list[VoiceModel] customizations: An array of `VoiceModel` objects that
         provides information about each available custom voice model. The array is empty
-        if the requesting service credentials own no custom voice models (if no language
-        is specified) or own no custom voice models for the specified language.
+        if the requesting credentials own no custom voice models (if no language is
+        specified) or own no custom voice models for the specified language.
         """
         self.customizations = customizations
 

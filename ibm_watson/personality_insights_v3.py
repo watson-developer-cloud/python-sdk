@@ -221,7 +221,6 @@ class PersonalityInsightsV3(BaseService):
         returned with the results. By default, no consumption preferences are returned.
         :param str content_type: The type of the input. For more information, see
         **Content types** in the method description.
-        Default: `text/plain`.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
