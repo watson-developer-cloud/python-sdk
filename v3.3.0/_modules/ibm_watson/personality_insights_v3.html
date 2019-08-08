@@ -1,0 +1,1292 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>ibm_watson.personality_insights_v3 &#8212; Watson Developer Cloud Python SDK 3.3.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for ibm_watson.personality_insights_v3</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+<span class="c1"># Copyright 2018 IBM All Rights Reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The IBM Watson&amp;trade; Personality Insights service enables applications to derive insights</span>
+<span class="sd">from social media, enterprise data, or other digital communications. The service uses</span>
+<span class="sd">linguistic analytics to infer individuals&#39; intrinsic personality characteristics,</span>
+<span class="sd">including Big Five, Needs, and Values, from digital communications such as email, text</span>
+<span class="sd">messages, tweets, and forum posts.</span>
+<span class="sd">The service can automatically infer, from potentially noisy social media, portraits of</span>
+<span class="sd">individuals that reflect their personality characteristics. The service can infer</span>
+<span class="sd">consumption preferences based on the results of its analysis and, for JSON content that is</span>
+<span class="sd">timestamped, can report temporal behavior.</span>
+<span class="sd">* For information about the meaning of the models that the service uses to describe</span>
+<span class="sd">personality characteristics, see [Personality</span>
+<span class="sd">models](https://cloud.ibm.com/docs/services/personality-insights?topic=personality-insights-models#models).</span>
+<span class="sd">* For information about the meaning of the consumption preferences, see [Consumption</span>
+<span class="sd">preferences](https://cloud.ibm.com/docs/services/personality-insights?topic=personality-insights-preferences#preferences).</span>
+<span class="sd">**Note:** Request logging is disabled for the Personality Insights service. Regardless of</span>
+<span class="sd">whether you set the `X-Watson-Learning-Opt-Out` request header, the service does not log</span>
+<span class="sd">or retain data from requests and responses.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">absolute_import</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">.common</span> <span class="k">import</span> <span class="n">get_sdk_headers</span>
+<span class="kn">from</span> <span class="nn">ibm_cloud_sdk_core</span> <span class="k">import</span> <span class="n">BaseService</span>
+
+<span class="c1">##############################################################################</span>
+<span class="c1"># Service</span>
+<span class="c1">##############################################################################</span>
+
+
+<div class="viewcode-block" id="PersonalityInsightsV3"><a class="viewcode-back" href="../../apis/ibm_watson.personality_insights_v3.html#ibm_watson.personality_insights_v3.PersonalityInsightsV3">[docs]</a><span class="k">class</span> <span class="nc">PersonalityInsightsV3</span><span class="p">(</span><span class="n">BaseService</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The Personality Insights V3 service.&quot;&quot;&quot;</span>
+
+    <span class="n">default_url</span> <span class="o">=</span> <span class="s1">&#39;https://gateway.watsonplatform.net/personality-insights/api&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">version</span><span class="p">,</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">default_url</span><span class="p">,</span>
+            <span class="n">username</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">password</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">iam_apikey</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">iam_access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">iam_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">iam_client_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">iam_client_secret</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">icp4d_access_token</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">icp4d_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">authentication_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Construct a new client for the Personality Insights service.</span>
+
+<span class="sd">        :param str version: The API version date to use with the service, in</span>
+<span class="sd">               &quot;YYYY-MM-DD&quot; format. Whenever the API is changed in a backwards</span>
+<span class="sd">               incompatible way, a new minor version of the API is released.</span>
+<span class="sd">               The service uses the API version for the date you specify, or</span>
+<span class="sd">               the most recent version before that date. Note that you should</span>
+<span class="sd">               not programmatically specify the current date at runtime, in</span>
+<span class="sd">               case the API has been updated since your application&#39;s release.</span>
+<span class="sd">               Instead, specify a version date that is compatible with your</span>
+<span class="sd">               application, and don&#39;t change it until your application is</span>
+<span class="sd">               ready for a later version.</span>
+
+<span class="sd">        :param str url: The base url to use when contacting the service (e.g.</span>
+<span class="sd">               &quot;https://gateway.watsonplatform.net/personality-insights/api/personality-insights/api&quot;).</span>
+<span class="sd">               The base url may differ between IBM Cloud regions.</span>
+
+<span class="sd">        :param str username: The username used to authenticate with the service.</span>
+<span class="sd">               Username and password credentials are only required to run your</span>
+<span class="sd">               application locally or outside of IBM Cloud. When running on</span>
+<span class="sd">               IBM Cloud, the credentials will be automatically loaded from the</span>
+<span class="sd">               `VCAP_SERVICES` environment variable.</span>
+
+<span class="sd">        :param str password: The password used to authenticate with the service.</span>
+<span class="sd">               Username and password credentials are only required to run your</span>
+<span class="sd">               application locally or outside of IBM Cloud. When running on</span>
+<span class="sd">               IBM Cloud, the credentials will be automatically loaded from the</span>
+<span class="sd">               `VCAP_SERVICES` environment variable.</span>
+
+<span class="sd">        :param str iam_apikey: An API key that can be used to request IAM tokens. If</span>
+<span class="sd">               this API key is provided, the SDK will manage the token and handle the</span>
+<span class="sd">               refreshing.</span>
+
+<span class="sd">        :param str iam_access_token:  An IAM access token is fully managed by the application.</span>
+<span class="sd">               Responsibility falls on the application to refresh the token, either before</span>
+<span class="sd">               it expires or reactively upon receiving a 401 from the service as any requests</span>
+<span class="sd">               made with an expired token will fail.</span>
+
+<span class="sd">        :param str iam_url: An optional URL for the IAM service API. Defaults to</span>
+<span class="sd">               &#39;https://iam.cloud.ibm.com/identity/token&#39;.</span>
+
+<span class="sd">        :param str iam_client_id: An optional client_id value to use when interacting with the IAM service.</span>
+
+<span class="sd">        :param str iam_client_secret: An optional client_secret value to use when interacting with the IAM service.</span>
+
+<span class="sd">        :param str icp4d_access_token:  A ICP4D(IBM Cloud Pak for Data) access token is</span>
+<span class="sd">               fully managed by the application. Responsibility falls on the application to</span>
+<span class="sd">               refresh the token, either before it expires or reactively upon receiving a 401</span>
+<span class="sd">               from the service as any requests made with an expired token will fail.</span>
+
+<span class="sd">        :param str icp4d_url: In order to use an SDK-managed token with ICP4D authentication, this</span>
+<span class="sd">               URL must be passed in.</span>
+
+<span class="sd">        :param str authentication_type: Specifies the authentication pattern to use. Values that it</span>
+<span class="sd">               takes are basic, iam or icp4d.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">BaseService</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">vcap_services_name</span><span class="o">=</span><span class="s1">&#39;personality_insights&#39;</span><span class="p">,</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+            <span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span>
+            <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">,</span>
+            <span class="n">iam_apikey</span><span class="o">=</span><span class="n">iam_apikey</span><span class="p">,</span>
+            <span class="n">iam_access_token</span><span class="o">=</span><span class="n">iam_access_token</span><span class="p">,</span>
+            <span class="n">iam_url</span><span class="o">=</span><span class="n">iam_url</span><span class="p">,</span>
+            <span class="n">iam_client_id</span><span class="o">=</span><span class="n">iam_client_id</span><span class="p">,</span>
+            <span class="n">iam_client_secret</span><span class="o">=</span><span class="n">iam_client_secret</span><span class="p">,</span>
+            <span class="n">use_vcap_services</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">display_name</span><span class="o">=</span><span class="s1">&#39;Personality Insights&#39;</span><span class="p">,</span>
+            <span class="n">icp4d_access_token</span><span class="o">=</span><span class="n">icp4d_access_token</span><span class="p">,</span>
+            <span class="n">icp4d_url</span><span class="o">=</span><span class="n">icp4d_url</span><span class="p">,</span>
+            <span class="n">authentication_type</span><span class="o">=</span><span class="n">authentication_type</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="n">version</span>
+
+    <span class="c1">#########################</span>
+    <span class="c1"># Methods</span>
+    <span class="c1">#########################</span>
+
+<div class="viewcode-block" id="PersonalityInsightsV3.profile"><a class="viewcode-back" href="../../apis/ibm_watson.personality_insights_v3.html#ibm_watson.personality_insights_v3.PersonalityInsightsV3.profile">[docs]</a>    <span class="k">def</span> <span class="nf">profile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                <span class="n">content</span><span class="p">,</span>
+                <span class="n">accept</span><span class="p">,</span>
+                <span class="n">content_language</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">accept_language</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">raw_scores</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">csv_headers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">consumption_preferences</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">content_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get profile.</span>
+
+<span class="sd">        Generates a personality profile for the author of the input text. The service</span>
+<span class="sd">        accepts a maximum of 20 MB of input content, but it requires much less text to</span>
+<span class="sd">        produce an accurate profile. The service can analyze text in Arabic, English,</span>
+<span class="sd">        Japanese, Korean, or Spanish. It can return its results in a variety of languages.</span>
+<span class="sd">        **See also:**</span>
+<span class="sd">        * [Requesting a</span>
+<span class="sd">        profile](https://cloud.ibm.com/docs/services/personality-insights?topic=personality-insights-input#input)</span>
+<span class="sd">        * [Providing sufficient</span>
+<span class="sd">        input](https://cloud.ibm.com/docs/services/personality-insights?topic=personality-insights-input#sufficient)</span>
+<span class="sd">        ### Content types</span>
+<span class="sd">         You can provide input content as plain text (`text/plain`), HTML (`text/html`),</span>
+<span class="sd">        or JSON (`application/json`) by specifying the **Content-Type** parameter. The</span>
+<span class="sd">        default is `text/plain`.</span>
+<span class="sd">        * Per the JSON specification, the default character encoding for JSON content is</span>
+<span class="sd">        effectively always UTF-8.</span>
+<span class="sd">        * Per the HTTP specification, the default encoding for plain text and HTML is</span>
+<span class="sd">        ISO-8859-1 (effectively, the ASCII character set).</span>
+<span class="sd">        When specifying a content type of plain text or HTML, include the `charset`</span>
+<span class="sd">        parameter to indicate the character encoding of the input text; for example,</span>
+<span class="sd">        `Content-Type: text/plain;charset=utf-8`.</span>
+<span class="sd">        **See also:** [Specifying request and response</span>
+<span class="sd">        formats](https://cloud.ibm.com/docs/services/personality-insights?topic=personality-insights-input#formats)</span>
+<span class="sd">        ### Accept types</span>
+<span class="sd">         You must request a response as JSON (`application/json`) or comma-separated</span>
+<span class="sd">        values (`text/csv`) by specifying the **Accept** parameter. CSV output includes a</span>
+<span class="sd">        fixed number of columns. Set the **csv_headers** parameter to `true` to request</span>
+<span class="sd">        optional column headers for CSV output.</span>
+<span class="sd">        **See also:**</span>
+<span class="sd">        * [Understanding a JSON</span>
+<span class="sd">        profile](https://cloud.ibm.com/docs/services/personality-insights?topic=personality-insights-output#output)</span>
+<span class="sd">        * [Understanding a CSV</span>
+<span class="sd">        profile](https://cloud.ibm.com/docs/services/personality-insights?topic=personality-insights-outputCSV#outputCSV).</span>
+
+<span class="sd">        :param Content content: A maximum of 20 MB of content to analyze, though the</span>
+<span class="sd">        service requires much less text; for more information, see [Providing sufficient</span>
+<span class="sd">        input](https://cloud.ibm.com/docs/services/personality-insights?topic=personality-insights-input#sufficient).</span>
+<span class="sd">        For JSON input, provide an object of type `Content`.</span>
+<span class="sd">        :param str accept: The type of the response. For more information, see **Accept</span>
+<span class="sd">        types** in the method description.</span>
+<span class="sd">        :param str content_language: The language of the input text for the request:</span>
+<span class="sd">        Arabic, English, Japanese, Korean, or Spanish. Regional variants are treated as</span>
+<span class="sd">        their parent language; for example, `en-US` is interpreted as `en`.</span>
+<span class="sd">        The effect of the **Content-Language** parameter depends on the **Content-Type**</span>
+<span class="sd">        parameter. When **Content-Type** is `text/plain` or `text/html`,</span>
+<span class="sd">        **Content-Language** is the only way to specify the language. When</span>
+<span class="sd">        **Content-Type** is `application/json`, **Content-Language** overrides a language</span>
+<span class="sd">        specified with the `language` parameter of a `ContentItem` object, and content</span>
+<span class="sd">        items that specify a different language are ignored; omit this parameter to base</span>
+<span class="sd">        the language on the specification of the content items. You can specify any</span>
+<span class="sd">        combination of languages for **Content-Language** and **Accept-Language**.</span>
+<span class="sd">        :param str accept_language: The desired language of the response. For</span>
+<span class="sd">        two-character arguments, regional variants are treated as their parent language;</span>
+<span class="sd">        for example, `en-US` is interpreted as `en`. You can specify any combination of</span>
+<span class="sd">        languages for the input and response content.</span>
+<span class="sd">        :param bool raw_scores: Indicates whether a raw score in addition to a normalized</span>
+<span class="sd">        percentile is returned for each characteristic; raw scores are not compared with a</span>
+<span class="sd">        sample population. By default, only normalized percentiles are returned.</span>
+<span class="sd">        :param bool csv_headers: Indicates whether column labels are returned with a CSV</span>
+<span class="sd">        response. By default, no column labels are returned. Applies only when the</span>
+<span class="sd">        response type is CSV (`text/csv`).</span>
+<span class="sd">        :param bool consumption_preferences: Indicates whether consumption preferences are</span>
+<span class="sd">        returned with the results. By default, no consumption preferences are returned.</span>
+<span class="sd">        :param str content_type: The type of the input. For more information, see</span>
+<span class="sd">        **Content types** in the method description.</span>
+<span class="sd">        :param dict headers: A `dict` containing the request headers</span>
+<span class="sd">        :return: A `DetailedResponse` containing the result, headers and HTTP status code.</span>
+<span class="sd">        :rtype: DetailedResponse</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">content</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;content must be provided&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">accept</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;accept must be provided&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">Content</span><span class="p">):</span>
+            <span class="n">content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">Content</span><span class="p">)</span>
+
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;Accept&#39;</span><span class="p">:</span> <span class="n">accept</span><span class="p">,</span>
+            <span class="s1">&#39;Content-Language&#39;</span><span class="p">:</span> <span class="n">content_language</span><span class="p">,</span>
+            <span class="s1">&#39;Accept-Language&#39;</span><span class="p">:</span> <span class="n">accept_language</span><span class="p">,</span>
+            <span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="n">content_type</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="s1">&#39;headers&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;headers&#39;</span><span class="p">))</span>
+        <span class="n">sdk_headers</span> <span class="o">=</span> <span class="n">get_sdk_headers</span><span class="p">(</span><span class="s1">&#39;personality_insights&#39;</span><span class="p">,</span> <span class="s1">&#39;V3&#39;</span><span class="p">,</span> <span class="s1">&#39;profile&#39;</span><span class="p">)</span>
+        <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">sdk_headers</span><span class="p">)</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
+            <span class="s1">&#39;raw_scores&#39;</span><span class="p">:</span> <span class="n">raw_scores</span><span class="p">,</span>
+            <span class="s1">&#39;csv_headers&#39;</span><span class="p">:</span> <span class="n">csv_headers</span><span class="p">,</span>
+            <span class="s1">&#39;consumption_preferences&#39;</span><span class="p">:</span> <span class="n">consumption_preferences</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">content_type</span> <span class="o">==</span> <span class="s1">&#39;application/json&#39;</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">content</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v3/profile&#39;</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">(</span>
+            <span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+            <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+            <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+            <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+            <span class="n">accept_json</span><span class="o">=</span><span class="p">(</span><span class="n">accept</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">accept</span> <span class="o">==</span> <span class="s1">&#39;application/json&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">response</span></div></div>
+
+
+<span class="c1">##############################################################################</span>
+<span class="c1"># Models</span>
+<span class="c1">##############################################################################</span>
+
+
+<div class="viewcode-block" id="Behavior"><a class="viewcode-back" href="../../apis/ibm_watson.personality_insights_v3.html#ibm_watson.personality_insights_v3.Behavior">[docs]</a><span class="k">class</span> <span class="nc">Behavior</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The temporal behavior for the input content.</span>
+
+<span class="sd">    :attr str trait_id: The unique, non-localized identifier of the characteristic to</span>
+<span class="sd">    which the results pertain. IDs have the form `behavior_{value}`.</span>
+<span class="sd">    :attr str name: The user-visible, localized name of the characteristic.</span>
+<span class="sd">    :attr str category: The category of the characteristic: `behavior` for temporal data.</span>
+<span class="sd">    :attr float percentage: For JSON content that is timestamped, the percentage of</span>
+<span class="sd">    timestamped input data that occurred during that day of the week or hour of the day.</span>
+<span class="sd">    The range is 0 to 1.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trait_id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">category</span><span class="p">,</span> <span class="n">percentage</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a Behavior object.</span>
+
+<span class="sd">        :param str trait_id: The unique, non-localized identifier of the characteristic to</span>
+<span class="sd">        which the results pertain. IDs have the form `behavior_{value}`.</span>
+<span class="sd">        :param str name: The user-visible, localized name of the characteristic.</span>
+<span class="sd">        :param str category: The category of the characteristic: `behavior` for temporal</span>
+<span class="sd">        data.</span>
+<span class="sd">        :param float percentage: For JSON content that is timestamped, the percentage of</span>
+<span class="sd">        timestamped input data that occurred during that day of the week or hour of the</span>
+<span class="sd">        day. The range is 0 to 1.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trait_id</span> <span class="o">=</span> <span class="n">trait_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">category</span> <span class="o">=</span> <span class="n">category</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">percentage</span> <span class="o">=</span> <span class="n">percentage</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a Behavior object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">validKeys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;trait_id&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;category&#39;</span><span class="p">,</span> <span class="s1">&#39;percentage&#39;</span><span class="p">]</span>
+        <span class="n">badKeys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">validKeys</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">badKeys</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Unrecognized keys detected in dictionary for class Behavior: &#39;</span>
+                <span class="o">+</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">badKeys</span><span class="p">))</span>
+        <span class="k">if</span> <span class="s1">&#39;trait_id&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;trait_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;trait_id&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">trait_id</span><span class="se">\&#39;</span><span class="s1"> not present in Behavior JSON&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;name&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">name</span><span class="se">\&#39;</span><span class="s1"> not present in Behavior JSON&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;category&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">category</span><span class="se">\&#39;</span><span class="s1"> not present in Behavior JSON&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;percentage&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;percentage&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;percentage&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">percentage</span><span class="se">\&#39;</span><span class="s1"> not present in Behavior JSON&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;trait_id&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">trait_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;trait_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trait_id</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;category&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">category</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">category</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;percentage&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">percentage</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;percentage&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">percentage</span>
+        <span class="k">return</span> <span class="n">_dict</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a `str` version of this Behavior object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
+
+
+<div class="viewcode-block" id="ConsumptionPreferences"><a class="viewcode-back" href="../../apis/ibm_watson.personality_insights_v3.html#ibm_watson.personality_insights_v3.ConsumptionPreferences">[docs]</a><span class="k">class</span> <span class="nc">ConsumptionPreferences</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A consumption preference that the service inferred from the input content.</span>
+
+<span class="sd">    :attr str consumption_preference_id: The unique, non-localized identifier of the</span>
+<span class="sd">    consumption preference to which the results pertain. IDs have the form</span>
+<span class="sd">    `consumption_preferences_{preference}`.</span>
+<span class="sd">    :attr str name: The user-visible, localized name of the consumption preference.</span>
+<span class="sd">    :attr float score: The score for the consumption preference:</span>
+<span class="sd">    * `0.0`: Unlikely</span>
+<span class="sd">    * `0.5`: Neutral</span>
+<span class="sd">    * `1.0`: Likely</span>
+<span class="sd">    The scores for some preferences are binary and do not allow a neutral value. The score</span>
+<span class="sd">    is an indication of preference based on the results inferred from the input text, not</span>
+<span class="sd">    a normalized percentile.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">consumption_preference_id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">score</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a ConsumptionPreferences object.</span>
+
+<span class="sd">        :param str consumption_preference_id: The unique, non-localized identifier of the</span>
+<span class="sd">        consumption preference to which the results pertain. IDs have the form</span>
+<span class="sd">        `consumption_preferences_{preference}`.</span>
+<span class="sd">        :param str name: The user-visible, localized name of the consumption preference.</span>
+<span class="sd">        :param float score: The score for the consumption preference:</span>
+<span class="sd">        * `0.0`: Unlikely</span>
+<span class="sd">        * `0.5`: Neutral</span>
+<span class="sd">        * `1.0`: Likely</span>
+<span class="sd">        The scores for some preferences are binary and do not allow a neutral value. The</span>
+<span class="sd">        score is an indication of preference based on the results inferred from the input</span>
+<span class="sd">        text, not a normalized percentile.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">consumption_preference_id</span> <span class="o">=</span> <span class="n">consumption_preference_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="n">score</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a ConsumptionPreferences object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">validKeys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;consumption_preference_id&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">]</span>
+        <span class="n">badKeys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">validKeys</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">badKeys</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Unrecognized keys detected in dictionary for class ConsumptionPreferences: &#39;</span>
+                <span class="o">+</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">badKeys</span><span class="p">))</span>
+        <span class="k">if</span> <span class="s1">&#39;consumption_preference_id&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;consumption_preference_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s1">&#39;consumption_preference_id&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">consumption_preference_id</span><span class="se">\&#39;</span><span class="s1"> not present in ConsumptionPreferences JSON&#39;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;name&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">name</span><span class="se">\&#39;</span><span class="s1"> not present in ConsumptionPreferences JSON&#39;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;score&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;score&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">score</span><span class="se">\&#39;</span><span class="s1"> not present in ConsumptionPreferences JSON&#39;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;consumption_preference_id&#39;</span>
+                  <span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">consumption_preference_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;consumption_preference_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">consumption_preference_id</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">score</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">score</span>
+        <span class="k">return</span> <span class="n">_dict</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a `str` version of this ConsumptionPreferences object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
+
+
+<div class="viewcode-block" id="ConsumptionPreferencesCategory"><a class="viewcode-back" href="../../apis/ibm_watson.personality_insights_v3.html#ibm_watson.personality_insights_v3.ConsumptionPreferencesCategory">[docs]</a><span class="k">class</span> <span class="nc">ConsumptionPreferencesCategory</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The consumption preferences that the service inferred from the input content.</span>
+
+<span class="sd">    :attr str consumption_preference_category_id: The unique, non-localized identifier of</span>
+<span class="sd">    the consumption preferences category to which the results pertain. IDs have the form</span>
+<span class="sd">    `consumption_preferences_{category}`.</span>
+<span class="sd">    :attr str name: The user-visible name of the consumption preferences category.</span>
+<span class="sd">    :attr list[ConsumptionPreferences] consumption_preferences: Detailed results inferred</span>
+<span class="sd">    from the input text for the individual preferences of the category.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">consumption_preference_category_id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span>
+                 <span class="n">consumption_preferences</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a ConsumptionPreferencesCategory object.</span>
+
+<span class="sd">        :param str consumption_preference_category_id: The unique, non-localized</span>
+<span class="sd">        identifier of the consumption preferences category to which the results pertain.</span>
+<span class="sd">        IDs have the form `consumption_preferences_{category}`.</span>
+<span class="sd">        :param str name: The user-visible name of the consumption preferences category.</span>
+<span class="sd">        :param list[ConsumptionPreferences] consumption_preferences: Detailed results</span>
+<span class="sd">        inferred from the input text for the individual preferences of the category.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">consumption_preference_category_id</span> <span class="o">=</span> <span class="n">consumption_preference_category_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">consumption_preferences</span> <span class="o">=</span> <span class="n">consumption_preferences</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a ConsumptionPreferencesCategory object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">validKeys</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;consumption_preference_category_id&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;consumption_preferences&#39;</span>
+        <span class="p">]</span>
+        <span class="n">badKeys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">validKeys</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">badKeys</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Unrecognized keys detected in dictionary for class ConsumptionPreferencesCategory: &#39;</span>
+                <span class="o">+</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">badKeys</span><span class="p">))</span>
+        <span class="k">if</span> <span class="s1">&#39;consumption_preference_category_id&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;consumption_preference_category_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                <span class="s1">&#39;consumption_preference_category_id&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">consumption_preference_category_id</span><span class="se">\&#39;</span><span class="s1"> not present in ConsumptionPreferencesCategory JSON&#39;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;name&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">name</span><span class="se">\&#39;</span><span class="s1"> not present in ConsumptionPreferencesCategory JSON&#39;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;consumption_preferences&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;consumption_preferences&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">ConsumptionPreferences</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;consumption_preferences&#39;</span><span class="p">))</span>
+            <span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">consumption_preferences</span><span class="se">\&#39;</span><span class="s1"> not present in ConsumptionPreferencesCategory JSON&#39;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;consumption_preference_category_id&#39;</span>
+                  <span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">consumption_preference_category_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span>
+                <span class="s1">&#39;consumption_preference_category_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">consumption_preference_category_id</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;consumption_preferences&#39;</span>
+                  <span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">consumption_preferences</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;consumption_preferences&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">consumption_preferences</span>
+            <span class="p">]</span>
+        <span class="k">return</span> <span class="n">_dict</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a `str` version of this ConsumptionPreferencesCategory object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
+
+
+<div class="viewcode-block" id="Content"><a class="viewcode-back" href="../../apis/ibm_watson.personality_insights_v3.html#ibm_watson.personality_insights_v3.Content">[docs]</a><span class="k">class</span> <span class="nc">Content</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The full input content that the service is to analyze.</span>
+
+<span class="sd">    :attr list[ContentItem] content_items: An array of `ContentItem` objects that provides</span>
+<span class="sd">    the text that is to be analyzed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content_items</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a Content object.</span>
+
+<span class="sd">        :param list[ContentItem] content_items: An array of `ContentItem` objects that</span>
+<span class="sd">        provides the text that is to be analyzed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">content_items</span> <span class="o">=</span> <span class="n">content_items</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a Content object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">validKeys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;content_items&#39;</span><span class="p">,</span> <span class="s1">&#39;contentItems&#39;</span><span class="p">]</span>
+        <span class="n">badKeys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">validKeys</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">badKeys</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Unrecognized keys detected in dictionary for class Content: &#39;</span> <span class="o">+</span>
+                <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">badKeys</span><span class="p">))</span>
+        <span class="k">if</span> <span class="s1">&#39;contentItems&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;content_items&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">ContentItem</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;contentItems&#39;</span><span class="p">))</span>
+            <span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">contentItems</span><span class="se">\&#39;</span><span class="s1"> not present in Content JSON&#39;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;content_items&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">content_items</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;contentItems&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">content_items</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">_dict</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a `str` version of this Content object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
+
+
+<div class="viewcode-block" id="ContentItem"><a class="viewcode-back" href="../../apis/ibm_watson.personality_insights_v3.html#ibm_watson.personality_insights_v3.ContentItem">[docs]</a><span class="k">class</span> <span class="nc">ContentItem</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An input content item that the service is to analyze.</span>
+
+<span class="sd">    :attr str content: The content that is to be analyzed. The service supports up to 20</span>
+<span class="sd">    MB of content for all `ContentItem` objects combined.</span>
+<span class="sd">    :attr str id: (optional) A unique identifier for this content item.</span>
+<span class="sd">    :attr int created: (optional) A timestamp that identifies when this content was</span>
+<span class="sd">    created. Specify a value in milliseconds since the UNIX Epoch (January 1, 1970, at</span>
+<span class="sd">    0:00 UTC). Required only for results that include temporal behavior data.</span>
+<span class="sd">    :attr int updated: (optional) A timestamp that identifies when this content was last</span>
+<span class="sd">    updated. Specify a value in milliseconds since the UNIX Epoch (January 1, 1970, at</span>
+<span class="sd">    0:00 UTC). Required only for results that include temporal behavior data.</span>
+<span class="sd">    :attr str contenttype: (optional) The MIME type of the content. The default is plain</span>
+<span class="sd">    text. The tags are stripped from HTML content before it is analyzed; plain text is</span>
+<span class="sd">    processed as submitted.</span>
+<span class="sd">    :attr str language: (optional) The language identifier (two-letter ISO 639-1</span>
+<span class="sd">    identifier) for the language of the content item. The default is `en` (English).</span>
+<span class="sd">    Regional variants are treated as their parent language; for example, `en-US` is</span>
+<span class="sd">    interpreted as `en`. A language specified with the **Content-Type** parameter</span>
+<span class="sd">    overrides the value of this parameter; any content items that specify a different</span>
+<span class="sd">    language are ignored. Omit the **Content-Type** parameter to base the language on the</span>
+<span class="sd">    most prevalent specification among the content items; again, content items that</span>
+<span class="sd">    specify a different language are ignored. You can specify any combination of languages</span>
+<span class="sd">    for the input and response content.</span>
+<span class="sd">    :attr str parentid: (optional) The unique ID of the parent content item for this item.</span>
+<span class="sd">    Used to identify hierarchical relationships between posts/replies, messages/replies,</span>
+<span class="sd">    and so on.</span>
+<span class="sd">    :attr bool reply: (optional) Indicates whether this content item is a reply to another</span>
+<span class="sd">    content item.</span>
+<span class="sd">    :attr bool forward: (optional) Indicates whether this content item is a</span>
+<span class="sd">    forwarded/copied version of another content item.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">content</span><span class="p">,</span>
+                 <span class="nb">id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">created</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">updated</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">contenttype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">language</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">parentid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">reply</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">forward</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a ContentItem object.</span>
+
+<span class="sd">        :param str content: The content that is to be analyzed. The service supports up to</span>
+<span class="sd">        20 MB of content for all `ContentItem` objects combined.</span>
+<span class="sd">        :param str id: (optional) A unique identifier for this content item.</span>
+<span class="sd">        :param int created: (optional) A timestamp that identifies when this content was</span>
+<span class="sd">        created. Specify a value in milliseconds since the UNIX Epoch (January 1, 1970, at</span>
+<span class="sd">        0:00 UTC). Required only for results that include temporal behavior data.</span>
+<span class="sd">        :param int updated: (optional) A timestamp that identifies when this content was</span>
+<span class="sd">        last updated. Specify a value in milliseconds since the UNIX Epoch (January 1,</span>
+<span class="sd">        1970, at 0:00 UTC). Required only for results that include temporal behavior data.</span>
+<span class="sd">        :param str contenttype: (optional) The MIME type of the content. The default is</span>
+<span class="sd">        plain text. The tags are stripped from HTML content before it is analyzed; plain</span>
+<span class="sd">        text is processed as submitted.</span>
+<span class="sd">        :param str language: (optional) The language identifier (two-letter ISO 639-1</span>
+<span class="sd">        identifier) for the language of the content item. The default is `en` (English).</span>
+<span class="sd">        Regional variants are treated as their parent language; for example, `en-US` is</span>
+<span class="sd">        interpreted as `en`. A language specified with the **Content-Type** parameter</span>
+<span class="sd">        overrides the value of this parameter; any content items that specify a different</span>
+<span class="sd">        language are ignored. Omit the **Content-Type** parameter to base the language on</span>
+<span class="sd">        the most prevalent specification among the content items; again, content items</span>
+<span class="sd">        that specify a different language are ignored. You can specify any combination of</span>
+<span class="sd">        languages for the input and response content.</span>
+<span class="sd">        :param str parentid: (optional) The unique ID of the parent content item for this</span>
+<span class="sd">        item. Used to identify hierarchical relationships between posts/replies,</span>
+<span class="sd">        messages/replies, and so on.</span>
+<span class="sd">        :param bool reply: (optional) Indicates whether this content item is a reply to</span>
+<span class="sd">        another content item.</span>
+<span class="sd">        :param bool forward: (optional) Indicates whether this content item is a</span>
+<span class="sd">        forwarded/copied version of another content item.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">content</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="nb">id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">created</span> <span class="o">=</span> <span class="n">created</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">updated</span> <span class="o">=</span> <span class="n">updated</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">contenttype</span> <span class="o">=</span> <span class="n">contenttype</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">language</span> <span class="o">=</span> <span class="n">language</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parentid</span> <span class="o">=</span> <span class="n">parentid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reply</span> <span class="o">=</span> <span class="n">reply</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forward</span> <span class="o">=</span> <span class="n">forward</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a ContentItem object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">validKeys</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;content&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;created&#39;</span><span class="p">,</span> <span class="s1">&#39;updated&#39;</span><span class="p">,</span> <span class="s1">&#39;contenttype&#39;</span><span class="p">,</span> <span class="s1">&#39;language&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;parentid&#39;</span><span class="p">,</span> <span class="s1">&#39;reply&#39;</span><span class="p">,</span> <span class="s1">&#39;forward&#39;</span>
+        <span class="p">]</span>
+        <span class="n">badKeys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">validKeys</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">badKeys</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Unrecognized keys detected in dictionary for class ContentItem: &#39;</span>
+                <span class="o">+</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">badKeys</span><span class="p">))</span>
+        <span class="k">if</span> <span class="s1">&#39;content&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;content&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;content&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">content</span><span class="se">\&#39;</span><span class="s1"> not present in ContentItem JSON&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;id&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;created&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;created&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;created&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;updated&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;updated&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;updated&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;contenttype&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;contenttype&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;contenttype&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;language&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;language&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;language&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;parentid&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;parentid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;parentid&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;reply&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;reply&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;reply&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;forward&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;forward&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;forward&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;content&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">content</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;content&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">content</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;created&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">created</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;created&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">created</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;updated&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">updated</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;updated&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">updated</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;contenttype&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">contenttype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;contenttype&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">contenttype</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;language&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">language</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;language&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">language</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;parentid&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">parentid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;parentid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parentid</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;reply&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">reply</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;reply&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reply</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;forward&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;forward&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward</span>
+        <span class="k">return</span> <span class="n">_dict</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a `str` version of this ContentItem object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
+
+
+<div class="viewcode-block" id="Profile"><a class="viewcode-back" href="../../apis/ibm_watson.personality_insights_v3.html#ibm_watson.personality_insights_v3.Profile">[docs]</a><span class="k">class</span> <span class="nc">Profile</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The personality profile that the service generated for the input content.</span>
+
+<span class="sd">    :attr str processed_language: The language model that was used to process the input.</span>
+<span class="sd">    :attr int word_count: The number of words from the input that were used to produce the</span>
+<span class="sd">    profile.</span>
+<span class="sd">    :attr str word_count_message: (optional) When guidance is appropriate, a string that</span>
+<span class="sd">    provides a message that indicates the number of words found and where that value falls</span>
+<span class="sd">    in the range of required or suggested number of words.</span>
+<span class="sd">    :attr list[Trait] personality: A recursive array of `Trait` objects that provides</span>
+<span class="sd">    detailed results for the Big Five personality characteristics (dimensions and facets)</span>
+<span class="sd">    inferred from the input text.</span>
+<span class="sd">    :attr list[Trait] needs: Detailed results for the Needs characteristics inferred from</span>
+<span class="sd">    the input text.</span>
+<span class="sd">    :attr list[Trait] values: Detailed results for the Values characteristics inferred</span>
+<span class="sd">    from the input text.</span>
+<span class="sd">    :attr list[Behavior] behavior: (optional) For JSON content that is timestamped,</span>
+<span class="sd">    detailed results about the social behavior disclosed by the input in terms of temporal</span>
+<span class="sd">    characteristics. The results include information about the distribution of the content</span>
+<span class="sd">    over the days of the week and the hours of the day.</span>
+<span class="sd">    :attr list[ConsumptionPreferencesCategory] consumption_preferences: (optional) If the</span>
+<span class="sd">    **consumption_preferences** parameter is `true`, detailed results for each category of</span>
+<span class="sd">    consumption preferences. Each element of the array provides information inferred from</span>
+<span class="sd">    the input text for the individual preferences of that category.</span>
+<span class="sd">    :attr list[Warning] warnings: An array of warning messages that are associated with</span>
+<span class="sd">    the input text for the request. The array is empty if the input generated no warnings.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">processed_language</span><span class="p">,</span>
+                 <span class="n">word_count</span><span class="p">,</span>
+                 <span class="n">personality</span><span class="p">,</span>
+                 <span class="n">needs</span><span class="p">,</span>
+                 <span class="n">values</span><span class="p">,</span>
+                 <span class="n">warnings</span><span class="p">,</span>
+                 <span class="n">word_count_message</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">behavior</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">consumption_preferences</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a Profile object.</span>
+
+<span class="sd">        :param str processed_language: The language model that was used to process the</span>
+<span class="sd">        input.</span>
+<span class="sd">        :param int word_count: The number of words from the input that were used to</span>
+<span class="sd">        produce the profile.</span>
+<span class="sd">        :param list[Trait] personality: A recursive array of `Trait` objects that provides</span>
+<span class="sd">        detailed results for the Big Five personality characteristics (dimensions and</span>
+<span class="sd">        facets) inferred from the input text.</span>
+<span class="sd">        :param list[Trait] needs: Detailed results for the Needs characteristics inferred</span>
+<span class="sd">        from the input text.</span>
+<span class="sd">        :param list[Trait] values: Detailed results for the Values characteristics</span>
+<span class="sd">        inferred from the input text.</span>
+<span class="sd">        :param list[Warning] warnings: An array of warning messages that are associated</span>
+<span class="sd">        with the input text for the request. The array is empty if the input generated no</span>
+<span class="sd">        warnings.</span>
+<span class="sd">        :param str word_count_message: (optional) When guidance is appropriate, a string</span>
+<span class="sd">        that provides a message that indicates the number of words found and where that</span>
+<span class="sd">        value falls in the range of required or suggested number of words.</span>
+<span class="sd">        :param list[Behavior] behavior: (optional) For JSON content that is timestamped,</span>
+<span class="sd">        detailed results about the social behavior disclosed by the input in terms of</span>
+<span class="sd">        temporal characteristics. The results include information about the distribution</span>
+<span class="sd">        of the content over the days of the week and the hours of the day.</span>
+<span class="sd">        :param list[ConsumptionPreferencesCategory] consumption_preferences: (optional) If</span>
+<span class="sd">        the **consumption_preferences** parameter is `true`, detailed results for each</span>
+<span class="sd">        category of consumption preferences. Each element of the array provides</span>
+<span class="sd">        information inferred from the input text for the individual preferences of that</span>
+<span class="sd">        category.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">processed_language</span> <span class="o">=</span> <span class="n">processed_language</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">word_count</span> <span class="o">=</span> <span class="n">word_count</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">word_count_message</span> <span class="o">=</span> <span class="n">word_count_message</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">personality</span> <span class="o">=</span> <span class="n">personality</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">needs</span> <span class="o">=</span> <span class="n">needs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">values</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">behavior</span> <span class="o">=</span> <span class="n">behavior</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">consumption_preferences</span> <span class="o">=</span> <span class="n">consumption_preferences</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">warnings</span> <span class="o">=</span> <span class="n">warnings</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a Profile object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">validKeys</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;processed_language&#39;</span><span class="p">,</span> <span class="s1">&#39;word_count&#39;</span><span class="p">,</span> <span class="s1">&#39;word_count_message&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;personality&#39;</span><span class="p">,</span> <span class="s1">&#39;needs&#39;</span><span class="p">,</span> <span class="s1">&#39;values&#39;</span><span class="p">,</span> <span class="s1">&#39;behavior&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;consumption_preferences&#39;</span><span class="p">,</span> <span class="s1">&#39;warnings&#39;</span>
+        <span class="p">]</span>
+        <span class="n">badKeys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">validKeys</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">badKeys</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Unrecognized keys detected in dictionary for class Profile: &#39;</span> <span class="o">+</span>
+                <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">badKeys</span><span class="p">))</span>
+        <span class="k">if</span> <span class="s1">&#39;processed_language&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;processed_language&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;processed_language&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">processed_language</span><span class="se">\&#39;</span><span class="s1"> not present in Profile JSON&#39;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;word_count&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;word_count&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;word_count&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">word_count</span><span class="se">\&#39;</span><span class="s1"> not present in Profile JSON&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;word_count_message&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;word_count_message&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;word_count_message&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;personality&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;personality&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">Trait</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;personality&#39;</span><span class="p">))</span>
+            <span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">personality</span><span class="se">\&#39;</span><span class="s1"> not present in Profile JSON&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;needs&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;needs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">Trait</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;needs&#39;</span><span class="p">))]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">needs</span><span class="se">\&#39;</span><span class="s1"> not present in Profile JSON&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;values&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;values&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">Trait</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;values&#39;</span><span class="p">))</span>
+            <span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">values</span><span class="se">\&#39;</span><span class="s1"> not present in Profile JSON&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;behavior&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;behavior&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">Behavior</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;behavior&#39;</span><span class="p">))</span>
+            <span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;consumption_preferences&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;consumption_preferences&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">ConsumptionPreferencesCategory</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;consumption_preferences&#39;</span><span class="p">))</span>
+            <span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;warnings&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;warnings&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="ne">Warning</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;warnings&#39;</span><span class="p">))</span>
+            <span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">warnings</span><span class="se">\&#39;</span><span class="s1"> not present in Profile JSON&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="s1">&#39;processed_language&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">processed_language</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;processed_language&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">processed_language</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;word_count&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">word_count</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;word_count&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">word_count</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="s1">&#39;word_count_message&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">word_count_message</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;word_count_message&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">word_count_message</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;personality&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">personality</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;personality&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">personality</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;needs&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">needs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;needs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">needs</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;values&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;values&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;behavior&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">behavior</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;behavior&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">behavior</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;consumption_preferences&#39;</span>
+                  <span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">consumption_preferences</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;consumption_preferences&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">consumption_preferences</span>
+            <span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;warnings&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">warnings</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;warnings&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">warnings</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">_dict</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a `str` version of this Profile object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
+
+
+<div class="viewcode-block" id="Trait"><a class="viewcode-back" href="../../apis/ibm_watson.personality_insights_v3.html#ibm_watson.personality_insights_v3.Trait">[docs]</a><span class="k">class</span> <span class="nc">Trait</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The characteristics that the service inferred from the input content.</span>
+
+<span class="sd">    :attr str trait_id: The unique, non-localized identifier of the characteristic to</span>
+<span class="sd">    which the results pertain. IDs have the form</span>
+<span class="sd">    * `big5_{characteristic}` for Big Five personality dimensions</span>
+<span class="sd">    * `facet_{characteristic}` for Big Five personality facets</span>
+<span class="sd">    * `need_{characteristic}` for Needs</span>
+<span class="sd">     *`value_{characteristic}` for Values.</span>
+<span class="sd">    :attr str name: The user-visible, localized name of the characteristic.</span>
+<span class="sd">    :attr str category: The category of the characteristic: `personality` for Big Five</span>
+<span class="sd">    personality characteristics, `needs` for Needs, and `values` for Values.</span>
+<span class="sd">    :attr float percentile: The normalized percentile score for the characteristic. The</span>
+<span class="sd">    range is 0 to 1. For example, if the percentage for Openness is 0.60, the author</span>
+<span class="sd">    scored in the 60th percentile; the author is more open than 59 percent of the</span>
+<span class="sd">    population and less open than 39 percent of the population.</span>
+<span class="sd">    :attr float raw_score: (optional) The raw score for the characteristic. The range is 0</span>
+<span class="sd">    to 1. A higher score generally indicates a greater likelihood that the author has that</span>
+<span class="sd">    characteristic, but raw scores must be considered in aggregate: The range of values in</span>
+<span class="sd">    practice might be much smaller than 0 to 1, so an individual score must be considered</span>
+<span class="sd">    in the context of the overall scores and their range.</span>
+<span class="sd">    The raw score is computed based on the input and the service model; it is not</span>
+<span class="sd">    normalized or compared with a sample population. The raw score enables comparison of</span>
+<span class="sd">    the results against a different sampling population and with a custom normalization</span>
+<span class="sd">    approach.</span>
+<span class="sd">    :attr bool significant: (optional) **`2017-10-13`**: Indicates whether the</span>
+<span class="sd">    characteristic is meaningful for the input language. The field is always `true` for</span>
+<span class="sd">    all characteristics of English, Spanish, and Japanese input. The field is `false` for</span>
+<span class="sd">    the subset of characteristics of Arabic and Korean input for which the service&#39;s</span>
+<span class="sd">    models are unable to generate meaningful results. **`2016-10-19`**: Not returned.</span>
+<span class="sd">    :attr list[Trait] children: (optional) For `personality` (Big Five) dimensions, more</span>
+<span class="sd">    detailed results for the facets of each dimension as inferred from the input text.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">trait_id</span><span class="p">,</span>
+                 <span class="n">name</span><span class="p">,</span>
+                 <span class="n">category</span><span class="p">,</span>
+                 <span class="n">percentile</span><span class="p">,</span>
+                 <span class="n">raw_score</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">significant</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">children</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a Trait object.</span>
+
+<span class="sd">        :param str trait_id: The unique, non-localized identifier of the characteristic to</span>
+<span class="sd">        which the results pertain. IDs have the form</span>
+<span class="sd">        * `big5_{characteristic}` for Big Five personality dimensions</span>
+<span class="sd">        * `facet_{characteristic}` for Big Five personality facets</span>
+<span class="sd">        * `need_{characteristic}` for Needs</span>
+<span class="sd">         *`value_{characteristic}` for Values.</span>
+<span class="sd">        :param str name: The user-visible, localized name of the characteristic.</span>
+<span class="sd">        :param str category: The category of the characteristic: `personality` for Big</span>
+<span class="sd">        Five personality characteristics, `needs` for Needs, and `values` for Values.</span>
+<span class="sd">        :param float percentile: The normalized percentile score for the characteristic.</span>
+<span class="sd">        The range is 0 to 1. For example, if the percentage for Openness is 0.60, the</span>
+<span class="sd">        author scored in the 60th percentile; the author is more open than 59 percent of</span>
+<span class="sd">        the population and less open than 39 percent of the population.</span>
+<span class="sd">        :param float raw_score: (optional) The raw score for the characteristic. The range</span>
+<span class="sd">        is 0 to 1. A higher score generally indicates a greater likelihood that the author</span>
+<span class="sd">        has that characteristic, but raw scores must be considered in aggregate: The range</span>
+<span class="sd">        of values in practice might be much smaller than 0 to 1, so an individual score</span>
+<span class="sd">        must be considered in the context of the overall scores and their range.</span>
+<span class="sd">        The raw score is computed based on the input and the service model; it is not</span>
+<span class="sd">        normalized or compared with a sample population. The raw score enables comparison</span>
+<span class="sd">        of the results against a different sampling population and with a custom</span>
+<span class="sd">        normalization approach.</span>
+<span class="sd">        :param bool significant: (optional) **`2017-10-13`**: Indicates whether the</span>
+<span class="sd">        characteristic is meaningful for the input language. The field is always `true`</span>
+<span class="sd">        for all characteristics of English, Spanish, and Japanese input. The field is</span>
+<span class="sd">        `false` for the subset of characteristics of Arabic and Korean input for which the</span>
+<span class="sd">        service&#39;s models are unable to generate meaningful results. **`2016-10-19`**: Not</span>
+<span class="sd">        returned.</span>
+<span class="sd">        :param list[Trait] children: (optional) For `personality` (Big Five) dimensions,</span>
+<span class="sd">        more detailed results for the facets of each dimension as inferred from the input</span>
+<span class="sd">        text.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trait_id</span> <span class="o">=</span> <span class="n">trait_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">category</span> <span class="o">=</span> <span class="n">category</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">percentile</span> <span class="o">=</span> <span class="n">percentile</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">raw_score</span> <span class="o">=</span> <span class="n">raw_score</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">significant</span> <span class="o">=</span> <span class="n">significant</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="n">children</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a Trait object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">validKeys</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;trait_id&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;category&#39;</span><span class="p">,</span> <span class="s1">&#39;percentile&#39;</span><span class="p">,</span> <span class="s1">&#39;raw_score&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;significant&#39;</span><span class="p">,</span> <span class="s1">&#39;children&#39;</span>
+        <span class="p">]</span>
+        <span class="n">badKeys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">validKeys</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">badKeys</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Unrecognized keys detected in dictionary for class Trait: &#39;</span> <span class="o">+</span>
+                <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">badKeys</span><span class="p">))</span>
+        <span class="k">if</span> <span class="s1">&#39;trait_id&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;trait_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;trait_id&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">trait_id</span><span class="se">\&#39;</span><span class="s1"> not present in Trait JSON&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;name&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">name</span><span class="se">\&#39;</span><span class="s1"> not present in Trait JSON&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;category&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">category</span><span class="se">\&#39;</span><span class="s1"> not present in Trait JSON&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;percentile&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;percentile&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;percentile&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">percentile</span><span class="se">\&#39;</span><span class="s1"> not present in Trait JSON&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;raw_score&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;raw_score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;raw_score&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;significant&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;significant&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;significant&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;children&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;children&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">Trait</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;children&#39;</span><span class="p">))</span>
+            <span class="p">]</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;trait_id&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">trait_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;trait_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trait_id</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;category&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">category</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">category</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;percentile&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">percentile</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;percentile&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">percentile</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;raw_score&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_score</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;raw_score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_score</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;significant&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">significant</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;significant&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">significant</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;children&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;children&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">_dict</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a `str` version of this Trait object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
+
+
+<div class="viewcode-block" id="Warning"><a class="viewcode-back" href="../../apis/ibm_watson.personality_insights_v3.html#ibm_watson.personality_insights_v3.Warning">[docs]</a><span class="k">class</span> <span class="nc">Warning</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A warning message that is associated with the input content.</span>
+
+<span class="sd">    :attr str warning_id: The identifier of the warning message.</span>
+<span class="sd">    :attr str message: The message associated with the `warning_id`:</span>
+<span class="sd">    * `WORD_COUNT_MESSAGE`: &quot;There were {number} words in the input. We need a minimum of</span>
+<span class="sd">    600, preferably 1,200 or more, to compute statistically significant estimates.&quot;</span>
+<span class="sd">    * `JSON_AS_TEXT`: &quot;Request input was processed as text/plain as indicated, however</span>
+<span class="sd">    detected a JSON input. Did you mean application/json?&quot;</span>
+<span class="sd">    * `CONTENT_TRUNCATED`: &quot;For maximum accuracy while also optimizing processing time,</span>
+<span class="sd">    only the first 250KB of input text (excluding markup) was analyzed. Accuracy levels</span>
+<span class="sd">    off at approximately 3,000 words so this did not affect the accuracy of the profile.&quot;</span>
+<span class="sd">    * `PARTIAL_TEXT_USED`, &quot;The text provided to compute the profile was trimmed for</span>
+<span class="sd">    performance reasons. This action does not affect the accuracy of the output, as not</span>
+<span class="sd">    all of the input text was required.&quot; Applies only when Arabic input text exceeds a</span>
+<span class="sd">    threshold at which additional words do not contribute to the accuracy of the profile.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">warning_id</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a Warning object.</span>
+
+<span class="sd">        :param str warning_id: The identifier of the warning message.</span>
+<span class="sd">        :param str message: The message associated with the `warning_id`:</span>
+<span class="sd">        * `WORD_COUNT_MESSAGE`: &quot;There were {number} words in the input. We need a minimum</span>
+<span class="sd">        of 600, preferably 1,200 or more, to compute statistically significant estimates.&quot;</span>
+<span class="sd">        * `JSON_AS_TEXT`: &quot;Request input was processed as text/plain as indicated, however</span>
+<span class="sd">        detected a JSON input. Did you mean application/json?&quot;</span>
+<span class="sd">        * `CONTENT_TRUNCATED`: &quot;For maximum accuracy while also optimizing processing</span>
+<span class="sd">        time, only the first 250KB of input text (excluding markup) was analyzed. Accuracy</span>
+<span class="sd">        levels off at approximately 3,000 words so this did not affect the accuracy of the</span>
+<span class="sd">        profile.&quot;</span>
+<span class="sd">        * `PARTIAL_TEXT_USED`, &quot;The text provided to compute the profile was trimmed for</span>
+<span class="sd">        performance reasons. This action does not affect the accuracy of the output, as</span>
+<span class="sd">        not all of the input text was required.&quot; Applies only when Arabic input text</span>
+<span class="sd">        exceeds a threshold at which additional words do not contribute to the accuracy of</span>
+<span class="sd">        the profile.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">warning_id</span> <span class="o">=</span> <span class="n">warning_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a Warning object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">validKeys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;warning_id&#39;</span><span class="p">,</span> <span class="s1">&#39;message&#39;</span><span class="p">]</span>
+        <span class="n">badKeys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">validKeys</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">badKeys</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Unrecognized keys detected in dictionary for class Warning: &#39;</span> <span class="o">+</span>
+                <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">badKeys</span><span class="p">))</span>
+        <span class="k">if</span> <span class="s1">&#39;warning_id&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;warning_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;warning_id&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">warning_id</span><span class="se">\&#39;</span><span class="s1"> not present in Warning JSON&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;message&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;message&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;message&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">message</span><span class="se">\&#39;</span><span class="s1"> not present in Warning JSON&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;warning_id&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">warning_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;warning_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">warning_id</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;message&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;message&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">message</span>
+        <span class="k">return</span> <span class="n">_dict</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a `str` version of this Warning object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
