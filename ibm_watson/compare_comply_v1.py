@@ -1235,12 +1235,20 @@ class BodyCells(object):
     location in the current table.
     :attr int column_index_end: (optional) The `end` index of this cell's `column`
     location in the current table.
-    :attr list[RowHeaderIds] row_header_ids: (optional)
-    :attr list[RowHeaderTexts] row_header_texts: (optional)
-    :attr list[RowHeaderTextsNormalized] row_header_texts_normalized: (optional)
-    :attr list[ColumnHeaderIds] column_header_ids: (optional)
-    :attr list[ColumnHeaderTexts] column_header_texts: (optional)
-    :attr list[ColumnHeaderTextsNormalized] column_header_texts_normalized: (optional)
+    :attr list[str] row_header_ids: (optional) An array that contains the `id` value of a
+    row header that is applicable to this body cell.
+    :attr list[str] row_header_texts: (optional) An array that contains the `text` value
+    of a row header that is applicable to this body cell.
+    :attr list[str] row_header_texts_normalized: (optional) If you provide customization
+    input, the normalized version of the row header texts according to the customization;
+    otherwise, the same value as `row_header_texts`.
+    :attr list[str] column_header_ids: (optional) An array that contains the `id` value of
+    a column header that is applicable to the current cell.
+    :attr list[str] column_header_texts: (optional) An array that contains the `text`
+    value of a column header that is applicable to the current cell.
+    :attr list[str] column_header_texts_normalized: (optional) If you provide
+    customization input, the normalized version of the column header texts according to
+    the customization; otherwise, the same value as `column_header_texts`.
     :attr list[Attribute] attributes: (optional)
     """
 
@@ -1275,13 +1283,20 @@ class BodyCells(object):
         `column` location in the current table.
         :param int column_index_end: (optional) The `end` index of this cell's `column`
         location in the current table.
-        :param list[RowHeaderIds] row_header_ids: (optional)
-        :param list[RowHeaderTexts] row_header_texts: (optional)
-        :param list[RowHeaderTextsNormalized] row_header_texts_normalized: (optional)
-        :param list[ColumnHeaderIds] column_header_ids: (optional)
-        :param list[ColumnHeaderTexts] column_header_texts: (optional)
-        :param list[ColumnHeaderTextsNormalized] column_header_texts_normalized:
-        (optional)
+        :param list[str] row_header_ids: (optional) An array that contains the `id` value
+        of a row header that is applicable to this body cell.
+        :param list[str] row_header_texts: (optional) An array that contains the `text`
+        value of a row header that is applicable to this body cell.
+        :param list[str] row_header_texts_normalized: (optional) If you provide
+        customization input, the normalized version of the row header texts according to
+        the customization; otherwise, the same value as `row_header_texts`.
+        :param list[str] column_header_ids: (optional) An array that contains the `id`
+        value of a column header that is applicable to the current cell.
+        :param list[str] column_header_texts: (optional) An array that contains the `text`
+        value of a column header that is applicable to the current cell.
+        :param list[str] column_header_texts_normalized: (optional) If you provide
+        customization input, the normalized version of the column header texts according
+        to the customization; otherwise, the same value as `column_header_texts`.
         :param list[Attribute] attributes: (optional)
         """
         self.cell_id = cell_id
@@ -1330,35 +1345,19 @@ class BodyCells(object):
         if 'column_index_end' in _dict:
             args['column_index_end'] = _dict.get('column_index_end')
         if 'row_header_ids' in _dict:
-            args['row_header_ids'] = [
-                RowHeaderIds._from_dict(x)
-                for x in (_dict.get('row_header_ids'))
-            ]
+            args['row_header_ids'] = _dict.get('row_header_ids')
         if 'row_header_texts' in _dict:
-            args['row_header_texts'] = [
-                RowHeaderTexts._from_dict(x)
-                for x in (_dict.get('row_header_texts'))
-            ]
+            args['row_header_texts'] = _dict.get('row_header_texts')
         if 'row_header_texts_normalized' in _dict:
-            args['row_header_texts_normalized'] = [
-                RowHeaderTextsNormalized._from_dict(x)
-                for x in (_dict.get('row_header_texts_normalized'))
-            ]
+            args['row_header_texts_normalized'] = _dict.get(
+                'row_header_texts_normalized')
         if 'column_header_ids' in _dict:
-            args['column_header_ids'] = [
-                ColumnHeaderIds._from_dict(x)
-                for x in (_dict.get('column_header_ids'))
-            ]
+            args['column_header_ids'] = _dict.get('column_header_ids')
         if 'column_header_texts' in _dict:
-            args['column_header_texts'] = [
-                ColumnHeaderTexts._from_dict(x)
-                for x in (_dict.get('column_header_texts'))
-            ]
+            args['column_header_texts'] = _dict.get('column_header_texts')
         if 'column_header_texts_normalized' in _dict:
-            args['column_header_texts_normalized'] = [
-                ColumnHeaderTextsNormalized._from_dict(x)
-                for x in (_dict.get('column_header_texts_normalized'))
-            ]
+            args['column_header_texts_normalized'] = _dict.get(
+                'column_header_texts_normalized')
         if 'attributes' in _dict:
             args['attributes'] = [
                 Attribute._from_dict(x) for x in (_dict.get('attributes'))
@@ -1387,35 +1386,25 @@ class BodyCells(object):
                    'column_index_end') and self.column_index_end is not None:
             _dict['column_index_end'] = self.column_index_end
         if hasattr(self, 'row_header_ids') and self.row_header_ids is not None:
-            _dict['row_header_ids'] = [
-                x._to_dict() for x in self.row_header_ids
-            ]
+            _dict['row_header_ids'] = self.row_header_ids
         if hasattr(self,
                    'row_header_texts') and self.row_header_texts is not None:
-            _dict['row_header_texts'] = [
-                x._to_dict() for x in self.row_header_texts
-            ]
+            _dict['row_header_texts'] = self.row_header_texts
         if hasattr(self, 'row_header_texts_normalized'
                   ) and self.row_header_texts_normalized is not None:
-            _dict['row_header_texts_normalized'] = [
-                x._to_dict() for x in self.row_header_texts_normalized
-            ]
+            _dict[
+                'row_header_texts_normalized'] = self.row_header_texts_normalized
         if hasattr(self,
                    'column_header_ids') and self.column_header_ids is not None:
-            _dict['column_header_ids'] = [
-                x._to_dict() for x in self.column_header_ids
-            ]
+            _dict['column_header_ids'] = self.column_header_ids
         if hasattr(
                 self,
                 'column_header_texts') and self.column_header_texts is not None:
-            _dict['column_header_texts'] = [
-                x._to_dict() for x in self.column_header_texts
-            ]
+            _dict['column_header_texts'] = self.column_header_texts
         if hasattr(self, 'column_header_texts_normalized'
                   ) and self.column_header_texts_normalized is not None:
-            _dict['column_header_texts_normalized'] = [
-                x._to_dict() for x in self.column_header_texts_normalized
-            ]
+            _dict[
+                'column_header_texts_normalized'] = self.column_header_texts_normalized
         if hasattr(self, 'attributes') and self.attributes is not None:
             _dict['attributes'] = [x._to_dict() for x in self.attributes]
         return _dict
