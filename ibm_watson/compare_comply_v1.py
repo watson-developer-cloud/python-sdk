@@ -1550,14 +1550,14 @@ class ClassifyReturn(object):
     :attr list[ContractAmts] contract_amounts: (optional) The monetary amounts that
     identify the total amount of the contract that needs to be paid from one party to
     another.
-    :attr list[TerminationDates] termination_dates: (optional) The date or dates on which
-    the document is to be terminated.
-    :attr list[ContractTypes] contract_types: (optional) The document's contract type or
-    types as declared in the document.
-    :attr list[ContractTerms] contract_terms: (optional) The duration or durations of the
-    contract.
-    :attr list[PaymentTerms] payment_terms: (optional) The document's payment duration or
-    durations.
+    :attr list[TerminationDates] termination_dates: (optional) The dates on which the
+    document is to be terminated.
+    :attr list[ContractTypes] contract_types: (optional) The contract type as declared in
+    the document.
+    :attr list[ContractTerms] contract_terms: (optional) The durations of the contract.
+    :attr list[PaymentTerms] payment_terms: (optional) The document's payment durations.
+    :attr list[ContractCurrencies] contract_currencies: (optional) The contract currencies
+    as declared in the document.
     :attr list[Tables] tables: (optional) Definition of tables identified in the input
     document.
     :attr DocStructure document_structure: (optional) The structure of the input document.
@@ -1578,7 +1578,9 @@ class ClassifyReturn(object):
                  termination_dates=None,
                  contract_types=None,
                  contract_terms=None,
-                 payment_terms=None):
+                 payment_terms=None,
+                 contract_currencies=None,
+                ):
         """
         Initialize a ClassifyReturn object.
 
@@ -1595,14 +1597,16 @@ class ClassifyReturn(object):
         :param list[ContractAmts] contract_amounts: (optional) The monetary amounts that
         identify the total amount of the contract that needs to be paid from one party to
         another.
-        :param list[TerminationDates] termination_dates: (optional) The date or dates on
-        which the document is to be terminated.
-        :param list[ContractTypes] contract_types: (optional) The document's contract type
-        or types as declared in the document.
-        :param list[ContractTerms] contract_terms: (optional) The duration or durations of
-        the contract.
+        :param list[TerminationDates] termination_dates: (optional) The dates on which the
+        document is to be terminated.
+        :param list[ContractTypes] contract_types: (optional) The contract type as
+        declared in the document.
+        :param list[ContractTerms] contract_terms: (optional) The durations of the
+        contract.
         :param list[PaymentTerms] payment_terms: (optional) The document's payment
-        duration or durations.
+        durations.
+        :param list[ContractCurrencies] contract_currencies: (optional) The contract
+        currencies as declared in the document.
         :param list[Tables] tables: (optional) Definition of tables identified in the
         input document.
         :param DocStructure document_structure: (optional) The structure of the input
@@ -1620,6 +1624,7 @@ class ClassifyReturn(object):
         self.contract_types = contract_types
         self.contract_terms = contract_terms
         self.payment_terms = payment_terms
+        self.contract_currencies = contract_currencies
         self.tables = tables
         self.document_structure = document_structure
         self.parties = parties
@@ -1631,8 +1636,8 @@ class ClassifyReturn(object):
         validKeys = [
             'document', 'model_id', 'model_version', 'elements',
             'effective_dates', 'contract_amounts', 'termination_dates',
-            'contract_types', 'contract_terms', 'payment_terms', 'tables',
-            'document_structure', 'parties'
+            'contract_types', 'contract_terms', 'payment_terms',
+            'contract_currencies', 'tables', 'document_structure', 'parties'
         ]
         badKeys = set(_dict.keys()) - set(validKeys)
         if badKeys:
@@ -1677,6 +1682,11 @@ class ClassifyReturn(object):
         if 'payment_terms' in _dict:
             args['payment_terms'] = [
                 PaymentTerms._from_dict(x) for x in (_dict.get('payment_terms'))
+            ]
+        if 'contract_currencies' in _dict:
+            args['contract_currencies'] = [
+                ContractCurrencies._from_dict(x)
+                for x in (_dict.get('contract_currencies'))
             ]
         if 'tables' in _dict:
             args['tables'] = [
@@ -1727,6 +1737,12 @@ class ClassifyReturn(object):
             ]
         if hasattr(self, 'payment_terms') and self.payment_terms is not None:
             _dict['payment_terms'] = [x._to_dict() for x in self.payment_terms]
+        if hasattr(
+                self,
+                'contract_currencies') and self.contract_currencies is not None:
+            _dict['contract_currencies'] = [
+                x._to_dict() for x in self.contract_currencies
+            ]
         if hasattr(self, 'tables') and self.tables is not None:
             _dict['tables'] = [x._to_dict() for x in self.tables]
         if hasattr(
