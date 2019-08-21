@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# Copyright 2018 IBM All Rights Reserved.
+# (C) Copyright IBM Corp. 2019.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -440,8 +440,8 @@ class CompareComplyV1(BaseService):
         :param str model_version: An optional string that filters the output to include
         only feedback with the specified `model_version`.
         :param str category_removed: An optional string in the form of a comma-separated
-        list of categories. If this is specified, the service filters the output to
-        include only feedback that has at least one category from the list removed.
+        list of categories. If it is specified, the service filters the output to include
+        only feedback that has at least one category from the list removed.
         :param str category_added: An optional string in the form of a comma-separated
         list of categories. If this is specified, the service filters the output to
         include only feedback that has at least one category from the list added.
@@ -861,8 +861,8 @@ class AlignedElement(object):
     identical. Elements are considered identical despite minor differences such as leading
     punctuation, end-of-sentence punctuation, whitespace, the presence or absence of
     definite or indefinite articles, and others.
-    :attr list[str] provenance_ids: (optional) One or more hashed values that you can send
-    to IBM to provide feedback or receive support.
+    :attr list[str] provenance_ids: (optional) Hashed values that you can send to IBM to
+    provide feedback or receive support.
     :attr bool significant_elements: (optional) Indicates that the elements aligned are
     contractual clauses of significance.
     """
@@ -881,8 +881,8 @@ class AlignedElement(object):
         identical. Elements are considered identical despite minor differences such as
         leading punctuation, end-of-sentence punctuation, whitespace, the presence or
         absence of definite or indefinite articles, and others.
-        :param list[str] provenance_ids: (optional) One or more hashed values that you can
-        send to IBM to provide feedback or receive support.
+        :param list[str] provenance_ids: (optional) Hashed values that you can send to IBM
+        to provide feedback or receive support.
         :param bool significant_elements: (optional) Indicates that the elements aligned
         are contractual clauses of significance.
         """
@@ -1429,8 +1429,8 @@ class Category(object):
     Information defining an element's subject matter.
 
     :attr str label: (optional) The category of the associated element.
-    :attr list[str] provenance_ids: (optional) One or more hashed values that you can send
-    to IBM to provide feedback or receive support.
+    :attr list[str] provenance_ids: (optional) Hashed values that you can send to IBM to
+    provide feedback or receive support.
     """
 
     def __init__(self, label=None, provenance_ids=None):
@@ -1438,8 +1438,8 @@ class Category(object):
         Initialize a Category object.
 
         :param str label: (optional) The category of the associated element.
-        :param list[str] provenance_ids: (optional) One or more hashed values that you can
-        send to IBM to provide feedback or receive support.
+        :param list[str] provenance_ids: (optional) Hashed values that you can send to IBM
+        to provide feedback or receive support.
         """
         self.label = label
         self.provenance_ids = provenance_ids
@@ -1755,164 +1755,6 @@ class ClassifyReturn(object):
 
     def __str__(self):
         """Return a `str` version of this ClassifyReturn object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class ColumnHeaderIds(object):
-    """
-    An array of values, each being the `id` value of a column header that is applicable to
-    the current cell.
-
-    :attr str id: (optional) The `id` value of a column header.
-    """
-
-    def __init__(self, id=None):
-        """
-        Initialize a ColumnHeaderIds object.
-
-        :param str id: (optional) The `id` value of a column header.
-        """
-        self.id = id
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a ColumnHeaderIds object from a json dictionary."""
-        args = {}
-        validKeys = ['id']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ColumnHeaderIds: '
-                + ', '.join(badKeys))
-        if 'id' in _dict:
-            args['id'] = _dict.get('id')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'id') and self.id is not None:
-            _dict['id'] = self.id
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this ColumnHeaderIds object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class ColumnHeaderTexts(object):
-    """
-    An array of values, each being the `text` value of a column header that is applicable
-    to the current cell.
-
-    :attr str text: (optional) The `text` value of a column header.
-    """
-
-    def __init__(self, text=None):
-        """
-        Initialize a ColumnHeaderTexts object.
-
-        :param str text: (optional) The `text` value of a column header.
-        """
-        self.text = text
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a ColumnHeaderTexts object from a json dictionary."""
-        args = {}
-        validKeys = ['text']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ColumnHeaderTexts: '
-                + ', '.join(badKeys))
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this ColumnHeaderTexts object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class ColumnHeaderTextsNormalized(object):
-    """
-    If you provide customization input, the normalized version of the column header texts
-    according to the customization; otherwise, the same value as `column_header_texts`.
-
-    :attr str text_normalized: (optional) The normalized version of a column header text.
-    """
-
-    def __init__(self, text_normalized=None):
-        """
-        Initialize a ColumnHeaderTextsNormalized object.
-
-        :param str text_normalized: (optional) The normalized version of a column header
-        text.
-        """
-        self.text_normalized = text_normalized
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a ColumnHeaderTextsNormalized object from a json dictionary."""
-        args = {}
-        validKeys = ['text_normalized']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ColumnHeaderTextsNormalized: '
-                + ', '.join(badKeys))
-        if 'text_normalized' in _dict:
-            args['text_normalized'] = _dict.get('text_normalized')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self,
-                   'text_normalized') and self.text_normalized is not None:
-            _dict['text_normalized'] = self.text_normalized
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this ColumnHeaderTextsNormalized object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -2301,13 +2143,12 @@ class ContractAmts(object):
     the contract amount.
     :attr str text: (optional) The monetary amount.
     :attr str text_normalized: (optional) The normalized form of the amount, which is
-    listed as a string. This element is optional; that is, the service output lists it
-    only if normalized text exists.
+    listed as a string. This element is optional; it is returned only if normalized text
+    exists.
     :attr Interpretation interpretation: (optional) The details of the normalized text, if
-    applicable. This element is optional; that is, the service output lists it only if
-    normalized text exists.
-    :attr list[str] provenance_ids: (optional) One or more hash values that you can send
-    to IBM to provide feedback or receive support.
+    applicable. This element is optional; it is returned only if normalized text exists.
+    :attr list[str] provenance_ids: (optional) Hashed values that you can send to IBM to
+    provide feedback or receive support.
     :attr Location location: (optional) The numeric location of the identified element in
     the document, represented with two integers labeled `begin` and `end`.
     """
@@ -2326,13 +2167,13 @@ class ContractAmts(object):
         of the contract amount.
         :param str text: (optional) The monetary amount.
         :param str text_normalized: (optional) The normalized form of the amount, which is
-        listed as a string. This element is optional; that is, the service output lists it
-        only if normalized text exists.
+        listed as a string. This element is optional; it is returned only if normalized
+        text exists.
         :param Interpretation interpretation: (optional) The details of the normalized
-        text, if applicable. This element is optional; that is, the service output lists
-        it only if normalized text exists.
-        :param list[str] provenance_ids: (optional) One or more hash values that you can
-        send to IBM to provide feedback or receive support.
+        text, if applicable. This element is optional; it is returned only if normalized
+        text exists.
+        :param list[str] provenance_ids: (optional) Hashed values that you can send to IBM
+        to provide feedback or receive support.
         :param Location location: (optional) The numeric location of the identified
         element in the document, represented with two integers labeled `begin` and `end`.
         """
@@ -2405,6 +2246,107 @@ class ContractAmts(object):
         return not self == other
 
 
+class ContractCurrencies(object):
+    """
+    The contract currencies that are declared in the document.
+
+    :attr str confidence_level: (optional) The confidence level in the identification of
+    the contract currency.
+    :attr str text: (optional) The contract currency.
+    :attr str text_normalized: (optional) The normalized form of the contract currency,
+    which is listed as a string in
+    [ISO-4217](https://www.iso.org/iso-4217-currency-codes.html) format. This element is
+    optional; it is returned only if normalized text exists.
+    :attr list[str] provenance_ids: (optional) Hashed values that you can send to IBM to
+    provide feedback or receive support.
+    :attr Location location: (optional) The numeric location of the identified element in
+    the document, represented with two integers labeled `begin` and `end`.
+    """
+
+    def __init__(self,
+                 confidence_level=None,
+                 text=None,
+                 text_normalized=None,
+                 provenance_ids=None,
+                 location=None):
+        """
+        Initialize a ContractCurrencies object.
+
+        :param str confidence_level: (optional) The confidence level in the identification
+        of the contract currency.
+        :param str text: (optional) The contract currency.
+        :param str text_normalized: (optional) The normalized form of the contract
+        currency, which is listed as a string in
+        [ISO-4217](https://www.iso.org/iso-4217-currency-codes.html) format. This element
+        is optional; it is returned only if normalized text exists.
+        :param list[str] provenance_ids: (optional) Hashed values that you can send to IBM
+        to provide feedback or receive support.
+        :param Location location: (optional) The numeric location of the identified
+        element in the document, represented with two integers labeled `begin` and `end`.
+        """
+        self.confidence_level = confidence_level
+        self.text = text
+        self.text_normalized = text_normalized
+        self.provenance_ids = provenance_ids
+        self.location = location
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ContractCurrencies object from a json dictionary."""
+        args = {}
+        validKeys = [
+            'confidence_level', 'text', 'text_normalized', 'provenance_ids',
+            'location'
+        ]
+        badKeys = set(_dict.keys()) - set(validKeys)
+        if badKeys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ContractCurrencies: '
+                + ', '.join(badKeys))
+        if 'confidence_level' in _dict:
+            args['confidence_level'] = _dict.get('confidence_level')
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        if 'text_normalized' in _dict:
+            args['text_normalized'] = _dict.get('text_normalized')
+        if 'provenance_ids' in _dict:
+            args['provenance_ids'] = _dict.get('provenance_ids')
+        if 'location' in _dict:
+            args['location'] = Location._from_dict(_dict.get('location'))
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self,
+                   'confidence_level') and self.confidence_level is not None:
+            _dict['confidence_level'] = self.confidence_level
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(self,
+                   'text_normalized') and self.text_normalized is not None:
+            _dict['text_normalized'] = self.text_normalized
+        if hasattr(self, 'provenance_ids') and self.provenance_ids is not None:
+            _dict['provenance_ids'] = self.provenance_ids
+        if hasattr(self, 'location') and self.location is not None:
+            _dict['location'] = self.location._to_dict()
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this ContractCurrencies object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class ContractTerms(object):
     """
     The duration or durations of the contract.
@@ -2413,13 +2355,12 @@ class ContractTerms(object):
     the contract term.
     :attr str text: (optional) The contract term (duration).
     :attr str text_normalized: (optional) The normalized form of the contract term, which
-    is listed as a string. This element is optional; that is, the service output lists it
-    only if normalized text exists.
+    is listed as a string. This element is optional; it is returned only if normalized
+    text exists.
     :attr Interpretation interpretation: (optional) The details of the normalized text, if
-    applicable. This element is optional; that is, the service output lists it only if
-    normalized text exists.
-    :attr list[str] provenance_ids: (optional) One or more hash values that you can send
-    to IBM to provide feedback or receive support.
+    applicable. This element is optional; it is returned only if normalized text exists.
+    :attr list[str] provenance_ids: (optional) Hashed values that you can send to IBM to
+    provide feedback or receive support.
     :attr Location location: (optional) The numeric location of the identified element in
     the document, represented with two integers labeled `begin` and `end`.
     """
@@ -2438,13 +2379,13 @@ class ContractTerms(object):
         of the contract term.
         :param str text: (optional) The contract term (duration).
         :param str text_normalized: (optional) The normalized form of the contract term,
-        which is listed as a string. This element is optional; that is, the service output
-        lists it only if normalized text exists.
+        which is listed as a string. This element is optional; it is returned only if
+        normalized text exists.
         :param Interpretation interpretation: (optional) The details of the normalized
-        text, if applicable. This element is optional; that is, the service output lists
-        it only if normalized text exists.
-        :param list[str] provenance_ids: (optional) One or more hash values that you can
-        send to IBM to provide feedback or receive support.
+        text, if applicable. This element is optional; it is returned only if normalized
+        text exists.
+        :param list[str] provenance_ids: (optional) Hashed values that you can send to IBM
+        to provide feedback or receive support.
         :param Location location: (optional) The numeric location of the identified
         element in the document, represented with two integers labeled `begin` and `end`.
         """
@@ -2524,8 +2465,8 @@ class ContractTypes(object):
     :attr str confidence_level: (optional) The confidence level in the identification of
     the contract type.
     :attr str text: (optional) The contract type.
-    :attr list[str] provenance_ids: (optional) One or more hash values that you can send
-    to IBM to provide feedback or receive support.
+    :attr list[str] provenance_ids: (optional) Hashed values that you can send to IBM to
+    provide feedback or receive support.
     :attr Location location: (optional) The numeric location of the identified element in
     the document, represented with two integers labeled `begin` and `end`.
     """
@@ -2541,8 +2482,8 @@ class ContractTypes(object):
         :param str confidence_level: (optional) The confidence level in the identification
         of the contract type.
         :param str text: (optional) The contract type.
-        :param list[str] provenance_ids: (optional) One or more hash values that you can
-        send to IBM to provide feedback or receive support.
+        :param list[str] provenance_ids: (optional) Hashed values that you can send to IBM
+        to provide feedback or receive support.
         :param Location location: (optional) The numeric location of the identified
         element in the document, represented with two integers labeled `begin` and `end`.
         """
@@ -2912,10 +2853,10 @@ class EffectiveDates(object):
     the effective date.
     :attr str text: (optional) The effective date, listed as a string.
     :attr str text_normalized: (optional) The normalized form of the effective date, which
-    is listed as a string. This element is optional; that is, the service output lists it
-    only if normalized text exists.
-    :attr list[str] provenance_ids: (optional) One or more hash values that you can send
-    to IBM to provide feedback or receive support.
+    is listed as a string. This element is optional; it is returned only if normalized
+    text exists.
+    :attr list[str] provenance_ids: (optional) Hashed values that you can send to IBM to
+    provide feedback or receive support.
     :attr Location location: (optional) The numeric location of the identified element in
     the document, represented with two integers labeled `begin` and `end`.
     """
@@ -2933,10 +2874,10 @@ class EffectiveDates(object):
         of the effective date.
         :param str text: (optional) The effective date, listed as a string.
         :param str text_normalized: (optional) The normalized form of the effective date,
-        which is listed as a string. This element is optional; that is, the service output
-        lists it only if normalized text exists.
-        :param list[str] provenance_ids: (optional) One or more hash values that you can
-        send to IBM to provide feedback or receive support.
+        which is listed as a string. This element is optional; it is returned only if
+        normalized text exists.
+        :param list[str] provenance_ids: (optional) Hashed values that you can send to IBM
+        to provide feedback or receive support.
         :param Location location: (optional) The numeric location of the identified
         element in the document, represented with two integers labeled `begin` and `end`.
         """
@@ -3937,8 +3878,8 @@ class HTMLReturn(object):
 
 class Interpretation(object):
     """
-    The details of the normalized text, if applicable. This element is optional; that is,
-    the service output lists it only if normalized text exists.
+    The details of the normalized text, if applicable. This element is optional; it is
+    returned only if normalized text exists.
 
     :attr str value: (optional) The value that was located in the normalized text.
     :attr float numeric_value: (optional) An integer or float expressing the numeric value
@@ -4814,13 +4755,12 @@ class PaymentTerms(object):
     the payment term.
     :attr str text: (optional) The payment term (duration).
     :attr str text_normalized: (optional) The normalized form of the payment term, which
-    is listed as a string. This element is optional; that is, the service output lists it
-    only if normalized text exists.
+    is listed as a string. This element is optional; it is returned only if normalized
+    text exists.
     :attr Interpretation interpretation: (optional) The details of the normalized text, if
-    applicable. This element is optional; that is, the service output lists it only if
-    normalized text exists.
-    :attr list[str] provenance_ids: (optional) One or more hash values that you can send
-    to IBM to provide feedback or receive support.
+    applicable. This element is optional; it is returned only if normalized text exists.
+    :attr list[str] provenance_ids: (optional) Hashed values that you can send to IBM to
+    provide feedback or receive support.
     :attr Location location: (optional) The numeric location of the identified element in
     the document, represented with two integers labeled `begin` and `end`.
     """
@@ -4839,13 +4779,13 @@ class PaymentTerms(object):
         of the payment term.
         :param str text: (optional) The payment term (duration).
         :param str text_normalized: (optional) The normalized form of the payment term,
-        which is listed as a string. This element is optional; that is, the service output
-        lists it only if normalized text exists.
+        which is listed as a string. This element is optional; it is returned only if
+        normalized text exists.
         :param Interpretation interpretation: (optional) The details of the normalized
-        text, if applicable. This element is optional; that is, the service output lists
-        it only if normalized text exists.
-        :param list[str] provenance_ids: (optional) One or more hash values that you can
-        send to IBM to provide feedback or receive support.
+        text, if applicable. This element is optional; it is returned only if normalized
+        text exists.
+        :param list[str] provenance_ids: (optional) Hashed values that you can send to IBM
+        to provide feedback or receive support.
         :param Location location: (optional) The numeric location of the identified
         element in the document, represented with two integers labeled `begin` and `end`.
         """
@@ -4905,164 +4845,6 @@ class PaymentTerms(object):
 
     def __str__(self):
         """Return a `str` version of this PaymentTerms object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class RowHeaderIds(object):
-    """
-    An array of values, each being the `id` value of a row header that is applicable to
-    this body cell.
-
-    :attr str id: (optional) The `id` values of a row header.
-    """
-
-    def __init__(self, id=None):
-        """
-        Initialize a RowHeaderIds object.
-
-        :param str id: (optional) The `id` values of a row header.
-        """
-        self.id = id
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a RowHeaderIds object from a json dictionary."""
-        args = {}
-        validKeys = ['id']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RowHeaderIds: '
-                + ', '.join(badKeys))
-        if 'id' in _dict:
-            args['id'] = _dict.get('id')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'id') and self.id is not None:
-            _dict['id'] = self.id
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this RowHeaderIds object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class RowHeaderTexts(object):
-    """
-    An array of values, each being the `text` value of a row header that is applicable to
-    this body cell.
-
-    :attr str text: (optional) The `text` value of a row header.
-    """
-
-    def __init__(self, text=None):
-        """
-        Initialize a RowHeaderTexts object.
-
-        :param str text: (optional) The `text` value of a row header.
-        """
-        self.text = text
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a RowHeaderTexts object from a json dictionary."""
-        args = {}
-        validKeys = ['text']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RowHeaderTexts: '
-                + ', '.join(badKeys))
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this RowHeaderTexts object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class RowHeaderTextsNormalized(object):
-    """
-    If you provide customization input, the normalized version of the row header texts
-    according to the customization; otherwise, the same value as `row_header_texts`.
-
-    :attr str text_normalized: (optional) The normalized version of a row header text.
-    """
-
-    def __init__(self, text_normalized=None):
-        """
-        Initialize a RowHeaderTextsNormalized object.
-
-        :param str text_normalized: (optional) The normalized version of a row header
-        text.
-        """
-        self.text_normalized = text_normalized
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a RowHeaderTextsNormalized object from a json dictionary."""
-        args = {}
-        validKeys = ['text_normalized']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RowHeaderTextsNormalized: '
-                + ', '.join(badKeys))
-        if 'text_normalized' in _dict:
-            args['text_normalized'] = _dict.get('text_normalized')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self,
-                   'text_normalized') and self.text_normalized is not None:
-            _dict['text_normalized'] = self.text_normalized
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this RowHeaderTextsNormalized object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):
@@ -5713,17 +5495,18 @@ class Tables(object):
     identified in the current table.
     """
 
-    def __init__(self,
-                 location=None,
-                 text=None,
-                 section_title=None,
-                 table_headers=None,
-                 row_headers=None,
-                 column_headers=None,
-                 key_value_pairs=None,
-                 body_cells=None,
-                 contexts=None,
-                 title=None):
+    def __init__(
+            self,
+            location=None,
+            text=None,
+            section_title=None,
+            table_headers=None,
+            row_headers=None,
+            column_headers=None,
+            key_value_pairs=None,
+            body_cells=None,
+            contexts=None,
+            title=None):
         """
         Initialize a Tables object.
 
@@ -5867,10 +5650,10 @@ class TerminationDates(object):
     the termination date.
     :attr str text: (optional) The termination date.
     :attr str text_normalized: (optional) The normalized form of the termination date,
-    which is listed as a string. This element is optional; that is, the service output
-    lists it only if normalized text exists.
-    :attr list[str] provenance_ids: (optional) One or more hash values that you can send
-    to IBM to provide feedback or receive support.
+    which is listed as a string. This element is optional; it is returned only if
+    normalized text exists.
+    :attr list[str] provenance_ids: (optional) Hashed values that you can send to IBM to
+    provide feedback or receive support.
     :attr Location location: (optional) The numeric location of the identified element in
     the document, represented with two integers labeled `begin` and `end`.
     """
@@ -5888,10 +5671,10 @@ class TerminationDates(object):
         of the termination date.
         :param str text: (optional) The termination date.
         :param str text_normalized: (optional) The normalized form of the termination
-        date, which is listed as a string. This element is optional; that is, the service
-        output lists it only if normalized text exists.
-        :param list[str] provenance_ids: (optional) One or more hash values that you can
-        send to IBM to provide feedback or receive support.
+        date, which is listed as a string. This element is optional; it is returned only
+        if normalized text exists.
+        :param list[str] provenance_ids: (optional) Hashed values that you can send to IBM
+        to provide feedback or receive support.
         :param Location location: (optional) The numeric location of the identified
         element in the document, represented with two integers labeled `begin` and `end`.
         """
@@ -5965,8 +5748,8 @@ class TypeLabel(object):
     :attr Label label: (optional) A pair of `nature` and `party` objects. The `nature`
     object identifies the effect of the element on the identified `party`, and the `party`
     object identifies the affected party.
-    :attr list[str] provenance_ids: (optional) One or more hash values that you can send
-    to IBM to provide feedback or receive support.
+    :attr list[str] provenance_ids: (optional) Hashed values that you can send to IBM to
+    provide feedback or receive support.
     """
 
     def __init__(self, label=None, provenance_ids=None):
@@ -5976,8 +5759,8 @@ class TypeLabel(object):
         :param Label label: (optional) A pair of `nature` and `party` objects. The
         `nature` object identifies the effect of the element on the identified `party`,
         and the `party` object identifies the affected party.
-        :param list[str] provenance_ids: (optional) One or more hash values that you can
-        send to IBM to provide feedback or receive support.
+        :param list[str] provenance_ids: (optional) Hashed values that you can send to IBM
+        to provide feedback or receive support.
         """
         self.label = label
         self.provenance_ids = provenance_ids
