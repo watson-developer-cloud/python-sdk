@@ -4072,7 +4072,7 @@ class KeyValuePair(object):
     Key-value pairs detected across cell boundaries.
 
     :attr Key key: (optional) A key in a key-value pair.
-    :attr Value value: (optional) A value in a key-value pair.
+    :attr list[Value] value: (optional) A list of values in a key-value pair.
     """
 
     def __init__(self, key=None, value=None):
@@ -4080,7 +4080,7 @@ class KeyValuePair(object):
         Initialize a KeyValuePair object.
 
         :param Key key: (optional) A key in a key-value pair.
-        :param Value value: (optional) A value in a key-value pair.
+        :param list[Value] value: (optional) A list of values in a key-value pair.
         """
         self.key = key
         self.value = value
@@ -4098,7 +4098,7 @@ class KeyValuePair(object):
         if 'key' in _dict:
             args['key'] = Key._from_dict(_dict.get('key'))
         if 'value' in _dict:
-            args['value'] = Value._from_dict(_dict.get('value'))
+            args['value'] = [Value._from_dict(x) for x in (_dict.get('value'))]
         return cls(**args)
 
     def _to_dict(self):
@@ -4107,7 +4107,7 @@ class KeyValuePair(object):
         if hasattr(self, 'key') and self.key is not None:
             _dict['key'] = self.key._to_dict()
         if hasattr(self, 'value') and self.value is not None:
-            _dict['value'] = self.value._to_dict()
+            _dict['value'] = [x._to_dict() for x in self.value]
         return _dict
 
     def __str__(self):
