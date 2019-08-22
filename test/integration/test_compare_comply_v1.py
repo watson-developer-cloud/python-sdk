@@ -4,6 +4,8 @@ import ibm_watson
 import os
 from os.path import abspath
 from unittest import TestCase
+from ibm_watson.compare_comply_v1 import TableReturn
+
 
 @pytest.mark.skipif(
     os.getenv('VCAP_SERVICES') is None, reason='requires VCAP_SERVICES')
@@ -34,9 +36,10 @@ class IntegrationTestCompareComplyV1(TestCase):
         assert result is not None
 
     def test_extract_tables(self):
-        table = abspath('resources/contract_A.pdf')
+        table = abspath('resources/table_test.png')
         with open(table, 'rb') as file:
             result = self.compare_comply.extract_tables(file).get_result()
+            TableReturn._from_dict(result)
         assert result is not None
 
     def test_compare_documents(self):
