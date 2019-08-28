@@ -3,7 +3,7 @@ import json
 from ibm_watson import AssistantV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
-authenticator = IAMAuthenticator('your api key')
+authenticator = IAMAuthenticator('your apikey')
 assistant = AssistantV1(
     version='2018-07-10',
     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
