@@ -9,6 +9,7 @@ from ibm_watson.assistant_v1 import Context, Counterexample, \
     CounterexampleCollection, Entity, EntityCollection, Example, \
     ExampleCollection, MessageInput, Intent, IntentCollection, Synonym, \
     SynonymCollection, Value, ValueCollection, Workspace, WorkspaceCollection
+from ibm_cloud_sdk_core.authenticators import BasicAuthenticator
 
 platform_url = 'https://gateway.watsonplatform.net'
 service_path = '/assistant/api'
@@ -34,8 +35,8 @@ def test_create_counterexample():
         body=json.dumps(response),
         status=201,
         content_type='application/json')
-    service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-02-03')
+    authenticator = BasicAuthenticator('username', 'password')
+    service = ibm_watson.AssistantV1(version='2017-02-03', authenticator=authenticator)
     counterexample = service.create_counterexample(
         workspace_id='boguswid', text='I want financial advice today.').get_result()
     assert len(responses.calls) == 1
@@ -56,8 +57,8 @@ def test_rate_limit_exceeded():
         body='Rate limit exceeded',
         status=429,
         content_type='application/json')
-    service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-02-03')
+    authenticator = BasicAuthenticator('username', 'password')
+    service = ibm_watson.AssistantV1(version='2017-02-03', authenticator=authenticator)
     try:
         service.create_counterexample(
             workspace_id='boguswid', text='I want financial advice today.')
@@ -77,8 +78,8 @@ def test_unknown_error():
         url,
         status=407,
         content_type='application/json')
-    service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-02-03')
+    authenticator = BasicAuthenticator('username', 'password')
+    service = ibm_watson.AssistantV1(version='2017-02-03', authenticator=authenticator)
     try:
         service.create_counterexample(
             workspace_id='boguswid', text='I want financial advice today.')
@@ -98,8 +99,9 @@ def test_delete_counterexample():
         body=response,
         status=204,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-02-03')
+        version='2017-02-03', authenticator=authenticator)
     counterexample = service.delete_counterexample(
         workspace_id='boguswid', text='I want financial advice today').get_result()
     assert len(responses.calls) == 1
@@ -123,8 +125,9 @@ def test_get_counterexample():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-02-03')
+        version='2017-02-03', authenticator=authenticator)
     counterexample = service.get_counterexample(
         workspace_id='boguswid', text='What are you wearing?').get_result()
     assert len(responses.calls) == 1
@@ -160,8 +163,9 @@ def test_list_counterexamples():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-02-03')
+        version='2017-02-03', authenticator=authenticator)
     counterexamples = service.list_counterexamples(workspace_id='boguswid').get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
@@ -185,8 +189,9 @@ def test_update_counterexample():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-02-03')
+        version='2017-02-03', authenticator=authenticator)
     counterexample = service.update_counterexample(
         workspace_id='boguswid',
         text='What are you wearing?',
@@ -221,8 +226,9 @@ def test_create_entity():
         body=json.dumps(response),
         status=201,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-04-21')
+        version='2017-02-03', authenticator=authenticator)
     entity = service.create_entity(
         workspace_id='boguswid',
         entity='pizza_toppings',
@@ -247,8 +253,9 @@ def test_delete_entity():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-04-21')
+        version='2017-02-03', authenticator=authenticator)
     entity = service.delete_entity(workspace_id='boguswid', entity='pizza_toppings').get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
@@ -274,8 +281,9 @@ def test_get_entity():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-04-21')
+        version='2017-02-03', authenticator=authenticator)
     entity = service.get_entity(workspace_id='boguswid', entity='pizza_toppings', export=True).get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
@@ -315,8 +323,9 @@ def test_list_entities():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-04-21')
+        version='2017-02-03', authenticator=authenticator)
     entities = service.list_entities(
         workspace_id='boguswid',
         export=True).get_result()
@@ -346,8 +355,9 @@ def test_update_entity():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-04-21')
+        version='2017-02-03', authenticator=authenticator)
     entity = service.update_entity(
         workspace_id='boguswid',
         entity='pizza_toppings',
@@ -380,8 +390,9 @@ def test_create_example():
         body=json.dumps(response),
         status=201,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-02-03')
+        version='2017-02-03', authenticator=authenticator)
     example = service.create_example(
         workspace_id='boguswid',
         intent='pizza_order',
@@ -406,8 +417,9 @@ def test_delete_example():
         body=json.dumps(response),
         status=204,
         content_type='')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-02-03')
+        version='2017-02-03', authenticator=authenticator)
     example = service.delete_example(
         workspace_id='boguswid',
         intent='pizza_order',
@@ -433,8 +445,8 @@ def test_get_example():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
-    service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-02-03')
+    authenticator = BasicAuthenticator('username', 'password')
+    service = ibm_watson.AssistantV1(version='2017-02-03', authenticator=authenticator)
     example = service.get_example(
         workspace_id='boguswid',
         intent='pizza_order',
@@ -474,8 +486,9 @@ def test_list_examples():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-02-03')
+        version='2017-02-03', authenticator=authenticator)
     examples = service.list_examples(
         workspace_id='boguswid', intent='pizza_order').get_result()
     assert len(responses.calls) == 1
@@ -501,8 +514,9 @@ def test_update_example():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-02-03')
+        version='2017-02-03', authenticator=authenticator)
     example = service.update_example(
         workspace_id='boguswid',
         intent='pizza_order',
@@ -537,8 +551,9 @@ def test_create_intent():
         body=json.dumps(response),
         status=201,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-02-03')
+        version='2017-02-03', authenticator=authenticator)
     intent = service.create_intent(
         workspace_id='boguswid',
         intent='pizza_order',
@@ -562,8 +577,9 @@ def test_delete_intent():
         body=json.dumps(response),
         status=204,
         content_type='')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-02-03')
+        version='2017-02-03', authenticator=authenticator)
     intent = service.delete_intent(
         workspace_id='boguswid', intent='pizza_order').get_result()
     assert len(responses.calls) == 1
@@ -588,8 +604,9 @@ def test_get_intent():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-02-03')
+        version='2017-02-03', authenticator=authenticator)
     intent = service.get_intent(
         workspace_id='boguswid', intent='pizza_order', export=False).get_result()
     assert len(responses.calls) == 1
@@ -622,8 +639,9 @@ def test_list_intents():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-02-03')
+        version='2017-02-03', authenticator=authenticator)
     intents = service.list_intents(workspace_id='boguswid', export=False).get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
@@ -648,8 +666,9 @@ def test_update_intent():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-02-03')
+        version='2017-02-03', authenticator=authenticator)
     intent = service.update_intent(
         workspace_id='boguswid',
         intent='pizza_order',
@@ -734,8 +753,9 @@ def test_list_logs():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-04-21')
+        version='2017-02-03', authenticator=authenticator)
     logs = service.list_logs(
         workspace_id='boguswid').get_result()
     assert len(responses.calls) == 1
@@ -805,8 +825,9 @@ def test_list_all_logs():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-04-21')
+        version='2017-02-03', authenticator=authenticator)
     logs = service.list_all_logs(
         'language::en,request.context.metadata.deployment::deployment_1').get_result()
     assert len(responses.calls) == 1
@@ -822,13 +843,14 @@ def test_list_all_logs():
 @responses.activate
 def test_message():
 
+    authenticator = BasicAuthenticator('username', 'password')
     assistant = ibm_watson.AssistantV1(
-        username="username", password="password", version='2016-09-20')
+        version='2017-02-03', authenticator=authenticator)
     assistant.set_default_headers({'x-watson-learning-opt-out': "true"})
 
     workspace_id = 'f8fdbc65-e0bd-4e43-b9f8-2975a366d4ec'
     message_url = '%s/v1/workspaces/%s/message' % (base_url, workspace_id)
-    url1_str = '%s/v1/workspaces/%s/message?version=2016-09-20'
+    url1_str = '%s/v1/workspaces/%s/message?version=2017-02-03'
     message_url1 = url1_str % (base_url, workspace_id)
     message_response = {
         "context": {
@@ -897,14 +919,14 @@ def test_message():
 
 @responses.activate
 def test_message_with_models():
-
+    authenticator = BasicAuthenticator('username', 'password')
     assistant = ibm_watson.AssistantV1(
-        username="username", password="password", version='2016-09-20')
+        version='2017-02-03', authenticator=authenticator)
     assistant.set_default_headers({'x-watson-learning-opt-out': "true"})
 
     workspace_id = 'f8fdbc65-e0bd-4e43-b9f8-2975a366d4ec'
     message_url = '%s/v1/workspaces/%s/message' % (base_url, workspace_id)
-    url1_str = '%s/v1/workspaces/%s/message?version=2016-09-20'
+    url1_str = '%s/v1/workspaces/%s/message?version=2017-02-03'
     message_url1 = url1_str % (base_url, workspace_id)
     message_response = {
         "context": {
@@ -984,8 +1006,9 @@ def test_create_synonym():
         body=json.dumps(response),
         status=201,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-04-21')
+        version='2017-02-03', authenticator=authenticator)
     synonym = service.create_synonym(
         workspace_id='boguswid', entity='aeiou', value='vowel', synonym='a').get_result()
     assert len(responses.calls) == 1
@@ -1006,8 +1029,9 @@ def test_delete_synonym():
         body=json.dumps(response),
         status=204,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-04-21')
+        version='2017-02-03', authenticator=authenticator)
     synonym = service.delete_synonym(
         workspace_id='boguswid', entity='aeiou', value='vowel', synonym='a').get_result()
     assert len(responses.calls) == 1
@@ -1031,8 +1055,9 @@ def test_get_synonym():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-04-21')
+        version='2017-02-03', authenticator=authenticator)
     synonym = service.get_synonym(
         workspace_id='boguswid', entity='grilling', value='bbq', synonym='barbecue').get_result()
     assert len(responses.calls) == 1
@@ -1074,8 +1099,9 @@ def test_list_synonyms():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-04-21')
+        version='2017-02-03', authenticator=authenticator)
     synonyms = service.list_synonyms(
         workspace_id='boguswid',
         entity='grilling',
@@ -1103,8 +1129,9 @@ def test_update_synonym():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-04-21')
+        version='2017-02-03', authenticator=authenticator)
     synonym = service.update_synonym(
         workspace_id='boguswid', entity='grilling', value='bbq', synonym='barbecue', new_synonym='barbecue').get_result()
     assert len(responses.calls) == 1
@@ -1136,8 +1163,9 @@ def test_create_value():
         body=json.dumps(response),
         status=201,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-04-21')
+        version='2017-02-03', authenticator=authenticator)
     value = service.create_value(
         workspace_id='boguswid',
         entity='grilling',
@@ -1161,8 +1189,9 @@ def test_delete_value():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-04-21')
+        version='2017-02-03', authenticator=authenticator)
     value = service.delete_value(
         workspace_id='boguswid', entity='grilling', value='bbq').get_result()
     assert len(responses.calls) == 1
@@ -1190,8 +1219,9 @@ def test_get_value():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-04-21')
+        version='2017-02-03', authenticator=authenticator)
     value = service.get_value(
         workspace_id='boguswid', entity='grilling', value='bbq', export=True).get_result()
     assert len(responses.calls) == 1
@@ -1232,8 +1262,9 @@ def test_list_values():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-04-21')
+        version='2017-02-03', authenticator=authenticator)
     values = service.list_values(
         workspace_id='boguswid',
         entity='grilling',
@@ -1265,8 +1296,9 @@ def test_update_value():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-04-21')
+        version='2017-02-03', authenticator=authenticator)
     value = service.update_value(
         workspace_id='boguswid',
         entity='grilling',
@@ -1306,8 +1338,9 @@ def test_create_workspace():
         body=json.dumps(response),
         status=201,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-02-03')
+        version='2017-02-03', authenticator=authenticator)
     workspace = service.create_workspace(
         name='Pizza app', description='Pizza app', language='en', metadata={},
         system_settings={'tooling': {'store_generic_responses' : True}}).get_result()
@@ -1328,8 +1361,9 @@ def test_delete_workspace():
         body=json.dumps(response),
         status=204,
         content_type='')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-02-03')
+        version='2017-02-03', authenticator=authenticator)
     workspace = service.delete_workspace(workspace_id='boguswid').get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
@@ -1357,8 +1391,9 @@ def test_get_workspace():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-02-03')
+        version='2017-02-03', authenticator=authenticator)
     workspace = service.get_workspace(workspace_id='boguswid', export=True, sort='stable').get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
@@ -1395,8 +1430,9 @@ def test_list_workspaces():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-02-03')
+        version='2017-02-03', authenticator=authenticator)
     workspaces = service.list_workspaces().get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
@@ -1425,8 +1461,9 @@ def test_update_workspace():
         body=json.dumps(response),
         status=200,
         content_type='application/json')
+    authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(
-        username='username', password='password', version='2017-02-03')
+        version='2017-02-03', authenticator=authenticator)
     workspace = service.update_workspace(
         workspace_id='pizza_app-e0f3',
         name='Pizza app',
@@ -1452,26 +1489,28 @@ def test_dialog_nodes():
 
     responses.add(
         responses.POST,
-        "{0}?version=2017-05-26".format(url),
+        "{0}?version=2017-02-03".format(url),
         body='{ "application/json": { "dialog_node": "location-done" }}',
         status=200,
         content_type='application/json')
 
     responses.add(
         responses.DELETE,
-        "{0}/location-done?version=2017-05-26".format(url),
+        "{0}/location-done?version=2017-02-03".format(url),
         body='{"description": "deleted successfully"}',
         status=200,
         content_type='application/json')
 
     responses.add(
         responses.GET,
-        "{0}/location-done?version=2017-05-26".format(url),
+        "{0}/location-done?version=2017-02-03".format(url),
         body='{ "application/json": { "dialog_node": "location-atm" }}',
         status=200,
         content_type='application/json')
 
-    assistant = ibm_watson.AssistantV1('2017-05-26', username="username", password="password")
+    authenticator = BasicAuthenticator('username', 'password')
+    assistant = ibm_watson.AssistantV1(
+        version='2017-02-03', authenticator=authenticator)
 
     assistant.create_dialog_node('id', 'location-done', user_label='xxx')
     assert responses.calls[0].response.json()['application/json']['dialog_node'] == 'location-done'
@@ -1497,9 +1536,11 @@ def test_delete_user_data():
         status=204,
         content_type='application_json')
 
-    assistant = ibm_watson.AssistantV1('2017-05-26', username="username", password="password")
+    authenticator = BasicAuthenticator('username', 'password')
+    service = ibm_watson.AssistantV1(
+        version='2017-02-03', authenticator=authenticator)
 
-    response = assistant.delete_user_data('id').get_result()
+    response = service.delete_user_data('id').get_result()
     assert response is None
     assert len(responses.calls) == 1
 
@@ -1513,8 +1554,10 @@ def test_list_mentions():
         status=200,
         content_type='application_json')
 
-    assistant = ibm_watson.AssistantV1('2017-05-26', username="username", password="password")
+    authenticator = BasicAuthenticator('username', 'password')
+    service = ibm_watson.AssistantV1(
+        version='2017-02-03', authenticator=authenticator)
 
-    response = assistant.list_mentions('workspace_id', 'entity1').get_result()
+    response = service.list_mentions('workspace_id', 'entity1').get_result()
     assert response == [{"entity": "xxx"}]
     assert len(responses.calls) == 1
