@@ -32,7 +32,7 @@ class IntegrationTestCompareComplyV1(TestCase):
     def test_classify_elements(self):
         contract = abspath('resources/contract_A.pdf')
         with open(contract, 'rb') as file:
-            result = self.compare_comply.classify_elements(file, 'application/pdf').get_result()
+            result = self.compare_comply.classify_elements(file, file_content_type='application/pdf').get_result()
         assert result is not None
 
     def test_extract_tables(self):
@@ -126,8 +126,8 @@ class IntegrationTestCompareComplyV1(TestCase):
 
         add_feedback = self.compare_comply.add_feedback(
             feedback_data,
-            'wonder woman',
-            'test commment').get_result()
+            user_id='wonder woman',
+            comment='test commment').get_result()
         assert add_feedback is not None
         assert add_feedback['feedback_id'] is not None
         feedback_id = add_feedback['feedback_id']
