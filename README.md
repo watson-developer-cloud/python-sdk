@@ -18,10 +18,12 @@ Python client library to quickly get started with the various [Watson APIs][wdc]
     * [Getting credentials](#getting-credentials)
     * [IAM](#iam)
     * [Username and password](#username-and-password)
+    * [No Authentication](#no-authentication)
   * [Python version](#python-version)
   * [Changes for v1.0](#changes-for-v10)
   * [Changes for v2.0](#changes-for-v20)
   * [Changes for v3.0](#changes-for-v30)
+  * [Changes for v4.0](#changes-for-v40)
   * [Migration](#migration)
   * [Configuring the http client](#configuring-the-http-client-supported-from-v110)
   * [Disable SSL certificate verification](#disable-ssl-certificate-verification)
@@ -103,9 +105,9 @@ On this page, you should be able to see your credentials for accessing your serv
 
 ### Supplying credentials
 
-There are two ways to supply the credentials you found above to the SDK for authentication.
+There are three ways to supply the credentials you found above to the SDK for authentication.
 
-#### Credential file (easier!)
+#### Credential file
 
 With a credential file, you just need to put the file in the right place and the SDK will do the work of parsing and authenticating. You can get this file by clicking the **Download** button for the credentials in the **Manage** tab of your service instance.
 
@@ -132,6 +134,21 @@ export IBM_CREDENTIALS_FILE="<path>"
 
 where `<path>` is something like `/home/user/Downloads/<file_name>.env`.
 
+#### Environment Variables
+Simply set the environment variables using <service name>_<variable name> syntax. For example, using your favourite terminal, you can set environment variables for Assistant service instance:
+
+```bash
+export assistant_apikey="<your apikey>"
+export assistant_auth_type="iam"
+```
+
+The credentials will be loaded from the environment automatically
+
+```python
+assistant = AssistantV1(version='2018-08-01')
+```
+
+
 #### Manually
 If you'd prefer to set authentication values manually in your code, the SDK supports that as well. The way you'll do this depends on what type of credentials your service instance gives you.
 
@@ -139,65 +156,67 @@ If you'd prefer to set authentication values manually in your code, the SDK supp
 
 IBM Cloud has migrated to token-based Identity and Access Management (IAM) authentication. IAM authentication uses a service API key to get an access token that is passed with the call. Access tokens are valid for approximately one hour and must be regenerated.
 
-You supply either an IAM service **API key** or an **access token**:
+You supply either an IAM service **API key** or a **bearer token**:
 
 - Use the API key to have the SDK manage the lifecycle of the access token. The SDK requests an access token, ensures that the access token is valid, and refreshes it if necessary.
 - Use the access token if you want to manage the lifecycle yourself. For details, see [Authenticating with IAM tokens](https://cloud.ibm.com/docs/services/watson?topic=watson-iam).
 - Use a server-side to generate access tokens using your IAM API key for untrusted environments like client-side scripts. The generated access tokens will be valid for one hour and can be refreshed.
 
-### Generating access tokens using IAM API key
+#### Supplying the API key
 ```python
+from ibm_watson import DiscoveryV1
+import from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+
+# In the constructor, letting the SDK manage the token
+authenticator = IAMAuthenticator('apikey',
+                                 url='<iam_url>') # optional - the default value is https://iam.cloud.ibm.com/identity/token
+discovery = DiscoveryV1(version='2018-08-01',
+                        url='<url_as_per_region>',
+                        authenticator=authenticator)
+```
+
+#### Generating access tokens using API key
+```python
+from ibm_watson import IAMTokenManager
+
 # In your API endpoint use this to generate new access tokens
-iam_token_manager = IAMTokenManager(iam_apikey='<apikey>')
+iam_token_manager = IAMTokenManager(apikey='<apikey>')
 token = iam_token_manager.get_token()
 ```
 
-#### Supplying the IAM API key
-
+##### Supplying the bearer token
 ```python
-# In the constructor, letting the SDK manage the IAM token
+from ibm_watson import DiscoveryV1
+from ibm_cloud_sdk_core.authenticators import BearerAuthenticator
+
+# in the constructor, assuming control of managing the token
+authenticator = BearerAuthenticator('your bearer token')
 discovery = DiscoveryV1(version='2018-08-01',
                         url='<url_as_per_region>',
-                        apikey='<apikey>',
-                        iam_url='<iam_url>') # optional - the default value is https://iam.cloud.ibm.com/identity/token
-```
-
-```python
-# after instantiation, letting the SDK manage the IAM token
-discovery = DiscoveryV1(version='2018-08-01', url='<url_as_per_region>')
-discovery.set_apikey('<apikey>')
-```
-
-#### Supplying the access token
-```python
-# in the constructor, assuming control of managing IAM token
-discovery = DiscoveryV1(version='2018-08-01',
-                        url='<url_as_per_region>',
-                        iam_access_token='<iam_access_token>')
-```
-
-```python
-# after instantiation, assuming control of managing IAM token
-discovery = DiscoveryV1(version='2018-08-01', url='<url_as_per_region>')
-discovery.set_iam_access_token('<access_token>')
+                        authenticator=authenticator)
 ```
 
 ### Username and password
 ```python
 from ibm_watson import DiscoveryV1
-# In the constructor
-discovery = DiscoveryV1(version='2018-08-01', url='<url_as_per_region>', username='<username>', password='<password>')
+from ibm_cloud_sdk_core.authenticators import BasicAuthenticator
+
+authenticator = BasicAuthenticator('username', 'password')
+discovery = DiscoveryV1(version='2018-08-01', url='<url_as_per_region>', authenticator=authenticator)
 ```
 
+### No Authentication
 ```python
-# After instantiation
-discovery = DiscoveryV1(version='2018-08-01', url='<url_as_per_region>')
-discovery.set_username_and_password('<username>', '<password>')
+from ibm_watson import DiscoveryV1
+from ibm_cloud_sdk_core.authenticators import NoAuthAuthenticator
+
+authenticator = NoAuthAuthenticator()
+discovery = DiscoveryV1(version='2018-08-01', url='<url_as_per_region>', authenticator=authenticator)
 ```
 
 ## Python version
 
-Tested on Python 2.7, 3.5, 3.6, and 3.7.
+Tested on Python 3.5, 3.6, and 3.7.
 
 ## Changes for v1.0
 Version 1.0 focuses on the move to programmatically-generated code for many of the services. See the [changelog](https://github.com/watson-developer-cloud/python-sdk/wiki/Changelog) for the details.
@@ -225,6 +244,21 @@ The SDK is generated using OpenAPI Specification(OAS3). Changes are basic reorde
 
 The package is renamed to ibm_watson. See the [changelog](https://github.com/watson-developer-cloud/python-sdk/wiki/Changelog) for the details.
 
+## Changes for v4.0
+Authenticator variable indicates the type of authentication to be used. 
+
+```python
+from ibm_watson import AssistantV1
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+
+authenticator = IAMAuthenticator('your apikey')
+assistant = AssistantV1(
+    version='2018-07-10',
+    ## url is optional, and defaults to the URL below. Use the correct URL for your region.
+    url='https://gateway.watsonplatform.net/assistant/api',
+    authenticator=authenticator)
+```
+
 ## Migration
 This version includes many breaking changes as a result of standardizing behavior across the new generated services. Full details on migration from previous versions can be found [here](https://github.com/watson-developer-cloud/python-sdk/wiki/Migration).
 
@@ -233,12 +267,14 @@ To set client configs like timeout use the `with_http_config()` function and pas
 
 ```python
 from ibm_watson import AssistantV1
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
+authenticator = IAMAuthenticator('your apikey')
 assistant = AssistantV1(
-    username='xxx',
-    password='yyy',
-    url='<url_as_per_region>',
-    version='2018-07-10')
+    version='2018-07-10',
+    ## url is optional, and defaults to the URL below. Use the correct URL for your region.
+    url='https://gateway.watsonplatform.net/assistant/api',
+    authenticator=authenticator)
 
 assistant.set_http_config({'timeout': 100})
 response = assistant.message(workspace_id=workspace_id, input={
@@ -250,7 +286,7 @@ print(json.dumps(response, indent=2))
 For ICP(IBM Cloud Private), you can disable the SSL certificate verification by:
 
 ```python
-service.disable_SSL_verification()
+service.set_disable_ssl_verification()
 ```
 
 ## Sending request headers
@@ -264,12 +300,14 @@ For example, to send a header called `Custom-Header` to a call in Watson Assista
 the headers parameter as:
 ```python
 from ibm_watson import AssistantV1
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
+authenticator = IAMAuthenticator('your apikey')
 assistant = AssistantV1(
-    username='xxx',
-    password='yyy',
-    url='<url_as_per_region>',
-    version='2018-07-10')
+    version='2018-07-10',
+    ## url is optional, and defaults to the URL below. Use the correct URL for your region.
+    url='https://gateway.watsonplatform.net/assistant/api',
+    authenticator=authenticator)
 
 response = assistant.list_workspaces(headers={'Custom-Header': 'custom_value'}).get_result()
 ```
@@ -278,12 +316,14 @@ response = assistant.list_workspaces(headers={'Custom-Header': 'custom_value'}).
 If you would like access to some HTTP response information along with the response model, you can set the `set_detailed_response()` to `True`. Since Python SDK `v2.0`, it is set to `True`
 ```python
 from ibm_watson import AssistantV1
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
+authenticator = IAMAuthenticator('your apikey')
 assistant = AssistantV1(
-    username='xxx',
-    password='yyy',
-    url='<url_as_per_region>',
-    version='2018-07-10')
+    version='2018-07-10',
+    ## url is optional, and defaults to the URL below. Use the correct URL for your region.
+    url='https://gateway.watsonplatform.net/assistant/api',
+    authenticator=authenticator)
 
 assistant.set_detailed_response(True)
 response = assistant.list_workspaces(headers={'Custom-Header': 'custom_value'}).get_result()
@@ -324,31 +364,38 @@ service.synthesize_using_websocket('I like to pet dogs',
                                   )
 ```
 
-## IBM Cloud Pak for Data(ICP4D)
-If your service instance is of ICP4D, below are two ways of initializing the assistant service.
+## Cloud Pak for Data(CP4D)
+If your service instance is of CP4D, below are two ways of initializing the assistant service.
 
-### 1) Supplying the username, password, icp4d_url and authentication_type
+### 1) Supplying the username, password and authentication url
 The SDK will manage the token for the user
 ```python
-assistant = AssistantV1(
-    version='<version',
-    username='<your username>',
-    password='<your password>',
-    url='<service url>', # should be of the form https://{icp_cluster_host}/{deployment}/assistant/{instance-id}/api
-    icp4d_url='<authentication url>', # should be of the form https://{icp_cluster_host}
-    authentication_type='icp4d')
+from ibm_watson import AssistantV1
+from ibm_cloud_sdk_core.authenticators import CloudPakForDataAuthenticator
 
-assistant.disable_SSL_verification() # MAKE SURE SSL VERIFICATION IS DISABLED
+authenticator = CloudPakForDataAuthenticator(
+    '<your username>',
+    '<your password>',
+    '<authentication url>') # should be of the form https://{icp_cluster_host}{instance-id}/api
+
+assistant = AssistantV1(
+    version='<version>',
+    url='<service url>', # should be of the form https://{icp_cluster_host}/{deployment}/assistant/{instance-id}/api
+    authenticator=authenticator,
+    disable_ssl_verification=True # MAKE SURE SSL VERIFICATION IS DISABLED
+    )
 ```
 
 ### 2) Supplying the access token
 ```python
-assistant = AssistantV1(
-    version='<version>',
-    url='service url', # should be of the form https://{icp_cluster_host}/{deployment}/assistant/{instance-id}/api
-    icp4d_access_token='<your managed access token>')
+from ibm_watson import AssistantV1
+from ibm_cloud_sdk_core.authenticators import BearerAuthenticator
 
-assistant.disable_SSL_verification() # MAKE SURE SSL VERIFICATION IS DISABLED
+authenticator = BearerAuthenticator('your managed access token')
+assistant = AssistantV1(version='<version>',
+                        url='service url', # should be of the form https://{icp_cluster_host}/{deployment}/assistant/{instance-id}/api
+                        authenticator=authenticator,
+                        disable_ssl_verification=True) # MAKE SURE SSL VERIFICATION IS DISABLED
 ```
 
 ## Dependencies
@@ -358,7 +405,7 @@ assistant.disable_SSL_verification() # MAKE SURE SSL VERIFICATION IS DISABLED
 * [responses] for testing
 * Following for web sockets support in speech to text
    * `websocket-client` 0.48.0
-* `ibm_cloud_sdk_core` >=0.5.1
+* `ibm_cloud_sdk_core` >=0.6.0
 
 ## Contributing
 
