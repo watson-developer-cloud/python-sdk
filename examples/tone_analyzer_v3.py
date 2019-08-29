@@ -3,20 +3,14 @@ import json
 from os.path import join, dirname
 from ibm_watson import ToneAnalyzerV3
 from ibm_watson.tone_analyzer_v3 import ToneInput
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
-# If service instance provides API key authentication
+authenticator = IAMAuthenticator('your_api_key')
 service = ToneAnalyzerV3(
     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
     url='https://gateway.watsonplatform.net/tone-analyzer/api',
     version='2017-09-21',
-    iam_apikey='YOU APIKEY')
-
-# service = ToneAnalyzerV3(
-#     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-#     # url='https://gateway.watsonplatform.net/tone-analyzer/api',
-#     username='YOUR SERVICE USERNAME',
-#     password='YOUR SERVICE PASSWORD',
-#     version='2017-09-21')
+    authenticator=authenticator)
 
 print("\ntone_chat() example 1:\n")
 utterances = [{
