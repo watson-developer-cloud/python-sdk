@@ -1,21 +1,13 @@
-# coding: utf-8
-from __future__ import print_function
 import json
 from ibm_watson import DiscoveryV1
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
-# If service instance provides API key authentication
+authenticator = IAMAuthenticator('your_api_key')
 discovery = DiscoveryV1(
     version='2018-08-01',
     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
     url='https://gateway.watsonplatform.net/discovery/api',
-    iam_apikey='YOUR APIKEY')
-
-# discovery = DiscoveryV1(
-#     version='2018-08-01',
-#     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-#     # url='https://gateway.watsonplatform.net/discovery/api',
-#     username='YOUR SERVICE USERNAME',
-#     password='YOUR SERVICE PASSWORD')
+    authenticator=authenticator)
 
 environments = discovery.list_environments().get_result()
 print(json.dumps(environments, indent=2))
