@@ -10,6 +10,7 @@ import pyaudio
 from ibm_watson import SpeechToTextV1
 from ibm_watson.websocket import RecognizeCallback, AudioSource
 from threading import Thread
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 try:
     from Queue import Queue, Full
@@ -34,9 +35,10 @@ audio_source = AudioSource(q, True, True)
 ###############################################
 
 # initialize speech to text service
+authenticator = IAMAuthenticator('your_api_key')
 speech_to_text = SpeechToTextV1(
-    iam_apikey='{YOUR_IAM_API_KEY}',
-    url='{YOUR_GATEWAY_URL}')
+    url='{YOUR_GATEWAY_URL}',
+    authenticator=authenticator)
 
 # define callback for the speech to text service
 class MyRecognizeCallback(RecognizeCallback):
