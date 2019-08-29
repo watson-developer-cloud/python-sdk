@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# Copyright 2018 IBM All Rights Reserved.
+# (C) Copyright IBM Corp. 2019.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -30,11 +30,11 @@ standard International Phonetic Alphabet (IPA) representation or in the propriet
 Symbolic Phonetic Representation (SPR).
 """
 
-from __future__ import absolute_import
-
 import json
 from .common import get_sdk_headers
+from enum import Enum
 from ibm_cloud_sdk_core import BaseService
+from ibm_cloud_sdk_core import get_authenticator_from_environment
 from os.path import basename
 
 ##############################################################################
@@ -50,16 +50,8 @@ class TextToSpeechV1(BaseService):
     def __init__(
             self,
             url=default_url,
-            username=None,
-            password=None,
-            iam_apikey=None,
-            iam_access_token=None,
-            iam_url=None,
-            iam_client_id=None,
-            iam_client_secret=None,
-            icp4d_access_token=None,
-            icp4d_url=None,
-            authentication_type=None,
+            authenticator=None,
+            disable_ssl_verification=False,
     ):
         """
         Construct a new client for the Text to Speech service.
@@ -68,62 +60,21 @@ class TextToSpeechV1(BaseService):
                "https://stream.watsonplatform.net/text-to-speech/api/text-to-speech/api").
                The base url may differ between IBM Cloud regions.
 
-        :param str username: The username used to authenticate with the service.
-               Username and password credentials are only required to run your
-               application locally or outside of IBM Cloud. When running on
-               IBM Cloud, the credentials will be automatically loaded from the
-               `VCAP_SERVICES` environment variable.
-
-        :param str password: The password used to authenticate with the service.
-               Username and password credentials are only required to run your
-               application locally or outside of IBM Cloud. When running on
-               IBM Cloud, the credentials will be automatically loaded from the
-               `VCAP_SERVICES` environment variable.
-
-        :param str iam_apikey: An API key that can be used to request IAM tokens. If
-               this API key is provided, the SDK will manage the token and handle the
-               refreshing.
-
-        :param str iam_access_token:  An IAM access token is fully managed by the application.
-               Responsibility falls on the application to refresh the token, either before
-               it expires or reactively upon receiving a 401 from the service as any requests
-               made with an expired token will fail.
-
-        :param str iam_url: An optional URL for the IAM service API. Defaults to
-               'https://iam.cloud.ibm.com/identity/token'.
-
-        :param str iam_client_id: An optional client_id value to use when interacting with the IAM service.
-
-        :param str iam_client_secret: An optional client_secret value to use when interacting with the IAM service.
-
-        :param str icp4d_access_token:  A ICP4D(IBM Cloud Pak for Data) access token is
-               fully managed by the application. Responsibility falls on the application to
-               refresh the token, either before it expires or reactively upon receiving a 401
-               from the service as any requests made with an expired token will fail.
-
-        :param str icp4d_url: In order to use an SDK-managed token with ICP4D authentication, this
-               URL must be passed in.
-
-        :param str authentication_type: Specifies the authentication pattern to use. Values that it
-               takes are basic, iam or icp4d.
+        :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
+               Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
+               about initializing the authenticator of your choice.
+        :param bool disable_ssl_verification: If True, disables ssl verification
         """
+
+        if not authenticator:
+            authenticator = get_authenticator_from_environment('Text to Speech')
 
         BaseService.__init__(
             self,
-            vcap_services_name='text_to_speech',
             url=url,
-            username=username,
-            password=password,
-            iam_apikey=iam_apikey,
-            iam_access_token=iam_access_token,
-            iam_url=iam_url,
-            iam_client_id=iam_client_id,
-            iam_client_secret=iam_client_secret,
-            use_vcap_services=True,
-            display_name='Text to Speech',
-            icp4d_access_token=icp4d_access_token,
-            icp4d_url=icp4d_url,
-            authentication_type=authentication_type)
+            authenticator=authenticator,
+            disable_ssl_verification=disable_ssl_verification,
+            display_name='Text to Speech')
 
     #########################
     # Voices
@@ -151,11 +102,12 @@ class TextToSpeechV1(BaseService):
         headers.update(sdk_headers)
 
         url = '/v1/voices'
-        response = self.request(
+        request = self.prepare_request(
             method='GET', url=url, headers=headers, accept_json=True)
+        response = self.send(request)
         return response
 
-    def get_voice(self, voice, customization_id=None, **kwargs):
+    def get_voice(self, voice, *, customization_id=None, **kwargs):
         """
         Get a voice.
 
@@ -168,10 +120,11 @@ class TextToSpeechV1(BaseService):
         voice](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-voices#listVoice).
 
         :param str voice: The voice for which information is to be returned.
-        :param str customization_id: The customization ID (GUID) of a custom voice model
-        for which information is to be returned. You must make the request with
-        credentials for the instance of the service that owns the custom model. Omit the
-        parameter to see information about the specified voice with no customization.
+        :param str customization_id: (optional) The customization ID (GUID) of a
+               custom voice model for which information is to be returned. You must make
+               the request with credentials for the instance of the service that owns the
+               custom model. Omit the parameter to see information about the specified
+               voice with no customization.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -189,12 +142,13 @@ class TextToSpeechV1(BaseService):
         params = {'customization_id': customization_id}
 
         url = '/v1/voices/{0}'.format(*self._encode_path_vars(voice))
-        response = self.request(
+        request = self.prepare_request(
             method='GET',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
+        response = self.send(request)
         return response
 
     #########################
@@ -203,9 +157,10 @@ class TextToSpeechV1(BaseService):
 
     def synthesize(self,
                    text,
+                   *,
+                   accept=None,
                    voice=None,
                    customization_id=None,
-                   accept=None,
                    **kwargs):
         """
         Synthesize audio.
@@ -273,21 +228,22 @@ class TextToSpeechV1(BaseService):
          If a request includes invalid query parameters, the service returns a `Warnings`
         response header that provides messages about the invalid parameters. The warning
         includes a descriptive message and a list of invalid argument strings. For
-        example, a message such as `\"Unknown arguments:\"` or `\"Unknown url query
-        arguments:\"` followed by a list of the form `\"{invalid_arg_1},
-        {invalid_arg_2}.\"` The request succeeds despite the warnings.
+        example, a message such as `"Unknown arguments:"` or `"Unknown url query
+        arguments:"` followed by a list of the form `"{invalid_arg_1}, {invalid_arg_2}."`
+        The request succeeds despite the warnings.
 
         :param str text: The text to synthesize.
-        :param str voice: The voice to use for synthesis.
-        :param str customization_id: The customization ID (GUID) of a custom voice model
-        to use for the synthesis. If a custom voice model is specified, it is guaranteed
-        to work only if it matches the language of the indicated voice. You must make the
-        request with credentials for the instance of the service that owns the custom
-        model. Omit the parameter to use the specified voice with no customization.
-        :param str accept: The requested format (MIME type) of the audio. You can use the
-        `Accept` header or the `accept` parameter to specify the audio format. For more
-        information about specifying an audio format, see **Audio formats (accept types)**
-        in the method description.
+        :param str accept: (optional) The requested format (MIME type) of the
+               audio. You can use the `Accept` header or the `accept` parameter to specify
+               the audio format. For more information about specifying an audio format,
+               see **Audio formats (accept types)** in the method description.
+        :param str voice: (optional) The voice to use for synthesis.
+        :param str customization_id: (optional) The customization ID (GUID) of a
+               custom voice model to use for the synthesis. If a custom voice model is
+               specified, it is guaranteed to work only if it matches the language of the
+               indicated voice. You must make the request with credentials for the
+               instance of the service that owns the custom model. Omit the parameter to
+               use the specified voice with no customization.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -307,13 +263,14 @@ class TextToSpeechV1(BaseService):
         data = {'text': text}
 
         url = '/v1/synthesize'
-        response = self.request(
+        request = self.prepare_request(
             method='POST',
             url=url,
             headers=headers,
             params=params,
-            json=data,
+            data=data,
             accept_json=False)
+        response = self.send(request)
         return response
 
     #########################
@@ -322,6 +279,7 @@ class TextToSpeechV1(BaseService):
 
     def get_pronunciation(self,
                           text,
+                          *,
                           voice=None,
                           format=None,
                           customization_id=None,
@@ -338,18 +296,20 @@ class TextToSpeechV1(BaseService):
         language](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customWords#cuWordsQueryLanguage).
 
         :param str text: The word for which the pronunciation is requested.
-        :param str voice: A voice that specifies the language in which the pronunciation
-        is to be returned. All voices for the same language (for example, `en-US`) return
-        the same translation.
-        :param str format: The phoneme format in which to return the pronunciation. Omit
-        the parameter to obtain the pronunciation in the default format.
-        :param str customization_id: The customization ID (GUID) of a custom voice model
-        for which the pronunciation is to be returned. The language of a specified custom
-        model must match the language of the specified voice. If the word is not defined
-        in the specified custom model, the service returns the default translation for the
-        custom model's language. You must make the request with credentials for the
-        instance of the service that owns the custom model. Omit the parameter to see the
-        translation for the specified voice with no customization.
+        :param str voice: (optional) A voice that specifies the language in which
+               the pronunciation is to be returned. All voices for the same language (for
+               example, `en-US`) return the same translation.
+        :param str format: (optional) The phoneme format in which to return the
+               pronunciation. Omit the parameter to obtain the pronunciation in the
+               default format.
+        :param str customization_id: (optional) The customization ID (GUID) of a
+               custom voice model for which the pronunciation is to be returned. The
+               language of a specified custom model must match the language of the
+               specified voice. If the word is not defined in the specified custom model,
+               the service returns the default translation for the custom model's
+               language. You must make the request with credentials for the instance of
+               the service that owns the custom model. Omit the parameter to see the
+               translation for the specified voice with no customization.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -373,12 +333,13 @@ class TextToSpeechV1(BaseService):
         }
 
         url = '/v1/pronunciation'
-        response = self.request(
+        request = self.prepare_request(
             method='GET',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
+        response = self.send(request)
         return response
 
     #########################
@@ -387,6 +348,7 @@ class TextToSpeechV1(BaseService):
 
     def create_voice_model(self,
                            name,
+                           *,
                            language=None,
                            description=None,
                            **kwargs):
@@ -402,10 +364,10 @@ class TextToSpeechV1(BaseService):
         model](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customModels#cuModelsCreate).
 
         :param str name: The name of the new custom voice model.
-        :param str language: The language of the new custom voice model. Omit the
-        parameter to use the the default language, `en-US`.
-        :param str description: A description of the new custom voice model. Specifying a
-        description is recommended.
+        :param str language: (optional) The language of the new custom voice model.
+               Omit the parameter to use the the default language, `en-US`.
+        :param str description: (optional) A description of the new custom voice
+               model. Specifying a description is recommended.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -424,15 +386,16 @@ class TextToSpeechV1(BaseService):
         data = {'name': name, 'language': language, 'description': description}
 
         url = '/v1/customizations'
-        response = self.request(
+        request = self.prepare_request(
             method='POST',
             url=url,
             headers=headers,
-            json=data,
+            data=data,
             accept_json=True)
+        response = self.send(request)
         return response
 
-    def list_voice_models(self, language=None, **kwargs):
+    def list_voice_models(self, *, language=None, **kwargs):
         """
         List custom models.
 
@@ -446,9 +409,9 @@ class TextToSpeechV1(BaseService):
         **See also:** [Querying all custom
         models](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customModels#cuModelsQueryAll).
 
-        :param str language: The language for which custom voice models that are owned by
-        the requesting credentials are to be returned. Omit the parameter to see all
-        custom voice models that are owned by the requester.
+        :param str language: (optional) The language for which custom voice models
+               that are owned by the requesting credentials are to be returned. Omit the
+               parameter to see all custom voice models that are owned by the requester.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -464,16 +427,18 @@ class TextToSpeechV1(BaseService):
         params = {'language': language}
 
         url = '/v1/customizations'
-        response = self.request(
+        request = self.prepare_request(
             method='GET',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
+        response = self.send(request)
         return response
 
     def update_voice_model(self,
                            customization_id,
+                           *,
                            name=None,
                            description=None,
                            words=None,
@@ -492,11 +457,11 @@ class TextToSpeechV1(BaseService):
         word. Phonetic translations are based on the SSML phoneme format for representing
         a word. You can specify them in standard International Phonetic Alphabet (IPA)
         representation
-          <code>&lt;phoneme alphabet=\"ipa\"
-        ph=\"t&#601;m&#712;&#593;to\"&gt;&lt;/phoneme&gt;</code>
+          <code>&lt;phoneme alphabet="ipa"
+        ph="t&#601;m&#712;&#593;to"&gt;&lt;/phoneme&gt;</code>
           or in the proprietary IBM Symbolic Phonetic Representation (SPR)
-          <code>&lt;phoneme alphabet=\"ibm\"
-        ph=\"1gAstroEntxrYFXs\"&gt;&lt;/phoneme&gt;</code>
+          <code>&lt;phoneme alphabet="ibm"
+        ph="1gAstroEntxrYFXs"&gt;&lt;/phoneme&gt;</code>
         **Note:** This method is currently a beta release.
         **See also:**
         * [Updating a custom
@@ -506,14 +471,16 @@ class TextToSpeechV1(BaseService):
         * [Understanding
         customization](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customIntro#customIntro).
 
-        :param str customization_id: The customization ID (GUID) of the custom voice
-        model. You must make the request with credentials for the instance of the service
-        that owns the custom model.
-        :param str name: A new name for the custom voice model.
-        :param str description: A new description for the custom voice model.
-        :param list[Word] words: An array of `Word` objects that provides the words and
-        their translations that are to be added or updated for the custom voice model.
-        Pass an empty array to make no additions or updates.
+        :param str customization_id: The customization ID (GUID) of the custom
+               voice model. You must make the request with credentials for the instance of
+               the service that owns the custom model.
+        :param str name: (optional) A new name for the custom voice model.
+        :param str description: (optional) A new description for the custom voice
+               model.
+        :param list[Word] words: (optional) An array of `Word` objects that
+               provides the words and their translations that are to be added or updated
+               for the custom voice model. Pass an empty array to make no additions or
+               updates.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -535,12 +502,13 @@ class TextToSpeechV1(BaseService):
 
         url = '/v1/customizations/{0}'.format(
             *self._encode_path_vars(customization_id))
-        response = self.request(
+        request = self.prepare_request(
             method='POST',
             url=url,
             headers=headers,
-            json=data,
+            data=data,
             accept_json=True)
+        response = self.send(request)
         return response
 
     def get_voice_model(self, customization_id, **kwargs):
@@ -555,9 +523,9 @@ class TextToSpeechV1(BaseService):
         **See also:** [Querying a custom
         model](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customModels#cuModelsQuery).
 
-        :param str customization_id: The customization ID (GUID) of the custom voice
-        model. You must make the request with credentials for the instance of the service
-        that owns the custom model.
+        :param str customization_id: The customization ID (GUID) of the custom
+               voice model. You must make the request with credentials for the instance of
+               the service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -574,8 +542,9 @@ class TextToSpeechV1(BaseService):
 
         url = '/v1/customizations/{0}'.format(
             *self._encode_path_vars(customization_id))
-        response = self.request(
+        request = self.prepare_request(
             method='GET', url=url, headers=headers, accept_json=True)
+        response = self.send(request)
         return response
 
     def delete_voice_model(self, customization_id, **kwargs):
@@ -588,9 +557,9 @@ class TextToSpeechV1(BaseService):
         **See also:** [Deleting a custom
         model](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customModels#cuModelsDelete).
 
-        :param str customization_id: The customization ID (GUID) of the custom voice
-        model. You must make the request with credentials for the instance of the service
-        that owns the custom model.
+        :param str customization_id: The customization ID (GUID) of the custom
+               voice model. You must make the request with credentials for the instance of
+               the service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -608,8 +577,9 @@ class TextToSpeechV1(BaseService):
 
         url = '/v1/customizations/{0}'.format(
             *self._encode_path_vars(customization_id))
-        response = self.request(
+        request = self.prepare_request(
             method='DELETE', url=url, headers=headers, accept_json=False)
+        response = self.send(request)
         return response
 
     #########################
@@ -630,11 +600,11 @@ class TextToSpeechV1(BaseService):
         word. Phonetic translations are based on the SSML phoneme format for representing
         a word. You can specify them in standard International Phonetic Alphabet (IPA)
         representation
-          <code>&lt;phoneme alphabet=\"ipa\"
-        ph=\"t&#601;m&#712;&#593;to\"&gt;&lt;/phoneme&gt;</code>
+          <code>&lt;phoneme alphabet="ipa"
+        ph="t&#601;m&#712;&#593;to"&gt;&lt;/phoneme&gt;</code>
           or in the proprietary IBM Symbolic Phonetic Representation (SPR)
-          <code>&lt;phoneme alphabet=\"ibm\"
-        ph=\"1gAstroEntxrYFXs\"&gt;&lt;/phoneme&gt;</code>
+          <code>&lt;phoneme alphabet="ibm"
+        ph="1gAstroEntxrYFXs"&gt;&lt;/phoneme&gt;</code>
         **Note:** This method is currently a beta release.
         **See also:**
         * [Adding multiple words to a custom
@@ -644,16 +614,17 @@ class TextToSpeechV1(BaseService):
         * [Understanding
         customization](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customIntro#customIntro).
 
-        :param str customization_id: The customization ID (GUID) of the custom voice
-        model. You must make the request with credentials for the instance of the service
-        that owns the custom model.
-        :param list[Word] words: The **Add custom words** method accepts an array of
-        `Word` objects. Each object provides a word that is to be added or updated for the
-        custom voice model and the word's translation.
-        The **List custom words** method returns an array of `Word` objects. Each object
-        shows a word and its translation from the custom voice model. The words are listed
-        in alphabetical order, with uppercase letters listed before lowercase letters. The
-        array is empty if the custom model contains no words.
+        :param str customization_id: The customization ID (GUID) of the custom
+               voice model. You must make the request with credentials for the instance of
+               the service that owns the custom model.
+        :param list[Word] words: The **Add custom words** method accepts an array
+               of `Word` objects. Each object provides a word that is to be added or
+               updated for the custom voice model and the word's translation.
+               The **List custom words** method returns an array of `Word` objects. Each
+               object shows a word and its translation from the custom voice model. The
+               words are listed in alphabetical order, with uppercase letters listed
+               before lowercase letters. The array is empty if the custom model contains
+               no words.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -675,12 +646,13 @@ class TextToSpeechV1(BaseService):
 
         url = '/v1/customizations/{0}/words'.format(
             *self._encode_path_vars(customization_id))
-        response = self.request(
+        request = self.prepare_request(
             method='POST',
             url=url,
             headers=headers,
-            json=data,
+            data=data,
             accept_json=True)
+        response = self.send(request)
         return response
 
     def list_words(self, customization_id, **kwargs):
@@ -695,9 +667,9 @@ class TextToSpeechV1(BaseService):
         **See also:** [Querying all words from a custom
         model](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customWords#cuWordsQueryModel).
 
-        :param str customization_id: The customization ID (GUID) of the custom voice
-        model. You must make the request with credentials for the instance of the service
-        that owns the custom model.
+        :param str customization_id: The customization ID (GUID) of the custom
+               voice model. You must make the request with credentials for the instance of
+               the service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -714,14 +686,16 @@ class TextToSpeechV1(BaseService):
 
         url = '/v1/customizations/{0}/words'.format(
             *self._encode_path_vars(customization_id))
-        response = self.request(
+        request = self.prepare_request(
             method='GET', url=url, headers=headers, accept_json=True)
+        response = self.send(request)
         return response
 
     def add_word(self,
                  customization_id,
                  word,
                  translation,
+                 *,
                  part_of_speech=None,
                  **kwargs):
         """
@@ -737,11 +711,11 @@ class TextToSpeechV1(BaseService):
         word. Phonetic translations are based on the SSML phoneme format for representing
         a word. You can specify them in standard International Phonetic Alphabet (IPA)
         representation
-          <code>&lt;phoneme alphabet=\"ipa\"
-        ph=\"t&#601;m&#712;&#593;to\"&gt;&lt;/phoneme&gt;</code>
+          <code>&lt;phoneme alphabet="ipa"
+        ph="t&#601;m&#712;&#593;to"&gt;&lt;/phoneme&gt;</code>
           or in the proprietary IBM Symbolic Phonetic Representation (SPR)
-          <code>&lt;phoneme alphabet=\"ibm\"
-        ph=\"1gAstroEntxrYFXs\"&gt;&lt;/phoneme&gt;</code>
+          <code>&lt;phoneme alphabet="ibm"
+        ph="1gAstroEntxrYFXs"&gt;&lt;/phoneme&gt;</code>
         **Note:** This method is currently a beta release.
         **See also:**
         * [Adding a single word to a custom
@@ -751,21 +725,23 @@ class TextToSpeechV1(BaseService):
         * [Understanding
         customization](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customIntro#customIntro).
 
-        :param str customization_id: The customization ID (GUID) of the custom voice
-        model. You must make the request with credentials for the instance of the service
-        that owns the custom model.
-        :param str word: The word that is to be added or updated for the custom voice
-        model.
-        :param str translation: The phonetic or sounds-like translation for the word. A
-        phonetic translation is based on the SSML format for representing the phonetic
-        string of a word either as an IPA translation or as an IBM SPR translation. A
-        sounds-like is one or more words that, when combined, sound like the word.
-        :param str part_of_speech: **Japanese only.** The part of speech for the word. The
-        service uses the value to produce the correct intonation for the word. You can
-        create only a single entry, with or without a single part of speech, for any word;
-        you cannot create multiple entries with different parts of speech for the same
-        word. For more information, see [Working with Japanese
-        entries](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-rules#jaNotes).
+        :param str customization_id: The customization ID (GUID) of the custom
+               voice model. You must make the request with credentials for the instance of
+               the service that owns the custom model.
+        :param str word: The word that is to be added or updated for the custom
+               voice model.
+        :param str translation: The phonetic or sounds-like translation for the
+               word. A phonetic translation is based on the SSML format for representing
+               the phonetic string of a word either as an IPA translation or as an IBM SPR
+               translation. A sounds-like is one or more words that, when combined, sound
+               like the word.
+        :param str part_of_speech: (optional) **Japanese only.** The part of speech
+               for the word. The service uses the value to produce the correct intonation
+               for the word. You can create only a single entry, with or without a single
+               part of speech, for any word; you cannot create multiple entries with
+               different parts of speech for the same word. For more information, see
+               [Working with Japanese
+               entries](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-rules#jaNotes).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -788,12 +764,13 @@ class TextToSpeechV1(BaseService):
 
         url = '/v1/customizations/{0}/words/{1}'.format(
             *self._encode_path_vars(customization_id, word))
-        response = self.request(
+        request = self.prepare_request(
             method='PUT',
             url=url,
             headers=headers,
-            json=data,
+            data=data,
             accept_json=False)
+        response = self.send(request)
         return response
 
     def get_word(self, customization_id, word, **kwargs):
@@ -807,10 +784,11 @@ class TextToSpeechV1(BaseService):
         **See also:** [Querying a single word from a custom
         model](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customWords#cuWordQueryModel).
 
-        :param str customization_id: The customization ID (GUID) of the custom voice
-        model. You must make the request with credentials for the instance of the service
-        that owns the custom model.
-        :param str word: The word that is to be queried from the custom voice model.
+        :param str customization_id: The customization ID (GUID) of the custom
+               voice model. You must make the request with credentials for the instance of
+               the service that owns the custom model.
+        :param str word: The word that is to be queried from the custom voice
+               model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -829,8 +807,9 @@ class TextToSpeechV1(BaseService):
 
         url = '/v1/customizations/{0}/words/{1}'.format(
             *self._encode_path_vars(customization_id, word))
-        response = self.request(
+        request = self.prepare_request(
             method='GET', url=url, headers=headers, accept_json=True)
+        response = self.send(request)
         return response
 
     def delete_word(self, customization_id, word, **kwargs):
@@ -843,10 +822,11 @@ class TextToSpeechV1(BaseService):
         **See also:** [Deleting a word from a custom
         model](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customWords#cuWordDelete).
 
-        :param str customization_id: The customization ID (GUID) of the custom voice
-        model. You must make the request with credentials for the instance of the service
-        that owns the custom model.
-        :param str word: The word that is to be deleted from the custom voice model.
+        :param str customization_id: The customization ID (GUID) of the custom
+               voice model. You must make the request with credentials for the instance of
+               the service that owns the custom model.
+        :param str word: The word that is to be deleted from the custom voice
+               model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -865,8 +845,9 @@ class TextToSpeechV1(BaseService):
 
         url = '/v1/customizations/{0}/words/{1}'.format(
             *self._encode_path_vars(customization_id, word))
-        response = self.request(
+        request = self.prepare_request(
             method='DELETE', url=url, headers=headers, accept_json=False)
+        response = self.send(request)
         return response
 
     #########################
@@ -887,7 +868,8 @@ class TextToSpeechV1(BaseService):
         **See also:** [Information
         security](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-information-security#information-security).
 
-        :param str customer_id: The customer ID for which all data is to be deleted.
+        :param str customer_id: The customer ID for which all data is to be
+               deleted.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -906,13 +888,173 @@ class TextToSpeechV1(BaseService):
         params = {'customer_id': customer_id}
 
         url = '/v1/user_data'
-        response = self.request(
+        request = self.prepare_request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=False)
+        response = self.send(request)
         return response
+
+
+class GetVoiceEnums(object):
+
+    class Voice(Enum):
+        """
+        The voice for which information is to be returned.
+        """
+        DE_DE_BIRGITVOICE = 'de-DE_BirgitVoice'
+        DE_DE_BIRGITV3VOICE = 'de-DE_BirgitV3Voice'
+        DE_DE_DIETERVOICE = 'de-DE_DieterVoice'
+        DE_DE_DIETERV3VOICE = 'de-DE_DieterV3Voice'
+        EN_GB_KATEVOICE = 'en-GB_KateVoice'
+        EN_GB_KATEV3VOICE = 'en-GB_KateV3Voice'
+        EN_US_ALLISONVOICE = 'en-US_AllisonVoice'
+        EN_US_ALLISONV3VOICE = 'en-US_AllisonV3Voice'
+        EN_US_LISAVOICE = 'en-US_LisaVoice'
+        EN_US_LISAV3VOICE = 'en-US_LisaV3Voice'
+        EN_US_MICHAELVOICE = 'en-US_MichaelVoice'
+        EN_US_MICHAELV3VOICE = 'en-US_MichaelV3Voice'
+        ES_ES_ENRIQUEVOICE = 'es-ES_EnriqueVoice'
+        ES_ES_ENRIQUEV3VOICE = 'es-ES_EnriqueV3Voice'
+        ES_ES_LAURAVOICE = 'es-ES_LauraVoice'
+        ES_ES_LAURAV3VOICE = 'es-ES_LauraV3Voice'
+        ES_LA_SOFIAVOICE = 'es-LA_SofiaVoice'
+        ES_LA_SOFIAV3VOICE = 'es-LA_SofiaV3Voice'
+        ES_US_SOFIAVOICE = 'es-US_SofiaVoice'
+        ES_US_SOFIAV3VOICE = 'es-US_SofiaV3Voice'
+        FR_FR_RENEEVOICE = 'fr-FR_ReneeVoice'
+        FR_FR_RENEEV3VOICE = 'fr-FR_ReneeV3Voice'
+        IT_IT_FRANCESCAVOICE = 'it-IT_FrancescaVoice'
+        IT_IT_FRANCESCAV3VOICE = 'it-IT_FrancescaV3Voice'
+        JA_JP_EMIVOICE = 'ja-JP_EmiVoice'
+        JA_JP_EMIV3VOICE = 'ja-JP_EmiV3Voice'
+        PT_BR_ISABELAVOICE = 'pt-BR_IsabelaVoice'
+        PT_BR_ISABELAV3VOICE = 'pt-BR_IsabelaV3Voice'
+
+
+class SynthesizeEnums(object):
+
+    class Accept(Enum):
+        """
+        The requested format (MIME type) of the audio. You can use the `Accept` header or
+        the `accept` parameter to specify the audio format. For more information about
+        specifying an audio format, see **Audio formats (accept types)** in the method
+        description.
+        """
+        AUDIO_BASIC = 'audio/basic'
+        AUDIO_FLAC = 'audio/flac'
+        AUDIO_L16 = 'audio/l16'
+        AUDIO_OGG = 'audio/ogg'
+        AUDIO_OGG_CODECS_OPUS = 'audio/ogg;codecs=opus'
+        AUDIO_OGG_CODECS_VORBIS = 'audio/ogg;codecs=vorbis'
+        AUDIO_MP3 = 'audio/mp3'
+        AUDIO_MPEG = 'audio/mpeg'
+        AUDIO_MULAW = 'audio/mulaw'
+        AUDIO_WAV = 'audio/wav'
+        AUDIO_WEBM = 'audio/webm'
+        AUDIO_WEBM_CODECS_OPUS = 'audio/webm;codecs=opus'
+        AUDIO_WEBM_CODECS_VORBIS = 'audio/webm;codecs=vorbis'
+
+    class Voice(Enum):
+        """
+        The voice to use for synthesis.
+        """
+        DE_DE_BIRGITVOICE = 'de-DE_BirgitVoice'
+        DE_DE_BIRGITV3VOICE = 'de-DE_BirgitV3Voice'
+        DE_DE_DIETERVOICE = 'de-DE_DieterVoice'
+        DE_DE_DIETERV3VOICE = 'de-DE_DieterV3Voice'
+        EN_GB_KATEVOICE = 'en-GB_KateVoice'
+        EN_GB_KATEV3VOICE = 'en-GB_KateV3Voice'
+        EN_US_ALLISONVOICE = 'en-US_AllisonVoice'
+        EN_US_ALLISONV3VOICE = 'en-US_AllisonV3Voice'
+        EN_US_LISAVOICE = 'en-US_LisaVoice'
+        EN_US_LISAV3VOICE = 'en-US_LisaV3Voice'
+        EN_US_MICHAELVOICE = 'en-US_MichaelVoice'
+        EN_US_MICHAELV3VOICE = 'en-US_MichaelV3Voice'
+        ES_ES_ENRIQUEVOICE = 'es-ES_EnriqueVoice'
+        ES_ES_ENRIQUEV3VOICE = 'es-ES_EnriqueV3Voice'
+        ES_ES_LAURAVOICE = 'es-ES_LauraVoice'
+        ES_ES_LAURAV3VOICE = 'es-ES_LauraV3Voice'
+        ES_LA_SOFIAVOICE = 'es-LA_SofiaVoice'
+        ES_LA_SOFIAV3VOICE = 'es-LA_SofiaV3Voice'
+        ES_US_SOFIAVOICE = 'es-US_SofiaVoice'
+        ES_US_SOFIAV3VOICE = 'es-US_SofiaV3Voice'
+        FR_FR_RENEEVOICE = 'fr-FR_ReneeVoice'
+        FR_FR_RENEEV3VOICE = 'fr-FR_ReneeV3Voice'
+        IT_IT_FRANCESCAVOICE = 'it-IT_FrancescaVoice'
+        IT_IT_FRANCESCAV3VOICE = 'it-IT_FrancescaV3Voice'
+        JA_JP_EMIVOICE = 'ja-JP_EmiVoice'
+        JA_JP_EMIV3VOICE = 'ja-JP_EmiV3Voice'
+        PT_BR_ISABELAVOICE = 'pt-BR_IsabelaVoice'
+        PT_BR_ISABELAV3VOICE = 'pt-BR_IsabelaV3Voice'
+
+
+class GetPronunciationEnums(object):
+
+    class Voice(Enum):
+        """
+        A voice that specifies the language in which the pronunciation is to be returned.
+        All voices for the same language (for example, `en-US`) return the same
+        translation.
+        """
+        DE_DE_BIRGITVOICE = 'de-DE_BirgitVoice'
+        DE_DE_BIRGITV3VOICE = 'de-DE_BirgitV3Voice'
+        DE_DE_DIETERVOICE = 'de-DE_DieterVoice'
+        DE_DE_DIETERV3VOICE = 'de-DE_DieterV3Voice'
+        EN_GB_KATEVOICE = 'en-GB_KateVoice'
+        EN_GB_KATEV3VOICE = 'en-GB_KateV3Voice'
+        EN_US_ALLISONVOICE = 'en-US_AllisonVoice'
+        EN_US_ALLISONV3VOICE = 'en-US_AllisonV3Voice'
+        EN_US_LISAVOICE = 'en-US_LisaVoice'
+        EN_US_LISAV3VOICE = 'en-US_LisaV3Voice'
+        EN_US_MICHAELVOICE = 'en-US_MichaelVoice'
+        EN_US_MICHAELV3VOICE = 'en-US_MichaelV3Voice'
+        ES_ES_ENRIQUEVOICE = 'es-ES_EnriqueVoice'
+        ES_ES_ENRIQUEV3VOICE = 'es-ES_EnriqueV3Voice'
+        ES_ES_LAURAVOICE = 'es-ES_LauraVoice'
+        ES_ES_LAURAV3VOICE = 'es-ES_LauraV3Voice'
+        ES_LA_SOFIAVOICE = 'es-LA_SofiaVoice'
+        ES_LA_SOFIAV3VOICE = 'es-LA_SofiaV3Voice'
+        ES_US_SOFIAVOICE = 'es-US_SofiaVoice'
+        ES_US_SOFIAV3VOICE = 'es-US_SofiaV3Voice'
+        FR_FR_RENEEVOICE = 'fr-FR_ReneeVoice'
+        FR_FR_RENEEV3VOICE = 'fr-FR_ReneeV3Voice'
+        IT_IT_FRANCESCAVOICE = 'it-IT_FrancescaVoice'
+        IT_IT_FRANCESCAV3VOICE = 'it-IT_FrancescaV3Voice'
+        JA_JP_EMIVOICE = 'ja-JP_EmiVoice'
+        JA_JP_EMIV3VOICE = 'ja-JP_EmiV3Voice'
+        PT_BR_ISABELAVOICE = 'pt-BR_IsabelaVoice'
+        PT_BR_ISABELAV3VOICE = 'pt-BR_IsabelaV3Voice'
+
+    class Format(Enum):
+        """
+        The phoneme format in which to return the pronunciation. Omit the parameter to
+        obtain the pronunciation in the default format.
+        """
+        IBM = 'ibm'
+        IPA = 'ipa'
+
+
+class ListVoiceModelsEnums(object):
+
+    class Language(Enum):
+        """
+        The language for which custom voice models that are owned by the requesting
+        credentials are to be returned. Omit the parameter to see all custom voice models
+        that are owned by the requester.
+        """
+        DE_DE = 'de-DE'
+        EN_GB = 'en-GB'
+        EN_US = 'en-US'
+        ES_ES = 'es-ES'
+        ES_LA = 'es-LA'
+        ES_US = 'es-US'
+        FR_FR = 'fr-FR'
+        IT_IT = 'it-IT'
+        JA_JP = 'ja-JP'
+        PT_BR = 'pt-BR'
 
 
 ##############################################################################
@@ -924,18 +1066,18 @@ class Pronunciation(object):
     """
     The pronunciation of the specified text.
 
-    :attr str pronunciation: The pronunciation of the specified text in the requested
-    voice and format. If a custom voice model is specified, the pronunciation also
-    reflects that custom voice.
+    :attr str pronunciation: The pronunciation of the specified text in the
+          requested voice and format. If a custom voice model is specified, the
+          pronunciation also reflects that custom voice.
     """
 
     def __init__(self, pronunciation):
         """
         Initialize a Pronunciation object.
 
-        :param str pronunciation: The pronunciation of the specified text in the requested
-        voice and format. If a custom voice model is specified, the pronunciation also
-        reflects that custom voice.
+        :param str pronunciation: The pronunciation of the specified text in the
+               requested voice and format. If a custom voice model is specified, the
+               pronunciation also reflects that custom voice.
         """
         self.pronunciation = pronunciation
 
@@ -983,22 +1125,22 @@ class SupportedFeatures(object):
     """
     Additional service features that are supported with the voice.
 
-    :attr bool custom_pronunciation: If `true`, the voice can be customized; if `false`,
-    the voice cannot be customized. (Same as `customizable`.).
-    :attr bool voice_transformation: If `true`, the voice can be transformed by using the
-    SSML &lt;voice-transformation&gt; element; if `false`, the voice cannot be
-    transformed.
+    :attr bool custom_pronunciation: If `true`, the voice can be customized; if
+          `false`, the voice cannot be customized. (Same as `customizable`.).
+    :attr bool voice_transformation: If `true`, the voice can be transformed by
+          using the SSML &lt;voice-transformation&gt; element; if `false`, the voice
+          cannot be transformed.
     """
 
     def __init__(self, custom_pronunciation, voice_transformation):
         """
         Initialize a SupportedFeatures object.
 
-        :param bool custom_pronunciation: If `true`, the voice can be customized; if
-        `false`, the voice cannot be customized. (Same as `customizable`.).
-        :param bool voice_transformation: If `true`, the voice can be transformed by using
-        the SSML &lt;voice-transformation&gt; element; if `false`, the voice cannot be
-        transformed.
+        :param bool custom_pronunciation: If `true`, the voice can be customized;
+               if `false`, the voice cannot be customized. (Same as `customizable`.).
+        :param bool voice_transformation: If `true`, the voice can be transformed
+               by using the SSML &lt;voice-transformation&gt; element; if `false`, the
+               voice cannot be transformed.
         """
         self.custom_pronunciation = custom_pronunciation
         self.voice_transformation = voice_transformation
@@ -1058,31 +1200,33 @@ class Translation(object):
     Information about the translation for the specified text.
 
     :attr str translation: The phonetic or sounds-like translation for the word. A
-    phonetic translation is based on the SSML format for representing the phonetic string
-    of a word either as an IPA translation or as an IBM SPR translation. A sounds-like is
-    one or more words that, when combined, sound like the word.
-    :attr str part_of_speech: (optional) **Japanese only.** The part of speech for the
-    word. The service uses the value to produce the correct intonation for the word. You
-    can create only a single entry, with or without a single part of speech, for any word;
-    you cannot create multiple entries with different parts of speech for the same word.
-    For more information, see [Working with Japanese
-    entries](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-rules#jaNotes).
+          phonetic translation is based on the SSML format for representing the phonetic
+          string of a word either as an IPA translation or as an IBM SPR translation. A
+          sounds-like is one or more words that, when combined, sound like the word.
+    :attr str part_of_speech: (optional) **Japanese only.** The part of speech for
+          the word. The service uses the value to produce the correct intonation for the
+          word. You can create only a single entry, with or without a single part of
+          speech, for any word; you cannot create multiple entries with different parts of
+          speech for the same word. For more information, see [Working with Japanese
+          entries](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-rules#jaNotes).
     """
 
-    def __init__(self, translation, part_of_speech=None):
+    def __init__(self, translation, *, part_of_speech=None):
         """
         Initialize a Translation object.
 
-        :param str translation: The phonetic or sounds-like translation for the word. A
-        phonetic translation is based on the SSML format for representing the phonetic
-        string of a word either as an IPA translation or as an IBM SPR translation. A
-        sounds-like is one or more words that, when combined, sound like the word.
-        :param str part_of_speech: (optional) **Japanese only.** The part of speech for
-        the word. The service uses the value to produce the correct intonation for the
-        word. You can create only a single entry, with or without a single part of speech,
-        for any word; you cannot create multiple entries with different parts of speech
-        for the same word. For more information, see [Working with Japanese
-        entries](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-rules#jaNotes).
+        :param str translation: The phonetic or sounds-like translation for the
+               word. A phonetic translation is based on the SSML format for representing
+               the phonetic string of a word either as an IPA translation or as an IBM SPR
+               translation. A sounds-like is one or more words that, when combined, sound
+               like the word.
+        :param str part_of_speech: (optional) **Japanese only.** The part of speech
+               for the word. The service uses the value to produce the correct intonation
+               for the word. You can create only a single entry, with or without a single
+               part of speech, for any word; you cannot create multiple entries with
+               different parts of speech for the same word. For more information, see
+               [Working with Japanese
+               entries](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-rules#jaNotes).
         """
         self.translation = translation
         self.part_of_speech = part_of_speech
@@ -1130,6 +1274,33 @@ class Translation(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class PartOfSpeechEnum(Enum):
+        """
+        **Japanese only.** The part of speech for the word. The service uses the value to
+        produce the correct intonation for the word. You can create only a single entry,
+        with or without a single part of speech, for any word; you cannot create multiple
+        entries with different parts of speech for the same word. For more information,
+        see [Working with Japanese
+        entries](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-rules#jaNotes).
+        """
+        DOSI = "Dosi"
+        FUKU = "Fuku"
+        GOBI = "Gobi"
+        HOKA = "Hoka"
+        JODO = "Jodo"
+        JOSI = "Josi"
+        KATO = "Kato"
+        KEDO = "Kedo"
+        KEYO = "Keyo"
+        KIGO = "Kigo"
+        KOYU = "Koyu"
+        MESI = "Mesi"
+        RETA = "Reta"
+        STBI = "Stbi"
+        STTO = "Stto"
+        STZO = "Stzo"
+        SUJI = "Suji"
+
 
 class Voice(object):
     """
@@ -1138,17 +1309,17 @@ class Voice(object):
     :attr str url: The URI of the voice.
     :attr str gender: The gender of the voice: `male` or `female`.
     :attr str name: The name of the voice. Use this as the voice identifier in all
-    requests.
+          requests.
     :attr str language: The language and region of the voice (for example, `en-US`).
     :attr str description: A textual description of the voice.
-    :attr bool customizable: If `true`, the voice can be customized; if `false`, the voice
-    cannot be customized. (Same as `custom_pronunciation`; maintained for backward
-    compatibility.).
+    :attr bool customizable: If `true`, the voice can be customized; if `false`, the
+          voice cannot be customized. (Same as `custom_pronunciation`; maintained for
+          backward compatibility.).
     :attr SupportedFeatures supported_features: Additional service features that are
-    supported with the voice.
+          supported with the voice.
     :attr VoiceModel customization: (optional) Returns information about a specified
-    custom voice model. This field is returned only by the **Get a voice** method and only
-    when you specify the customization ID of a custom voice model.
+          custom voice model. This field is returned only by the **Get a voice** method
+          and only when you specify the customization ID of a custom voice model.
     """
 
     def __init__(self,
@@ -1159,24 +1330,27 @@ class Voice(object):
                  description,
                  customizable,
                  supported_features,
+                 *,
                  customization=None):
         """
         Initialize a Voice object.
 
         :param str url: The URI of the voice.
         :param str gender: The gender of the voice: `male` or `female`.
-        :param str name: The name of the voice. Use this as the voice identifier in all
-        requests.
-        :param str language: The language and region of the voice (for example, `en-US`).
+        :param str name: The name of the voice. Use this as the voice identifier in
+               all requests.
+        :param str language: The language and region of the voice (for example,
+               `en-US`).
         :param str description: A textual description of the voice.
-        :param bool customizable: If `true`, the voice can be customized; if `false`, the
-        voice cannot be customized. (Same as `custom_pronunciation`; maintained for
-        backward compatibility.).
-        :param SupportedFeatures supported_features: Additional service features that are
-        supported with the voice.
-        :param VoiceModel customization: (optional) Returns information about a specified
-        custom voice model. This field is returned only by the **Get a voice** method and
-        only when you specify the customization ID of a custom voice model.
+        :param bool customizable: If `true`, the voice can be customized; if
+               `false`, the voice cannot be customized. (Same as `custom_pronunciation`;
+               maintained for backward compatibility.).
+        :param SupportedFeatures supported_features: Additional service features
+               that are supported with the voice.
+        :param VoiceModel customization: (optional) Returns information about a
+               specified custom voice model. This field is returned only by the **Get a
+               voice** method and only when you specify the customization ID of a custom
+               voice model.
         """
         self.url = url
         self.gender = gender
@@ -1284,31 +1458,34 @@ class VoiceModel(object):
     """
     Information about an existing custom voice model.
 
-    :attr str customization_id: The customization ID (GUID) of the custom voice model. The
-    **Create a custom model** method returns only this field. It does not not return the
-    other fields of this object.
+    :attr str customization_id: The customization ID (GUID) of the custom voice
+          model. The **Create a custom model** method returns only this field. It does not
+          not return the other fields of this object.
     :attr str name: (optional) The name of the custom voice model.
-    :attr str language: (optional) The language identifier of the custom voice model (for
-    example, `en-US`).
+    :attr str language: (optional) The language identifier of the custom voice model
+          (for example, `en-US`).
     :attr str owner: (optional) The GUID of the credentials for the instance of the
-    service that owns the custom voice model.
-    :attr str created: (optional) The date and time in Coordinated Universal Time (UTC) at
-    which the custom voice model was created. The value is provided in full ISO 8601
-    format (`YYYY-MM-DDThh:mm:ss.sTZD`).
-    :attr str last_modified: (optional) The date and time in Coordinated Universal Time
-    (UTC) at which the custom voice model was last modified. The `created` and `updated`
-    fields are equal when a voice model is first added but has yet to be updated. The
-    value is provided in full ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`).
+          service that owns the custom voice model.
+    :attr str created: (optional) The date and time in Coordinated Universal Time
+          (UTC) at which the custom voice model was created. The value is provided in full
+          ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`).
+    :attr str last_modified: (optional) The date and time in Coordinated Universal
+          Time (UTC) at which the custom voice model was last modified. The `created` and
+          `updated` fields are equal when a voice model is first added but has yet to be
+          updated. The value is provided in full ISO 8601 format
+          (`YYYY-MM-DDThh:mm:ss.sTZD`).
     :attr str description: (optional) The description of the custom voice model.
-    :attr list[Word] words: (optional) An array of `Word` objects that lists the words and
-    their translations from the custom voice model. The words are listed in alphabetical
-    order, with uppercase letters listed before lowercase letters. The array is empty if
-    the custom model contains no words. This field is returned only by the **Get a voice**
-    method and only when you specify the customization ID of a custom voice model.
+    :attr list[Word] words: (optional) An array of `Word` objects that lists the
+          words and their translations from the custom voice model. The words are listed
+          in alphabetical order, with uppercase letters listed before lowercase letters.
+          The array is empty if the custom model contains no words. This field is returned
+          only by the **Get a voice** method and only when you specify the customization
+          ID of a custom voice model.
     """
 
     def __init__(self,
                  customization_id,
+                 *,
                  name=None,
                  language=None,
                  owner=None,
@@ -1319,29 +1496,30 @@ class VoiceModel(object):
         """
         Initialize a VoiceModel object.
 
-        :param str customization_id: The customization ID (GUID) of the custom voice
-        model. The **Create a custom model** method returns only this field. It does not
-        not return the other fields of this object.
+        :param str customization_id: The customization ID (GUID) of the custom
+               voice model. The **Create a custom model** method returns only this field.
+               It does not not return the other fields of this object.
         :param str name: (optional) The name of the custom voice model.
-        :param str language: (optional) The language identifier of the custom voice model
-        (for example, `en-US`).
-        :param str owner: (optional) The GUID of the credentials for the instance of the
-        service that owns the custom voice model.
-        :param str created: (optional) The date and time in Coordinated Universal Time
-        (UTC) at which the custom voice model was created. The value is provided in full
-        ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`).
-        :param str last_modified: (optional) The date and time in Coordinated Universal
-        Time (UTC) at which the custom voice model was last modified. The `created` and
-        `updated` fields are equal when a voice model is first added but has yet to be
-        updated. The value is provided in full ISO 8601 format
-        (`YYYY-MM-DDThh:mm:ss.sTZD`).
-        :param str description: (optional) The description of the custom voice model.
-        :param list[Word] words: (optional) An array of `Word` objects that lists the
-        words and their translations from the custom voice model. The words are listed in
-        alphabetical order, with uppercase letters listed before lowercase letters. The
-        array is empty if the custom model contains no words. This field is returned only
-        by the **Get a voice** method and only when you specify the customization ID of a
-        custom voice model.
+        :param str language: (optional) The language identifier of the custom voice
+               model (for example, `en-US`).
+        :param str owner: (optional) The GUID of the credentials for the instance
+               of the service that owns the custom voice model.
+        :param str created: (optional) The date and time in Coordinated Universal
+               Time (UTC) at which the custom voice model was created. The value is
+               provided in full ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`).
+        :param str last_modified: (optional) The date and time in Coordinated
+               Universal Time (UTC) at which the custom voice model was last modified. The
+               `created` and `updated` fields are equal when a voice model is first added
+               but has yet to be updated. The value is provided in full ISO 8601 format
+               (`YYYY-MM-DDThh:mm:ss.sTZD`).
+        :param str description: (optional) The description of the custom voice
+               model.
+        :param list[Word] words: (optional) An array of `Word` objects that lists
+               the words and their translations from the custom voice model. The words are
+               listed in alphabetical order, with uppercase letters listed before
+               lowercase letters. The array is empty if the custom model contains no
+               words. This field is returned only by the **Get a voice** method and only
+               when you specify the customization ID of a custom voice model.
         """
         self.customization_id = customization_id
         self.name = name
@@ -1428,20 +1606,21 @@ class VoiceModels(object):
     """
     Information about existing custom voice models.
 
-    :attr list[VoiceModel] customizations: An array of `VoiceModel` objects that provides
-    information about each available custom voice model. The array is empty if the
-    requesting credentials own no custom voice models (if no language is specified) or own
-    no custom voice models for the specified language.
+    :attr list[VoiceModel] customizations: An array of `VoiceModel` objects that
+          provides information about each available custom voice model. The array is empty
+          if the requesting credentials own no custom voice models (if no language is
+          specified) or own no custom voice models for the specified language.
     """
 
     def __init__(self, customizations):
         """
         Initialize a VoiceModels object.
 
-        :param list[VoiceModel] customizations: An array of `VoiceModel` objects that
-        provides information about each available custom voice model. The array is empty
-        if the requesting credentials own no custom voice models (if no language is
-        specified) or own no custom voice models for the specified language.
+        :param list[VoiceModel] customizations: An array of `VoiceModel` objects
+               that provides information about each available custom voice model. The
+               array is empty if the requesting credentials own no custom voice models (if
+               no language is specified) or own no custom voice models for the specified
+               language.
         """
         self.customizations = customizations
 
@@ -1551,33 +1730,35 @@ class Word(object):
 
     :attr str word: The word for the custom voice model.
     :attr str translation: The phonetic or sounds-like translation for the word. A
-    phonetic translation is based on the SSML format for representing the phonetic string
-    of a word either as an IPA or IBM SPR translation. A sounds-like translation consists
-    of one or more words that, when combined, sound like the word.
-    :attr str part_of_speech: (optional) **Japanese only.** The part of speech for the
-    word. The service uses the value to produce the correct intonation for the word. You
-    can create only a single entry, with or without a single part of speech, for any word;
-    you cannot create multiple entries with different parts of speech for the same word.
-    For more information, see [Working with Japanese
-    entries](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-rules#jaNotes).
+          phonetic translation is based on the SSML format for representing the phonetic
+          string of a word either as an IPA or IBM SPR translation. A sounds-like
+          translation consists of one or more words that, when combined, sound like the
+          word.
+    :attr str part_of_speech: (optional) **Japanese only.** The part of speech for
+          the word. The service uses the value to produce the correct intonation for the
+          word. You can create only a single entry, with or without a single part of
+          speech, for any word; you cannot create multiple entries with different parts of
+          speech for the same word. For more information, see [Working with Japanese
+          entries](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-rules#jaNotes).
     """
 
-    def __init__(self, word, translation, part_of_speech=None):
+    def __init__(self, word, translation, *, part_of_speech=None):
         """
         Initialize a Word object.
 
         :param str word: The word for the custom voice model.
-        :param str translation: The phonetic or sounds-like translation for the word. A
-        phonetic translation is based on the SSML format for representing the phonetic
-        string of a word either as an IPA or IBM SPR translation. A sounds-like
-        translation consists of one or more words that, when combined, sound like the
-        word.
-        :param str part_of_speech: (optional) **Japanese only.** The part of speech for
-        the word. The service uses the value to produce the correct intonation for the
-        word. You can create only a single entry, with or without a single part of speech,
-        for any word; you cannot create multiple entries with different parts of speech
-        for the same word. For more information, see [Working with Japanese
-        entries](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-rules#jaNotes).
+        :param str translation: The phonetic or sounds-like translation for the
+               word. A phonetic translation is based on the SSML format for representing
+               the phonetic string of a word either as an IPA or IBM SPR translation. A
+               sounds-like translation consists of one or more words that, when combined,
+               sound like the word.
+        :param str part_of_speech: (optional) **Japanese only.** The part of speech
+               for the word. The service uses the value to produce the correct intonation
+               for the word. You can create only a single entry, with or without a single
+               part of speech, for any word; you cannot create multiple entries with
+               different parts of speech for the same word. For more information, see
+               [Working with Japanese
+               entries](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-rules#jaNotes).
         """
         self.word = word
         self.translation = translation
@@ -1632,6 +1813,33 @@ class Word(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class PartOfSpeechEnum(Enum):
+        """
+        **Japanese only.** The part of speech for the word. The service uses the value to
+        produce the correct intonation for the word. You can create only a single entry,
+        with or without a single part of speech, for any word; you cannot create multiple
+        entries with different parts of speech for the same word. For more information,
+        see [Working with Japanese
+        entries](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-rules#jaNotes).
+        """
+        DOSI = "Dosi"
+        FUKU = "Fuku"
+        GOBI = "Gobi"
+        HOKA = "Hoka"
+        JODO = "Jodo"
+        JOSI = "Josi"
+        KATO = "Kato"
+        KEDO = "Kedo"
+        KEYO = "Keyo"
+        KIGO = "Kigo"
+        KOYU = "Koyu"
+        MESI = "Mesi"
+        RETA = "Reta"
+        STBI = "Stbi"
+        STTO = "Stto"
+        STZO = "Stzo"
+        SUJI = "Suji"
+
 
 class Words(object):
     """
@@ -1640,26 +1848,27 @@ class Words(object):
     For the **List custom words** method, the words and their translations from the custom
     voice model.
 
-    :attr list[Word] words: The **Add custom words** method accepts an array of `Word`
-    objects. Each object provides a word that is to be added or updated for the custom
-    voice model and the word's translation.
-    The **List custom words** method returns an array of `Word` objects. Each object shows
-    a word and its translation from the custom voice model. The words are listed in
-    alphabetical order, with uppercase letters listed before lowercase letters. The array
-    is empty if the custom model contains no words.
+    :attr list[Word] words: The **Add custom words** method accepts an array of
+          `Word` objects. Each object provides a word that is to be added or updated for
+          the custom voice model and the word's translation.
+          The **List custom words** method returns an array of `Word` objects. Each object
+          shows a word and its translation from the custom voice model. The words are
+          listed in alphabetical order, with uppercase letters listed before lowercase
+          letters. The array is empty if the custom model contains no words.
     """
 
     def __init__(self, words):
         """
         Initialize a Words object.
 
-        :param list[Word] words: The **Add custom words** method accepts an array of
-        `Word` objects. Each object provides a word that is to be added or updated for the
-        custom voice model and the word's translation.
-        The **List custom words** method returns an array of `Word` objects. Each object
-        shows a word and its translation from the custom voice model. The words are listed
-        in alphabetical order, with uppercase letters listed before lowercase letters. The
-        array is empty if the custom model contains no words.
+        :param list[Word] words: The **Add custom words** method accepts an array
+               of `Word` objects. Each object provides a word that is to be added or
+               updated for the custom voice model and the word's translation.
+               The **List custom words** method returns an array of `Word` objects. Each
+               object shows a word and its translation from the custom voice model. The
+               words are listed in alphabetical order, with uppercase letters listed
+               before lowercase letters. The array is empty if the custom model contains
+               no words.
         """
         self.words = words
 
