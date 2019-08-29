@@ -41,9 +41,6 @@ class Discoveryv1(TestCase):
 
     def test_configurations(self):
         configs = self.discovery.list_configurations(self.environment_id).get_result()
-
-        self.discovery.delete_configuration(self.environment_id,'26506c92-31db-411c-87b3-68b987781f4a')
-        self.discovery.delete_configuration(self.environment_id,'bfb6230c-3b4c-4b9f-82bd-237fabb78124')
         assert configs is not None
 
         name = 'test' + random.choice('ABCDEFGHIJKLMNOPQ')
