@@ -16,11 +16,7 @@
 
 from ibm_watson.websocket import RecognizeCallback, RecognizeListener, AudioSource
 from .speech_to_text_v1 import SpeechToTextV1
-import base64
-try:
-    from urllib.parse import urlencode
-except ImportError:
-    from urllib import urlencode
+from urllib.parse import urlencode
 
 BEARER = 'Bearer'
 
