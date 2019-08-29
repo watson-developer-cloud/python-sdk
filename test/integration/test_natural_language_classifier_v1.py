@@ -21,8 +21,8 @@ class TestNaturalLanguageClassifierV1(TestCase):
         with open(os.path.join(os.path.dirname(__file__), '../../resources/weather_data_train.csv'), 'rb') as training_data:
             metadata = json.dumps({'name': 'my-classifier', 'language': 'en'})
             classifier = self.natural_language_classifier.create_classifier(
-                metadata=metadata,
-                training_data=training_data
+                training_data=training_data,
+                training_metadata=metadata,
             ).get_result()
             self.classifier_id = classifier['classifier_id']
 
