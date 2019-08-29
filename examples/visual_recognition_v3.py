@@ -1,4 +1,3 @@
-from __future__ import print_function
 import json
 from os.path import abspath
 from ibm_watson import VisualRecognitionV3, ApiException

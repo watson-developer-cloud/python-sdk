@@ -1,4 +1,3 @@
-from __future__ import print_function
 import json
 import os
 from dotenv import load_dotenv, find_dotenv

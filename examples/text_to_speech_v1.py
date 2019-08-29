@@ -1,5 +1,4 @@
 # coding=utf-8
-from __future__ import print_function
 import json
 from os.path import join, dirname
 from ibm_watson import TextToSpeechV1

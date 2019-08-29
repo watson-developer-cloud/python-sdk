@@ -1,4 +1,3 @@
-from __future__ import print_function
 from unittest import TestCase
 import os
 from ibm_watson.websocket import RecognizeCallback, AudioSource
