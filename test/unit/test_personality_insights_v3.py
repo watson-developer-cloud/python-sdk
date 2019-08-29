@@ -4,14 +4,14 @@ import ibm_watson
 import os
 import codecs
 from ibm_watson.personality_insights_v3 import Profile
+from ibm_cloud_sdk_core.authenticators import BasicAuthenticator
 
 profile_url = 'https://gateway.watsonplatform.net/personality-insights/api/v3/profile'
 
 @responses.activate
 def test_plain_to_json():
-
-    personality_insights = ibm_watson.PersonalityInsightsV3(
-        '2016-10-20', username="username", password="password")
+    authenticator = BasicAuthenticator('username', 'password')
+    personality_insights = ibm_watson.PersonalityInsightsV3('2016-10-20', authenticator=authenticator)
 
     with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3-expect1.txt')) as expect_file:
         profile_response = expect_file.read()
@@ -33,8 +33,8 @@ def test_plain_to_json():
 @responses.activate
 def test_json_to_json():
 
-    personality_insights = ibm_watson.PersonalityInsightsV3(
-        '2016-10-20', username="username", password="password")
+    authenticator = BasicAuthenticator('username', 'password')
+    personality_insights = ibm_watson.PersonalityInsightsV3('2016-10-20', authenticator=authenticator)
 
     with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3-expect2.txt')) as expect_file:
         profile_response = expect_file.read()
@@ -61,8 +61,8 @@ def test_json_to_json():
 @responses.activate
 def test_json_to_csv():
 
-    personality_insights = ibm_watson.PersonalityInsightsV3(
-        '2016-10-20', username="username", password="password")
+    authenticator = BasicAuthenticator('username', 'password')
+    personality_insights = ibm_watson.PersonalityInsightsV3('2016-10-20', authenticator=authenticator)
 
     with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3-expect3.txt')) as expect_file:
         profile_response = expect_file.read()
@@ -91,8 +91,8 @@ def test_json_to_csv():
 @responses.activate
 def test_plain_to_json_es():
 
-    personality_insights = ibm_watson.PersonalityInsightsV3(
-        '2016-10-20', username="username", password="password")
+    authenticator = BasicAuthenticator('username', 'password')
+    personality_insights = ibm_watson.PersonalityInsightsV3('2016-10-20', authenticator=authenticator)
 
     with codecs.open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3-expect4.txt'), \
             encoding='utf-8') as expect_file:
