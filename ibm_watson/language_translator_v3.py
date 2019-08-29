@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# Copyright 2018 IBM All Rights Reserved.
+# (C) Copyright IBM Corp. 2019.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,12 +21,12 @@ globe and present it in your language, communicate with your customers in their 
 language, and more.
 """
 
-from __future__ import absolute_import
-
 import json
 from .common import get_sdk_headers
+from enum import Enum
 from ibm_cloud_sdk_core import BaseService
 from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
+from ibm_cloud_sdk_core import get_authenticator_from_environment
 from os.path import basename
 
 ##############################################################################
@@ -43,16 +43,8 @@ class LanguageTranslatorV3(BaseService):
             self,
             version,
             url=default_url,
-            username=None,
-            password=None,
-            iam_apikey=None,
-            iam_access_token=None,
-            iam_url=None,
-            iam_client_id=None,
-            iam_client_secret=None,
-            icp4d_access_token=None,
-            icp4d_url=None,
-            authentication_type=None,
+            authenticator=None,
+            disable_ssl_verification=False,
     ):
         """
         Construct a new client for the Language Translator service.
@@ -72,81 +64,46 @@ class LanguageTranslatorV3(BaseService):
                "https://gateway.watsonplatform.net/language-translator/api/language-translator/api").
                The base url may differ between IBM Cloud regions.
 
-        :param str username: The username used to authenticate with the service.
-               Username and password credentials are only required to run your
-               application locally or outside of IBM Cloud. When running on
-               IBM Cloud, the credentials will be automatically loaded from the
-               `VCAP_SERVICES` environment variable.
-
-        :param str password: The password used to authenticate with the service.
-               Username and password credentials are only required to run your
-               application locally or outside of IBM Cloud. When running on
-               IBM Cloud, the credentials will be automatically loaded from the
-               `VCAP_SERVICES` environment variable.
-
-        :param str iam_apikey: An API key that can be used to request IAM tokens. If
-               this API key is provided, the SDK will manage the token and handle the
-               refreshing.
-
-        :param str iam_access_token:  An IAM access token is fully managed by the application.
-               Responsibility falls on the application to refresh the token, either before
-               it expires or reactively upon receiving a 401 from the service as any requests
-               made with an expired token will fail.
-
-        :param str iam_url: An optional URL for the IAM service API. Defaults to
-               'https://iam.cloud.ibm.com/identity/token'.
-
-        :param str iam_client_id: An optional client_id value to use when interacting with the IAM service.
-
-        :param str iam_client_secret: An optional client_secret value to use when interacting with the IAM service.
-
-        :param str icp4d_access_token:  A ICP4D(IBM Cloud Pak for Data) access token is
-               fully managed by the application. Responsibility falls on the application to
-               refresh the token, either before it expires or reactively upon receiving a 401
-               from the service as any requests made with an expired token will fail.
-
-        :param str icp4d_url: In order to use an SDK-managed token with ICP4D authentication, this
-               URL must be passed in.
-
-        :param str authentication_type: Specifies the authentication pattern to use. Values that it
-               takes are basic, iam or icp4d.
+        :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
+               Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
+               about initializing the authenticator of your choice.
+        :param bool disable_ssl_verification: If True, disables ssl verification
         """
+
+        if not authenticator:
+            authenticator = get_authenticator_from_environment(
+                'Language Translator')
 
         BaseService.__init__(
             self,
-            vcap_services_name='language_translator',
             url=url,
-            username=username,
-            password=password,
-            iam_apikey=iam_apikey,
-            iam_access_token=iam_access_token,
-            iam_url=iam_url,
-            iam_client_id=iam_client_id,
-            iam_client_secret=iam_client_secret,
-            use_vcap_services=True,
-            display_name='Language Translator',
-            icp4d_access_token=icp4d_access_token,
-            icp4d_url=icp4d_url,
-            authentication_type=authentication_type)
+            authenticator=authenticator,
+            disable_ssl_verification=disable_ssl_verification,
+            display_name='Language Translator')
         self.version = version
 
     #########################
     # Translation
     #########################
 
-    def translate(self, text, model_id=None, source=None, target=None,
+    def translate(self,
+                  text,
+                  *,
+                  model_id=None,
+                  source=None,
+                  target=None,
                   **kwargs):
         """
         Translate.
 
         Translates the input text from the source language to the target language.
 
-        :param list[str] text: Input text in UTF-8 encoding. Multiple entries will result
-        in multiple translations in the response.
-        :param str model_id: A globally unique string that identifies the underlying model
-        that is used for translation.
-        :param str source: Translation source language code.
-        :param str target: Translation target language code.
+        :param list[str] text: Input text in UTF-8 encoding. Multiple entries will
+               result in multiple translations in the response.
+        :param str model_id: (optional) A globally unique string that identifies
+               the underlying model that is used for translation.
+        :param str source: (optional) Translation source language code.
+        :param str target: (optional) Translation target language code.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -171,13 +128,14 @@ class LanguageTranslatorV3(BaseService):
         }
 
         url = '/v3/translate'
-        response = self.request(
+        request = self.prepare_request(
             method='POST',
             url=url,
             headers=headers,
             params=params,
-            json=data,
+            data=data,
             accept_json=True)
+        response = self.send(request)
         return response
 
     #########################
@@ -206,12 +164,13 @@ class LanguageTranslatorV3(BaseService):
         params = {'version': self.version}
 
         url = '/v3/identifiable_languages'
-        response = self.request(
+        request = self.prepare_request(
             method='GET',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
+        response = self.send(request)
         return response
 
     def identify(self, text, **kwargs):
@@ -241,36 +200,35 @@ class LanguageTranslatorV3(BaseService):
         headers['content-type'] = 'text/plain'
 
         url = '/v3/identify'
-        response = self.request(
+        request = self.prepare_request(
             method='POST',
             url=url,
             headers=headers,
             params=params,
             data=data,
             accept_json=True)
+        response = self.send(request)
         return response
 
     #########################
     # Models
     #########################
 
-    def list_models(self,
-                    source=None,
-                    target=None,
-                    default_models=None,
-                    **kwargs):
+    def list_models(self, *, source=None, target=None, default=None, **kwargs):
         """
         List models.
 
         Lists available translation models.
 
-        :param str source: Specify a language code to filter results by source language.
-        :param str target: Specify a language code to filter results by target language.
-        :param bool default_models: If the default parameter isn't specified, the service
-        will return all models (default and non-default) for each language pair. To return
-        only default models, set this to `true`. To return only non-default models, set
-        this to `false`. There is exactly one default model per language pair, the IBM
-        provided base model.
+        :param str source: (optional) Specify a language code to filter results by
+               source language.
+        :param str target: (optional) Specify a language code to filter results by
+               target language.
+        :param bool default: (optional) If the default parameter isn't specified,
+               the service will return all models (default and non-default) for each
+               language pair. To return only default models, set this to `true`. To return
+               only non-default models, set this to `false`. There is exactly one default
+               model per language pair, the IBM provided base model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -287,20 +245,22 @@ class LanguageTranslatorV3(BaseService):
             'version': self.version,
             'source': source,
             'target': target,
-            'default': default_models
+            'default': default
         }
 
         url = '/v3/models'
-        response = self.request(
+        request = self.prepare_request(
             method='GET',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
+        response = self.send(request)
         return response
 
     def create_model(self,
                      base_model_id,
+                     *,
                      forced_glossary=None,
                      parallel_corpus=None,
                      name=None,
@@ -323,22 +283,24 @@ class LanguageTranslatorV3(BaseService):
         You can have a <b>maximum of 10 custom models per language pair</b>.
 
         :param str base_model_id: The model ID of the model to use as the base for
-        customization. To see available models, use the `List models` method. Usually all
-        IBM provided models are customizable. In addition, all your models that have been
-        created via parallel corpus customization, can be further customized with a forced
-        glossary.
-        :param file forced_glossary: A TMX file with your customizations. The
-        customizations in the file completely overwrite the domain translaton data,
-        including high frequency or high confidence phrase translations. You can upload
-        only one glossary with a file size less than 10 MB per call. A forced glossary
-        should contain single words or short phrases.
-        :param file parallel_corpus: A TMX file with parallel sentences for source and
-        target language. You can upload multiple parallel_corpus files in one request. All
-        uploaded parallel_corpus files combined, your parallel corpus must contain at
-        least 5,000 parallel sentences to train successfully.
-        :param str name: An optional model name that you can use to identify the model.
-        Valid characters are letters, numbers, dashes, underscores, spaces and
-        apostrophes. The maximum length is 32 characters.
+               customization. To see available models, use the `List models` method.
+               Usually all IBM provided models are customizable. In addition, all your
+               models that have been created via parallel corpus customization, can be
+               further customized with a forced glossary.
+        :param file forced_glossary: (optional) A TMX file with your
+               customizations. The customizations in the file completely overwrite the
+               domain translaton data, including high frequency or high confidence phrase
+               translations. You can upload only one glossary with a file size less than
+               10 MB per call. A forced glossary should contain single words or short
+               phrases.
+        :param file parallel_corpus: (optional) A TMX file with parallel sentences
+               for source and target language. You can upload multiple parallel_corpus
+               files in one request. All uploaded parallel_corpus files combined, your
+               parallel corpus must contain at least 5,000 parallel sentences to train
+               successfully.
+        :param str name: (optional) An optional model name that you can use to
+               identify the model. Valid characters are letters, numbers, dashes,
+               underscores, spaces and apostrophes. The maximum length is 32 characters.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -369,13 +331,14 @@ class LanguageTranslatorV3(BaseService):
                                             'application/octet-stream')
 
         url = '/v3/models'
-        response = self.request(
+        request = self.prepare_request(
             method='POST',
             url=url,
             headers=headers,
             params=params,
             files=form_data,
             accept_json=True)
+        response = self.send(request)
         return response
 
     def delete_model(self, model_id, **kwargs):
@@ -403,12 +366,13 @@ class LanguageTranslatorV3(BaseService):
         params = {'version': self.version}
 
         url = '/v3/models/{0}'.format(*self._encode_path_vars(model_id))
-        response = self.request(
+        request = self.prepare_request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
+        response = self.send(request)
         return response
 
     def get_model(self, model_id, **kwargs):
@@ -437,12 +401,13 @@ class LanguageTranslatorV3(BaseService):
         params = {'version': self.version}
 
         url = '/v3/models/{0}'.format(*self._encode_path_vars(model_id))
-        response = self.request(
+        request = self.prepare_request(
             method='GET',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
+        response = self.send(request)
         return response
 
     #########################
@@ -470,16 +435,18 @@ class LanguageTranslatorV3(BaseService):
         params = {'version': self.version}
 
         url = '/v3/documents'
-        response = self.request(
+        request = self.prepare_request(
             method='GET',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
+        response = self.send(request)
         return response
 
     def translate_document(self,
                            file,
+                           *,
                            filename=None,
                            file_content_type=None,
                            model_id=None,
@@ -495,19 +462,20 @@ class LanguageTranslatorV3(BaseService):
         ID.
 
         :param file file: The source file to translate.
-        [Supported file
-        types](https://cloud.ibm.com/docs/services/language-translator?topic=language-translator-document-translator-tutorial#supported-file-formats)
-        Maximum file size: **20 MB**.
-        :param str filename: The filename for file.
-        :param str file_content_type: The content type of file.
-        :param str model_id: The model to use for translation. `model_id` or both `source`
-        and `target` are required.
-        :param str source: Language code that specifies the language of the source
-        document.
-        :param str target: Language code that specifies the target language for
-        translation.
-        :param str document_id: To use a previously submitted document as the source for a
-        new translation, enter the `document_id` of the document.
+               [Supported file
+               types](https://cloud.ibm.com/docs/services/language-translator?topic=language-translator-document-translator-tutorial#supported-file-formats)
+               Maximum file size: **20 MB**.
+        :param str filename: (optional) The filename for file.
+        :param str file_content_type: (optional) The content type of file.
+        :param str model_id: (optional) The model to use for translation.
+               `model_id` or both `source` and `target` are required.
+        :param str source: (optional) Language code that specifies the language of
+               the source document.
+        :param str target: (optional) Language code that specifies the target
+               language for translation.
+        :param str document_id: (optional) To use a previously submitted document
+               as the source for a new translation, enter the `document_id` of the
+               document.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -542,13 +510,14 @@ class LanguageTranslatorV3(BaseService):
             form_data['document_id'] = (None, document_id, 'text/plain')
 
         url = '/v3/documents'
-        response = self.request(
+        request = self.prepare_request(
             method='POST',
             url=url,
             headers=headers,
             params=params,
             files=form_data,
             accept_json=True)
+        response = self.send(request)
         return response
 
     def get_document_status(self, document_id, **kwargs):
@@ -576,12 +545,13 @@ class LanguageTranslatorV3(BaseService):
         params = {'version': self.version}
 
         url = '/v3/documents/{0}'.format(*self._encode_path_vars(document_id))
-        response = self.request(
+        request = self.prepare_request(
             method='GET',
             url=url,
             headers=headers,
             params=params,
             accept_json=True)
+        response = self.send(request)
         return response
 
     def delete_document(self, document_id, **kwargs):
@@ -609,36 +579,37 @@ class LanguageTranslatorV3(BaseService):
         params = {'version': self.version}
 
         url = '/v3/documents/{0}'.format(*self._encode_path_vars(document_id))
-        response = self.request(
+        request = self.prepare_request(
             method='DELETE',
             url=url,
             headers=headers,
             params=params,
             accept_json=False)
+        response = self.send(request)
         return response
 
-    def get_translated_document(self, document_id, accept=None, **kwargs):
+    def get_translated_document(self, document_id, *, accept=None, **kwargs):
         """
         Get translated document.
 
         Gets the translated document associated with the given document ID.
 
-        :param str document_id: The document ID of the document that was submitted for
-        translation.
-        :param str accept: The type of the response: application/powerpoint,
-        application/mspowerpoint, application/x-rtf, application/json, application/xml,
-        application/vnd.ms-excel,
-        application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
-        application/vnd.ms-powerpoint,
-        application/vnd.openxmlformats-officedocument.presentationml.presentation,
-        application/msword,
-        application/vnd.openxmlformats-officedocument.wordprocessingml.document,
-        application/vnd.oasis.opendocument.spreadsheet,
-        application/vnd.oasis.opendocument.presentation,
-        application/vnd.oasis.opendocument.text, application/pdf, application/rtf,
-        text/html, text/json, text/plain, text/richtext, text/rtf, or text/xml. A
-        character encoding can be specified by including a `charset` parameter. For
-        example, 'text/html;charset=utf-8'.
+        :param str document_id: The document ID of the document that was submitted
+               for translation.
+        :param str accept: (optional) The type of the response:
+               application/powerpoint, application/mspowerpoint, application/x-rtf,
+               application/json, application/xml, application/vnd.ms-excel,
+               application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+               application/vnd.ms-powerpoint,
+               application/vnd.openxmlformats-officedocument.presentationml.presentation,
+               application/msword,
+               application/vnd.openxmlformats-officedocument.wordprocessingml.document,
+               application/vnd.oasis.opendocument.spreadsheet,
+               application/vnd.oasis.opendocument.presentation,
+               application/vnd.oasis.opendocument.text, application/pdf, application/rtf,
+               text/html, text/json, text/plain, text/richtext, text/rtf, or text/xml. A
+               character encoding can be specified by including a `charset` parameter. For
+               example, 'text/html;charset=utf-8'.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -658,13 +629,86 @@ class LanguageTranslatorV3(BaseService):
 
         url = '/v3/documents/{0}/translated_document'.format(
             *self._encode_path_vars(document_id))
-        response = self.request(
+        request = self.prepare_request(
             method='GET',
             url=url,
             headers=headers,
             params=params,
             accept_json=(accept is None or accept == 'application/json'))
+        response = self.send(request)
         return response
+
+
+class TranslateDocumentEnums(object):
+
+    class FileContentType(Enum):
+        """
+        The content type of file.
+        """
+        APPLICATION_POWERPOINT = 'application/powerpoint'
+        APPLICATION_MSPOWERPOINT = 'application/mspowerpoint'
+        APPLICATION_X_RTF = 'application/x-rtf'
+        APPLICATION_JSON = 'application/json'
+        APPLICATION_XML = 'application/xml'
+        APPLICATION_VND_MS_EXCEL = 'application/vnd.ms-excel'
+        APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        APPLICATION_VND_MS_POWERPOINT = 'application/vnd.ms-powerpoint'
+        APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_PRESENTATION = 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+        APPLICATION_MSWORD = 'application/msword'
+        APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        APPLICATION_VND_OASIS_OPENDOCUMENT_SPREADSHEET = 'application/vnd.oasis.opendocument.spreadsheet'
+        APPLICATION_VND_OASIS_OPENDOCUMENT_PRESENTATION = 'application/vnd.oasis.opendocument.presentation'
+        APPLICATION_VND_OASIS_OPENDOCUMENT_TEXT = 'application/vnd.oasis.opendocument.text'
+        APPLICATION_PDF = 'application/pdf'
+        APPLICATION_RTF = 'application/rtf'
+        TEXT_HTML = 'text/html'
+        TEXT_JSON = 'text/json'
+        TEXT_PLAIN = 'text/plain'
+        TEXT_RICHTEXT = 'text/richtext'
+        TEXT_RTF = 'text/rtf'
+        TEXT_XML = 'text/xml'
+
+
+class GetTranslatedDocumentEnums(object):
+
+    class Accept(Enum):
+        """
+        The type of the response: application/powerpoint, application/mspowerpoint,
+        application/x-rtf, application/json, application/xml, application/vnd.ms-excel,
+        application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+        application/vnd.ms-powerpoint,
+        application/vnd.openxmlformats-officedocument.presentationml.presentation,
+        application/msword,
+        application/vnd.openxmlformats-officedocument.wordprocessingml.document,
+        application/vnd.oasis.opendocument.spreadsheet,
+        application/vnd.oasis.opendocument.presentation,
+        application/vnd.oasis.opendocument.text, application/pdf, application/rtf,
+        text/html, text/json, text/plain, text/richtext, text/rtf, or text/xml. A
+        character encoding can be specified by including a `charset` parameter. For
+        example, 'text/html;charset=utf-8'.
+        """
+        APPLICATION_POWERPOINT = 'application/powerpoint'
+        APPLICATION_MSPOWERPOINT = 'application/mspowerpoint'
+        APPLICATION_X_RTF = 'application/x-rtf'
+        APPLICATION_JSON = 'application/json'
+        APPLICATION_XML = 'application/xml'
+        APPLICATION_VND_MS_EXCEL = 'application/vnd.ms-excel'
+        APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        APPLICATION_VND_MS_POWERPOINT = 'application/vnd.ms-powerpoint'
+        APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_PRESENTATION = 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+        APPLICATION_MSWORD = 'application/msword'
+        APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        APPLICATION_VND_OASIS_OPENDOCUMENT_SPREADSHEET = 'application/vnd.oasis.opendocument.spreadsheet'
+        APPLICATION_VND_OASIS_OPENDOCUMENT_PRESENTATION = 'application/vnd.oasis.opendocument.presentation'
+        APPLICATION_VND_OASIS_OPENDOCUMENT_TEXT = 'application/vnd.oasis.opendocument.text'
+        APPLICATION_PDF = 'application/pdf'
+        APPLICATION_RTF = 'application/rtf'
+        TEXT_HTML = 'text/html'
+        TEXT_JSON = 'text/json'
+        TEXT_PLAIN = 'text/plain'
+        TEXT_RICHTEXT = 'text/richtext'
+        TEXT_RTF = 'text/rtf'
+        TEXT_XML = 'text/xml'
 
 
 ##############################################################################
@@ -731,7 +775,8 @@ class DocumentList(object):
     """
     DocumentList.
 
-    :attr list[DocumentStatus] documents: An array of all previously submitted documents.
+    :attr list[DocumentStatus] documents: An array of all previously submitted
+          documents.
     """
 
     def __init__(self, documents):
@@ -739,7 +784,7 @@ class DocumentList(object):
         Initialize a DocumentList object.
 
         :param list[DocumentStatus] documents: An array of all previously submitted
-        documents.
+               documents.
         """
         self.documents = documents
 
@@ -789,25 +834,25 @@ class DocumentStatus(object):
     """
     Document information, including translation status.
 
-    :attr str document_id: System generated ID identifying a document being translated
-    using one specific translation model.
+    :attr str document_id: System generated ID identifying a document being
+          translated using one specific translation model.
     :attr str filename: filename from the submission (if it was missing in the
-    multipart-form, 'noname.<ext matching content type>' is used.
+          multipart-form, 'noname.<ext matching content type>' is used.
     :attr str status: The status of the translation job associated with a submitted
-    document.
-    :attr str model_id: A globally unique string that identifies the underlying model that
-    is used for translation.
+          document.
+    :attr str model_id: A globally unique string that identifies the underlying
+          model that is used for translation.
     :attr str base_model_id: (optional) Model ID of the base model that was used to
-    customize the model. If the model is not a custom model, this will be absent or an
-    empty string.
+          customize the model. If the model is not a custom model, this will be absent or
+          an empty string.
     :attr str source: Translation source language code.
     :attr str target: Translation target language code.
     :attr datetime created: The time when the document was submitted.
     :attr datetime completed: (optional) The time when the translation completed.
-    :attr int word_count: (optional) The number of words in the source document, present
-    only if status=available.
-    :attr int character_count: (optional) The number of characters in the source document,
-    present only if status=available.
+    :attr int word_count: (optional) The number of words in the source document,
+          present only if status=available.
+    :attr int character_count: (optional) The number of characters in the source
+          document, present only if status=available.
     """
 
     def __init__(self,
@@ -818,6 +863,7 @@ class DocumentStatus(object):
                  source,
                  target,
                  created,
+                 *,
                  base_model_id=None,
                  completed=None,
                  word_count=None,
@@ -826,24 +872,25 @@ class DocumentStatus(object):
         Initialize a DocumentStatus object.
 
         :param str document_id: System generated ID identifying a document being
-        translated using one specific translation model.
+               translated using one specific translation model.
         :param str filename: filename from the submission (if it was missing in the
-        multipart-form, 'noname.<ext matching content type>' is used.
-        :param str status: The status of the translation job associated with a submitted
-        document.
-        :param str model_id: A globally unique string that identifies the underlying model
-        that is used for translation.
+               multipart-form, 'noname.<ext matching content type>' is used.
+        :param str status: The status of the translation job associated with a
+               submitted document.
+        :param str model_id: A globally unique string that identifies the
+               underlying model that is used for translation.
         :param str source: Translation source language code.
         :param str target: Translation target language code.
         :param datetime created: The time when the document was submitted.
-        :param str base_model_id: (optional) Model ID of the base model that was used to
-        customize the model. If the model is not a custom model, this will be absent or an
-        empty string.
-        :param datetime completed: (optional) The time when the translation completed.
-        :param int word_count: (optional) The number of words in the source document,
-        present only if status=available.
-        :param int character_count: (optional) The number of characters in the source
-        document, present only if status=available.
+        :param str base_model_id: (optional) Model ID of the base model that was
+               used to customize the model. If the model is not a custom model, this will
+               be absent or an empty string.
+        :param datetime completed: (optional) The time when the translation
+               completed.
+        :param int word_count: (optional) The number of words in the source
+               document, present only if status=available.
+        :param int character_count: (optional) The number of characters in the
+               source document, present only if status=available.
         """
         self.document_id = document_id
         self.filename = filename
@@ -965,6 +1012,14 @@ class DocumentStatus(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class StatusEnum(Enum):
+        """
+        The status of the translation job associated with a submitted document.
+        """
+        PROCESSING = "processing"
+        AVAILABLE = "available"
+        FAILED = "failed"
+
 
 class IdentifiableLanguage(object):
     """
@@ -1036,16 +1091,16 @@ class IdentifiableLanguages(object):
     """
     IdentifiableLanguages.
 
-    :attr list[IdentifiableLanguage] languages: A list of all languages that the service
-    can identify.
+    :attr list[IdentifiableLanguage] languages: A list of all languages that the
+          service can identify.
     """
 
     def __init__(self, languages):
         """
         Initialize a IdentifiableLanguages object.
 
-        :param list[IdentifiableLanguage] languages: A list of all languages that the
-        service can identify.
+        :param list[IdentifiableLanguage] languages: A list of all languages that
+               the service can identify.
         """
         self.languages = languages
 
@@ -1163,15 +1218,15 @@ class IdentifiedLanguages(object):
     IdentifiedLanguages.
 
     :attr list[IdentifiedLanguage] languages: A ranking of identified languages with
-    confidence scores.
+          confidence scores.
     """
 
     def __init__(self, languages):
         """
         Initialize a IdentifiedLanguages object.
 
-        :param list[IdentifiedLanguage] languages: A ranking of identified languages with
-        confidence scores.
+        :param list[IdentifiedLanguage] languages: A ranking of identified
+               languages with confidence scores.
         """
         self.languages = languages
 
@@ -1222,30 +1277,29 @@ class Translation(object):
     """
     Translation.
 
-    :attr str translation_output: Translation output in UTF-8.
+    :attr str translation: Translation output in UTF-8.
     """
 
-    def __init__(self, translation_output):
+    def __init__(self, translation):
         """
         Initialize a Translation object.
 
-        :param str translation_output: Translation output in UTF-8.
+        :param str translation: Translation output in UTF-8.
         """
-        self.translation_output = translation_output
+        self.translation = translation
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a Translation object from a json dictionary."""
         args = {}
-        validKeys = ['translation_output', 'translation']
+        validKeys = ['translation']
         badKeys = set(_dict.keys()) - set(validKeys)
         if badKeys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Translation: '
                 + ', '.join(badKeys))
-        if 'translation' in _dict or 'translation_output' in _dict:
-            args['translation_output'] = _dict.get('translation') or _dict.get(
-                'translation_output')
+        if 'translation' in _dict:
+            args['translation'] = _dict.get('translation')
         else:
             raise ValueError(
                 'Required property \'translation\' not present in Translation JSON'
@@ -1255,10 +1309,8 @@ class Translation(object):
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(
-                self,
-                'translation_output') and self.translation_output is not None:
-            _dict['translation'] = self.translation_output
+        if hasattr(self, 'translation') and self.translation is not None:
+            _dict['translation'] = self.translation
         return _dict
 
     def __str__(self):
@@ -1280,28 +1332,30 @@ class TranslationModel(object):
     """
     Response payload for models.
 
-    :attr str model_id: A globally unique string that identifies the underlying model that
-    is used for translation.
+    :attr str model_id: A globally unique string that identifies the underlying
+          model that is used for translation.
     :attr str name: (optional) Optional name that can be specified when the model is
-    created.
+          created.
     :attr str source: (optional) Translation source language code.
     :attr str target: (optional) Translation target language code.
     :attr str base_model_id: (optional) Model ID of the base model that was used to
-    customize the model. If the model is not a custom model, this will be an empty string.
+          customize the model. If the model is not a custom model, this will be an empty
+          string.
     :attr str domain: (optional) The domain of the translation model.
     :attr bool customizable: (optional) Whether this model can be used as a base for
-    customization. Customized models are not further customizable, and some base models
-    are not customizable.
-    :attr bool default_model: (optional) Whether or not the model is a default model. A
-    default model is the model for a given language pair that will be used when that
-    language pair is specified in the source and target parameters.
-    :attr str owner: (optional) Either an empty string, indicating the model is not a
-    custom model, or the ID of the service instance that created the model.
+          customization. Customized models are not further customizable, and some base
+          models are not customizable.
+    :attr bool default_model: (optional) Whether or not the model is a default
+          model. A default model is the model for a given language pair that will be used
+          when that language pair is specified in the source and target parameters.
+    :attr str owner: (optional) Either an empty string, indicating the model is not
+          a custom model, or the ID of the service instance that created the model.
     :attr str status: (optional) Availability of a model.
     """
 
     def __init__(self,
                  model_id,
+                 *,
                  name=None,
                  source=None,
                  target=None,
@@ -1314,24 +1368,26 @@ class TranslationModel(object):
         """
         Initialize a TranslationModel object.
 
-        :param str model_id: A globally unique string that identifies the underlying model
-        that is used for translation.
-        :param str name: (optional) Optional name that can be specified when the model is
-        created.
+        :param str model_id: A globally unique string that identifies the
+               underlying model that is used for translation.
+        :param str name: (optional) Optional name that can be specified when the
+               model is created.
         :param str source: (optional) Translation source language code.
         :param str target: (optional) Translation target language code.
-        :param str base_model_id: (optional) Model ID of the base model that was used to
-        customize the model. If the model is not a custom model, this will be an empty
-        string.
+        :param str base_model_id: (optional) Model ID of the base model that was
+               used to customize the model. If the model is not a custom model, this will
+               be an empty string.
         :param str domain: (optional) The domain of the translation model.
-        :param bool customizable: (optional) Whether this model can be used as a base for
-        customization. Customized models are not further customizable, and some base
-        models are not customizable.
-        :param bool default_model: (optional) Whether or not the model is a default model.
-        A default model is the model for a given language pair that will be used when that
-        language pair is specified in the source and target parameters.
-        :param str owner: (optional) Either an empty string, indicating the model is not a
-        custom model, or the ID of the service instance that created the model.
+        :param bool customizable: (optional) Whether this model can be used as a
+               base for customization. Customized models are not further customizable, and
+               some base models are not customizable.
+        :param bool default_model: (optional) Whether or not the model is a default
+               model. A default model is the model for a given language pair that will be
+               used when that language pair is specified in the source and target
+               parameters.
+        :param str owner: (optional) Either an empty string, indicating the model
+               is not a custom model, or the ID of the service instance that created the
+               model.
         :param str status: (optional) Availability of a model.
         """
         self.model_id = model_id
@@ -1423,6 +1479,21 @@ class TranslationModel(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class StatusEnum(Enum):
+        """
+        Availability of a model.
+        """
+        UPLOADING = "uploading"
+        UPLOADED = "uploaded"
+        DISPATCHING = "dispatching"
+        QUEUED = "queued"
+        TRAINING = "training"
+        TRAINED = "trained"
+        PUBLISHING = "publishing"
+        AVAILABLE = "available"
+        DELETED = "deleted"
+        ERROR = "error"
+
 
 class TranslationModels(object):
     """
@@ -1488,7 +1559,7 @@ class TranslationResult(object):
     :attr int word_count: Number of words in the input text.
     :attr int character_count: Number of characters in the input text.
     :attr list[Translation] translations: List of translation output in UTF-8,
-    corresponding to the input text entries.
+          corresponding to the input text entries.
     """
 
     def __init__(self, word_count, character_count, translations):
@@ -1498,7 +1569,7 @@ class TranslationResult(object):
         :param int word_count: Number of words in the input text.
         :param int character_count: Number of characters in the input text.
         :param list[Translation] translations: List of translation output in UTF-8,
-        corresponding to the input text entries.
+               corresponding to the input text entries.
         """
         self.word_count = word_count
         self.character_count = character_count
