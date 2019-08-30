@@ -9,7 +9,7 @@ from os.path import join, dirname
 from glob import glob
 
 # tests to exclude
-excludes = ['authorization_v1.py', 'discovery_v1.ipynb', '__init__.py', 'microphone-speech-to-text.py']
+excludes = ['discovery_v1.ipynb', '__init__.py', 'microphone-speech-to-text.py']
 
 # examples path. /examples
 examples_path = join(dirname(__file__), '../', 'examples', '*.py')
