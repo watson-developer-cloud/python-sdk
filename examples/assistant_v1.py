@@ -15,7 +15,7 @@ assistant = AssistantV1(
 
 create_workspace_data = {
     "name":
-    "test_workspace 3",
+    "test_workspace",
     "description":
     "integration tests",
     "language":

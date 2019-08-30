@@ -405,7 +405,7 @@ assistant = AssistantV1(version='<version>',
 * [responses] for testing
 * Following for web sockets support in speech to text
    * `websocket-client` 0.48.0
-* `ibm_cloud_sdk_core` >=0.6.0
+* `ibm_cloud_sdk_core` >= 1.0.0rc4
 
 ## Contributing
 
