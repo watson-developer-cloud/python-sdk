@@ -7,6 +7,7 @@ import jwt
 import time
 
 from unittest import TestCase
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 base_url = "https://gateway.watsonplatform.net/visual-recognition/api/"
 
@@ -44,7 +45,8 @@ class TestVisualRecognitionV3(TestCase):
 
     @responses.activate
     def test_get_classifier(self):
-        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
+        authenticator = IAMAuthenticator('bogusapikey')
+        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', authenticator=authenticator)
 
         gc_url = "{0}{1}".format(base_url, 'v3/classifiers/bogusnumber')
 
@@ -68,7 +70,8 @@ class TestVisualRecognitionV3(TestCase):
 
     @responses.activate
     def test_delete_classifier(self):
-        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
+        authenticator = IAMAuthenticator('bogusapikey')
+        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', authenticator=authenticator)
 
         gc_url = "{0}{1}".format(base_url, 'v3/classifiers/bogusnumber')
 
@@ -83,7 +86,8 @@ class TestVisualRecognitionV3(TestCase):
 
     @responses.activate
     def test_list_classifiers(self):
-        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
+        authenticator = IAMAuthenticator('bogusapikey')
+        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', authenticator=authenticator)
 
         gc_url = "{0}{1}".format(base_url, 'v3/classifiers')
 
@@ -111,7 +115,8 @@ class TestVisualRecognitionV3(TestCase):
 
     @responses.activate
     def test_create_classifier(self):
-        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
+        authenticator = IAMAuthenticator('bogusapikey')
+        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', authenticator=authenticator)
 
         gc_url = "{0}{1}".format(base_url, 'v3/classifiers')
 
@@ -138,7 +143,8 @@ class TestVisualRecognitionV3(TestCase):
 
     @responses.activate
     def test_update_classifier(self):
-        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
+        authenticator = IAMAuthenticator('bogusapikey')
+        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', authenticator=authenticator)
 
         gc_url = "{0}{1}".format(base_url, 'v3/classifiers/bogusid')
 
@@ -166,7 +172,8 @@ class TestVisualRecognitionV3(TestCase):
 
     @responses.activate
     def test_classify(self):
-        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
+        authenticator = IAMAuthenticator('bogusapikey')
+        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', authenticator=authenticator)
 
         gc_url = "{0}{1}".format(base_url, 'v3/classify')
 
@@ -212,7 +219,8 @@ class TestVisualRecognitionV3(TestCase):
 
     @responses.activate
     def test_detect_faces(self):
-        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
+        authenticator = IAMAuthenticator('bogusapikey')
+        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', authenticator=authenticator)
 
         gc_url = "{0}{1}".format(base_url, 'v3/detect_faces')
 
@@ -277,7 +285,8 @@ class TestVisualRecognitionV3(TestCase):
             status=204,
             content_type='application_json')
 
-        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
+        authenticator = IAMAuthenticator('bogusapikey')
+        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', authenticator=authenticator)
         response = vr_service.delete_user_data('id').get_result()
         assert response is None
         assert len(responses.calls) == 2

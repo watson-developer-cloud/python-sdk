@@ -2,12 +2,13 @@
 import os
 import responses
 import ibm_watson
+from ibm_cloud_sdk_core.authenticators import BasicAuthenticator
 
 
 @responses.activate
 def test_success():
-    natural_language_classifier = ibm_watson.NaturalLanguageClassifierV1(username="username",
-                                                                         password="password")
+    authenticator = BasicAuthenticator('username', 'password')
+    natural_language_classifier = ibm_watson.NaturalLanguageClassifierV1(authenticator=authenticator)
 
     list_url = 'https://gateway.watsonplatform.net/natural-language-classifier/api/v1/classifiers'
     list_response = '{"classifiers": [{"url": "https://gateway.watsonplatform.net/natural-language-classifier-' \
@@ -64,7 +65,8 @@ def test_success():
                   content_type='application/json')
     with open(os.path.join(os.path.dirname(__file__), '../../resources/weather_data_train.csv'), 'rb') as training_data:
         natural_language_classifier.create_classifier(
-            training_data=training_data, metadata='{"language": "en"}')
+            training_metadata='{"language": "en"}',
+            training_data=training_data)
 
     assert responses.calls[3].request.url == create_url
     assert responses.calls[3].response.text == create_response
@@ -85,8 +87,8 @@ def test_success():
 
 @responses.activate
 def test_classify_collection():
-    natural_language_classifier = ibm_watson.NaturalLanguageClassifierV1(username="username",
-                                                                         password="password")
+    authenticator = BasicAuthenticator('username', 'password')
+    natural_language_classifier = ibm_watson.NaturalLanguageClassifierV1(authenticator=authenticator)
     classify_collection_url = 'https://gateway.watsonplatform.net/natural-language-classifier/api/v1/classifiers/497EF2-nlc-00/classify_collection'
     classify_collection_response = '{ \
             "classifier_id": "497EF2-nlc-00", \

@@ -46,7 +46,7 @@ class Discoveryv1(TestCase):
         name = 'test' + random.choice('ABCDEFGHIJKLMNOPQ')
         new_configuration_id = self.discovery.create_configuration(
             self.environment_id, name,
-            'creating new config for python sdk').get_result()['configuration_id']
+            description='creating new config for python sdk').get_result()['configuration_id']
         assert new_configuration_id is not None
         self.discovery.get_configuration(self.environment_id,
                                          new_configuration_id).get_result()
@@ -128,8 +128,8 @@ class Discoveryv1(TestCase):
             'password': 'xxx'
         }
         credentials = self.discovery.create_credentials(self.environment_id,
-                                                        'salesforce',
-                                                        credential_details).get_result()
+                                                        source_type='salesforce',
+                                                        credential_details=credential_details).get_result()
         assert credentials['credential_id'] is not None
         credential_id = credentials['credential_id']
 
@@ -145,7 +145,7 @@ class Discoveryv1(TestCase):
             'username': 'user@email.com',
             'password': 'xxx'
         }
-        updated_credentials = self.discovery.update_credentials(self.environment_id, credential_id, 'salesforce', new_credential_details).get_result()
+        updated_credentials = self.discovery.update_credentials(self.environment_id, credential_id, source_type='salesforce', credential_details=new_credential_details).get_result()
         assert updated_credentials is not None
 
         get_credentials = self.discovery.get_credentials(self.environment_id, credentials['credential_id']).get_result()
@@ -193,27 +193,27 @@ class Discoveryv1(TestCase):
         assert result['status'] is not None
 
     def test_feedback(self):
-        response = self.discovery.get_metrics_event_rate('2018-08-13T14:39:59.309Z',
-                                                         '2018-08-14T14:39:59.309Z',
-                                                         'document').get_result()
+        response = self.discovery.get_metrics_event_rate(start_time='2018-08-13T14:39:59.309Z',
+                                                         end_time='2018-08-14T14:39:59.309Z',
+                                                         result_type='document').get_result()
         assert response['aggregations'] is not None
 
-        response = self.discovery.get_metrics_query('2018-08-13T14:39:59.309Z',
-                                                    '2018-08-14T14:39:59.309Z',
-                                                    'document').get_result()
+        response = self.discovery.get_metrics_query(start_time='2018-08-13T14:39:59.309Z',
+                                                    end_time='2018-08-14T14:39:59.309Z',
+                                                    result_type='document').get_result()
         assert response['aggregations'] is not None
 
-        response = self.discovery.get_metrics_query_event('2018-08-13T14:39:59.309Z',
-                                                          '2018-08-14T14:39:59.309Z',
-                                                          'document').get_result()
+        response = self.discovery.get_metrics_query_event(start_time='2018-08-13T14:39:59.309Z',
+                                                          end_time='2018-08-14T14:39:59.309Z',
+                                                          result_type='document').get_result()
         assert response['aggregations'] is not None
 
-        response = self.discovery.get_metrics_query_no_results('2018-07-13T14:39:59.309Z',
-                                                               '2018-08-14T14:39:59.309Z',
-                                                               'document').get_result()
+        response = self.discovery.get_metrics_query_no_results(start_time='2018-07-13T14:39:59.309Z',
+                                                               end_time='2018-08-14T14:39:59.309Z',
+                                                               result_type='document').get_result()
         assert response['aggregations'] is not None
 
-        response = self.discovery.get_metrics_query_token_event(10).get_result()
+        response = self.discovery.get_metrics_query_token_event(count=10).get_result()
         assert response['aggregations'] is not None
 
         response = self.discovery.query_log(count=2).get_result()
@@ -238,7 +238,7 @@ class Discoveryv1(TestCase):
     def test_gateway_configuration(self):
         create_gateway_result = self.discovery.create_gateway(
             self.environment_id,
-            'test-gateway-configuration-python'
+            name='test-gateway-configuration-python'
         ).get_result()
         assert create_gateway_result['gateway_id'] is not None
 

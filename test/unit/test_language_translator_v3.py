@@ -8,6 +8,7 @@ from unittest import TestCase
 from os.path import join, dirname
 import ibm_watson
 from ibm_watson.language_translator_v3 import TranslationResult, TranslationModels, TranslationModel, IdentifiedLanguages, IdentifiableLanguages, DeleteModelResult
+from ibm_cloud_sdk_core.authenticators import BasicAuthenticator, IAMAuthenticator
 
 platform_url = 'https://gateway.watsonplatform.net'
 service_path = '/language-translator/api'
@@ -49,9 +50,8 @@ class TestLanguageTranslatorV3(TestCase):
     @classmethod
     @responses.activate
     def test_translate_source_target(cls):
-        service = ibm_watson.LanguageTranslatorV3(
-            version='2018-05-01',
-            iam_apikey='iam_apikey')
+        authenticator = IAMAuthenticator('apikey')
+        service = ibm_watson.LanguageTranslatorV3('2018-05-01', authenticator=authenticator)
         endpoint = '/v3/translate'
         url = '{0}{1}'.format(base_url, endpoint)
         expected = {
@@ -75,9 +75,8 @@ class TestLanguageTranslatorV3(TestCase):
     @classmethod
     @responses.activate
     def test_translate_model_id(cls):
-        service = ibm_watson.LanguageTranslatorV3(
-            version='2018-05-01',
-            iam_apikey='iam_apikey')
+        authenticator = IAMAuthenticator('apikey')
+        service = ibm_watson.LanguageTranslatorV3('2018-05-01', authenticator=authenticator)
         endpoint = '/v3/translate'
         url = '{0}{1}'.format(base_url, endpoint)
         expected = {
@@ -106,9 +105,8 @@ class TestLanguageTranslatorV3(TestCase):
     @classmethod
     @responses.activate
     def test_identify(cls):
-        service = ibm_watson.LanguageTranslatorV3(
-            version='2018-05-01',
-            iam_apikey='iam_apikey')
+        authenticator = IAMAuthenticator('apikey')
+        service = ibm_watson.LanguageTranslatorV3('2018-05-01', authenticator=authenticator)
         endpoint = '/v3/identify'
         url = '{0}{1}'.format(base_url, endpoint)
         expected = {
@@ -142,9 +140,8 @@ class TestLanguageTranslatorV3(TestCase):
     @classmethod
     @responses.activate
     def test_list_identifiable_languages(cls):
-        service = ibm_watson.LanguageTranslatorV3(
-            version='2018-05-01',
-            iam_apikey='iam_apikey')
+        authenticator = IAMAuthenticator('apikey')
+        service = ibm_watson.LanguageTranslatorV3('2018-05-01', authenticator=authenticator)
         endpoint = '/v3/identifiable_languages'
         url = '{0}{1}'.format(base_url, endpoint)
         expected = {
@@ -190,11 +187,8 @@ class TestLanguageTranslatorV3(TestCase):
     @classmethod
     @responses.activate
     def test_create_model(cls):
-        service = ibm_watson.LanguageTranslatorV3(
-            version='2018-05-01',
-            username='xxx',
-            password='yyy'
-        )
+        authenticator = BasicAuthenticator('xxx', 'yyy')
+        service = ibm_watson.LanguageTranslatorV3('2018-05-01', authenticator=authenticator)
         endpoint = '/v3/models'
         url = '{0}{1}'.format(base_url, endpoint)
         expected = {
@@ -227,9 +221,8 @@ class TestLanguageTranslatorV3(TestCase):
     @classmethod
     @responses.activate
     def test_delete_model(cls):
-        service = ibm_watson.LanguageTranslatorV3(
-            version='2018-05-01',
-            iam_apikey='iam_apikey')
+        authenticator = IAMAuthenticator('apikey')
+        service = ibm_watson.LanguageTranslatorV3('2018-05-01', authenticator=authenticator)
         model_id = 'en-es-conversational'
         endpoint = '/v3/models/' + model_id
         url = '{0}{1}'.format(base_url, endpoint)
@@ -251,9 +244,8 @@ class TestLanguageTranslatorV3(TestCase):
     @classmethod
     @responses.activate
     def test_get_model(cls):
-        service = ibm_watson.LanguageTranslatorV3(
-            version='2018-05-01',
-            iam_apikey='iam_apikey')
+        authenticator = IAMAuthenticator('apikey')
+        service = ibm_watson.LanguageTranslatorV3('2018-05-01', authenticator=authenticator)
         model_id = 'en-es-conversational'
         endpoint = '/v3/models/' + model_id
         url = '{0}{1}'.format(base_url, endpoint)
@@ -284,9 +276,8 @@ class TestLanguageTranslatorV3(TestCase):
     @classmethod
     @responses.activate
     def test_list_models(cls):
-        service = ibm_watson.LanguageTranslatorV3(
-            version='2018-05-01',
-            iam_apikey='iam_apikey')
+        authenticator = IAMAuthenticator('apikey')
+        service = ibm_watson.LanguageTranslatorV3('2018-05-01', authenticator=authenticator)
         endpoint = '/v3/models'
         url = '{0}{1}'.format(base_url, endpoint)
         expected = {
@@ -360,16 +351,17 @@ class TestLanguageTranslatorV3(TestCase):
             content_type='application_json')
         responses.add(
             responses.GET,
-            url + '/2a683723/translated_document?version=2017-11-07',
+            url + '/2a683723/translated_document?version=2018-05-01',
             body='binary response',
             status=200)
         responses.add(
             responses.GET,
-            url + '/2a683723?version=2017-11-07',
+            url + '/2a683723?version=2018-05-01',
             body=json.dumps(document_status),
             status=200,
             content_type='application_json')
-        language_translator = ibm_watson.LanguageTranslatorV3('2017-11-07', username="username", password="password")
+        authenticator = BasicAuthenticator('xxx', 'yyy')
+        language_translator = ibm_watson.LanguageTranslatorV3('2018-05-01', authenticator=authenticator)
 
         with open(join(dirname(__file__), '../../resources/hello_world.txt'), 'r') as fileinfo:
             translation = language_translator.translate_document(
@@ -382,9 +374,9 @@ class TestLanguageTranslatorV3(TestCase):
         assert status['documents'][0]['document_id'] == '2a683723'
 
         delete_result = language_translator.delete_document('2a683723').get_result()
-        assert delete_result.url == 'https://gateway.watsonplatform.net/language-translator/api/v3/documents/2a683723?version=2017-11-07'
+        assert delete_result is None
 
-        response = language_translator.get_translated_document('2a683723', 'text/plain').get_result()
+        response = language_translator.get_translated_document('2a683723', accept='text/plain').get_result()
         assert response.content is not None
 
         doc_status = language_translator.get_document_status('2a683723').get_result()

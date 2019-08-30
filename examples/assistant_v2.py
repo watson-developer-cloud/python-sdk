@@ -1,20 +1,13 @@
-from __future__ import print_function
 import json
 from ibm_watson import AssistantV2
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
-# If service instance provides API key authentication
+authenticator = IAMAuthenticator('your apikey')
 assistant = AssistantV2(
     version='2018-09-20',
     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
     url='https://gateway.watsonplatform.net/assistant/api',
-    iam_apikey='YOUR APIKEY')
-
-# assistant = AssistantV2(
-#     username='YOUR SERVICE USERNAME',
-#     password='YOUR SERVICE PASSWORD',
-#     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-#     url='https://gateway.watsonplatform.net/assistant/api',
-#     version='2018-09-20')
+    authenticator=authenticator)
 
 #########################
 # Sessions

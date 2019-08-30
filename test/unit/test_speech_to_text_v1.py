@@ -4,6 +4,7 @@ import json
 import responses
 import ibm_watson
 from ibm_watson.speech_to_text_v1 import CustomWord
+from ibm_cloud_sdk_core.authenticators import BasicAuthenticator
 
 
 @responses.activate
@@ -20,8 +21,8 @@ def test_success():
         status=200,
         content_type='application/json')
 
-    speech_to_text = ibm_watson.SpeechToTextV1(
-        username="username", password="password")
+    authenticator = BasicAuthenticator('username', 'password')
+    speech_to_text = ibm_watson.SpeechToTextV1(authenticator=authenticator)
     speech_to_text.list_models()
 
     assert responses.calls[0].request.url == models_url
@@ -63,8 +64,8 @@ def test_get_model():
         body='{"bogus_response": "yep"}',
         status=200,
         content_type='application/json')
-    speech_to_text = ibm_watson.SpeechToTextV1(
-        username="username", password="password")
+    authenticator = BasicAuthenticator('username', 'password')
+    speech_to_text = ibm_watson.SpeechToTextV1(authenticator=authenticator)
     speech_to_text.get_model(model_id='modelid')
     assert len(responses.calls) == 1
 
@@ -108,8 +109,8 @@ def test_recognitions():
         status=200,
         content_type='application/json')
 
-    speech_to_text = ibm_watson.SpeechToTextV1(
-        username="username", password="password")
+    authenticator = BasicAuthenticator('username', 'password')
+    speech_to_text = ibm_watson.SpeechToTextV1(authenticator=authenticator)
 
     speech_to_text.check_jobs()
     assert responses.calls[0].response.json()['recognitions'][0][
@@ -147,8 +148,8 @@ def test_callbacks():
         status=200,
         content_type='application/json')
 
-    speech_to_text = ibm_watson.SpeechToTextV1(
-        username="username", password="password")
+    authenticator = BasicAuthenticator('username', 'password')
+    speech_to_text = ibm_watson.SpeechToTextV1(authenticator=authenticator)
     speech_to_text.register_callback("monitorcalls.com")
     assert responses.calls[0].response.json() == {
         "status": "created",
@@ -203,8 +204,8 @@ def test_custom_model():
         status=200,
         content_type='application/json')
 
-    speech_to_text = ibm_watson.SpeechToTextV1(
-        username="username", password="password")
+    authenticator = BasicAuthenticator('username', 'password')
+    speech_to_text = ibm_watson.SpeechToTextV1(authenticator=authenticator)
 
     speech_to_text.list_language_models()
 
@@ -270,8 +271,8 @@ def test_acoustic_model():
         status=200,
         content_type='application/json')
 
-    speech_to_text = ibm_watson.SpeechToTextV1(
-        username="username", password="password")
+    authenticator = BasicAuthenticator('username', 'password')
+    speech_to_text = ibm_watson.SpeechToTextV1(authenticator=authenticator)
 
     speech_to_text.list_acoustic_models()
 
@@ -309,12 +310,12 @@ def test_upgrade_acoustic_model():
         status=200,
         content_type='application/json')
 
-    speech_to_text = ibm_watson.SpeechToTextV1(
-        username="username", password="password")
+    authenticator = BasicAuthenticator('username', 'password')
+    speech_to_text = ibm_watson.SpeechToTextV1(authenticator=authenticator)
 
     speech_to_text.upgrade_acoustic_model(
         'customid',
-        'model_x',
+        custom_language_model_id='model_x',
         force=True)
     assert responses.calls[0].response.json() == {"bogus_response": "yep"}
 
@@ -356,8 +357,8 @@ def test_custom_corpora():
             status=200,
             content_type='application/json')
 
-        speech_to_text = ibm_watson.SpeechToTextV1(
-            username="username", password="password")
+        authenticator = BasicAuthenticator('username', 'password')
+        speech_to_text = ibm_watson.SpeechToTextV1(authenticator=authenticator)
 
         speech_to_text.list_corpora(customization_id='customid')
 
@@ -437,8 +438,8 @@ def test_custom_words():
         status=200,
         content_type='application/json')
 
-    speech_to_text = ibm_watson.SpeechToTextV1(
-        username="username", password="password")
+    authenticator = BasicAuthenticator('username', 'password')
+    speech_to_text = ibm_watson.SpeechToTextV1(authenticator=authenticator)
 
     custom_word = CustomWord(
         word="IEEE", sounds_like=["i triple e"], display_as="IEEE")
@@ -502,8 +503,8 @@ def test_custom_audio_resources():
         status=200,
         content_type='application/json')
 
-    speech_to_text = ibm_watson.SpeechToTextV1(
-        username="username", password="password")
+    authenticator = BasicAuthenticator('username', 'password')
+    speech_to_text = ibm_watson.SpeechToTextV1(authenticator=authenticator)
 
     with open(os.path.join(os.path.dirname(__file__), '../../resources/speech.wav'), 'rb') as audio_file:
         speech_to_text.add_audio(
@@ -532,7 +533,8 @@ def test_delete_user_data():
         status=204,
         content_type='application_json')
 
-    speech_to_text = ibm_watson.SpeechToTextV1(username="username", password="password")
+    authenticator = BasicAuthenticator('username', 'password')
+    speech_to_text = ibm_watson.SpeechToTextV1(authenticator=authenticator)
     response = speech_to_text.delete_user_data('id').get_result()
     assert response is None
     assert len(responses.calls) == 1
@@ -568,8 +570,8 @@ def test_custom_grammars():
         status=200,
         content_type='application/json')
 
-    speech_to_text = ibm_watson.SpeechToTextV1(
-        username="username", password="password")
+    authenticator = BasicAuthenticator('username', 'password')
+    speech_to_text = ibm_watson.SpeechToTextV1(authenticator=authenticator)
 
     with open(os.path.join(os.path.dirname(__file__), '../../resources/confirm-grammar.xml'), 'rb') as grammar_file:
         speech_to_text.add_grammar(

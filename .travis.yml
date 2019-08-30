@@ -1,11 +1,10 @@
 language: python
 matrix:
   include:
-    - python: 2.7
-    - python: 3.5
-    - python: 3.6
-    - python: 3.7
-      dist: xenial
+  - python: 3.5
+  - python: 3.6
+  - python: 3.7
+    dist: xenial
 cache: pip
 before_install:
 - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && openssl aes-256-cbc -K $encrypted_cebf25e6c525_key
@@ -40,7 +39,7 @@ deploy:
     branch: master
 - provider: pypi
   user: watson-devex
-  password: $PYPI_PASSWORD
+  password: "$PYPI_PASSWORD"
   repository: https://upload.pypi.org/legacy
   skip_cleanup: true
   on:

@@ -4,6 +4,7 @@ import ibm_watson
 from ibm_watson import ApiException
 import os
 import json
+from ibm_cloud_sdk_core.authenticators import BasicAuthenticator
 
 
 @responses.activate
@@ -19,10 +20,10 @@ def test_tone():
                   body=tone_response, status=200,
                   content_type='application/json')
 
+    authenticator = BasicAuthenticator('username', 'password')
+    tone_analyzer = ibm_watson.ToneAnalyzerV3('2016-05-19', authenticator=authenticator)
+
     with open(os.path.join(os.path.dirname(__file__), '../../resources/personality.txt')) as tone_text:
-        tone_analyzer = ibm_watson.ToneAnalyzerV3("2016-05-19",
-                                                  username="username",
-                                                  password="password")
         tone_analyzer.tone(tone_text.read(), content_type='application/json')
 
     assert responses.calls[0].request.url == tone_url + tone_args
@@ -45,7 +46,8 @@ def test_tone_with_args():
                   content_type='application/json')
 
     with open(os.path.join(os.path.dirname(__file__), '../../resources/personality.txt')) as tone_text:
-        tone_analyzer = ibm_watson.ToneAnalyzerV3("2016-05-19", username="username", password="password")
+        authenticator = BasicAuthenticator('username', 'password')
+        tone_analyzer = ibm_watson.ToneAnalyzerV3('2016-05-19', authenticator=authenticator)
         tone_analyzer.tone(tone_text.read(), content_type='application/json', sentences=False)
 
     assert responses.calls[0].request.url.split('?')[0] == tone_url
@@ -72,7 +74,8 @@ def test_tone_with_positional_args():
                   content_type='application/json')
 
     with open(os.path.join(os.path.dirname(__file__), '../../resources/personality.txt')) as tone_text:
-        tone_analyzer = ibm_watson.ToneAnalyzerV3("2016-05-19", username="username", password="password")
+        authenticator = BasicAuthenticator('username', 'password')
+        tone_analyzer = ibm_watson.ToneAnalyzerV3('2016-05-19', authenticator=authenticator)
         tone_analyzer.tone(tone_text.read(), content_type='application/json', sentences=False)
 
     assert responses.calls[0].request.url.split('?')[0] == tone_url
@@ -98,9 +101,8 @@ def test_tone_chat():
                   body=tone_response, status=200,
                   content_type='application/json')
 
-    tone_analyzer = ibm_watson.ToneAnalyzerV3("2016-05-19",
-                                              username="username",
-                                              password="password")
+    authenticator = BasicAuthenticator('username', 'password')
+    tone_analyzer = ibm_watson.ToneAnalyzerV3('2016-05-19', authenticator=authenticator)
     utterances = [{'text': 'I am very happy', 'user': 'glenn'}]
     tone_analyzer.tone_chat(utterances)
 
@@ -130,12 +132,12 @@ def test_error():
                   status=error_code,
                   content_type='application/json')
 
-    tone_analyzer = ibm_watson.ToneAnalyzerV3('2016-05-19',
-                                              username='username',
-                                              password='password')
+    authenticator = BasicAuthenticator('username', 'password')
+    tone_analyzer = ibm_watson.ToneAnalyzerV3('2016-05-19', authenticator=authenticator)
+
     text = 'Team, I know that times are tough!'
     try:
-        tone_analyzer.tone(text, 'application/json')
+        tone_analyzer.tone(text, content_type='application/json')
     except ApiException as ex:
         assert len(responses.calls) == 1
         assert isinstance(ex, ApiException)

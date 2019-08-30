@@ -5,7 +5,6 @@
 # passed in the request. When the service responds with the synthesized
 # audio, the pyaudio would play it in a blocking mode
 
-from __future__ import print_function
 from ibm_watson import TextToSpeechV1
 from ibm_watson.websocket import SynthesizeCallback
 import pyaudio

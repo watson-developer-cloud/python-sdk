@@ -5,6 +5,7 @@ from ibm_watson.natural_language_understanding_v1 import \
      Features, ConceptsOptions, EntitiesOptions, KeywordsOptions, CategoriesOptions, \
      EmotionOptions, MetadataOptions, SemanticRolesOptions, RelationsOptions, \
      SentimentOptions
+from ibm_cloud_sdk_core.authenticators import BasicAuthenticator
 
 import os
 import pytest
@@ -59,10 +60,10 @@ class TestNaturalLanguageUnderstanding(TestCase):
     def test_version_date(self):
         with pytest.raises(TypeError):
             NaturalLanguageUnderstandingV1() # pylint: disable=E1120
+        authenticator = BasicAuthenticator('username', 'password')
         nlu = NaturalLanguageUnderstandingV1(version='2016-01-23',
                                              url='http://bogus.com',
-                                             username='username',
-                                             password='password')
+                                             authenticator=authenticator)
         assert nlu
 
     @pytest.mark.skipif(os.getenv('VCAP_SERVICES') is not None,
@@ -71,14 +72,14 @@ class TestNaturalLanguageUnderstanding(TestCase):
         with pytest.raises(ValueError):
             NaturalLanguageUnderstandingV1(version='2016-01-23')
         with pytest.raises(ValueError):
-            NaturalLanguageUnderstandingV1(version='2016-01-23',
-                                           url='https://bogus.com')
+            authenticator = BasicAuthenticator('username', 'password')
+            NaturalLanguageUnderstandingV1(version='2016-01-23', url='http://bogus.com')
 
     def test_analyze_throws(self):
+        authenticator = BasicAuthenticator('username', 'password')
         nlu = NaturalLanguageUnderstandingV1(version='2016-01-23',
                                              url='http://bogus.com',
-                                             username='username',
-                                             password='password')
+                                             authenticator=authenticator)
         with pytest.raises(ValueError):
             nlu.analyze(None, text="this will not work")
 
@@ -88,10 +89,10 @@ class TestNaturalLanguageUnderstanding(TestCase):
         responses.add(responses.POST, nlu_url,
                       body="{\"resulting_key\": true}", status=200,
                       content_type='application/json')
+        authenticator = BasicAuthenticator('username', 'password')
         nlu = NaturalLanguageUnderstandingV1(version='2016-01-23',
                                              url='http://bogus.com',
-                                             username='username',
-                                             password='password')
+                                             authenticator=authenticator)
         nlu.analyze(Features(sentiment=SentimentOptions()), text="hello this is a test")
         assert len(responses.calls) == 1
 
@@ -101,10 +102,10 @@ class TestNaturalLanguageUnderstanding(TestCase):
         responses.add(responses.POST, nlu_url,
                       body="{\"resulting_key\": true}", status=200,
                       content_type='application/json')
+        authenticator = BasicAuthenticator('username', 'password')
         nlu = NaturalLanguageUnderstandingV1(version='2016-01-23',
                                              url='http://bogus.com',
-                                             username='username',
-                                             password='password')
+                                             authenticator=authenticator)
         nlu.analyze(Features(sentiment=SentimentOptions(),
                              emotion=EmotionOptions(document=False)),
                     html="<span>hello this is a test</span>")
@@ -116,10 +117,10 @@ class TestNaturalLanguageUnderstanding(TestCase):
         responses.add(responses.POST, nlu_url,
                       body="{\"resulting_key\": true}", status=200,
                       content_type='application/json')
+        authenticator = BasicAuthenticator('username', 'password')
         nlu = NaturalLanguageUnderstandingV1(version='2016-01-23',
                                              url='http://bogus.com',
-                                             username='username',
-                                             password='password')
+                                             authenticator=authenticator)
         nlu.analyze(Features(sentiment=SentimentOptions(),
                              emotion=EmotionOptions(document=False)),
                     url="http://cnn.com",
@@ -132,10 +133,10 @@ class TestNaturalLanguageUnderstanding(TestCase):
         responses.add(responses.GET, nlu_url, status=200,
                       body="{\"resulting_key\": true}",
                       content_type='application/json')
+        authenticator = BasicAuthenticator('username', 'password')
         nlu = NaturalLanguageUnderstandingV1(version='2016-01-23',
                                              url='http://bogus.com',
-                                             username='username',
-                                             password='password')
+                                             authenticator=authenticator)
         nlu.list_models()
         assert len(responses.calls) == 1
 
@@ -145,9 +146,9 @@ class TestNaturalLanguageUnderstanding(TestCase):
         nlu_url = "http://bogus.com/v1/models/" + model_id
         responses.add(responses.DELETE, nlu_url, status=200,
                       body="{}", content_type='application/json')
+        authenticator = BasicAuthenticator('username', 'password')
         nlu = NaturalLanguageUnderstandingV1(version='2016-01-23',
                                              url='http://bogus.com',
-                                             username='username',
-                                             password='password')
+                                             authenticator=authenticator)
         nlu.delete_model(model_id)
         assert len(responses.calls) == 1

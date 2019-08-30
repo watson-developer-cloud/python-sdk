@@ -1,8 +1,9 @@
-from __future__ import print_function
 import json
 from os.path import abspath
 from ibm_watson import VisualRecognitionV3, ApiException
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
+authenticator = IAMAuthenticator('your_apikey')
 test_url = 'https://www.ibm.com/ibm/ginni/images' \
            '/ginni_bio_780x981_v4_03162016.jpg'
 
@@ -11,7 +12,7 @@ service = VisualRecognitionV3(
     '2018-03-19',
     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
     url='https://gateway.watsonplatform.net/visual-recognition/api',
-    iam_apikey='YOUR APIKEY')
+    authenticator=authenticator)
 
 # with open(abspath('resources/cars.zip'), 'rb') as cars, \
 #      open(abspath('resources/trucks.zip'), 'rb') as trucks:
