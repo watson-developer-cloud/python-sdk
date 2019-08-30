@@ -1,0 +1,739 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>ibm_watson.tone_analyzer_v3 module &#8212; Watson Developer Cloud Python SDK 4.0.0rc1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ibm_watson.visual_recognition_v3 module" href="ibm_watson.visual_recognition_v3.html" />
+    <link rel="prev" title="ibm_watson.text_to_speech_v1 module" href="ibm_watson.text_to_speech_v1.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-ibm_watson.tone_analyzer_v3">
+<span id="ibm-watson-tone-analyzer-v3-module"></span><h1>ibm_watson.tone_analyzer_v3 module<a class="headerlink" href="#module-ibm_watson.tone_analyzer_v3" title="Permalink to this headline">¶</a></h1>
+<p>The IBM Watson&amp;trade; Tone Analyzer service uses linguistic analysis to detect emotional
+and language tones in written text. The service can analyze tone at both the document and
+sentence levels. You can use the service to understand how your written communications are
+perceived and then to improve the tone of your communications. Businesses can use the
+service to learn the tone of their customers’ communications and to respond to each
+customer appropriately, or to understand and improve their customer conversations.
+<strong>Note:</strong> Request logging is disabled for the Tone Analyzer service. Regardless of whether
+you set the <cite>X-Watson-Learning-Opt-Out</cite> request header, the service does not log or retain
+data from requests and responses.</p>
+<dl class="class">
+<dt id="ibm_watson.tone_analyzer_v3.ToneAnalyzerV3">
+<em class="property">class </em><code class="sig-name descname">ToneAnalyzerV3</code><span class="sig-paren">(</span><em class="sig-param">version</em>, <em class="sig-param">url='https://gateway.watsonplatform.net/tone-analyzer/api'</em>, <em class="sig-param">authenticator=None</em>, <em class="sig-param">disable_ssl_verification=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/tone_analyzer_v3.html#ToneAnalyzerV3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneAnalyzerV3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ibm_cloud_sdk_core.base_service.BaseService</span></code></p>
+<p>The Tone Analyzer V3 service.</p>
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneAnalyzerV3.default_url">
+<code class="sig-name descname">default_url</code><em class="property"> = 'https://gateway.watsonplatform.net/tone-analyzer/api'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneAnalyzerV3.default_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.tone_analyzer_v3.ToneAnalyzerV3.tone">
+<code class="sig-name descname">tone</code><span class="sig-paren">(</span><em class="sig-param">tone_input</em>, <em class="sig-param">*</em>, <em class="sig-param">content_type=None</em>, <em class="sig-param">sentences=None</em>, <em class="sig-param">tones=None</em>, <em class="sig-param">content_language=None</em>, <em class="sig-param">accept_language=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/tone_analyzer_v3.html#ToneAnalyzerV3.tone"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneAnalyzerV3.tone" title="Permalink to this definition">¶</a></dt>
+<dd><p>Analyze general tone.</p>
+<p>Use the general-purpose endpoint to analyze the tone of your input content. The
+service analyzes the content for emotional and language tones. The method always
+analyzes the tone of the full document; by default, it also analyzes the tone of
+each individual sentence of the content.
+You can submit no more than 128 KB of total input content and no more than 1000
+individual sentences in JSON, plain text, or HTML format. The service analyzes the
+first 1000 sentences for document-level analysis and only the first 100 sentences
+for sentence-level analysis.
+Per the JSON specification, the default character encoding for JSON content is
+effectively always UTF-8; per the HTTP specification, the default encoding for
+plain text and HTML is ISO-8859-1 (effectively, the ASCII character set). When
+specifying a content type of plain text or HTML, include the <cite>charset</cite> parameter
+to indicate the character encoding of the input text; for example: <cite>Content-Type:
+text/plain;charset=utf-8</cite>. For <cite>text/html</cite>, the service removes HTML tags and
+analyzes only the textual content.
+<strong>See also:</strong> [Using the general-purpose
+endpoint](<a class="reference external" href="https://cloud.ibm.com/docs/services/tone-analyzer?topic=tone-analyzer-utgpe#utgpe">https://cloud.ibm.com/docs/services/tone-analyzer?topic=tone-analyzer-utgpe#utgpe</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tone_input</strong> (<a class="reference internal" href="#ibm_watson.tone_analyzer_v3.ToneInput" title="ibm_watson.tone_analyzer_v3.ToneInput"><em>ToneInput</em></a>) – JSON, plain text, or HTML input that contains
+the content to be analyzed. For JSON input, provide an object of type
+<cite>ToneInput</cite>.</p></li>
+<li><p><strong>content_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – (optional) The type of the input. A character
+encoding can be specified by including a <cite>charset</cite> parameter. For example,
+‘text/plain;charset=utf-8’.</p></li>
+<li><p><strong>sentences</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – (optional) Indicates whether the service is to
+return an analysis of each individual sentence in addition to its analysis
+of the full document. If <cite>true</cite> (the default), the service returns results
+for each sentence.</p></li>
+<li><p><strong>tones</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>]</em>) – (optional) <strong>`2017-09-21`:</strong> Deprecated. The
+service continues to accept the parameter for backward-compatibility, but
+the parameter no longer affects the response.
+<strong>`2016-05-19`:</strong> A comma-separated list of tones for which the service is
+to return its analysis of the input; the indicated tones apply both to the
+full document and to individual sentences of the document. You can specify
+one or more of the valid values. Omit the parameter to request results for
+all three tones.</p></li>
+<li><p><strong>content_language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – (optional) The language of the input text for
+the request: English or French. Regional variants are treated as their
+parent language; for example, <cite>en-US</cite> is interpreted as <cite>en</cite>. The input
+content must match the specified language. Do not submit content that
+contains both languages. You can use different languages for
+<strong>Content-Language</strong> and <strong>Accept-Language</strong>.
+* <strong>`2017-09-21`:</strong> Accepts <cite>en</cite> or <cite>fr</cite>.
+* <strong>`2016-05-19`:</strong> Accepts only <cite>en</cite>.</p></li>
+<li><p><strong>accept_language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – (optional) The desired language of the
+response. For two-character arguments, regional variants are treated as
+their parent language; for example, <cite>en-US</cite> is interpreted as <cite>en</cite>. You can
+use different languages for <strong>Content-Language</strong> and <strong>Accept-Language</strong>.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.tone_analyzer_v3.ToneAnalyzerV3.tone_chat">
+<code class="sig-name descname">tone_chat</code><span class="sig-paren">(</span><em class="sig-param">utterances</em>, <em class="sig-param">*</em>, <em class="sig-param">content_language=None</em>, <em class="sig-param">accept_language=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/tone_analyzer_v3.html#ToneAnalyzerV3.tone_chat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneAnalyzerV3.tone_chat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Analyze customer-engagement tone.</p>
+<p>Use the customer-engagement endpoint to analyze the tone of customer service and
+customer support conversations. For each utterance of a conversation, the method
+reports the most prevalent subset of the following seven tones: sad, frustrated,
+satisfied, excited, polite, impolite, and sympathetic.
+If you submit more than 50 utterances, the service returns a warning for the
+overall content and analyzes only the first 50 utterances. If you submit a single
+utterance that contains more than 500 characters, the service returns an error for
+that utterance and does not analyze the utterance. The request fails if all
+utterances have more than 500 characters. Per the JSON specification, the default
+character encoding for JSON content is effectively always UTF-8.
+<strong>See also:</strong> [Using the customer-engagement
+endpoint](<a class="reference external" href="https://cloud.ibm.com/docs/services/tone-analyzer?topic=tone-analyzer-utco#utco">https://cloud.ibm.com/docs/services/tone-analyzer?topic=tone-analyzer-utco#utco</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>utterances</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><em>list</em></a><em>[</em><a class="reference internal" href="#ibm_watson.tone_analyzer_v3.Utterance" title="ibm_watson.tone_analyzer_v3.Utterance"><em>Utterance</em></a><em>]</em>) – An array of <cite>Utterance</cite> objects that
+provides the input content that the service is to analyze.</p></li>
+<li><p><strong>content_language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – (optional) The language of the input text for
+the request: English or French. Regional variants are treated as their
+parent language; for example, <cite>en-US</cite> is interpreted as <cite>en</cite>. The input
+content must match the specified language. Do not submit content that
+contains both languages. You can use different languages for
+<strong>Content-Language</strong> and <strong>Accept-Language</strong>.
+* <strong>`2017-09-21`:</strong> Accepts <cite>en</cite> or <cite>fr</cite>.
+* <strong>`2016-05-19`:</strong> Accepts only <cite>en</cite>.</p></li>
+<li><p><strong>accept_language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – (optional) The desired language of the
+response. For two-character arguments, regional variants are treated as
+their parent language; for example, <cite>en-US</cite> is interpreted as <cite>en</cite>. You can
+use different languages for <strong>Content-Language</strong> and <strong>Accept-Language</strong>.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.tone_analyzer_v3.ToneEnums">
+<em class="property">class </em><code class="sig-name descname">ToneEnums</code><a class="reference internal" href="../_modules/ibm_watson/tone_analyzer_v3.html#ToneEnums"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneEnums" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="class">
+<dt id="ibm_watson.tone_analyzer_v3.ToneEnums.ContentType">
+<em class="property">class </em><code class="sig-name descname">ContentType</code><a class="reference internal" href="../_modules/ibm_watson/tone_analyzer_v3.html#ToneEnums.ContentType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneEnums.ContentType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>The type of the input. A character encoding can be specified by including a
+<cite>charset</cite> parameter. For example, ‘text/plain;charset=utf-8’.</p>
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneEnums.ContentType.APPLICATION_JSON">
+<code class="sig-name descname">APPLICATION_JSON</code><em class="property"> = 'application/json'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneEnums.ContentType.APPLICATION_JSON" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneEnums.ContentType.TEXT_PLAIN">
+<code class="sig-name descname">TEXT_PLAIN</code><em class="property"> = 'text/plain'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneEnums.ContentType.TEXT_PLAIN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneEnums.ContentType.TEXT_HTML">
+<code class="sig-name descname">TEXT_HTML</code><em class="property"> = 'text/html'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneEnums.ContentType.TEXT_HTML" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.tone_analyzer_v3.ToneEnums.Tones">
+<em class="property">class </em><code class="sig-name descname">Tones</code><a class="reference internal" href="../_modules/ibm_watson/tone_analyzer_v3.html#ToneEnums.Tones"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneEnums.Tones" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p><strong>`2017-09-21`:</strong> Deprecated. The service continues to accept the parameter for
+backward-compatibility, but the parameter no longer affects the response.
+<strong>`2016-05-19`:</strong> A comma-separated list of tones for which the service is to
+return its analysis of the input; the indicated tones apply both to the full
+document and to individual sentences of the document. You can specify one or more
+of the valid values. Omit the parameter to request results for all three tones.</p>
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneEnums.Tones.EMOTION">
+<code class="sig-name descname">EMOTION</code><em class="property"> = 'emotion'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneEnums.Tones.EMOTION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneEnums.Tones.LANGUAGE">
+<code class="sig-name descname">LANGUAGE</code><em class="property"> = 'language'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneEnums.Tones.LANGUAGE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneEnums.Tones.SOCIAL">
+<code class="sig-name descname">SOCIAL</code><em class="property"> = 'social'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneEnums.Tones.SOCIAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.tone_analyzer_v3.ToneEnums.ContentLanguage">
+<em class="property">class </em><code class="sig-name descname">ContentLanguage</code><a class="reference internal" href="../_modules/ibm_watson/tone_analyzer_v3.html#ToneEnums.ContentLanguage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneEnums.ContentLanguage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>The language of the input text for the request: English or French. Regional
+variants are treated as their parent language; for example, <cite>en-US</cite> is interpreted
+as <cite>en</cite>. The input content must match the specified language. Do not submit
+content that contains both languages. You can use different languages for
+<strong>Content-Language</strong> and <strong>Accept-Language</strong>.
+* <strong>`2017-09-21`:</strong> Accepts <cite>en</cite> or <cite>fr</cite>.
+* <strong>`2016-05-19`:</strong> Accepts only <cite>en</cite>.</p>
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneEnums.ContentLanguage.EN">
+<code class="sig-name descname">EN</code><em class="property"> = 'en'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneEnums.ContentLanguage.EN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneEnums.ContentLanguage.FR">
+<code class="sig-name descname">FR</code><em class="property"> = 'fr'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneEnums.ContentLanguage.FR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.tone_analyzer_v3.ToneEnums.AcceptLanguage">
+<em class="property">class </em><code class="sig-name descname">AcceptLanguage</code><a class="reference internal" href="../_modules/ibm_watson/tone_analyzer_v3.html#ToneEnums.AcceptLanguage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneEnums.AcceptLanguage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>The desired language of the response. For two-character arguments, regional
+variants are treated as their parent language; for example, <cite>en-US</cite> is interpreted
+as <cite>en</cite>. You can use different languages for <strong>Content-Language</strong> and
+<strong>Accept-Language</strong>.</p>
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneEnums.AcceptLanguage.AR">
+<code class="sig-name descname">AR</code><em class="property"> = 'ar'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneEnums.AcceptLanguage.AR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneEnums.AcceptLanguage.DE">
+<code class="sig-name descname">DE</code><em class="property"> = 'de'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneEnums.AcceptLanguage.DE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneEnums.AcceptLanguage.EN">
+<code class="sig-name descname">EN</code><em class="property"> = 'en'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneEnums.AcceptLanguage.EN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneEnums.AcceptLanguage.ES">
+<code class="sig-name descname">ES</code><em class="property"> = 'es'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneEnums.AcceptLanguage.ES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneEnums.AcceptLanguage.FR">
+<code class="sig-name descname">FR</code><em class="property"> = 'fr'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneEnums.AcceptLanguage.FR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneEnums.AcceptLanguage.IT">
+<code class="sig-name descname">IT</code><em class="property"> = 'it'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneEnums.AcceptLanguage.IT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneEnums.AcceptLanguage.JA">
+<code class="sig-name descname">JA</code><em class="property"> = 'ja'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneEnums.AcceptLanguage.JA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneEnums.AcceptLanguage.KO">
+<code class="sig-name descname">KO</code><em class="property"> = 'ko'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneEnums.AcceptLanguage.KO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneEnums.AcceptLanguage.PT_BR">
+<code class="sig-name descname">PT_BR</code><em class="property"> = 'pt-br'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneEnums.AcceptLanguage.PT_BR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneEnums.AcceptLanguage.ZH_CN">
+<code class="sig-name descname">ZH_CN</code><em class="property"> = 'zh-cn'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneEnums.AcceptLanguage.ZH_CN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneEnums.AcceptLanguage.ZH_TW">
+<code class="sig-name descname">ZH_TW</code><em class="property"> = 'zh-tw'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneEnums.AcceptLanguage.ZH_TW" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.tone_analyzer_v3.ToneChatEnums">
+<em class="property">class </em><code class="sig-name descname">ToneChatEnums</code><a class="reference internal" href="../_modules/ibm_watson/tone_analyzer_v3.html#ToneChatEnums"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneChatEnums" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="class">
+<dt id="ibm_watson.tone_analyzer_v3.ToneChatEnums.ContentLanguage">
+<em class="property">class </em><code class="sig-name descname">ContentLanguage</code><a class="reference internal" href="../_modules/ibm_watson/tone_analyzer_v3.html#ToneChatEnums.ContentLanguage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneChatEnums.ContentLanguage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>The language of the input text for the request: English or French. Regional
+variants are treated as their parent language; for example, <cite>en-US</cite> is interpreted
+as <cite>en</cite>. The input content must match the specified language. Do not submit
+content that contains both languages. You can use different languages for
+<strong>Content-Language</strong> and <strong>Accept-Language</strong>.
+* <strong>`2017-09-21`:</strong> Accepts <cite>en</cite> or <cite>fr</cite>.
+* <strong>`2016-05-19`:</strong> Accepts only <cite>en</cite>.</p>
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneChatEnums.ContentLanguage.EN">
+<code class="sig-name descname">EN</code><em class="property"> = 'en'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneChatEnums.ContentLanguage.EN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneChatEnums.ContentLanguage.FR">
+<code class="sig-name descname">FR</code><em class="property"> = 'fr'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneChatEnums.ContentLanguage.FR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.tone_analyzer_v3.ToneChatEnums.AcceptLanguage">
+<em class="property">class </em><code class="sig-name descname">AcceptLanguage</code><a class="reference internal" href="../_modules/ibm_watson/tone_analyzer_v3.html#ToneChatEnums.AcceptLanguage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneChatEnums.AcceptLanguage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>The desired language of the response. For two-character arguments, regional
+variants are treated as their parent language; for example, <cite>en-US</cite> is interpreted
+as <cite>en</cite>. You can use different languages for <strong>Content-Language</strong> and
+<strong>Accept-Language</strong>.</p>
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneChatEnums.AcceptLanguage.AR">
+<code class="sig-name descname">AR</code><em class="property"> = 'ar'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneChatEnums.AcceptLanguage.AR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneChatEnums.AcceptLanguage.DE">
+<code class="sig-name descname">DE</code><em class="property"> = 'de'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneChatEnums.AcceptLanguage.DE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneChatEnums.AcceptLanguage.EN">
+<code class="sig-name descname">EN</code><em class="property"> = 'en'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneChatEnums.AcceptLanguage.EN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneChatEnums.AcceptLanguage.ES">
+<code class="sig-name descname">ES</code><em class="property"> = 'es'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneChatEnums.AcceptLanguage.ES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneChatEnums.AcceptLanguage.FR">
+<code class="sig-name descname">FR</code><em class="property"> = 'fr'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneChatEnums.AcceptLanguage.FR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneChatEnums.AcceptLanguage.IT">
+<code class="sig-name descname">IT</code><em class="property"> = 'it'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneChatEnums.AcceptLanguage.IT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneChatEnums.AcceptLanguage.JA">
+<code class="sig-name descname">JA</code><em class="property"> = 'ja'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneChatEnums.AcceptLanguage.JA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneChatEnums.AcceptLanguage.KO">
+<code class="sig-name descname">KO</code><em class="property"> = 'ko'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneChatEnums.AcceptLanguage.KO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneChatEnums.AcceptLanguage.PT_BR">
+<code class="sig-name descname">PT_BR</code><em class="property"> = 'pt-br'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneChatEnums.AcceptLanguage.PT_BR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneChatEnums.AcceptLanguage.ZH_CN">
+<code class="sig-name descname">ZH_CN</code><em class="property"> = 'zh-cn'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneChatEnums.AcceptLanguage.ZH_CN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneChatEnums.AcceptLanguage.ZH_TW">
+<code class="sig-name descname">ZH_TW</code><em class="property"> = 'zh-tw'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneChatEnums.AcceptLanguage.ZH_TW" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.tone_analyzer_v3.DocumentAnalysis">
+<em class="property">class </em><code class="sig-name descname">DocumentAnalysis</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">tones=None</em>, <em class="sig-param">tone_categories=None</em>, <em class="sig-param">warning=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/tone_analyzer_v3.html#DocumentAnalysis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.DocumentAnalysis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The results of the analysis for the full input content.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr list[ToneScore] tones</dt>
+<dd class="field-odd"><p>(optional) <strong>`2017-09-21`:</strong> An array of
+<cite>ToneScore</cite> objects that provides the results of the analysis for each
+qualifying tone of the document. The array includes results for any tone whose
+score is at least 0.5. The array is empty if no tone has a score that meets this
+threshold. <strong>`2016-05-19`:</strong> Not returned.</p>
+</dd>
+<dt class="field-even">Attr list[ToneCategory] tone_categories</dt>
+<dd class="field-even"><p>(optional) <strong>`2017-09-21`:</strong> Not
+returned. <strong>`2016-05-19`:</strong> An array of <cite>ToneCategory</cite> objects that provides the
+results of the tone analysis for the full document of the input content. The
+service returns results only for the tones specified with the <cite>tones</cite> parameter
+of the request.</p>
+</dd>
+<dt class="field-odd">Attr str warning</dt>
+<dd class="field-odd"><p>(optional) <strong>`2017-09-21`:</strong> A warning message if the overall
+content exceeds 128 KB or contains more than 1000 sentences. The service
+analyzes only the first 1000 sentences for document-level analysis and the first
+100 sentences for sentence-level analysis. <strong>`2016-05-19`:</strong> Not returned.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.tone_analyzer_v3.SentenceAnalysis">
+<em class="property">class </em><code class="sig-name descname">SentenceAnalysis</code><span class="sig-paren">(</span><em class="sig-param">sentence_id</em>, <em class="sig-param">text</em>, <em class="sig-param">*</em>, <em class="sig-param">tones=None</em>, <em class="sig-param">tone_categories=None</em>, <em class="sig-param">input_from=None</em>, <em class="sig-param">input_to=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/tone_analyzer_v3.html#SentenceAnalysis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.SentenceAnalysis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The results of the analysis for the individual sentences of the input content.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr int sentence_id</dt>
+<dd class="field-odd"><p>The unique identifier of a sentence of the input content.
+The first sentence has ID 0, and the ID of each subsequent sentence is
+incremented by one.</p>
+</dd>
+<dt class="field-even">Attr str text</dt>
+<dd class="field-even"><p>The text of the input sentence.</p>
+</dd>
+<dt class="field-odd">Attr list[ToneScore] tones</dt>
+<dd class="field-odd"><p>(optional) <strong>`2017-09-21`:</strong> An array of
+<cite>ToneScore</cite> objects that provides the results of the analysis for each
+qualifying tone of the sentence. The array includes results for any tone whose
+score is at least 0.5. The array is empty if no tone has a score that meets this
+threshold. <strong>`2016-05-19`:</strong> Not returned.</p>
+</dd>
+<dt class="field-even">Attr list[ToneCategory] tone_categories</dt>
+<dd class="field-even"><p>(optional) <strong>`2017-09-21`:</strong> Not
+returned. <strong>`2016-05-19`:</strong> An array of <cite>ToneCategory</cite> objects that provides the
+results of the tone analysis for the sentence. The service returns results only
+for the tones specified with the <cite>tones</cite> parameter of the request.</p>
+</dd>
+<dt class="field-odd">Attr int input_from</dt>
+<dd class="field-odd"><p>(optional) <strong>`2017-09-21`:</strong> Not returned.
+<strong>`2016-05-19`:</strong> The offset of the first character of the sentence in the
+overall input content.</p>
+</dd>
+<dt class="field-even">Attr int input_to</dt>
+<dd class="field-even"><p>(optional) <strong>`2017-09-21`:</strong> Not returned. <strong>`2016-05-19`:</strong>
+The offset of the last character of the sentence in the overall input content.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.tone_analyzer_v3.ToneAnalysis">
+<em class="property">class </em><code class="sig-name descname">ToneAnalysis</code><span class="sig-paren">(</span><em class="sig-param">document_tone</em>, <em class="sig-param">*</em>, <em class="sig-param">sentences_tone=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/tone_analyzer_v3.html#ToneAnalysis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneAnalysis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The tone analysis results for the input from the general-purpose endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr DocumentAnalysis document_tone</dt>
+<dd class="field-odd"><p>The results of the analysis for the full
+input content.</p>
+</dd>
+<dt class="field-even">Attr list[SentenceAnalysis] sentences_tone</dt>
+<dd class="field-even"><p>(optional) An array of
+<cite>SentenceAnalysis</cite> objects that provides the results of the analysis for the
+individual sentences of the input content. The service returns results only for
+the first 100 sentences of the input. The field is omitted if the <cite>sentences</cite>
+parameter of the request is set to <cite>false</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.tone_analyzer_v3.ToneCategory">
+<em class="property">class </em><code class="sig-name descname">ToneCategory</code><span class="sig-paren">(</span><em class="sig-param">tones</em>, <em class="sig-param">category_id</em>, <em class="sig-param">category_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/tone_analyzer_v3.html#ToneCategory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneCategory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The category for a tone from the input content.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr list[ToneScore] tones</dt>
+<dd class="field-odd"><p>An array of <cite>ToneScore</cite> objects that provides the
+results for the tones of the category.</p>
+</dd>
+<dt class="field-even">Attr str category_id</dt>
+<dd class="field-even"><p>The unique, non-localized identifier of the category for
+the results. The service can return results for the following category IDs:
+<cite>emotion_tone</cite>, <cite>language_tone</cite>, and <cite>social_tone</cite>.</p>
+</dd>
+<dt class="field-odd">Attr str category_name</dt>
+<dd class="field-odd"><p>The user-visible, localized name of the category.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.tone_analyzer_v3.ToneChatScore">
+<em class="property">class </em><code class="sig-name descname">ToneChatScore</code><span class="sig-paren">(</span><em class="sig-param">score</em>, <em class="sig-param">tone_id</em>, <em class="sig-param">tone_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/tone_analyzer_v3.html#ToneChatScore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneChatScore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The score for an utterance from the input content.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr float score</dt>
+<dd class="field-odd"><p>The score for the tone in the range of 0.5 to 1. A score
+greater than 0.75 indicates a high likelihood that the tone is perceived in the
+utterance.</p>
+</dd>
+<dt class="field-even">Attr str tone_id</dt>
+<dd class="field-even"><p>The unique, non-localized identifier of the tone for the
+results. The service returns results only for tones whose scores meet a minimum
+threshold of 0.5.</p>
+</dd>
+<dt class="field-odd">Attr str tone_name</dt>
+<dd class="field-odd"><p>The user-visible, localized name of the tone.</p>
+</dd>
+</dl>
+<dl class="class">
+<dt id="ibm_watson.tone_analyzer_v3.ToneChatScore.ToneIdEnum">
+<em class="property">class </em><code class="sig-name descname">ToneIdEnum</code><a class="reference internal" href="../_modules/ibm_watson/tone_analyzer_v3.html#ToneChatScore.ToneIdEnum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneChatScore.ToneIdEnum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>The unique, non-localized identifier of the tone for the results. The service
+returns results only for tones whose scores meet a minimum threshold of 0.5.</p>
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneChatScore.ToneIdEnum.EXCITED">
+<code class="sig-name descname">EXCITED</code><em class="property"> = 'excited'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneChatScore.ToneIdEnum.EXCITED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneChatScore.ToneIdEnum.FRUSTRATED">
+<code class="sig-name descname">FRUSTRATED</code><em class="property"> = 'frustrated'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneChatScore.ToneIdEnum.FRUSTRATED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneChatScore.ToneIdEnum.IMPOLITE">
+<code class="sig-name descname">IMPOLITE</code><em class="property"> = 'impolite'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneChatScore.ToneIdEnum.IMPOLITE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneChatScore.ToneIdEnum.POLITE">
+<code class="sig-name descname">POLITE</code><em class="property"> = 'polite'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneChatScore.ToneIdEnum.POLITE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneChatScore.ToneIdEnum.SAD">
+<code class="sig-name descname">SAD</code><em class="property"> = 'sad'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneChatScore.ToneIdEnum.SAD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneChatScore.ToneIdEnum.SATISFIED">
+<code class="sig-name descname">SATISFIED</code><em class="property"> = 'satisfied'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneChatScore.ToneIdEnum.SATISFIED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.tone_analyzer_v3.ToneChatScore.ToneIdEnum.SYMPATHETIC">
+<code class="sig-name descname">SYMPATHETIC</code><em class="property"> = 'sympathetic'</em><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneChatScore.ToneIdEnum.SYMPATHETIC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.tone_analyzer_v3.ToneInput">
+<em class="property">class </em><code class="sig-name descname">ToneInput</code><span class="sig-paren">(</span><em class="sig-param">text</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/tone_analyzer_v3.html#ToneInput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneInput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Input for the general-purpose endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str text</dt>
+<dd class="field-odd"><p>The input content that the service is to analyze.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.tone_analyzer_v3.ToneScore">
+<em class="property">class </em><code class="sig-name descname">ToneScore</code><span class="sig-paren">(</span><em class="sig-param">score</em>, <em class="sig-param">tone_id</em>, <em class="sig-param">tone_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/tone_analyzer_v3.html#ToneScore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.ToneScore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The score for a tone from the input content.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr float score</dt>
+<dd class="field-odd"><p>The score for the tone.
+* <strong>`2017-09-21`:</strong> The score that is returned lies in the range of 0.5 to 1. A
+score greater than 0.75 indicates a high likelihood that the tone is perceived
+in the content.
+* <strong>`2016-05-19`:</strong> The score that is returned lies in the range of 0 to 1. A
+score less than 0.5 indicates that the tone is unlikely to be perceived in the
+content; a score greater than 0.75 indicates a high likelihood that the tone is
+perceived.</p>
+</dd>
+<dt class="field-even">Attr str tone_id</dt>
+<dd class="field-even"><p>The unique, non-localized identifier of the tone.
+* <strong>`2017-09-21`:</strong> The service can return results for the following tone IDs:
+<cite>anger</cite>, <cite>fear</cite>, <cite>joy</cite>, and <cite>sadness</cite> (emotional tones); <cite>analytical</cite>,
+<cite>confident</cite>, and <cite>tentative</cite> (language tones). The service returns results only
+for tones whose scores meet a minimum threshold of 0.5.
+* <strong>`2016-05-19`:</strong> The service can return results for the following tone IDs of
+the different categories: for the <cite>emotion</cite> category: <cite>anger</cite>, <cite>disgust</cite>,
+<cite>fear</cite>, <cite>joy</cite>, and <cite>sadness</cite>; for the <cite>language</cite> category: <cite>analytical</cite>,
+<cite>confident</cite>, and <cite>tentative</cite>; for the <cite>social</cite> category: <cite>openness_big5</cite>,
+<cite>conscientiousness_big5</cite>, <cite>extraversion_big5</cite>, <cite>agreeableness_big5</cite>, and
+<cite>emotional_range_big5</cite>. The service returns scores for all tones of a category,
+regardless of their values.</p>
+</dd>
+<dt class="field-odd">Attr str tone_name</dt>
+<dd class="field-odd"><p>The user-visible, localized name of the tone.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.tone_analyzer_v3.Utterance">
+<em class="property">class </em><code class="sig-name descname">Utterance</code><span class="sig-paren">(</span><em class="sig-param">text</em>, <em class="sig-param">*</em>, <em class="sig-param">user=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/tone_analyzer_v3.html#Utterance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.Utterance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An utterance for the input of the general-purpose endpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str text</dt>
+<dd class="field-odd"><p>An utterance contributed by a user in the conversation that is
+to be analyzed. The utterance can contain multiple sentences.</p>
+</dd>
+<dt class="field-even">Attr str user</dt>
+<dd class="field-even"><p>(optional) A string that identifies the user who contributed the
+utterance specified by the <cite>text</cite> parameter.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.tone_analyzer_v3.UtteranceAnalyses">
+<em class="property">class </em><code class="sig-name descname">UtteranceAnalyses</code><span class="sig-paren">(</span><em class="sig-param">utterances_tone</em>, <em class="sig-param">*</em>, <em class="sig-param">warning=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/tone_analyzer_v3.html#UtteranceAnalyses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.UtteranceAnalyses" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The results of the analysis for the utterances of the input content.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr list[UtteranceAnalysis] utterances_tone</dt>
+<dd class="field-odd"><p>An array of <cite>UtteranceAnalysis</cite>
+objects that provides the results for each utterance of the input.</p>
+</dd>
+<dt class="field-even">Attr str warning</dt>
+<dd class="field-even"><p>(optional) <strong>`2017-09-21`:</strong> A warning message if the content
+contains more than 50 utterances. The service analyzes only the first 50
+utterances. <strong>`2016-05-19`:</strong> Not returned.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.tone_analyzer_v3.UtteranceAnalysis">
+<em class="property">class </em><code class="sig-name descname">UtteranceAnalysis</code><span class="sig-paren">(</span><em class="sig-param">utterance_id</em>, <em class="sig-param">utterance_text</em>, <em class="sig-param">tones</em>, <em class="sig-param">*</em>, <em class="sig-param">error=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/tone_analyzer_v3.html#UtteranceAnalysis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.tone_analyzer_v3.UtteranceAnalysis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The results of the analysis for an utterance of the input content.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr int utterance_id</dt>
+<dd class="field-odd"><p>The unique identifier of the utterance. The first
+utterance has ID 0, and the ID of each subsequent utterance is incremented by
+one.</p>
+</dd>
+<dt class="field-even">Attr str utterance_text</dt>
+<dd class="field-even"><p>The text of the utterance.</p>
+</dd>
+<dt class="field-odd">Attr list[ToneChatScore] tones</dt>
+<dd class="field-odd"><p>An array of <cite>ToneChatScore</cite> objects that
+provides results for the most prevalent tones of the utterance. The array
+includes results for any tone whose score is at least 0.5. The array is empty if
+no tone has a score that meets this threshold.</p>
+</dd>
+<dt class="field-even">Attr str error</dt>
+<dd class="field-even"><p>(optional) <strong>`2017-09-21`:</strong> An error message if the utterance
+contains more than 500 characters. The service does not analyze the utterance.
+<strong>`2016-05-19`:</strong> Not returned.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="ibm_watson.text_to_speech_v1.html" title="previous chapter">ibm_watson.text_to_speech_v1 module</a></li>
+      <li>Next: <a href="ibm_watson.visual_recognition_v3.html" title="next chapter">ibm_watson.visual_recognition_v3 module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
