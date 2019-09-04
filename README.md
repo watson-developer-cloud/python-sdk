@@ -30,7 +30,8 @@ Python client library to quickly get started with the various [Watson APIs][wdc]
   * [Sending request headers](#sending-request-headers)
   * [Parsing HTTP response info](#parsing-http-response-info)
   * [Using Websockets](#using-websockets)
-  * [IBM Cloud Pak for Data(ICP4D)](#ibm-cloud-pak-for-data(icp4d))
+  * [Cloud Pak for Data(CP4D)](#cloud-pak-for-data)
+  * [Debugging/Logging](#debugging-and-logging)
   * [Dependencies](#dependencies)
   * [License](#license)
   * [Contributing](#contributing)
@@ -364,7 +365,7 @@ service.synthesize_using_websocket('I like to pet dogs',
                                   )
 ```
 
-## Cloud Pak for Data(CP4D)
+## Cloud Pak for Data
 If your service instance is of CP4D, below are two ways of initializing the assistant service.
 
 ### 1) Supplying the username, password and authentication url
@@ -398,6 +399,67 @@ assistant = AssistantV1(version='<version>',
                         disable_ssl_verification=True) # MAKE SURE SSL VERIFICATION IS DISABLED
 ```
 
+## Debugging and Logging
+
+### Enable Debugging
+To take advantage of the underlying http request printed to stdout, simply enable debugging
+```python
+my_service.enable_debugging()
+```
+
+### Enable Debugging
+To disable debugging printed to stdout, simply disable debugging
+```python
+my_service.disable_debugging()
+```
+
+### Enable logging
+We support python's logging capabilities by passing in a config file. As an example, consider the following `logging.conf` file
+
+```
+[loggers]
+keys=root
+
+[handlers]
+keys=fileHandler
+
+[formatters]
+keys=Formatter
+
+[logger_root]
+level=DEBUG
+handlers=fileHandler
+qualname=main
+
+[handler_fileHandler]
+class=FileHandler
+level=DEBUG
+formatter=Formatter
+args=('app.log', 'w', 'utf8')
+
+[formatter_Formatter]
+format=%(asctime)s - %(levelname)s - %(message)s
+datefmt="%Y-%m-%d %H:%M:%S"
+```
+
+Using this file, enable logging:
+
+```python
+from os import path
+log_file_path = path.join(path.dirname(path.abspath(__file__)), 'logging.conf')
+my_service.enable_logging(log_file_path)
+```
+
+### Get logger
+Using the logger, configure it as per your needs. As an example:
+
+```python
+logger = my_service.get_logger()
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+logger.addHandler(ch)
+```
+
 ## Dependencies
 
 * [requests]
@@ -405,7 +467,7 @@ assistant = AssistantV1(version='<version>',
 * [responses] for testing
 * Following for web sockets support in speech to text
    * `websocket-client` 0.48.0
-* `ibm_cloud_sdk_core` >= 1.0.0rc4
+* `ibm_cloud_sdk_core` >= 1.0.0rc5
 
 ## Contributing
 
