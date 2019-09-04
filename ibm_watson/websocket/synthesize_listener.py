@@ -18,6 +18,8 @@ import websocket
 import json
 import ssl
 import time
+import logging
+import sys
 try:
     import thread
 except ImportError:
@@ -34,7 +36,8 @@ class SynthesizeListener(object):
                  headers,
                  http_proxy_host=None,
                  http_proxy_port=None,
-                 verify=None):
+                 verify=None,
+                 debug=False):
         self.options = options
         self.callback = callback
         self.url = url
@@ -43,7 +46,9 @@ class SynthesizeListener(object):
         self.http_proxy_port = http_proxy_port
         self.verify = verify
 
-        # websocket.enableTrace(True)
+        if debug:
+            logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+            websocket.enableTrace(True)
 
         self.ws_client = websocket.WebSocketApp(
             self.url,
