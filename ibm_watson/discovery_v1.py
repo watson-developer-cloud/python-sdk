@@ -365,18 +365,13 @@ class DiscoveryV1(BaseService):
         if name is None:
             raise ValueError('name must be provided')
         if conversions is not None:
-            conversions = self._convert_model(conversions, Conversions)
+            conversions = self._convert_model(conversions)
         if enrichments is not None:
-            enrichments = [
-                self._convert_model(x, Enrichment) for x in enrichments
-            ]
+            enrichments = [self._convert_model(x) for x in enrichments]
         if normalizations is not None:
-            normalizations = [
-                self._convert_model(x, NormalizationOperation)
-                for x in normalizations
-            ]
+            normalizations = [self._convert_model(x) for x in normalizations]
         if source is not None:
-            source = self._convert_model(source, Source)
+            source = self._convert_model(source)
 
         headers = {}
         if 'headers' in kwargs:
@@ -527,18 +522,13 @@ class DiscoveryV1(BaseService):
         if name is None:
             raise ValueError('name must be provided')
         if conversions is not None:
-            conversions = self._convert_model(conversions, Conversions)
+            conversions = self._convert_model(conversions)
         if enrichments is not None:
-            enrichments = [
-                self._convert_model(x, Enrichment) for x in enrichments
-            ]
+            enrichments = [self._convert_model(x) for x in enrichments]
         if normalizations is not None:
-            normalizations = [
-                self._convert_model(x, NormalizationOperation)
-                for x in normalizations
-            ]
+            normalizations = [self._convert_model(x) for x in normalizations]
         if source is not None:
-            source = self._convert_model(source, Source)
+            source = self._convert_model(source)
 
         headers = {}
         if 'headers' in kwargs:
@@ -1039,7 +1029,7 @@ class DiscoveryV1(BaseService):
             raise ValueError('collection_id must be provided')
         if expansions is None:
             raise ValueError('expansions must be provided')
-        expansions = [self._convert_model(x, Expansion) for x in expansions]
+        expansions = [self._convert_model(x) for x in expansions]
 
         headers = {}
         if 'headers' in kwargs:
@@ -1169,8 +1159,7 @@ class DiscoveryV1(BaseService):
             raise ValueError('collection_id must be provided')
         if tokenization_rules is not None:
             tokenization_rules = [
-                self._convert_model(x, TokenDictRule)
-                for x in tokenization_rules
+                self._convert_model(x) for x in tokenization_rules
             ]
 
         headers = {}
@@ -2235,9 +2224,9 @@ class DiscoveryV1(BaseService):
         if collection_id is None:
             raise ValueError('collection_id must be provided')
         if entity is not None:
-            entity = self._convert_model(entity, QueryEntitiesEntity)
+            entity = self._convert_model(entity)
         if context is not None:
-            context = self._convert_model(context, QueryEntitiesContext)
+            context = self._convert_model(context)
 
         headers = {}
         if 'headers' in kwargs:
@@ -2313,13 +2302,11 @@ class DiscoveryV1(BaseService):
         if collection_id is None:
             raise ValueError('collection_id must be provided')
         if entities is not None:
-            entities = [
-                self._convert_model(x, QueryRelationsEntity) for x in entities
-            ]
+            entities = [self._convert_model(x) for x in entities]
         if context is not None:
-            context = self._convert_model(context, QueryEntitiesContext)
+            context = self._convert_model(context)
         if filter is not None:
-            filter = self._convert_model(filter, QueryRelationsFilter)
+            filter = self._convert_model(filter)
 
         headers = {}
         if 'headers' in kwargs:
@@ -2423,9 +2410,7 @@ class DiscoveryV1(BaseService):
         if collection_id is None:
             raise ValueError('collection_id must be provided')
         if examples is not None:
-            examples = [
-                self._convert_model(x, TrainingExample) for x in examples
-            ]
+            examples = [self._convert_model(x) for x in examples]
 
         headers = {}
         if 'headers' in kwargs:
@@ -2893,7 +2878,7 @@ class DiscoveryV1(BaseService):
             raise ValueError('type must be provided')
         if data is None:
             raise ValueError('data must be provided')
-        data = self._convert_model(data, EventData)
+        data = self._convert_model(data)
 
         headers = {}
         if 'headers' in kwargs:
@@ -3284,8 +3269,7 @@ class DiscoveryV1(BaseService):
         if environment_id is None:
             raise ValueError('environment_id must be provided')
         if credential_details is not None:
-            credential_details = self._convert_model(credential_details,
-                                                     CredentialDetails)
+            credential_details = self._convert_model(credential_details)
 
         headers = {}
         if 'headers' in kwargs:
@@ -3400,8 +3384,7 @@ class DiscoveryV1(BaseService):
         if credential_id is None:
             raise ValueError('credential_id must be provided')
         if credential_details is not None:
-            credential_details = self._convert_model(credential_details,
-                                                     CredentialDetails)
+            credential_details = self._convert_model(credential_details)
 
         headers = {}
         if 'headers' in kwargs:

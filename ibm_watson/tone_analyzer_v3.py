@@ -147,7 +147,7 @@ class ToneAnalyzerV3(BaseService):
         if tone_input is None:
             raise ValueError('tone_input must be provided')
         if isinstance(tone_input, ToneInput):
-            tone_input = self._convert_model(tone_input, ToneInput)
+            tone_input = self._convert_model(tone_input)
 
         headers = {
             'Content-Type': content_type,
@@ -219,7 +219,7 @@ class ToneAnalyzerV3(BaseService):
 
         if utterances is None:
             raise ValueError('utterances must be provided')
-        utterances = [ self._convert_model(x, Utterance) for x in utterances ]
+        utterances = [ self._convert_model(x) for x in utterances ]
 
         headers = {
             'Content-Language': content_language,
@@ -426,7 +426,6 @@ class DocumentAnalysis(object):
         return not self == other
 
 
-
 class SentenceAnalysis(object):
     """
     The results of the analysis for the individual sentences of the input content.
@@ -541,7 +540,6 @@ class SentenceAnalysis(object):
         return not self == other
 
 
-
 class ToneAnalysis(object):
     """
     The tone analysis results for the input from the general-purpose endpoint.
@@ -608,7 +606,6 @@ class ToneAnalysis(object):
     def __ne__(self, other):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
-
 
 
 class ToneCategory(object):
@@ -684,7 +681,6 @@ class ToneCategory(object):
     def __ne__(self, other):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
-
 
 
 class ToneChatScore(object):
@@ -763,20 +759,19 @@ class ToneChatScore(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-
+    
     class ToneIdEnum(Enum):
-            """
+        """
         The unique, non-localized identifier of the tone for the results. The service
         returns results only for tones whose scores meet a minimum threshold of 0.5.
         """
-            EXCITED = "excited"
-            FRUSTRATED = "frustrated"
-            IMPOLITE = "impolite"
-            POLITE = "polite"
-            SAD = "sad"
-            SATISFIED = "satisfied"
-            SYMPATHETIC = "sympathetic"
-
+        EXCITED = "excited"
+        FRUSTRATED = "frustrated"
+        IMPOLITE = "impolite"
+        POLITE = "polite"
+        SAD = "sad"
+        SATISFIED = "satisfied"
+        SYMPATHETIC = "sympathetic"
 
 
 class ToneInput(object):
@@ -828,7 +823,6 @@ class ToneInput(object):
     def __ne__(self, other):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
-
 
 
 class ToneScore(object):
@@ -936,7 +930,6 @@ class ToneScore(object):
         return not self == other
 
 
-
 class Utterance(object):
     """
     An utterance for the input of the general-purpose endpoint.
@@ -997,7 +990,6 @@ class Utterance(object):
     def __ne__(self, other):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
-
 
 
 class UtteranceAnalyses(object):
@@ -1063,7 +1055,6 @@ class UtteranceAnalyses(object):
     def __ne__(self, other):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
-
 
 
 class UtteranceAnalysis(object):
@@ -1154,6 +1145,5 @@ class UtteranceAnalysis(object):
     def __ne__(self, other):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
-
 
 

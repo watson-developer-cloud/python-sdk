@@ -151,7 +151,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
 
         if features is None:
             raise ValueError('features must be provided')
-        features = self._convert_model(features, Features)
+        features = self._convert_model(features)
 
         headers = {}
         if 'headers' in kwargs:

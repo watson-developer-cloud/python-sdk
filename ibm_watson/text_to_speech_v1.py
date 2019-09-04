@@ -489,7 +489,7 @@ class TextToSpeechV1(BaseService):
         if customization_id is None:
             raise ValueError('customization_id must be provided')
         if words is not None:
-            words = [self._convert_model(x, Word) for x in words]
+            words = [self._convert_model(x) for x in words]
 
         headers = {}
         if 'headers' in kwargs:
@@ -634,7 +634,7 @@ class TextToSpeechV1(BaseService):
             raise ValueError('customization_id must be provided')
         if words is None:
             raise ValueError('words must be provided')
-        words = [self._convert_model(x, Word) for x in words]
+        words = [self._convert_model(x) for x in words]
 
         headers = {}
         if 'headers' in kwargs:

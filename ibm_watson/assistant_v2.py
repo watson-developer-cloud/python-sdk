@@ -203,9 +203,9 @@ class AssistantV2(BaseService):
         if session_id is None:
             raise ValueError('session_id must be provided')
         if input is not None:
-            input = self._convert_model(input, MessageInput)
+            input = self._convert_model(input)
         if context is not None:
-            context = self._convert_model(context, MessageContext)
+            context = self._convert_model(context)
 
         headers = {}
         if 'headers' in kwargs:
