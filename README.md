@@ -31,7 +31,7 @@ Python client library to quickly get started with the various [Watson APIs][wdc]
   * [Parsing HTTP response info](#parsing-http-response-info)
   * [Using Websockets](#using-websockets)
   * [Cloud Pak for Data(CP4D)](#cloud-pak-for-data)
-  * [Debugging/Logging](#debugging-and-logging)
+  * [Logging](#logging)
   * [Dependencies](#dependencies)
   * [License](#license)
   * [Contributing](#contributing)
@@ -399,65 +399,33 @@ assistant = AssistantV1(version='<version>',
                         disable_ssl_verification=True) # MAKE SURE SSL VERIFICATION IS DISABLED
 ```
 
-## Debugging and Logging
-
-### Enable Debugging
-To take advantage of the underlying http request printed to stdout, simply enable debugging
-```python
-my_service.enable_debugging()
-```
-
-### Enable Debugging
-To disable debugging printed to stdout, simply disable debugging
-```python
-my_service.disable_debugging()
-```
+## Logging
 
 ### Enable logging
-We support python's logging capabilities by passing in a config file. As an example, consider the following `logging.conf` file
-
-```
-[loggers]
-keys=root
-
-[handlers]
-keys=fileHandler
-
-[formatters]
-keys=Formatter
-
-[logger_root]
-level=DEBUG
-handlers=fileHandler
-qualname=main
-
-[handler_fileHandler]
-class=FileHandler
-level=DEBUG
-formatter=Formatter
-args=('app.log', 'w', 'utf8')
-
-[formatter_Formatter]
-format=%(asctime)s - %(levelname)s - %(message)s
-datefmt="%Y-%m-%d %H:%M:%S"
-```
-
-Using this file, enable logging:
 
 ```python
-from os import path
-log_file_path = path.join(path.dirname(path.abspath(__file__)), 'logging.conf')
-my_service.enable_logging(log_file_path)
+import logging
+logging.basicConfig(level=logging.DEBUG)
 ```
 
-### Get logger
-Using the logger, configure it as per your needs. As an example:
+This would show output of the form:
+```
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): iam.cloud.ibm.com:443
+DEBUG:urllib3.connectionpool:https://iam.cloud.ibm.com:443 "POST /identity/token HTTP/1.1" 200 1809
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): gateway.watsonplatform.net:443
+DEBUG:urllib3.connectionpool:https://gateway.watsonplatform.net:443 "POST /assistant/api/v1/workspaces?version=2018-07-10 HTTP/1.1" 201 None
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): gateway.watsonplatform.net:443
+DEBUG:urllib3.connectionpool:https://gateway.watsonplatform.net:443 "GET /assistant/api/v1/workspaces/883a2a44-eb5f-4b1a-96b0-32a90b475ea8?version=2018-07-10&export=true HTTP/1.1" 200 None
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): gateway.watsonplatform.net:443
+DEBUG:urllib3.connectionpool:https://gateway.watsonplatform.net:443 "DELETE /assistant/api/v1/workspaces/883a2a44-eb5f-4b1a-96b0-32a90b475ea8?version=2018-07-10 HTTP/1.1" 200 28
+```
+
+### Low level request and response dump
+To get low level information of the requests/ responses:
 
 ```python
-logger = my_service.get_logger()
-ch = logging.StreamHandler()
-ch.setLevel(logging.DEBUG)
-logger.addHandler(ch)
+from http.client import HTTPConnection
+HTTPConnection.debuglevel = 1
 ```
 
 ## Dependencies
