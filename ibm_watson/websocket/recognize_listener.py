@@ -18,8 +18,6 @@ import websocket
 import json
 import time
 import ssl
-import logging
-import sys
 try:
     import thread
 except ImportError:
