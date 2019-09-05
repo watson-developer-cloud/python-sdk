@@ -42,8 +42,7 @@ class RecognizeListener(object):
                  headers,
                  http_proxy_host=None,
                  http_proxy_port=None,
-                 verify=None,
-                 debug=False):
+                 verify=None):
         self.audio_source = audio_source
         self.options = options
         self.callback = callback
@@ -54,9 +53,7 @@ class RecognizeListener(object):
         self.isListening = False
         self.verify = verify
 
-        if debug:
-            logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
-            websocket.enableTrace(True)
+        websocket.enableTrace(True)
 
         self.ws_client = websocket.WebSocketApp(
             self.url,

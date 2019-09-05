@@ -108,5 +108,4 @@ class TextToSpeechV1Adapter(TextToSpeechV1):
                            request.get('headers'),
                            http_proxy_host,
                            http_proxy_port,
-                           self.disable_ssl_verification,
-                           self.debug)
+                           self.disable_ssl_verification)
