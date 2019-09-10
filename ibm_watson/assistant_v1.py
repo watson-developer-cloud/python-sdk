@@ -132,15 +132,15 @@ class AssistantV1(BaseService):
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if input is not None:
-            input = self._convert_model(input, MessageInput)
+            input = self._convert_model(input)
         if intents is not None:
-            intents = [self._convert_model(x, RuntimeIntent) for x in intents]
+            intents = [self._convert_model(x) for x in intents]
         if entities is not None:
-            entities = [self._convert_model(x, RuntimeEntity) for x in entities]
+            entities = [self._convert_model(x) for x in entities]
         if context is not None:
-            context = self._convert_model(context, Context)
+            context = self._convert_model(context)
         if output is not None:
-            output = self._convert_model(output, OutputData)
+            output = self._convert_model(output)
 
         headers = {}
         if 'headers' in kwargs:
@@ -277,20 +277,15 @@ class AssistantV1(BaseService):
         """
 
         if system_settings is not None:
-            system_settings = self._convert_model(system_settings,
-                                                  WorkspaceSystemSettings)
+            system_settings = self._convert_model(system_settings)
         if intents is not None:
-            intents = [self._convert_model(x, CreateIntent) for x in intents]
+            intents = [self._convert_model(x) for x in intents]
         if entities is not None:
-            entities = [self._convert_model(x, CreateEntity) for x in entities]
+            entities = [self._convert_model(x) for x in entities]
         if dialog_nodes is not None:
-            dialog_nodes = [
-                self._convert_model(x, DialogNode) for x in dialog_nodes
-            ]
+            dialog_nodes = [self._convert_model(x) for x in dialog_nodes]
         if counterexamples is not None:
-            counterexamples = [
-                self._convert_model(x, Counterexample) for x in counterexamples
-            ]
+            counterexamples = [self._convert_model(x) for x in counterexamples]
 
         headers = {}
         if 'headers' in kwargs:
@@ -442,20 +437,15 @@ class AssistantV1(BaseService):
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if system_settings is not None:
-            system_settings = self._convert_model(system_settings,
-                                                  WorkspaceSystemSettings)
+            system_settings = self._convert_model(system_settings)
         if intents is not None:
-            intents = [self._convert_model(x, CreateIntent) for x in intents]
+            intents = [self._convert_model(x) for x in intents]
         if entities is not None:
-            entities = [self._convert_model(x, CreateEntity) for x in entities]
+            entities = [self._convert_model(x) for x in entities]
         if dialog_nodes is not None:
-            dialog_nodes = [
-                self._convert_model(x, DialogNode) for x in dialog_nodes
-            ]
+            dialog_nodes = [self._convert_model(x) for x in dialog_nodes]
         if counterexamples is not None:
-            counterexamples = [
-                self._convert_model(x, Counterexample) for x in counterexamples
-            ]
+            counterexamples = [self._convert_model(x) for x in counterexamples]
 
         headers = {}
         if 'headers' in kwargs:
@@ -629,7 +619,7 @@ class AssistantV1(BaseService):
         if intent is None:
             raise ValueError('intent must be provided')
         if examples is not None:
-            examples = [self._convert_model(x, Example) for x in examples]
+            examples = [self._convert_model(x) for x in examples]
 
         headers = {}
         if 'headers' in kwargs:
@@ -752,9 +742,7 @@ class AssistantV1(BaseService):
         if intent is None:
             raise ValueError('intent must be provided')
         if new_examples is not None:
-            new_examples = [
-                self._convert_model(x, Example) for x in new_examples
-            ]
+            new_examples = [self._convert_model(x) for x in new_examples]
 
         headers = {}
         if 'headers' in kwargs:
@@ -924,7 +912,7 @@ class AssistantV1(BaseService):
         if text is None:
             raise ValueError('text must be provided')
         if mentions is not None:
-            mentions = [self._convert_model(x, Mention) for x in mentions]
+            mentions = [self._convert_model(x) for x in mentions]
 
         headers = {}
         if 'headers' in kwargs:
@@ -1036,9 +1024,7 @@ class AssistantV1(BaseService):
         if text is None:
             raise ValueError('text must be provided')
         if new_mentions is not None:
-            new_mentions = [
-                self._convert_model(x, Mention) for x in new_mentions
-            ]
+            new_mentions = [self._convert_model(x) for x in new_mentions]
 
         headers = {}
         if 'headers' in kwargs:
@@ -1476,7 +1462,7 @@ class AssistantV1(BaseService):
         if entity is None:
             raise ValueError('entity must be provided')
         if values is not None:
-            values = [self._convert_model(x, CreateValue) for x in values]
+            values = [self._convert_model(x) for x in values]
 
         headers = {}
         if 'headers' in kwargs:
@@ -1606,9 +1592,7 @@ class AssistantV1(BaseService):
         if entity is None:
             raise ValueError('entity must be provided')
         if new_values is not None:
-            new_values = [
-                self._convert_model(x, CreateValue) for x in new_values
-            ]
+            new_values = [self._convert_model(x) for x in new_values]
 
         headers = {}
         if 'headers' in kwargs:
@@ -2498,13 +2482,11 @@ class AssistantV1(BaseService):
         if dialog_node is None:
             raise ValueError('dialog_node must be provided')
         if output is not None:
-            output = self._convert_model(output, DialogNodeOutput)
+            output = self._convert_model(output)
         if next_step is not None:
-            next_step = self._convert_model(next_step, DialogNodeNextStep)
+            next_step = self._convert_model(next_step)
         if actions is not None:
-            actions = [
-                self._convert_model(x, DialogNodeAction) for x in actions
-            ]
+            actions = [self._convert_model(x) for x in actions]
 
         headers = {}
         if 'headers' in kwargs:
@@ -2678,14 +2660,11 @@ class AssistantV1(BaseService):
         if dialog_node is None:
             raise ValueError('dialog_node must be provided')
         if new_output is not None:
-            new_output = self._convert_model(new_output, DialogNodeOutput)
+            new_output = self._convert_model(new_output)
         if new_next_step is not None:
-            new_next_step = self._convert_model(new_next_step,
-                                                DialogNodeNextStep)
+            new_next_step = self._convert_model(new_next_step)
         if new_actions is not None:
-            new_actions = [
-                self._convert_model(x, DialogNodeAction) for x in new_actions
-            ]
+            new_actions = [self._convert_model(x) for x in new_actions]
 
         headers = {}
         if 'headers' in kwargs:

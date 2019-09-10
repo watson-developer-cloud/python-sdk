@@ -30,7 +30,8 @@ Python client library to quickly get started with the various [Watson APIs][wdc]
   * [Sending request headers](#sending-request-headers)
   * [Parsing HTTP response info](#parsing-http-response-info)
   * [Using Websockets](#using-websockets)
-  * [IBM Cloud Pak for Data(ICP4D)](#ibm-cloud-pak-for-data(icp4d))
+  * [Cloud Pak for Data(CP4D)](#cloud-pak-for-data)
+  * [Logging](#logging)
   * [Dependencies](#dependencies)
   * [License](#license)
   * [Contributing](#contributing)
@@ -364,7 +365,7 @@ service.synthesize_using_websocket('I like to pet dogs',
                                   )
 ```
 
-## Cloud Pak for Data(CP4D)
+## Cloud Pak for Data
 If your service instance is of CP4D, below are two ways of initializing the assistant service.
 
 ### 1) Supplying the username, password and authentication url
@@ -398,6 +399,35 @@ assistant = AssistantV1(version='<version>',
                         disable_ssl_verification=True) # MAKE SURE SSL VERIFICATION IS DISABLED
 ```
 
+## Logging
+
+### Enable logging
+
+```python
+import logging
+logging.basicConfig(level=logging.DEBUG)
+```
+
+This would show output of the form:
+```
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): iam.cloud.ibm.com:443
+DEBUG:urllib3.connectionpool:https://iam.cloud.ibm.com:443 "POST /identity/token HTTP/1.1" 200 1809
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): gateway.watsonplatform.net:443
+DEBUG:urllib3.connectionpool:https://gateway.watsonplatform.net:443 "POST /assistant/api/v1/workspaces?version=2018-07-10 HTTP/1.1" 201 None
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): gateway.watsonplatform.net:443
+DEBUG:urllib3.connectionpool:https://gateway.watsonplatform.net:443 "GET /assistant/api/v1/workspaces/883a2a44-eb5f-4b1a-96b0-32a90b475ea8?version=2018-07-10&export=true HTTP/1.1" 200 None
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): gateway.watsonplatform.net:443
+DEBUG:urllib3.connectionpool:https://gateway.watsonplatform.net:443 "DELETE /assistant/api/v1/workspaces/883a2a44-eb5f-4b1a-96b0-32a90b475ea8?version=2018-07-10 HTTP/1.1" 200 28
+```
+
+### Low level request and response dump
+To get low level information of the requests/ responses:
+
+```python
+from http.client import HTTPConnection
+HTTPConnection.debuglevel = 1
+```
+
 ## Dependencies
 
 * [requests]
@@ -405,7 +435,7 @@ assistant = AssistantV1(version='<version>',
 * [responses] for testing
 * Following for web sockets support in speech to text
    * `websocket-client` 0.48.0
-* `ibm_cloud_sdk_core` >= 1.0.0rc4
+* `ibm_cloud_sdk_core` >= 1.0.0rc5
 
 ## Contributing
 

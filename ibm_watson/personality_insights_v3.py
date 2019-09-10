@@ -189,7 +189,7 @@ class PersonalityInsightsV3(BaseService):
         if accept is None:
             raise ValueError('accept must be provided')
         if isinstance(content, Content):
-            content = self._convert_model(content, Content)
+            content = self._convert_model(content)
 
         headers = {
             'Accept': accept,

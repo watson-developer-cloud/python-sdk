@@ -18,7 +18,7 @@ from setuptools.command.test import test as TestCommand
 import os
 import sys
 
-__version__ = '3.4.0'
+__version__ = '4.0.0rc1'
 
 if sys.argv[-1] == 'publish':
     # test server
@@ -63,7 +63,7 @@ setup(name='ibm-watson',
       version=__version__,
       description='Client library to use the IBM Watson Services',
       license='Apache 2.0',
-      install_requires=['requests>=2.0, <3.0', 'python_dateutil>=2.5.3', 'websocket-client==0.48.0', 'ibm_cloud_sdk_core==1.0.0rc4'],
+      install_requires=['requests>=2.0, <3.0', 'python_dateutil>=2.5.3', 'websocket-client==0.48.0', 'ibm_cloud_sdk_core==1.0.0rc5'],
       tests_require=['responses', 'pytest', 'python_dotenv', 'pytest-rerunfailures', 'tox'],
       cmdclass={'test': PyTest},
       author='IBM Watson',

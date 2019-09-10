@@ -130,7 +130,7 @@ class NaturalLanguageClassifierV1(BaseService):
             raise ValueError('classifier_id must be provided')
         if collection is None:
             raise ValueError('collection must be provided')
-        collection = [self._convert_model(x, ClassifyInput) for x in collection]
+        collection = [self._convert_model(x) for x in collection]
 
         headers = {}
         if 'headers' in kwargs:

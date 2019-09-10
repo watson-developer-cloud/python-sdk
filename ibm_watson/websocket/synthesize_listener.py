@@ -43,7 +43,7 @@ class SynthesizeListener(object):
         self.http_proxy_port = http_proxy_port
         self.verify = verify
 
-        # websocket.enableTrace(True)
+        websocket.enableTrace(True)
 
         self.ws_client = websocket.WebSocketApp(
             self.url,

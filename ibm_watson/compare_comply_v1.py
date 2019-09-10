@@ -338,7 +338,7 @@ class CompareComplyV1(BaseService):
 
         if feedback_data is None:
             raise ValueError('feedback_data must be provided')
-        feedback_data = self._convert_model(feedback_data, FeedbackDataInput)
+        feedback_data = self._convert_model(feedback_data)
 
         headers = {}
         if 'headers' in kwargs:
