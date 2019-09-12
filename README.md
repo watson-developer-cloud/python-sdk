@@ -27,6 +27,7 @@ Python client library to quickly get started with the various [Watson APIs][wdc]
   * [Migration](#migration)
   * [Configuring the http client](#configuring-the-http-client-supported-from-v110)
   * [Disable SSL certificate verification](#disable-ssl-certificate-verification)
+  * [Setting the service url](#setting-the-service-url)
   * [Sending request headers](#sending-request-headers)
   * [Parsing HTTP response info](#parsing-http-response-info)
   * [Using Websockets](#using-websockets)
