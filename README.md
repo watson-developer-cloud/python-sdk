@@ -287,7 +287,20 @@ print(json.dumps(response, indent=2))
 For ICP(IBM Cloud Private), you can disable the SSL certificate verification by:
 
 ```python
-service.set_disable_ssl_verification()
+service.set_disable_ssl_verification(True)
+```
+
+## Setting the service url
+To set the base service to be used when contacting the service
+
+```python
+service.set_service_url('my_new_service_url')
+```
+
+Or can set it in the environment variable
+
+```
+export service_service_url="<your apikey>"
 ```
 
 ## Sending request headers
