@@ -72,7 +72,6 @@ class TestNaturalLanguageUnderstanding(TestCase):
         with pytest.raises(ValueError):
             NaturalLanguageUnderstandingV1(version='2016-01-23')
         with pytest.raises(ValueError):
-            authenticator = BasicAuthenticator('username', 'password')
             NaturalLanguageUnderstandingV1(version='2016-01-23', url='http://bogus.com')
 
     def test_analyze_throws(self):
