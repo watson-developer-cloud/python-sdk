@@ -13,7 +13,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """
 The IBM Watson&trade; Tone Analyzer service uses linguistic analysis to detect emotional
 and language tones in written text. The service can analyze tone at both the document and
@@ -36,17 +35,19 @@ from ibm_cloud_sdk_core import get_authenticator_from_environment
 # Service
 ##############################################################################
 
+
 class ToneAnalyzerV3(BaseService):
     """The Tone Analyzer V3 service."""
 
     default_url = 'https://gateway.watsonplatform.net/tone-analyzer/api'
 
-    def __init__(self,
-                 version,
-                 url=default_url,
-                 authenticator=None,
-                 disable_ssl_verification=False,
-                ):
+    def __init__(
+            self,
+            version,
+            url=default_url,
+            authenticator=None,
+            disable_ssl_verification=False,
+    ):
         """
         Construct a new client for the Tone Analyzer service.
 
@@ -75,19 +76,25 @@ class ToneAnalyzerV3(BaseService):
             authenticator = get_authenticator_from_environment('Tone Analyzer')
 
         BaseService.__init__(self,
-            url=url,
-            authenticator=authenticator,
-            disable_ssl_verification=disable_ssl_verification,
-            display_name='Tone Analyzer')
+                             url=url,
+                             authenticator=authenticator,
+                             disable_ssl_verification=disable_ssl_verification,
+                             display_name='Tone Analyzer')
         self.version = version
 
     #########################
     # Methods
     #########################
 
-
-
-    def tone(self, tone_input, *, content_type=None, sentences=None, tones=None, content_language=None, accept_language=None, **kwargs):
+    def tone(self,
+             tone_input,
+             *,
+             content_type=None,
+             sentences=None,
+             tones=None,
+             content_language=None,
+             accept_language=None,
+             **kwargs):
         """
         Analyze general tone.
 
@@ -172,16 +179,20 @@ class ToneAnalyzerV3(BaseService):
 
         url = '/v3/tone'
         request = self.prepare_request(method='POST',
-                                url=url,
-                                headers=headers,
-                                params=params,
-                                data=data,
-                                accept_json=True)
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
-
-    def tone_chat(self, utterances, *, content_language=None, accept_language=None, **kwargs):
+    def tone_chat(self,
+                  utterances,
+                  *,
+                  content_language=None,
+                  accept_language=None,
+                  **kwargs):
         """
         Analyze customer-engagement tone.
 
@@ -219,7 +230,7 @@ class ToneAnalyzerV3(BaseService):
 
         if utterances is None:
             raise ValueError('utterances must be provided')
-        utterances = [ self._convert_model(x) for x in utterances ]
+        utterances = [self._convert_model(x) for x in utterances]
 
         headers = {
             'Content-Language': content_language,
@@ -230,26 +241,23 @@ class ToneAnalyzerV3(BaseService):
         sdk_headers = get_sdk_headers('tone_analyzer', 'V3', 'tone_chat')
         headers.update(sdk_headers)
 
-        params = {
-            'version': self.version
-        }
+        params = {'version': self.version}
 
-        data = {
-            'utterances': utterances
-        }
+        data = {'utterances': utterances}
 
         url = '/v3/tone_chat'
         request = self.prepare_request(method='POST',
-                                url=url,
-                                headers=headers,
-                                params=params,
-                                data=data,
-                                accept_json=True)
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
 
 class ToneEnums(object):
+
     class ContentType(Enum):
         """
         The type of the input. A character encoding can be specified by including a
@@ -258,6 +266,7 @@ class ToneEnums(object):
         APPLICATION_JSON = 'application/json'
         TEXT_PLAIN = 'text/plain'
         TEXT_HTML = 'text/html'
+
     class Tones(Enum):
         """
         **`2017-09-21`:** Deprecated. The service continues to accept the parameter for
@@ -270,6 +279,7 @@ class ToneEnums(object):
         EMOTION = 'emotion'
         LANGUAGE = 'language'
         SOCIAL = 'social'
+
     class ContentLanguage(Enum):
         """
         The language of the input text for the request: English or French. Regional
@@ -282,6 +292,7 @@ class ToneEnums(object):
         """
         EN = 'en'
         FR = 'fr'
+
     class AcceptLanguage(Enum):
         """
         The desired language of the response. For two-character arguments, regional
@@ -303,6 +314,7 @@ class ToneEnums(object):
 
 
 class ToneChatEnums(object):
+
     class ContentLanguage(Enum):
         """
         The language of the input text for the request: English or French. Regional
@@ -315,6 +327,7 @@ class ToneChatEnums(object):
         """
         EN = 'en'
         FR = 'fr'
+
     class AcceptLanguage(Enum):
         """
         The desired language of the response. For two-character arguments, regional
@@ -391,11 +404,18 @@ class DocumentAnalysis(object):
         validKeys = ['tones', 'tone_categories', 'warning']
         badKeys = set(_dict.keys()) - set(validKeys)
         if badKeys:
-            raise ValueError('Unrecognized keys detected in dictionary for class DocumentAnalysis: ' + ', '.join(badKeys))
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class DocumentAnalysis: '
+                + ', '.join(badKeys))
         if 'tones' in _dict:
-            args['tones'] = [ToneScore._from_dict(x) for x in (_dict.get('tones') )]
+            args['tones'] = [
+                ToneScore._from_dict(x) for x in (_dict.get('tones'))
+            ]
         if 'tone_categories' in _dict:
-            args['tone_categories'] = [ToneCategory._from_dict(x) for x in (_dict.get('tone_categories') )]
+            args['tone_categories'] = [
+                ToneCategory._from_dict(x)
+                for x in (_dict.get('tone_categories'))
+            ]
         if 'warning' in _dict:
             args['warning'] = _dict.get('warning')
         return cls(**args)
@@ -405,8 +425,11 @@ class DocumentAnalysis(object):
         _dict = {}
         if hasattr(self, 'tones') and self.tones is not None:
             _dict['tones'] = [x._to_dict() for x in self.tones]
-        if hasattr(self, 'tone_categories') and self.tone_categories is not None:
-            _dict['tone_categories'] = [x._to_dict() for x in self.tone_categories]
+        if hasattr(self,
+                   'tone_categories') and self.tone_categories is not None:
+            _dict['tone_categories'] = [
+                x._to_dict() for x in self.tone_categories
+            ]
         if hasattr(self, 'warning') and self.warning is not None:
             _dict['warning'] = self.warning
         return _dict
@@ -450,7 +473,14 @@ class SentenceAnalysis(object):
           The offset of the last character of the sentence in the overall input content.
     """
 
-    def __init__(self, sentence_id, text, *, tones=None, tone_categories=None, input_from=None, input_to=None):
+    def __init__(self,
+                 sentence_id,
+                 text,
+                 *,
+                 tones=None,
+                 tone_categories=None,
+                 input_from=None,
+                 input_to=None):
         """
         Initialize a SentenceAnalysis object.
 
@@ -486,22 +516,36 @@ class SentenceAnalysis(object):
     def _from_dict(cls, _dict):
         """Initialize a SentenceAnalysis object from a json dictionary."""
         args = {}
-        validKeys = ['sentence_id', 'text', 'tones', 'tone_categories', 'input_from', 'input_to']
+        validKeys = [
+            'sentence_id', 'text', 'tones', 'tone_categories', 'input_from',
+            'input_to'
+        ]
         badKeys = set(_dict.keys()) - set(validKeys)
         if badKeys:
-            raise ValueError('Unrecognized keys detected in dictionary for class SentenceAnalysis: ' + ', '.join(badKeys))
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class SentenceAnalysis: '
+                + ', '.join(badKeys))
         if 'sentence_id' in _dict:
             args['sentence_id'] = _dict.get('sentence_id')
         else:
-            raise ValueError('Required property \'sentence_id\' not present in SentenceAnalysis JSON')
+            raise ValueError(
+                'Required property \'sentence_id\' not present in SentenceAnalysis JSON'
+            )
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         else:
-            raise ValueError('Required property \'text\' not present in SentenceAnalysis JSON')
+            raise ValueError(
+                'Required property \'text\' not present in SentenceAnalysis JSON'
+            )
         if 'tones' in _dict:
-            args['tones'] = [ToneScore._from_dict(x) for x in (_dict.get('tones') )]
+            args['tones'] = [
+                ToneScore._from_dict(x) for x in (_dict.get('tones'))
+            ]
         if 'tone_categories' in _dict:
-            args['tone_categories'] = [ToneCategory._from_dict(x) for x in (_dict.get('tone_categories') )]
+            args['tone_categories'] = [
+                ToneCategory._from_dict(x)
+                for x in (_dict.get('tone_categories'))
+            ]
         if 'input_from' in _dict:
             args['input_from'] = _dict.get('input_from')
         if 'input_to' in _dict:
@@ -517,8 +561,11 @@ class SentenceAnalysis(object):
             _dict['text'] = self.text
         if hasattr(self, 'tones') and self.tones is not None:
             _dict['tones'] = [x._to_dict() for x in self.tones]
-        if hasattr(self, 'tone_categories') and self.tone_categories is not None:
-            _dict['tone_categories'] = [x._to_dict() for x in self.tone_categories]
+        if hasattr(self,
+                   'tone_categories') and self.tone_categories is not None:
+            _dict['tone_categories'] = [
+                x._to_dict() for x in self.tone_categories
+            ]
         if hasattr(self, 'input_from') and self.input_from is not None:
             _dict['input_from'] = self.input_from
         if hasattr(self, 'input_to') and self.input_to is not None:
@@ -575,13 +622,21 @@ class ToneAnalysis(object):
         validKeys = ['document_tone', 'sentences_tone']
         badKeys = set(_dict.keys()) - set(validKeys)
         if badKeys:
-            raise ValueError('Unrecognized keys detected in dictionary for class ToneAnalysis: ' + ', '.join(badKeys))
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ToneAnalysis: '
+                + ', '.join(badKeys))
         if 'document_tone' in _dict:
-            args['document_tone'] = DocumentAnalysis._from_dict(_dict.get('document_tone'))
+            args['document_tone'] = DocumentAnalysis._from_dict(
+                _dict.get('document_tone'))
         else:
-            raise ValueError('Required property \'document_tone\' not present in ToneAnalysis JSON')
+            raise ValueError(
+                'Required property \'document_tone\' not present in ToneAnalysis JSON'
+            )
         if 'sentences_tone' in _dict:
-            args['sentences_tone'] = [SentenceAnalysis._from_dict(x) for x in (_dict.get('sentences_tone') )]
+            args['sentences_tone'] = [
+                SentenceAnalysis._from_dict(x)
+                for x in (_dict.get('sentences_tone'))
+            ]
         return cls(**args)
 
     def _to_dict(self):
@@ -590,7 +645,9 @@ class ToneAnalysis(object):
         if hasattr(self, 'document_tone') and self.document_tone is not None:
             _dict['document_tone'] = self.document_tone._to_dict()
         if hasattr(self, 'sentences_tone') and self.sentences_tone is not None:
-            _dict['sentences_tone'] = [x._to_dict() for x in self.sentences_tone]
+            _dict['sentences_tone'] = [
+                x._to_dict() for x in self.sentences_tone
+            ]
         return _dict
 
     def __str__(self):
@@ -642,19 +699,28 @@ class ToneCategory(object):
         validKeys = ['tones', 'category_id', 'category_name']
         badKeys = set(_dict.keys()) - set(validKeys)
         if badKeys:
-            raise ValueError('Unrecognized keys detected in dictionary for class ToneCategory: ' + ', '.join(badKeys))
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ToneCategory: '
+                + ', '.join(badKeys))
         if 'tones' in _dict:
-            args['tones'] = [ToneScore._from_dict(x) for x in (_dict.get('tones') )]
+            args['tones'] = [
+                ToneScore._from_dict(x) for x in (_dict.get('tones'))
+            ]
         else:
-            raise ValueError('Required property \'tones\' not present in ToneCategory JSON')
+            raise ValueError(
+                'Required property \'tones\' not present in ToneCategory JSON')
         if 'category_id' in _dict:
             args['category_id'] = _dict.get('category_id')
         else:
-            raise ValueError('Required property \'category_id\' not present in ToneCategory JSON')
+            raise ValueError(
+                'Required property \'category_id\' not present in ToneCategory JSON'
+            )
         if 'category_name' in _dict:
             args['category_name'] = _dict.get('category_name')
         else:
-            raise ValueError('Required property \'category_name\' not present in ToneCategory JSON')
+            raise ValueError(
+                'Required property \'category_name\' not present in ToneCategory JSON'
+            )
         return cls(**args)
 
     def _to_dict(self):
@@ -719,19 +785,26 @@ class ToneChatScore(object):
         validKeys = ['score', 'tone_id', 'tone_name']
         badKeys = set(_dict.keys()) - set(validKeys)
         if badKeys:
-            raise ValueError('Unrecognized keys detected in dictionary for class ToneChatScore: ' + ', '.join(badKeys))
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ToneChatScore: '
+                + ', '.join(badKeys))
         if 'score' in _dict:
             args['score'] = _dict.get('score')
         else:
-            raise ValueError('Required property \'score\' not present in ToneChatScore JSON')
+            raise ValueError(
+                'Required property \'score\' not present in ToneChatScore JSON')
         if 'tone_id' in _dict:
             args['tone_id'] = _dict.get('tone_id')
         else:
-            raise ValueError('Required property \'tone_id\' not present in ToneChatScore JSON')
+            raise ValueError(
+                'Required property \'tone_id\' not present in ToneChatScore JSON'
+            )
         if 'tone_name' in _dict:
             args['tone_name'] = _dict.get('tone_name')
         else:
-            raise ValueError('Required property \'tone_name\' not present in ToneChatScore JSON')
+            raise ValueError(
+                'Required property \'tone_name\' not present in ToneChatScore JSON'
+            )
         return cls(**args)
 
     def _to_dict(self):
@@ -759,7 +832,6 @@ class ToneChatScore(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    
     class ToneIdEnum(Enum):
         """
         The unique, non-localized identifier of the tone for the results. The service
@@ -796,11 +868,14 @@ class ToneInput(object):
         validKeys = ['text']
         badKeys = set(_dict.keys()) - set(validKeys)
         if badKeys:
-            raise ValueError('Unrecognized keys detected in dictionary for class ToneInput: ' + ', '.join(badKeys))
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ToneInput: '
+                + ', '.join(badKeys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         else:
-            raise ValueError('Required property \'text\' not present in ToneInput JSON')
+            raise ValueError(
+                'Required property \'text\' not present in ToneInput JSON')
         return cls(**args)
 
     def _to_dict(self):
@@ -889,19 +964,24 @@ class ToneScore(object):
         validKeys = ['score', 'tone_id', 'tone_name']
         badKeys = set(_dict.keys()) - set(validKeys)
         if badKeys:
-            raise ValueError('Unrecognized keys detected in dictionary for class ToneScore: ' + ', '.join(badKeys))
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ToneScore: '
+                + ', '.join(badKeys))
         if 'score' in _dict:
             args['score'] = _dict.get('score')
         else:
-            raise ValueError('Required property \'score\' not present in ToneScore JSON')
+            raise ValueError(
+                'Required property \'score\' not present in ToneScore JSON')
         if 'tone_id' in _dict:
             args['tone_id'] = _dict.get('tone_id')
         else:
-            raise ValueError('Required property \'tone_id\' not present in ToneScore JSON')
+            raise ValueError(
+                'Required property \'tone_id\' not present in ToneScore JSON')
         if 'tone_name' in _dict:
             args['tone_name'] = _dict.get('tone_name')
         else:
-            raise ValueError('Required property \'tone_name\' not present in ToneScore JSON')
+            raise ValueError(
+                'Required property \'tone_name\' not present in ToneScore JSON')
         return cls(**args)
 
     def _to_dict(self):
@@ -959,11 +1039,14 @@ class Utterance(object):
         validKeys = ['text', 'user']
         badKeys = set(_dict.keys()) - set(validKeys)
         if badKeys:
-            raise ValueError('Unrecognized keys detected in dictionary for class Utterance: ' + ', '.join(badKeys))
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Utterance: '
+                + ', '.join(badKeys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         else:
-            raise ValueError('Required property \'text\' not present in Utterance JSON')
+            raise ValueError(
+                'Required property \'text\' not present in Utterance JSON')
         if 'user' in _dict:
             args['user'] = _dict.get('user')
         return cls(**args)
@@ -1024,11 +1107,18 @@ class UtteranceAnalyses(object):
         validKeys = ['utterances_tone', 'warning']
         badKeys = set(_dict.keys()) - set(validKeys)
         if badKeys:
-            raise ValueError('Unrecognized keys detected in dictionary for class UtteranceAnalyses: ' + ', '.join(badKeys))
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class UtteranceAnalyses: '
+                + ', '.join(badKeys))
         if 'utterances_tone' in _dict:
-            args['utterances_tone'] = [UtteranceAnalysis._from_dict(x) for x in (_dict.get('utterances_tone') )]
+            args['utterances_tone'] = [
+                UtteranceAnalysis._from_dict(x)
+                for x in (_dict.get('utterances_tone'))
+            ]
         else:
-            raise ValueError('Required property \'utterances_tone\' not present in UtteranceAnalyses JSON')
+            raise ValueError(
+                'Required property \'utterances_tone\' not present in UtteranceAnalyses JSON'
+            )
         if 'warning' in _dict:
             args['warning'] = _dict.get('warning')
         return cls(**args)
@@ -1036,8 +1126,11 @@ class UtteranceAnalyses(object):
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'utterances_tone') and self.utterances_tone is not None:
-            _dict['utterances_tone'] = [x._to_dict() for x in self.utterances_tone]
+        if hasattr(self,
+                   'utterances_tone') and self.utterances_tone is not None:
+            _dict['utterances_tone'] = [
+                x._to_dict() for x in self.utterances_tone
+            ]
         if hasattr(self, 'warning') and self.warning is not None:
             _dict['warning'] = self.warning
         return _dict
@@ -1102,19 +1195,29 @@ class UtteranceAnalysis(object):
         validKeys = ['utterance_id', 'utterance_text', 'tones', 'error']
         badKeys = set(_dict.keys()) - set(validKeys)
         if badKeys:
-            raise ValueError('Unrecognized keys detected in dictionary for class UtteranceAnalysis: ' + ', '.join(badKeys))
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class UtteranceAnalysis: '
+                + ', '.join(badKeys))
         if 'utterance_id' in _dict:
             args['utterance_id'] = _dict.get('utterance_id')
         else:
-            raise ValueError('Required property \'utterance_id\' not present in UtteranceAnalysis JSON')
+            raise ValueError(
+                'Required property \'utterance_id\' not present in UtteranceAnalysis JSON'
+            )
         if 'utterance_text' in _dict:
             args['utterance_text'] = _dict.get('utterance_text')
         else:
-            raise ValueError('Required property \'utterance_text\' not present in UtteranceAnalysis JSON')
+            raise ValueError(
+                'Required property \'utterance_text\' not present in UtteranceAnalysis JSON'
+            )
         if 'tones' in _dict:
-            args['tones'] = [ToneChatScore._from_dict(x) for x in (_dict.get('tones') )]
+            args['tones'] = [
+                ToneChatScore._from_dict(x) for x in (_dict.get('tones'))
+            ]
         else:
-            raise ValueError('Required property \'tones\' not present in UtteranceAnalysis JSON')
+            raise ValueError(
+                'Required property \'tones\' not present in UtteranceAnalysis JSON'
+            )
         if 'error' in _dict:
             args['error'] = _dict.get('error')
         return cls(**args)
@@ -1145,5 +1248,3 @@ class UtteranceAnalysis(object):
     def __ne__(self, other):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
-
-

@@ -173,8 +173,8 @@ class TestCompareComplyV1(TestCase):
             content_type='application/json')
 
         with open(
-            os.path.join(os.path.dirname(__file__),
-                         '../../resources/contract_A.pdf'), 'rb') as file:
+                os.path.join(os.path.dirname(__file__),
+                             '../../resources/contract_A.pdf'), 'rb') as file:
             service.convert_to_html(
                 file,
                 model_id="contracts",

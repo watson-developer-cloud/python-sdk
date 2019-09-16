@@ -15,9 +15,9 @@ print(json.dumps(classifiers, indent=2))
 
 # create a classifier
 with open(
-    os.path.join(
-        os.path.dirname(__file__), '../resources/weather_data_train.csv'),
-    'rb') as training_data:
+        os.path.join(
+            os.path.dirname(__file__), '../resources/weather_data_train.csv'),
+        'rb') as training_data:
     metadata = json.dumps({'name': 'my-classifier', 'language': 'en'})
     classifier = service.create_classifier(
         training_metadata=metadata, training_data=training_data).get_result()
