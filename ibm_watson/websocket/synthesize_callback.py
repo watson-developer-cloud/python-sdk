@@ -21,43 +21,35 @@ class SynthesizeCallback(object):
 
     def on_connected(self):
         """
-    Called when a Websocket connection was made
-    """
-        pass
+        Called when a Websocket connection was made
+        """
 
     def on_error(self, error):
         """
-    Called when there is an error in the Websocket connection.
-    """
-        pass
-
+        Called when there is an error in the Websocket connection.
+        """
 
     def on_content_type(self, content_type):
         """
-    Called when the service responds with the format of the audio response
-    """
-        pass
+        Called when the service responds with the format of the audio response
+        """
 
     def on_timing_information(self, timing_information):
         """
-    Called when the service returns timing information
-    """
-        pass
+        Called when the service returns timing information
+        """
 
     def on_audio_stream(self, audio_stream):
         """
-    Called when the service sends the synthesized audio as a binary stream of data in the indicated format.
-    """
-        pass
+        Called when the service sends the synthesized audio as a binary stream of data in the indicated format.
+        """
 
     def on_data(self, data):
         """
-    Called when the service returns results. The data is returned unparsed.
-    """
-        pass
+        Called when the service returns results. The data is returned unparsed.
+        """
 
     def on_close(self):
         """
-    Called when the Websocket connection is closed
-    """
-        pass
+        Called when the Websocket connection is closed
+        """
