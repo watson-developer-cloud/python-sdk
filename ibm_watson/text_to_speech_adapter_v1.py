@@ -90,7 +90,7 @@ class TextToSpeechV1Adapter(TextToSpeechV1):
             'voice': voice,
             'customization_id': customization_id,
         }
-        params = dict([(k, v) for k, v in params.items() if v is not None])
+        params = {k: v for k, v in params.items() if v is not None}
         url += '/v1/synthesize?{0}'.format(urlencode(params))
         request['url'] = url
 
@@ -99,7 +99,7 @@ class TextToSpeechV1Adapter(TextToSpeechV1):
             'accept': accept,
             'timings': timings
         }
-        options = dict([(k, v) for k, v in options.items() if v is not None])
+        options = {k: v for k, v in options.items() if v is not None}
         request['options'] = options
 
         SynthesizeListener(request.get('options'),
