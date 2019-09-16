@@ -21,7 +21,7 @@ If you want to contribute to the repository, here's a quick guide:
     * Only use spaces for indentation.
     * Create minimal diffs - disable on save actions like reformat source code or organize imports. If you feel the source code should be reformatted create a separate PR for this change.
     * Check for unnecessary whitespace with `git diff --check` before committing.
-    * Make sure your code supports Python 2.7, 3.4, 3.5 and 3.6. You can use `pyenv` and `tox` for this
+    * Make sure your code supports Python 3.5, 3.6 and 3.7. You can use `pyenv` and `tox` for this
 1. Make the test pass
 1. Commit your changes
 * Commits should follow the [Angular commit message guidelines](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#-commit-message-guidelines). This is because our release tool uses this format for determining release versions and generating changelogs. To make this easier, we recommend using the [Commitizen CLI](https://github.com/commitizen/cz-cli) with the `cz-conventional-changelog` adapter.
