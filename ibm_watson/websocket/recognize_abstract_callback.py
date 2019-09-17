@@ -21,48 +21,40 @@ class RecognizeCallback(object):
 
     def on_transcription(self, transcript):
         """
-    Called after the service returns the final result for the transcription.
-    """
-        pass
+        Called after the service returns the final result for the transcription.
+        """
 
     def on_connected(self):
         """
-    Called when a Websocket connection was made
-    """
-        pass
+        Called when a Websocket connection was made
+        """
 
     def on_error(self, error):
         """
-    Called when there is an error in the Websocket connection.
-    """
-        pass
+        Called when there is an error in the Websocket connection.
+        """
 
     def on_inactivity_timeout(self, error):
         """
-    Called when there is an inactivity timeout.
-    """
-        pass
+        Called when there is an inactivity timeout.
+        """
 
     def on_listening(self):
         """
-    Called when the service is listening for audio.
-    """
-        pass
+        Called when the service is listening for audio.
+        """
 
     def on_hypothesis(self, hypothesis):
         """
-    Called when an interim result is received.
-    """
-        pass
+        Called when an interim result is received.
+        """
 
     def on_data(self, data):
         """
-    Called when the service returns results. The data is returned unparsed.
-    """
-        pass
+        Called when the service returns results. The data is returned unparsed.
+        """
 
     def on_close(self):
         """
-    Called when the Websocket connection is closed
-    """
-        pass
+        Called when the Websocket connection is closed
+        """

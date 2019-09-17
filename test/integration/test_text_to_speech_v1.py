@@ -28,7 +28,7 @@ class TestIntegrationTextToSpeechV1(unittest.TestCase):
 
     @classmethod
     def teardown_class(cls):
-        custid = cls.created_customization['customization_id']
+        custid = cls.created_customization.get('customization_id')
         cls.text_to_speech.delete_voice_model(customization_id=custid)
 
     def test_voices(self):
@@ -49,15 +49,15 @@ class TestIntegrationTextToSpeechV1(unittest.TestCase):
         assert output['pronunciation'] is not None
 
     def test_customizations(self):
-        old_length = len(self.original_customizations['customizations'])
+        old_length = len(self.original_customizations.get('customizations'))
         new_length = len(
             self.text_to_speech.list_voice_models().get_result()['customizations'])
         assert new_length - old_length >= 1
 
     def test_custom_words(self):
-        customization_id = self.created_customization['customization_id']
+        customization_id = self.created_customization.get('customization_id')
         words = self.text_to_speech.list_words(customization_id).get_result()['words']
-        assert len(words) == 0 # pylint: disable=len-as-condition
+        assert not words
         self.text_to_speech.add_word(
             customization_id, word="ACLs", translation="ackles")
 

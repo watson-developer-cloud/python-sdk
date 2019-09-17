@@ -225,7 +225,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
             'base_model_version': base_model_version,
             'language_customization_id': language_customization_id
         }
-        params = dict([(k, v) for k, v in params.items() if v is not None])
+        params = {k: v for k, v in params.items() if v is not None}
         url += '/v1/recognize?{0}'.format(urlencode(params))
         request['url'] = url
 
@@ -248,7 +248,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
             'processing_metrics_interval': processing_metrics_interval,
             'audio_metrics': audio_metrics
         }
-        options = dict([(k, v) for k, v in options.items() if v is not None])
+        options = {k: v for k, v in options.items() if v is not None}
         request['options'] = options
 
         RecognizeListener(audio,
