@@ -27,6 +27,7 @@ Python client library to quickly get started with the various [Watson APIs][wdc]
   * [Migration](#migration)
   * [Configuring the http client](#configuring-the-http-client-supported-from-v110)
   * [Disable SSL certificate verification](#disable-ssl-certificate-verification)
+  * [Setting the service url](#setting-the-service-url)
   * [Sending request headers](#sending-request-headers)
   * [Parsing HTTP response info](#parsing-http-response-info)
   * [Using Websockets](#using-websockets)
@@ -287,7 +288,20 @@ print(json.dumps(response, indent=2))
 For ICP(IBM Cloud Private), you can disable the SSL certificate verification by:
 
 ```python
-service.set_disable_ssl_verification()
+service.set_disable_ssl_verification(True)
+```
+
+## Setting the service url
+To set the base service to be used when contacting the service
+
+```python
+service.set_service_url('my_new_service_url')
+```
+
+Or can set it in the environment variable.
+
+```
+export <service name>_url="<your url>"
 ```
 
 ## Sending request headers
