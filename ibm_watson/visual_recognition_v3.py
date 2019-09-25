@@ -15,8 +15,8 @@
 # limitations under the License.
 """
 The IBM Watson&trade; Visual Recognition service uses deep learning algorithms to identify
-scenes, objects, and faces  in images you upload to the service. You can create and train
-a custom classifier to identify subjects that suit your needs.
+scenes and objects in images that you upload to the service. You can create and train a
+custom classifier to identify subjects that suit your needs.
 """
 
 import json
@@ -25,6 +25,7 @@ from enum import Enum
 from ibm_cloud_sdk_core import BaseService
 from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
 from ibm_cloud_sdk_core import get_authenticator_from_environment
+from ibm_cloud_sdk_core import read_external_sources
 from os.path import basename
 
 ##############################################################################
@@ -35,14 +36,12 @@ from os.path import basename
 class VisualRecognitionV3(BaseService):
     """The Visual Recognition V3 service."""
 
-    default_url = 'https://gateway.watsonplatform.net/visual-recognition/api'
+    default_service_url = 'https://gateway.watsonplatform.net/visual-recognition/api'
 
     def __init__(
             self,
             version,
-            url=default_url,
             authenticator=None,
-            disable_ssl_verification=False,
     ):
         """
         Construct a new client for the Visual Recognition service.
@@ -58,26 +57,28 @@ class VisualRecognitionV3(BaseService):
                application, and don't change it until your application is
                ready for a later version.
 
-        :param str url: The base url to use when contacting the service (e.g.
-               "https://gateway.watsonplatform.net/visual-recognition/api/visual-recognition/api").
-               The base url may differ between IBM Cloud regions.
-
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
-        :param bool disable_ssl_verification: If True, disables ssl verification
         """
+
+        service_url = self.default_service_url
+        disable_ssl_verification = False
+
+        config = read_external_sources('visual_recognition')
+        if config.get('URL'):
+            service_url = config.get('URL')
+        if config.get('DISABLE_SSL'):
+            disable_ssl_verification = config.get('DISABLE_SSL')
 
         if not authenticator:
             authenticator = get_authenticator_from_environment(
-                'Visual Recognition')
+                'visual_recognition')
 
-        BaseService.__init__(
-            self,
-            url=url,
-            authenticator=authenticator,
-            disable_ssl_verification=disable_ssl_verification,
-            display_name='Visual Recognition')
+        BaseService.__init__(self,
+                             service_url=service_url,
+                             authenticator=authenticator,
+                             disable_ssl_verification=disable_ssl_verification)
         self.version = version
 
     #########################
@@ -174,95 +175,12 @@ class VisualRecognitionV3(BaseService):
                                            'application/json')
 
         url = '/v3/classify'
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            files=form_data,
-            accept_json=True)
-        response = self.send(request)
-        return response
-
-    #########################
-    # Face
-    #########################
-
-    def detect_faces(self,
-                     *,
-                     images_file=None,
-                     images_filename=None,
-                     images_file_content_type=None,
-                     url=None,
-                     accept_language=None,
-                     **kwargs):
-        """
-        Detect faces in images.
-
-        **Important:** On April 2, 2018, the identity information in the response to calls
-        to the Face model was removed. The identity information refers to the `name` of
-        the person, `score`, and `type_hierarchy` knowledge graph. For details about the
-        enhanced Face model, see the [Release
-        notes](https://cloud.ibm.com/docs/services/visual-recognition?topic=visual-recognition-release-notes#2april2018).
-        Analyze and get data about faces in images. Responses can include estimated age
-        and gender. This feature uses a built-in model, so no training is necessary. The
-        **Detect faces** method does not support general biometric facial recognition.
-        Supported image formats include .gif, .jpg, .png, and .tif. The maximum image size
-        is 10 MB. The minimum recommended pixel density is 32X32 pixels, but the service
-        tends to perform better with images that are at least 224 x 224 pixels.
-
-        :param file images_file: (optional) An image file (gif, .jpg, .png, .tif.)
-               or .zip file with images. Limit the .zip file to 100 MB. You can include a
-               maximum of 15 images in a request.
-               Encode the image and .zip file names in UTF-8 if they contain non-ASCII
-               characters. The service assumes UTF-8 encoding if it encounters non-ASCII
-               characters.
-               You can also include an image with the **url** parameter.
-        :param str images_filename: (optional) The filename for images_file.
-        :param str images_file_content_type: (optional) The content type of
-               images_file.
-        :param str url: (optional) The URL of an image to analyze. Must be in .gif,
-               .jpg, .png, or .tif format. The minimum recommended pixel density is 32X32
-               pixels, but the service tends to perform better with images that are at
-               least 224 x 224 pixels. The maximum image size is 10 MB. Redirects are
-               followed, so you can use a shortened URL.
-               You can also include images with the **images_file** parameter.
-        :param str accept_language: (optional) The desired language of parts of the
-               response. See the response for details.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-
-        headers = {'Accept-Language': accept_language}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('watson_vision_combined', 'V3',
-                                      'detect_faces')
-        headers.update(sdk_headers)
-
-        params = {'version': self.version}
-
-        form_data = {}
-        if images_file:
-            if not images_filename and hasattr(images_file, 'name'):
-                images_filename = basename(images_file.name)
-            if not images_filename:
-                raise ValueError('images_filename must be provided')
-            form_data['images_file'] = (images_filename, images_file,
-                                        images_file_content_type or
-                                        'application/octet-stream')
-        if url:
-            form_data['url'] = (None, url, 'text/plain')
-
-        url = '/v3/detect_faces'
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            files=form_data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -350,13 +268,12 @@ class VisualRecognitionV3(BaseService):
                                               'application/octet-stream')
 
         url = '/v3/classifiers'
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            files=form_data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -381,12 +298,11 @@ class VisualRecognitionV3(BaseService):
         params = {'version': self.version, 'verbose': verbose}
 
         url = '/v3/classifiers'
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -416,12 +332,11 @@ class VisualRecognitionV3(BaseService):
 
         url = '/v3/classifiers/{0}'.format(
             *self._encode_path_vars(classifier_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -507,13 +422,12 @@ class VisualRecognitionV3(BaseService):
 
         url = '/v3/classifiers/{0}'.format(
             *self._encode_path_vars(classifier_id))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            files=form_data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -541,12 +455,11 @@ class VisualRecognitionV3(BaseService):
 
         url = '/v3/classifiers/{0}'.format(
             *self._encode_path_vars(classifier_id))
-        request = self.prepare_request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -581,12 +494,11 @@ class VisualRecognitionV3(BaseService):
 
         url = '/v3/classifiers/{0}/core_ml_model'.format(
             *self._encode_path_vars(classifier_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=False)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=False)
         response = self.send(request)
         return response
 
@@ -625,12 +537,11 @@ class VisualRecognitionV3(BaseService):
         params = {'version': self.version, 'customer_id': customer_id}
 
         url = '/v3/user_data'
-        request = self.prepare_request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -654,31 +565,12 @@ class ClassifyEnums(object):
         ZH_TW = 'zh-tw'
 
 
-class DetectFacesEnums(object):
-
-    class AcceptLanguage(Enum):
-        """
-        The desired language of parts of the response. See the response for details.
-        """
-        EN = 'en'
-        AR = 'ar'
-        DE = 'de'
-        ES = 'es'
-        FR = 'fr'
-        IT = 'it'
-        JA = 'ja'
-        KO = 'ko'
-        PT_BR = 'pt-br'
-        ZH_CN = 'zh-cn'
-        ZH_TW = 'zh-tw'
-
-
 ##############################################################################
 # Models
 ##############################################################################
 
 
-class Class(object):
+class Class():
     """
     A category within a classifier.
 
@@ -697,12 +589,12 @@ class Class(object):
     def _from_dict(cls, _dict):
         """Initialize a Class object from a json dictionary."""
         args = {}
-        validKeys = ['class_', 'class']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['class_', 'class']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Class: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'class' in _dict:
             args['class_'] = _dict.get('class')
         else:
@@ -732,7 +624,7 @@ class Class(object):
         return not self == other
 
 
-class ClassResult(object):
+class ClassResult():
     """
     Result of a class within a classifier.
 
@@ -777,12 +669,12 @@ class ClassResult(object):
     def _from_dict(cls, _dict):
         """Initialize a ClassResult object from a json dictionary."""
         args = {}
-        validKeys = ['class_', 'class', 'score', 'type_hierarchy']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['class_', 'class', 'score', 'type_hierarchy']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ClassResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'class' in _dict:
             args['class_'] = _dict.get('class')
         else:
@@ -823,7 +715,7 @@ class ClassResult(object):
         return not self == other
 
 
-class ClassifiedImage(object):
+class ClassifiedImage():
     """
     Results for one image.
 
@@ -870,14 +762,14 @@ class ClassifiedImage(object):
     def _from_dict(cls, _dict):
         """Initialize a ClassifiedImage object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'source_url', 'resolved_url', 'image', 'error', 'classifiers'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ClassifiedImage: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'source_url' in _dict:
             args['source_url'] = _dict.get('source_url')
         if 'resolved_url' in _dict:
@@ -927,7 +819,7 @@ class ClassifiedImage(object):
         return not self == other
 
 
-class ClassifiedImages(object):
+class ClassifiedImages():
     """
     Results for all images.
 
@@ -970,12 +862,14 @@ class ClassifiedImages(object):
     def _from_dict(cls, _dict):
         """Initialize a ClassifiedImages object from a json dictionary."""
         args = {}
-        validKeys = ['custom_classes', 'images_processed', 'images', 'warnings']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = [
+            'custom_classes', 'images_processed', 'images', 'warnings'
+        ]
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ClassifiedImages: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'custom_classes' in _dict:
             args['custom_classes'] = _dict.get('custom_classes')
         if 'images_processed' in _dict:
@@ -1023,7 +917,7 @@ class ClassifiedImages(object):
         return not self == other
 
 
-class Classifier(object):
+class Classifier():
     """
     Information about a classifier.
 
@@ -1097,15 +991,15 @@ class Classifier(object):
     def _from_dict(cls, _dict):
         """Initialize a Classifier object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'classifier_id', 'name', 'owner', 'status', 'core_ml_enabled',
             'explanation', 'created', 'classes', 'retrained', 'updated'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Classifier: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'classifier_id' in _dict:
             args['classifier_id'] = _dict.get('classifier_id')
         else:
@@ -1187,7 +1081,7 @@ class Classifier(object):
         FAILED = "failed"
 
 
-class ClassifierResult(object):
+class ClassifierResult():
     """
     Classifier and score combination.
 
@@ -1212,12 +1106,12 @@ class ClassifierResult(object):
     def _from_dict(cls, _dict):
         """Initialize a ClassifierResult object from a json dictionary."""
         args = {}
-        validKeys = ['name', 'classifier_id', 'classes']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['name', 'classifier_id', 'classes']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ClassifierResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         else:
@@ -1266,7 +1160,7 @@ class ClassifierResult(object):
         return not self == other
 
 
-class Classifiers(object):
+class Classifiers():
     """
     A container for the list of classifiers.
 
@@ -1285,12 +1179,12 @@ class Classifiers(object):
     def _from_dict(cls, _dict):
         """Initialize a Classifiers object from a json dictionary."""
         args = {}
-        validKeys = ['classifiers']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['classifiers']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Classifiers: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'classifiers' in _dict:
             args['classifiers'] = [
                 Classifier._from_dict(x) for x in (_dict.get('classifiers'))
@@ -1323,91 +1217,7 @@ class Classifiers(object):
         return not self == other
 
 
-class DetectedFaces(object):
-    """
-    Results for all faces.
-
-    :attr int images_processed: Number of images processed for the API call.
-    :attr list[ImageWithFaces] images: The images.
-    :attr list[WarningInfo] warnings: (optional) Information about what might cause
-          less than optimal output. For example, a request sent with a corrupt .zip file
-          and a list of image URLs will still complete, but does not return the expected
-          output. Not returned when there is no warning.
-    """
-
-    def __init__(self, images_processed, images, *, warnings=None):
-        """
-        Initialize a DetectedFaces object.
-
-        :param int images_processed: Number of images processed for the API call.
-        :param list[ImageWithFaces] images: The images.
-        :param list[WarningInfo] warnings: (optional) Information about what might
-               cause less than optimal output. For example, a request sent with a corrupt
-               .zip file and a list of image URLs will still complete, but does not return
-               the expected output. Not returned when there is no warning.
-        """
-        self.images_processed = images_processed
-        self.images = images
-        self.warnings = warnings
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a DetectedFaces object from a json dictionary."""
-        args = {}
-        validKeys = ['images_processed', 'images', 'warnings']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DetectedFaces: '
-                + ', '.join(badKeys))
-        if 'images_processed' in _dict:
-            args['images_processed'] = _dict.get('images_processed')
-        else:
-            raise ValueError(
-                'Required property \'images_processed\' not present in DetectedFaces JSON'
-            )
-        if 'images' in _dict:
-            args['images'] = [
-                ImageWithFaces._from_dict(x) for x in (_dict.get('images'))
-            ]
-        else:
-            raise ValueError(
-                'Required property \'images\' not present in DetectedFaces JSON'
-            )
-        if 'warnings' in _dict:
-            args['warnings'] = [
-                WarningInfo._from_dict(x) for x in (_dict.get('warnings'))
-            ]
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self,
-                   'images_processed') and self.images_processed is not None:
-            _dict['images_processed'] = self.images_processed
-        if hasattr(self, 'images') and self.images is not None:
-            _dict['images'] = [x._to_dict() for x in self.images]
-        if hasattr(self, 'warnings') and self.warnings is not None:
-            _dict['warnings'] = [x._to_dict() for x in self.warnings]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this DetectedFaces object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class ErrorInfo(object):
+class ErrorInfo():
     """
     Information about what might have caused a failure, such as an image that is too
     large. Not returned when there is no error.
@@ -1435,12 +1245,12 @@ class ErrorInfo(object):
     def _from_dict(cls, _dict):
         """Initialize a ErrorInfo object from a json dictionary."""
         args = {}
-        validKeys = ['code', 'description', 'error_id']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['code', 'description', 'error_id']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ErrorInfo: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'code' in _dict:
             args['code'] = _dict.get('code')
         else:
@@ -1485,410 +1295,7 @@ class ErrorInfo(object):
         return not self == other
 
 
-class Face(object):
-    """
-    Information about the face.
-
-    :attr FaceAge age: (optional) Age information about a face.
-    :attr FaceGender gender: (optional) Information about the gender of the face.
-    :attr FaceLocation face_location: (optional) The location of the bounding box
-          around the face.
-    """
-
-    def __init__(self, *, age=None, gender=None, face_location=None):
-        """
-        Initialize a Face object.
-
-        :param FaceAge age: (optional) Age information about a face.
-        :param FaceGender gender: (optional) Information about the gender of the
-               face.
-        :param FaceLocation face_location: (optional) The location of the bounding
-               box around the face.
-        """
-        self.age = age
-        self.gender = gender
-        self.face_location = face_location
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a Face object from a json dictionary."""
-        args = {}
-        validKeys = ['age', 'gender', 'face_location']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Face: ' +
-                ', '.join(badKeys))
-        if 'age' in _dict:
-            args['age'] = FaceAge._from_dict(_dict.get('age'))
-        if 'gender' in _dict:
-            args['gender'] = FaceGender._from_dict(_dict.get('gender'))
-        if 'face_location' in _dict:
-            args['face_location'] = FaceLocation._from_dict(
-                _dict.get('face_location'))
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'age') and self.age is not None:
-            _dict['age'] = self.age._to_dict()
-        if hasattr(self, 'gender') and self.gender is not None:
-            _dict['gender'] = self.gender._to_dict()
-        if hasattr(self, 'face_location') and self.face_location is not None:
-            _dict['face_location'] = self.face_location._to_dict()
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this Face object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class FaceAge(object):
-    """
-    Age information about a face.
-
-    :attr int min: (optional) Estimated minimum age.
-    :attr int max: (optional) Estimated maximum age.
-    :attr float score: Confidence score in the range of 0 to 1. A higher score
-          indicates greater confidence in the estimated value for the property.
-    """
-
-    def __init__(self, score, *, min=None, max=None):
-        """
-        Initialize a FaceAge object.
-
-        :param float score: Confidence score in the range of 0 to 1. A higher score
-               indicates greater confidence in the estimated value for the property.
-        :param int min: (optional) Estimated minimum age.
-        :param int max: (optional) Estimated maximum age.
-        """
-        self.min = min
-        self.max = max
-        self.score = score
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a FaceAge object from a json dictionary."""
-        args = {}
-        validKeys = ['min', 'max', 'score']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class FaceAge: ' +
-                ', '.join(badKeys))
-        if 'min' in _dict:
-            args['min'] = _dict.get('min')
-        if 'max' in _dict:
-            args['max'] = _dict.get('max')
-        if 'score' in _dict:
-            args['score'] = _dict.get('score')
-        else:
-            raise ValueError(
-                'Required property \'score\' not present in FaceAge JSON')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'min') and self.min is not None:
-            _dict['min'] = self.min
-        if hasattr(self, 'max') and self.max is not None:
-            _dict['max'] = self.max
-        if hasattr(self, 'score') and self.score is not None:
-            _dict['score'] = self.score
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this FaceAge object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class FaceGender(object):
-    """
-    Information about the gender of the face.
-
-    :attr str gender: Gender identified by the face. For example, `MALE` or
-          `FEMALE`.
-    :attr str gender_label: The word for "male" or "female" in the language defined
-          by the **Accept-Language** request header.
-    :attr float score: Confidence score in the range of 0 to 1. A higher score
-          indicates greater confidence in the estimated value for the property.
-    """
-
-    def __init__(self, gender, gender_label, score):
-        """
-        Initialize a FaceGender object.
-
-        :param str gender: Gender identified by the face. For example, `MALE` or
-               `FEMALE`.
-        :param str gender_label: The word for "male" or "female" in the language
-               defined by the **Accept-Language** request header.
-        :param float score: Confidence score in the range of 0 to 1. A higher score
-               indicates greater confidence in the estimated value for the property.
-        """
-        self.gender = gender
-        self.gender_label = gender_label
-        self.score = score
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a FaceGender object from a json dictionary."""
-        args = {}
-        validKeys = ['gender', 'gender_label', 'score']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class FaceGender: '
-                + ', '.join(badKeys))
-        if 'gender' in _dict:
-            args['gender'] = _dict.get('gender')
-        else:
-            raise ValueError(
-                'Required property \'gender\' not present in FaceGender JSON')
-        if 'gender_label' in _dict:
-            args['gender_label'] = _dict.get('gender_label')
-        else:
-            raise ValueError(
-                'Required property \'gender_label\' not present in FaceGender JSON'
-            )
-        if 'score' in _dict:
-            args['score'] = _dict.get('score')
-        else:
-            raise ValueError(
-                'Required property \'score\' not present in FaceGender JSON')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'gender') and self.gender is not None:
-            _dict['gender'] = self.gender
-        if hasattr(self, 'gender_label') and self.gender_label is not None:
-            _dict['gender_label'] = self.gender_label
-        if hasattr(self, 'score') and self.score is not None:
-            _dict['score'] = self.score
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this FaceGender object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class FaceLocation(object):
-    """
-    The location of the bounding box around the face.
-
-    :attr float width: Width in pixels of face region.
-    :attr float height: Height in pixels of face region.
-    :attr float left: X-position of top-left pixel of face region.
-    :attr float top: Y-position of top-left pixel of face region.
-    """
-
-    def __init__(self, width, height, left, top):
-        """
-        Initialize a FaceLocation object.
-
-        :param float width: Width in pixels of face region.
-        :param float height: Height in pixels of face region.
-        :param float left: X-position of top-left pixel of face region.
-        :param float top: Y-position of top-left pixel of face region.
-        """
-        self.width = width
-        self.height = height
-        self.left = left
-        self.top = top
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a FaceLocation object from a json dictionary."""
-        args = {}
-        validKeys = ['width', 'height', 'left', 'top']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class FaceLocation: '
-                + ', '.join(badKeys))
-        if 'width' in _dict:
-            args['width'] = _dict.get('width')
-        else:
-            raise ValueError(
-                'Required property \'width\' not present in FaceLocation JSON')
-        if 'height' in _dict:
-            args['height'] = _dict.get('height')
-        else:
-            raise ValueError(
-                'Required property \'height\' not present in FaceLocation JSON')
-        if 'left' in _dict:
-            args['left'] = _dict.get('left')
-        else:
-            raise ValueError(
-                'Required property \'left\' not present in FaceLocation JSON')
-        if 'top' in _dict:
-            args['top'] = _dict.get('top')
-        else:
-            raise ValueError(
-                'Required property \'top\' not present in FaceLocation JSON')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'width') and self.width is not None:
-            _dict['width'] = self.width
-        if hasattr(self, 'height') and self.height is not None:
-            _dict['height'] = self.height
-        if hasattr(self, 'left') and self.left is not None:
-            _dict['left'] = self.left
-        if hasattr(self, 'top') and self.top is not None:
-            _dict['top'] = self.top
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this FaceLocation object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class ImageWithFaces(object):
-    """
-    Information about faces in the image.
-
-    :attr list[Face] faces: Faces detected in the images.
-    :attr str image: (optional) Relative path of the image file if uploaded
-          directly. Not returned when the image is passed by URL.
-    :attr str source_url: (optional) Source of the image before any redirects. Not
-          returned when the image is uploaded.
-    :attr str resolved_url: (optional) Fully resolved URL of the image after
-          redirects are followed. Not returned when the image is uploaded.
-    :attr ErrorInfo error: (optional) Information about what might have caused a
-          failure, such as an image that is too large. Not returned when there is no
-          error.
-    """
-
-    def __init__(self,
-                 faces,
-                 *,
-                 image=None,
-                 source_url=None,
-                 resolved_url=None,
-                 error=None):
-        """
-        Initialize a ImageWithFaces object.
-
-        :param list[Face] faces: Faces detected in the images.
-        :param str image: (optional) Relative path of the image file if uploaded
-               directly. Not returned when the image is passed by URL.
-        :param str source_url: (optional) Source of the image before any redirects.
-               Not returned when the image is uploaded.
-        :param str resolved_url: (optional) Fully resolved URL of the image after
-               redirects are followed. Not returned when the image is uploaded.
-        :param ErrorInfo error: (optional) Information about what might have caused
-               a failure, such as an image that is too large. Not returned when there is
-               no error.
-        """
-        self.faces = faces
-        self.image = image
-        self.source_url = source_url
-        self.resolved_url = resolved_url
-        self.error = error
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a ImageWithFaces object from a json dictionary."""
-        args = {}
-        validKeys = ['faces', 'image', 'source_url', 'resolved_url', 'error']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ImageWithFaces: '
-                + ', '.join(badKeys))
-        if 'faces' in _dict:
-            args['faces'] = [Face._from_dict(x) for x in (_dict.get('faces'))]
-        else:
-            raise ValueError(
-                'Required property \'faces\' not present in ImageWithFaces JSON'
-            )
-        if 'image' in _dict:
-            args['image'] = _dict.get('image')
-        if 'source_url' in _dict:
-            args['source_url'] = _dict.get('source_url')
-        if 'resolved_url' in _dict:
-            args['resolved_url'] = _dict.get('resolved_url')
-        if 'error' in _dict:
-            args['error'] = ErrorInfo._from_dict(_dict.get('error'))
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'faces') and self.faces is not None:
-            _dict['faces'] = [x._to_dict() for x in self.faces]
-        if hasattr(self, 'image') and self.image is not None:
-            _dict['image'] = self.image
-        if hasattr(self, 'source_url') and self.source_url is not None:
-            _dict['source_url'] = self.source_url
-        if hasattr(self, 'resolved_url') and self.resolved_url is not None:
-            _dict['resolved_url'] = self.resolved_url
-        if hasattr(self, 'error') and self.error is not None:
-            _dict['error'] = self.error._to_dict()
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this ImageWithFaces object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class WarningInfo(object):
+class WarningInfo():
     """
     Information about something that went wrong.
 
@@ -1910,12 +1317,12 @@ class WarningInfo(object):
     def _from_dict(cls, _dict):
         """Initialize a WarningInfo object from a json dictionary."""
         args = {}
-        validKeys = ['warning_id', 'description']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['warning_id', 'description']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class WarningInfo: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'warning_id' in _dict:
             args['warning_id'] = _dict.get('warning_id')
         else:
