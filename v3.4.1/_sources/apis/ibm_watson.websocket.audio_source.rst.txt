@@ -1,0 +1,7 @@
+ibm\_watson.websocket.audio\_source module
+==========================================
+
+.. automodule:: ibm_watson.websocket.audio_source
+   :members:
+   :undoc-members:
+   :show-inheritance:
