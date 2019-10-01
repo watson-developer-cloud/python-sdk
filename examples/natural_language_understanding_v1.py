@@ -6,9 +6,8 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 authenticator = IAMAuthenticator('your_api_key')
 service = NaturalLanguageUnderstandingV1(
     version='2018-03-16',
-    ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-    url='https://gateway.watsonplatform.net/natural-language-understanding/api',
     authenticator=authenticator)
+service.set_service_url('https://gateway.watsonplatform.net/natural-language-understanding/api')
 
 response = service.analyze(
     text='Bruce Banner is the Hulk and Bruce Wayne is BATMAN! '

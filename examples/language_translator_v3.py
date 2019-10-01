@@ -6,9 +6,8 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 authenticator = IAMAuthenticator('your_api_key')
 language_translator = LanguageTranslatorV3(
     version='2018-05-01',
-    ### url is optional, and defaults to the URL below. Use the correct URL for your region.
-    # url='https://gateway.watsonplatform.net/language-translator/api',
     authenticator=authenticator)
+language_translator.set_service_url('https://gateway.watsonplatform.net/language-translator/api')
 
 ## Translate
 translation = language_translator.translate(

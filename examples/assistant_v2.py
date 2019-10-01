@@ -5,9 +5,8 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 authenticator = IAMAuthenticator('your apikey')
 assistant = AssistantV2(
     version='2018-09-20',
-    ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-    url='https://gateway.watsonplatform.net/assistant/api',
     authenticator=authenticator)
+assistant.set_service_url('https://gateway.watsonplatform.net/assistant/api')
 
 #########################
 # Sessions

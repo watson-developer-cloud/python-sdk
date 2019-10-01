@@ -5,10 +5,8 @@ from ibm_watson import NaturalLanguageClassifierV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 authenticator = IAMAuthenticator('your_api_key')
-service = NaturalLanguageClassifierV1(
-    ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-    url='https://gateway.watsonplatform.net/natural-language-classifier/api',
-    authenticator=authenticator)
+service = NaturalLanguageClassifierV1(authenticator=authenticator)
+service.set_service_url('https://gateway.watsonplatform.net/natural-language-classifier/api')
 
 classifiers = service.list_classifiers().get_result()
 print(json.dumps(classifiers, indent=2))

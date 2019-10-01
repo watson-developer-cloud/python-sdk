@@ -6,10 +6,8 @@ from ibm_watson.websocket import SynthesizeCallback
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 authenticator = IAMAuthenticator('your_api_key')
-service = TextToSpeechV1(
-    ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-    url='https://stream.watsonplatform.net/text-to-speech/api',
-    authenticator=authenticator)
+service = TextToSpeechV1(authenticator=authenticator)
+service.set_service_url('https://stream.watsonplatform.net/text-to-speech/api')
 
 voices = service.list_voices().get_result()
 print(json.dumps(voices, indent=2))

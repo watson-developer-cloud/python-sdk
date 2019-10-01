@@ -5,9 +5,8 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 authenticator = IAMAuthenticator('your_api_key')
 discovery = DiscoveryV1(
     version='2018-08-01',
-    ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-    url='https://gateway.watsonplatform.net/discovery/api',
     authenticator=authenticator)
+discovery.set_service_url('https://gateway.watsonplatform.net/discovery/api')
 
 environments = discovery.list_environments().get_result()
 print(json.dumps(environments, indent=2))

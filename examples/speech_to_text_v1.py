@@ -6,10 +6,8 @@ import threading
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 authenticator = IAMAuthenticator('your_api_key')
-service = SpeechToTextV1(
-    ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-    url='https://stream.watsonplatform.net/speech-to-text/api',
-    authenticator=authenticator)
+service = SpeechToTextV1(authenticator=authenticator)
+service.set_service_url('https://stream.watsonplatform.net/speech-to-text/api')
 
 models = service.list_models().get_result()
 print(json.dumps(models, indent=2))

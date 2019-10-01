@@ -10,9 +10,8 @@ test_url = 'https://www.ibm.com/ibm/ginni/images' \
 # If service instance provides IAM API key authentication
 service = VisualRecognitionV3(
     '2018-03-19',
-    ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-    url='https://gateway.watsonplatform.net/visual-recognition/api',
     authenticator=authenticator)
+service.set_service_url('https://gateway.watsonplatform.net/visual-recognition/api')
 
 # with open(abspath('resources/cars.zip'), 'rb') as cars, \
 #      open(abspath('resources/trucks.zip'), 'rb') as trucks:
@@ -40,19 +39,11 @@ except ApiException as ex:
 #                                            positive_examples={'cars_positive_examples': image_file}).get_result()
 #     print(json.dumps(classifier, indent=2))
 
-# faces_result = service.detect_faces(url=test_url).get_result()
-# print(json.dumps(faces_result, indent=2))
-
 # response = service.delete_classifier(classifier_id='YOUR CLASSIFIER ID').get_result()
 # print(json.dumps(response, indent=2))
 
 classifiers = service.list_classifiers().get_result()
 print(json.dumps(classifiers, indent=2))
-
-face_path = abspath('resources/face.jpg')
-with open(face_path, 'rb') as image_file:
-    face_result = service.detect_faces(images_file=image_file).get_result()
-    print(json.dumps(face_result, indent=2))
 
 #Core ml model example
 # model_name = '{0}.mlmodel'.format(classifier_id)

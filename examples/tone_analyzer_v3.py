@@ -6,10 +6,9 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 authenticator = IAMAuthenticator('your_api_key')
 service = ToneAnalyzerV3(
-    ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-    url='https://gateway.watsonplatform.net/tone-analyzer/api',
     version='2017-09-21',
     authenticator=authenticator)
+service.set_service_url('https://gateway.watsonplatform.net/tone-analyzer/api')
 
 print("\ntone_chat() example 1:\n")
 utterances = [{
