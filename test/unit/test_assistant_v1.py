@@ -37,6 +37,7 @@ def test_create_counterexample():
         content_type='application/json')
     authenticator = BasicAuthenticator('username', 'password')
     service = ibm_watson.AssistantV1(version='2017-02-03', authenticator=authenticator)
+    service.set_service_url(base_url)
     counterexample = service.create_counterexample(
         workspace_id='boguswid', text='I want financial advice today.').get_result()
     assert len(responses.calls) == 1

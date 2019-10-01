@@ -13,14 +13,14 @@ def test_plain_to_json():
     authenticator = BasicAuthenticator('username', 'password')
     personality_insights = ibm_watson.PersonalityInsightsV3('2016-10-20', authenticator=authenticator)
 
-    with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3-expect1.txt')) as expect_file:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3-expect1.txt'), 'r') as expect_file:
         profile_response = expect_file.read()
 
     responses.add(responses.POST, profile_url,
                   body=profile_response, status=200,
                   content_type='application/json')
 
-    with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3.txt')) as personality_text:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3.txt'), 'rb') as personality_text:
         response = personality_insights.profile(
             personality_text, 'application/json', content_type='text/plain;charset=utf-8').get_result()
 
@@ -36,14 +36,14 @@ def test_json_to_json():
     authenticator = BasicAuthenticator('username', 'password')
     personality_insights = ibm_watson.PersonalityInsightsV3('2016-10-20', authenticator=authenticator)
 
-    with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3-expect2.txt')) as expect_file:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3-expect2.txt'), 'r') as expect_file:
         profile_response = expect_file.read()
 
     responses.add(responses.POST, profile_url,
                   body=profile_response, status=200,
                   content_type='application/json')
 
-    with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3.json')) as personality_text:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3.json'), 'rb') as personality_text:
         response = personality_insights.profile(
             personality_text, accept='application/json',
             content_type='application/json',
@@ -64,14 +64,14 @@ def test_json_to_csv():
     authenticator = BasicAuthenticator('username', 'password')
     personality_insights = ibm_watson.PersonalityInsightsV3('2016-10-20', authenticator=authenticator)
 
-    with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3-expect3.txt')) as expect_file:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3-expect3.txt'), 'r') as expect_file:
         profile_response = expect_file.read()
 
     responses.add(responses.POST, profile_url,
                   body=profile_response, status=200,
                   content_type='text/csv')
 
-    with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3.json')) as personality_text:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3.json'), 'rb') as personality_text:
         personality_insights.profile(
             personality_text,
             'text/csv',
@@ -94,15 +94,14 @@ def test_plain_to_json_es():
     authenticator = BasicAuthenticator('username', 'password')
     personality_insights = ibm_watson.PersonalityInsightsV3('2016-10-20', authenticator=authenticator)
 
-    with codecs.open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3-expect4.txt'), \
-            encoding='utf-8') as expect_file:
+    with codecs.open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3-expect4.txt'), 'r') as expect_file:
         profile_response = expect_file.read()
 
     responses.add(responses.POST, profile_url,
                   body=profile_response, status=200,
                   content_type='application/json')
 
-    with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3-es.txt')) as personality_text:
+    with open(os.path.join(os.path.dirname(__file__), '../../resources/personality-v3-es.txt'), 'rb') as personality_text:
         response = personality_insights.profile(
             personality_text,
             'application/json',

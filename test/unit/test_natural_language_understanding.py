@@ -62,7 +62,6 @@ class TestNaturalLanguageUnderstanding(TestCase):
             NaturalLanguageUnderstandingV1() # pylint: disable=E1120
         authenticator = BasicAuthenticator('username', 'password')
         nlu = NaturalLanguageUnderstandingV1(version='2016-01-23',
-                                             url='http://bogus.com',
                                              authenticator=authenticator)
         assert nlu
 
@@ -72,38 +71,35 @@ class TestNaturalLanguageUnderstanding(TestCase):
         with pytest.raises(ValueError):
             NaturalLanguageUnderstandingV1(version='2016-01-23')
         with pytest.raises(ValueError):
-            NaturalLanguageUnderstandingV1(version='2016-01-23', url='http://bogus.com')
+            NaturalLanguageUnderstandingV1(version='2016-01-23')
 
     def test_analyze_throws(self):
         authenticator = BasicAuthenticator('username', 'password')
         nlu = NaturalLanguageUnderstandingV1(version='2016-01-23',
-                                             url='http://bogus.com',
                                              authenticator=authenticator)
         with pytest.raises(ValueError):
             nlu.analyze(None, text="this will not work")
 
     @responses.activate
     def test_text_analyze(self):
-        nlu_url = "http://bogus.com/v1/analyze"
+        nlu_url = "https://gateway.watsonplatform.net/natural-language-understanding/api/v1/analyze"
         responses.add(responses.POST, nlu_url,
                       body="{\"resulting_key\": true}", status=200,
                       content_type='application/json')
         authenticator = BasicAuthenticator('username', 'password')
         nlu = NaturalLanguageUnderstandingV1(version='2016-01-23',
-                                             url='http://bogus.com',
                                              authenticator=authenticator)
         nlu.analyze(Features(sentiment=SentimentOptions()), text="hello this is a test")
         assert len(responses.calls) == 1
 
     @responses.activate
     def test_html_analyze(self):
-        nlu_url = "http://bogus.com/v1/analyze"
+        nlu_url = "https://gateway.watsonplatform.net/natural-language-understanding/api/v1/analyze"
         responses.add(responses.POST, nlu_url,
                       body="{\"resulting_key\": true}", status=200,
                       content_type='application/json')
         authenticator = BasicAuthenticator('username', 'password')
         nlu = NaturalLanguageUnderstandingV1(version='2016-01-23',
-                                             url='http://bogus.com',
                                              authenticator=authenticator)
         nlu.analyze(Features(sentiment=SentimentOptions(),
                              emotion=EmotionOptions(document=False)),
@@ -112,13 +108,12 @@ class TestNaturalLanguageUnderstanding(TestCase):
 
     @responses.activate
     def test_url_analyze(self):
-        nlu_url = "http://bogus.com/v1/analyze"
+        nlu_url = "https://gateway.watsonplatform.net/natural-language-understanding/api/v1/analyze"
         responses.add(responses.POST, nlu_url,
                       body="{\"resulting_key\": true}", status=200,
                       content_type='application/json')
         authenticator = BasicAuthenticator('username', 'password')
         nlu = NaturalLanguageUnderstandingV1(version='2016-01-23',
-                                             url='http://bogus.com',
                                              authenticator=authenticator)
         nlu.analyze(Features(sentiment=SentimentOptions(),
                              emotion=EmotionOptions(document=False)),
@@ -128,13 +123,12 @@ class TestNaturalLanguageUnderstanding(TestCase):
 
     @responses.activate
     def test_list_models(self):
-        nlu_url = "http://bogus.com/v1/models"
+        nlu_url = "https://gateway.watsonplatform.net/natural-language-understanding/api/v1/models"
         responses.add(responses.GET, nlu_url, status=200,
                       body="{\"resulting_key\": true}",
                       content_type='application/json')
         authenticator = BasicAuthenticator('username', 'password')
         nlu = NaturalLanguageUnderstandingV1(version='2016-01-23',
-                                             url='http://bogus.com',
                                              authenticator=authenticator)
         nlu.list_models()
         assert len(responses.calls) == 1
@@ -142,12 +136,11 @@ class TestNaturalLanguageUnderstanding(TestCase):
     @responses.activate
     def test_delete_model(self):
         model_id = "invalid_model_id"
-        nlu_url = "http://bogus.com/v1/models/" + model_id
+        nlu_url = "https://gateway.watsonplatform.net/natural-language-understanding/api/v1/models/" + model_id
         responses.add(responses.DELETE, nlu_url, status=200,
                       body="{}", content_type='application/json')
         authenticator = BasicAuthenticator('username', 'password')
         nlu = NaturalLanguageUnderstandingV1(version='2016-01-23',
-                                             url='http://bogus.com',
                                              authenticator=authenticator)
         nlu.delete_model(model_id)
         assert len(responses.calls) == 1

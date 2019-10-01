@@ -374,55 +374,6 @@ class TestDiscoveryV1(TestCase):
 
     @classmethod
     @responses.activate
-    def test_query_relations(cls):
-        discovery_url = urljoin(
-            base_discovery_url,
-            'environments/envid/collections/collid/query_relations')
-
-        responses.add(
-            responses.POST,
-            discovery_url,
-            body="{\"body\": \"hello\"}",
-            status=200,
-            content_type='application/json')
-
-        authenticator = BasicAuthenticator('username', 'password')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13', authenticator=authenticator)
-
-        discovery.query_relations('envid', 'collid', count=10)
-        called_url = urlparse(responses.calls[0].request.url)
-        test_url = urlparse(discovery_url)
-        assert called_url.netloc == test_url.netloc
-        assert called_url.path == test_url.path
-        assert len(responses.calls) == 1
-
-
-    @classmethod
-    @responses.activate
-    def test_query_entities(cls):
-        discovery_url = urljoin(
-            base_discovery_url,
-            'environments/envid/collections/collid/query_entities')
-
-        responses.add(
-            responses.POST,
-            discovery_url,
-            body="{\"body\": \"hello\"}",
-            status=200,
-            content_type='application/json')
-
-        authenticator = BasicAuthenticator('username', 'password')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13', authenticator=authenticator)
-
-        discovery.query_entities('envid', 'collid', count={'count': 10})
-        called_url = urlparse(responses.calls[0].request.url)
-        test_url = urlparse(discovery_url)
-        assert called_url.netloc == test_url.netloc
-        assert called_url.path == test_url.path
-        assert len(responses.calls) == 1
-
-    @classmethod
-    @responses.activate
     def test_query_notices(cls):
         discovery_url = urljoin(
             base_discovery_url,
@@ -523,17 +474,6 @@ class TestDiscoveryV1(TestCase):
 
         authenticator = BasicAuthenticator('username', 'password')
         discovery = ibm_watson.DiscoveryV1('2018-08-13', authenticator=authenticator)
-        html_path = os.path.join(os.getcwd(), 'resources', 'simple.html')
-        with open(html_path) as fileinfo:
-            conf_id = discovery.test_configuration_in_environment(environment_id='envid',
-                                                                  configuration_id='bogus',
-                                                                  file=fileinfo)
-            assert conf_id is not None
-            conf_id = discovery.test_configuration_in_environment(environment_id='envid',
-                                                                  file=fileinfo)
-            assert conf_id is not None
-
-        assert len(responses.calls) == 2
 
         add_doc_url = urljoin(base_discovery_url,
                               'environments/envid/collections/collid/documents')
@@ -580,38 +520,38 @@ class TestDiscoveryV1(TestCase):
                                              file=fileinfo)
             assert conf_id is not None
 
-        assert len(responses.calls) == 3
+        assert len(responses.calls) == 1
 
         discovery.get_document_status(environment_id='envid',
                                       collection_id='collid',
                                       document_id='docid')
 
+        assert len(responses.calls) == 2
+
+        discovery.update_document(environment_id='envid',
+                                  collection_id='collid',
+                                  document_id='docid')
+
+        assert len(responses.calls) == 3
+
+        discovery.update_document(environment_id='envid',
+                                  collection_id='collid',
+                                  document_id='docid')
+
         assert len(responses.calls) == 4
-
-        discovery.update_document(environment_id='envid',
-                                  collection_id='collid',
-                                  document_id='docid')
-
-        assert len(responses.calls) == 5
-
-        discovery.update_document(environment_id='envid',
-                                  collection_id='collid',
-                                  document_id='docid')
-
-        assert len(responses.calls) == 6
 
         discovery.delete_document(environment_id='envid',
                                   collection_id='collid',
                                   document_id='docid')
 
-        assert len(responses.calls) == 7
+        assert len(responses.calls) == 5
 
         conf_id = discovery.add_document(environment_id='envid',
                                          collection_id='collid',
                                          file=io.StringIO(u'my string of file'),
                                          filename='file.txt')
 
-        assert len(responses.calls) == 8
+        assert len(responses.calls) == 6
 
         conf_id = discovery.add_document(environment_id='envid',
                                          collection_id='collid',
@@ -619,7 +559,7 @@ class TestDiscoveryV1(TestCase):
                                          filename='file.html',
                                          file_content_type='application/html')
 
-        assert len(responses.calls) == 9
+        assert len(responses.calls) == 7
 
         conf_id = discovery.add_document(environment_id='envid',
                                          collection_id='collid',
@@ -628,7 +568,7 @@ class TestDiscoveryV1(TestCase):
                                          file_content_type='application/html',
                                          metadata=io.StringIO(u'{"stuff": "woot!"}'))
 
-        assert len(responses.calls) == 10
+        assert len(responses.calls) == 8
 
 
     @classmethod
