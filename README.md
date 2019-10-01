@@ -173,8 +173,8 @@ import from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 authenticator = IAMAuthenticator('apikey',
                                  url='<iam_url>') # optional - the default value is https://iam.cloud.ibm.com/identity/token
 discovery = DiscoveryV1(version='2018-08-01',
-                        url='<url_as_per_region>',
                         authenticator=authenticator)
+discovery.set_service_url('<url_as_per_region>')
 ```
 
 #### Generating access tokens using API key
@@ -194,8 +194,8 @@ from ibm_cloud_sdk_core.authenticators import BearerAuthenticator
 # in the constructor, assuming control of managing the token
 authenticator = BearerAuthenticator('your bearer token')
 discovery = DiscoveryV1(version='2018-08-01',
-                        url='<url_as_per_region>',
                         authenticator=authenticator)
+discovery.set_service_url('<url_as_per_region>')
 ```
 
 ### Username and password
@@ -204,7 +204,8 @@ from ibm_watson import DiscoveryV1
 from ibm_cloud_sdk_core.authenticators import BasicAuthenticator
 
 authenticator = BasicAuthenticator('username', 'password')
-discovery = DiscoveryV1(version='2018-08-01', url='<url_as_per_region>', authenticator=authenticator)
+discovery = DiscoveryV1(version='2018-08-01', authenticator=authenticator)
+discovery.set_service_url('<url_as_per_region>')
 ```
 
 ### No Authentication
@@ -213,7 +214,8 @@ from ibm_watson import DiscoveryV1
 from ibm_cloud_sdk_core.authenticators import NoAuthAuthenticator
 
 authenticator = NoAuthAuthenticator()
-discovery = DiscoveryV1(version='2018-08-01', url='<url_as_per_region>', authenticator=authenticator)
+discovery = DiscoveryV1(version='2018-08-01', authenticator=authenticator)
+discovery.set_service_url('<url_as_per_region>')
 ```
 
 ## Python version
@@ -256,9 +258,8 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 authenticator = IAMAuthenticator('your apikey')
 assistant = AssistantV1(
     version='2018-07-10',
-    ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-    url='https://gateway.watsonplatform.net/assistant/api',
     authenticator=authenticator)
+assistant.set_service_url('<url as per region>')
 ```
 
 ## Migration
@@ -274,9 +275,8 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 authenticator = IAMAuthenticator('your apikey')
 assistant = AssistantV1(
     version='2018-07-10',
-    ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-    url='https://gateway.watsonplatform.net/assistant/api',
     authenticator=authenticator)
+assistant.set_service_url('https://gateway.watsonplatform.net/assistant/api')
 
 assistant.set_http_config({'timeout': 100})
 response = assistant.message(workspace_id=workspace_id, input={
@@ -301,7 +301,7 @@ service.set_service_url('my_new_service_url')
 Or can set it in the environment variable.
 
 ```
-export <service name>_url="<your url>"
+export <service name>_URL="<your url>"
 ```
 
 ## Sending request headers
@@ -320,9 +320,8 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 authenticator = IAMAuthenticator('your apikey')
 assistant = AssistantV1(
     version='2018-07-10',
-    ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-    url='https://gateway.watsonplatform.net/assistant/api',
     authenticator=authenticator)
+assistant.set_service_url('https://gateway.watsonplatform.net/assistant/api')
 
 response = assistant.list_workspaces(headers={'Custom-Header': 'custom_value'}).get_result()
 ```
@@ -336,9 +335,8 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 authenticator = IAMAuthenticator('your apikey')
 assistant = AssistantV1(
     version='2018-07-10',
-    ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-    url='https://gateway.watsonplatform.net/assistant/api',
     authenticator=authenticator)
+assistant.set_service_url('https://gateway.watsonplatform.net/assistant/api')
 
 assistant.set_detailed_response(True)
 response = assistant.list_workspaces(headers={'Custom-Header': 'custom_value'}).get_result()
@@ -395,10 +393,9 @@ authenticator = CloudPakForDataAuthenticator(
 
 assistant = AssistantV1(
     version='<version>',
-    url='<service url>', # should be of the form https://{icp_cluster_host}/{deployment}/assistant/{instance-id}/api
-    authenticator=authenticator,
-    disable_ssl_verification=True # MAKE SURE SSL VERIFICATION IS DISABLED
-    )
+    authenticator=authenticator)
+assistant.set_service_url('<service url>') # should be of the form https://{icp_cluster_host}/{deployment}/assistant/{instance-id}/api
+assistant.set_disable_ssl_verification(True) # MAKE SURE SSL VERIFICATION IS DISABLED
 ```
 
 ### 2) Supplying the access token
@@ -408,9 +405,9 @@ from ibm_cloud_sdk_core.authenticators import BearerAuthenticator
 
 authenticator = BearerAuthenticator('your managed access token')
 assistant = AssistantV1(version='<version>',
-                        url='service url', # should be of the form https://{icp_cluster_host}/{deployment}/assistant/{instance-id}/api
-                        authenticator=authenticator,
-                        disable_ssl_verification=True) # MAKE SURE SSL VERIFICATION IS DISABLED
+                        authenticator=authenticator)
+assistant.set_service_url('<service url>') # should be of the form https://{icp_cluster_host}/{deployment}/assistant/{instance-id}/api
+assistant.set_disable_ssl_verification(True) # MAKE SURE SSL VERIFICATION IS DISABLED
 ```
 
 ## Logging
@@ -449,7 +446,7 @@ HTTPConnection.debuglevel = 1
 * [responses] for testing
 * Following for web sockets support in speech to text
    * `websocket-client` 0.48.0
-* `ibm_cloud_sdk_core` >= 1.0.0rc5
+* `ibm_cloud_sdk_core` >= 1.0.0rc9
 
 ## Contributing
 
