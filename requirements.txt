@@ -1,4 +1,4 @@
 requests>=2.0,<3.0
 python_dateutil>=2.5.3
 websocket-client==0.48.0
-ibm_cloud_sdk_core==1.0.0rc5
+ibm_cloud_sdk_core==1.0.0rc9
