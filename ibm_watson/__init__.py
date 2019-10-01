@@ -30,3 +30,4 @@ from .version import __version__
 from .common import get_sdk_headers
 from .speech_to_text_v1_adapter import SpeechToTextV1Adapter as SpeechToTextV1
 from .text_to_speech_adapter_v1 import TextToSpeechV1Adapter as TextToSpeechV1
+from .visual_recognition_v4 import VisualRecognitionV4
