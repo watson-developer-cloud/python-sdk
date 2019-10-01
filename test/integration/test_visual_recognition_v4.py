@@ -72,11 +72,9 @@ class IntegrationTestVisualRecognitionV3(TestCase):
         self.visual_recognition.delete_collection(collection_id)
 
     def test_03_analyze(self):
-        dog_path = abspath(
-            '/Users/erikadsouza/workspace/public/python-sdk/resources/dog.jpg')
-        giraffe_path = abspath(
-            '/Users/erikadsouza/workspace/public/python-sdk/resources/my-giraffe.jpeg'
-        )
+        dog_path = os.path.join(os.path.dirname(__file__), '../../resources/dog.jpg')
+        giraffe_path = os.path.join(os.path.dirname(__file__),
+                                    '../../resources/my-giraffe.jpeg')
         with open(dog_path, 'rb') as dog_file, open(giraffe_path, 'rb') as giraffe_files:
             analyze_images = self.visual_recognition.analyze(
                 collection_ids='d31d6534-3458-40c4-b6de-2185a5f3cbe4',
