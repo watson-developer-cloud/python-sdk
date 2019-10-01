@@ -18,7 +18,7 @@ my_collection = service.create_collection(
 collection_id = my_collection.get('collection_id')
 
 # add images
-with open(os.path.join(os.path.dirname(__file__), '../resources/South_Africa_Luca_Galuzzi_2004.jpg'), 'rb') as giraffe_info:
+with open(os.path.join(os.path.dirname(__file__), '../resources/South_Africa_Luca_Galuzzi_2004.jpeg'), 'rb') as giraffe_info:
     add_images_result = service.add_images(
         collection_id,
         images_file=[FileWithMetadata(giraffe_info)],

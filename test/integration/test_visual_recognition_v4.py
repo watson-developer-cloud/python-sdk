@@ -40,7 +40,6 @@ class IntegrationTestVisualRecognitionV3(TestCase):
         assert updated_collection is not None
 
         collections = self.visual_recognition.list_collections().get_result().get('collections')
-        print(json.dumps(collections, indent=2))
         assert collections is not None
 
         self.visual_recognition.delete_collection(collection_id=collection_id)
@@ -97,7 +96,7 @@ class IntegrationTestVisualRecognitionV3(TestCase):
         assert collection_id is not None
 
         # add images
-        with open(os.path.join(os.path.dirname(__file__), '../../resources/South_Africa_Luca_Galuzzi_2004.jpg'), 'rb') as giraffe_info:
+        with open(os.path.join(os.path.dirname(__file__), '../../resources/South_Africa_Luca_Galuzzi_2004.jpeg'), 'rb') as giraffe_info:
             add_images_result = self.visual_recognition.add_images(
                 collection_id,
                 images_file=[FileWithMetadata(giraffe_info)],
