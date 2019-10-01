@@ -1,7 +1,7 @@
 import json
 import os
 from ibm_watson import VisualRecognitionV4
-from ibm_watson.visual_recognition_v4 import AnalyzeEnums, FileWithMetadata, BaseObject, Location
+from ibm_watson.visual_recognition_v4 import FileWithMetadata, BaseObject, Location
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 authenticator = IAMAuthenticator('<your api key>')
