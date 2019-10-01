@@ -153,26 +153,27 @@ class VisualRecognitionV3(BaseService):
 
         params = {'version': self.version}
 
-        form_data = {}
+        form_data = []
         if images_file:
             if not images_filename and hasattr(images_file, 'name'):
                 images_filename = basename(images_file.name)
             if not images_filename:
                 raise ValueError('images_filename must be provided')
-            form_data['images_file'] = (images_filename, images_file,
-                                        images_file_content_type or
-                                        'application/octet-stream')
+            form_data.append(('images_file', (images_filename, images_file,
+                                              images_file_content_type or
+                                              'application/octet-stream')))
         if url:
-            form_data['url'] = (None, url, 'text/plain')
+            form_data.append(('url', (None, url, 'text/plain')))
         if threshold:
-            form_data['threshold'] = (None, threshold, 'application/json')
+            form_data.append(
+                ('threshold', (None, threshold, 'application/json')))
         if owners:
             owners = self._convert_list(owners)
-            form_data['owners'] = (None, owners, 'application/json')
+            form_data.append(('owners', (None, owners, 'application/json')))
         if classifier_ids:
             classifier_ids = self._convert_list(classifier_ids)
-            form_data['classifier_ids'] = (None, classifier_ids,
-                                           'application/json')
+            form_data.append(
+                ('classifier_ids', (None, classifier_ids, 'application/json')))
 
         url = '/v3/classify'
         request = self.prepare_request(method='POST',
@@ -249,23 +250,24 @@ class VisualRecognitionV3(BaseService):
 
         params = {'version': self.version}
 
-        form_data = {}
-        form_data['name'] = (None, name, 'text/plain')
+        form_data = []
+        form_data.append(('name', (None, name, 'text/plain')))
         for key in positive_examples.keys():
             part_name = '%s_positive_examples' % (key)
             value = positive_examples[key]
             if hasattr(value, 'name'):
                 filename = basename(value.name)
-            form_data[part_name] = (filename, value, 'application/octet-stream')
+            form_data.append(
+                (part_name, (filename, value, 'application/octet-stream')))
         if negative_examples:
             if not negative_examples_filename and hasattr(
                     negative_examples, 'name'):
                 negative_examples_filename = basename(negative_examples.name)
             if not negative_examples_filename:
                 raise ValueError('negative_examples_filename must be provided')
-            form_data['negative_examples'] = (negative_examples_filename,
-                                              negative_examples,
-                                              'application/octet-stream')
+            form_data.append(('negative_examples',
+                              (negative_examples_filename, negative_examples,
+                               'application/octet-stream')))
 
         url = '/v3/classifiers'
         request = self.prepare_request(method='POST',
@@ -403,22 +405,23 @@ class VisualRecognitionV3(BaseService):
 
         params = {'version': self.version}
 
-        form_data = {}
+        form_data = []
         for key in positive_examples.keys():
             part_name = '%s_positive_examples' % (key)
             value = positive_examples[key]
             if hasattr(value, 'name'):
                 filename = basename(value.name)
-            form_data[part_name] = (filename, value, 'application/octet-stream')
+            form_data.append(
+                (part_name, (filename, value, 'application/octet-stream')))
         if negative_examples:
             if not negative_examples_filename and hasattr(
                     negative_examples, 'name'):
                 negative_examples_filename = basename(negative_examples.name)
             if not negative_examples_filename:
                 raise ValueError('negative_examples_filename must be provided')
-            form_data['negative_examples'] = (negative_examples_filename,
-                                              negative_examples,
-                                              'application/octet-stream')
+            form_data.append(('negative_examples',
+                              (negative_examples_filename, negative_examples,
+                               'application/octet-stream')))
 
         url = '/v3/classifiers/{0}'.format(
             *self._encode_path_vars(classifier_id))

@@ -215,7 +215,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
         if self.authenticator:
             self.authenticator.authenticate(request)
 
-        url = self.url.replace('https:', 'wss:')
+        url = self.service_url.replace('https:', 'wss:')
 
         params = {
             'model': model,

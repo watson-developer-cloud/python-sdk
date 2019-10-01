@@ -30,6 +30,7 @@ from enum import Enum
 from ibm_cloud_sdk_core import BaseService
 from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
 from ibm_cloud_sdk_core import get_authenticator_from_environment
+from ibm_cloud_sdk_core import read_external_sources
 
 ##############################################################################
 # Service
@@ -39,14 +40,12 @@ from ibm_cloud_sdk_core import get_authenticator_from_environment
 class NaturalLanguageUnderstandingV1(BaseService):
     """The Natural Language Understanding V1 service."""
 
-    default_url = 'https://gateway.watsonplatform.net/natural-language-understanding/api'
+    default_service_url = 'https://gateway.watsonplatform.net/natural-language-understanding/api'
 
     def __init__(
             self,
             version,
-            url=default_url,
             authenticator=None,
-            disable_ssl_verification=False,
     ):
         """
         Construct a new client for the Natural Language Understanding service.
@@ -62,26 +61,28 @@ class NaturalLanguageUnderstandingV1(BaseService):
                application, and don't change it until your application is
                ready for a later version.
 
-        :param str url: The base url to use when contacting the service (e.g.
-               "https://gateway.watsonplatform.net/natural-language-understanding/api/natural-language-understanding/api").
-               The base url may differ between IBM Cloud regions.
-
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
-        :param bool disable_ssl_verification: If True, disables ssl verification
         """
+
+        service_url = self.default_service_url
+        disable_ssl_verification = False
+
+        config = read_external_sources('natural_language_understanding')
+        if config.get('URL'):
+            service_url = config.get('URL')
+        if config.get('DISABLE_SSL'):
+            disable_ssl_verification = config.get('DISABLE_SSL')
 
         if not authenticator:
             authenticator = get_authenticator_from_environment(
-                'Natural Language Understanding')
+                'natural_language_understanding')
 
-        BaseService.__init__(
-            self,
-            url=url,
-            authenticator=authenticator,
-            disable_ssl_verification=disable_ssl_verification,
-            display_name='Natural Language Understanding')
+        BaseService.__init__(self,
+                             service_url=service_url,
+                             authenticator=authenticator,
+                             disable_ssl_verification=disable_ssl_verification)
         self.version = version
 
     #########################
@@ -176,13 +177,12 @@ class NaturalLanguageUnderstandingV1(BaseService):
         }
 
         url = '/v1/analyze'
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -213,12 +213,11 @@ class NaturalLanguageUnderstandingV1(BaseService):
         params = {'version': self.version}
 
         url = '/v1/models'
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -247,12 +246,11 @@ class NaturalLanguageUnderstandingV1(BaseService):
         params = {'version': self.version}
 
         url = '/v1/models/{0}'.format(*self._encode_path_vars(model_id))
-        request = self.prepare_request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -262,7 +260,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
 ##############################################################################
 
 
-class AnalysisResults(object):
+class AnalysisResults():
     """
     Results of the analysis, organized by feature.
 
@@ -355,16 +353,16 @@ class AnalysisResults(object):
     def _from_dict(cls, _dict):
         """Initialize a AnalysisResults object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'language', 'analyzed_text', 'retrieved_url', 'usage', 'concepts',
             'entities', 'keywords', 'categories', 'emotion', 'metadata',
             'relations', 'semantic_roles', 'sentiment', 'syntax'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class AnalysisResults: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'language' in _dict:
             args['language'] = _dict.get('language')
         if 'analyzed_text' in _dict:
@@ -461,7 +459,7 @@ class AnalysisResults(object):
         return not self == other
 
 
-class AnalysisResultsMetadata(object):
+class AnalysisResultsMetadata():
     """
     Webpage metadata, such as the author and the title of the page.
 
@@ -500,12 +498,12 @@ class AnalysisResultsMetadata(object):
     def _from_dict(cls, _dict):
         """Initialize a AnalysisResultsMetadata object from a json dictionary."""
         args = {}
-        validKeys = ['authors', 'publication_date', 'title', 'image', 'feeds']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['authors', 'publication_date', 'title', 'image', 'feeds']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class AnalysisResultsMetadata: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'authors' in _dict:
             args['authors'] = [
                 Author._from_dict(x) for x in (_dict.get('authors'))
@@ -551,7 +549,7 @@ class AnalysisResultsMetadata(object):
         return not self == other
 
 
-class AnalysisResultsUsage(object):
+class AnalysisResultsUsage():
     """
     API usage information for the request.
 
@@ -577,12 +575,12 @@ class AnalysisResultsUsage(object):
     def _from_dict(cls, _dict):
         """Initialize a AnalysisResultsUsage object from a json dictionary."""
         args = {}
-        validKeys = ['features', 'text_characters', 'text_units']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['features', 'text_characters', 'text_units']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class AnalysisResultsUsage: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'features' in _dict:
             args['features'] = _dict.get('features')
         if 'text_characters' in _dict:
@@ -618,7 +616,7 @@ class AnalysisResultsUsage(object):
         return not self == other
 
 
-class Author(object):
+class Author():
     """
     The author of the analyzed content.
 
@@ -637,12 +635,12 @@ class Author(object):
     def _from_dict(cls, _dict):
         """Initialize a Author object from a json dictionary."""
         args = {}
-        validKeys = ['name']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['name']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Author: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         return cls(**args)
@@ -669,7 +667,7 @@ class Author(object):
         return not self == other
 
 
-class CategoriesOptions(object):
+class CategoriesOptions():
     """
     Returns a five-level taxonomy of the content. The top three categories are returned.
     Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
@@ -703,12 +701,12 @@ class CategoriesOptions(object):
     def _from_dict(cls, _dict):
         """Initialize a CategoriesOptions object from a json dictionary."""
         args = {}
-        validKeys = ['explanation', 'limit', 'model']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['explanation', 'limit', 'model']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CategoriesOptions: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'explanation' in _dict:
             args['explanation'] = _dict.get('explanation')
         if 'limit' in _dict:
@@ -743,7 +741,7 @@ class CategoriesOptions(object):
         return not self == other
 
 
-class CategoriesRelevantText(object):
+class CategoriesRelevantText():
     """
     Relevant text that contributed to the categorization.
 
@@ -764,12 +762,12 @@ class CategoriesRelevantText(object):
     def _from_dict(cls, _dict):
         """Initialize a CategoriesRelevantText object from a json dictionary."""
         args = {}
-        validKeys = ['text']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CategoriesRelevantText: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         return cls(**args)
@@ -796,7 +794,7 @@ class CategoriesRelevantText(object):
         return not self == other
 
 
-class CategoriesResult(object):
+class CategoriesResult():
     """
     A categorization of the analyzed text.
 
@@ -832,12 +830,12 @@ class CategoriesResult(object):
     def _from_dict(cls, _dict):
         """Initialize a CategoriesResult object from a json dictionary."""
         args = {}
-        validKeys = ['label', 'score', 'explanation']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['label', 'score', 'explanation']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CategoriesResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'label' in _dict:
             args['label'] = _dict.get('label')
         if 'score' in _dict:
@@ -873,7 +871,7 @@ class CategoriesResult(object):
         return not self == other
 
 
-class CategoriesResultExplanation(object):
+class CategoriesResultExplanation():
     """
     Information that helps to explain what contributed to the categories result.
 
@@ -898,12 +896,12 @@ class CategoriesResultExplanation(object):
     def _from_dict(cls, _dict):
         """Initialize a CategoriesResultExplanation object from a json dictionary."""
         args = {}
-        validKeys = ['relevant_text']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['relevant_text']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CategoriesResultExplanation: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'relevant_text' in _dict:
             args['relevant_text'] = [
                 CategoriesRelevantText._from_dict(x)
@@ -933,7 +931,7 @@ class CategoriesResultExplanation(object):
         return not self == other
 
 
-class ConceptsOptions(object):
+class ConceptsOptions():
     """
     Returns high-level concepts in the content. For example, a research paper about deep
     learning might return the concept, "Artificial Intelligence" although the term is not
@@ -956,12 +954,12 @@ class ConceptsOptions(object):
     def _from_dict(cls, _dict):
         """Initialize a ConceptsOptions object from a json dictionary."""
         args = {}
-        validKeys = ['limit']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['limit']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ConceptsOptions: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'limit' in _dict:
             args['limit'] = _dict.get('limit')
         return cls(**args)
@@ -988,7 +986,7 @@ class ConceptsOptions(object):
         return not self == other
 
 
-class ConceptsResult(object):
+class ConceptsResult():
     """
     The general concepts referenced or alluded to in the analyzed text.
 
@@ -1017,12 +1015,12 @@ class ConceptsResult(object):
     def _from_dict(cls, _dict):
         """Initialize a ConceptsResult object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'relevance', 'dbpedia_resource']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'relevance', 'dbpedia_resource']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ConceptsResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'relevance' in _dict:
@@ -1058,7 +1056,7 @@ class ConceptsResult(object):
         return not self == other
 
 
-class DeleteModelResults(object):
+class DeleteModelResults():
     """
     Delete model results.
 
@@ -1077,12 +1075,12 @@ class DeleteModelResults(object):
     def _from_dict(cls, _dict):
         """Initialize a DeleteModelResults object from a json dictionary."""
         args = {}
-        validKeys = ['deleted']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['deleted']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DeleteModelResults: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'deleted' in _dict:
             args['deleted'] = _dict.get('deleted')
         return cls(**args)
@@ -1109,7 +1107,7 @@ class DeleteModelResults(object):
         return not self == other
 
 
-class DisambiguationResult(object):
+class DisambiguationResult():
     """
     Disambiguation information for the entity.
 
@@ -1136,12 +1134,12 @@ class DisambiguationResult(object):
     def _from_dict(cls, _dict):
         """Initialize a DisambiguationResult object from a json dictionary."""
         args = {}
-        validKeys = ['name', 'dbpedia_resource', 'subtype']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['name', 'dbpedia_resource', 'subtype']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DisambiguationResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         if 'dbpedia_resource' in _dict:
@@ -1177,7 +1175,7 @@ class DisambiguationResult(object):
         return not self == other
 
 
-class DocumentEmotionResults(object):
+class DocumentEmotionResults():
     """
     Emotion results for the document as a whole.
 
@@ -1198,12 +1196,12 @@ class DocumentEmotionResults(object):
     def _from_dict(cls, _dict):
         """Initialize a DocumentEmotionResults object from a json dictionary."""
         args = {}
-        validKeys = ['emotion']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['emotion']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DocumentEmotionResults: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'emotion' in _dict:
             args['emotion'] = EmotionScores._from_dict(_dict.get('emotion'))
         return cls(**args)
@@ -1230,7 +1228,7 @@ class DocumentEmotionResults(object):
         return not self == other
 
 
-class DocumentSentimentResults(object):
+class DocumentSentimentResults():
     """
     DocumentSentimentResults.
 
@@ -1256,12 +1254,12 @@ class DocumentSentimentResults(object):
     def _from_dict(cls, _dict):
         """Initialize a DocumentSentimentResults object from a json dictionary."""
         args = {}
-        validKeys = ['label', 'score']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['label', 'score']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DocumentSentimentResults: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'label' in _dict:
             args['label'] = _dict.get('label')
         if 'score' in _dict:
@@ -1292,7 +1290,7 @@ class DocumentSentimentResults(object):
         return not self == other
 
 
-class EmotionOptions(object):
+class EmotionOptions():
     """
     Detects anger, disgust, fear, joy, or sadness that is conveyed in the content or by
     the context around target phrases specified in the targets parameter. You can analyze
@@ -1322,12 +1320,12 @@ class EmotionOptions(object):
     def _from_dict(cls, _dict):
         """Initialize a EmotionOptions object from a json dictionary."""
         args = {}
-        validKeys = ['document', 'targets']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['document', 'targets']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class EmotionOptions: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document' in _dict:
             args['document'] = _dict.get('document')
         if 'targets' in _dict:
@@ -1358,7 +1356,7 @@ class EmotionOptions(object):
         return not self == other
 
 
-class EmotionResult(object):
+class EmotionResult():
     """
     The detected anger, disgust, fear, joy, or sadness that is conveyed by the content.
     Emotion information can be returned for detected entities, keywords, or user-specified
@@ -1386,12 +1384,12 @@ class EmotionResult(object):
     def _from_dict(cls, _dict):
         """Initialize a EmotionResult object from a json dictionary."""
         args = {}
-        validKeys = ['document', 'targets']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['document', 'targets']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class EmotionResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document' in _dict:
             args['document'] = DocumentEmotionResults._from_dict(
                 _dict.get('document'))
@@ -1426,7 +1424,7 @@ class EmotionResult(object):
         return not self == other
 
 
-class EmotionScores(object):
+class EmotionScores():
     """
     EmotionScores.
 
@@ -1473,12 +1471,12 @@ class EmotionScores(object):
     def _from_dict(cls, _dict):
         """Initialize a EmotionScores object from a json dictionary."""
         args = {}
-        validKeys = ['anger', 'disgust', 'fear', 'joy', 'sadness']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['anger', 'disgust', 'fear', 'joy', 'sadness']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class EmotionScores: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'anger' in _dict:
             args['anger'] = _dict.get('anger')
         if 'disgust' in _dict:
@@ -1521,7 +1519,7 @@ class EmotionScores(object):
         return not self == other
 
 
-class EntitiesOptions(object):
+class EntitiesOptions():
     """
     Identifies people, cities, organizations, and other entities in the content. See
     [Entity types and
@@ -1573,12 +1571,12 @@ class EntitiesOptions(object):
     def _from_dict(cls, _dict):
         """Initialize a EntitiesOptions object from a json dictionary."""
         args = {}
-        validKeys = ['limit', 'mentions', 'model', 'sentiment', 'emotion']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['limit', 'mentions', 'model', 'sentiment', 'emotion']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class EntitiesOptions: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'limit' in _dict:
             args['limit'] = _dict.get('limit')
         if 'mentions' in _dict:
@@ -1621,7 +1619,7 @@ class EntitiesOptions(object):
         return not self == other
 
 
-class EntitiesResult(object):
+class EntitiesResult():
     """
     The important people, places, geopolitical entities and other types of entities in
     your content.
@@ -1691,15 +1689,15 @@ class EntitiesResult(object):
     def _from_dict(cls, _dict):
         """Initialize a EntitiesResult object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'type', 'text', 'relevance', 'confidence', 'mentions', 'count',
             'emotion', 'sentiment', 'disambiguation'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class EntitiesResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'text' in _dict:
@@ -1762,7 +1760,7 @@ class EntitiesResult(object):
         return not self == other
 
 
-class EntityMention(object):
+class EntityMention():
     """
     EntityMention.
 
@@ -1795,12 +1793,12 @@ class EntityMention(object):
     def _from_dict(cls, _dict):
         """Initialize a EntityMention object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'location', 'confidence']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'location', 'confidence']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class EntityMention: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'location' in _dict:
@@ -1835,7 +1833,7 @@ class EntityMention(object):
         return not self == other
 
 
-class FeatureSentimentResults(object):
+class FeatureSentimentResults():
     """
     FeatureSentimentResults.
 
@@ -1856,12 +1854,12 @@ class FeatureSentimentResults(object):
     def _from_dict(cls, _dict):
         """Initialize a FeatureSentimentResults object from a json dictionary."""
         args = {}
-        validKeys = ['score']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['score']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class FeatureSentimentResults: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'score' in _dict:
             args['score'] = _dict.get('score')
         return cls(**args)
@@ -1888,7 +1886,7 @@ class FeatureSentimentResults(object):
         return not self == other
 
 
-class Features(object):
+class Features():
     """
     Analysis features and options.
 
@@ -2018,15 +2016,15 @@ class Features(object):
     def _from_dict(cls, _dict):
         """Initialize a Features object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'concepts', 'emotion', 'entities', 'keywords', 'metadata',
             'relations', 'semantic_roles', 'sentiment', 'categories', 'syntax'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Features: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'concepts' in _dict:
             args['concepts'] = ConceptsOptions._from_dict(_dict.get('concepts'))
         if 'emotion' in _dict:
@@ -2093,7 +2091,7 @@ class Features(object):
         return not self == other
 
 
-class Feed(object):
+class Feed():
     """
     RSS or ATOM feed found on the webpage.
 
@@ -2112,12 +2110,12 @@ class Feed(object):
     def _from_dict(cls, _dict):
         """Initialize a Feed object from a json dictionary."""
         args = {}
-        validKeys = ['link']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['link']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Feed: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'link' in _dict:
             args['link'] = _dict.get('link')
         return cls(**args)
@@ -2144,7 +2142,7 @@ class Feed(object):
         return not self == other
 
 
-class KeywordsOptions(object):
+class KeywordsOptions():
     """
     Returns important keywords in the content.
     Supported languages: English, French, German, Italian, Japanese, Korean, Portuguese,
@@ -2175,12 +2173,12 @@ class KeywordsOptions(object):
     def _from_dict(cls, _dict):
         """Initialize a KeywordsOptions object from a json dictionary."""
         args = {}
-        validKeys = ['limit', 'sentiment', 'emotion']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['limit', 'sentiment', 'emotion']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class KeywordsOptions: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'limit' in _dict:
             args['limit'] = _dict.get('limit')
         if 'sentiment' in _dict:
@@ -2215,7 +2213,7 @@ class KeywordsOptions(object):
         return not self == other
 
 
-class KeywordsResult(object):
+class KeywordsResult():
     """
     The important keywords in the content, organized by relevance.
 
@@ -2260,12 +2258,12 @@ class KeywordsResult(object):
     def _from_dict(cls, _dict):
         """Initialize a KeywordsResult object from a json dictionary."""
         args = {}
-        validKeys = ['count', 'relevance', 'text', 'emotion', 'sentiment']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['count', 'relevance', 'text', 'emotion', 'sentiment']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class KeywordsResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'count' in _dict:
             args['count'] = _dict.get('count')
         if 'relevance' in _dict:
@@ -2309,7 +2307,7 @@ class KeywordsResult(object):
         return not self == other
 
 
-class ListModelsResults(object):
+class ListModelsResults():
     """
     Custom models that are available for entities and relations.
 
@@ -2328,12 +2326,12 @@ class ListModelsResults(object):
     def _from_dict(cls, _dict):
         """Initialize a ListModelsResults object from a json dictionary."""
         args = {}
-        validKeys = ['models']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['models']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ListModelsResults: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'models' in _dict:
             args['models'] = [
                 Model._from_dict(x) for x in (_dict.get('models'))
@@ -2362,7 +2360,7 @@ class ListModelsResults(object):
         return not self == other
 
 
-class MetadataOptions(object):
+class MetadataOptions():
     """
     Returns information from the document, including author name, title, RSS/ATOM feeds,
     prominent page image, and publication date. Supports URL and HTML input types only.
@@ -2401,7 +2399,7 @@ class MetadataOptions(object):
         return not self == other
 
 
-class Model(object):
+class Model():
     """
     Model.
 
@@ -2462,15 +2460,15 @@ class Model(object):
     def _from_dict(cls, _dict):
         """Initialize a Model object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'status', 'model_id', 'language', 'description', 'workspace_id',
             'version', 'version_description', 'created'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Model: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'status' in _dict:
             args['status'] = _dict.get('status')
         if 'model_id' in _dict:
@@ -2527,7 +2525,7 @@ class Model(object):
         return not self == other
 
 
-class RelationArgument(object):
+class RelationArgument():
     """
     RelationArgument.
 
@@ -2555,12 +2553,12 @@ class RelationArgument(object):
     def _from_dict(cls, _dict):
         """Initialize a RelationArgument object from a json dictionary."""
         args = {}
-        validKeys = ['entities', 'location', 'text']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['entities', 'location', 'text']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class RelationArgument: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'entities' in _dict:
             args['entities'] = [
                 RelationEntity._from_dict(x) for x in (_dict.get('entities'))
@@ -2597,7 +2595,7 @@ class RelationArgument(object):
         return not self == other
 
 
-class RelationEntity(object):
+class RelationEntity():
     """
     An entity that corresponds with an argument in a relation.
 
@@ -2619,12 +2617,12 @@ class RelationEntity(object):
     def _from_dict(cls, _dict):
         """Initialize a RelationEntity object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'type']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'type']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class RelationEntity: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'type' in _dict:
@@ -2655,7 +2653,7 @@ class RelationEntity(object):
         return not self == other
 
 
-class RelationsOptions(object):
+class RelationsOptions():
     """
     Recognizes when two entities are related and identifies the type of relation. For
     example, an `awardedTo` relation might connect the entities "Nobel Prize" and "Albert
@@ -2683,12 +2681,12 @@ class RelationsOptions(object):
     def _from_dict(cls, _dict):
         """Initialize a RelationsOptions object from a json dictionary."""
         args = {}
-        validKeys = ['model']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['model']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class RelationsOptions: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'model' in _dict:
             args['model'] = _dict.get('model')
         return cls(**args)
@@ -2715,7 +2713,7 @@ class RelationsOptions(object):
         return not self == other
 
 
-class RelationsResult(object):
+class RelationsResult():
     """
     The relations between entities found in the content.
 
@@ -2747,12 +2745,12 @@ class RelationsResult(object):
     def _from_dict(cls, _dict):
         """Initialize a RelationsResult object from a json dictionary."""
         args = {}
-        validKeys = ['score', 'sentence', 'type', 'arguments']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['score', 'sentence', 'type', 'arguments']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class RelationsResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'score' in _dict:
             args['score'] = _dict.get('score')
         if 'sentence' in _dict:
@@ -2793,7 +2791,7 @@ class RelationsResult(object):
         return not self == other
 
 
-class SemanticRolesEntity(object):
+class SemanticRolesEntity():
     """
     SemanticRolesEntity.
 
@@ -2815,12 +2813,12 @@ class SemanticRolesEntity(object):
     def _from_dict(cls, _dict):
         """Initialize a SemanticRolesEntity object from a json dictionary."""
         args = {}
-        validKeys = ['type', 'text']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['type', 'text']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SemanticRolesEntity: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'text' in _dict:
@@ -2851,7 +2849,7 @@ class SemanticRolesEntity(object):
         return not self == other
 
 
-class SemanticRolesKeyword(object):
+class SemanticRolesKeyword():
     """
     SemanticRolesKeyword.
 
@@ -2870,12 +2868,12 @@ class SemanticRolesKeyword(object):
     def _from_dict(cls, _dict):
         """Initialize a SemanticRolesKeyword object from a json dictionary."""
         args = {}
-        validKeys = ['text']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SemanticRolesKeyword: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         return cls(**args)
@@ -2902,7 +2900,7 @@ class SemanticRolesKeyword(object):
         return not self == other
 
 
-class SemanticRolesOptions(object):
+class SemanticRolesOptions():
     """
     Parses sentences into subject, action, and object form.
     Supported languages: English, German, Japanese, Korean, Spanish.
@@ -2933,12 +2931,12 @@ class SemanticRolesOptions(object):
     def _from_dict(cls, _dict):
         """Initialize a SemanticRolesOptions object from a json dictionary."""
         args = {}
-        validKeys = ['limit', 'keywords', 'entities']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['limit', 'keywords', 'entities']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SemanticRolesOptions: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'limit' in _dict:
             args['limit'] = _dict.get('limit')
         if 'keywords' in _dict:
@@ -2973,7 +2971,7 @@ class SemanticRolesOptions(object):
         return not self == other
 
 
-class SemanticRolesResult(object):
+class SemanticRolesResult():
     """
     The object containing the actions and the objects the actions act upon.
 
@@ -3010,12 +3008,12 @@ class SemanticRolesResult(object):
     def _from_dict(cls, _dict):
         """Initialize a SemanticRolesResult object from a json dictionary."""
         args = {}
-        validKeys = ['sentence', 'subject', 'action', 'object']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['sentence', 'subject', 'action', 'object']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SemanticRolesResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'sentence' in _dict:
             args['sentence'] = _dict.get('sentence')
         if 'subject' in _dict:
@@ -3057,7 +3055,7 @@ class SemanticRolesResult(object):
         return not self == other
 
 
-class SemanticRolesResultAction(object):
+class SemanticRolesResultAction():
     """
     The extracted action from the sentence.
 
@@ -3082,12 +3080,12 @@ class SemanticRolesResultAction(object):
     def _from_dict(cls, _dict):
         """Initialize a SemanticRolesResultAction object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'normalized', 'verb']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'normalized', 'verb']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SemanticRolesResultAction: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'normalized' in _dict:
@@ -3122,7 +3120,7 @@ class SemanticRolesResultAction(object):
         return not self == other
 
 
-class SemanticRolesResultObject(object):
+class SemanticRolesResultObject():
     """
     The extracted object from the sentence.
 
@@ -3146,12 +3144,12 @@ class SemanticRolesResultObject(object):
     def _from_dict(cls, _dict):
         """Initialize a SemanticRolesResultObject object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'keywords']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'keywords']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SemanticRolesResultObject: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'keywords' in _dict:
@@ -3185,7 +3183,7 @@ class SemanticRolesResultObject(object):
         return not self == other
 
 
-class SemanticRolesResultSubject(object):
+class SemanticRolesResultSubject():
     """
     The extracted subject from the sentence.
 
@@ -3214,12 +3212,12 @@ class SemanticRolesResultSubject(object):
     def _from_dict(cls, _dict):
         """Initialize a SemanticRolesResultSubject object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'entities', 'keywords']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'entities', 'keywords']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SemanticRolesResultSubject: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'entities' in _dict:
@@ -3260,7 +3258,7 @@ class SemanticRolesResultSubject(object):
         return not self == other
 
 
-class SemanticRolesVerb(object):
+class SemanticRolesVerb():
     """
     SemanticRolesVerb.
 
@@ -3282,12 +3280,12 @@ class SemanticRolesVerb(object):
     def _from_dict(cls, _dict):
         """Initialize a SemanticRolesVerb object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'tense']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'tense']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SemanticRolesVerb: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'tense' in _dict:
@@ -3318,7 +3316,7 @@ class SemanticRolesVerb(object):
         return not self == other
 
 
-class SentenceResult(object):
+class SentenceResult():
     """
     SentenceResult.
 
@@ -3342,12 +3340,12 @@ class SentenceResult(object):
     def _from_dict(cls, _dict):
         """Initialize a SentenceResult object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'location']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'location']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SentenceResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'location' in _dict:
@@ -3378,7 +3376,7 @@ class SentenceResult(object):
         return not self == other
 
 
-class SentimentOptions(object):
+class SentimentOptions():
     """
     Analyzes the general sentiment of your content or the sentiment toward specific target
     phrases. You can analyze sentiment for detected entities with `entities.sentiment` and
@@ -3408,12 +3406,12 @@ class SentimentOptions(object):
     def _from_dict(cls, _dict):
         """Initialize a SentimentOptions object from a json dictionary."""
         args = {}
-        validKeys = ['document', 'targets']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['document', 'targets']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SentimentOptions: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document' in _dict:
             args['document'] = _dict.get('document')
         if 'targets' in _dict:
@@ -3444,7 +3442,7 @@ class SentimentOptions(object):
         return not self == other
 
 
-class SentimentResult(object):
+class SentimentResult():
     """
     The sentiment of the content.
 
@@ -3470,12 +3468,12 @@ class SentimentResult(object):
     def _from_dict(cls, _dict):
         """Initialize a SentimentResult object from a json dictionary."""
         args = {}
-        validKeys = ['document', 'targets']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['document', 'targets']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SentimentResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document' in _dict:
             args['document'] = DocumentSentimentResults._from_dict(
                 _dict.get('document'))
@@ -3510,7 +3508,7 @@ class SentimentResult(object):
         return not self == other
 
 
-class SyntaxOptions(object):
+class SyntaxOptions():
     """
     Returns tokens and sentences from the input text.
 
@@ -3534,12 +3532,12 @@ class SyntaxOptions(object):
     def _from_dict(cls, _dict):
         """Initialize a SyntaxOptions object from a json dictionary."""
         args = {}
-        validKeys = ['tokens', 'sentences']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['tokens', 'sentences']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SyntaxOptions: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'tokens' in _dict:
             args['tokens'] = SyntaxOptionsTokens._from_dict(_dict.get('tokens'))
         if 'sentences' in _dict:
@@ -3570,7 +3568,7 @@ class SyntaxOptions(object):
         return not self == other
 
 
-class SyntaxOptionsTokens(object):
+class SyntaxOptionsTokens():
     """
     Tokenization options.
 
@@ -3596,12 +3594,12 @@ class SyntaxOptionsTokens(object):
     def _from_dict(cls, _dict):
         """Initialize a SyntaxOptionsTokens object from a json dictionary."""
         args = {}
-        validKeys = ['lemma', 'part_of_speech']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['lemma', 'part_of_speech']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SyntaxOptionsTokens: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'lemma' in _dict:
             args['lemma'] = _dict.get('lemma')
         if 'part_of_speech' in _dict:
@@ -3632,7 +3630,7 @@ class SyntaxOptionsTokens(object):
         return not self == other
 
 
-class SyntaxResult(object):
+class SyntaxResult():
     """
     Tokens and sentences returned from syntax analysis.
 
@@ -3654,12 +3652,12 @@ class SyntaxResult(object):
     def _from_dict(cls, _dict):
         """Initialize a SyntaxResult object from a json dictionary."""
         args = {}
-        validKeys = ['tokens', 'sentences']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['tokens', 'sentences']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SyntaxResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'tokens' in _dict:
             args['tokens'] = [
                 TokenResult._from_dict(x) for x in (_dict.get('tokens'))
@@ -3694,7 +3692,7 @@ class SyntaxResult(object):
         return not self == other
 
 
-class TargetedEmotionResults(object):
+class TargetedEmotionResults():
     """
     Emotion results for a specified target.
 
@@ -3717,12 +3715,12 @@ class TargetedEmotionResults(object):
     def _from_dict(cls, _dict):
         """Initialize a TargetedEmotionResults object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'emotion']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'emotion']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TargetedEmotionResults: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'emotion' in _dict:
@@ -3753,7 +3751,7 @@ class TargetedEmotionResults(object):
         return not self == other
 
 
-class TargetedSentimentResults(object):
+class TargetedSentimentResults():
     """
     TargetedSentimentResults.
 
@@ -3777,12 +3775,12 @@ class TargetedSentimentResults(object):
     def _from_dict(cls, _dict):
         """Initialize a TargetedSentimentResults object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'score']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'score']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TargetedSentimentResults: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'score' in _dict:
@@ -3813,7 +3811,7 @@ class TargetedSentimentResults(object):
         return not self == other
 
 
-class TokenResult(object):
+class TokenResult():
     """
     TokenResult.
 
@@ -3854,12 +3852,12 @@ class TokenResult(object):
     def _from_dict(cls, _dict):
         """Initialize a TokenResult object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'part_of_speech', 'location', 'lemma']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'part_of_speech', 'location', 'lemma']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TokenResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'part_of_speech' in _dict:

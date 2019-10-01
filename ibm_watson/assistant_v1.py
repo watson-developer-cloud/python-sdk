@@ -25,6 +25,7 @@ from enum import Enum
 from ibm_cloud_sdk_core import BaseService
 from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
 from ibm_cloud_sdk_core import get_authenticator_from_environment
+from ibm_cloud_sdk_core import read_external_sources
 
 ##############################################################################
 # Service
@@ -34,14 +35,12 @@ from ibm_cloud_sdk_core import get_authenticator_from_environment
 class AssistantV1(BaseService):
     """The Assistant V1 service."""
 
-    default_url = 'https://gateway.watsonplatform.net/assistant/api'
+    default_service_url = 'https://gateway.watsonplatform.net/assistant/api'
 
     def __init__(
             self,
             version,
-            url=default_url,
             authenticator=None,
-            disable_ssl_verification=False,
     ):
         """
         Construct a new client for the Assistant service.
@@ -57,25 +56,27 @@ class AssistantV1(BaseService):
                application, and don't change it until your application is
                ready for a later version.
 
-        :param str url: The base url to use when contacting the service (e.g.
-               "https://gateway.watsonplatform.net/assistant/api/assistant/api").
-               The base url may differ between IBM Cloud regions.
-
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
-        :param bool disable_ssl_verification: If True, disables ssl verification
         """
 
-        if not authenticator:
-            authenticator = get_authenticator_from_environment('Assistant')
+        service_url = self.default_service_url
+        disable_ssl_verification = False
 
-        BaseService.__init__(
-            self,
-            url=url,
-            authenticator=authenticator,
-            disable_ssl_verification=disable_ssl_verification,
-            display_name='Assistant')
+        config = read_external_sources('assistant')
+        if config.get('URL'):
+            service_url = config.get('URL')
+        if config.get('DISABLE_SSL'):
+            disable_ssl_verification = config.get('DISABLE_SSL')
+
+        if not authenticator:
+            authenticator = get_authenticator_from_environment('assistant')
+
+        BaseService.__init__(self,
+                             service_url=service_url,
+                             authenticator=authenticator,
+                             disable_ssl_verification=disable_ssl_verification)
         self.version = version
 
     #########################
@@ -164,13 +165,12 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/message'.format(
             *self._encode_path_vars(workspace_id))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -221,12 +221,11 @@ class AssistantV1(BaseService):
         }
 
         url = '/v1/workspaces'
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -309,13 +308,12 @@ class AssistantV1(BaseService):
         }
 
         url = '/v1/workspaces'
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -367,12 +365,11 @@ class AssistantV1(BaseService):
         }
 
         url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -469,13 +466,12 @@ class AssistantV1(BaseService):
         }
 
         url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -505,12 +501,11 @@ class AssistantV1(BaseService):
         params = {'version': self.version}
 
         url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
-        request = self.prepare_request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -574,12 +569,11 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/intents'.format(
             *self._encode_path_vars(workspace_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -637,13 +631,12 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/intents'.format(
             *self._encode_path_vars(workspace_id))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -694,12 +687,11 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/intents/{1}'.format(
             *self._encode_path_vars(workspace_id, intent))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -760,13 +752,12 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/intents/{1}'.format(
             *self._encode_path_vars(workspace_id, intent))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -800,12 +791,11 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/intents/{1}'.format(
             *self._encode_path_vars(workspace_id, intent))
-        request = self.prepare_request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -867,12 +857,11 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/intents/{1}/examples'.format(
             *self._encode_path_vars(workspace_id, intent))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -926,13 +915,12 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/intents/{1}/examples'.format(
             *self._encode_path_vars(workspace_id, intent))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -977,12 +965,11 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
             *self._encode_path_vars(workspace_id, intent, text))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -1038,13 +1025,12 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
             *self._encode_path_vars(workspace_id, intent, text))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -1081,12 +1067,11 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
             *self._encode_path_vars(workspace_id, intent, text))
-        request = self.prepare_request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -1145,12 +1130,11 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/counterexamples'.format(
             *self._encode_path_vars(workspace_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -1193,13 +1177,12 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/counterexamples'.format(
             *self._encode_path_vars(workspace_id))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -1243,12 +1226,11 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/counterexamples/{1}'.format(
             *self._encode_path_vars(workspace_id, text))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -1298,13 +1280,12 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/counterexamples/{1}'.format(
             *self._encode_path_vars(workspace_id, text))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -1341,12 +1322,11 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/counterexamples/{1}'.format(
             *self._encode_path_vars(workspace_id, text))
-        request = self.prepare_request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -1410,12 +1390,11 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/entities'.format(
             *self._encode_path_vars(workspace_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -1482,13 +1461,12 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/entities'.format(
             *self._encode_path_vars(workspace_id))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -1539,12 +1517,11 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/entities/{1}'.format(
             *self._encode_path_vars(workspace_id, entity))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -1612,13 +1589,12 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/entities/{1}'.format(
             *self._encode_path_vars(workspace_id, entity))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -1652,12 +1628,11 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/entities/{1}'.format(
             *self._encode_path_vars(workspace_id, entity))
-        request = self.prepare_request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -1712,12 +1687,11 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/entities/{1}/mentions'.format(
             *self._encode_path_vars(workspace_id, entity))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -1784,12 +1758,11 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/entities/{1}/values'.format(
             *self._encode_path_vars(workspace_id, entity))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -1861,13 +1834,12 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/entities/{1}/values'.format(
             *self._encode_path_vars(workspace_id, entity))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -1921,12 +1893,11 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
             *self._encode_path_vars(workspace_id, entity, value))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -2002,13 +1973,12 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
             *self._encode_path_vars(workspace_id, entity, value))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -2045,12 +2015,11 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
             *self._encode_path_vars(workspace_id, entity, value))
-        request = self.prepare_request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -2115,12 +2084,11 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms'.format(
             *self._encode_path_vars(workspace_id, entity, value))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -2168,13 +2136,12 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms'.format(
             *self._encode_path_vars(workspace_id, entity, value))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -2223,12 +2190,11 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(
             *self._encode_path_vars(workspace_id, entity, value, synonym))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -2284,13 +2250,12 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(
             *self._encode_path_vars(workspace_id, entity, value, synonym))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -2330,12 +2295,11 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(
             *self._encode_path_vars(workspace_id, entity, value, synonym))
-        request = self.prepare_request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -2392,12 +2356,11 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/dialog_nodes'.format(
             *self._encode_path_vars(workspace_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -2520,13 +2483,12 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/dialog_nodes'.format(
             *self._encode_path_vars(workspace_id))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -2567,12 +2529,11 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/dialog_nodes/{1}'.format(
             *self._encode_path_vars(workspace_id, dialog_node))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -2698,13 +2659,12 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/dialog_nodes/{1}'.format(
             *self._encode_path_vars(workspace_id, dialog_node))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -2739,12 +2699,11 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/dialog_nodes/{1}'.format(
             *self._encode_path_vars(workspace_id, dialog_node))
-        request = self.prepare_request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -2803,12 +2762,11 @@ class AssistantV1(BaseService):
 
         url = '/v1/workspaces/{0}/logs'.format(
             *self._encode_path_vars(workspace_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -2862,12 +2820,11 @@ class AssistantV1(BaseService):
         }
 
         url = '/v1/logs'
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -2905,12 +2862,11 @@ class AssistantV1(BaseService):
         params = {'version': self.version, 'customer_id': customer_id}
 
         url = '/v1/user_data'
-        request = self.prepare_request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -3019,7 +2975,7 @@ class ListDialogNodesEnums(object):
 ##############################################################################
 
 
-class CaptureGroup(object):
+class CaptureGroup():
     """
     A recognized capture group for a pattern-based entity.
 
@@ -3043,12 +2999,12 @@ class CaptureGroup(object):
     def _from_dict(cls, _dict):
         """Initialize a CaptureGroup object from a json dictionary."""
         args = {}
-        validKeys = ['group', 'location']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['group', 'location']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CaptureGroup: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'group' in _dict:
             args['group'] = _dict.get('group')
         else:
@@ -3082,7 +3038,7 @@ class CaptureGroup(object):
         return not self == other
 
 
-class Context(object):
+class Context():
     """
     State information for the conversation. To maintain state, include the context from
     the previous response.
@@ -3173,7 +3129,7 @@ class Context(object):
         return not self == other
 
 
-class Counterexample(object):
+class Counterexample():
     """
     Counterexample.
 
@@ -3207,12 +3163,12 @@ class Counterexample(object):
     def _from_dict(cls, _dict):
         """Initialize a Counterexample object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'created', 'updated']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'created', 'updated']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Counterexample: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         else:
@@ -3250,7 +3206,7 @@ class Counterexample(object):
         return not self == other
 
 
-class CounterexampleCollection(object):
+class CounterexampleCollection():
     """
     CounterexampleCollection.
 
@@ -3274,12 +3230,12 @@ class CounterexampleCollection(object):
     def _from_dict(cls, _dict):
         """Initialize a CounterexampleCollection object from a json dictionary."""
         args = {}
-        validKeys = ['counterexamples', 'pagination']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['counterexamples', 'pagination']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CounterexampleCollection: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'counterexamples' in _dict:
             args['counterexamples'] = [
                 Counterexample._from_dict(x)
@@ -3324,7 +3280,7 @@ class CounterexampleCollection(object):
         return not self == other
 
 
-class CreateEntity(object):
+class CreateEntity():
     """
     CreateEntity.
 
@@ -3388,15 +3344,15 @@ class CreateEntity(object):
     def _from_dict(cls, _dict):
         """Initialize a CreateEntity object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'entity', 'description', 'metadata', 'fuzzy_match', 'created',
             'updated', 'values'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CreateEntity: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'entity' in _dict:
             args['entity'] = _dict.get('entity')
         else:
@@ -3452,7 +3408,7 @@ class CreateEntity(object):
         return not self == other
 
 
-class CreateIntent(object):
+class CreateIntent():
     """
     CreateIntent.
 
@@ -3504,12 +3460,12 @@ class CreateIntent(object):
     def _from_dict(cls, _dict):
         """Initialize a CreateIntent object from a json dictionary."""
         args = {}
-        validKeys = ['intent', 'description', 'created', 'updated', 'examples']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['intent', 'description', 'created', 'updated', 'examples']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CreateIntent: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'intent' in _dict:
             args['intent'] = _dict.get('intent')
         else:
@@ -3557,7 +3513,7 @@ class CreateIntent(object):
         return not self == other
 
 
-class CreateValue(object):
+class CreateValue():
     """
     CreateValue.
 
@@ -3628,15 +3584,15 @@ class CreateValue(object):
     def _from_dict(cls, _dict):
         """Initialize a CreateValue object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'value', 'metadata', 'type', 'synonyms', 'patterns', 'created',
             'updated'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CreateValue: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'value' in _dict:
             args['value'] = _dict.get('value')
         else:
@@ -3697,7 +3653,7 @@ class CreateValue(object):
         PATTERNS = "patterns"
 
 
-class DialogNode(object):
+class DialogNode():
     """
     DialogNode.
 
@@ -3841,18 +3797,18 @@ class DialogNode(object):
     def _from_dict(cls, _dict):
         """Initialize a DialogNode object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'dialog_node', 'description', 'conditions', 'parent',
             'previous_sibling', 'output', 'context', 'metadata', 'next_step',
             'title', 'type', 'event_name', 'variable', 'actions', 'digress_in',
             'digress_out', 'digress_out_slots', 'user_label', 'disabled',
             'created', 'updated'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DialogNode: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'dialog_node' in _dict:
             args['dialog_node'] = _dict.get('dialog_node')
         else:
@@ -4017,7 +3973,7 @@ class DialogNode(object):
         ALLOW_ALL = "allow_all"
 
 
-class DialogNodeAction(object):
+class DialogNodeAction():
     """
     DialogNodeAction.
 
@@ -4060,14 +4016,14 @@ class DialogNodeAction(object):
     def _from_dict(cls, _dict):
         """Initialize a DialogNodeAction object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'name', 'type', 'parameters', 'result_variable', 'credentials'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DialogNodeAction: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         else:
@@ -4128,7 +4084,7 @@ class DialogNodeAction(object):
         WEB_ACTION = "web_action"
 
 
-class DialogNodeCollection(object):
+class DialogNodeCollection():
     """
     An array of dialog nodes.
 
@@ -4152,12 +4108,12 @@ class DialogNodeCollection(object):
     def _from_dict(cls, _dict):
         """Initialize a DialogNodeCollection object from a json dictionary."""
         args = {}
-        validKeys = ['dialog_nodes', 'pagination']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['dialog_nodes', 'pagination']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DialogNodeCollection: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'dialog_nodes' in _dict:
             args['dialog_nodes'] = [
                 DialogNode._from_dict(x) for x in (_dict.get('dialog_nodes'))
@@ -4198,7 +4154,7 @@ class DialogNodeCollection(object):
         return not self == other
 
 
-class DialogNodeNextStep(object):
+class DialogNodeNextStep():
     """
     The next step to execute following this dialog node.
 
@@ -4266,12 +4222,12 @@ class DialogNodeNextStep(object):
     def _from_dict(cls, _dict):
         """Initialize a DialogNodeNextStep object from a json dictionary."""
         args = {}
-        validKeys = ['behavior', 'dialog_node', 'selector']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['behavior', 'dialog_node', 'selector']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DialogNodeNextStep: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'behavior' in _dict:
             args['behavior'] = _dict.get('behavior')
         else:
@@ -4350,7 +4306,7 @@ class DialogNodeNextStep(object):
         BODY = "body"
 
 
-class DialogNodeOutput(object):
+class DialogNodeOutput():
     """
     The output of the dialog node. For more information about how to specify dialog node
     output, see the
@@ -4433,7 +4389,7 @@ class DialogNodeOutput(object):
         return not self == other
 
 
-class DialogNodeOutputGeneric(object):
+class DialogNodeOutputGeneric():
     """
     DialogNodeOutputGeneric.
 
@@ -4572,17 +4528,17 @@ class DialogNodeOutputGeneric(object):
     def _from_dict(cls, _dict):
         """Initialize a DialogNodeOutputGeneric object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'response_type', 'values', 'selection_policy', 'delimiter', 'time',
             'typing', 'source', 'title', 'description', 'preference', 'options',
             'message_to_human_agent', 'query', 'query_type', 'filter',
             'discovery_version'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DialogNodeOutputGeneric: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'response_type' in _dict:
             args['response_type'] = _dict.get('response_type')
         else:
@@ -4720,7 +4676,7 @@ class DialogNodeOutputGeneric(object):
         DISCOVERY_QUERY_LANGUAGE = "discovery_query_language"
 
 
-class DialogNodeOutputModifiers(object):
+class DialogNodeOutputModifiers():
     """
     Options that modify how specified output is handled.
 
@@ -4745,12 +4701,12 @@ class DialogNodeOutputModifiers(object):
     def _from_dict(cls, _dict):
         """Initialize a DialogNodeOutputModifiers object from a json dictionary."""
         args = {}
-        validKeys = ['overwrite']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['overwrite']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DialogNodeOutputModifiers: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'overwrite' in _dict:
             args['overwrite'] = _dict.get('overwrite')
         return cls(**args)
@@ -4777,7 +4733,7 @@ class DialogNodeOutputModifiers(object):
         return not self == other
 
 
-class DialogNodeOutputOptionsElement(object):
+class DialogNodeOutputOptionsElement():
     """
     DialogNodeOutputOptionsElement.
 
@@ -4803,12 +4759,12 @@ class DialogNodeOutputOptionsElement(object):
     def _from_dict(cls, _dict):
         """Initialize a DialogNodeOutputOptionsElement object from a json dictionary."""
         args = {}
-        validKeys = ['label', 'value']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['label', 'value']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DialogNodeOutputOptionsElement: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'label' in _dict:
             args['label'] = _dict.get('label')
         else:
@@ -4848,7 +4804,7 @@ class DialogNodeOutputOptionsElement(object):
         return not self == other
 
 
-class DialogNodeOutputOptionsElementValue(object):
+class DialogNodeOutputOptionsElementValue():
     """
     An object defining the message input to be sent to the Watson Assistant service if the
     user selects the corresponding option.
@@ -4888,12 +4844,12 @@ class DialogNodeOutputOptionsElementValue(object):
     def _from_dict(cls, _dict):
         """Initialize a DialogNodeOutputOptionsElementValue object from a json dictionary."""
         args = {}
-        validKeys = ['input', 'intents', 'entities']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['input', 'intents', 'entities']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DialogNodeOutputOptionsElementValue: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'input' in _dict:
             args['input'] = MessageInput._from_dict(_dict.get('input'))
         if 'intents' in _dict:
@@ -4932,7 +4888,7 @@ class DialogNodeOutputOptionsElementValue(object):
         return not self == other
 
 
-class DialogNodeOutputTextValuesElement(object):
+class DialogNodeOutputTextValuesElement():
     """
     DialogNodeOutputTextValuesElement.
 
@@ -4955,12 +4911,12 @@ class DialogNodeOutputTextValuesElement(object):
     def _from_dict(cls, _dict):
         """Initialize a DialogNodeOutputTextValuesElement object from a json dictionary."""
         args = {}
-        validKeys = ['text']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DialogNodeOutputTextValuesElement: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         return cls(**args)
@@ -4987,7 +4943,7 @@ class DialogNodeOutputTextValuesElement(object):
         return not self == other
 
 
-class DialogNodeVisitedDetails(object):
+class DialogNodeVisitedDetails():
     """
     DialogNodeVisitedDetails.
 
@@ -5015,12 +4971,12 @@ class DialogNodeVisitedDetails(object):
     def _from_dict(cls, _dict):
         """Initialize a DialogNodeVisitedDetails object from a json dictionary."""
         args = {}
-        validKeys = ['dialog_node', 'title', 'conditions']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['dialog_node', 'title', 'conditions']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DialogNodeVisitedDetails: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'dialog_node' in _dict:
             args['dialog_node'] = _dict.get('dialog_node')
         if 'title' in _dict:
@@ -5055,7 +5011,7 @@ class DialogNodeVisitedDetails(object):
         return not self == other
 
 
-class DialogSuggestion(object):
+class DialogSuggestion():
     """
     DialogSuggestion.
 
@@ -5098,12 +5054,12 @@ class DialogSuggestion(object):
     def _from_dict(cls, _dict):
         """Initialize a DialogSuggestion object from a json dictionary."""
         args = {}
-        validKeys = ['label', 'value', 'output', 'dialog_node']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['label', 'value', 'output', 'dialog_node']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DialogSuggestion: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'label' in _dict:
             args['label'] = _dict.get('label')
         else:
@@ -5151,7 +5107,7 @@ class DialogSuggestion(object):
         return not self == other
 
 
-class DialogSuggestionOutput(object):
+class DialogSuggestionOutput():
     """
     The dialog output that will be returned from the Watson Assistant service if the user
     selects the corresponding option.
@@ -5257,8 +5213,8 @@ class DialogSuggestionOutput(object):
             'nodes_visited', 'nodes_visited_details', 'text', 'generic'
         }
         if not hasattr(self, '_additionalProperties'):
-            super(DialogSuggestionOutput, self).__setattr__(
-                '_additionalProperties', set())
+            super(DialogSuggestionOutput,
+                  self).__setattr__('_additionalProperties', set())
         if name not in properties:
             self._additionalProperties.add(name)
         super(DialogSuggestionOutput, self).__setattr__(name, value)
@@ -5278,7 +5234,7 @@ class DialogSuggestionOutput(object):
         return not self == other
 
 
-class DialogSuggestionResponseGeneric(object):
+class DialogSuggestionResponseGeneric():
     """
     DialogSuggestionResponseGeneric.
 
@@ -5370,16 +5326,16 @@ class DialogSuggestionResponseGeneric(object):
     def _from_dict(cls, _dict):
         """Initialize a DialogSuggestionResponseGeneric object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'response_type', 'text', 'time', 'typing', 'source', 'title',
             'description', 'preference', 'options', 'message_to_human_agent',
             'topic', 'dialog_node'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DialogSuggestionResponseGeneric: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'response_type' in _dict:
             args['response_type'] = _dict.get('response_type')
         else:
@@ -5481,7 +5437,7 @@ class DialogSuggestionResponseGeneric(object):
         BUTTON = "button"
 
 
-class DialogSuggestionValue(object):
+class DialogSuggestionValue():
     """
     An object defining the message input, intents, and entities to be sent to the Watson
     Assistant service if the user selects the corresponding disambiguation option.
@@ -5513,12 +5469,12 @@ class DialogSuggestionValue(object):
     def _from_dict(cls, _dict):
         """Initialize a DialogSuggestionValue object from a json dictionary."""
         args = {}
-        validKeys = ['input', 'intents', 'entities']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['input', 'intents', 'entities']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DialogSuggestionValue: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'input' in _dict:
             args['input'] = MessageInput._from_dict(_dict.get('input'))
         if 'intents' in _dict:
@@ -5557,7 +5513,7 @@ class DialogSuggestionValue(object):
         return not self == other
 
 
-class Entity(object):
+class Entity():
     """
     Entity.
 
@@ -5621,15 +5577,15 @@ class Entity(object):
     def _from_dict(cls, _dict):
         """Initialize a Entity object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'entity', 'description', 'metadata', 'fuzzy_match', 'created',
             'updated', 'values'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Entity: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'entity' in _dict:
             args['entity'] = _dict.get('entity')
         else:
@@ -5685,7 +5641,7 @@ class Entity(object):
         return not self == other
 
 
-class EntityCollection(object):
+class EntityCollection():
     """
     An array of objects describing the entities for the workspace.
 
@@ -5709,12 +5665,12 @@ class EntityCollection(object):
     def _from_dict(cls, _dict):
         """Initialize a EntityCollection object from a json dictionary."""
         args = {}
-        validKeys = ['entities', 'pagination']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['entities', 'pagination']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class EntityCollection: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'entities' in _dict:
             args['entities'] = [
                 Entity._from_dict(x) for x in (_dict.get('entities'))
@@ -5755,7 +5711,7 @@ class EntityCollection(object):
         return not self == other
 
 
-class EntityMention(object):
+class EntityMention():
     """
     An object describing a contextual entity mention.
 
@@ -5782,12 +5738,12 @@ class EntityMention(object):
     def _from_dict(cls, _dict):
         """Initialize a EntityMention object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'intent', 'location']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'intent', 'location']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class EntityMention: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         else:
@@ -5833,7 +5789,7 @@ class EntityMention(object):
         return not self == other
 
 
-class EntityMentionCollection(object):
+class EntityMentionCollection():
     """
     EntityMentionCollection.
 
@@ -5857,12 +5813,12 @@ class EntityMentionCollection(object):
     def _from_dict(cls, _dict):
         """Initialize a EntityMentionCollection object from a json dictionary."""
         args = {}
-        validKeys = ['examples', 'pagination']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['examples', 'pagination']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class EntityMentionCollection: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'examples' in _dict:
             args['examples'] = [
                 EntityMention._from_dict(x) for x in (_dict.get('examples'))
@@ -5903,7 +5859,7 @@ class EntityMentionCollection(object):
         return not self == other
 
 
-class Example(object):
+class Example():
     """
     Example.
 
@@ -5941,12 +5897,12 @@ class Example(object):
     def _from_dict(cls, _dict):
         """Initialize a Example object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'mentions', 'created', 'updated']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'mentions', 'created', 'updated']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Example: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         else:
@@ -5990,7 +5946,7 @@ class Example(object):
         return not self == other
 
 
-class ExampleCollection(object):
+class ExampleCollection():
     """
     ExampleCollection.
 
@@ -6014,12 +5970,12 @@ class ExampleCollection(object):
     def _from_dict(cls, _dict):
         """Initialize a ExampleCollection object from a json dictionary."""
         args = {}
-        validKeys = ['examples', 'pagination']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['examples', 'pagination']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ExampleCollection: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'examples' in _dict:
             args['examples'] = [
                 Example._from_dict(x) for x in (_dict.get('examples'))
@@ -6060,7 +6016,7 @@ class ExampleCollection(object):
         return not self == other
 
 
-class Intent(object):
+class Intent():
     """
     Intent.
 
@@ -6112,12 +6068,12 @@ class Intent(object):
     def _from_dict(cls, _dict):
         """Initialize a Intent object from a json dictionary."""
         args = {}
-        validKeys = ['intent', 'description', 'created', 'updated', 'examples']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['intent', 'description', 'created', 'updated', 'examples']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Intent: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'intent' in _dict:
             args['intent'] = _dict.get('intent')
         else:
@@ -6165,7 +6121,7 @@ class Intent(object):
         return not self == other
 
 
-class IntentCollection(object):
+class IntentCollection():
     """
     IntentCollection.
 
@@ -6189,12 +6145,12 @@ class IntentCollection(object):
     def _from_dict(cls, _dict):
         """Initialize a IntentCollection object from a json dictionary."""
         args = {}
-        validKeys = ['intents', 'pagination']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['intents', 'pagination']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class IntentCollection: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'intents' in _dict:
             args['intents'] = [
                 Intent._from_dict(x) for x in (_dict.get('intents'))
@@ -6235,7 +6191,7 @@ class IntentCollection(object):
         return not self == other
 
 
-class Log(object):
+class Log():
     """
     Log.
 
@@ -6283,15 +6239,15 @@ class Log(object):
     def _from_dict(cls, _dict):
         """Initialize a Log object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'request', 'response', 'log_id', 'request_timestamp',
             'response_timestamp', 'workspace_id', 'language'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Log: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'request' in _dict:
             args['request'] = MessageRequest._from_dict(_dict.get('request'))
         else:
@@ -6368,7 +6324,7 @@ class Log(object):
         return not self == other
 
 
-class LogCollection(object):
+class LogCollection():
     """
     LogCollection.
 
@@ -6391,12 +6347,12 @@ class LogCollection(object):
     def _from_dict(cls, _dict):
         """Initialize a LogCollection object from a json dictionary."""
         args = {}
-        validKeys = ['logs', 'pagination']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['logs', 'pagination']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class LogCollection: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'logs' in _dict:
             args['logs'] = [Log._from_dict(x) for x in (_dict.get('logs'))]
         else:
@@ -6435,7 +6391,7 @@ class LogCollection(object):
         return not self == other
 
 
-class LogMessage(object):
+class LogMessage():
     """
     Log message details.
 
@@ -6457,12 +6413,12 @@ class LogMessage(object):
     def _from_dict(cls, _dict):
         """Initialize a LogMessage object from a json dictionary."""
         args = {}
-        validKeys = ['level', 'msg']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['level', 'msg']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class LogMessage: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'level' in _dict:
             args['level'] = _dict.get('level')
         else:
@@ -6507,7 +6463,7 @@ class LogMessage(object):
         WARN = "warn"
 
 
-class LogPagination(object):
+class LogPagination():
     """
     The pagination data for the returned objects.
 
@@ -6535,12 +6491,12 @@ class LogPagination(object):
     def _from_dict(cls, _dict):
         """Initialize a LogPagination object from a json dictionary."""
         args = {}
-        validKeys = ['next_url', 'matched', 'next_cursor']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['next_url', 'matched', 'next_cursor']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class LogPagination: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'next_url' in _dict:
             args['next_url'] = _dict.get('next_url')
         if 'matched' in _dict:
@@ -6575,7 +6531,7 @@ class LogPagination(object):
         return not self == other
 
 
-class Mention(object):
+class Mention():
     """
     A mention of a contextual entity.
 
@@ -6599,12 +6555,12 @@ class Mention(object):
     def _from_dict(cls, _dict):
         """Initialize a Mention object from a json dictionary."""
         args = {}
-        validKeys = ['entity', 'location']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['entity', 'location']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Mention: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'entity' in _dict:
             args['entity'] = _dict.get('entity')
         else:
@@ -6641,7 +6597,7 @@ class Mention(object):
         return not self == other
 
 
-class MessageContextMetadata(object):
+class MessageContextMetadata():
     """
     Metadata related to the message.
 
@@ -6676,12 +6632,12 @@ class MessageContextMetadata(object):
     def _from_dict(cls, _dict):
         """Initialize a MessageContextMetadata object from a json dictionary."""
         args = {}
-        validKeys = ['deployment', 'user_id']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['deployment', 'user_id']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class MessageContextMetadata: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'deployment' in _dict:
             args['deployment'] = _dict.get('deployment')
         if 'user_id' in _dict:
@@ -6712,7 +6668,7 @@ class MessageContextMetadata(object):
         return not self == other
 
 
-class MessageInput(object):
+class MessageInput():
     """
     An input object that includes the input text.
 
@@ -6779,7 +6735,7 @@ class MessageInput(object):
         return not self == other
 
 
-class MessageRequest(object):
+class MessageRequest():
     """
     A request sent to the workspace, including the user input and context.
 
@@ -6845,15 +6801,15 @@ class MessageRequest(object):
     def _from_dict(cls, _dict):
         """Initialize a MessageRequest object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'input', 'intents', 'entities', 'alternate_intents', 'context',
             'output', 'actions'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class MessageRequest: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'input' in _dict:
             args['input'] = MessageInput._from_dict(_dict.get('input'))
         if 'intents' in _dict:
@@ -6911,7 +6867,7 @@ class MessageRequest(object):
         return not self == other
 
 
-class MessageResponse(object):
+class MessageResponse():
     """
     The response sent by the workspace, including the output text, detected intents and
     entities, and context.
@@ -6969,15 +6925,15 @@ class MessageResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a MessageResponse object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'input', 'intents', 'entities', 'alternate_intents', 'context',
             'output', 'actions'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class MessageResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'input' in _dict:
             args['input'] = MessageInput._from_dict(_dict.get('input'))
         else:
@@ -7055,7 +7011,7 @@ class MessageResponse(object):
         return not self == other
 
 
-class OutputData(object):
+class OutputData():
     """
     An output object that includes the response to the user, the dialog nodes that were
     triggered, and messages from the log.
@@ -7198,7 +7154,7 @@ class OutputData(object):
         return not self == other
 
 
-class Pagination(object):
+class Pagination():
     """
     The pagination data for the returned objects.
 
@@ -7244,15 +7200,15 @@ class Pagination(object):
     def _from_dict(cls, _dict):
         """Initialize a Pagination object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'refresh_url', 'next_url', 'total', 'matched', 'refresh_cursor',
             'next_cursor'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Pagination: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'refresh_url' in _dict:
             args['refresh_url'] = _dict.get('refresh_url')
         else:
@@ -7303,7 +7259,7 @@ class Pagination(object):
         return not self == other
 
 
-class RuntimeEntity(object):
+class RuntimeEntity():
     """
     A term from the request that was identified as an entity.
 
@@ -7350,14 +7306,14 @@ class RuntimeEntity(object):
     def _from_dict(cls, _dict):
         """Initialize a RuntimeEntity object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'entity', 'location', 'value', 'confidence', 'metadata', 'groups'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class RuntimeEntity: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'entity' in _dict:
             args['entity'] = _dict.get('entity')
         else:
@@ -7417,7 +7373,7 @@ class RuntimeEntity(object):
         return not self == other
 
 
-class RuntimeIntent(object):
+class RuntimeIntent():
     """
     An intent identified in the user input.
 
@@ -7441,12 +7397,12 @@ class RuntimeIntent(object):
     def _from_dict(cls, _dict):
         """Initialize a RuntimeIntent object from a json dictionary."""
         args = {}
-        validKeys = ['intent', 'confidence']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['intent', 'confidence']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class RuntimeIntent: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'intent' in _dict:
             args['intent'] = _dict.get('intent')
         else:
@@ -7485,7 +7441,7 @@ class RuntimeIntent(object):
         return not self == other
 
 
-class RuntimeResponseGeneric(object):
+class RuntimeResponseGeneric():
     """
     RuntimeResponseGeneric.
 
@@ -7584,16 +7540,16 @@ class RuntimeResponseGeneric(object):
     def _from_dict(cls, _dict):
         """Initialize a RuntimeResponseGeneric object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'response_type', 'text', 'time', 'typing', 'source', 'title',
             'description', 'preference', 'options', 'message_to_human_agent',
             'topic', 'dialog_node', 'suggestions'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class RuntimeResponseGeneric: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'response_type' in _dict:
             args['response_type'] = _dict.get('response_type')
         else:
@@ -7700,7 +7656,7 @@ class RuntimeResponseGeneric(object):
         BUTTON = "button"
 
 
-class Synonym(object):
+class Synonym():
     """
     Synonym.
 
@@ -7734,12 +7690,12 @@ class Synonym(object):
     def _from_dict(cls, _dict):
         """Initialize a Synonym object from a json dictionary."""
         args = {}
-        validKeys = ['synonym', 'created', 'updated']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['synonym', 'created', 'updated']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Synonym: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'synonym' in _dict:
             args['synonym'] = _dict.get('synonym')
         else:
@@ -7777,7 +7733,7 @@ class Synonym(object):
         return not self == other
 
 
-class SynonymCollection(object):
+class SynonymCollection():
     """
     SynonymCollection.
 
@@ -7799,12 +7755,12 @@ class SynonymCollection(object):
     def _from_dict(cls, _dict):
         """Initialize a SynonymCollection object from a json dictionary."""
         args = {}
-        validKeys = ['synonyms', 'pagination']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['synonyms', 'pagination']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SynonymCollection: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'synonyms' in _dict:
             args['synonyms'] = [
                 Synonym._from_dict(x) for x in (_dict.get('synonyms'))
@@ -7845,7 +7801,7 @@ class SynonymCollection(object):
         return not self == other
 
 
-class SystemResponse(object):
+class SystemResponse():
     """
     For internal use only.
 
@@ -7902,7 +7858,7 @@ class SystemResponse(object):
         return not self == other
 
 
-class Value(object):
+class Value():
     """
     Value.
 
@@ -7973,15 +7929,15 @@ class Value(object):
     def _from_dict(cls, _dict):
         """Initialize a Value object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'value', 'metadata', 'type', 'synonyms', 'patterns', 'created',
             'updated'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Value: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'value' in _dict:
             args['value'] = _dict.get('value')
         else:
@@ -8045,7 +8001,7 @@ class Value(object):
         PATTERNS = "patterns"
 
 
-class ValueCollection(object):
+class ValueCollection():
     """
     ValueCollection.
 
@@ -8067,12 +8023,12 @@ class ValueCollection(object):
     def _from_dict(cls, _dict):
         """Initialize a ValueCollection object from a json dictionary."""
         args = {}
-        validKeys = ['values', 'pagination']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['values', 'pagination']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ValueCollection: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'values' in _dict:
             args['values'] = [
                 Value._from_dict(x) for x in (_dict.get('values'))
@@ -8113,7 +8069,7 @@ class ValueCollection(object):
         return not self == other
 
 
-class Workspace(object):
+class Workspace():
     """
     Workspace.
 
@@ -8206,16 +8162,16 @@ class Workspace(object):
     def _from_dict(cls, _dict):
         """Initialize a Workspace object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'name', 'description', 'language', 'metadata', 'learning_opt_out',
             'system_settings', 'workspace_id', 'status', 'created', 'updated',
             'intents', 'entities', 'dialog_nodes', 'counterexamples'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Workspace: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         else:
@@ -8333,7 +8289,7 @@ class Workspace(object):
         UNAVAILABLE = "Unavailable"
 
 
-class WorkspaceCollection(object):
+class WorkspaceCollection():
     """
     WorkspaceCollection.
 
@@ -8357,12 +8313,12 @@ class WorkspaceCollection(object):
     def _from_dict(cls, _dict):
         """Initialize a WorkspaceCollection object from a json dictionary."""
         args = {}
-        validKeys = ['workspaces', 'pagination']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['workspaces', 'pagination']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class WorkspaceCollection: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'workspaces' in _dict:
             args['workspaces'] = [
                 Workspace._from_dict(x) for x in (_dict.get('workspaces'))
@@ -8403,7 +8359,7 @@ class WorkspaceCollection(object):
         return not self == other
 
 
-class WorkspaceSystemSettings(object):
+class WorkspaceSystemSettings():
     """
     Global settings for the workspace.
 
@@ -8438,12 +8394,12 @@ class WorkspaceSystemSettings(object):
     def _from_dict(cls, _dict):
         """Initialize a WorkspaceSystemSettings object from a json dictionary."""
         args = {}
-        validKeys = ['tooling', 'disambiguation', 'human_agent_assist']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['tooling', 'disambiguation', 'human_agent_assist']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class WorkspaceSystemSettings: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'tooling' in _dict:
             args['tooling'] = WorkspaceSystemSettingsTooling._from_dict(
                 _dict.get('tooling'))
@@ -8483,7 +8439,7 @@ class WorkspaceSystemSettings(object):
         return not self == other
 
 
-class WorkspaceSystemSettingsDisambiguation(object):
+class WorkspaceSystemSettingsDisambiguation():
     """
     Workspace settings related to the disambiguation feature.
     **Note:** This feature is available only to Premium users.
@@ -8531,14 +8487,14 @@ class WorkspaceSystemSettingsDisambiguation(object):
     def _from_dict(cls, _dict):
         """Initialize a WorkspaceSystemSettingsDisambiguation object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'prompt', 'none_of_the_above_prompt', 'enabled', 'sensitivity'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class WorkspaceSystemSettingsDisambiguation: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'prompt' in _dict:
             args['prompt'] = _dict.get('prompt')
         if 'none_of_the_above_prompt' in _dict:
@@ -8588,7 +8544,7 @@ class WorkspaceSystemSettingsDisambiguation(object):
         HIGH = "high"
 
 
-class WorkspaceSystemSettingsTooling(object):
+class WorkspaceSystemSettingsTooling():
     """
     Workspace settings related to the Watson Assistant user interface.
 
@@ -8609,12 +8565,12 @@ class WorkspaceSystemSettingsTooling(object):
     def _from_dict(cls, _dict):
         """Initialize a WorkspaceSystemSettingsTooling object from a json dictionary."""
         args = {}
-        validKeys = ['store_generic_responses']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['store_generic_responses']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class WorkspaceSystemSettingsTooling: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'store_generic_responses' in _dict:
             args['store_generic_responses'] = _dict.get(
                 'store_generic_responses')

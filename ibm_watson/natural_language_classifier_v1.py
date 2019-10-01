@@ -26,6 +26,7 @@ from enum import Enum
 from ibm_cloud_sdk_core import BaseService
 from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
 from ibm_cloud_sdk_core import get_authenticator_from_environment
+from ibm_cloud_sdk_core import read_external_sources
 
 ##############################################################################
 # Service
@@ -35,37 +36,37 @@ from ibm_cloud_sdk_core import get_authenticator_from_environment
 class NaturalLanguageClassifierV1(BaseService):
     """The Natural Language Classifier V1 service."""
 
-    default_url = 'https://gateway.watsonplatform.net/natural-language-classifier/api'
+    default_service_url = 'https://gateway.watsonplatform.net/natural-language-classifier/api'
 
     def __init__(
             self,
-            url=default_url,
             authenticator=None,
-            disable_ssl_verification=False,
     ):
         """
         Construct a new client for the Natural Language Classifier service.
 
-        :param str url: The base url to use when contacting the service (e.g.
-               "https://gateway.watsonplatform.net/natural-language-classifier/api/natural-language-classifier/api").
-               The base url may differ between IBM Cloud regions.
-
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
-        :param bool disable_ssl_verification: If True, disables ssl verification
         """
+
+        service_url = self.default_service_url
+        disable_ssl_verification = False
+
+        config = read_external_sources('natural_language_classifier')
+        if config.get('URL'):
+            service_url = config.get('URL')
+        if config.get('DISABLE_SSL'):
+            disable_ssl_verification = config.get('DISABLE_SSL')
 
         if not authenticator:
             authenticator = get_authenticator_from_environment(
-                'Natural Language Classifier')
+                'natural_language_classifier')
 
-        BaseService.__init__(
-            self,
-            url=url,
-            authenticator=authenticator,
-            disable_ssl_verification=disable_ssl_verification,
-            display_name='Natural Language Classifier')
+        BaseService.__init__(self,
+                             service_url=service_url,
+                             authenticator=authenticator,
+                             disable_ssl_verification=disable_ssl_verification)
 
     #########################
     # Classify text
@@ -102,12 +103,11 @@ class NaturalLanguageClassifierV1(BaseService):
 
         url = '/v1/classifiers/{0}/classify'.format(
             *self._encode_path_vars(classifier_id))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -143,12 +143,11 @@ class NaturalLanguageClassifierV1(BaseService):
 
         url = '/v1/classifiers/{0}/classify_collection'.format(
             *self._encode_path_vars(classifier_id))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -191,18 +190,17 @@ class NaturalLanguageClassifierV1(BaseService):
                                       'create_classifier')
         headers.update(sdk_headers)
 
-        form_data = {}
-        form_data['training_metadata'] = (None, training_metadata,
-                                          'application/json')
-        form_data['training_data'] = (None, training_data, 'text/csv')
+        form_data = []
+        form_data.append(('training_metadata', (None, training_metadata,
+                                                'application/json')))
+        form_data.append(('training_data', (None, training_data, 'text/csv')))
 
         url = '/v1/classifiers'
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            files=form_data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       files=form_data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -225,8 +223,10 @@ class NaturalLanguageClassifierV1(BaseService):
         headers.update(sdk_headers)
 
         url = '/v1/classifiers'
-        request = self.prepare_request(
-            method='GET', url=url, headers=headers, accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -254,8 +254,10 @@ class NaturalLanguageClassifierV1(BaseService):
 
         url = '/v1/classifiers/{0}'.format(
             *self._encode_path_vars(classifier_id))
-        request = self.prepare_request(
-            method='GET', url=url, headers=headers, accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -281,8 +283,10 @@ class NaturalLanguageClassifierV1(BaseService):
 
         url = '/v1/classifiers/{0}'.format(
             *self._encode_path_vars(classifier_id))
-        request = self.prepare_request(
-            method='DELETE', url=url, headers=headers, accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -292,7 +296,7 @@ class NaturalLanguageClassifierV1(BaseService):
 ##############################################################################
 
 
-class Classification(object):
+class Classification():
     """
     Response from the classifier for a phrase.
 
@@ -331,12 +335,12 @@ class Classification(object):
     def _from_dict(cls, _dict):
         """Initialize a Classification object from a json dictionary."""
         args = {}
-        validKeys = ['classifier_id', 'url', 'text', 'top_class', 'classes']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['classifier_id', 'url', 'text', 'top_class', 'classes']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Classification: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'classifier_id' in _dict:
             args['classifier_id'] = _dict.get('classifier_id')
         if 'url' in _dict:
@@ -381,7 +385,7 @@ class Classification(object):
         return not self == other
 
 
-class ClassificationCollection(object):
+class ClassificationCollection():
     """
     Response from the classifier for multiple phrases.
 
@@ -408,12 +412,12 @@ class ClassificationCollection(object):
     def _from_dict(cls, _dict):
         """Initialize a ClassificationCollection object from a json dictionary."""
         args = {}
-        validKeys = ['classifier_id', 'url', 'collection']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['classifier_id', 'url', 'collection']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ClassificationCollection: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'classifier_id' in _dict:
             args['classifier_id'] = _dict.get('classifier_id')
         if 'url' in _dict:
@@ -450,7 +454,7 @@ class ClassificationCollection(object):
         return not self == other
 
 
-class ClassifiedClass(object):
+class ClassifiedClass():
     """
     Class and confidence.
 
@@ -476,12 +480,12 @@ class ClassifiedClass(object):
     def _from_dict(cls, _dict):
         """Initialize a ClassifiedClass object from a json dictionary."""
         args = {}
-        validKeys = ['confidence', 'class_name']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['confidence', 'class_name']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ClassifiedClass: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'confidence' in _dict:
             args['confidence'] = _dict.get('confidence')
         if 'class_name' in _dict:
@@ -512,7 +516,7 @@ class ClassifiedClass(object):
         return not self == other
 
 
-class Classifier(object):
+class Classifier():
     """
     A classifier for natural language phrases.
 
@@ -560,15 +564,15 @@ class Classifier(object):
     def _from_dict(cls, _dict):
         """Initialize a Classifier object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'name', 'url', 'status', 'classifier_id', 'created',
             'status_description', 'language'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Classifier: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         if 'url' in _dict:
@@ -638,7 +642,7 @@ class Classifier(object):
         UNAVAILABLE = "Unavailable"
 
 
-class ClassifierList(object):
+class ClassifierList():
     """
     List of available classifiers.
 
@@ -659,12 +663,12 @@ class ClassifierList(object):
     def _from_dict(cls, _dict):
         """Initialize a ClassifierList object from a json dictionary."""
         args = {}
-        validKeys = ['classifiers']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['classifiers']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ClassifierList: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'classifiers' in _dict:
             args['classifiers'] = [
                 Classifier._from_dict(x) for x in (_dict.get('classifiers'))
@@ -697,7 +701,7 @@ class ClassifierList(object):
         return not self == other
 
 
-class ClassifyInput(object):
+class ClassifyInput():
     """
     Request payload to classify.
 
@@ -717,12 +721,12 @@ class ClassifyInput(object):
     def _from_dict(cls, _dict):
         """Initialize a ClassifyInput object from a json dictionary."""
         args = {}
-        validKeys = ['text']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ClassifyInput: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         else:
@@ -752,7 +756,7 @@ class ClassifyInput(object):
         return not self == other
 
 
-class CollectionItem(object):
+class CollectionItem():
     """
     Response from the classifier for a phrase in a collection.
 
@@ -781,12 +785,12 @@ class CollectionItem(object):
     def _from_dict(cls, _dict):
         """Initialize a CollectionItem object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'top_class', 'classes']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'top_class', 'classes']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CollectionItem: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'top_class' in _dict:

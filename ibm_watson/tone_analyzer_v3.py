@@ -30,6 +30,7 @@ from .common import get_sdk_headers
 from enum import Enum
 from ibm_cloud_sdk_core import BaseService
 from ibm_cloud_sdk_core import get_authenticator_from_environment
+from ibm_cloud_sdk_core import read_external_sources
 
 ##############################################################################
 # Service
@@ -39,14 +40,12 @@ from ibm_cloud_sdk_core import get_authenticator_from_environment
 class ToneAnalyzerV3(BaseService):
     """The Tone Analyzer V3 service."""
 
-    default_url = 'https://gateway.watsonplatform.net/tone-analyzer/api'
+    default_service_url = 'https://gateway.watsonplatform.net/tone-analyzer/api'
 
     def __init__(
             self,
             version,
-            url=default_url,
             authenticator=None,
-            disable_ssl_verification=False,
     ):
         """
         Construct a new client for the Tone Analyzer service.
@@ -62,24 +61,27 @@ class ToneAnalyzerV3(BaseService):
                application, and don't change it until your application is
                ready for a later version.
 
-        :param str url: The base url to use when contacting the service (e.g.
-               "https://gateway.watsonplatform.net/tone-analyzer/api/tone-analyzer/api").
-               The base url may differ between IBM Cloud regions.
-
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
-        :param bool disable_ssl_verification: If True, disables ssl verification
         """
 
+        service_url = self.default_service_url
+        disable_ssl_verification = False
+
+        config = read_external_sources('tone_analyzer')
+        if config.get('URL'):
+            service_url = config.get('URL')
+        if config.get('DISABLE_SSL'):
+            disable_ssl_verification = config.get('DISABLE_SSL')
+
         if not authenticator:
-            authenticator = get_authenticator_from_environment('Tone Analyzer')
+            authenticator = get_authenticator_from_environment('tone_analyzer')
 
         BaseService.__init__(self,
-                             url=url,
+                             service_url=service_url,
                              authenticator=authenticator,
-                             disable_ssl_verification=disable_ssl_verification,
-                             display_name='Tone Analyzer')
+                             disable_ssl_verification=disable_ssl_verification)
         self.version = version
 
     #########################
@@ -353,7 +355,7 @@ class ToneChatEnums(object):
 ##############################################################################
 
 
-class DocumentAnalysis(object):
+class DocumentAnalysis():
     """
     The results of the analysis for the full input content.
 
@@ -401,12 +403,12 @@ class DocumentAnalysis(object):
     def _from_dict(cls, _dict):
         """Initialize a DocumentAnalysis object from a json dictionary."""
         args = {}
-        validKeys = ['tones', 'tone_categories', 'warning']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['tones', 'tone_categories', 'warning']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DocumentAnalysis: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'tones' in _dict:
             args['tones'] = [
                 ToneScore._from_dict(x) for x in (_dict.get('tones'))
@@ -449,7 +451,7 @@ class DocumentAnalysis(object):
         return not self == other
 
 
-class SentenceAnalysis(object):
+class SentenceAnalysis():
     """
     The results of the analysis for the individual sentences of the input content.
 
@@ -516,15 +518,15 @@ class SentenceAnalysis(object):
     def _from_dict(cls, _dict):
         """Initialize a SentenceAnalysis object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'sentence_id', 'text', 'tones', 'tone_categories', 'input_from',
             'input_to'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SentenceAnalysis: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'sentence_id' in _dict:
             args['sentence_id'] = _dict.get('sentence_id')
         else:
@@ -587,7 +589,7 @@ class SentenceAnalysis(object):
         return not self == other
 
 
-class ToneAnalysis(object):
+class ToneAnalysis():
     """
     The tone analysis results for the input from the general-purpose endpoint.
 
@@ -619,12 +621,12 @@ class ToneAnalysis(object):
     def _from_dict(cls, _dict):
         """Initialize a ToneAnalysis object from a json dictionary."""
         args = {}
-        validKeys = ['document_tone', 'sentences_tone']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['document_tone', 'sentences_tone']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ToneAnalysis: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document_tone' in _dict:
             args['document_tone'] = DocumentAnalysis._from_dict(
                 _dict.get('document_tone'))
@@ -665,7 +667,7 @@ class ToneAnalysis(object):
         return not self == other
 
 
-class ToneCategory(object):
+class ToneCategory():
     """
     The category for a tone from the input content.
 
@@ -696,12 +698,12 @@ class ToneCategory(object):
     def _from_dict(cls, _dict):
         """Initialize a ToneCategory object from a json dictionary."""
         args = {}
-        validKeys = ['tones', 'category_id', 'category_name']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['tones', 'category_id', 'category_name']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ToneCategory: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'tones' in _dict:
             args['tones'] = [
                 ToneScore._from_dict(x) for x in (_dict.get('tones'))
@@ -749,7 +751,7 @@ class ToneCategory(object):
         return not self == other
 
 
-class ToneChatScore(object):
+class ToneChatScore():
     """
     The score for an utterance from the input content.
 
@@ -782,12 +784,12 @@ class ToneChatScore(object):
     def _from_dict(cls, _dict):
         """Initialize a ToneChatScore object from a json dictionary."""
         args = {}
-        validKeys = ['score', 'tone_id', 'tone_name']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['score', 'tone_id', 'tone_name']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ToneChatScore: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'score' in _dict:
             args['score'] = _dict.get('score')
         else:
@@ -846,7 +848,7 @@ class ToneChatScore(object):
         SYMPATHETIC = "sympathetic"
 
 
-class ToneInput(object):
+class ToneInput():
     """
     Input for the general-purpose endpoint.
 
@@ -865,12 +867,12 @@ class ToneInput(object):
     def _from_dict(cls, _dict):
         """Initialize a ToneInput object from a json dictionary."""
         args = {}
-        validKeys = ['text']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ToneInput: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         else:
@@ -900,7 +902,7 @@ class ToneInput(object):
         return not self == other
 
 
-class ToneScore(object):
+class ToneScore():
     """
     The score for a tone from the input content.
 
@@ -961,12 +963,12 @@ class ToneScore(object):
     def _from_dict(cls, _dict):
         """Initialize a ToneScore object from a json dictionary."""
         args = {}
-        validKeys = ['score', 'tone_id', 'tone_name']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['score', 'tone_id', 'tone_name']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ToneScore: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'score' in _dict:
             args['score'] = _dict.get('score')
         else:
@@ -1010,7 +1012,7 @@ class ToneScore(object):
         return not self == other
 
 
-class Utterance(object):
+class Utterance():
     """
     An utterance for the input of the general-purpose endpoint.
 
@@ -1036,12 +1038,12 @@ class Utterance(object):
     def _from_dict(cls, _dict):
         """Initialize a Utterance object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'user']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'user']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Utterance: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         else:
@@ -1075,7 +1077,7 @@ class Utterance(object):
         return not self == other
 
 
-class UtteranceAnalyses(object):
+class UtteranceAnalyses():
     """
     The results of the analysis for the utterances of the input content.
 
@@ -1104,12 +1106,12 @@ class UtteranceAnalyses(object):
     def _from_dict(cls, _dict):
         """Initialize a UtteranceAnalyses object from a json dictionary."""
         args = {}
-        validKeys = ['utterances_tone', 'warning']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['utterances_tone', 'warning']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class UtteranceAnalyses: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'utterances_tone' in _dict:
             args['utterances_tone'] = [
                 UtteranceAnalysis._from_dict(x)
@@ -1150,7 +1152,7 @@ class UtteranceAnalyses(object):
         return not self == other
 
 
-class UtteranceAnalysis(object):
+class UtteranceAnalysis():
     """
     The results of the analysis for an utterance of the input content.
 
@@ -1192,12 +1194,12 @@ class UtteranceAnalysis(object):
     def _from_dict(cls, _dict):
         """Initialize a UtteranceAnalysis object from a json dictionary."""
         args = {}
-        validKeys = ['utterance_id', 'utterance_text', 'tones', 'error']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['utterance_id', 'utterance_text', 'tones', 'error']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class UtteranceAnalysis: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'utterance_id' in _dict:
             args['utterance_id'] = _dict.get('utterance_id')
         else:

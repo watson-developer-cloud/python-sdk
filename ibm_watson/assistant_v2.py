@@ -24,6 +24,7 @@ from .common import get_sdk_headers
 from enum import Enum
 from ibm_cloud_sdk_core import BaseService
 from ibm_cloud_sdk_core import get_authenticator_from_environment
+from ibm_cloud_sdk_core import read_external_sources
 
 ##############################################################################
 # Service
@@ -33,14 +34,12 @@ from ibm_cloud_sdk_core import get_authenticator_from_environment
 class AssistantV2(BaseService):
     """The Assistant V2 service."""
 
-    default_url = 'https://gateway.watsonplatform.net/assistant/api'
+    default_service_url = 'https://gateway.watsonplatform.net/assistant/api'
 
     def __init__(
             self,
             version,
-            url=default_url,
             authenticator=None,
-            disable_ssl_verification=False,
     ):
         """
         Construct a new client for the Assistant service.
@@ -56,25 +55,27 @@ class AssistantV2(BaseService):
                application, and don't change it until your application is
                ready for a later version.
 
-        :param str url: The base url to use when contacting the service (e.g.
-               "https://gateway.watsonplatform.net/assistant/api/assistant/api").
-               The base url may differ between IBM Cloud regions.
-
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
-        :param bool disable_ssl_verification: If True, disables ssl verification
         """
 
-        if not authenticator:
-            authenticator = get_authenticator_from_environment('Assistant')
+        service_url = self.default_service_url
+        disable_ssl_verification = False
 
-        BaseService.__init__(
-            self,
-            url=url,
-            authenticator=authenticator,
-            disable_ssl_verification=disable_ssl_verification,
-            display_name='Assistant')
+        config = read_external_sources('assistant')
+        if config.get('URL'):
+            service_url = config.get('URL')
+        if config.get('DISABLE_SSL'):
+            disable_ssl_verification = config.get('DISABLE_SSL')
+
+        if not authenticator:
+            authenticator = get_authenticator_from_environment('assistant')
+
+        BaseService.__init__(self,
+                             service_url=service_url,
+                             authenticator=authenticator,
+                             disable_ssl_verification=disable_ssl_verification)
         self.version = version
 
     #########################
@@ -112,12 +113,11 @@ class AssistantV2(BaseService):
 
         url = '/v2/assistants/{0}/sessions'.format(
             *self._encode_path_vars(assistant_id))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -154,12 +154,11 @@ class AssistantV2(BaseService):
 
         url = '/v2/assistants/{0}/sessions/{1}'.format(
             *self._encode_path_vars(assistant_id, session_id))
-        request = self.prepare_request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -219,13 +218,12 @@ class AssistantV2(BaseService):
 
         url = '/v2/assistants/{0}/sessions/{1}/message'.format(
             *self._encode_path_vars(assistant_id, session_id))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -235,7 +233,7 @@ class AssistantV2(BaseService):
 ##############################################################################
 
 
-class CaptureGroup(object):
+class CaptureGroup():
     """
     CaptureGroup.
 
@@ -259,12 +257,12 @@ class CaptureGroup(object):
     def _from_dict(cls, _dict):
         """Initialize a CaptureGroup object from a json dictionary."""
         args = {}
-        validKeys = ['group', 'location']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['group', 'location']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CaptureGroup: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'group' in _dict:
             args['group'] = _dict.get('group')
         else:
@@ -298,7 +296,7 @@ class CaptureGroup(object):
         return not self == other
 
 
-class DialogLogMessage(object):
+class DialogLogMessage():
     """
     Dialog log message details.
 
@@ -320,12 +318,12 @@ class DialogLogMessage(object):
     def _from_dict(cls, _dict):
         """Initialize a DialogLogMessage object from a json dictionary."""
         args = {}
-        validKeys = ['level', 'message']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['level', 'message']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DialogLogMessage: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'level' in _dict:
             args['level'] = _dict.get('level')
         else:
@@ -372,7 +370,7 @@ class DialogLogMessage(object):
         WARN = "warn"
 
 
-class DialogNodeAction(object):
+class DialogNodeAction():
     """
     DialogNodeAction.
 
@@ -415,14 +413,14 @@ class DialogNodeAction(object):
     def _from_dict(cls, _dict):
         """Initialize a DialogNodeAction object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'name', 'type', 'parameters', 'result_variable', 'credentials'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DialogNodeAction: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         else:
@@ -483,7 +481,7 @@ class DialogNodeAction(object):
         CLOUD_FUNCTION = "cloud-function"
 
 
-class DialogNodeOutputOptionsElement(object):
+class DialogNodeOutputOptionsElement():
     """
     DialogNodeOutputOptionsElement.
 
@@ -508,12 +506,12 @@ class DialogNodeOutputOptionsElement(object):
     def _from_dict(cls, _dict):
         """Initialize a DialogNodeOutputOptionsElement object from a json dictionary."""
         args = {}
-        validKeys = ['label', 'value']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['label', 'value']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DialogNodeOutputOptionsElement: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'label' in _dict:
             args['label'] = _dict.get('label')
         else:
@@ -553,7 +551,7 @@ class DialogNodeOutputOptionsElement(object):
         return not self == other
 
 
-class DialogNodeOutputOptionsElementValue(object):
+class DialogNodeOutputOptionsElementValue():
     """
     An object defining the message input to be sent to the assistant if the user selects
     the corresponding option.
@@ -575,12 +573,12 @@ class DialogNodeOutputOptionsElementValue(object):
     def _from_dict(cls, _dict):
         """Initialize a DialogNodeOutputOptionsElementValue object from a json dictionary."""
         args = {}
-        validKeys = ['input']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['input']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DialogNodeOutputOptionsElementValue: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'input' in _dict:
             args['input'] = MessageInput._from_dict(_dict.get('input'))
         return cls(**args)
@@ -607,7 +605,7 @@ class DialogNodeOutputOptionsElementValue(object):
         return not self == other
 
 
-class DialogNodesVisited(object):
+class DialogNodesVisited():
     """
     DialogNodesVisited.
 
@@ -635,12 +633,12 @@ class DialogNodesVisited(object):
     def _from_dict(cls, _dict):
         """Initialize a DialogNodesVisited object from a json dictionary."""
         args = {}
-        validKeys = ['dialog_node', 'title', 'conditions']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['dialog_node', 'title', 'conditions']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DialogNodesVisited: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'dialog_node' in _dict:
             args['dialog_node'] = _dict.get('dialog_node')
         if 'title' in _dict:
@@ -675,7 +673,7 @@ class DialogNodesVisited(object):
         return not self == other
 
 
-class DialogSuggestion(object):
+class DialogSuggestion():
     """
     DialogSuggestion.
 
@@ -709,12 +707,12 @@ class DialogSuggestion(object):
     def _from_dict(cls, _dict):
         """Initialize a DialogSuggestion object from a json dictionary."""
         args = {}
-        validKeys = ['label', 'value', 'output']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['label', 'value', 'output']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DialogSuggestion: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'label' in _dict:
             args['label'] = _dict.get('label')
         else:
@@ -757,7 +755,7 @@ class DialogSuggestion(object):
         return not self == other
 
 
-class DialogSuggestionValue(object):
+class DialogSuggestionValue():
     """
     An object defining the message input to be sent to the assistant if the user selects
     the corresponding disambiguation option.
@@ -779,12 +777,12 @@ class DialogSuggestionValue(object):
     def _from_dict(cls, _dict):
         """Initialize a DialogSuggestionValue object from a json dictionary."""
         args = {}
-        validKeys = ['input']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['input']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DialogSuggestionValue: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'input' in _dict:
             args['input'] = MessageInput._from_dict(_dict.get('input'))
         return cls(**args)
@@ -811,7 +809,7 @@ class DialogSuggestionValue(object):
         return not self == other
 
 
-class MessageContext(object):
+class MessageContext():
     """
     MessageContext.
 
@@ -843,12 +841,12 @@ class MessageContext(object):
     def _from_dict(cls, _dict):
         """Initialize a MessageContext object from a json dictionary."""
         args = {}
-        validKeys = ['global_', 'global', 'skills']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['global_', 'global', 'skills']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class MessageContext: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'global' in _dict:
             args['global_'] = MessageContextGlobal._from_dict(
                 _dict.get('global'))
@@ -881,7 +879,7 @@ class MessageContext(object):
         return not self == other
 
 
-class MessageContextGlobal(object):
+class MessageContextGlobal():
     """
     Information that is shared by all skills used by the Assistant.
 
@@ -902,12 +900,12 @@ class MessageContextGlobal(object):
     def _from_dict(cls, _dict):
         """Initialize a MessageContextGlobal object from a json dictionary."""
         args = {}
-        validKeys = ['system']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['system']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class MessageContextGlobal: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'system' in _dict:
             args['system'] = MessageContextGlobalSystem._from_dict(
                 _dict.get('system'))
@@ -935,7 +933,7 @@ class MessageContextGlobal(object):
         return not self == other
 
 
-class MessageContextGlobalSystem(object):
+class MessageContextGlobalSystem():
     """
     Built-in system properties that apply to all skills used by the assistant.
 
@@ -978,12 +976,12 @@ class MessageContextGlobalSystem(object):
     def _from_dict(cls, _dict):
         """Initialize a MessageContextGlobalSystem object from a json dictionary."""
         args = {}
-        validKeys = ['timezone', 'user_id', 'turn_count']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['timezone', 'user_id', 'turn_count']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class MessageContextGlobalSystem: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'timezone' in _dict:
             args['timezone'] = _dict.get('timezone')
         if 'user_id' in _dict:
@@ -1018,7 +1016,7 @@ class MessageContextGlobalSystem(object):
         return not self == other
 
 
-class MessageContextSkill(object):
+class MessageContextSkill():
     """
     Contains information specific to a particular skill used by the Assistant.
 
@@ -1039,12 +1037,12 @@ class MessageContextSkill(object):
     def _from_dict(cls, _dict):
         """Initialize a MessageContextSkill object from a json dictionary."""
         args = {}
-        validKeys = ['user_defined']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['user_defined']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class MessageContextSkill: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'user_defined' in _dict:
             args['user_defined'] = _dict.get('user_defined')
         return cls(**args)
@@ -1071,7 +1069,7 @@ class MessageContextSkill(object):
         return not self == other
 
 
-class MessageContextSkills(object):
+class MessageContextSkills():
     """
     Information specific to particular skills used by the Assistant.
     **Note:** Currently, only a single property named `main skill` is supported. This
@@ -1109,8 +1107,8 @@ class MessageContextSkills(object):
     def __setattr__(self, name, value):
         properties = {}
         if not hasattr(self, '_additionalProperties'):
-            super(MessageContextSkills, self).__setattr__(
-                '_additionalProperties', set())
+            super(MessageContextSkills,
+                  self).__setattr__('_additionalProperties', set())
         if name not in properties:
             self._additionalProperties.add(name)
         super(MessageContextSkills, self).__setattr__(name, value)
@@ -1130,7 +1128,7 @@ class MessageContextSkills(object):
         return not self == other
 
 
-class MessageInput(object):
+class MessageInput():
     """
     An input object that includes the input text.
 
@@ -1187,15 +1185,15 @@ class MessageInput(object):
     def _from_dict(cls, _dict):
         """Initialize a MessageInput object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'message_type', 'text', 'options', 'intents', 'entities',
             'suggestion_id'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class MessageInput: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'message_type' in _dict:
             args['message_type'] = _dict.get('message_type')
         if 'text' in _dict:
@@ -1253,7 +1251,7 @@ class MessageInput(object):
         TEXT = "text"
 
 
-class MessageInputOptions(object):
+class MessageInputOptions():
     """
     Optional properties that control how the assistant responds.
 
@@ -1300,12 +1298,12 @@ class MessageInputOptions(object):
     def _from_dict(cls, _dict):
         """Initialize a MessageInputOptions object from a json dictionary."""
         args = {}
-        validKeys = ['debug', 'restart', 'alternate_intents', 'return_context']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['debug', 'restart', 'alternate_intents', 'return_context']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class MessageInputOptions: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'debug' in _dict:
             args['debug'] = _dict.get('debug')
         if 'restart' in _dict:
@@ -1345,7 +1343,7 @@ class MessageInputOptions(object):
         return not self == other
 
 
-class MessageOutput(object):
+class MessageOutput():
     """
     Assistant output to be rendered or processed by the client.
 
@@ -1403,14 +1401,14 @@ class MessageOutput(object):
     def _from_dict(cls, _dict):
         """Initialize a MessageOutput object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'generic', 'intents', 'entities', 'actions', 'debug', 'user_defined'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class MessageOutput: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'generic' in _dict:
             args['generic'] = [
                 RuntimeResponseGeneric._from_dict(x)
@@ -1466,7 +1464,7 @@ class MessageOutput(object):
         return not self == other
 
 
-class MessageOutputDebug(object):
+class MessageOutputDebug():
     """
     Additional detailed information about a message response and how it was generated.
 
@@ -1511,15 +1509,15 @@ class MessageOutputDebug(object):
     def _from_dict(cls, _dict):
         """Initialize a MessageOutputDebug object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'nodes_visited', 'log_messages', 'branch_exited',
             'branch_exited_reason'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class MessageOutputDebug: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'nodes_visited' in _dict:
             args['nodes_visited'] = [
                 DialogNodesVisited._from_dict(x)
@@ -1573,7 +1571,7 @@ class MessageOutputDebug(object):
         FALLBACK = "fallback"
 
 
-class MessageResponse(object):
+class MessageResponse():
     """
     A response from the Watson Assistant service.
 
@@ -1605,12 +1603,12 @@ class MessageResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a MessageResponse object from a json dictionary."""
         args = {}
-        validKeys = ['output', 'context']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['output', 'context']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class MessageResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'output' in _dict:
             args['output'] = MessageOutput._from_dict(_dict.get('output'))
         else:
@@ -1645,7 +1643,7 @@ class MessageResponse(object):
         return not self == other
 
 
-class RuntimeEntity(object):
+class RuntimeEntity():
     """
     The entity value that was recognized in the user input.
 
@@ -1694,14 +1692,14 @@ class RuntimeEntity(object):
     def _from_dict(cls, _dict):
         """Initialize a RuntimeEntity object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'entity', 'location', 'value', 'confidence', 'metadata', 'groups'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class RuntimeEntity: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'entity' in _dict:
             args['entity'] = _dict.get('entity')
         else:
@@ -1761,7 +1759,7 @@ class RuntimeEntity(object):
         return not self == other
 
 
-class RuntimeIntent(object):
+class RuntimeIntent():
     """
     An intent identified in the user input.
 
@@ -1785,12 +1783,12 @@ class RuntimeIntent(object):
     def _from_dict(cls, _dict):
         """Initialize a RuntimeIntent object from a json dictionary."""
         args = {}
-        validKeys = ['intent', 'confidence']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['intent', 'confidence']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class RuntimeIntent: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'intent' in _dict:
             args['intent'] = _dict.get('intent')
         else:
@@ -1829,7 +1827,7 @@ class RuntimeIntent(object):
         return not self == other
 
 
-class RuntimeResponseGeneric(object):
+class RuntimeResponseGeneric():
     """
     RuntimeResponseGeneric.
 
@@ -1932,16 +1930,16 @@ class RuntimeResponseGeneric(object):
     def _from_dict(cls, _dict):
         """Initialize a RuntimeResponseGeneric object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'response_type', 'text', 'time', 'typing', 'source', 'title',
             'description', 'preference', 'options', 'message_to_human_agent',
             'topic', 'suggestions', 'header', 'results'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class RuntimeResponseGeneric: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'response_type' in _dict:
             args['response_type'] = _dict.get('response_type')
         else:
@@ -2055,7 +2053,7 @@ class RuntimeResponseGeneric(object):
         BUTTON = "button"
 
 
-class SearchResult(object):
+class SearchResult():
     """
     SearchResult.
 
@@ -2118,14 +2116,14 @@ class SearchResult(object):
     def _from_dict(cls, _dict):
         """Initialize a SearchResult object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'id', 'result_metadata', 'body', 'title', 'url', 'highlight'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SearchResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'id' in _dict:
             args['id'] = _dict.get('id')
         else:
@@ -2182,7 +2180,7 @@ class SearchResult(object):
         return not self == other
 
 
-class SearchResultHighlight(object):
+class SearchResultHighlight():
     """
     An object containing segments of text from search results with query-matching text
     highlighted using HTML <em> tags.
@@ -2254,8 +2252,8 @@ class SearchResultHighlight(object):
     def __setattr__(self, name, value):
         properties = {'body', 'title', 'url'}
         if not hasattr(self, '_additionalProperties'):
-            super(SearchResultHighlight, self).__setattr__(
-                '_additionalProperties', set())
+            super(SearchResultHighlight,
+                  self).__setattr__('_additionalProperties', set())
         if name not in properties:
             self._additionalProperties.add(name)
         super(SearchResultHighlight, self).__setattr__(name, value)
@@ -2275,7 +2273,7 @@ class SearchResultHighlight(object):
         return not self == other
 
 
-class SearchResultMetadata(object):
+class SearchResultMetadata():
     """
     An object containing search result metadata from the Discovery service.
 
@@ -2305,12 +2303,12 @@ class SearchResultMetadata(object):
     def _from_dict(cls, _dict):
         """Initialize a SearchResultMetadata object from a json dictionary."""
         args = {}
-        validKeys = ['confidence', 'score']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['confidence', 'score']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SearchResultMetadata: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'confidence' in _dict:
             args['confidence'] = _dict.get('confidence')
         if 'score' in _dict:
@@ -2341,7 +2339,7 @@ class SearchResultMetadata(object):
         return not self == other
 
 
-class SessionResponse(object):
+class SessionResponse():
     """
     SessionResponse.
 
@@ -2360,12 +2358,12 @@ class SessionResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a SessionResponse object from a json dictionary."""
         args = {}
-        validKeys = ['session_id']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['session_id']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SessionResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'session_id' in _dict:
             args['session_id'] = _dict.get('session_id')
         else:

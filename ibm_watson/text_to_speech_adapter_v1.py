@@ -85,7 +85,7 @@ class TextToSpeechV1Adapter(TextToSpeechV1):
         if self.authenticator:
             self.authenticator.authenticate(request)
 
-        url = self.url.replace('https:', 'wss:')
+        url = self.service_url.replace('https:', 'wss:')
         params = {
             'voice': voice,
             'customization_id': customization_id,

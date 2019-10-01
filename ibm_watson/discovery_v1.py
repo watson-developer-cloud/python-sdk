@@ -27,6 +27,7 @@ from enum import Enum
 from ibm_cloud_sdk_core import BaseService
 from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
 from ibm_cloud_sdk_core import get_authenticator_from_environment
+from ibm_cloud_sdk_core import read_external_sources
 from os.path import basename
 
 ##############################################################################
@@ -37,14 +38,12 @@ from os.path import basename
 class DiscoveryV1(BaseService):
     """The Discovery V1 service."""
 
-    default_url = 'https://gateway.watsonplatform.net/discovery/api'
+    default_service_url = 'https://gateway.watsonplatform.net/discovery/api'
 
     def __init__(
             self,
             version,
-            url=default_url,
             authenticator=None,
-            disable_ssl_verification=False,
     ):
         """
         Construct a new client for the Discovery service.
@@ -60,25 +59,27 @@ class DiscoveryV1(BaseService):
                application, and don't change it until your application is
                ready for a later version.
 
-        :param str url: The base url to use when contacting the service (e.g.
-               "https://gateway.watsonplatform.net/discovery/api/discovery/api").
-               The base url may differ between IBM Cloud regions.
-
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
-        :param bool disable_ssl_verification: If True, disables ssl verification
         """
 
-        if not authenticator:
-            authenticator = get_authenticator_from_environment('Discovery')
+        service_url = self.default_service_url
+        disable_ssl_verification = False
 
-        BaseService.__init__(
-            self,
-            url=url,
-            authenticator=authenticator,
-            disable_ssl_verification=disable_ssl_verification,
-            display_name='Discovery')
+        config = read_external_sources('discovery')
+        if config.get('URL'):
+            service_url = config.get('URL')
+        if config.get('DISABLE_SSL'):
+            disable_ssl_verification = config.get('DISABLE_SSL')
+
+        if not authenticator:
+            authenticator = get_authenticator_from_environment('discovery')
+
+        BaseService.__init__(self,
+                             service_url=service_url,
+                             authenticator=authenticator,
+                             disable_ssl_verification=disable_ssl_verification)
         self.version = version
 
     #########################
@@ -119,13 +120,12 @@ class DiscoveryV1(BaseService):
         data = {'name': name, 'description': description, 'size': size}
 
         url = '/v1/environments'
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -150,12 +150,11 @@ class DiscoveryV1(BaseService):
         params = {'version': self.version, 'name': name}
 
         url = '/v1/environments'
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -182,12 +181,11 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}'.format(
             *self._encode_path_vars(environment_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -230,13 +228,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}'.format(
             *self._encode_path_vars(environment_id))
-        request = self.prepare_request(
-            method='PUT',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='PUT',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -263,12 +260,11 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}'.format(
             *self._encode_path_vars(environment_id))
-        request = self.prepare_request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -305,12 +301,11 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/fields'.format(
             *self._encode_path_vars(environment_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -392,13 +387,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/configurations'.format(
             *self._encode_path_vars(environment_id))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -428,12 +422,11 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/configurations'.format(
             *self._encode_path_vars(environment_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -463,12 +456,11 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/configurations/{1}'.format(
             *self._encode_path_vars(environment_id, configuration_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -549,13 +541,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/configurations/{1}'.format(
             *self._encode_path_vars(environment_id, configuration_id))
-        request = self.prepare_request(
-            method='PUT',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='PUT',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -592,108 +583,11 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/configurations/{1}'.format(
             *self._encode_path_vars(environment_id, configuration_id))
-        request = self.prepare_request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
-        response = self.send(request)
-        return response
-
-    #########################
-    # Test your configuration on a document
-    #########################
-
-    def test_configuration_in_environment(self,
-                                          environment_id,
-                                          *,
-                                          configuration=None,
-                                          file=None,
-                                          filename=None,
-                                          file_content_type=None,
-                                          metadata=None,
-                                          step=None,
-                                          configuration_id=None,
-                                          **kwargs):
-        """
-        Test configuration.
-
-        **Deprecated** This method is no longer supported and is scheduled to be removed
-        from service on July 31st 2019.
-         Runs a sample document through the default or your configuration and returns
-        diagnostic information designed to help you understand how the document was
-        processed. The document is not added to the index.
-
-        :param str environment_id: The ID of the environment.
-        :param str configuration: (optional) The configuration to use to process
-               the document. If this part is provided, then the provided configuration is
-               used to process the document. If the **configuration_id** is also provided
-               (both are present at the same time), then request is rejected. The maximum
-               supported configuration size is 1 MB. Configuration parts larger than 1 MB
-               are rejected. See the `GET /configurations/{configuration_id}` operation
-               for an example configuration.
-        :param file file: (optional) The content of the document to ingest. The
-               maximum supported file size when adding a file to a collection is 50
-               megabytes, the maximum supported file size when testing a confiruration is
-               1 megabyte. Files larger than the supported size are rejected.
-        :param str filename: (optional) The filename for file.
-        :param str file_content_type: (optional) The content type of file.
-        :param str metadata: (optional) The maximum supported metadata file size is
-               1 MB. Metadata parts larger than 1 MB are rejected. Example:  ``` {
-                 "Creator": "Johnny Appleseed",
-                 "Subject": "Apples"
-               } ```.
-        :param str step: (optional) Specify to only run the input document through
-               the given step instead of running the input document through the entire
-               ingestion workflow. Valid values are `convert`, `enrich`, and `normalize`.
-        :param str configuration_id: (optional) The ID of the configuration to use
-               to process the document. If the **configuration** form part is also
-               provided (both are present at the same time), then the request will be
-               rejected.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-
-        headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1',
-                                      'test_configuration_in_environment')
-        headers.update(sdk_headers)
-
-        params = {
-            'version': self.version,
-            'step': step,
-            'configuration_id': configuration_id
-        }
-
-        form_data = {}
-        if configuration:
-            form_data['configuration'] = (None, configuration, 'text/plain')
-        if file:
-            if not filename and hasattr(file, 'name'):
-                filename = basename(file.name)
-            if not filename:
-                raise ValueError('filename must be provided')
-            form_data['file'] = (filename, file, file_content_type or
-                                 'application/octet-stream')
-        if metadata:
-            form_data['metadata'] = (None, metadata, 'text/plain')
-
-        url = '/v1/environments/{0}/preview'.format(
-            *self._encode_path_vars(environment_id))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            files=form_data,
-            accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -746,13 +640,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections'.format(
             *self._encode_path_vars(environment_id))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -782,12 +675,11 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections'.format(
             *self._encode_path_vars(environment_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -817,12 +709,11 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -869,13 +760,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        request = self.prepare_request(
-            method='PUT',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='PUT',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -905,12 +795,11 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        request = self.prepare_request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -943,12 +832,11 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/fields'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -985,12 +873,11 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/expansions'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -1043,13 +930,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/expansions'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -1082,12 +968,11 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/expansions'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        request = self.prepare_request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=False)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=False)
         response = self.send(request)
         return response
 
@@ -1122,12 +1007,11 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/word_lists/tokenization_dictionary'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -1175,13 +1059,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/word_lists/tokenization_dictionary'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -1215,12 +1098,11 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/word_lists/tokenization_dictionary'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        request = self.prepare_request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=False)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=False)
         response = self.send(request)
         return response
 
@@ -1253,12 +1135,11 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/word_lists/stopwords'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -1298,23 +1179,22 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        form_data = {}
+        form_data = []
         if not stopword_filename and hasattr(stopword_file, 'name'):
             stopword_filename = basename(stopword_file.name)
         if not stopword_filename:
             raise ValueError('stopword_filename must be provided')
-        form_data['stopword_file'] = (stopword_filename, stopword_file,
-                                      'application/octet-stream')
+        form_data.append(('stopword_file', (stopword_filename, stopword_file,
+                                            'application/octet-stream')))
 
         url = '/v1/environments/{0}/collections/{1}/word_lists/stopwords'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            files=form_data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -1347,12 +1227,11 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/word_lists/stopwords'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        request = self.prepare_request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=False)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=False)
         response = self.send(request)
         return response
 
@@ -1424,26 +1303,25 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        form_data = {}
+        form_data = []
         if file:
             if not filename and hasattr(file, 'name'):
                 filename = basename(file.name)
             if not filename:
                 raise ValueError('filename must be provided')
-            form_data['file'] = (filename, file, file_content_type or
-                                 'application/octet-stream')
+            form_data.append(('file', (filename, file, file_content_type or
+                                       'application/octet-stream')))
         if metadata:
-            form_data['metadata'] = (None, metadata, 'text/plain')
+            form_data.append(('metadata', (None, metadata, 'text/plain')))
 
         url = '/v1/environments/{0}/collections/{1}/documents'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            files=form_data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -1482,12 +1360,11 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
             *self._encode_path_vars(environment_id, collection_id, document_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -1543,26 +1420,25 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        form_data = {}
+        form_data = []
         if file:
             if not filename and hasattr(file, 'name'):
                 filename = basename(file.name)
             if not filename:
                 raise ValueError('filename must be provided')
-            form_data['file'] = (filename, file, file_content_type or
-                                 'application/octet-stream')
+            form_data.append(('file', (filename, file, file_content_type or
+                                       'application/octet-stream')))
         if metadata:
-            form_data['metadata'] = (None, metadata, 'text/plain')
+            form_data.append(('metadata', (None, metadata, 'text/plain')))
 
         url = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
             *self._encode_path_vars(environment_id, collection_id, document_id))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            files=form_data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -1600,12 +1476,11 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
             *self._encode_path_vars(environment_id, collection_id, document_id))
-        request = self.prepare_request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -1632,7 +1507,6 @@ class DiscoveryV1(BaseService):
               passages_characters=None,
               deduplicate=None,
               deduplicate_field=None,
-              collection_ids=None,
               similar=None,
               similar_document_ids=None,
               similar_fields=None,
@@ -1695,9 +1569,6 @@ class DiscoveryV1(BaseService):
                based on the field specified are removed from the returned results.
                Duplicate comparison is limited to the current query only, **offset** is
                not considered. This parameter is currently Beta functionality.
-        :param str collection_ids: (optional) A comma-separated list of collection
-               IDs to be queried against. Required when querying multiple collections,
-               invalid when performing a single collection query.
         :param bool similar: (optional) When `true`, results are returned based on
                their similarity to the document IDs specified in the
                **similar.document_ids** parameter.
@@ -1753,7 +1624,6 @@ class DiscoveryV1(BaseService):
             'passages.characters': passages_characters,
             'deduplicate': deduplicate,
             'deduplicate.field': deduplicate_field,
-            'collection_ids': collection_ids,
             'similar': similar,
             'similar.document_ids': similar_document_ids,
             'similar.fields': similar_fields,
@@ -1762,13 +1632,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/query'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -1898,17 +1767,17 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/notices'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
     def federated_query(self,
                         environment_id,
+                        collection_ids,
                         *,
                         filter=None,
                         query=None,
@@ -1925,7 +1794,6 @@ class DiscoveryV1(BaseService):
                         passages_characters=None,
                         deduplicate=None,
                         deduplicate_field=None,
-                        collection_ids=None,
                         similar=None,
                         similar_document_ids=None,
                         similar_fields=None,
@@ -1940,6 +1808,8 @@ class DiscoveryV1(BaseService):
         documentation](https://cloud.ibm.com/docs/services/discovery?topic=discovery-query-concepts#query-concepts).
 
         :param str environment_id: The ID of the environment.
+        :param str collection_ids: A comma-separated list of collection IDs to be
+               queried against.
         :param str filter: (optional) A cacheable query that excludes documents
                that don't mention the query content. Filter searches are better for
                metadata-type searches and for assessing the concepts in the data set.
@@ -1987,9 +1857,6 @@ class DiscoveryV1(BaseService):
                based on the field specified are removed from the returned results.
                Duplicate comparison is limited to the current query only, **offset** is
                not considered. This parameter is currently Beta functionality.
-        :param str collection_ids: (optional) A comma-separated list of collection
-               IDs to be queried against. Required when querying multiple collections,
-               invalid when performing a single collection query.
         :param bool similar: (optional) When `true`, results are returned based on
                their similarity to the document IDs specified in the
                **similar.document_ids** parameter.
@@ -2028,6 +1895,7 @@ class DiscoveryV1(BaseService):
         params = {'version': self.version}
 
         data = {
+            'collection_ids': collection_ids,
             'filter': filter,
             'query': query,
             'natural_language_query': natural_language_query,
@@ -2043,7 +1911,6 @@ class DiscoveryV1(BaseService):
             'passages.characters': passages_characters,
             'deduplicate': deduplicate,
             'deduplicate.field': deduplicate_field,
-            'collection_ids': collection_ids,
             'similar': similar,
             'similar.document_ids': similar_document_ids,
             'similar.fields': similar_fields,
@@ -2052,13 +1919,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/query'.format(
             *self._encode_path_vars(environment_id))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -2173,167 +2039,11 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/notices'.format(
             *self._encode_path_vars(environment_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
-        response = self.send(request)
-        return response
-
-    def query_entities(self,
-                       environment_id,
-                       collection_id,
-                       *,
-                       feature=None,
-                       entity=None,
-                       context=None,
-                       count=None,
-                       evidence_count=None,
-                       **kwargs):
-        """
-        Knowledge Graph entity query.
-
-        See the [Knowledge Graph
-        documentation](https://cloud.ibm.com/docs/services/discovery?topic=discovery-kg#kg)
-        for more details.
-
-        :param str environment_id: The ID of the environment.
-        :param str collection_id: The ID of the collection.
-        :param str feature: (optional) The entity query feature to perform.
-               Supported features are `disambiguate` and `similar_entities`.
-        :param QueryEntitiesEntity entity: (optional) A text string that appears
-               within the entity text field.
-        :param QueryEntitiesContext context: (optional) Entity text to provide
-               context for the queried entity and rank based on that association. For
-               example, if you wanted to query the city of London in England your query
-               would look for `London` with the context of `England`.
-        :param int count: (optional) The number of results to return. The default
-               is `10`. The maximum is `1000`.
-        :param int evidence_count: (optional) The number of evidence items to
-               return for each result. The default is `0`. The maximum number of evidence
-               items per query is 10,000.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-        if collection_id is None:
-            raise ValueError('collection_id must be provided')
-        if entity is not None:
-            entity = self._convert_model(entity)
-        if context is not None:
-            context = self._convert_model(context)
-
-        headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1', 'query_entities')
-        headers.update(sdk_headers)
-
-        params = {'version': self.version}
-
-        data = {
-            'feature': feature,
-            'entity': entity,
-            'context': context,
-            'count': count,
-            'evidence_count': evidence_count
-        }
-
-        url = '/v1/environments/{0}/collections/{1}/query_entities'.format(
-            *self._encode_path_vars(environment_id, collection_id))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
-        response = self.send(request)
-        return response
-
-    def query_relations(self,
-                        environment_id,
-                        collection_id,
-                        *,
-                        entities=None,
-                        context=None,
-                        sort=None,
-                        filter=None,
-                        count=None,
-                        evidence_count=None,
-                        **kwargs):
-        """
-        Knowledge Graph relationship query.
-
-        See the [Knowledge Graph
-        documentation](https://cloud.ibm.com/docs/services/discovery?topic=discovery-kg#kg)
-        for more details.
-
-        :param str environment_id: The ID of the environment.
-        :param str collection_id: The ID of the collection.
-        :param list[QueryRelationsEntity] entities: (optional) An array of entities
-               to find relationships for.
-        :param QueryEntitiesContext context: (optional) Entity text to provide
-               context for the queried entity and rank based on that association. For
-               example, if you wanted to query the city of London in England your query
-               would look for `London` with the context of `England`.
-        :param str sort: (optional) The sorting method for the relationships, can
-               be `score` or `frequency`. `frequency` is the number of unique times each
-               entity is identified. The default is `score`. This parameter cannot be used
-               in the same query as the **bias** parameter.
-        :param QueryRelationsFilter filter: (optional)
-        :param int count: (optional) The number of results to return. The default
-               is `10`. The maximum is `1000`.
-        :param int evidence_count: (optional) The number of evidence items to
-               return for each result. The default is `0`. The maximum number of evidence
-               items per query is 10,000.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-        if collection_id is None:
-            raise ValueError('collection_id must be provided')
-        if entities is not None:
-            entities = [self._convert_model(x) for x in entities]
-        if context is not None:
-            context = self._convert_model(context)
-        if filter is not None:
-            filter = self._convert_model(filter)
-
-        headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1', 'query_relations')
-        headers.update(sdk_headers)
-
-        params = {'version': self.version}
-
-        data = {
-            'entities': entities,
-            'context': context,
-            'sort': sort,
-            'filter': filter,
-            'count': count,
-            'evidence_count': evidence_count
-        }
-
-        url = '/v1/environments/{0}/collections/{1}/query_relations'.format(
-            *self._encode_path_vars(environment_id, collection_id))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -2369,12 +2079,11 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/training_data'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -2428,13 +2137,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/training_data'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -2467,12 +2175,11 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/training_data'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        request = self.prepare_request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=False)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=False)
         response = self.send(request)
         return response
 
@@ -2509,12 +2216,11 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/training_data/{2}'.format(
             *self._encode_path_vars(environment_id, collection_id, query_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -2551,12 +2257,11 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/training_data/{2}'.format(
             *self._encode_path_vars(environment_id, collection_id, query_id))
-        request = self.prepare_request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=False)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=False)
         response = self.send(request)
         return response
 
@@ -2593,12 +2298,11 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples'.format(
             *self._encode_path_vars(environment_id, collection_id, query_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -2653,13 +2357,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples'.format(
             *self._encode_path_vars(environment_id, collection_id, query_id))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -2700,12 +2403,11 @@ class DiscoveryV1(BaseService):
         url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.format(
             *self._encode_path_vars(environment_id, collection_id, query_id,
                                     example_id))
-        request = self.prepare_request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=False)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=False)
         response = self.send(request)
         return response
 
@@ -2757,13 +2459,12 @@ class DiscoveryV1(BaseService):
         url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.format(
             *self._encode_path_vars(environment_id, collection_id, query_id,
                                     example_id))
-        request = self.prepare_request(
-            method='PUT',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='PUT',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -2803,12 +2504,11 @@ class DiscoveryV1(BaseService):
         url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.format(
             *self._encode_path_vars(environment_id, collection_id, query_id,
                                     example_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -2846,12 +2546,11 @@ class DiscoveryV1(BaseService):
         params = {'version': self.version, 'customer_id': customer_id}
 
         url = '/v1/user_data'
-        request = self.prepare_request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=False)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=False)
         response = self.send(request)
         return response
 
@@ -2891,13 +2590,12 @@ class DiscoveryV1(BaseService):
         data = {'type': type, 'data': data}
 
         url = '/v1/events'
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -2953,12 +2651,11 @@ class DiscoveryV1(BaseService):
         }
 
         url = '/v1/logs'
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -2999,12 +2696,11 @@ class DiscoveryV1(BaseService):
         }
 
         url = '/v1/metrics/number_of_queries'
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -3047,12 +2743,11 @@ class DiscoveryV1(BaseService):
         }
 
         url = '/v1/metrics/number_of_queries_with_event'
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -3094,12 +2789,11 @@ class DiscoveryV1(BaseService):
         }
 
         url = '/v1/metrics/number_of_queries_with_no_search_results'
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -3142,12 +2836,11 @@ class DiscoveryV1(BaseService):
         }
 
         url = '/v1/metrics/event_rate'
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -3177,12 +2870,11 @@ class DiscoveryV1(BaseService):
         params = {'version': self.version, 'count': count}
 
         url = '/v1/metrics/top_query_tokens_with_event_rate'
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -3217,12 +2909,11 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/credentials'.format(
             *self._encode_path_vars(environment_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -3287,13 +2978,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/credentials'.format(
             *self._encode_path_vars(environment_id))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -3328,12 +3018,11 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/credentials/{1}'.format(
             *self._encode_path_vars(environment_id, credential_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -3402,13 +3091,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/credentials/{1}'.format(
             *self._encode_path_vars(environment_id, credential_id))
-        request = self.prepare_request(
-            method='PUT',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='PUT',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -3441,12 +3129,11 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/credentials/{1}'.format(
             *self._encode_path_vars(environment_id, credential_id))
-        request = self.prepare_request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -3479,12 +3166,11 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/gateways'.format(
             *self._encode_path_vars(environment_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -3516,13 +3202,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/gateways'.format(
             *self._encode_path_vars(environment_id))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -3554,12 +3239,11 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/gateways/{1}'.format(
             *self._encode_path_vars(environment_id, gateway_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -3591,41 +3275,13 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/gateways/{1}'.format(
             *self._encode_path_vars(environment_id, gateway_id))
-        request = self.prepare_request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
-
-
-class TestConfigurationInEnvironmentEnums(object):
-
-    class FileContentType(Enum):
-        """
-        The content type of file.
-        """
-        APPLICATION_JSON = 'application/json'
-        APPLICATION_MSWORD = 'application/msword'
-        APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-        APPLICATION_PDF = 'application/pdf'
-        TEXT_HTML = 'text/html'
-        APPLICATION_XHTML_XML = 'application/xhtml+xml'
-
-    class Step(Enum):
-        """
-        Specify to only run the input document through the given step instead of running
-        the input document through the entire ingestion workflow. Valid values are
-        `convert`, `enrich`, and `normalize`.
-        """
-        HTML_INPUT = 'html_input'
-        HTML_OUTPUT = 'html_output'
-        JSON_OUTPUT = 'json_output'
-        JSON_NORMALIZATIONS_OUTPUT = 'json_normalizations_output'
-        ENRICHMENTS_OUTPUT = 'enrichments_output'
-        NORMALIZATIONS_OUTPUT = 'normalizations_output'
 
 
 class AddDocumentEnums(object):
@@ -3697,9 +3353,9 @@ class GetMetricsEventRateEnums(object):
 ##############################################################################
 
 
-class AggregationResult(object):
+class AggregationResult():
     """
-    AggregationResult.
+    Aggregation results for the specified query.
 
     :attr str key: (optional) Key that matched the aggregation type.
     :attr int matching_results: (optional) Number of matching results.
@@ -3724,12 +3380,12 @@ class AggregationResult(object):
     def _from_dict(cls, _dict):
         """Initialize a AggregationResult object from a json dictionary."""
         args = {}
-        validKeys = ['key', 'matching_results', 'aggregations']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['key', 'matching_results', 'aggregations']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class AggregationResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'key' in _dict:
             args['key'] = _dict.get('key')
         if 'matching_results' in _dict:
@@ -3768,7 +3424,7 @@ class AggregationResult(object):
         return not self == other
 
 
-class Calculation(object):
+class Calculation():
     """
     Calculation.
 
@@ -3806,12 +3462,12 @@ class Calculation(object):
     def _from_dict(cls, _dict):
         """Initialize a Calculation object from a json dictionary."""
         args = {}
-        validKeys = ['field', 'value']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['field', 'value']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Calculation: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'field' in _dict:
             args['field'] = _dict.get('field')
         if 'value' in _dict:
@@ -3842,7 +3498,7 @@ class Calculation(object):
         return not self == other
 
 
-class Collection(object):
+class Collection():
     """
     A collection for storing documents.
 
@@ -3859,10 +3515,11 @@ class Collection(object):
     :attr str language: (optional) The language of the documents stored in the
           collection. Permitted values include `en` (English), `de` (German), and `es`
           (Spanish).
-    :attr DocumentCounts document_counts: (optional)
+    :attr DocumentCounts document_counts: (optional) Object containing collection
+          document count information.
     :attr CollectionDiskUsage disk_usage: (optional) Summary of the disk usage
           statistics for this collection.
-    :attr TrainingStatus training_status: (optional)
+    :attr TrainingStatus training_status: (optional) Training status details.
     :attr CollectionCrawlStatus crawl_status: (optional) Object containing
           information about the crawl status of this collection.
     :attr SduStatus smart_document_understanding: (optional) Object containing smart
@@ -3901,10 +3558,11 @@ class Collection(object):
         :param str language: (optional) The language of the documents stored in the
                collection. Permitted values include `en` (English), `de` (German), and
                `es` (Spanish).
-        :param DocumentCounts document_counts: (optional)
+        :param DocumentCounts document_counts: (optional) Object containing
+               collection document count information.
         :param CollectionDiskUsage disk_usage: (optional) Summary of the disk usage
                statistics for this collection.
-        :param TrainingStatus training_status: (optional)
+        :param TrainingStatus training_status: (optional) Training status details.
         :param CollectionCrawlStatus crawl_status: (optional) Object containing
                information about the crawl status of this collection.
         :param SduStatus smart_document_understanding: (optional) Object containing
@@ -3928,17 +3586,17 @@ class Collection(object):
     def _from_dict(cls, _dict):
         """Initialize a Collection object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'collection_id', 'name', 'description', 'created', 'updated',
             'status', 'configuration_id', 'language', 'document_counts',
             'disk_usage', 'training_status', 'crawl_status',
             'smart_document_understanding'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Collection: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'collection_id' in _dict:
             args['collection_id'] = _dict.get('collection_id')
         if 'name' in _dict:
@@ -4032,7 +3690,7 @@ class Collection(object):
         MAINTENANCE = "maintenance"
 
 
-class CollectionCrawlStatus(object):
+class CollectionCrawlStatus():
     """
     Object containing information about the crawl status of this collection.
 
@@ -4053,12 +3711,12 @@ class CollectionCrawlStatus(object):
     def _from_dict(cls, _dict):
         """Initialize a CollectionCrawlStatus object from a json dictionary."""
         args = {}
-        validKeys = ['source_crawl']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['source_crawl']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CollectionCrawlStatus: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'source_crawl' in _dict:
             args['source_crawl'] = SourceStatus._from_dict(
                 _dict.get('source_crawl'))
@@ -4086,7 +3744,7 @@ class CollectionCrawlStatus(object):
         return not self == other
 
 
-class CollectionDiskUsage(object):
+class CollectionDiskUsage():
     """
     Summary of the disk usage statistics for this collection.
 
@@ -4105,12 +3763,12 @@ class CollectionDiskUsage(object):
     def _from_dict(cls, _dict):
         """Initialize a CollectionDiskUsage object from a json dictionary."""
         args = {}
-        validKeys = ['used_bytes']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['used_bytes']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CollectionDiskUsage: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'used_bytes' in _dict:
             args['used_bytes'] = _dict.get('used_bytes')
         return cls(**args)
@@ -4137,7 +3795,7 @@ class CollectionDiskUsage(object):
         return not self == other
 
 
-class CollectionUsage(object):
+class CollectionUsage():
     """
     Summary of the collection usage in the environment.
 
@@ -4162,12 +3820,12 @@ class CollectionUsage(object):
     def _from_dict(cls, _dict):
         """Initialize a CollectionUsage object from a json dictionary."""
         args = {}
-        validKeys = ['available', 'maximum_allowed']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['available', 'maximum_allowed']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CollectionUsage: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'available' in _dict:
             args['available'] = _dict.get('available')
         if 'maximum_allowed' in _dict:
@@ -4199,7 +3857,7 @@ class CollectionUsage(object):
         return not self == other
 
 
-class Configuration(object):
+class Configuration():
     """
     A custom configuration for the environment.
 
@@ -4269,15 +3927,15 @@ class Configuration(object):
     def _from_dict(cls, _dict):
         """Initialize a Configuration object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'configuration_id', 'name', 'created', 'updated', 'description',
             'conversions', 'enrichments', 'normalizations', 'source'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Configuration: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'configuration_id' in _dict:
             args['configuration_id'] = _dict.get('configuration_id')
         if 'name' in _dict:
@@ -4348,7 +4006,7 @@ class Configuration(object):
         return not self == other
 
 
-class Conversions(object):
+class Conversions():
     """
     Document conversion settings.
 
@@ -4406,15 +4064,15 @@ class Conversions(object):
     def _from_dict(cls, _dict):
         """Initialize a Conversions object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'pdf', 'word', 'html', 'segment', 'json_normalizations',
             'image_text_recognition'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Conversions: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'pdf' in _dict:
             args['pdf'] = PdfSettings._from_dict(_dict.get('pdf'))
         if 'word' in _dict:
@@ -4469,7 +4127,7 @@ class Conversions(object):
         return not self == other
 
 
-class CreateEventResponse(object):
+class CreateEventResponse():
     """
     An object defining the event being created.
 
@@ -4491,12 +4149,12 @@ class CreateEventResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a CreateEventResponse object from a json dictionary."""
         args = {}
-        validKeys = ['type', 'data']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['type', 'data']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CreateEventResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'data' in _dict:
@@ -4533,7 +4191,7 @@ class CreateEventResponse(object):
         CLICK = "click"
 
 
-class CredentialDetails(object):
+class CredentialDetails():
     """
     Object containing details of the stored credentials.
     Obtain credentials for your source from the administrator of the source.
@@ -4747,18 +4405,18 @@ class CredentialDetails(object):
     def _from_dict(cls, _dict):
         """Initialize a CredentialDetails object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'credential_type', 'client_id', 'enterprise_id', 'url', 'username',
             'organization_url', 'site_collection_path', 'site_collection.path',
             'client_secret', 'public_key_id', 'private_key', 'passphrase',
             'password', 'gateway_id', 'source_version', 'web_application_url',
             'domain', 'endpoint', 'access_key_id', 'secret_access_key'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CredentialDetails: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'credential_type' in _dict:
             args['credential_type'] = _dict.get('credential_type')
         if 'client_id' in _dict:
@@ -4890,7 +4548,7 @@ class CredentialDetails(object):
         ONLINE = "online"
 
 
-class Credentials(object):
+class Credentials():
     """
     Object containing credential information.
 
@@ -4956,14 +4614,14 @@ class Credentials(object):
     def _from_dict(cls, _dict):
         """Initialize a Credentials object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'credential_id', 'source_type', 'credential_details', 'status'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Credentials: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'credential_id' in _dict:
             args['credential_id'] = _dict.get('credential_id')
         if 'source_type' in _dict:
@@ -5033,9 +4691,9 @@ class Credentials(object):
         INVALID = "invalid"
 
 
-class CredentialsList(object):
+class CredentialsList():
     """
-    CredentialsList.
+    Object containing array of credential definitions.
 
     :attr list[Credentials] credentials: (optional) An array of credential
           definitions that were created for this instance.
@@ -5054,12 +4712,12 @@ class CredentialsList(object):
     def _from_dict(cls, _dict):
         """Initialize a CredentialsList object from a json dictionary."""
         args = {}
-        validKeys = ['credentials']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['credentials']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CredentialsList: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'credentials' in _dict:
             args['credentials'] = [
                 Credentials._from_dict(x) for x in (_dict.get('credentials'))
@@ -5088,9 +4746,9 @@ class CredentialsList(object):
         return not self == other
 
 
-class DeleteCollectionResponse(object):
+class DeleteCollectionResponse():
     """
-    DeleteCollectionResponse.
+    Response object returned when deleting a colleciton.
 
     :attr str collection_id: The unique identifier of the collection that is being
           deleted.
@@ -5114,12 +4772,12 @@ class DeleteCollectionResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a DeleteCollectionResponse object from a json dictionary."""
         args = {}
-        validKeys = ['collection_id', 'status']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['collection_id', 'status']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DeleteCollectionResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'collection_id' in _dict:
             args['collection_id'] = _dict.get('collection_id')
         else:
@@ -5165,9 +4823,9 @@ class DeleteCollectionResponse(object):
         DELETED = "deleted"
 
 
-class DeleteConfigurationResponse(object):
+class DeleteConfigurationResponse():
     """
-    DeleteConfigurationResponse.
+    Information returned when a configuration is deleted.
 
     :attr str configuration_id: The unique identifier for the configuration.
     :attr str status: Status of the configuration. A deleted configuration has the
@@ -5193,12 +4851,12 @@ class DeleteConfigurationResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a DeleteConfigurationResponse object from a json dictionary."""
         args = {}
-        validKeys = ['configuration_id', 'status', 'notices']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['configuration_id', 'status', 'notices']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DeleteConfigurationResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'configuration_id' in _dict:
             args['configuration_id'] = _dict.get('configuration_id')
         else:
@@ -5250,7 +4908,7 @@ class DeleteConfigurationResponse(object):
         DELETED = "deleted"
 
 
-class DeleteCredentials(object):
+class DeleteCredentials():
     """
     Object returned after credentials are deleted.
 
@@ -5274,12 +4932,12 @@ class DeleteCredentials(object):
     def _from_dict(cls, _dict):
         """Initialize a DeleteCredentials object from a json dictionary."""
         args = {}
-        validKeys = ['credential_id', 'status']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['credential_id', 'status']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DeleteCredentials: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'credential_id' in _dict:
             args['credential_id'] = _dict.get('credential_id')
         if 'status' in _dict:
@@ -5316,9 +4974,9 @@ class DeleteCredentials(object):
         DELETED = "deleted"
 
 
-class DeleteDocumentResponse(object):
+class DeleteDocumentResponse():
     """
-    DeleteDocumentResponse.
+    Information returned when a document is deleted.
 
     :attr str document_id: (optional) The unique identifier of the document.
     :attr str status: (optional) Status of the document. A deleted document has the
@@ -5340,12 +4998,12 @@ class DeleteDocumentResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a DeleteDocumentResponse object from a json dictionary."""
         args = {}
-        validKeys = ['document_id', 'status']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['document_id', 'status']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DeleteDocumentResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document_id' in _dict:
             args['document_id'] = _dict.get('document_id')
         if 'status' in _dict:
@@ -5382,9 +5040,9 @@ class DeleteDocumentResponse(object):
         DELETED = "deleted"
 
 
-class DeleteEnvironmentResponse(object):
+class DeleteEnvironmentResponse():
     """
-    DeleteEnvironmentResponse.
+    Response object returned when deleting an environment.
 
     :attr str environment_id: The unique identifier for the environment.
     :attr str status: Status of the environment.
@@ -5404,12 +5062,12 @@ class DeleteEnvironmentResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a DeleteEnvironmentResponse object from a json dictionary."""
         args = {}
-        validKeys = ['environment_id', 'status']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['environment_id', 'status']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DeleteEnvironmentResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'environment_id' in _dict:
             args['environment_id'] = _dict.get('environment_id')
         else:
@@ -5454,7 +5112,7 @@ class DeleteEnvironmentResponse(object):
         DELETED = "deleted"
 
 
-class DiskUsage(object):
+class DiskUsage():
     """
     Summary of the disk usage statistics for the environment.
 
@@ -5480,12 +5138,12 @@ class DiskUsage(object):
     def _from_dict(cls, _dict):
         """Initialize a DiskUsage object from a json dictionary."""
         args = {}
-        validKeys = ['used_bytes', 'maximum_allowed_bytes']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['used_bytes', 'maximum_allowed_bytes']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DiskUsage: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'used_bytes' in _dict:
             args['used_bytes'] = _dict.get('used_bytes')
         if 'maximum_allowed_bytes' in _dict:
@@ -5517,9 +5175,9 @@ class DiskUsage(object):
         return not self == other
 
 
-class DocumentAccepted(object):
+class DocumentAccepted():
     """
-    DocumentAccepted.
+    Information returned after an uploaded document is accepted.
 
     :attr str document_id: (optional) The unique identifier of the ingested
           document.
@@ -5552,12 +5210,12 @@ class DocumentAccepted(object):
     def _from_dict(cls, _dict):
         """Initialize a DocumentAccepted object from a json dictionary."""
         args = {}
-        validKeys = ['document_id', 'status', 'notices']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['document_id', 'status', 'notices']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DocumentAccepted: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document_id' in _dict:
             args['document_id'] = _dict.get('document_id')
         if 'status' in _dict:
@@ -5603,9 +5261,9 @@ class DocumentAccepted(object):
         PENDING = "pending"
 
 
-class DocumentCounts(object):
+class DocumentCounts():
     """
-    DocumentCounts.
+    Object containing collection document count information.
 
     :attr int available: (optional) The total number of available documents in the
           collection.
@@ -5644,12 +5302,12 @@ class DocumentCounts(object):
     def _from_dict(cls, _dict):
         """Initialize a DocumentCounts object from a json dictionary."""
         args = {}
-        validKeys = ['available', 'processing', 'failed', 'pending']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['available', 'processing', 'failed', 'pending']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DocumentCounts: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'available' in _dict:
             args['available'] = _dict.get('available')
         if 'processing' in _dict:
@@ -5688,78 +5346,7 @@ class DocumentCounts(object):
         return not self == other
 
 
-class DocumentSnapshot(object):
-    """
-    DocumentSnapshot.
-
-    :attr str step: (optional) The step in the document conversion process that the
-          snapshot object represents.
-    :attr dict snapshot: (optional) Snapshot of the conversion.
-    """
-
-    def __init__(self, *, step=None, snapshot=None):
-        """
-        Initialize a DocumentSnapshot object.
-
-        :param str step: (optional) The step in the document conversion process
-               that the snapshot object represents.
-        :param dict snapshot: (optional) Snapshot of the conversion.
-        """
-        self.step = step
-        self.snapshot = snapshot
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a DocumentSnapshot object from a json dictionary."""
-        args = {}
-        validKeys = ['step', 'snapshot']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DocumentSnapshot: '
-                + ', '.join(badKeys))
-        if 'step' in _dict:
-            args['step'] = _dict.get('step')
-        if 'snapshot' in _dict:
-            args['snapshot'] = _dict.get('snapshot')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'step') and self.step is not None:
-            _dict['step'] = self.step
-        if hasattr(self, 'snapshot') and self.snapshot is not None:
-            _dict['snapshot'] = self.snapshot
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this DocumentSnapshot object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-    class StepEnum(Enum):
-        """
-        The step in the document conversion process that the snapshot object represents.
-        """
-        HTML_INPUT = "html_input"
-        HTML_OUTPUT = "html_output"
-        JSON_OUTPUT = "json_output"
-        JSON_NORMALIZATIONS_OUTPUT = "json_normalizations_output"
-        ENRICHMENTS_OUTPUT = "enrichments_output"
-        NORMALIZATIONS_OUTPUT = "normalizations_output"
-
-
-class DocumentStatus(object):
+class DocumentStatus():
     """
     Status information about a submitted document.
 
@@ -5815,15 +5402,15 @@ class DocumentStatus(object):
     def _from_dict(cls, _dict):
         """Initialize a DocumentStatus object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'document_id', 'configuration_id', 'status', 'status_description',
             'filename', 'file_type', 'sha1', 'notices'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DocumentStatus: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document_id' in _dict:
             args['document_id'] = _dict.get('document_id')
         else:
@@ -5918,9 +5505,10 @@ class DocumentStatus(object):
         JSON = "json"
 
 
-class Enrichment(object):
+class Enrichment():
     """
-    Enrichment.
+    Enrichment step to perform on the document. Each enrichment is performed on the
+    specified field in the order that they are listed in the configuration.
 
     :attr str description: (optional) Describes what the enrichment step does.
     :attr str destination_field: Field where enrichments will be stored. This field
@@ -5997,15 +5585,15 @@ class Enrichment(object):
     def _from_dict(cls, _dict):
         """Initialize a Enrichment object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'description', 'destination_field', 'source_field', 'overwrite',
             'enrichment', 'ignore_downstream_errors', 'options'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Enrichment: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'description' in _dict:
             args['description'] = _dict.get('description')
         if 'destination_field' in _dict:
@@ -6071,11 +5659,12 @@ class Enrichment(object):
         return not self == other
 
 
-class EnrichmentOptions(object):
+class EnrichmentOptions():
     """
     Options which are specific to a particular enrichment.
 
-    :attr NluEnrichmentFeatures features: (optional)
+    :attr NluEnrichmentFeatures features: (optional) Object containing Natural
+          Language Understanding features to be used.
     :attr str language: (optional) ISO 639-1 code indicating the language to use for
           the analysis. This code overrides the automatic language detection performed by
           the service. Valid codes are `ar` (Arabic), `en` (English), `fr` (French), `de`
@@ -6090,7 +5679,8 @@ class EnrichmentOptions(object):
         """
         Initialize a EnrichmentOptions object.
 
-        :param NluEnrichmentFeatures features: (optional)
+        :param NluEnrichmentFeatures features: (optional) Object containing Natural
+               Language Understanding features to be used.
         :param str language: (optional) ISO 639-1 code indicating the language to
                use for the analysis. This code overrides the automatic language detection
                performed by the service. Valid codes are `ar` (Arabic), `en` (English),
@@ -6108,12 +5698,12 @@ class EnrichmentOptions(object):
     def _from_dict(cls, _dict):
         """Initialize a EnrichmentOptions object from a json dictionary."""
         args = {}
-        validKeys = ['features', 'language', 'model']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['features', 'language', 'model']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class EnrichmentOptions: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'features' in _dict:
             args['features'] = NluEnrichmentFeatures._from_dict(
                 _dict.get('features'))
@@ -6167,7 +5757,7 @@ class EnrichmentOptions(object):
         SV = "sv"
 
 
-class Environment(object):
+class Environment():
     """
     Details about an environment.
 
@@ -6249,16 +5839,16 @@ class Environment(object):
     def _from_dict(cls, _dict):
         """Initialize a Environment object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'environment_id', 'name', 'description', 'created', 'updated',
             'status', 'read_only', 'size', 'requested_size', 'index_capacity',
             'search_status'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Environment: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'environment_id' in _dict:
             args['environment_id'] = _dict.get('environment_id')
         if 'name' in _dict:
@@ -6353,7 +5943,7 @@ class Environment(object):
         XXXL = "XXXL"
 
 
-class EnvironmentDocuments(object):
+class EnvironmentDocuments():
     """
     Summary of the document usage statistics for the environment.
 
@@ -6378,12 +5968,12 @@ class EnvironmentDocuments(object):
     def _from_dict(cls, _dict):
         """Initialize a EnvironmentDocuments object from a json dictionary."""
         args = {}
-        validKeys = ['indexed', 'maximum_allowed']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['indexed', 'maximum_allowed']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class EnvironmentDocuments: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'indexed' in _dict:
             args['indexed'] = _dict.get('indexed')
         if 'maximum_allowed' in _dict:
@@ -6415,7 +6005,7 @@ class EnvironmentDocuments(object):
         return not self == other
 
 
-class EventData(object):
+class EventData():
     """
     Query event data object.
 
@@ -6477,15 +6067,15 @@ class EventData(object):
     def _from_dict(cls, _dict):
         """Initialize a EventData object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'environment_id', 'session_token', 'client_timestamp',
             'display_rank', 'collection_id', 'document_id', 'query_id'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class EventData: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'environment_id' in _dict:
             args['environment_id'] = _dict.get('environment_id')
         else:
@@ -6555,7 +6145,7 @@ class EventData(object):
         return not self == other
 
 
-class Expansion(object):
+class Expansion():
     """
     An expansion definition. Each object respresents one set of expandable strings. For
     example, you could have expansions for the word `hot` in one object, and expansions
@@ -6586,12 +6176,12 @@ class Expansion(object):
     def _from_dict(cls, _dict):
         """Initialize a Expansion object from a json dictionary."""
         args = {}
-        validKeys = ['input_terms', 'expanded_terms']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['input_terms', 'expanded_terms']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Expansion: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'input_terms' in _dict:
             args['input_terms'] = _dict.get('input_terms')
         if 'expanded_terms' in _dict:
@@ -6626,7 +6216,7 @@ class Expansion(object):
         return not self == other
 
 
-class Expansions(object):
+class Expansions():
     """
     The query expansion definitions for the specified collection.
 
@@ -6669,12 +6259,12 @@ class Expansions(object):
     def _from_dict(cls, _dict):
         """Initialize a Expansions object from a json dictionary."""
         args = {}
-        validKeys = ['expansions']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['expansions']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Expansions: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'expansions' in _dict:
             args['expansions'] = [
                 Expansion._from_dict(x) for x in (_dict.get('expansions'))
@@ -6707,9 +6297,9 @@ class Expansions(object):
         return not self == other
 
 
-class Field(object):
+class Field():
     """
-    Field.
+    Object containing field details.
 
     :attr str field: (optional) The name of the field.
     :attr str type: (optional) The type of the field.
@@ -6729,12 +6319,12 @@ class Field(object):
     def _from_dict(cls, _dict):
         """Initialize a Field object from a json dictionary."""
         args = {}
-        validKeys = ['field', 'type']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['field', 'type']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Field: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'field' in _dict:
             args['field'] = _dict.get('field')
         if 'type' in _dict:
@@ -6781,7 +6371,7 @@ class Field(object):
         BINARY = "binary"
 
 
-class Filter(object):
+class Filter():
     """
     Filter.
 
@@ -6813,12 +6403,12 @@ class Filter(object):
     def _from_dict(cls, _dict):
         """Initialize a Filter object from a json dictionary."""
         args = {}
-        validKeys = ['match']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['match']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Filter: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'match' in _dict:
             args['match'] = _dict.get('match')
         return cls(**args)
@@ -6845,9 +6435,9 @@ class Filter(object):
         return not self == other
 
 
-class FontSetting(object):
+class FontSetting():
     """
-    FontSetting.
+    Font matching configuration.
 
     :attr int level: (optional) The HTML heading level that any content with the
           matching font is converted to.
@@ -6890,12 +6480,12 @@ class FontSetting(object):
     def _from_dict(cls, _dict):
         """Initialize a FontSetting object from a json dictionary."""
         args = {}
-        validKeys = ['level', 'min_size', 'max_size', 'bold', 'italic', 'name']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['level', 'min_size', 'max_size', 'bold', 'italic', 'name']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class FontSetting: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'level' in _dict:
             args['level'] = _dict.get('level')
         if 'min_size' in _dict:
@@ -6942,7 +6532,7 @@ class FontSetting(object):
         return not self == other
 
 
-class Gateway(object):
+class Gateway():
     """
     Object describing a specific gateway.
 
@@ -6988,12 +6578,12 @@ class Gateway(object):
     def _from_dict(cls, _dict):
         """Initialize a Gateway object from a json dictionary."""
         args = {}
-        validKeys = ['gateway_id', 'name', 'status', 'token', 'token_id']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['gateway_id', 'name', 'status', 'token', 'token_id']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Gateway: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'gateway_id' in _dict:
             args['gateway_id'] = _dict.get('gateway_id')
         if 'name' in _dict:
@@ -7044,7 +6634,7 @@ class Gateway(object):
         IDLE = "idle"
 
 
-class GatewayDelete(object):
+class GatewayDelete():
     """
     Gatway deletion confirmation.
 
@@ -7066,12 +6656,12 @@ class GatewayDelete(object):
     def _from_dict(cls, _dict):
         """Initialize a GatewayDelete object from a json dictionary."""
         args = {}
-        validKeys = ['gateway_id', 'status']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['gateway_id', 'status']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class GatewayDelete: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'gateway_id' in _dict:
             args['gateway_id'] = _dict.get('gateway_id')
         if 'status' in _dict:
@@ -7102,7 +6692,7 @@ class GatewayDelete(object):
         return not self == other
 
 
-class GatewayList(object):
+class GatewayList():
     """
     Object containing gateways array.
 
@@ -7123,12 +6713,12 @@ class GatewayList(object):
     def _from_dict(cls, _dict):
         """Initialize a GatewayList object from a json dictionary."""
         args = {}
-        validKeys = ['gateways']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['gateways']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class GatewayList: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'gateways' in _dict:
             args['gateways'] = [
                 Gateway._from_dict(x) for x in (_dict.get('gateways'))
@@ -7157,7 +6747,7 @@ class GatewayList(object):
         return not self == other
 
 
-class Histogram(object):
+class Histogram():
     """
     Histogram.
 
@@ -7197,12 +6787,12 @@ class Histogram(object):
     def _from_dict(cls, _dict):
         """Initialize a Histogram object from a json dictionary."""
         args = {}
-        validKeys = ['field', 'interval']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['field', 'interval']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Histogram: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'field' in _dict:
             args['field'] = _dict.get('field')
         if 'interval' in _dict:
@@ -7233,7 +6823,7 @@ class Histogram(object):
         return not self == other
 
 
-class HtmlSettings(object):
+class HtmlSettings():
     """
     A list of HTML conversion settings.
 
@@ -7241,8 +6831,10 @@ class HtmlSettings(object):
           excluded completely.
     :attr list[str] exclude_tags_keep_content: (optional) Array of HTML tags which
           are excluded but still retain content.
-    :attr XPathPatterns keep_content: (optional)
-    :attr XPathPatterns exclude_content: (optional)
+    :attr XPathPatterns keep_content: (optional) Object containing an array of
+          XPaths.
+    :attr XPathPatterns exclude_content: (optional) Object containing an array of
+          XPaths.
     :attr list[str] keep_tag_attributes: (optional) An array of HTML tag attributes
           to keep in the converted document.
     :attr list[str] exclude_tag_attributes: (optional) Array of HTML tag attributes
@@ -7264,8 +6856,10 @@ class HtmlSettings(object):
                that are excluded completely.
         :param list[str] exclude_tags_keep_content: (optional) Array of HTML tags
                which are excluded but still retain content.
-        :param XPathPatterns keep_content: (optional)
-        :param XPathPatterns exclude_content: (optional)
+        :param XPathPatterns keep_content: (optional) Object containing an array of
+               XPaths.
+        :param XPathPatterns exclude_content: (optional) Object containing an array
+               of XPaths.
         :param list[str] keep_tag_attributes: (optional) An array of HTML tag
                attributes to keep in the converted document.
         :param list[str] exclude_tag_attributes: (optional) Array of HTML tag
@@ -7282,16 +6876,16 @@ class HtmlSettings(object):
     def _from_dict(cls, _dict):
         """Initialize a HtmlSettings object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'exclude_tags_completely', 'exclude_tags_keep_content',
             'keep_content', 'exclude_content', 'keep_tag_attributes',
             'exclude_tag_attributes'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class HtmlSettings: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'exclude_tags_completely' in _dict:
             args['exclude_tags_completely'] = _dict.get(
                 'exclude_tags_completely')
@@ -7348,7 +6942,7 @@ class HtmlSettings(object):
         return not self == other
 
 
-class IndexCapacity(object):
+class IndexCapacity():
     """
     Details about the resource usage and capacity of the environment.
 
@@ -7379,12 +6973,12 @@ class IndexCapacity(object):
     def _from_dict(cls, _dict):
         """Initialize a IndexCapacity object from a json dictionary."""
         args = {}
-        validKeys = ['documents', 'disk_usage', 'collections']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['documents', 'disk_usage', 'collections']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class IndexCapacity: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'documents' in _dict:
             args['documents'] = EnvironmentDocuments._from_dict(
                 _dict.get('documents'))
@@ -7421,7 +7015,7 @@ class IndexCapacity(object):
         return not self == other
 
 
-class ListCollectionFieldsResponse(object):
+class ListCollectionFieldsResponse():
     """
     The list of fetched fields.
     The fields are returned using a fully qualified name format, however, the format
@@ -7451,12 +7045,12 @@ class ListCollectionFieldsResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a ListCollectionFieldsResponse object from a json dictionary."""
         args = {}
-        validKeys = ['fields']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['fields']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ListCollectionFieldsResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'fields' in _dict:
             args['fields'] = [
                 Field._from_dict(x) for x in (_dict.get('fields'))
@@ -7485,9 +7079,9 @@ class ListCollectionFieldsResponse(object):
         return not self == other
 
 
-class ListCollectionsResponse(object):
+class ListCollectionsResponse():
     """
-    ListCollectionsResponse.
+    Response object containing an array of collection details.
 
     :attr list[Collection] collections: (optional) An array containing information
           about each collection in the environment.
@@ -7506,12 +7100,12 @@ class ListCollectionsResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a ListCollectionsResponse object from a json dictionary."""
         args = {}
-        validKeys = ['collections']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['collections']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ListCollectionsResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'collections' in _dict:
             args['collections'] = [
                 Collection._from_dict(x) for x in (_dict.get('collections'))
@@ -7540,11 +7134,11 @@ class ListCollectionsResponse(object):
         return not self == other
 
 
-class ListConfigurationsResponse(object):
+class ListConfigurationsResponse():
     """
-    ListConfigurationsResponse.
+    Object containing an array of available configurations.
 
-    :attr list[Configuration] configurations: (optional) An array of Configurations
+    :attr list[Configuration] configurations: (optional) An array of configurations
           that are available for the service instance.
     """
 
@@ -7553,7 +7147,7 @@ class ListConfigurationsResponse(object):
         Initialize a ListConfigurationsResponse object.
 
         :param list[Configuration] configurations: (optional) An array of
-               Configurations that are available for the service instance.
+               configurations that are available for the service instance.
         """
         self.configurations = configurations
 
@@ -7561,12 +7155,12 @@ class ListConfigurationsResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a ListConfigurationsResponse object from a json dictionary."""
         args = {}
-        validKeys = ['configurations']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['configurations']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ListConfigurationsResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'configurations' in _dict:
             args['configurations'] = [
                 Configuration._from_dict(x)
@@ -7598,9 +7192,9 @@ class ListConfigurationsResponse(object):
         return not self == other
 
 
-class ListEnvironmentsResponse(object):
+class ListEnvironmentsResponse():
     """
-    ListEnvironmentsResponse.
+    Response object containing an array of configured environments.
 
     :attr list[Environment] environments: (optional) An array of [environments] that
           are available for the service instance.
@@ -7619,12 +7213,12 @@ class ListEnvironmentsResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a ListEnvironmentsResponse object from a json dictionary."""
         args = {}
-        validKeys = ['environments']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['environments']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ListEnvironmentsResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'environments' in _dict:
             args['environments'] = [
                 Environment._from_dict(x) for x in (_dict.get('environments'))
@@ -7653,7 +7247,7 @@ class ListEnvironmentsResponse(object):
         return not self == other
 
 
-class LogQueryResponse(object):
+class LogQueryResponse():
     """
     Object containing results that match the requested **logs** query.
 
@@ -7677,12 +7271,12 @@ class LogQueryResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a LogQueryResponse object from a json dictionary."""
         args = {}
-        validKeys = ['matching_results', 'results']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['matching_results', 'results']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class LogQueryResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'matching_results' in _dict:
             args['matching_results'] = _dict.get('matching_results')
         if 'results' in _dict:
@@ -7717,7 +7311,7 @@ class LogQueryResponse(object):
         return not self == other
 
 
-class LogQueryResponseResult(object):
+class LogQueryResponseResult():
     """
     Individual result object for a **logs** query. Each object represents either a query
     to a Discovery collection or an event that is associated with a query.
@@ -7863,17 +7457,17 @@ class LogQueryResponseResult(object):
     def _from_dict(cls, _dict):
         """Initialize a LogQueryResponseResult object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'environment_id', 'customer_id', 'document_type',
             'natural_language_query', 'document_results', 'created_timestamp',
             'client_timestamp', 'query_id', 'session_token', 'collection_id',
             'display_rank', 'document_id', 'event_type', 'result_type'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class LogQueryResponseResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'environment_id' in _dict:
             args['environment_id'] = _dict.get('environment_id')
         if 'customer_id' in _dict:
@@ -7988,7 +7582,7 @@ class LogQueryResponseResult(object):
         DOCUMENT = "document"
 
 
-class LogQueryResponseResultDocuments(object):
+class LogQueryResponseResultDocuments():
     """
     Object containing result information that was returned by the query used to create
     this log entry. Only returned with logs of type `query`.
@@ -8015,12 +7609,12 @@ class LogQueryResponseResultDocuments(object):
     def _from_dict(cls, _dict):
         """Initialize a LogQueryResponseResultDocuments object from a json dictionary."""
         args = {}
-        validKeys = ['results', 'count']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['results', 'count']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class LogQueryResponseResultDocuments: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'results' in _dict:
             args['results'] = [
                 LogQueryResponseResultDocumentsResult._from_dict(x)
@@ -8054,7 +7648,7 @@ class LogQueryResponseResultDocuments(object):
         return not self == other
 
 
-class LogQueryResponseResultDocumentsResult(object):
+class LogQueryResponseResultDocumentsResult():
     """
     Each object in the **results** array corresponds to an individual document returned by
     the original query.
@@ -8102,14 +7696,14 @@ class LogQueryResponseResultDocumentsResult(object):
     def _from_dict(cls, _dict):
         """Initialize a LogQueryResponseResultDocumentsResult object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'position', 'document_id', 'score', 'confidence', 'collection_id'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class LogQueryResponseResultDocumentsResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'position' in _dict:
             args['position'] = _dict.get('position')
         if 'document_id' in _dict:
@@ -8152,7 +7746,7 @@ class LogQueryResponseResultDocumentsResult(object):
         return not self == other
 
 
-class MetricAggregation(object):
+class MetricAggregation():
     """
     An aggregation analyzing log information for queries and events.
 
@@ -8183,12 +7777,12 @@ class MetricAggregation(object):
     def _from_dict(cls, _dict):
         """Initialize a MetricAggregation object from a json dictionary."""
         args = {}
-        validKeys = ['interval', 'event_type', 'results']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['interval', 'event_type', 'results']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class MetricAggregation: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'interval' in _dict:
             args['interval'] = _dict.get('interval')
         if 'event_type' in _dict:
@@ -8226,7 +7820,7 @@ class MetricAggregation(object):
         return not self == other
 
 
-class MetricAggregationResult(object):
+class MetricAggregationResult():
     """
     Aggregation result data for the requested metric.
 
@@ -8267,12 +7861,12 @@ class MetricAggregationResult(object):
     def _from_dict(cls, _dict):
         """Initialize a MetricAggregationResult object from a json dictionary."""
         args = {}
-        validKeys = ['key_as_string', 'key', 'matching_results', 'event_rate']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['key_as_string', 'key', 'matching_results', 'event_rate']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class MetricAggregationResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'key_as_string' in _dict:
             args['key_as_string'] = string_to_datetime(
                 _dict.get('key_as_string'))
@@ -8313,7 +7907,7 @@ class MetricAggregationResult(object):
         return not self == other
 
 
-class MetricResponse(object):
+class MetricResponse():
     """
     The response generated from a call to a **metrics** method.
 
@@ -8334,12 +7928,12 @@ class MetricResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a MetricResponse object from a json dictionary."""
         args = {}
-        validKeys = ['aggregations']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['aggregations']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class MetricResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'aggregations' in _dict:
             args['aggregations'] = [
                 MetricAggregation._from_dict(x)
@@ -8369,7 +7963,7 @@ class MetricResponse(object):
         return not self == other
 
 
-class MetricTokenAggregation(object):
+class MetricTokenAggregation():
     """
     An aggregation analyzing log information for queries and events.
 
@@ -8395,12 +7989,12 @@ class MetricTokenAggregation(object):
     def _from_dict(cls, _dict):
         """Initialize a MetricTokenAggregation object from a json dictionary."""
         args = {}
-        validKeys = ['event_type', 'results']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['event_type', 'results']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class MetricTokenAggregation: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'event_type' in _dict:
             args['event_type'] = _dict.get('event_type')
         if 'results' in _dict:
@@ -8434,7 +8028,7 @@ class MetricTokenAggregation(object):
         return not self == other
 
 
-class MetricTokenAggregationResult(object):
+class MetricTokenAggregationResult():
     """
     Aggregation result data for the requested metric.
 
@@ -8465,12 +8059,12 @@ class MetricTokenAggregationResult(object):
     def _from_dict(cls, _dict):
         """Initialize a MetricTokenAggregationResult object from a json dictionary."""
         args = {}
-        validKeys = ['key', 'matching_results', 'event_rate']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['key', 'matching_results', 'event_rate']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class MetricTokenAggregationResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'key' in _dict:
             args['key'] = _dict.get('key')
         if 'matching_results' in _dict:
@@ -8506,7 +8100,7 @@ class MetricTokenAggregationResult(object):
         return not self == other
 
 
-class MetricTokenResponse(object):
+class MetricTokenResponse():
     """
     The response generated from a call to a **metrics** method that evaluates tokens.
 
@@ -8527,12 +8121,12 @@ class MetricTokenResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a MetricTokenResponse object from a json dictionary."""
         args = {}
-        validKeys = ['aggregations']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['aggregations']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class MetricTokenResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'aggregations' in _dict:
             args['aggregations'] = [
                 MetricTokenAggregation._from_dict(x)
@@ -8562,7 +8156,7 @@ class MetricTokenResponse(object):
         return not self == other
 
 
-class Nested(object):
+class Nested():
     """
     Nested.
 
@@ -8596,12 +8190,12 @@ class Nested(object):
     def _from_dict(cls, _dict):
         """Initialize a Nested object from a json dictionary."""
         args = {}
-        validKeys = ['path']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['path']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Nested: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'path' in _dict:
             args['path'] = _dict.get('path')
         return cls(**args)
@@ -8628,7 +8222,7 @@ class Nested(object):
         return not self == other
 
 
-class NluEnrichmentCategories(object):
+class NluEnrichmentCategories():
     """
     An object that indicates the Categories enrichment will be applied to the specified
     field.
@@ -8665,8 +8259,8 @@ class NluEnrichmentCategories(object):
     def __setattr__(self, name, value):
         properties = {}
         if not hasattr(self, '_additionalProperties'):
-            super(NluEnrichmentCategories, self).__setattr__(
-                '_additionalProperties', set())
+            super(NluEnrichmentCategories,
+                  self).__setattr__('_additionalProperties', set())
         if name not in properties:
             self._additionalProperties.add(name)
         super(NluEnrichmentCategories, self).__setattr__(name, value)
@@ -8686,7 +8280,7 @@ class NluEnrichmentCategories(object):
         return not self == other
 
 
-class NluEnrichmentConcepts(object):
+class NluEnrichmentConcepts():
     """
     An object specifiying the concepts enrichment and related parameters.
 
@@ -8707,12 +8301,12 @@ class NluEnrichmentConcepts(object):
     def _from_dict(cls, _dict):
         """Initialize a NluEnrichmentConcepts object from a json dictionary."""
         args = {}
-        validKeys = ['limit']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['limit']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class NluEnrichmentConcepts: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'limit' in _dict:
             args['limit'] = _dict.get('limit')
         return cls(**args)
@@ -8739,7 +8333,7 @@ class NluEnrichmentConcepts(object):
         return not self == other
 
 
-class NluEnrichmentEmotion(object):
+class NluEnrichmentEmotion():
     """
     An object specifying the emotion detection enrichment and related parameters.
 
@@ -8765,12 +8359,12 @@ class NluEnrichmentEmotion(object):
     def _from_dict(cls, _dict):
         """Initialize a NluEnrichmentEmotion object from a json dictionary."""
         args = {}
-        validKeys = ['document', 'targets']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['document', 'targets']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class NluEnrichmentEmotion: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document' in _dict:
             args['document'] = _dict.get('document')
         if 'targets' in _dict:
@@ -8801,7 +8395,7 @@ class NluEnrichmentEmotion(object):
         return not self == other
 
 
-class NluEnrichmentEntities(object):
+class NluEnrichmentEntities():
     """
     An object speficying the Entities enrichment and related parameters.
 
@@ -8819,8 +8413,8 @@ class NluEnrichmentEntities(object):
           locations for each instance of each identified entity is recorded. The default
           is `false`.
     :attr str model: (optional) The enrichement model to use with entity extraction.
-          May be a custom model provided by Watson Knowledge Studio, the public model for
-          use with Knowledge Graph `en-news`, or the default public model `alchemy`.
+          May be a custom model provided by Watson Knowledge Studio, or the default public
+          model `alchemy`.
     """
 
     def __init__(self,
@@ -8849,9 +8443,8 @@ class NluEnrichmentEntities(object):
                locations for each instance of each identified entity is recorded. The
                default is `false`.
         :param str model: (optional) The enrichement model to use with entity
-               extraction. May be a custom model provided by Watson Knowledge Studio, the
-               public model for use with Knowledge Graph `en-news`, or the default public
-               model `alchemy`.
+               extraction. May be a custom model provided by Watson Knowledge Studio, or
+               the default public model `alchemy`.
         """
         self.sentiment = sentiment
         self.emotion = emotion
@@ -8865,15 +8458,15 @@ class NluEnrichmentEntities(object):
     def _from_dict(cls, _dict):
         """Initialize a NluEnrichmentEntities object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'sentiment', 'emotion', 'limit', 'mentions', 'mention_types',
             'sentence_locations', 'model'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class NluEnrichmentEntities: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'sentiment' in _dict:
             args['sentiment'] = _dict.get('sentiment')
         if 'emotion' in _dict:
@@ -8926,9 +8519,9 @@ class NluEnrichmentEntities(object):
         return not self == other
 
 
-class NluEnrichmentFeatures(object):
+class NluEnrichmentFeatures():
     """
-    NluEnrichmentFeatures.
+    Object containing Natural Language Understanding features to be used.
 
     :attr NluEnrichmentKeywords keywords: (optional) An object specifying the
           Keyword enrichment and related parameters.
@@ -8991,15 +8584,15 @@ class NluEnrichmentFeatures(object):
     def _from_dict(cls, _dict):
         """Initialize a NluEnrichmentFeatures object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'keywords', 'entities', 'sentiment', 'emotion', 'categories',
             'semantic_roles', 'relations', 'concepts'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class NluEnrichmentFeatures: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'keywords' in _dict:
             args['keywords'] = NluEnrichmentKeywords._from_dict(
                 _dict.get('keywords'))
@@ -9062,7 +8655,7 @@ class NluEnrichmentFeatures(object):
         return not self == other
 
 
-class NluEnrichmentKeywords(object):
+class NluEnrichmentKeywords():
     """
     An object specifying the Keyword enrichment and related parameters.
 
@@ -9093,12 +8686,12 @@ class NluEnrichmentKeywords(object):
     def _from_dict(cls, _dict):
         """Initialize a NluEnrichmentKeywords object from a json dictionary."""
         args = {}
-        validKeys = ['sentiment', 'emotion', 'limit']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['sentiment', 'emotion', 'limit']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class NluEnrichmentKeywords: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'sentiment' in _dict:
             args['sentiment'] = _dict.get('sentiment')
         if 'emotion' in _dict:
@@ -9133,14 +8726,14 @@ class NluEnrichmentKeywords(object):
         return not self == other
 
 
-class NluEnrichmentRelations(object):
+class NluEnrichmentRelations():
     """
     An object specifying the relations enrichment and related parameters.
 
     :attr str model: (optional) *For use with `natural_language_understanding`
           enrichments only.* The enrichement model to use with relationship extraction.
-          May be a custom model provided by Watson Knowledge Studio, the public model for
-          use with Knowledge Graph `en-news`, the default is`en-news`.
+          May be a custom model provided by Watson Knowledge Studio, the default public
+          model is`en-news`.
     """
 
     def __init__(self, *, model=None):
@@ -9150,8 +8743,7 @@ class NluEnrichmentRelations(object):
         :param str model: (optional) *For use with `natural_language_understanding`
                enrichments only.* The enrichement model to use with relationship
                extraction. May be a custom model provided by Watson Knowledge Studio, the
-               public model for use with Knowledge Graph `en-news`, the default
-               is`en-news`.
+               default public model is`en-news`.
         """
         self.model = model
 
@@ -9159,12 +8751,12 @@ class NluEnrichmentRelations(object):
     def _from_dict(cls, _dict):
         """Initialize a NluEnrichmentRelations object from a json dictionary."""
         args = {}
-        validKeys = ['model']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['model']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class NluEnrichmentRelations: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'model' in _dict:
             args['model'] = _dict.get('model')
         return cls(**args)
@@ -9191,7 +8783,7 @@ class NluEnrichmentRelations(object):
         return not self == other
 
 
-class NluEnrichmentSemanticRoles(object):
+class NluEnrichmentSemanticRoles():
     """
     An object specifiying the semantic roles enrichment and related parameters.
 
@@ -9222,12 +8814,12 @@ class NluEnrichmentSemanticRoles(object):
     def _from_dict(cls, _dict):
         """Initialize a NluEnrichmentSemanticRoles object from a json dictionary."""
         args = {}
-        validKeys = ['entities', 'keywords', 'limit']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['entities', 'keywords', 'limit']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class NluEnrichmentSemanticRoles: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'entities' in _dict:
             args['entities'] = _dict.get('entities')
         if 'keywords' in _dict:
@@ -9262,7 +8854,7 @@ class NluEnrichmentSemanticRoles(object):
         return not self == other
 
 
-class NluEnrichmentSentiment(object):
+class NluEnrichmentSentiment():
     """
     An object specifying the sentiment extraction enrichment and related parameters.
 
@@ -9288,12 +8880,12 @@ class NluEnrichmentSentiment(object):
     def _from_dict(cls, _dict):
         """Initialize a NluEnrichmentSentiment object from a json dictionary."""
         args = {}
-        validKeys = ['document', 'targets']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['document', 'targets']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class NluEnrichmentSentiment: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document' in _dict:
             args['document'] = _dict.get('document')
         if 'targets' in _dict:
@@ -9324,9 +8916,9 @@ class NluEnrichmentSentiment(object):
         return not self == other
 
 
-class NormalizationOperation(object):
+class NormalizationOperation():
     """
-    NormalizationOperation.
+    Object containing normalization operations.
 
     :attr str operation: (optional) Identifies what type of operation to perform.
           **copy** - Copies the value of the **source_field** to the **destination_field**
@@ -9404,12 +8996,12 @@ class NormalizationOperation(object):
     def _from_dict(cls, _dict):
         """Initialize a NormalizationOperation object from a json dictionary."""
         args = {}
-        validKeys = ['operation', 'source_field', 'destination_field']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['operation', 'source_field', 'destination_field']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class NormalizationOperation: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'operation' in _dict:
             args['operation'] = _dict.get('operation')
         if 'source_field' in _dict:
@@ -9478,7 +9070,7 @@ class NormalizationOperation(object):
         REMOVE_NULLS = "remove_nulls"
 
 
-class Notice(object):
+class Notice():
     """
     A notice produced for the collection.
 
@@ -9559,15 +9151,15 @@ class Notice(object):
     def _from_dict(cls, _dict):
         """Initialize a Notice object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'notice_id', 'created', 'document_id', 'query_id', 'severity',
             'step', 'description'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Notice: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'notice_id' in _dict:
             args['notice_id'] = _dict.get('notice_id')
         if 'created' in _dict:
@@ -9625,18 +9217,19 @@ class Notice(object):
         ERROR = "error"
 
 
-class PdfHeadingDetection(object):
+class PdfHeadingDetection():
     """
-    PdfHeadingDetection.
+    Object containing heading detection conversion settings for PDF documents.
 
-    :attr list[FontSetting] fonts: (optional)
+    :attr list[FontSetting] fonts: (optional) Array of font matching configurations.
     """
 
     def __init__(self, *, fonts=None):
         """
         Initialize a PdfHeadingDetection object.
 
-        :param list[FontSetting] fonts: (optional)
+        :param list[FontSetting] fonts: (optional) Array of font matching
+               configurations.
         """
         self.fonts = fonts
 
@@ -9644,12 +9237,12 @@ class PdfHeadingDetection(object):
     def _from_dict(cls, _dict):
         """Initialize a PdfHeadingDetection object from a json dictionary."""
         args = {}
-        validKeys = ['fonts']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['fonts']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class PdfHeadingDetection: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'fonts' in _dict:
             args['fonts'] = [
                 FontSetting._from_dict(x) for x in (_dict.get('fonts'))
@@ -9678,18 +9271,20 @@ class PdfHeadingDetection(object):
         return not self == other
 
 
-class PdfSettings(object):
+class PdfSettings():
     """
     A list of PDF conversion settings.
 
-    :attr PdfHeadingDetection heading: (optional)
+    :attr PdfHeadingDetection heading: (optional) Object containing heading
+          detection conversion settings for PDF documents.
     """
 
     def __init__(self, *, heading=None):
         """
         Initialize a PdfSettings object.
 
-        :param PdfHeadingDetection heading: (optional)
+        :param PdfHeadingDetection heading: (optional) Object containing heading
+               detection conversion settings for PDF documents.
         """
         self.heading = heading
 
@@ -9697,12 +9292,12 @@ class PdfSettings(object):
     def _from_dict(cls, _dict):
         """Initialize a PdfSettings object from a json dictionary."""
         args = {}
-        validKeys = ['heading']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['heading']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class PdfSettings: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'heading' in _dict:
             args['heading'] = PdfHeadingDetection._from_dict(
                 _dict.get('heading'))
@@ -9730,7 +9325,7 @@ class PdfSettings(object):
         return not self == other
 
 
-class QueryAggregation(object):
+class QueryAggregation():
     """
     An aggregation produced by  Discovery to analyze the input provided.
 
@@ -9768,12 +9363,12 @@ class QueryAggregation(object):
     def _from_dict(cls, _dict):
         """Initialize a QueryAggregation object from a json dictionary."""
         args = {}
-        validKeys = ['type', 'results', 'matching_results', 'aggregations']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['type', 'results', 'matching_results', 'aggregations']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class QueryAggregation: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'results' in _dict:
@@ -9818,497 +9413,9 @@ class QueryAggregation(object):
         return not self == other
 
 
-class QueryEntitiesContext(object):
+class QueryNoticesResponse():
     """
-    Entity text to provide context for the queried entity and rank based on that
-    association. For example, if you wanted to query the city of London in England your
-    query would look for `London` with the context of `England`.
-
-    :attr str text: (optional) Entity text to provide context for the queried entity
-          and rank based on that association. For example, if you wanted to query the city
-          of London in England your query would look for `London` with the context of
-          `England`.
-    """
-
-    def __init__(self, *, text=None):
-        """
-        Initialize a QueryEntitiesContext object.
-
-        :param str text: (optional) Entity text to provide context for the queried
-               entity and rank based on that association. For example, if you wanted to
-               query the city of London in England your query would look for `London` with
-               the context of `England`.
-        """
-        self.text = text
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryEntitiesContext object from a json dictionary."""
-        args = {}
-        validKeys = ['text']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryEntitiesContext: '
-                + ', '.join(badKeys))
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryEntitiesContext object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryEntitiesEntity(object):
-    """
-    A text string that appears within the entity text field.
-
-    :attr str text: (optional) Entity text content.
-    :attr str type: (optional) The type of the specified entity.
-    """
-
-    def __init__(self, *, text=None, type=None):
-        """
-        Initialize a QueryEntitiesEntity object.
-
-        :param str text: (optional) Entity text content.
-        :param str type: (optional) The type of the specified entity.
-        """
-        self.text = text
-        self.type = type
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryEntitiesEntity object from a json dictionary."""
-        args = {}
-        validKeys = ['text', 'type']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryEntitiesEntity: '
-                + ', '.join(badKeys))
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
-        if hasattr(self, 'type') and self.type is not None:
-            _dict['type'] = self.type
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryEntitiesEntity object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryEntitiesResponse(object):
-    """
-    An object that contains an array of entities resulting from the query.
-
-    :attr list[QueryEntitiesResponseItem] entities: (optional) Array of entities
-          that results from the query.
-    """
-
-    def __init__(self, *, entities=None):
-        """
-        Initialize a QueryEntitiesResponse object.
-
-        :param list[QueryEntitiesResponseItem] entities: (optional) Array of
-               entities that results from the query.
-        """
-        self.entities = entities
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryEntitiesResponse object from a json dictionary."""
-        args = {}
-        validKeys = ['entities']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryEntitiesResponse: '
-                + ', '.join(badKeys))
-        if 'entities' in _dict:
-            args['entities'] = [
-                QueryEntitiesResponseItem._from_dict(x)
-                for x in (_dict.get('entities'))
-            ]
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x._to_dict() for x in self.entities]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryEntitiesResponse object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryEntitiesResponseItem(object):
-    """
-    Object containing Entity query response information.
-
-    :attr str text: (optional) Entity text content.
-    :attr str type: (optional) The type of the result entity.
-    :attr list[QueryEvidence] evidence: (optional) List of different evidentiary
-          items to support the result.
-    """
-
-    def __init__(self, *, text=None, type=None, evidence=None):
-        """
-        Initialize a QueryEntitiesResponseItem object.
-
-        :param str text: (optional) Entity text content.
-        :param str type: (optional) The type of the result entity.
-        :param list[QueryEvidence] evidence: (optional) List of different
-               evidentiary items to support the result.
-        """
-        self.text = text
-        self.type = type
-        self.evidence = evidence
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryEntitiesResponseItem object from a json dictionary."""
-        args = {}
-        validKeys = ['text', 'type', 'evidence']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryEntitiesResponseItem: '
-                + ', '.join(badKeys))
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
-        if 'evidence' in _dict:
-            args['evidence'] = [
-                QueryEvidence._from_dict(x) for x in (_dict.get('evidence'))
-            ]
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
-        if hasattr(self, 'type') and self.type is not None:
-            _dict['type'] = self.type
-        if hasattr(self, 'evidence') and self.evidence is not None:
-            _dict['evidence'] = [x._to_dict() for x in self.evidence]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryEntitiesResponseItem object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryEvidence(object):
-    """
-    Description of evidence location supporting Knoweldge Graph query result.
-
-    :attr str document_id: (optional) The docuemnt ID (as indexed in Discovery) of
-          the evidence location.
-    :attr str field: (optional) The field of the document where the supporting
-          evidence was identified.
-    :attr int start_offset: (optional) The start location of the evidence in the
-          identified field. This value is inclusive.
-    :attr int end_offset: (optional) The end location of the evidence in the
-          identified field. This value is inclusive.
-    :attr list[QueryEvidenceEntity] entities: (optional) An array of entity objects
-          that show evidence of the result.
-    """
-
-    def __init__(self,
-                 *,
-                 document_id=None,
-                 field=None,
-                 start_offset=None,
-                 end_offset=None,
-                 entities=None):
-        """
-        Initialize a QueryEvidence object.
-
-        :param str document_id: (optional) The docuemnt ID (as indexed in
-               Discovery) of the evidence location.
-        :param str field: (optional) The field of the document where the supporting
-               evidence was identified.
-        :param int start_offset: (optional) The start location of the evidence in
-               the identified field. This value is inclusive.
-        :param int end_offset: (optional) The end location of the evidence in the
-               identified field. This value is inclusive.
-        :param list[QueryEvidenceEntity] entities: (optional) An array of entity
-               objects that show evidence of the result.
-        """
-        self.document_id = document_id
-        self.field = field
-        self.start_offset = start_offset
-        self.end_offset = end_offset
-        self.entities = entities
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryEvidence object from a json dictionary."""
-        args = {}
-        validKeys = [
-            'document_id', 'field', 'start_offset', 'end_offset', 'entities'
-        ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryEvidence: '
-                + ', '.join(badKeys))
-        if 'document_id' in _dict:
-            args['document_id'] = _dict.get('document_id')
-        if 'field' in _dict:
-            args['field'] = _dict.get('field')
-        if 'start_offset' in _dict:
-            args['start_offset'] = _dict.get('start_offset')
-        if 'end_offset' in _dict:
-            args['end_offset'] = _dict.get('end_offset')
-        if 'entities' in _dict:
-            args['entities'] = [
-                QueryEvidenceEntity._from_dict(x)
-                for x in (_dict.get('entities'))
-            ]
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'document_id') and self.document_id is not None:
-            _dict['document_id'] = self.document_id
-        if hasattr(self, 'field') and self.field is not None:
-            _dict['field'] = self.field
-        if hasattr(self, 'start_offset') and self.start_offset is not None:
-            _dict['start_offset'] = self.start_offset
-        if hasattr(self, 'end_offset') and self.end_offset is not None:
-            _dict['end_offset'] = self.end_offset
-        if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x._to_dict() for x in self.entities]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryEvidence object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryEvidenceEntity(object):
-    """
-    Entity description and location within evidence field.
-
-    :attr str type: (optional) The entity type for this entity. Possible types vary
-          based on model used.
-    :attr str text: (optional) The original text of this entity as found in the
-          evidence field.
-    :attr int start_offset: (optional) The start location of the entity text in the
-          identified field. This value is inclusive.
-    :attr int end_offset: (optional) The end location of the entity text in the
-          identified field. This value is exclusive.
-    """
-
-    def __init__(self,
-                 *,
-                 type=None,
-                 text=None,
-                 start_offset=None,
-                 end_offset=None):
-        """
-        Initialize a QueryEvidenceEntity object.
-
-        :param str type: (optional) The entity type for this entity. Possible types
-               vary based on model used.
-        :param str text: (optional) The original text of this entity as found in
-               the evidence field.
-        :param int start_offset: (optional) The start location of the entity text
-               in the identified field. This value is inclusive.
-        :param int end_offset: (optional) The end location of the entity text in
-               the identified field. This value is exclusive.
-        """
-        self.type = type
-        self.text = text
-        self.start_offset = start_offset
-        self.end_offset = end_offset
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryEvidenceEntity object from a json dictionary."""
-        args = {}
-        validKeys = ['type', 'text', 'start_offset', 'end_offset']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryEvidenceEntity: '
-                + ', '.join(badKeys))
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        if 'start_offset' in _dict:
-            args['start_offset'] = _dict.get('start_offset')
-        if 'end_offset' in _dict:
-            args['end_offset'] = _dict.get('end_offset')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'type') and self.type is not None:
-            _dict['type'] = self.type
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
-        if hasattr(self, 'start_offset') and self.start_offset is not None:
-            _dict['start_offset'] = self.start_offset
-        if hasattr(self, 'end_offset') and self.end_offset is not None:
-            _dict['end_offset'] = self.end_offset
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryEvidenceEntity object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryFilterType(object):
-    """
-    QueryFilterType.
-
-    :attr list[str] exclude: (optional) A comma-separated list of types to exclude.
-    :attr list[str] include: (optional) A comma-separated list of types to include.
-          All other types are excluded.
-    """
-
-    def __init__(self, *, exclude=None, include=None):
-        """
-        Initialize a QueryFilterType object.
-
-        :param list[str] exclude: (optional) A comma-separated list of types to
-               exclude.
-        :param list[str] include: (optional) A comma-separated list of types to
-               include. All other types are excluded.
-        """
-        self.exclude = exclude
-        self.include = include
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryFilterType object from a json dictionary."""
-        args = {}
-        validKeys = ['exclude', 'include']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryFilterType: '
-                + ', '.join(badKeys))
-        if 'exclude' in _dict:
-            args['exclude'] = _dict.get('exclude')
-        if 'include' in _dict:
-            args['include'] = _dict.get('include')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'exclude') and self.exclude is not None:
-            _dict['exclude'] = self.exclude
-        if hasattr(self, 'include') and self.include is not None:
-            _dict['include'] = self.include
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryFilterType object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryNoticesResponse(object):
-    """
-    QueryNoticesResponse.
+    Object containing notice query results.
 
     :attr int matching_results: (optional) The number of matching results.
     :attr list[QueryNoticesResult] results: (optional) Array of document results
@@ -10351,15 +9458,15 @@ class QueryNoticesResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a QueryNoticesResponse object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'matching_results', 'results', 'aggregations', 'passages',
             'duplicates_removed'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class QueryNoticesResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'matching_results' in _dict:
             args['matching_results'] = _dict.get('matching_results')
         if 'results' in _dict:
@@ -10412,9 +9519,9 @@ class QueryNoticesResponse(object):
         return not self == other
 
 
-class QueryNoticesResult(object):
+class QueryNoticesResult():
     """
-    QueryNoticesResult.
+    Query result object.
 
     :attr str id: (optional) The unique identifier of the document.
     :attr dict metadata: (optional) Metadata of the document.
@@ -10587,9 +9694,9 @@ class QueryNoticesResult(object):
         JSON = "json"
 
 
-class QueryPassages(object):
+class QueryPassages():
     """
-    QueryPassages.
+    A passage query result.
 
     :attr str document_id: (optional) The unique identifier of the document from
           which the passage has been extracted.
@@ -10638,15 +9745,15 @@ class QueryPassages(object):
     def _from_dict(cls, _dict):
         """Initialize a QueryPassages object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'document_id', 'passage_score', 'passage_text', 'start_offset',
             'end_offset', 'field'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class QueryPassages: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document_id' in _dict:
             args['document_id'] = _dict.get('document_id')
         if 'passage_score' in _dict:
@@ -10693,346 +9800,7 @@ class QueryPassages(object):
         return not self == other
 
 
-class QueryRelationsArgument(object):
-    """
-    QueryRelationsArgument.
-
-    :attr list[QueryEntitiesEntity] entities: (optional) Array of query entities.
-    """
-
-    def __init__(self, *, entities=None):
-        """
-        Initialize a QueryRelationsArgument object.
-
-        :param list[QueryEntitiesEntity] entities: (optional) Array of query
-               entities.
-        """
-        self.entities = entities
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryRelationsArgument object from a json dictionary."""
-        args = {}
-        validKeys = ['entities']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryRelationsArgument: '
-                + ', '.join(badKeys))
-        if 'entities' in _dict:
-            args['entities'] = [
-                QueryEntitiesEntity._from_dict(x)
-                for x in (_dict.get('entities'))
-            ]
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x._to_dict() for x in self.entities]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryRelationsArgument object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryRelationsEntity(object):
-    """
-    QueryRelationsEntity.
-
-    :attr str text: (optional) Entity text content.
-    :attr str type: (optional) The type of the specified entity.
-    :attr bool exact: (optional) If false, implicit querying is performed. The
-          default is `false`.
-    """
-
-    def __init__(self, *, text=None, type=None, exact=None):
-        """
-        Initialize a QueryRelationsEntity object.
-
-        :param str text: (optional) Entity text content.
-        :param str type: (optional) The type of the specified entity.
-        :param bool exact: (optional) If false, implicit querying is performed. The
-               default is `false`.
-        """
-        self.text = text
-        self.type = type
-        self.exact = exact
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryRelationsEntity object from a json dictionary."""
-        args = {}
-        validKeys = ['text', 'type', 'exact']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryRelationsEntity: '
-                + ', '.join(badKeys))
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
-        if 'exact' in _dict:
-            args['exact'] = _dict.get('exact')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
-        if hasattr(self, 'type') and self.type is not None:
-            _dict['type'] = self.type
-        if hasattr(self, 'exact') and self.exact is not None:
-            _dict['exact'] = self.exact
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryRelationsEntity object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryRelationsFilter(object):
-    """
-    QueryRelationsFilter.
-
-    :attr QueryFilterType relation_types: (optional)
-    :attr QueryFilterType entity_types: (optional)
-    :attr list[str] document_ids: (optional) A comma-separated list of document IDs
-          to include in the query.
-    """
-
-    def __init__(self,
-                 *,
-                 relation_types=None,
-                 entity_types=None,
-                 document_ids=None):
-        """
-        Initialize a QueryRelationsFilter object.
-
-        :param QueryFilterType relation_types: (optional)
-        :param QueryFilterType entity_types: (optional)
-        :param list[str] document_ids: (optional) A comma-separated list of
-               document IDs to include in the query.
-        """
-        self.relation_types = relation_types
-        self.entity_types = entity_types
-        self.document_ids = document_ids
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryRelationsFilter object from a json dictionary."""
-        args = {}
-        validKeys = ['relation_types', 'entity_types', 'document_ids']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryRelationsFilter: '
-                + ', '.join(badKeys))
-        if 'relation_types' in _dict:
-            args['relation_types'] = QueryFilterType._from_dict(
-                _dict.get('relation_types'))
-        if 'entity_types' in _dict:
-            args['entity_types'] = QueryFilterType._from_dict(
-                _dict.get('entity_types'))
-        if 'document_ids' in _dict:
-            args['document_ids'] = _dict.get('document_ids')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'relation_types') and self.relation_types is not None:
-            _dict['relation_types'] = self.relation_types._to_dict()
-        if hasattr(self, 'entity_types') and self.entity_types is not None:
-            _dict['entity_types'] = self.entity_types._to_dict()
-        if hasattr(self, 'document_ids') and self.document_ids is not None:
-            _dict['document_ids'] = self.document_ids
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryRelationsFilter object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryRelationsRelationship(object):
-    """
-    QueryRelationsRelationship.
-
-    :attr str type: (optional) The identified relationship type.
-    :attr int frequency: (optional) The number of times the relationship is
-          mentioned.
-    :attr list[QueryRelationsArgument] arguments: (optional) Information about the
-          relationship.
-    :attr list[QueryEvidence] evidence: (optional) List of different evidentiary
-          items to support the result.
-    """
-
-    def __init__(self,
-                 *,
-                 type=None,
-                 frequency=None,
-                 arguments=None,
-                 evidence=None):
-        """
-        Initialize a QueryRelationsRelationship object.
-
-        :param str type: (optional) The identified relationship type.
-        :param int frequency: (optional) The number of times the relationship is
-               mentioned.
-        :param list[QueryRelationsArgument] arguments: (optional) Information about
-               the relationship.
-        :param list[QueryEvidence] evidence: (optional) List of different
-               evidentiary items to support the result.
-        """
-        self.type = type
-        self.frequency = frequency
-        self.arguments = arguments
-        self.evidence = evidence
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryRelationsRelationship object from a json dictionary."""
-        args = {}
-        validKeys = ['type', 'frequency', 'arguments', 'evidence']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryRelationsRelationship: '
-                + ', '.join(badKeys))
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
-        if 'frequency' in _dict:
-            args['frequency'] = _dict.get('frequency')
-        if 'arguments' in _dict:
-            args['arguments'] = [
-                QueryRelationsArgument._from_dict(x)
-                for x in (_dict.get('arguments'))
-            ]
-        if 'evidence' in _dict:
-            args['evidence'] = [
-                QueryEvidence._from_dict(x) for x in (_dict.get('evidence'))
-            ]
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'type') and self.type is not None:
-            _dict['type'] = self.type
-        if hasattr(self, 'frequency') and self.frequency is not None:
-            _dict['frequency'] = self.frequency
-        if hasattr(self, 'arguments') and self.arguments is not None:
-            _dict['arguments'] = [x._to_dict() for x in self.arguments]
-        if hasattr(self, 'evidence') and self.evidence is not None:
-            _dict['evidence'] = [x._to_dict() for x in self.evidence]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryRelationsRelationship object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryRelationsResponse(object):
-    """
-    QueryRelationsResponse.
-
-    :attr list[QueryRelationsRelationship] relations: (optional) Array of
-          relationships for the relations query.
-    """
-
-    def __init__(self, *, relations=None):
-        """
-        Initialize a QueryRelationsResponse object.
-
-        :param list[QueryRelationsRelationship] relations: (optional) Array of
-               relationships for the relations query.
-        """
-        self.relations = relations
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryRelationsResponse object from a json dictionary."""
-        args = {}
-        validKeys = ['relations']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryRelationsResponse: '
-                + ', '.join(badKeys))
-        if 'relations' in _dict:
-            args['relations'] = [
-                QueryRelationsRelationship._from_dict(x)
-                for x in (_dict.get('relations'))
-            ]
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'relations') and self.relations is not None:
-            _dict['relations'] = [x._to_dict() for x in self.relations]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryRelationsResponse object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryResponse(object):
+class QueryResponse():
     """
     A response containing the documents and aggregations for the query.
 
@@ -11095,15 +9863,15 @@ class QueryResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a QueryResponse object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'matching_results', 'results', 'aggregations', 'passages',
             'duplicates_removed', 'session_token', 'retrieval_details'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class QueryResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'matching_results' in _dict:
             args['matching_results'] = _dict.get('matching_results')
         if 'results' in _dict:
@@ -11166,9 +9934,9 @@ class QueryResponse(object):
         return not self == other
 
 
-class QueryResult(object):
+class QueryResult():
     """
-    QueryResult.
+    Query result object.
 
     :attr str id: (optional) The unique identifier of the document.
     :attr dict metadata: (optional) Metadata of the document.
@@ -11277,7 +10045,7 @@ class QueryResult(object):
         return not self == other
 
 
-class QueryResultMetadata(object):
+class QueryResultMetadata():
     """
     Metadata of a query result.
 
@@ -11312,12 +10080,12 @@ class QueryResultMetadata(object):
     def _from_dict(cls, _dict):
         """Initialize a QueryResultMetadata object from a json dictionary."""
         args = {}
-        validKeys = ['score', 'confidence']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['score', 'confidence']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class QueryResultMetadata: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'score' in _dict:
             args['score'] = _dict.get('score')
         else:
@@ -11352,7 +10120,7 @@ class QueryResultMetadata(object):
         return not self == other
 
 
-class RetrievalDetails(object):
+class RetrievalDetails():
     """
     An object contain retrieval type information.
 
@@ -11388,12 +10156,12 @@ class RetrievalDetails(object):
     def _from_dict(cls, _dict):
         """Initialize a RetrievalDetails object from a json dictionary."""
         args = {}
-        validKeys = ['document_retrieval_strategy']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['document_retrieval_strategy']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class RetrievalDetails: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document_retrieval_strategy' in _dict:
             args['document_retrieval_strategy'] = _dict.get(
                 'document_retrieval_strategy')
@@ -11439,7 +10207,7 @@ class RetrievalDetails(object):
         CONTINUOUS_RELEVANCY_TRAINING = "continuous_relevancy_training"
 
 
-class SduStatus(object):
+class SduStatus():
     """
     Object containing smart document understanding information for this collection.
 
@@ -11508,15 +10276,15 @@ class SduStatus(object):
     def _from_dict(cls, _dict):
         """Initialize a SduStatus object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'enabled', 'total_annotated_pages', 'total_pages',
             'total_documents', 'custom_fields'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SduStatus: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'enabled' in _dict:
             args['enabled'] = _dict.get('enabled')
         if 'total_annotated_pages' in _dict:
@@ -11562,7 +10330,7 @@ class SduStatus(object):
         return not self == other
 
 
-class SduStatusCustomFields(object):
+class SduStatusCustomFields():
     """
     Information about custom smart document understanding fields that exist in this
     collection.
@@ -11589,12 +10357,12 @@ class SduStatusCustomFields(object):
     def _from_dict(cls, _dict):
         """Initialize a SduStatusCustomFields object from a json dictionary."""
         args = {}
-        validKeys = ['defined', 'maximum_allowed']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['defined', 'maximum_allowed']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SduStatusCustomFields: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'defined' in _dict:
             args['defined'] = _dict.get('defined')
         if 'maximum_allowed' in _dict:
@@ -11626,7 +10394,7 @@ class SduStatusCustomFields(object):
         return not self == other
 
 
-class SearchStatus(object):
+class SearchStatus():
     """
     Information about the Continuous Relevancy Training for this environment.
 
@@ -11667,12 +10435,12 @@ class SearchStatus(object):
     def _from_dict(cls, _dict):
         """Initialize a SearchStatus object from a json dictionary."""
         args = {}
-        validKeys = ['scope', 'status', 'status_description', 'last_trained']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['scope', 'status', 'status_description', 'last_trained']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SearchStatus: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'scope' in _dict:
             args['scope'] = _dict.get('scope')
         if 'status' in _dict:
@@ -11723,7 +10491,7 @@ class SearchStatus(object):
         NOT_APPLICABLE = "NOT_APPLICABLE"
 
 
-class SegmentSettings(object):
+class SegmentSettings():
     """
     A list of Document Segmentation settings.
 
@@ -11782,12 +10550,12 @@ class SegmentSettings(object):
     def _from_dict(cls, _dict):
         """Initialize a SegmentSettings object from a json dictionary."""
         args = {}
-        validKeys = ['enabled', 'selector_tags', 'annotated_fields']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['enabled', 'selector_tags', 'annotated_fields']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SegmentSettings: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'enabled' in _dict:
             args['enabled'] = _dict.get('enabled')
         if 'selector_tags' in _dict:
@@ -11823,7 +10591,7 @@ class SegmentSettings(object):
         return not self == other
 
 
-class Source(object):
+class Source():
     """
     Object containing source parameters for the configuration.
 
@@ -11882,12 +10650,12 @@ class Source(object):
     def _from_dict(cls, _dict):
         """Initialize a Source object from a json dictionary."""
         args = {}
-        validKeys = ['type', 'credential_id', 'schedule', 'options']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['type', 'credential_id', 'schedule', 'options']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Source: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'credential_id' in _dict:
@@ -11943,7 +10711,7 @@ class Source(object):
         CLOUD_OBJECT_STORAGE = "cloud_object_storage"
 
 
-class SourceOptions(object):
+class SourceOptions():
     """
     The **options** object defines which items to crawl from the source system.
 
@@ -12013,15 +10781,15 @@ class SourceOptions(object):
     def _from_dict(cls, _dict):
         """Initialize a SourceOptions object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'folders', 'objects', 'site_collections', 'urls', 'buckets',
             'crawl_all_buckets'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SourceOptions: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'folders' in _dict:
             args['folders'] = [
                 SourceOptionsFolder._from_dict(x)
@@ -12086,7 +10854,7 @@ class SourceOptions(object):
         return not self == other
 
 
-class SourceOptionsBuckets(object):
+class SourceOptionsBuckets():
     """
     Object defining a cloud object store bucket to crawl.
 
@@ -12111,12 +10879,12 @@ class SourceOptionsBuckets(object):
     def _from_dict(cls, _dict):
         """Initialize a SourceOptionsBuckets object from a json dictionary."""
         args = {}
-        validKeys = ['name', 'limit']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['name', 'limit']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SourceOptionsBuckets: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         else:
@@ -12151,7 +10919,7 @@ class SourceOptionsBuckets(object):
         return not self == other
 
 
-class SourceOptionsFolder(object):
+class SourceOptionsFolder():
     """
     Object that defines a box folder to crawl with this configuration.
 
@@ -12180,12 +10948,12 @@ class SourceOptionsFolder(object):
     def _from_dict(cls, _dict):
         """Initialize a SourceOptionsFolder object from a json dictionary."""
         args = {}
-        validKeys = ['owner_user_id', 'folder_id', 'limit']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['owner_user_id', 'folder_id', 'limit']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SourceOptionsFolder: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'owner_user_id' in _dict:
             args['owner_user_id'] = _dict.get('owner_user_id')
         else:
@@ -12228,7 +10996,7 @@ class SourceOptionsFolder(object):
         return not self == other
 
 
-class SourceOptionsObject(object):
+class SourceOptionsObject():
     """
     Object that defines a Salesforce document object type crawl with this configuration.
 
@@ -12255,12 +11023,12 @@ class SourceOptionsObject(object):
     def _from_dict(cls, _dict):
         """Initialize a SourceOptionsObject object from a json dictionary."""
         args = {}
-        validKeys = ['name', 'limit']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['name', 'limit']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SourceOptionsObject: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         else:
@@ -12295,7 +11063,7 @@ class SourceOptionsObject(object):
         return not self == other
 
 
-class SourceOptionsSiteColl(object):
+class SourceOptionsSiteColl():
     """
     Object that defines a Microsoft SharePoint site collection to crawl with this
     configuration.
@@ -12326,12 +11094,12 @@ class SourceOptionsSiteColl(object):
     def _from_dict(cls, _dict):
         """Initialize a SourceOptionsSiteColl object from a json dictionary."""
         args = {}
-        validKeys = ['site_collection_path', 'limit']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['site_collection_path', 'limit']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SourceOptionsSiteColl: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'site_collection_path' in _dict:
             args['site_collection_path'] = _dict.get('site_collection_path')
         else:
@@ -12367,7 +11135,7 @@ class SourceOptionsSiteColl(object):
         return not self == other
 
 
-class SourceOptionsWebCrawl(object):
+class SourceOptionsWebCrawl():
     """
     Object defining which URL to crawl and how to crawl it.
 
@@ -12451,16 +11219,16 @@ class SourceOptionsWebCrawl(object):
     def _from_dict(cls, _dict):
         """Initialize a SourceOptionsWebCrawl object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'url', 'limit_to_starting_hosts', 'crawl_speed',
             'allow_untrusted_certificate', 'maximum_hops', 'request_timeout',
             'override_robots_txt', 'blacklist'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SourceOptionsWebCrawl: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'url' in _dict:
             args['url'] = _dict.get('url')
         else:
@@ -12539,7 +11307,7 @@ class SourceOptionsWebCrawl(object):
         AGGRESSIVE = "aggressive"
 
 
-class SourceSchedule(object):
+class SourceSchedule():
     """
     Object containing the schedule information for the source.
 
@@ -12588,12 +11356,12 @@ class SourceSchedule(object):
     def _from_dict(cls, _dict):
         """Initialize a SourceSchedule object from a json dictionary."""
         args = {}
-        validKeys = ['enabled', 'time_zone', 'frequency']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['enabled', 'time_zone', 'frequency']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SourceSchedule: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'enabled' in _dict:
             args['enabled'] = _dict.get('enabled')
         if 'time_zone' in _dict:
@@ -12643,7 +11411,7 @@ class SourceSchedule(object):
         HOURLY = "hourly"
 
 
-class SourceStatus(object):
+class SourceStatus():
     """
     Object containing source crawl status information.
 
@@ -12682,12 +11450,12 @@ class SourceStatus(object):
     def _from_dict(cls, _dict):
         """Initialize a SourceStatus object from a json dictionary."""
         args = {}
-        validKeys = ['status', 'next_crawl']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['status', 'next_crawl']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SourceStatus: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'status' in _dict:
             args['status'] = _dict.get('status')
         if 'next_crawl' in _dict:
@@ -12735,13 +11503,13 @@ class SourceStatus(object):
         UNKNOWN = "unknown"
 
 
-class Term(object):
+class Term():
     """
     Term.
 
     :attr str field: (optional) The field where the aggregation is located in the
           document.
-    :attr int count: (optional)
+    :attr int count: (optional) The number of terms identified.
     """
 
     def __init__(self,
@@ -12764,7 +11532,7 @@ class Term(object):
                returned by Discovery.
         :param str field: (optional) The field where the aggregation is located in
                the document.
-        :param int count: (optional)
+        :param int count: (optional) The number of terms identified.
         """
         self.field = field
         self.count = count
@@ -12773,12 +11541,12 @@ class Term(object):
     def _from_dict(cls, _dict):
         """Initialize a Term object from a json dictionary."""
         args = {}
-        validKeys = ['field', 'count']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['field', 'count']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Term: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'field' in _dict:
             args['field'] = _dict.get('field')
         if 'count' in _dict:
@@ -12809,121 +11577,7 @@ class Term(object):
         return not self == other
 
 
-class TestDocument(object):
-    """
-    TestDocument.
-
-    :attr str configuration_id: (optional) The unique identifier for the
-          configuration.
-    :attr str status: (optional) Status of the preview operation.
-    :attr int enriched_field_units: (optional) The number of 10-kB chunks of field
-          data that were enriched. This can be used to estimate the cost of running a real
-          ingestion.
-    :attr str original_media_type: (optional) Format of the test document.
-    :attr list[DocumentSnapshot] snapshots: (optional) An array of objects that
-          describe each step in the preview process.
-    :attr list[Notice] notices: (optional) An array of notice messages about the
-          preview operation.
-    """
-
-    def __init__(self,
-                 *,
-                 configuration_id=None,
-                 status=None,
-                 enriched_field_units=None,
-                 original_media_type=None,
-                 snapshots=None,
-                 notices=None):
-        """
-        Initialize a TestDocument object.
-
-        :param str configuration_id: (optional) The unique identifier for the
-               configuration.
-        :param str status: (optional) Status of the preview operation.
-        :param int enriched_field_units: (optional) The number of 10-kB chunks of
-               field data that were enriched. This can be used to estimate the cost of
-               running a real ingestion.
-        :param str original_media_type: (optional) Format of the test document.
-        :param list[DocumentSnapshot] snapshots: (optional) An array of objects
-               that describe each step in the preview process.
-        :param list[Notice] notices: (optional) An array of notice messages about
-               the preview operation.
-        """
-        self.configuration_id = configuration_id
-        self.status = status
-        self.enriched_field_units = enriched_field_units
-        self.original_media_type = original_media_type
-        self.snapshots = snapshots
-        self.notices = notices
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a TestDocument object from a json dictionary."""
-        args = {}
-        validKeys = [
-            'configuration_id', 'status', 'enriched_field_units',
-            'original_media_type', 'snapshots', 'notices'
-        ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class TestDocument: '
-                + ', '.join(badKeys))
-        if 'configuration_id' in _dict:
-            args['configuration_id'] = _dict.get('configuration_id')
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
-        if 'enriched_field_units' in _dict:
-            args['enriched_field_units'] = _dict.get('enriched_field_units')
-        if 'original_media_type' in _dict:
-            args['original_media_type'] = _dict.get('original_media_type')
-        if 'snapshots' in _dict:
-            args['snapshots'] = [
-                DocumentSnapshot._from_dict(x) for x in (_dict.get('snapshots'))
-            ]
-        if 'notices' in _dict:
-            args['notices'] = [
-                Notice._from_dict(x) for x in (_dict.get('notices'))
-            ]
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self,
-                   'configuration_id') and self.configuration_id is not None:
-            _dict['configuration_id'] = self.configuration_id
-        if hasattr(self, 'status') and self.status is not None:
-            _dict['status'] = self.status
-        if hasattr(self, 'enriched_field_units'
-                  ) and self.enriched_field_units is not None:
-            _dict['enriched_field_units'] = self.enriched_field_units
-        if hasattr(
-                self,
-                'original_media_type') and self.original_media_type is not None:
-            _dict['original_media_type'] = self.original_media_type
-        if hasattr(self, 'snapshots') and self.snapshots is not None:
-            _dict['snapshots'] = [x._to_dict() for x in self.snapshots]
-        if hasattr(self, 'notices') and self.notices is not None:
-            _dict['notices'] = [x._to_dict() for x in self.notices]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this TestDocument object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class Timeslice(object):
+class Timeslice():
     """
     Timeslice.
 
@@ -12973,12 +11627,12 @@ class Timeslice(object):
     def _from_dict(cls, _dict):
         """Initialize a Timeslice object from a json dictionary."""
         args = {}
-        validKeys = ['field', 'interval', 'anomaly']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['field', 'interval', 'anomaly']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Timeslice: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'field' in _dict:
             args['field'] = _dict.get('field')
         if 'interval' in _dict:
@@ -13013,7 +11667,7 @@ class Timeslice(object):
         return not self == other
 
 
-class TokenDictRule(object):
+class TokenDictRule():
     """
     An object defining a single tokenizaion rule.
 
@@ -13047,12 +11701,12 @@ class TokenDictRule(object):
     def _from_dict(cls, _dict):
         """Initialize a TokenDictRule object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'tokens', 'readings', 'part_of_speech']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'tokens', 'readings', 'part_of_speech']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TokenDictRule: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         else:
@@ -13102,7 +11756,7 @@ class TokenDictRule(object):
         return not self == other
 
 
-class TokenDictStatusResponse(object):
+class TokenDictStatusResponse():
     """
     Object describing the current status of the wordlist.
 
@@ -13128,12 +11782,12 @@ class TokenDictStatusResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a TokenDictStatusResponse object from a json dictionary."""
         args = {}
-        validKeys = ['status', 'type']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['status', 'type']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TokenDictStatusResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'status' in _dict:
             args['status'] = _dict.get('status')
         if 'type' in _dict:
@@ -13172,7 +11826,7 @@ class TokenDictStatusResponse(object):
         NOT_FOUND = "not found"
 
 
-class TopHits(object):
+class TopHits():
     """
     TopHits.
 
@@ -13208,12 +11862,12 @@ class TopHits(object):
     def _from_dict(cls, _dict):
         """Initialize a TopHits object from a json dictionary."""
         args = {}
-        validKeys = ['size', 'hits']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['size', 'hits']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TopHits: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'size' in _dict:
             args['size'] = _dict.get('size')
         if 'hits' in _dict:
@@ -13244,9 +11898,9 @@ class TopHits(object):
         return not self == other
 
 
-class TopHitsResults(object):
+class TopHitsResults():
     """
-    TopHitsResults.
+    Top hit information for this query.
 
     :attr int matching_results: (optional) Number of matching results.
     :attr list[QueryResult] hits: (optional) Top results returned by the
@@ -13268,12 +11922,12 @@ class TopHitsResults(object):
     def _from_dict(cls, _dict):
         """Initialize a TopHitsResults object from a json dictionary."""
         args = {}
-        validKeys = ['matching_results', 'hits']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['matching_results', 'hits']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TopHitsResults: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'matching_results' in _dict:
             args['matching_results'] = _dict.get('matching_results')
         if 'hits' in _dict:
@@ -13307,9 +11961,9 @@ class TopHitsResults(object):
         return not self == other
 
 
-class TrainingDataSet(object):
+class TrainingDataSet():
     """
-    TrainingDataSet.
+    Training information for a specific collection.
 
     :attr str environment_id: (optional) The environment id associated with this
           training data set.
@@ -13337,12 +11991,12 @@ class TrainingDataSet(object):
     def _from_dict(cls, _dict):
         """Initialize a TrainingDataSet object from a json dictionary."""
         args = {}
-        validKeys = ['environment_id', 'collection_id', 'queries']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['environment_id', 'collection_id', 'queries']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TrainingDataSet: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'environment_id' in _dict:
             args['environment_id'] = _dict.get('environment_id')
         if 'collection_id' in _dict:
@@ -13379,9 +12033,9 @@ class TrainingDataSet(object):
         return not self == other
 
 
-class TrainingExample(object):
+class TrainingExample():
     """
-    TrainingExample.
+    Training example details.
 
     :attr str document_id: (optional) The document ID associated with this training
           example.
@@ -13412,12 +12066,12 @@ class TrainingExample(object):
     def _from_dict(cls, _dict):
         """Initialize a TrainingExample object from a json dictionary."""
         args = {}
-        validKeys = ['document_id', 'cross_reference', 'relevance']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['document_id', 'cross_reference', 'relevance']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TrainingExample: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document_id' in _dict:
             args['document_id'] = _dict.get('document_id')
         if 'cross_reference' in _dict:
@@ -13453,9 +12107,9 @@ class TrainingExample(object):
         return not self == other
 
 
-class TrainingExampleList(object):
+class TrainingExampleList():
     """
-    TrainingExampleList.
+    Object containing an array of training examples.
 
     :attr list[TrainingExample] examples: (optional) Array of training examples.
     """
@@ -13473,12 +12127,12 @@ class TrainingExampleList(object):
     def _from_dict(cls, _dict):
         """Initialize a TrainingExampleList object from a json dictionary."""
         args = {}
-        validKeys = ['examples']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['examples']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TrainingExampleList: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'examples' in _dict:
             args['examples'] = [
                 TrainingExample._from_dict(x) for x in (_dict.get('examples'))
@@ -13507,9 +12161,9 @@ class TrainingExampleList(object):
         return not self == other
 
 
-class TrainingQuery(object):
+class TrainingQuery():
     """
-    TrainingQuery.
+    Training query details.
 
     :attr str query_id: (optional) The query ID associated with the training query.
     :attr str natural_language_query: (optional) The natural text query for the
@@ -13546,12 +12200,14 @@ class TrainingQuery(object):
     def _from_dict(cls, _dict):
         """Initialize a TrainingQuery object from a json dictionary."""
         args = {}
-        validKeys = ['query_id', 'natural_language_query', 'filter', 'examples']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = [
+            'query_id', 'natural_language_query', 'filter', 'examples'
+        ]
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TrainingQuery: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'query_id' in _dict:
             args['query_id'] = _dict.get('query_id')
         if 'natural_language_query' in _dict:
@@ -13593,9 +12249,9 @@ class TrainingQuery(object):
         return not self == other
 
 
-class TrainingStatus(object):
+class TrainingStatus():
     """
-    TrainingStatus.
+    Training status details.
 
     :attr int total_examples: (optional) The total number of training examples
           uploaded to this collection.
@@ -13665,17 +12321,17 @@ class TrainingStatus(object):
     def _from_dict(cls, _dict):
         """Initialize a TrainingStatus object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'total_examples', 'available', 'processing',
             'minimum_queries_added', 'minimum_examples_added',
             'sufficient_label_diversity', 'notices', 'successfully_trained',
             'data_updated'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TrainingStatus: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'total_examples' in _dict:
             args['total_examples'] = _dict.get('total_examples')
         if 'available' in _dict:
@@ -13742,20 +12398,23 @@ class TrainingStatus(object):
         return not self == other
 
 
-class WordHeadingDetection(object):
+class WordHeadingDetection():
     """
-    WordHeadingDetection.
+    Object containing heading detection conversion settings for Microsoft Word documents.
 
-    :attr list[FontSetting] fonts: (optional)
-    :attr list[WordStyle] styles: (optional)
+    :attr list[FontSetting] fonts: (optional) Array of font matching configurations.
+    :attr list[WordStyle] styles: (optional) Array of Microsoft Word styles to
+          convert.
     """
 
     def __init__(self, *, fonts=None, styles=None):
         """
         Initialize a WordHeadingDetection object.
 
-        :param list[FontSetting] fonts: (optional)
-        :param list[WordStyle] styles: (optional)
+        :param list[FontSetting] fonts: (optional) Array of font matching
+               configurations.
+        :param list[WordStyle] styles: (optional) Array of Microsoft Word styles to
+               convert.
         """
         self.fonts = fonts
         self.styles = styles
@@ -13764,12 +12423,12 @@ class WordHeadingDetection(object):
     def _from_dict(cls, _dict):
         """Initialize a WordHeadingDetection object from a json dictionary."""
         args = {}
-        validKeys = ['fonts', 'styles']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['fonts', 'styles']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class WordHeadingDetection: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'fonts' in _dict:
             args['fonts'] = [
                 FontSetting._from_dict(x) for x in (_dict.get('fonts'))
@@ -13804,18 +12463,20 @@ class WordHeadingDetection(object):
         return not self == other
 
 
-class WordSettings(object):
+class WordSettings():
     """
     A list of Word conversion settings.
 
-    :attr WordHeadingDetection heading: (optional)
+    :attr WordHeadingDetection heading: (optional) Object containing heading
+          detection conversion settings for Microsoft Word documents.
     """
 
     def __init__(self, *, heading=None):
         """
         Initialize a WordSettings object.
 
-        :param WordHeadingDetection heading: (optional)
+        :param WordHeadingDetection heading: (optional) Object containing heading
+               detection conversion settings for Microsoft Word documents.
         """
         self.heading = heading
 
@@ -13823,12 +12484,12 @@ class WordSettings(object):
     def _from_dict(cls, _dict):
         """Initialize a WordSettings object from a json dictionary."""
         args = {}
-        validKeys = ['heading']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['heading']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class WordSettings: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'heading' in _dict:
             args['heading'] = WordHeadingDetection._from_dict(
                 _dict.get('heading'))
@@ -13856,9 +12517,9 @@ class WordSettings(object):
         return not self == other
 
 
-class WordStyle(object):
+class WordStyle():
     """
-    WordStyle.
+    Microsoft Word styles to convert into a specified HTML head level.
 
     :attr int level: (optional) HTML head level that content matching this style is
           tagged with.
@@ -13880,12 +12541,12 @@ class WordStyle(object):
     def _from_dict(cls, _dict):
         """Initialize a WordStyle object from a json dictionary."""
         args = {}
-        validKeys = ['level', 'names']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['level', 'names']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class WordStyle: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'level' in _dict:
             args['level'] = _dict.get('level')
         if 'names' in _dict:
@@ -13916,9 +12577,9 @@ class WordStyle(object):
         return not self == other
 
 
-class XPathPatterns(object):
+class XPathPatterns():
     """
-    XPathPatterns.
+    Object containing an array of XPaths.
 
     :attr list[str] xpaths: (optional) An array to XPaths.
     """
@@ -13935,12 +12596,12 @@ class XPathPatterns(object):
     def _from_dict(cls, _dict):
         """Initialize a XPathPatterns object from a json dictionary."""
         args = {}
-        validKeys = ['xpaths']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['xpaths']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class XPathPatterns: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'xpaths' in _dict:
             args['xpaths'] = _dict.get('xpaths')
         return cls(**args)

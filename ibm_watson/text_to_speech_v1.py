@@ -35,6 +35,7 @@ from .common import get_sdk_headers
 from enum import Enum
 from ibm_cloud_sdk_core import BaseService
 from ibm_cloud_sdk_core import get_authenticator_from_environment
+from ibm_cloud_sdk_core import read_external_sources
 
 ##############################################################################
 # Service
@@ -44,36 +45,36 @@ from ibm_cloud_sdk_core import get_authenticator_from_environment
 class TextToSpeechV1(BaseService):
     """The Text to Speech V1 service."""
 
-    default_url = 'https://stream.watsonplatform.net/text-to-speech/api'
+    default_service_url = 'https://stream.watsonplatform.net/text-to-speech/api'
 
     def __init__(
             self,
-            url=default_url,
             authenticator=None,
-            disable_ssl_verification=False,
     ):
         """
         Construct a new client for the Text to Speech service.
 
-        :param str url: The base url to use when contacting the service (e.g.
-               "https://stream.watsonplatform.net/text-to-speech/api/text-to-speech/api").
-               The base url may differ between IBM Cloud regions.
-
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
-        :param bool disable_ssl_verification: If True, disables ssl verification
         """
 
-        if not authenticator:
-            authenticator = get_authenticator_from_environment('Text to Speech')
+        service_url = self.default_service_url
+        disable_ssl_verification = False
 
-        BaseService.__init__(
-            self,
-            url=url,
-            authenticator=authenticator,
-            disable_ssl_verification=disable_ssl_verification,
-            display_name='Text to Speech')
+        config = read_external_sources('text_to_speech')
+        if config.get('URL'):
+            service_url = config.get('URL')
+        if config.get('DISABLE_SSL'):
+            disable_ssl_verification = config.get('DISABLE_SSL')
+
+        if not authenticator:
+            authenticator = get_authenticator_from_environment('text_to_speech')
+
+        BaseService.__init__(self,
+                             service_url=service_url,
+                             authenticator=authenticator,
+                             disable_ssl_verification=disable_ssl_verification)
 
     #########################
     # Voices
@@ -101,8 +102,10 @@ class TextToSpeechV1(BaseService):
         headers.update(sdk_headers)
 
         url = '/v1/voices'
-        request = self.prepare_request(
-            method='GET', url=url, headers=headers, accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -141,12 +144,11 @@ class TextToSpeechV1(BaseService):
         params = {'customization_id': customization_id}
 
         url = '/v1/voices/{0}'.format(*self._encode_path_vars(voice))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -262,13 +264,12 @@ class TextToSpeechV1(BaseService):
         data = {'text': text}
 
         url = '/v1/synthesize'
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=False)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=False)
         response = self.send(request)
         return response
 
@@ -332,12 +333,11 @@ class TextToSpeechV1(BaseService):
         }
 
         url = '/v1/pronunciation'
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -385,12 +385,11 @@ class TextToSpeechV1(BaseService):
         data = {'name': name, 'language': language, 'description': description}
 
         url = '/v1/customizations'
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -426,12 +425,11 @@ class TextToSpeechV1(BaseService):
         params = {'language': language}
 
         url = '/v1/customizations'
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -501,12 +499,11 @@ class TextToSpeechV1(BaseService):
 
         url = '/v1/customizations/{0}'.format(
             *self._encode_path_vars(customization_id))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -541,8 +538,10 @@ class TextToSpeechV1(BaseService):
 
         url = '/v1/customizations/{0}'.format(
             *self._encode_path_vars(customization_id))
-        request = self.prepare_request(
-            method='GET', url=url, headers=headers, accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -576,8 +575,10 @@ class TextToSpeechV1(BaseService):
 
         url = '/v1/customizations/{0}'.format(
             *self._encode_path_vars(customization_id))
-        request = self.prepare_request(
-            method='DELETE', url=url, headers=headers, accept_json=False)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       accept_json=False)
         response = self.send(request)
         return response
 
@@ -645,12 +646,11 @@ class TextToSpeechV1(BaseService):
 
         url = '/v1/customizations/{0}/words'.format(
             *self._encode_path_vars(customization_id))
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -685,8 +685,10 @@ class TextToSpeechV1(BaseService):
 
         url = '/v1/customizations/{0}/words'.format(
             *self._encode_path_vars(customization_id))
-        request = self.prepare_request(
-            method='GET', url=url, headers=headers, accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -763,12 +765,11 @@ class TextToSpeechV1(BaseService):
 
         url = '/v1/customizations/{0}/words/{1}'.format(
             *self._encode_path_vars(customization_id, word))
-        request = self.prepare_request(
-            method='PUT',
-            url=url,
-            headers=headers,
-            data=data,
-            accept_json=False)
+        request = self.prepare_request(method='PUT',
+                                       url=url,
+                                       headers=headers,
+                                       data=data,
+                                       accept_json=False)
         response = self.send(request)
         return response
 
@@ -806,8 +807,10 @@ class TextToSpeechV1(BaseService):
 
         url = '/v1/customizations/{0}/words/{1}'.format(
             *self._encode_path_vars(customization_id, word))
-        request = self.prepare_request(
-            method='GET', url=url, headers=headers, accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -844,8 +847,10 @@ class TextToSpeechV1(BaseService):
 
         url = '/v1/customizations/{0}/words/{1}'.format(
             *self._encode_path_vars(customization_id, word))
-        request = self.prepare_request(
-            method='DELETE', url=url, headers=headers, accept_json=False)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       accept_json=False)
         response = self.send(request)
         return response
 
@@ -887,12 +892,11 @@ class TextToSpeechV1(BaseService):
         params = {'customer_id': customer_id}
 
         url = '/v1/user_data'
-        request = self.prepare_request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=False)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=False)
         response = self.send(request)
         return response
 
@@ -1061,7 +1065,7 @@ class ListVoiceModelsEnums(object):
 ##############################################################################
 
 
-class Pronunciation(object):
+class Pronunciation():
     """
     The pronunciation of the specified text.
 
@@ -1084,12 +1088,12 @@ class Pronunciation(object):
     def _from_dict(cls, _dict):
         """Initialize a Pronunciation object from a json dictionary."""
         args = {}
-        validKeys = ['pronunciation']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['pronunciation']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Pronunciation: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'pronunciation' in _dict:
             args['pronunciation'] = _dict.get('pronunciation')
         else:
@@ -1120,7 +1124,7 @@ class Pronunciation(object):
         return not self == other
 
 
-class SupportedFeatures(object):
+class SupportedFeatures():
     """
     Additional service features that are supported with the voice.
 
@@ -1148,12 +1152,12 @@ class SupportedFeatures(object):
     def _from_dict(cls, _dict):
         """Initialize a SupportedFeatures object from a json dictionary."""
         args = {}
-        validKeys = ['custom_pronunciation', 'voice_transformation']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['custom_pronunciation', 'voice_transformation']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SupportedFeatures: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'custom_pronunciation' in _dict:
             args['custom_pronunciation'] = _dict.get('custom_pronunciation')
         else:
@@ -1194,7 +1198,7 @@ class SupportedFeatures(object):
         return not self == other
 
 
-class Translation(object):
+class Translation():
     """
     Information about the translation for the specified text.
 
@@ -1234,12 +1238,12 @@ class Translation(object):
     def _from_dict(cls, _dict):
         """Initialize a Translation object from a json dictionary."""
         args = {}
-        validKeys = ['translation', 'part_of_speech']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['translation', 'part_of_speech']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Translation: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'translation' in _dict:
             args['translation'] = _dict.get('translation')
         else:
@@ -1301,7 +1305,7 @@ class Translation(object):
         SUJI = "Suji"
 
 
-class Voice(object):
+class Voice():
     """
     Information about an available voice model.
 
@@ -1364,15 +1368,15 @@ class Voice(object):
     def _from_dict(cls, _dict):
         """Initialize a Voice object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'url', 'gender', 'name', 'language', 'description', 'customizable',
             'supported_features', 'customization'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Voice: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'url' in _dict:
             args['url'] = _dict.get('url')
         else:
@@ -1453,7 +1457,7 @@ class Voice(object):
         return not self == other
 
 
-class VoiceModel(object):
+class VoiceModel():
     """
     Information about an existing custom voice model.
 
@@ -1533,15 +1537,15 @@ class VoiceModel(object):
     def _from_dict(cls, _dict):
         """Initialize a VoiceModel object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'customization_id', 'name', 'language', 'owner', 'created',
             'last_modified', 'description', 'words'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class VoiceModel: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'customization_id' in _dict:
             args['customization_id'] = _dict.get('customization_id')
         else:
@@ -1601,7 +1605,7 @@ class VoiceModel(object):
         return not self == other
 
 
-class VoiceModels(object):
+class VoiceModels():
     """
     Information about existing custom voice models.
 
@@ -1627,12 +1631,12 @@ class VoiceModels(object):
     def _from_dict(cls, _dict):
         """Initialize a VoiceModels object from a json dictionary."""
         args = {}
-        validKeys = ['customizations']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['customizations']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class VoiceModels: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'customizations' in _dict:
             args['customizations'] = [
                 VoiceModel._from_dict(x) for x in (_dict.get('customizations'))
@@ -1667,7 +1671,7 @@ class VoiceModels(object):
         return not self == other
 
 
-class Voices(object):
+class Voices():
     """
     Information about all available voice models.
 
@@ -1686,12 +1690,12 @@ class Voices(object):
     def _from_dict(cls, _dict):
         """Initialize a Voices object from a json dictionary."""
         args = {}
-        validKeys = ['voices']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['voices']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Voices: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'voices' in _dict:
             args['voices'] = [
                 Voice._from_dict(x) for x in (_dict.get('voices'))
@@ -1723,7 +1727,7 @@ class Voices(object):
         return not self == other
 
 
-class Word(object):
+class Word():
     """
     Information about a word for the custom voice model.
 
@@ -1767,12 +1771,12 @@ class Word(object):
     def _from_dict(cls, _dict):
         """Initialize a Word object from a json dictionary."""
         args = {}
-        validKeys = ['word', 'translation', 'part_of_speech']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['word', 'translation', 'part_of_speech']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Word: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'word' in _dict:
             args['word'] = _dict.get('word')
         else:
@@ -1840,7 +1844,7 @@ class Word(object):
         SUJI = "Suji"
 
 
-class Words(object):
+class Words():
     """
     For the **Add custom words** method, one or more words that are to be added or updated
     for the custom voice model and the translation for each specified word.
@@ -1875,12 +1879,12 @@ class Words(object):
     def _from_dict(cls, _dict):
         """Initialize a Words object from a json dictionary."""
         args = {}
-        validKeys = ['words']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['words']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Words: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'words' in _dict:
             args['words'] = [Word._from_dict(x) for x in (_dict.get('words'))]
         else:

@@ -27,6 +27,7 @@ from enum import Enum
 from ibm_cloud_sdk_core import BaseService
 from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
 from ibm_cloud_sdk_core import get_authenticator_from_environment
+from ibm_cloud_sdk_core import read_external_sources
 from os.path import basename
 
 ##############################################################################
@@ -37,14 +38,12 @@ from os.path import basename
 class LanguageTranslatorV3(BaseService):
     """The Language Translator V3 service."""
 
-    default_url = 'https://gateway.watsonplatform.net/language-translator/api'
+    default_service_url = 'https://gateway.watsonplatform.net/language-translator/api'
 
     def __init__(
             self,
             version,
-            url=default_url,
             authenticator=None,
-            disable_ssl_verification=False,
     ):
         """
         Construct a new client for the Language Translator service.
@@ -60,26 +59,28 @@ class LanguageTranslatorV3(BaseService):
                application, and don't change it until your application is
                ready for a later version.
 
-        :param str url: The base url to use when contacting the service (e.g.
-               "https://gateway.watsonplatform.net/language-translator/api/language-translator/api").
-               The base url may differ between IBM Cloud regions.
-
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
-        :param bool disable_ssl_verification: If True, disables ssl verification
         """
+
+        service_url = self.default_service_url
+        disable_ssl_verification = False
+
+        config = read_external_sources('language_translator')
+        if config.get('URL'):
+            service_url = config.get('URL')
+        if config.get('DISABLE_SSL'):
+            disable_ssl_verification = config.get('DISABLE_SSL')
 
         if not authenticator:
             authenticator = get_authenticator_from_environment(
-                'Language Translator')
+                'language_translator')
 
-        BaseService.__init__(
-            self,
-            url=url,
-            authenticator=authenticator,
-            disable_ssl_verification=disable_ssl_verification,
-            display_name='Language Translator')
+        BaseService.__init__(self,
+                             service_url=service_url,
+                             authenticator=authenticator,
+                             disable_ssl_verification=disable_ssl_verification)
         self.version = version
 
     #########################
@@ -128,13 +129,12 @@ class LanguageTranslatorV3(BaseService):
         }
 
         url = '/v3/translate'
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -164,12 +164,11 @@ class LanguageTranslatorV3(BaseService):
         params = {'version': self.version}
 
         url = '/v3/identifiable_languages'
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -200,13 +199,12 @@ class LanguageTranslatorV3(BaseService):
         headers['content-type'] = 'text/plain'
 
         url = '/v3/identify'
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -249,12 +247,11 @@ class LanguageTranslatorV3(BaseService):
         }
 
         url = '/v3/models'
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -322,22 +319,21 @@ class LanguageTranslatorV3(BaseService):
             'name': name
         }
 
-        form_data = {}
+        form_data = []
         if forced_glossary:
-            form_data['forced_glossary'] = (None, forced_glossary,
-                                            'application/octet-stream')
+            form_data.append(('forced_glossary', (None, forced_glossary,
+                                                  'application/octet-stream')))
         if parallel_corpus:
-            form_data['parallel_corpus'] = (None, parallel_corpus,
-                                            'application/octet-stream')
+            form_data.append(('parallel_corpus', (None, parallel_corpus,
+                                                  'application/octet-stream')))
 
         url = '/v3/models'
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            files=form_data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -366,12 +362,11 @@ class LanguageTranslatorV3(BaseService):
         params = {'version': self.version}
 
         url = '/v3/models/{0}'.format(*self._encode_path_vars(model_id))
-        request = self.prepare_request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -401,12 +396,11 @@ class LanguageTranslatorV3(BaseService):
         params = {'version': self.version}
 
         url = '/v3/models/{0}'.format(*self._encode_path_vars(model_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -435,12 +429,11 @@ class LanguageTranslatorV3(BaseService):
         params = {'version': self.version}
 
         url = '/v3/documents'
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -493,30 +486,29 @@ class LanguageTranslatorV3(BaseService):
 
         params = {'version': self.version}
 
-        form_data = {}
+        form_data = []
         if not filename and hasattr(file, 'name'):
             filename = basename(file.name)
         if not filename:
             raise ValueError('filename must be provided')
-        form_data['file'] = (filename, file, file_content_type or
-                             'application/octet-stream')
+        form_data.append(('file', (filename, file, file_content_type or
+                                   'application/octet-stream')))
         if model_id:
-            form_data['model_id'] = (None, model_id, 'text/plain')
+            form_data.append(('model_id', (None, model_id, 'text/plain')))
         if source:
-            form_data['source'] = (None, source, 'text/plain')
+            form_data.append(('source', (None, source, 'text/plain')))
         if target:
-            form_data['target'] = (None, target, 'text/plain')
+            form_data.append(('target', (None, target, 'text/plain')))
         if document_id:
-            form_data['document_id'] = (None, document_id, 'text/plain')
+            form_data.append(('document_id', (None, document_id, 'text/plain')))
 
         url = '/v3/documents'
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            files=form_data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -545,12 +537,11 @@ class LanguageTranslatorV3(BaseService):
         params = {'version': self.version}
 
         url = '/v3/documents/{0}'.format(*self._encode_path_vars(document_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -579,12 +570,11 @@ class LanguageTranslatorV3(BaseService):
         params = {'version': self.version}
 
         url = '/v3/documents/{0}'.format(*self._encode_path_vars(document_id))
-        request = self.prepare_request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=False)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=False)
         response = self.send(request)
         return response
 
@@ -716,7 +706,7 @@ class GetTranslatedDocumentEnums(object):
 ##############################################################################
 
 
-class DeleteModelResult(object):
+class DeleteModelResult():
     """
     DeleteModelResult.
 
@@ -735,12 +725,12 @@ class DeleteModelResult(object):
     def _from_dict(cls, _dict):
         """Initialize a DeleteModelResult object from a json dictionary."""
         args = {}
-        validKeys = ['status']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['status']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DeleteModelResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'status' in _dict:
             args['status'] = _dict.get('status')
         else:
@@ -771,7 +761,7 @@ class DeleteModelResult(object):
         return not self == other
 
 
-class DocumentList(object):
+class DocumentList():
     """
     DocumentList.
 
@@ -792,12 +782,12 @@ class DocumentList(object):
     def _from_dict(cls, _dict):
         """Initialize a DocumentList object from a json dictionary."""
         args = {}
-        validKeys = ['documents']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['documents']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DocumentList: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'documents' in _dict:
             args['documents'] = [
                 DocumentStatus._from_dict(x) for x in (_dict.get('documents'))
@@ -830,7 +820,7 @@ class DocumentList(object):
         return not self == other
 
 
-class DocumentStatus(object):
+class DocumentStatus():
     """
     Document information, including translation status.
 
@@ -908,16 +898,16 @@ class DocumentStatus(object):
     def _from_dict(cls, _dict):
         """Initialize a DocumentStatus object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'document_id', 'filename', 'status', 'model_id', 'base_model_id',
             'source', 'target', 'created', 'completed', 'word_count',
             'character_count'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DocumentStatus: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document_id' in _dict:
             args['document_id'] = _dict.get('document_id')
         else:
@@ -1021,7 +1011,7 @@ class DocumentStatus(object):
         FAILED = "failed"
 
 
-class IdentifiableLanguage(object):
+class IdentifiableLanguage():
     """
     IdentifiableLanguage.
 
@@ -1043,12 +1033,12 @@ class IdentifiableLanguage(object):
     def _from_dict(cls, _dict):
         """Initialize a IdentifiableLanguage object from a json dictionary."""
         args = {}
-        validKeys = ['language', 'name']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['language', 'name']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class IdentifiableLanguage: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'language' in _dict:
             args['language'] = _dict.get('language')
         else:
@@ -1087,7 +1077,7 @@ class IdentifiableLanguage(object):
         return not self == other
 
 
-class IdentifiableLanguages(object):
+class IdentifiableLanguages():
     """
     IdentifiableLanguages.
 
@@ -1108,12 +1098,12 @@ class IdentifiableLanguages(object):
     def _from_dict(cls, _dict):
         """Initialize a IdentifiableLanguages object from a json dictionary."""
         args = {}
-        validKeys = ['languages']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['languages']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class IdentifiableLanguages: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'languages' in _dict:
             args['languages'] = [
                 IdentifiableLanguage._from_dict(x)
@@ -1147,7 +1137,7 @@ class IdentifiableLanguages(object):
         return not self == other
 
 
-class IdentifiedLanguage(object):
+class IdentifiedLanguage():
     """
     IdentifiedLanguage.
 
@@ -1169,12 +1159,12 @@ class IdentifiedLanguage(object):
     def _from_dict(cls, _dict):
         """Initialize a IdentifiedLanguage object from a json dictionary."""
         args = {}
-        validKeys = ['language', 'confidence']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['language', 'confidence']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class IdentifiedLanguage: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'language' in _dict:
             args['language'] = _dict.get('language')
         else:
@@ -1213,7 +1203,7 @@ class IdentifiedLanguage(object):
         return not self == other
 
 
-class IdentifiedLanguages(object):
+class IdentifiedLanguages():
     """
     IdentifiedLanguages.
 
@@ -1234,12 +1224,12 @@ class IdentifiedLanguages(object):
     def _from_dict(cls, _dict):
         """Initialize a IdentifiedLanguages object from a json dictionary."""
         args = {}
-        validKeys = ['languages']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['languages']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class IdentifiedLanguages: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'languages' in _dict:
             args['languages'] = [
                 IdentifiedLanguage._from_dict(x)
@@ -1273,7 +1263,7 @@ class IdentifiedLanguages(object):
         return not self == other
 
 
-class Translation(object):
+class Translation():
     """
     Translation.
 
@@ -1292,12 +1282,12 @@ class Translation(object):
     def _from_dict(cls, _dict):
         """Initialize a Translation object from a json dictionary."""
         args = {}
-        validKeys = ['translation']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['translation']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Translation: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'translation' in _dict:
             args['translation'] = _dict.get('translation')
         else:
@@ -1328,7 +1318,7 @@ class Translation(object):
         return not self == other
 
 
-class TranslationModel(object):
+class TranslationModel():
     """
     Response payload for models.
 
@@ -1405,15 +1395,15 @@ class TranslationModel(object):
     def _from_dict(cls, _dict):
         """Initialize a TranslationModel object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'model_id', 'name', 'source', 'target', 'base_model_id', 'domain',
             'customizable', 'default_model', 'owner', 'status'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TranslationModel: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'model_id' in _dict:
             args['model_id'] = _dict.get('model_id')
         else:
@@ -1495,7 +1485,7 @@ class TranslationModel(object):
         ERROR = "error"
 
 
-class TranslationModels(object):
+class TranslationModels():
     """
     The response type for listing existing translation models.
 
@@ -1514,12 +1504,12 @@ class TranslationModels(object):
     def _from_dict(cls, _dict):
         """Initialize a TranslationModels object from a json dictionary."""
         args = {}
-        validKeys = ['models']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['models']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TranslationModels: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'models' in _dict:
             args['models'] = [
                 TranslationModel._from_dict(x) for x in (_dict.get('models'))
@@ -1552,7 +1542,7 @@ class TranslationModels(object):
         return not self == other
 
 
-class TranslationResult(object):
+class TranslationResult():
     """
     TranslationResult.
 
@@ -1579,12 +1569,12 @@ class TranslationResult(object):
     def _from_dict(cls, _dict):
         """Initialize a TranslationResult object from a json dictionary."""
         args = {}
-        validKeys = ['word_count', 'character_count', 'translations']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['word_count', 'character_count', 'translations']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TranslationResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'word_count' in _dict:
             args['word_count'] = _dict.get('word_count')
         else:

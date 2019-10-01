@@ -24,6 +24,7 @@ from enum import Enum
 from ibm_cloud_sdk_core import BaseService
 from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
 from ibm_cloud_sdk_core import get_authenticator_from_environment
+from ibm_cloud_sdk_core import read_external_sources
 
 ##############################################################################
 # Service
@@ -33,14 +34,12 @@ from ibm_cloud_sdk_core import get_authenticator_from_environment
 class CompareComplyV1(BaseService):
     """The Compare Comply V1 service."""
 
-    default_url = 'https://gateway.watsonplatform.net/compare-comply/api'
+    default_service_url = 'https://gateway.watsonplatform.net/compare-comply/api'
 
     def __init__(
             self,
             version,
-            url=default_url,
             authenticator=None,
-            disable_ssl_verification=False,
     ):
         """
         Construct a new client for the Compare Comply service.
@@ -56,25 +55,27 @@ class CompareComplyV1(BaseService):
                application, and don't change it until your application is
                ready for a later version.
 
-        :param str url: The base url to use when contacting the service (e.g.
-               "https://gateway.watsonplatform.net/compare-comply/api/compare-comply/api").
-               The base url may differ between IBM Cloud regions.
-
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
-        :param bool disable_ssl_verification: If True, disables ssl verification
         """
 
-        if not authenticator:
-            authenticator = get_authenticator_from_environment('Compare Comply')
+        service_url = self.default_service_url
+        disable_ssl_verification = False
 
-        BaseService.__init__(
-            self,
-            url=url,
-            authenticator=authenticator,
-            disable_ssl_verification=disable_ssl_verification,
-            display_name='Compare Comply')
+        config = read_external_sources('compare_comply')
+        if config.get('URL'):
+            service_url = config.get('URL')
+        if config.get('DISABLE_SSL'):
+            disable_ssl_verification = config.get('DISABLE_SSL')
+
+        if not authenticator:
+            authenticator = get_authenticator_from_environment('compare_comply')
+
+        BaseService.__init__(self,
+                             service_url=service_url,
+                             authenticator=authenticator,
+                             disable_ssl_verification=disable_ssl_verification)
         self.version = version
 
     #########################
@@ -115,18 +116,17 @@ class CompareComplyV1(BaseService):
 
         params = {'version': self.version, 'model': model}
 
-        form_data = {}
-        form_data['file'] = (None, file, file_content_type or
-                             'application/octet-stream')
+        form_data = []
+        form_data.append(('file', (None, file, file_content_type or
+                                   'application/octet-stream')))
 
         url = '/v1/html_conversion'
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            files=form_data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -169,18 +169,17 @@ class CompareComplyV1(BaseService):
 
         params = {'version': self.version, 'model': model}
 
-        form_data = {}
-        form_data['file'] = (None, file, file_content_type or
-                             'application/octet-stream')
+        form_data = []
+        form_data.append(('file', (None, file, file_content_type or
+                                   'application/octet-stream')))
 
         url = '/v1/element_classification'
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            files=form_data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -222,18 +221,17 @@ class CompareComplyV1(BaseService):
 
         params = {'version': self.version, 'model': model}
 
-        form_data = {}
-        form_data['file'] = (None, file, file_content_type or
-                             'application/octet-stream')
+        form_data = []
+        form_data.append(('file', (None, file, file_content_type or
+                                   'application/octet-stream')))
 
         url = '/v1/tables'
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            files=form_data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -291,20 +289,19 @@ class CompareComplyV1(BaseService):
             'model': model
         }
 
-        form_data = {}
-        form_data['file_1'] = (None, file_1, file_1_content_type or
-                               'application/octet-stream')
-        form_data['file_2'] = (None, file_2, file_2_content_type or
-                               'application/octet-stream')
+        form_data = []
+        form_data.append(('file_1', (None, file_1, file_1_content_type or
+                                     'application/octet-stream')))
+        form_data.append(('file_2', (None, file_2, file_2_content_type or
+                                     'application/octet-stream')))
 
         url = '/v1/comparison'
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            files=form_data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -355,13 +352,12 @@ class CompareComplyV1(BaseService):
         }
 
         url = '/v1/feedback'
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -475,12 +471,11 @@ class CompareComplyV1(BaseService):
         }
 
         url = '/v1/feedback'
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -514,12 +509,11 @@ class CompareComplyV1(BaseService):
         params = {'version': self.version, 'model': model}
 
         url = '/v1/feedback/{0}'.format(*self._encode_path_vars(feedback_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -553,12 +547,11 @@ class CompareComplyV1(BaseService):
         params = {'version': self.version, 'model': model}
 
         url = '/v1/feedback/{0}'.format(*self._encode_path_vars(feedback_id))
-        request = self.prepare_request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -641,27 +634,27 @@ class CompareComplyV1(BaseService):
 
         params = {'version': self.version, 'function': function, 'model': model}
 
-        form_data = {}
-        form_data['input_credentials_file'] = (None, input_credentials_file,
-                                               'application/json')
-        form_data['input_bucket_location'] = (None, input_bucket_location,
-                                              'text/plain')
-        form_data['input_bucket_name'] = (None, input_bucket_name, 'text/plain')
-        form_data['output_credentials_file'] = (None, output_credentials_file,
-                                                'application/json')
-        form_data['output_bucket_location'] = (None, output_bucket_location,
-                                               'text/plain')
-        form_data['output_bucket_name'] = (None, output_bucket_name,
-                                           'text/plain')
+        form_data = []
+        form_data.append(('input_credentials_file',
+                          (None, input_credentials_file, 'application/json')))
+        form_data.append(('input_bucket_location', (None, input_bucket_location,
+                                                    'text/plain')))
+        form_data.append(
+            ('input_bucket_name', (None, input_bucket_name, 'text/plain')))
+        form_data.append(('output_credentials_file',
+                          (None, output_credentials_file, 'application/json')))
+        form_data.append(('output_bucket_location',
+                          (None, output_bucket_location, 'text/plain')))
+        form_data.append(
+            ('output_bucket_name', (None, output_bucket_name, 'text/plain')))
 
         url = '/v1/batches'
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            files=form_data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -685,12 +678,11 @@ class CompareComplyV1(BaseService):
         params = {'version': self.version}
 
         url = '/v1/batches'
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -719,12 +711,11 @@ class CompareComplyV1(BaseService):
         params = {'version': self.version}
 
         url = '/v1/batches/{0}'.format(*self._encode_path_vars(batch_id))
-        request = self.prepare_request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -762,12 +753,11 @@ class CompareComplyV1(BaseService):
         params = {'version': self.version, 'action': action, 'model': model}
 
         url = '/v1/batches/{0}'.format(*self._encode_path_vars(batch_id))
-        request = self.prepare_request(
-            method='PUT',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='PUT',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
         response = self.send(request)
         return response
 
@@ -965,7 +955,7 @@ class UpdateBatchEnums(object):
 ##############################################################################
 
 
-class Address(object):
+class Address():
     """
     A party's address.
 
@@ -991,12 +981,12 @@ class Address(object):
     def _from_dict(cls, _dict):
         """Initialize a Address object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'location']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'location']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Address: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'location' in _dict:
@@ -1027,7 +1017,7 @@ class Address(object):
         return not self == other
 
 
-class AlignedElement(object):
+class AlignedElement():
     """
     AlignedElement.
 
@@ -1073,15 +1063,15 @@ class AlignedElement(object):
     def _from_dict(cls, _dict):
         """Initialize a AlignedElement object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'element_pair', 'identical_text', 'provenance_ids',
             'significant_elements'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class AlignedElement: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'element_pair' in _dict:
             args['element_pair'] = [
                 ElementPair._from_dict(x) for x in (_dict.get('element_pair'))
@@ -1123,7 +1113,7 @@ class AlignedElement(object):
         return not self == other
 
 
-class Attribute(object):
+class Attribute():
     """
     List of document attributes.
 
@@ -1152,12 +1142,12 @@ class Attribute(object):
     def _from_dict(cls, _dict):
         """Initialize a Attribute object from a json dictionary."""
         args = {}
-        validKeys = ['type', 'text', 'location']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['type', 'text', 'location']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Attribute: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'text' in _dict:
@@ -1206,7 +1196,7 @@ class Attribute(object):
         PERSON = "Person"
 
 
-class BatchStatus(object):
+class BatchStatus():
     """
     The batch-request status.
 
@@ -1281,16 +1271,16 @@ class BatchStatus(object):
     def _from_dict(cls, _dict):
         """Initialize a BatchStatus object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'function', 'input_bucket_location', 'input_bucket_name',
             'output_bucket_location', 'output_bucket_name', 'batch_id',
             'document_counts', 'status', 'created', 'updated'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class BatchStatus: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'function' in _dict:
             args['function'] = _dict.get('function')
         if 'input_bucket_location' in _dict:
@@ -1369,7 +1359,7 @@ class BatchStatus(object):
         TABLES = "tables"
 
 
-class Batches(object):
+class Batches():
     """
     The results of a successful **List Batches** request.
 
@@ -1390,12 +1380,12 @@ class Batches(object):
     def _from_dict(cls, _dict):
         """Initialize a Batches object from a json dictionary."""
         args = {}
-        validKeys = ['batches']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['batches']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Batches: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'batches' in _dict:
             args['batches'] = [
                 BatchStatus._from_dict(x) for x in (_dict.get('batches'))
@@ -1424,7 +1414,7 @@ class Batches(object):
         return not self == other
 
 
-class BodyCells(object):
+class BodyCells():
     """
     Cells that are not table header, column header, or row header cells.
 
@@ -1530,18 +1520,18 @@ class BodyCells(object):
     def _from_dict(cls, _dict):
         """Initialize a BodyCells object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'cell_id', 'location', 'text', 'row_index_begin', 'row_index_end',
             'column_index_begin', 'column_index_end', 'row_header_ids',
             'row_header_texts', 'row_header_texts_normalized',
             'column_header_ids', 'column_header_texts',
             'column_header_texts_normalized', 'attributes'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class BodyCells: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'cell_id' in _dict:
             args['cell_id'] = _dict.get('cell_id')
         if 'location' in _dict:
@@ -1636,7 +1626,7 @@ class BodyCells(object):
         return not self == other
 
 
-class Category(object):
+class Category():
     """
     Information defining an element's subject matter.
 
@@ -1660,12 +1650,12 @@ class Category(object):
     def _from_dict(cls, _dict):
         """Initialize a Category object from a json dictionary."""
         args = {}
-        validKeys = ['label', 'provenance_ids']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['label', 'provenance_ids']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Category: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'label' in _dict:
             args['label'] = _dict.get('label')
         if 'provenance_ids' in _dict:
@@ -1726,7 +1716,7 @@ class Category(object):
         WARRANTIES = "Warranties"
 
 
-class CategoryComparison(object):
+class CategoryComparison():
     """
     Information defining an element's subject matter.
 
@@ -1745,12 +1735,12 @@ class CategoryComparison(object):
     def _from_dict(cls, _dict):
         """Initialize a CategoryComparison object from a json dictionary."""
         args = {}
-        validKeys = ['label']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['label']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CategoryComparison: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'label' in _dict:
             args['label'] = _dict.get('label')
         return cls(**args)
@@ -1807,7 +1797,7 @@ class CategoryComparison(object):
         WARRANTIES = "Warranties"
 
 
-class ClassifyReturn(object):
+class ClassifyReturn():
     """
     The analysis of objects returned by the **Element classification** method.
 
@@ -1911,17 +1901,17 @@ class ClassifyReturn(object):
     def _from_dict(cls, _dict):
         """Initialize a ClassifyReturn object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'document', 'model_id', 'model_version', 'elements',
             'effective_dates', 'contract_amounts', 'termination_dates',
             'contract_types', 'contract_terms', 'payment_terms',
             'contract_currencies', 'tables', 'document_structure', 'parties'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ClassifyReturn: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document' in _dict:
             args['document'] = Document._from_dict(_dict.get('document'))
         if 'model_id' in _dict:
@@ -2046,7 +2036,7 @@ class ClassifyReturn(object):
         return not self == other
 
 
-class ColumnHeaders(object):
+class ColumnHeaders():
     """
     Column-level cells, each applicable as a header to other cells in the same column as
     itself, of the current table.
@@ -2115,15 +2105,15 @@ class ColumnHeaders(object):
     def _from_dict(cls, _dict):
         """Initialize a ColumnHeaders object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'cell_id', 'location', 'text', 'text_normalized', 'row_index_begin',
             'row_index_end', 'column_index_begin', 'column_index_end'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ColumnHeaders: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'cell_id' in _dict:
             args['cell_id'] = _dict.get('cell_id')
         if 'location' in _dict:
@@ -2183,7 +2173,7 @@ class ColumnHeaders(object):
         return not self == other
 
 
-class CompareReturn(object):
+class CompareReturn():
     """
     The comparison of the two submitted documents.
 
@@ -2232,15 +2222,15 @@ class CompareReturn(object):
     def _from_dict(cls, _dict):
         """Initialize a CompareReturn object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'model_id', 'model_version', 'documents', 'aligned_elements',
             'unaligned_elements'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CompareReturn: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'model_id' in _dict:
             args['model_id'] = _dict.get('model_id')
         if 'model_version' in _dict:
@@ -2298,7 +2288,7 @@ class CompareReturn(object):
         return not self == other
 
 
-class Contact(object):
+class Contact():
     """
     A contact.
 
@@ -2320,12 +2310,12 @@ class Contact(object):
     def _from_dict(cls, _dict):
         """Initialize a Contact object from a json dictionary."""
         args = {}
-        validKeys = ['name', 'role']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['name', 'role']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Contact: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         if 'role' in _dict:
@@ -2356,7 +2346,7 @@ class Contact(object):
         return not self == other
 
 
-class Contexts(object):
+class Contexts():
     """
     Text that is related to the contents of the table and that precedes or follows the
     current table.
@@ -2383,12 +2373,12 @@ class Contexts(object):
     def _from_dict(cls, _dict):
         """Initialize a Contexts object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'location']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'location']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Contexts: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'location' in _dict:
@@ -2419,7 +2409,7 @@ class Contexts(object):
         return not self == other
 
 
-class ContractAmts(object):
+class ContractAmts():
     """
     A monetary amount identified in the input document.
 
@@ -2476,15 +2466,15 @@ class ContractAmts(object):
     def _from_dict(cls, _dict):
         """Initialize a ContractAmts object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'confidence_level', 'text', 'text_normalized', 'interpretation',
             'provenance_ids', 'location'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ContractAmts: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'confidence_level' in _dict:
             args['confidence_level'] = _dict.get('confidence_level')
         if 'text' in _dict:
@@ -2542,7 +2532,7 @@ class ContractAmts(object):
         LOW = "Low"
 
 
-class ContractCurrencies(object):
+class ContractCurrencies():
     """
     The contract currencies that are declared in the document.
 
@@ -2593,15 +2583,15 @@ class ContractCurrencies(object):
     def _from_dict(cls, _dict):
         """Initialize a ContractCurrencies object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'confidence_level', 'text', 'text_normalized', 'provenance_ids',
             'location'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ContractCurrencies: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'confidence_level' in _dict:
             args['confidence_level'] = _dict.get('confidence_level')
         if 'text' in _dict:
@@ -2654,7 +2644,7 @@ class ContractCurrencies(object):
         LOW = "Low"
 
 
-class ContractTerms(object):
+class ContractTerms():
     """
     The duration or durations of the contract.
 
@@ -2711,15 +2701,15 @@ class ContractTerms(object):
     def _from_dict(cls, _dict):
         """Initialize a ContractTerms object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'confidence_level', 'text', 'text_normalized', 'interpretation',
             'provenance_ids', 'location'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ContractTerms: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'confidence_level' in _dict:
             args['confidence_level'] = _dict.get('confidence_level')
         if 'text' in _dict:
@@ -2777,7 +2767,7 @@ class ContractTerms(object):
         LOW = "Low"
 
 
-class ContractTypes(object):
+class ContractTypes():
     """
     The contract type identified in the input document.
 
@@ -2818,12 +2808,12 @@ class ContractTypes(object):
     def _from_dict(cls, _dict):
         """Initialize a ContractTypes object from a json dictionary."""
         args = {}
-        validKeys = ['confidence_level', 'text', 'provenance_ids', 'location']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['confidence_level', 'text', 'provenance_ids', 'location']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ContractTypes: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'confidence_level' in _dict:
             args['confidence_level'] = _dict.get('confidence_level')
         if 'text' in _dict:
@@ -2871,7 +2861,7 @@ class ContractTypes(object):
         LOW = "Low"
 
 
-class DocCounts(object):
+class DocCounts():
     """
     Document counts.
 
@@ -2906,12 +2896,12 @@ class DocCounts(object):
     def _from_dict(cls, _dict):
         """Initialize a DocCounts object from a json dictionary."""
         args = {}
-        validKeys = ['total', 'pending', 'successful', 'failed']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['total', 'pending', 'successful', 'failed']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DocCounts: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'total' in _dict:
             args['total'] = _dict.get('total')
         if 'pending' in _dict:
@@ -2950,7 +2940,7 @@ class DocCounts(object):
         return not self == other
 
 
-class DocInfo(object):
+class DocInfo():
     """
     Information about the parsed input document.
 
@@ -2978,12 +2968,12 @@ class DocInfo(object):
     def _from_dict(cls, _dict):
         """Initialize a DocInfo object from a json dictionary."""
         args = {}
-        validKeys = ['html', 'title', 'hash']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['html', 'title', 'hash']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DocInfo: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'html' in _dict:
             args['html'] = _dict.get('html')
         if 'title' in _dict:
@@ -3018,7 +3008,7 @@ class DocInfo(object):
         return not self == other
 
 
-class DocStructure(object):
+class DocStructure():
     """
     The structure of the input document.
 
@@ -3058,12 +3048,12 @@ class DocStructure(object):
     def _from_dict(cls, _dict):
         """Initialize a DocStructure object from a json dictionary."""
         args = {}
-        validKeys = ['section_titles', 'leading_sentences', 'paragraphs']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['section_titles', 'leading_sentences', 'paragraphs']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DocStructure: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'section_titles' in _dict:
             args['section_titles'] = [
                 SectionTitles._from_dict(x)
@@ -3111,7 +3101,7 @@ class DocStructure(object):
         return not self == other
 
 
-class Document(object):
+class Document():
     """
     Basic information about the input document.
 
@@ -3143,12 +3133,12 @@ class Document(object):
     def _from_dict(cls, _dict):
         """Initialize a Document object from a json dictionary."""
         args = {}
-        validKeys = ['title', 'html', 'hash', 'label']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['title', 'html', 'hash', 'label']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Document: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'title' in _dict:
             args['title'] = _dict.get('title')
         if 'html' in _dict:
@@ -3187,7 +3177,7 @@ class Document(object):
         return not self == other
 
 
-class EffectiveDates(object):
+class EffectiveDates():
     """
     An effective date.
 
@@ -3236,15 +3226,15 @@ class EffectiveDates(object):
     def _from_dict(cls, _dict):
         """Initialize a EffectiveDates object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'confidence_level', 'text', 'text_normalized', 'provenance_ids',
             'location'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class EffectiveDates: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'confidence_level' in _dict:
             args['confidence_level'] = _dict.get('confidence_level')
         if 'text' in _dict:
@@ -3297,7 +3287,7 @@ class EffectiveDates(object):
         LOW = "Low"
 
 
-class Element(object):
+class Element():
     """
     A component part of the document.
 
@@ -3343,12 +3333,12 @@ class Element(object):
     def _from_dict(cls, _dict):
         """Initialize a Element object from a json dictionary."""
         args = {}
-        validKeys = ['location', 'text', 'types', 'categories', 'attributes']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['location', 'text', 'types', 'categories', 'attributes']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Element: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'location' in _dict:
             args['location'] = Location._from_dict(_dict.get('location'))
         if 'text' in _dict:
@@ -3397,7 +3387,7 @@ class Element(object):
         return not self == other
 
 
-class ElementLocations(object):
+class ElementLocations():
     """
     A list of `begin` and `end` indexes that indicate the locations of the elements in the
     input document.
@@ -3424,12 +3414,12 @@ class ElementLocations(object):
     def _from_dict(cls, _dict):
         """Initialize a ElementLocations object from a json dictionary."""
         args = {}
-        validKeys = ['begin', 'end']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['begin', 'end']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ElementLocations: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'begin' in _dict:
             args['begin'] = _dict.get('begin')
         if 'end' in _dict:
@@ -3460,7 +3450,7 @@ class ElementLocations(object):
         return not self == other
 
 
-class ElementPair(object):
+class ElementPair():
     """
     Details of semantically aligned elements.
 
@@ -3515,15 +3505,15 @@ class ElementPair(object):
     def _from_dict(cls, _dict):
         """Initialize a ElementPair object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'document_label', 'text', 'location', 'types', 'categories',
             'attributes'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ElementPair: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document_label' in _dict:
             args['document_label'] = _dict.get('document_label')
         if 'text' in _dict:
@@ -3577,7 +3567,7 @@ class ElementPair(object):
         return not self == other
 
 
-class FeedbackDataInput(object):
+class FeedbackDataInput():
     """
     Feedback data for submission.
 
@@ -3639,15 +3629,15 @@ class FeedbackDataInput(object):
     def _from_dict(cls, _dict):
         """Initialize a FeedbackDataInput object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'feedback_type', 'document', 'model_id', 'model_version',
             'location', 'text', 'original_labels', 'updated_labels'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class FeedbackDataInput: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'feedback_type' in _dict:
             args['feedback_type'] = _dict.get('feedback_type')
         else:
@@ -3725,7 +3715,7 @@ class FeedbackDataInput(object):
         return not self == other
 
 
-class FeedbackDataOutput(object):
+class FeedbackDataOutput():
     """
     Information returned from the **Add Feedback** method.
 
@@ -3795,16 +3785,16 @@ class FeedbackDataOutput(object):
     def _from_dict(cls, _dict):
         """Initialize a FeedbackDataOutput object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'feedback_type', 'document', 'model_id', 'model_version',
             'location', 'text', 'original_labels', 'updated_labels',
             'pagination'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class FeedbackDataOutput: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'feedback_type' in _dict:
             args['feedback_type'] = _dict.get('feedback_type')
         if 'document' in _dict:
@@ -3866,7 +3856,7 @@ class FeedbackDataOutput(object):
         return not self == other
 
 
-class FeedbackDeleted(object):
+class FeedbackDeleted():
     """
     The status and message of the deletion request.
 
@@ -3888,12 +3878,12 @@ class FeedbackDeleted(object):
     def _from_dict(cls, _dict):
         """Initialize a FeedbackDeleted object from a json dictionary."""
         args = {}
-        validKeys = ['status', 'message']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['status', 'message']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class FeedbackDeleted: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'status' in _dict:
             args['status'] = _dict.get('status')
         if 'message' in _dict:
@@ -3924,7 +3914,7 @@ class FeedbackDeleted(object):
         return not self == other
 
 
-class FeedbackList(object):
+class FeedbackList():
     """
     The results of a successful **List Feedback** request for all feedback.
 
@@ -3945,12 +3935,12 @@ class FeedbackList(object):
     def _from_dict(cls, _dict):
         """Initialize a FeedbackList object from a json dictionary."""
         args = {}
-        validKeys = ['feedback']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['feedback']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class FeedbackList: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'feedback' in _dict:
             args['feedback'] = [
                 GetFeedback._from_dict(x) for x in (_dict.get('feedback'))
@@ -3979,7 +3969,7 @@ class FeedbackList(object):
         return not self == other
 
 
-class FeedbackReturn(object):
+class FeedbackReturn():
     """
     Information about the document and the submitted feedback.
 
@@ -4024,14 +4014,14 @@ class FeedbackReturn(object):
     def _from_dict(cls, _dict):
         """Initialize a FeedbackReturn object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'feedback_id', 'user_id', 'comment', 'created', 'feedback_data'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class FeedbackReturn: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'feedback_id' in _dict:
             args['feedback_id'] = _dict.get('feedback_id')
         if 'user_id' in _dict:
@@ -4075,7 +4065,7 @@ class FeedbackReturn(object):
         return not self == other
 
 
-class GetFeedback(object):
+class GetFeedback():
     """
     The results of a successful **Get Feedback** request for a single feedback entry.
 
@@ -4116,12 +4106,12 @@ class GetFeedback(object):
     def _from_dict(cls, _dict):
         """Initialize a GetFeedback object from a json dictionary."""
         args = {}
-        validKeys = ['feedback_id', 'created', 'comment', 'feedback_data']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['feedback_id', 'created', 'comment', 'feedback_data']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class GetFeedback: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'feedback_id' in _dict:
             args['feedback_id'] = _dict.get('feedback_id')
         if 'created' in _dict:
@@ -4161,7 +4151,7 @@ class GetFeedback(object):
         return not self == other
 
 
-class HTMLReturn(object):
+class HTMLReturn():
     """
     The HTML converted from an input document.
 
@@ -4202,12 +4192,14 @@ class HTMLReturn(object):
     def _from_dict(cls, _dict):
         """Initialize a HTMLReturn object from a json dictionary."""
         args = {}
-        validKeys = ['num_pages', 'author', 'publication_date', 'title', 'html']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = [
+            'num_pages', 'author', 'publication_date', 'title', 'html'
+        ]
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class HTMLReturn: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'num_pages' in _dict:
             args['num_pages'] = _dict.get('num_pages')
         if 'author' in _dict:
@@ -4251,7 +4243,7 @@ class HTMLReturn(object):
         return not self == other
 
 
-class Interpretation(object):
+class Interpretation():
     """
     The details of the normalized text, if applicable. This element is optional; it is
     returned only if normalized text exists.
@@ -4292,12 +4284,12 @@ class Interpretation(object):
     def _from_dict(cls, _dict):
         """Initialize a Interpretation object from a json dictionary."""
         args = {}
-        validKeys = ['value', 'numeric_value', 'unit']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['value', 'numeric_value', 'unit']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Interpretation: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'value' in _dict:
             args['value'] = _dict.get('value')
         if 'numeric_value' in _dict:
@@ -4332,7 +4324,7 @@ class Interpretation(object):
         return not self == other
 
 
-class Key(object):
+class Key():
     """
     A key in a key-value pair.
 
@@ -4363,12 +4355,12 @@ class Key(object):
     def _from_dict(cls, _dict):
         """Initialize a Key object from a json dictionary."""
         args = {}
-        validKeys = ['cell_id', 'location', 'text']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['cell_id', 'location', 'text']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Key: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'cell_id' in _dict:
             args['cell_id'] = _dict.get('cell_id')
         if 'location' in _dict:
@@ -4403,7 +4395,7 @@ class Key(object):
         return not self == other
 
 
-class KeyValuePair(object):
+class KeyValuePair():
     """
     Key-value pairs detected across cell boundaries.
 
@@ -4425,12 +4417,12 @@ class KeyValuePair(object):
     def _from_dict(cls, _dict):
         """Initialize a KeyValuePair object from a json dictionary."""
         args = {}
-        validKeys = ['key', 'value']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['key', 'value']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class KeyValuePair: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'key' in _dict:
             args['key'] = Key._from_dict(_dict.get('key'))
         if 'value' in _dict:
@@ -4461,7 +4453,7 @@ class KeyValuePair(object):
         return not self == other
 
 
-class Label(object):
+class Label():
     """
     A pair of `nature` and `party` objects. The `nature` object identifies the effect of
     the element on the identified `party`, and the `party` object identifies the affected
@@ -4485,12 +4477,12 @@ class Label(object):
     def _from_dict(cls, _dict):
         """Initialize a Label object from a json dictionary."""
         args = {}
-        validKeys = ['nature', 'party']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['nature', 'party']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Label: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'nature' in _dict:
             args['nature'] = _dict.get('nature')
         else:
@@ -4527,7 +4519,7 @@ class Label(object):
         return not self == other
 
 
-class LeadingSentence(object):
+class LeadingSentence():
     """
     The leading sentences in a section or subsection of the input document.
 
@@ -4558,12 +4550,12 @@ class LeadingSentence(object):
     def _from_dict(cls, _dict):
         """Initialize a LeadingSentence object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'location', 'element_locations']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'location', 'element_locations']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class LeadingSentence: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'location' in _dict:
@@ -4604,7 +4596,7 @@ class LeadingSentence(object):
         return not self == other
 
 
-class Location(object):
+class Location():
     """
     The numeric location of the identified element in the document, represented with two
     integers labeled `begin` and `end`.
@@ -4627,12 +4619,12 @@ class Location(object):
     def _from_dict(cls, _dict):
         """Initialize a Location object from a json dictionary."""
         args = {}
-        validKeys = ['begin', 'end']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['begin', 'end']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Location: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'begin' in _dict:
             args['begin'] = _dict.get('begin')
         else:
@@ -4669,7 +4661,7 @@ class Location(object):
         return not self == other
 
 
-class Mention(object):
+class Mention():
     """
     A mention of a party.
 
@@ -4695,12 +4687,12 @@ class Mention(object):
     def _from_dict(cls, _dict):
         """Initialize a Mention object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'location']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'location']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Mention: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'location' in _dict:
@@ -4731,7 +4723,7 @@ class Mention(object):
         return not self == other
 
 
-class OriginalLabelsIn(object):
+class OriginalLabelsIn():
     """
     The original labeling from the input document, without the submitted feedback.
 
@@ -4757,12 +4749,12 @@ class OriginalLabelsIn(object):
     def _from_dict(cls, _dict):
         """Initialize a OriginalLabelsIn object from a json dictionary."""
         args = {}
-        validKeys = ['types', 'categories']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['types', 'categories']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class OriginalLabelsIn: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'types' in _dict:
             args['types'] = [
                 TypeLabel._from_dict(x) for x in (_dict.get('types'))
@@ -4805,7 +4797,7 @@ class OriginalLabelsIn(object):
         return not self == other
 
 
-class OriginalLabelsOut(object):
+class OriginalLabelsOut():
     """
     The original labeling from the input document, without the submitted feedback.
 
@@ -4839,12 +4831,12 @@ class OriginalLabelsOut(object):
     def _from_dict(cls, _dict):
         """Initialize a OriginalLabelsOut object from a json dictionary."""
         args = {}
-        validKeys = ['types', 'categories', 'modification']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['types', 'categories', 'modification']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class OriginalLabelsOut: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'types' in _dict:
             args['types'] = [
                 TypeLabel._from_dict(x) for x in (_dict.get('types'))
@@ -4892,7 +4884,7 @@ class OriginalLabelsOut(object):
         REMOVED = "removed"
 
 
-class Pagination(object):
+class Pagination():
     """
     Pagination details, if required by the length of the output.
 
@@ -4935,14 +4927,14 @@ class Pagination(object):
     def _from_dict(cls, _dict):
         """Initialize a Pagination object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'refresh_cursor', 'next_cursor', 'refresh_url', 'next_url', 'total'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Pagination: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'refresh_cursor' in _dict:
             args['refresh_cursor'] = _dict.get('refresh_cursor')
         if 'next_cursor' in _dict:
@@ -4985,7 +4977,7 @@ class Pagination(object):
         return not self == other
 
 
-class Paragraphs(object):
+class Paragraphs():
     """
     The locations of each paragraph in the input document.
 
@@ -5008,12 +5000,12 @@ class Paragraphs(object):
     def _from_dict(cls, _dict):
         """Initialize a Paragraphs object from a json dictionary."""
         args = {}
-        validKeys = ['location']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['location']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Paragraphs: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'location' in _dict:
             args['location'] = Location._from_dict(_dict.get('location'))
         return cls(**args)
@@ -5040,7 +5032,7 @@ class Paragraphs(object):
         return not self == other
 
 
-class Parties(object):
+class Parties():
     """
     A party and its corresponding role, including address and contact information if
     identified.
@@ -5090,14 +5082,14 @@ class Parties(object):
     def _from_dict(cls, _dict):
         """Initialize a Parties object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'party', 'role', 'importance', 'addresses', 'contacts', 'mentions'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Parties: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'party' in _dict:
             args['party'] = _dict.get('party')
         if 'role' in _dict:
@@ -5157,7 +5149,7 @@ class Parties(object):
         UNKNOWN = "Unknown"
 
 
-class PaymentTerms(object):
+class PaymentTerms():
     """
     The document's payment duration or durations.
 
@@ -5214,15 +5206,15 @@ class PaymentTerms(object):
     def _from_dict(cls, _dict):
         """Initialize a PaymentTerms object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'confidence_level', 'text', 'text_normalized', 'interpretation',
             'provenance_ids', 'location'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class PaymentTerms: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'confidence_level' in _dict:
             args['confidence_level'] = _dict.get('confidence_level')
         if 'text' in _dict:
@@ -5280,7 +5272,7 @@ class PaymentTerms(object):
         LOW = "Low"
 
 
-class RowHeaders(object):
+class RowHeaders():
     """
     Row-level cells, each applicable as a header to other cells in the same row as itself,
     of the current table.
@@ -5349,15 +5341,15 @@ class RowHeaders(object):
     def _from_dict(cls, _dict):
         """Initialize a RowHeaders object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'cell_id', 'location', 'text', 'text_normalized', 'row_index_begin',
             'row_index_end', 'column_index_begin', 'column_index_end'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class RowHeaders: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'cell_id' in _dict:
             args['cell_id'] = _dict.get('cell_id')
         if 'location' in _dict:
@@ -5417,7 +5409,7 @@ class RowHeaders(object):
         return not self == other
 
 
-class SectionTitle(object):
+class SectionTitle():
     """
     The table's section title, if identified.
 
@@ -5443,12 +5435,12 @@ class SectionTitle(object):
     def _from_dict(cls, _dict):
         """Initialize a SectionTitle object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'location']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'location']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SectionTitle: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'location' in _dict:
@@ -5479,7 +5471,7 @@ class SectionTitle(object):
         return not self == other
 
 
-class SectionTitles(object):
+class SectionTitles():
     """
     An array containing one object per section or subsection detected in the input
     document. Sections and subsections are not nested; instead, they are flattened out and
@@ -5526,12 +5518,12 @@ class SectionTitles(object):
     def _from_dict(cls, _dict):
         """Initialize a SectionTitles object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'location', 'level', 'element_locations']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'location', 'level', 'element_locations']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SectionTitles: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'location' in _dict:
@@ -5576,7 +5568,7 @@ class SectionTitles(object):
         return not self == other
 
 
-class ShortDoc(object):
+class ShortDoc():
     """
     Brief information about the input document.
 
@@ -5599,12 +5591,12 @@ class ShortDoc(object):
     def _from_dict(cls, _dict):
         """Initialize a ShortDoc object from a json dictionary."""
         args = {}
-        validKeys = ['title', 'hash']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['title', 'hash']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ShortDoc: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'title' in _dict:
             args['title'] = _dict.get('title')
         if 'hash' in _dict:
@@ -5635,7 +5627,7 @@ class ShortDoc(object):
         return not self == other
 
 
-class TableHeaders(object):
+class TableHeaders():
     """
     The contents of the current table's header.
 
@@ -5695,15 +5687,15 @@ class TableHeaders(object):
     def _from_dict(cls, _dict):
         """Initialize a TableHeaders object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'cell_id', 'location', 'text', 'row_index_begin', 'row_index_end',
             'column_index_begin', 'column_index_end'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TableHeaders: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'cell_id' in _dict:
             args['cell_id'] = _dict.get('cell_id')
         if 'location' in _dict:
@@ -5758,7 +5750,7 @@ class TableHeaders(object):
         return not self == other
 
 
-class TableReturn(object):
+class TableReturn():
     """
     The analysis of the document's tables.
 
@@ -5796,12 +5788,12 @@ class TableReturn(object):
     def _from_dict(cls, _dict):
         """Initialize a TableReturn object from a json dictionary."""
         args = {}
-        validKeys = ['document', 'model_id', 'model_version', 'tables']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['document', 'model_id', 'model_version', 'tables']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TableReturn: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document' in _dict:
             args['document'] = DocInfo._from_dict(_dict.get('document'))
         if 'model_id' in _dict:
@@ -5842,7 +5834,7 @@ class TableReturn(object):
         return not self == other
 
 
-class TableTitle(object):
+class TableTitle():
     """
     If identified, the title or caption of the current table of the form `Table x.: ...`.
     Empty when no title is identified. When exposed, the `title` is also excluded from the
@@ -5871,12 +5863,12 @@ class TableTitle(object):
     def _from_dict(cls, _dict):
         """Initialize a TableTitle object from a json dictionary."""
         args = {}
-        validKeys = ['location', 'text']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['location', 'text']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TableTitle: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'location' in _dict:
             args['location'] = Location._from_dict(_dict.get('location'))
         if 'text' in _dict:
@@ -5907,7 +5899,7 @@ class TableTitle(object):
         return not self == other
 
 
-class Tables(object):
+class Tables():
     """
     The contents of the tables extracted from a document.
 
@@ -5998,16 +5990,16 @@ class Tables(object):
     def _from_dict(cls, _dict):
         """Initialize a Tables object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'location', 'text', 'section_title', 'title', 'table_headers',
             'row_headers', 'column_headers', 'body_cells', 'contexts',
             'key_value_pairs'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Tables: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'location' in _dict:
             args['location'] = Location._from_dict(_dict.get('location'))
         if 'text' in _dict:
@@ -6090,7 +6082,7 @@ class Tables(object):
         return not self == other
 
 
-class TerminationDates(object):
+class TerminationDates():
     """
     Termination dates identified in the input document.
 
@@ -6139,15 +6131,15 @@ class TerminationDates(object):
     def _from_dict(cls, _dict):
         """Initialize a TerminationDates object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'confidence_level', 'text', 'text_normalized', 'provenance_ids',
             'location'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TerminationDates: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'confidence_level' in _dict:
             args['confidence_level'] = _dict.get('confidence_level')
         if 'text' in _dict:
@@ -6200,7 +6192,7 @@ class TerminationDates(object):
         LOW = "Low"
 
 
-class TypeLabel(object):
+class TypeLabel():
     """
     Identification of a specific type.
 
@@ -6228,12 +6220,12 @@ class TypeLabel(object):
     def _from_dict(cls, _dict):
         """Initialize a TypeLabel object from a json dictionary."""
         args = {}
-        validKeys = ['label', 'provenance_ids']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['label', 'provenance_ids']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TypeLabel: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'label' in _dict:
             args['label'] = Label._from_dict(_dict.get('label'))
         if 'provenance_ids' in _dict:
@@ -6264,7 +6256,7 @@ class TypeLabel(object):
         return not self == other
 
 
-class TypeLabelComparison(object):
+class TypeLabelComparison():
     """
     Identification of a specific type.
 
@@ -6287,12 +6279,12 @@ class TypeLabelComparison(object):
     def _from_dict(cls, _dict):
         """Initialize a TypeLabelComparison object from a json dictionary."""
         args = {}
-        validKeys = ['label']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['label']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TypeLabelComparison: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'label' in _dict:
             args['label'] = Label._from_dict(_dict.get('label'))
         return cls(**args)
@@ -6319,7 +6311,7 @@ class TypeLabelComparison(object):
         return not self == other
 
 
-class UnalignedElement(object):
+class UnalignedElement():
     """
     Element that does not align semantically between two compared documents.
 
@@ -6374,15 +6366,15 @@ class UnalignedElement(object):
     def _from_dict(cls, _dict):
         """Initialize a UnalignedElement object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'document_label', 'location', 'text', 'types', 'categories',
             'attributes'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class UnalignedElement: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document_label' in _dict:
             args['document_label'] = _dict.get('document_label')
         if 'location' in _dict:
@@ -6436,7 +6428,7 @@ class UnalignedElement(object):
         return not self == other
 
 
-class UpdatedLabelsIn(object):
+class UpdatedLabelsIn():
     """
     The updated labeling from the input document, accounting for the submitted feedback.
 
@@ -6462,12 +6454,12 @@ class UpdatedLabelsIn(object):
     def _from_dict(cls, _dict):
         """Initialize a UpdatedLabelsIn object from a json dictionary."""
         args = {}
-        validKeys = ['types', 'categories']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['types', 'categories']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class UpdatedLabelsIn: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'types' in _dict:
             args['types'] = [
                 TypeLabel._from_dict(x) for x in (_dict.get('types'))
@@ -6510,7 +6502,7 @@ class UpdatedLabelsIn(object):
         return not self == other
 
 
-class UpdatedLabelsOut(object):
+class UpdatedLabelsOut():
     """
     The updated labeling from the input document, accounting for the submitted feedback.
 
@@ -6544,12 +6536,12 @@ class UpdatedLabelsOut(object):
     def _from_dict(cls, _dict):
         """Initialize a UpdatedLabelsOut object from a json dictionary."""
         args = {}
-        validKeys = ['types', 'categories', 'modification']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['types', 'categories', 'modification']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class UpdatedLabelsOut: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'types' in _dict:
             args['types'] = [
                 TypeLabel._from_dict(x) for x in (_dict.get('types'))
@@ -6597,7 +6589,7 @@ class UpdatedLabelsOut(object):
         REMOVED = "removed"
 
 
-class Value(object):
+class Value():
     """
     A value in a key-value pair.
 
@@ -6628,12 +6620,12 @@ class Value(object):
     def _from_dict(cls, _dict):
         """Initialize a Value object from a json dictionary."""
         args = {}
-        validKeys = ['cell_id', 'location', 'text']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['cell_id', 'location', 'text']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Value: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'cell_id' in _dict:
             args['cell_id'] = _dict.get('cell_id')
         if 'location' in _dict:

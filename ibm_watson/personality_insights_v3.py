@@ -38,6 +38,7 @@ from .common import get_sdk_headers
 from enum import Enum
 from ibm_cloud_sdk_core import BaseService
 from ibm_cloud_sdk_core import get_authenticator_from_environment
+from ibm_cloud_sdk_core import read_external_sources
 
 ##############################################################################
 # Service
@@ -47,14 +48,12 @@ from ibm_cloud_sdk_core import get_authenticator_from_environment
 class PersonalityInsightsV3(BaseService):
     """The Personality Insights V3 service."""
 
-    default_url = 'https://gateway.watsonplatform.net/personality-insights/api'
+    default_service_url = 'https://gateway.watsonplatform.net/personality-insights/api'
 
     def __init__(
             self,
             version,
-            url=default_url,
             authenticator=None,
-            disable_ssl_verification=False,
     ):
         """
         Construct a new client for the Personality Insights service.
@@ -70,26 +69,28 @@ class PersonalityInsightsV3(BaseService):
                application, and don't change it until your application is
                ready for a later version.
 
-        :param str url: The base url to use when contacting the service (e.g.
-               "https://gateway.watsonplatform.net/personality-insights/api/personality-insights/api").
-               The base url may differ between IBM Cloud regions.
-
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
-        :param bool disable_ssl_verification: If True, disables ssl verification
         """
+
+        service_url = self.default_service_url
+        disable_ssl_verification = False
+
+        config = read_external_sources('personality_insights')
+        if config.get('URL'):
+            service_url = config.get('URL')
+        if config.get('DISABLE_SSL'):
+            disable_ssl_verification = config.get('DISABLE_SSL')
 
         if not authenticator:
             authenticator = get_authenticator_from_environment(
-                'Personality Insights')
+                'personality_insights')
 
-        BaseService.__init__(
-            self,
-            url=url,
-            authenticator=authenticator,
-            disable_ssl_verification=disable_ssl_verification,
-            display_name='Personality Insights')
+        BaseService.__init__(self,
+                             service_url=service_url,
+                             authenticator=authenticator,
+                             disable_ssl_verification=disable_ssl_verification)
         self.version = version
 
     #########################
@@ -290,7 +291,7 @@ class ProfileEnums(object):
 ##############################################################################
 
 
-class Behavior(object):
+class Behavior():
     """
     The temporal behavior for the input content.
 
@@ -327,12 +328,12 @@ class Behavior(object):
     def _from_dict(cls, _dict):
         """Initialize a Behavior object from a json dictionary."""
         args = {}
-        validKeys = ['trait_id', 'name', 'category', 'percentage']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['trait_id', 'name', 'category', 'percentage']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Behavior: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'trait_id' in _dict:
             args['trait_id'] = _dict.get('trait_id')
         else:
@@ -383,7 +384,7 @@ class Behavior(object):
         return not self == other
 
 
-class ConsumptionPreferences(object):
+class ConsumptionPreferences():
     """
     A consumption preference that the service inferred from the input content.
 
@@ -425,12 +426,12 @@ class ConsumptionPreferences(object):
     def _from_dict(cls, _dict):
         """Initialize a ConsumptionPreferences object from a json dictionary."""
         args = {}
-        validKeys = ['consumption_preference_id', 'name', 'score']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['consumption_preference_id', 'name', 'score']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ConsumptionPreferences: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'consumption_preference_id' in _dict:
             args['consumption_preference_id'] = _dict.get(
                 'consumption_preference_id')
@@ -479,7 +480,7 @@ class ConsumptionPreferences(object):
         return not self == other
 
 
-class ConsumptionPreferencesCategory(object):
+class ConsumptionPreferencesCategory():
     """
     The consumption preferences that the service inferred from the input content.
 
@@ -513,15 +514,15 @@ class ConsumptionPreferencesCategory(object):
     def _from_dict(cls, _dict):
         """Initialize a ConsumptionPreferencesCategory object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'consumption_preference_category_id', 'name',
             'consumption_preferences'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ConsumptionPreferencesCategory: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'consumption_preference_category_id' in _dict:
             args['consumption_preference_category_id'] = _dict.get(
                 'consumption_preference_category_id')
@@ -577,7 +578,7 @@ class ConsumptionPreferencesCategory(object):
         return not self == other
 
 
-class Content(object):
+class Content():
     """
     The full input content that the service is to analyze.
 
@@ -598,12 +599,12 @@ class Content(object):
     def _from_dict(cls, _dict):
         """Initialize a Content object from a json dictionary."""
         args = {}
-        validKeys = ['content_items', 'contentItems']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['content_items', 'contentItems']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Content: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'contentItems' in _dict:
             args['content_items'] = [
                 ContentItem._from_dict(x) for x in (_dict.get('contentItems'))
@@ -636,7 +637,7 @@ class Content(object):
         return not self == other
 
 
-class ContentItem(object):
+class ContentItem():
     """
     An input content item that the service is to analyze.
 
@@ -731,15 +732,15 @@ class ContentItem(object):
     def _from_dict(cls, _dict):
         """Initialize a ContentItem object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'content', 'id', 'created', 'updated', 'contenttype', 'language',
             'parentid', 'reply', 'forward'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ContentItem: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'content' in _dict:
             args['content'] = _dict.get('content')
         else:
@@ -827,7 +828,7 @@ class ContentItem(object):
         KO = "ko"
 
 
-class Profile(object):
+class Profile():
     """
     The personality profile that the service generated for the input content.
 
@@ -916,16 +917,16 @@ class Profile(object):
     def _from_dict(cls, _dict):
         """Initialize a Profile object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'processed_language', 'word_count', 'word_count_message',
             'personality', 'needs', 'values', 'behavior',
             'consumption_preferences', 'warnings'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Profile: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'processed_language' in _dict:
             args['processed_language'] = _dict.get('processed_language')
         else:
@@ -1031,7 +1032,7 @@ class Profile(object):
         KO = "ko"
 
 
-class Trait(object):
+class Trait():
     """
     The characteristics that the service inferred from the input content.
 
@@ -1128,15 +1129,15 @@ class Trait(object):
     def _from_dict(cls, _dict):
         """Initialize a Trait object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'trait_id', 'name', 'category', 'percentile', 'raw_score',
             'significant', 'children'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Trait: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'trait_id' in _dict:
             args['trait_id'] = _dict.get('trait_id')
         else:
@@ -1210,7 +1211,7 @@ class Trait(object):
         VALUES = "values"
 
 
-class Warning(object):
+class Warning():
     """
     A warning message that is associated with the input content.
 
@@ -1260,12 +1261,12 @@ class Warning(object):
     def _from_dict(cls, _dict):
         """Initialize a Warning object from a json dictionary."""
         args = {}
-        validKeys = ['warning_id', 'message']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['warning_id', 'message']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Warning: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'warning_id' in _dict:
             args['warning_id'] = _dict.get('warning_id')
         else:
