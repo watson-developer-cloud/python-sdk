@@ -142,12 +142,10 @@ class VisualRecognitionV4(BaseService):
         params = {'version': self.version}
 
         form_data = []
-        if collection_ids:
-            collection_ids = self._convert_list(collection_ids)
-            form_data.append(('collection_ids', (None, collection_ids, 'text/plain')))
-        if features:
-            features = self._convert_list(features)
-            form_data.append(('features', (None, features, 'text/plain')))
+        for item in collection_ids:
+            form_data.append(('collection_ids', (None, item, 'text/plain')))
+        for item in features:
+            form_data.append(('features', (None, item, 'text/plain')))
         if images_file:
             for item in images_file:
                 form_data.append(('images_file', (item.filename, item.data,
@@ -2219,15 +2217,16 @@ class TrainingDataObjects():
     """
     Training data for all objects.
 
-    :attr list[TrainingDataObject] objects: Training data for specific objects.
+    :attr list[TrainingDataObject] objects: (optional) Training data for specific
+          objects.
     """
 
-    def __init__(self, objects):
+    def __init__(self, *, objects=None):
         """
         Initialize a TrainingDataObjects object.
 
-        :param list[TrainingDataObject] objects: Training data for specific
-               objects.
+        :param list[TrainingDataObject] objects: (optional) Training data for
+               specific objects.
         """
         self.objects = objects
 
@@ -2245,10 +2244,6 @@ class TrainingDataObjects():
             args['objects'] = [
                 TrainingDataObject._from_dict(x) for x in (_dict.get('objects'))
             ]
-        else:
-            raise ValueError(
-                'Required property \'objects\' not present in TrainingDataObjects JSON'
-            )
         return cls(**args)
 
     def _to_dict(self):
