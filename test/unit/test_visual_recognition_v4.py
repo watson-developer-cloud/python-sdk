@@ -246,8 +246,8 @@ class TestVisualRecognitionV4(TestCase):
                 os.path.join(os.path.dirname(__file__),
                              '../../resources/cars.zip'), 'rb') as cars:
             detailed_response = service.analyze(
-                collection_ids='collection_id1, collection_id2',
-                features=AnalyzeEnums.Features.OBJECTS.value,
+                collection_ids=['collection_id1, collection_id2'],
+                features=[AnalyzeEnums.Features.OBJECTS.value],
                 images_file=[FileWithMetadata(cars)],
                 image_url=[
                     'https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/American_Eskimo_Dog.jpg/1280px-American_Eskimo_Dog.jpg'
