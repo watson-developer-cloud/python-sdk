@@ -17,6 +17,8 @@
 The IBM Watson&trade; Assistant service combines machine learning, natural language
 understanding, and an integrated dialog editor to create conversation flows between your
 apps and your users.
+The Assistant v2 API provides runtime methods your client application can use to send user
+input to an assistant and receive a response.
 """
 
 import json
