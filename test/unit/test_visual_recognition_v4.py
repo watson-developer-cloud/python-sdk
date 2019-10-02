@@ -13,10 +13,8 @@
 # limitations under the License.
 
 import json
-import responses
 import ibm_watson
 import responses
-import ibm_watson
 import json
 import os
 import jwt
@@ -24,7 +22,7 @@ import time
 import pytest
 from unittest import TestCase
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
-from ibm_watson.visual_recognition_v4 import AnalyzeEnums, FileWithMetadata, BaseObject, Location
+from ibm_watson.visual_recognition_v4 import AnalyzeEnums, FileWithMetadata
 
 platform_url = 'https://gateway.watsonplatform.net'
 service_path = '/visual-recognition/api'

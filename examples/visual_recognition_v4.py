@@ -1,10 +1,11 @@
 import json
 import os
 from ibm_watson import VisualRecognitionV4
-from ibm_watson.visual_recognition_v4 import FileWithMetadata, BaseObject, Location
+from ibm_watson.visual_recognition_v4 import FileWithMetadata, TrainingDataObject, Location, AnalyzeEnums
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
-authenticator = IAMAuthenticator('<your api key>')
+authenticator = IAMAuthenticator(
+    'YOUR APIKEY')
 service = VisualRecognitionV4(
     '2018-03-19',
     authenticator=authenticator)
@@ -31,11 +32,26 @@ training_data = service.add_image_training_data(
     collection_id,
     image_id,
     objects=[
-        BaseObject(object='giraffe training data', location=Location(64, 270, 755, 784))
+        TrainingDataObject(object='giraffe training data',
+                           location=Location(64, 270, 755, 784))
     ]).get_result()
 
 # train collection
 train_result = service.train(collection_id).get_result()
+
+# analyze
+dog_path = os.path.join(os.path.dirname(__file__), '../resources/dog.jpg')
+giraffe_path = os.path.join(os.path.dirname(__file__),'../resources/my-giraffe.jpeg')
+with open(dog_path, 'rb') as dog_file, open(giraffe_path, 'rb') as giraffe_files:
+    analyze_images = service.analyze(
+        collection_ids=[collection_id],
+        features=[AnalyzeEnums.Features.OBJECTS.value],
+        images_file=[
+            FileWithMetadata(dog_file),
+            FileWithMetadata(giraffe_files)
+        ],
+        image_url=['https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/American_Eskimo_Dog.jpg/1280px-American_Eskimo_Dog.jpg']).get_result()
+    assert analyze_images is not None
 
 # delete collection
 service.delete_collection(collection_id)

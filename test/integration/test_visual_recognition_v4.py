@@ -2,10 +2,9 @@
 import pytest
 import ibm_watson
 import os
-from os.path import abspath
 import json
 from unittest import TestCase
-from ibm_watson.visual_recognition_v4 import AnalyzeEnums, FileWithMetadata, BaseObject, Location
+from ibm_watson.visual_recognition_v4 import AnalyzeEnums, FileWithMetadata, TrainingDataObject, Location
 
 @pytest.mark.skipif(
     os.getenv('VCAP_SERVICES') is None, reason='requires VCAP_SERVICES')
@@ -76,8 +75,8 @@ class IntegrationTestVisualRecognitionV3(TestCase):
                                     '../../resources/my-giraffe.jpeg')
         with open(dog_path, 'rb') as dog_file, open(giraffe_path, 'rb') as giraffe_files:
             analyze_images = self.visual_recognition.analyze(
-                collection_ids='d31d6534-3458-40c4-b6de-2185a5f3cbe4',
-                features=AnalyzeEnums.Features.OBJECTS.value,
+                collection_ids=['d31d6534-3458-40c4-b6de-2185a5f3cbe4'],
+                features=[AnalyzeEnums.Features.OBJECTS.value],
                 images_file=[
                     FileWithMetadata(dog_file),
                     FileWithMetadata(giraffe_files)
@@ -90,7 +89,7 @@ class IntegrationTestVisualRecognitionV3(TestCase):
         # create a classifier
         my_collection = self.visual_recognition.create_collection(
             name='my_test_collection',
-            description='tetsing for python'
+            description='testing for python'
         ).get_result()
         collection_id = my_collection.get('collection_id')
         assert collection_id is not None
@@ -110,7 +109,8 @@ class IntegrationTestVisualRecognitionV3(TestCase):
             collection_id,
             image_id,
             objects=[
-                BaseObject(object='giraffe training data', location=Location(64, 270, 755, 784))
+                TrainingDataObject(object='giraffe training data',
+                                   location=Location(64, 270, 755, 784))
             ]).get_result()
         assert training_data is not None
 

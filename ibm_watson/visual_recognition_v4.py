@@ -105,26 +105,22 @@ class VisualRecognitionV4(BaseService):
         characters. The service assumes UTF-8 encoding if it encounters non-ASCII
         characters.
 
-        :param str collection_ids: The IDs of the collections to analyze. Separate
-               multiple values with commas.
-        :param str features: The features to analyze. Separate multiple values with
-               commas.
-        :param list[FileWithMetadata] images_file: (optional) An image file (.jpg
-               or .png) or .zip file with images.
+        :param list[str] collection_ids: The IDs of the collections to analyze.
+        :param list[str] features: The features to analyze.
+        :param list[FileWithMetadata] images_file: (optional) An array of image
+               files (.jpg or .png) or .zip files with images.
                - Include a maximum of 20 images in a request.
                - Limit the .zip file to 100 MB.
-               - You can provide multiple separate image files by including this form
-               field multiple times.
                - Limit each image file to 10 MB.
                You can also include an image with the **image_url** parameter.
-        :param list[str] image_url: (optional) The URL of an image (.jpg or .png).
-               - You can provide multiple separate image URLs by including this form field
-               multiple times. Include a maximum of 20 images in a request.
+        :param list[str] image_url: (optional) An array of URLs of image files
+               (.jpg or .png).
+               - Include a maximum of 20 images in a request.
                - Limit each image file to 10 MB.
                - Minimum width and height is 30 pixels, but the service tends to perform
                better with images that are at least 300 x 300 pixels. Maximum is 5400
                pixels for either height or width.
-               You can also include images with the **images_url** parameter.
+               You can also include images with the **images_file** parameter.
         :param float threshold: (optional) The minimum score a feature must have to
                be returned.
         :param dict headers: A `dict` containing the request headers
@@ -146,9 +142,10 @@ class VisualRecognitionV4(BaseService):
         params = {'version': self.version}
 
         form_data = []
-        form_data.append(
-            ('collection_ids', (None, collection_ids, 'text/plain')))
-        form_data.append(('features', (None, features, 'text/plain')))
+        for item in collection_ids:
+            form_data.append(('collection_ids', (None, item, 'text/plain')))
+        for item in features:
+            form_data.append(('features', (None, item, 'text/plain')))
         if images_file:
             for item in images_file:
                 form_data.append(('images_file', (item.filename, item.data,
@@ -175,12 +172,7 @@ class VisualRecognitionV4(BaseService):
     # Collections
     #########################
 
-    def create_collection(self,
-                          *,
-                          name=None,
-                          description=None,
-                          training_status=None,
-                          **kwargs):
+    def create_collection(self, *, name=None, description=None, **kwargs):
         """
         Create a collection.
 
@@ -194,15 +186,10 @@ class VisualRecognitionV4(BaseService):
                contain alphanumeric, underscore, hyphen, and dot characters. It cannot
                begin with the reserved prefix `sys-`.
         :param str description: (optional) The description of the collection.
-        :param BaseCollectionTrainingStatus training_status: (optional) Training
-               status information for the collection.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
-
-        if training_status is not None:
-            training_status = self._convert_model(training_status)
 
         headers = {}
         if 'headers' in kwargs:
@@ -213,11 +200,7 @@ class VisualRecognitionV4(BaseService):
 
         params = {'version': self.version}
 
-        data = {
-            'name': name,
-            'description': description,
-            'training_status': training_status
-        }
+        data = {'name': name, 'description': description}
 
         url = '/v4/collections'
         request = self.prepare_request(method='POST',
@@ -297,7 +280,6 @@ class VisualRecognitionV4(BaseService):
                           *,
                           name=None,
                           description=None,
-                          training_status=None,
                           **kwargs):
         """
         Update a collection.
@@ -311,8 +293,6 @@ class VisualRecognitionV4(BaseService):
                contain alphanumeric, underscore, hyphen, and dot characters. It cannot
                begin with the reserved prefix `sys-`.
         :param str description: (optional) The description of the collection.
-        :param BaseCollectionTrainingStatus training_status: (optional) Training
-               status information for the collection.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -320,8 +300,6 @@ class VisualRecognitionV4(BaseService):
 
         if collection_id is None:
             raise ValueError('collection_id must be provided')
-        if training_status is not None:
-            training_status = self._convert_model(training_status)
 
         headers = {}
         if 'headers' in kwargs:
@@ -332,11 +310,7 @@ class VisualRecognitionV4(BaseService):
 
         params = {'version': self.version}
 
-        data = {
-            'name': name,
-            'description': description,
-            'training_status': training_status
-        }
+        data = {'name': name, 'description': description}
 
         url = '/v4/collections/{0}'.format(
             *self._encode_path_vars(collection_id))
@@ -403,25 +377,20 @@ class VisualRecognitionV4(BaseService):
         characters.
 
         :param str collection_id: The identifier of the collection.
-        :param list[FileWithMetadata] images_file: (optional) An image file (.jpg
-               or .png) or .zip file with images.
-               - You can provide multiple separate image files by including this form
-               field multiple times.
-               - Limit each image file to 10 MB.
-               - Include a maximum of 100 images in a request.
+        :param list[FileWithMetadata] images_file: (optional) An array of image
+               files (.jpg or .png) or .zip files with images.
+               - Include a maximum of 20 images in a request.
                - Limit the .zip file to 100 MB.
-               -Minimum width and height is 30 pixels, but the service tends to perform
-               better with images that are at least 300 x 300 pixels. Maximum is 5400
-               pixels for either height or width.
+               - Limit each image file to 10 MB.
                You can also include an image with the **image_url** parameter.
-        :param list[str] image_url: (optional) The URL of an image (.jpg or .png).
-               - You can provide multiple separate image URLs by including this form field
-               multiple times. Include a maximum of 20 images in a request.
+        :param list[str] image_url: (optional) The array of URLs of image files
+               (.jpg or .png).
+               - Include a maximum of 20 images in a request.
                - Limit each image file to 10 MB.
                - Minimum width and height is 30 pixels, but the service tends to perform
                better with images that are at least 300 x 300 pixels. Maximum is 5400
                pixels for either height or width.
-               You can also include images with the **images_url** parameter.
+               You can also include images with the **images_file** parameter.
         :param str training_data: (optional) Training data for a single image.
                Include training data only if you add one image with the request.
                The `object` property can contain alphanumeric, underscore, hyphen, space,
@@ -672,8 +641,8 @@ class VisualRecognitionV4(BaseService):
 
         :param str collection_id: The identifier of the collection.
         :param str image_id: The identifier of the image.
-        :param list[BaseObject] objects: (optional) Training data for specific
-               objects.
+        :param list[TrainingDataObject] objects: (optional) Training data for
+               specific objects.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -756,7 +725,7 @@ class AnalyzeEnums(object):
 
     class Features(Enum):
         """
-        The features to analyze. Separate multiple values with commas.
+        The features to analyze.
         """
         OBJECTS = 'objects'
 
@@ -780,8 +749,8 @@ class AnalyzeResponse():
     Results for all images.
 
     :attr list[Image] images: Analyzed images.
-    :attr list[BaseError] warnings: (optional) Information about what might cause
-          less than optimal output.
+    :attr list[Warning] warnings: (optional) Information about what might cause less
+          than optimal output.
     :attr str trace: (optional) A unique identifier of the request. Included only
           when an error or warning is returned.
     """
@@ -791,7 +760,7 @@ class AnalyzeResponse():
         Initialize a AnalyzeResponse object.
 
         :param list[Image] images: Analyzed images.
-        :param list[BaseError] warnings: (optional) Information about what might
+        :param list[Warning] warnings: (optional) Information about what might
                cause less than optimal output.
         :param str trace: (optional) A unique identifier of the request. Included
                only when an error or warning is returned.
@@ -820,7 +789,7 @@ class AnalyzeResponse():
             )
         if 'warnings' in _dict:
             args['warnings'] = [
-                BaseError._from_dict(x) for x in (_dict.get('warnings'))
+                Warning._from_dict(x) for x in (_dict.get('warnings'))
             ]
         if 'trace' in _dict:
             args['trace'] = _dict.get('trace')
@@ -852,340 +821,20 @@ class AnalyzeResponse():
         return not self == other
 
 
-class BaseCollection():
-    """
-    Base details about a collection.
-
-    :attr str collection_id: (optional) The identifier of the collection.
-    :attr str name: (optional) The name of the collection. The name can contain
-          alphanumeric, underscore, hyphen, and dot characters. It cannot begin with the
-          reserved prefix `sys-`.
-    :attr str description: (optional) The description of the collection.
-    :attr datetime created: (optional) Date and time in Coordinated Universal Time
-          (UTC) that the collection was created.
-    :attr datetime updated: (optional) Date and time in Coordinated Universal Time
-          (UTC) that the collection was most recently updated.
-    :attr int image_count: (optional) Number of images in the collection.
-    :attr BaseCollectionTrainingStatus training_status: (optional) Training status
-          information for the collection.
-    """
-
-    def __init__(self,
-                 *,
-                 collection_id=None,
-                 name=None,
-                 description=None,
-                 created=None,
-                 updated=None,
-                 image_count=None,
-                 training_status=None):
-        """
-        Initialize a BaseCollection object.
-
-        :param str collection_id: (optional) The identifier of the collection.
-        :param str name: (optional) The name of the collection. The name can
-               contain alphanumeric, underscore, hyphen, and dot characters. It cannot
-               begin with the reserved prefix `sys-`.
-        :param str description: (optional) The description of the collection.
-        :param datetime created: (optional) Date and time in Coordinated Universal
-               Time (UTC) that the collection was created.
-        :param datetime updated: (optional) Date and time in Coordinated Universal
-               Time (UTC) that the collection was most recently updated.
-        :param int image_count: (optional) Number of images in the collection.
-        :param BaseCollectionTrainingStatus training_status: (optional) Training
-               status information for the collection.
-        """
-        self.collection_id = collection_id
-        self.name = name
-        self.description = description
-        self.created = created
-        self.updated = updated
-        self.image_count = image_count
-        self.training_status = training_status
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a BaseCollection object from a json dictionary."""
-        args = {}
-        valid_keys = [
-            'collection_id', 'name', 'description', 'created', 'updated',
-            'image_count', 'training_status'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class BaseCollection: '
-                + ', '.join(bad_keys))
-        if 'collection_id' in _dict:
-            args['collection_id'] = _dict.get('collection_id')
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'created' in _dict:
-            args['created'] = string_to_datetime(_dict.get('created'))
-        if 'updated' in _dict:
-            args['updated'] = string_to_datetime(_dict.get('updated'))
-        if 'image_count' in _dict:
-            args['image_count'] = _dict.get('image_count')
-        if 'training_status' in _dict:
-            args['training_status'] = BaseCollectionTrainingStatus._from_dict(
-                _dict.get('training_status'))
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'collection_id') and self.collection_id is not None:
-            _dict['collection_id'] = self.collection_id
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
-        if hasattr(self, 'description') and self.description is not None:
-            _dict['description'] = self.description
-        if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = datetime_to_string(self.created)
-        if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = datetime_to_string(self.updated)
-        if hasattr(self, 'image_count') and self.image_count is not None:
-            _dict['image_count'] = self.image_count
-        if hasattr(self,
-                   'training_status') and self.training_status is not None:
-            _dict['training_status'] = self.training_status._to_dict()
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this BaseCollection object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class BaseCollectionTrainingStatus():
-    """
-    Training status information for the collection.
-
-    :attr ObjectTrainingStatus objects: Training status for the objects in the
-          collection.
-    """
-
-    def __init__(self, objects):
-        """
-        Initialize a BaseCollectionTrainingStatus object.
-
-        :param ObjectTrainingStatus objects: Training status for the objects in the
-               collection.
-        """
-        self.objects = objects
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a BaseCollectionTrainingStatus object from a json dictionary."""
-        args = {}
-        valid_keys = ['objects']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class BaseCollectionTrainingStatus: '
-                + ', '.join(bad_keys))
-        if 'objects' in _dict:
-            args['objects'] = ObjectTrainingStatus._from_dict(
-                _dict.get('objects'))
-        else:
-            raise ValueError(
-                'Required property \'objects\' not present in BaseCollectionTrainingStatus JSON'
-            )
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'objects') and self.objects is not None:
-            _dict['objects'] = self.objects._to_dict()
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this BaseCollectionTrainingStatus object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class BaseError():
-    """
-    Details about a problem.
-
-    :attr str code: Identifier of the problem.
-    :attr str message: An explanation of the problem with possible solutions.
-    :attr str more_info: (optional) A URL for more information about the solution.
-    """
-
-    def __init__(self, code, message, *, more_info=None):
-        """
-        Initialize a BaseError object.
-
-        :param str code: Identifier of the problem.
-        :param str message: An explanation of the problem with possible solutions.
-        :param str more_info: (optional) A URL for more information about the
-               solution.
-        """
-        self.code = code
-        self.message = message
-        self.more_info = more_info
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a BaseError object from a json dictionary."""
-        args = {}
-        valid_keys = ['code', 'message', 'more_info']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class BaseError: '
-                + ', '.join(bad_keys))
-        if 'code' in _dict:
-            args['code'] = _dict.get('code')
-        else:
-            raise ValueError(
-                'Required property \'code\' not present in BaseError JSON')
-        if 'message' in _dict:
-            args['message'] = _dict.get('message')
-        else:
-            raise ValueError(
-                'Required property \'message\' not present in BaseError JSON')
-        if 'more_info' in _dict:
-            args['more_info'] = _dict.get('more_info')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'code') and self.code is not None:
-            _dict['code'] = self.code
-        if hasattr(self, 'message') and self.message is not None:
-            _dict['message'] = self.message
-        if hasattr(self, 'more_info') and self.more_info is not None:
-            _dict['more_info'] = self.more_info
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this BaseError object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-    class CodeEnum(Enum):
-        """
-        Identifier of the problem.
-        """
-        INVALID_FIELD = "invalid_field"
-        INVALID_HEADER = "invalid_header"
-        INVALID_METHOD = "invalid_method"
-        MISSING_FIELD = "missing_field"
-        SERVER_ERROR = "server_error"
-
-
-class BaseObject():
-    """
-    Details about an object and its location.
-
-    :attr str object: (optional) The name of the object. The name can contain
-          alphanumeric, underscore, hyphen, space, and dot characters. It cannot begin
-          with the reserved prefix `sys-`.
-    :attr Location location: (optional) Defines the location of the bounding box
-          around the object.
-    """
-
-    def __init__(self, *, object=None, location=None):
-        """
-        Initialize a BaseObject object.
-
-        :param str object: (optional) The name of the object. The name can contain
-               alphanumeric, underscore, hyphen, space, and dot characters. It cannot
-               begin with the reserved prefix `sys-`.
-        :param Location location: (optional) Defines the location of the bounding
-               box around the object.
-        """
-        self.object = object
-        self.location = location
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a BaseObject object from a json dictionary."""
-        args = {}
-        valid_keys = ['object', 'location']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class BaseObject: '
-                + ', '.join(bad_keys))
-        if 'object' in _dict:
-            args['object'] = _dict.get('object')
-        if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'object') and self.object is not None:
-            _dict['object'] = self.object
-        if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this BaseObject object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class Collection():
     """
     Details about a collection.
 
     :attr str collection_id: The identifier of the collection.
     :attr str name: The name of the collection.
-    :attr str description: The descripion of the collection.
+    :attr str description: The description of the collection.
     :attr datetime created: Date and time in Coordinated Universal Time (UTC) that
           the collection was created.
     :attr datetime updated: Date and time in Coordinated Universal Time (UTC) that
           the collection was most recently updated.
     :attr int image_count: Number of images in the collection.
-    :attr BaseCollectionTrainingStatus training_status: Training status information
-          for the collection.
+    :attr TrainingStatus training_status: Training status information for the
+          collection.
     """
 
     def __init__(self, collection_id, name, description, created, updated,
@@ -1195,14 +844,14 @@ class Collection():
 
         :param str collection_id: The identifier of the collection.
         :param str name: The name of the collection.
-        :param str description: The descripion of the collection.
+        :param str description: The description of the collection.
         :param datetime created: Date and time in Coordinated Universal Time (UTC)
                that the collection was created.
         :param datetime updated: Date and time in Coordinated Universal Time (UTC)
                that the collection was most recently updated.
         :param int image_count: Number of images in the collection.
-        :param BaseCollectionTrainingStatus training_status: Training status
-               information for the collection.
+        :param TrainingStatus training_status: Training status information for the
+               collection.
         """
         self.collection_id = collection_id
         self.name = name
@@ -1259,7 +908,7 @@ class Collection():
                 'Required property \'image_count\' not present in Collection JSON'
             )
         if 'training_status' in _dict:
-            args['training_status'] = BaseCollectionTrainingStatus._from_dict(
+            args['training_status'] = TrainingStatus._from_dict(
                 _dict.get('training_status'))
         else:
             raise ValueError(
@@ -1374,15 +1023,14 @@ class CollectionsList():
     """
     A container for the list of collections.
 
-    :attr list[BaseCollection] collections: The collections in this service
-          instance.
+    :attr list[Collection] collections: The collections in this service instance.
     """
 
     def __init__(self, collections):
         """
         Initialize a CollectionsList object.
 
-        :param list[BaseCollection] collections: The collections in this service
+        :param list[Collection] collections: The collections in this service
                instance.
         """
         self.collections = collections
@@ -1399,7 +1047,7 @@ class CollectionsList():
                 + ', '.join(bad_keys))
         if 'collections' in _dict:
             args['collections'] = [
-                BaseCollection._from_dict(x) for x in (_dict.get('collections'))
+                Collection._from_dict(x) for x in (_dict.get('collections'))
             ]
         else:
             raise ValueError(
@@ -1492,7 +1140,7 @@ class Error():
     :attr str code: Identifier of the problem.
     :attr str message: An explanation of the problem with possible solutions.
     :attr str more_info: (optional) A URL for more information about the solution.
-    :attr ErrorTarget target: (optional) Details about the specfic area of the
+    :attr ErrorTarget target: (optional) Details about the specific area of the
           problem.
     """
 
@@ -1504,8 +1152,8 @@ class Error():
         :param str message: An explanation of the problem with possible solutions.
         :param str more_info: (optional) A URL for more information about the
                solution.
-        :param ErrorTarget target: (optional) Details about the specfic area of the
-               problem.
+        :param ErrorTarget target: (optional) Details about the specific area of
+               the problem.
         """
         self.code = code
         self.message = message
@@ -1578,7 +1226,7 @@ class Error():
 
 class ErrorTarget():
     """
-    Details about the specfic area of the problem.
+    Details about the specific area of the problem.
 
     :attr str type: The parameter or property that is the focus of the problem.
     :attr str name: The property that is identified with the problem.
@@ -1871,8 +1519,8 @@ class ImageDetailsList():
     List of information about the images.
 
     :attr list[ImageDetails] images: (optional) The images in the collection.
-    :attr list[BaseError] warnings: (optional) Information about what might cause
-          less than optimal output.
+    :attr list[Warning] warnings: (optional) Information about what might cause less
+          than optimal output.
     :attr str trace: (optional) A unique identifier of the request. Included only
           when an error or warning is returned.
     """
@@ -1882,7 +1530,7 @@ class ImageDetailsList():
         Initialize a ImageDetailsList object.
 
         :param list[ImageDetails] images: (optional) The images in the collection.
-        :param list[BaseError] warnings: (optional) Information about what might
+        :param list[Warning] warnings: (optional) Information about what might
                cause less than optimal output.
         :param str trace: (optional) A unique identifier of the request. Included
                only when an error or warning is returned.
@@ -1907,7 +1555,7 @@ class ImageDetailsList():
             ]
         if 'warnings' in _dict:
             args['warnings'] = [
-                BaseError._from_dict(x) for x in (_dict.get('warnings'))
+                Warning._from_dict(x) for x in (_dict.get('warnings'))
             ]
         if 'trace' in _dict:
             args['trace'] = _dict.get('trace')
@@ -2621,6 +2269,146 @@ class TrainingDataObjects():
     def __ne__(self, other):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
+
+
+class TrainingStatus():
+    """
+    Training status information for the collection.
+
+    :attr ObjectTrainingStatus objects: Training status for the objects in the
+          collection.
+    """
+
+    def __init__(self, objects):
+        """
+        Initialize a TrainingStatus object.
+
+        :param ObjectTrainingStatus objects: Training status for the objects in the
+               collection.
+        """
+        self.objects = objects
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TrainingStatus object from a json dictionary."""
+        args = {}
+        valid_keys = ['objects']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class TrainingStatus: '
+                + ', '.join(bad_keys))
+        if 'objects' in _dict:
+            args['objects'] = ObjectTrainingStatus._from_dict(
+                _dict.get('objects'))
+        else:
+            raise ValueError(
+                'Required property \'objects\' not present in TrainingStatus JSON'
+            )
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'objects') and self.objects is not None:
+            _dict['objects'] = self.objects._to_dict()
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this TrainingStatus object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class Warning():
+    """
+    Details about a problem.
+
+    :attr str code: Identifier of the problem.
+    :attr str message: An explanation of the problem with possible solutions.
+    :attr str more_info: (optional) A URL for more information about the solution.
+    """
+
+    def __init__(self, code, message, *, more_info=None):
+        """
+        Initialize a Warning object.
+
+        :param str code: Identifier of the problem.
+        :param str message: An explanation of the problem with possible solutions.
+        :param str more_info: (optional) A URL for more information about the
+               solution.
+        """
+        self.code = code
+        self.message = message
+        self.more_info = more_info
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Warning object from a json dictionary."""
+        args = {}
+        valid_keys = ['code', 'message', 'more_info']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Warning: ' +
+                ', '.join(bad_keys))
+        if 'code' in _dict:
+            args['code'] = _dict.get('code')
+        else:
+            raise ValueError(
+                'Required property \'code\' not present in Warning JSON')
+        if 'message' in _dict:
+            args['message'] = _dict.get('message')
+        else:
+            raise ValueError(
+                'Required property \'message\' not present in Warning JSON')
+        if 'more_info' in _dict:
+            args['more_info'] = _dict.get('more_info')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'code') and self.code is not None:
+            _dict['code'] = self.code
+        if hasattr(self, 'message') and self.message is not None:
+            _dict['message'] = self.message
+        if hasattr(self, 'more_info') and self.more_info is not None:
+            _dict['more_info'] = self.more_info
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this Warning object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class CodeEnum(Enum):
+        """
+        Identifier of the problem.
+        """
+        INVALID_FIELD = "invalid_field"
+        INVALID_HEADER = "invalid_header"
+        INVALID_METHOD = "invalid_method"
+        MISSING_FIELD = "missing_field"
+        SERVER_ERROR = "server_error"
 
 
 class FileWithMetadata():
