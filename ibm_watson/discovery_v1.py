@@ -1511,6 +1511,7 @@ class DiscoveryV1(BaseService):
               similar_document_ids=None,
               similar_fields=None,
               bias=None,
+              spelling_suggestions=None,
               x_watson_logging_opt_out=None,
               **kwargs):
         """
@@ -1588,6 +1589,12 @@ class DiscoveryV1(BaseService):
                field is specified, returned results are biased towards higher field
                values. This parameter cannot be used in the same query as the **sort**
                parameter.
+        :param bool spelling_suggestions: (optional) When `true` and the
+               **natural_language_query** parameter is used, the **natural_languge_query**
+               parameter is spell checked. The most likely correction is retunred in the
+               **suggested_query** field of the response (if one exists).
+               **Important:** this parameter is only valid when using the Cloud Pak
+               version of Discovery.
         :param bool x_watson_logging_opt_out: (optional) If `true`, queries are not
                stored in the Discovery **Logs** endpoint.
         :param dict headers: A `dict` containing the request headers
@@ -1627,7 +1634,8 @@ class DiscoveryV1(BaseService):
             'similar': similar,
             'similar.document_ids': similar_document_ids,
             'similar.fields': similar_fields,
-            'bias': bias
+            'bias': bias,
+            'spelling_suggestions': spelling_suggestions
         }
 
         url = '/v1/environments/{0}/collections/{1}/query'.format(
@@ -2039,6 +2047,63 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/notices'.format(
             *self._encode_path_vars(environment_id))
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
+        return response
+
+    def get_autocompletion(self,
+                           environment_id,
+                           collection_id,
+                           *,
+                           field=None,
+                           prefix=None,
+                           count=None,
+                           **kwargs):
+        """
+        Get Autocomplete Suggestions.
+
+        Returns completion query suggestions for the specified prefix.  /n/n
+        **Important:** this method is only valid when using the Cloud Pak version of
+        Discovery.
+
+        :param str environment_id: The ID of the environment.
+        :param str collection_id: The ID of the collection.
+        :param str field: (optional) The field in the result documents that
+               autocompletion suggestions are identified from.
+        :param str prefix: (optional) The prefix to use for autocompletion. For
+               example, the prefix `Ho` could autocomplete to `Hot`, `Housing`, or `How do
+               I upgrade`. Possible completions are.
+        :param int count: (optional) The number of autocompletion suggestions to
+               return.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if environment_id is None:
+            raise ValueError('environment_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers('discovery', 'V1', 'get_autocompletion')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+            'field': field,
+            'prefix': prefix,
+            'count': count
+        }
+
+        url = '/v1/environments/{0}/collections/{1}/autocompletion'.format(
+            *self._encode_path_vars(environment_id, collection_id))
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -3844,6 +3909,59 @@ class CollectionUsage():
 
     def __str__(self):
         """Return a `str` version of this CollectionUsage object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class Completions():
+    """
+    An object containing an array of autocompletion suggestions.
+
+    :attr list[str] completions: (optional) Array of autcomplete suggestion based on
+          the provided prefix.
+    """
+
+    def __init__(self, *, completions=None):
+        """
+        Initialize a Completions object.
+
+        :param list[str] completions: (optional) Array of autcomplete suggestion
+               based on the provided prefix.
+        """
+        self.completions = completions
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Completions object from a json dictionary."""
+        args = {}
+        valid_keys = ['completions']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Completions: '
+                + ', '.join(bad_keys))
+        if 'completions' in _dict:
+            args['completions'] = _dict.get('completions')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'completions') and self.completions is not None:
+            _dict['completions'] = self.completions
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this Completions object."""
         return json.dumps(self._to_dict(), indent=2)
 
     def __eq__(self, other):

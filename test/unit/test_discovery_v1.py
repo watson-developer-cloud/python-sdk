@@ -1272,3 +1272,30 @@ class TestDiscoveryV1(TestCase):
         discovery.get_gateway('envid', 'gateway_id')
         discovery.delete_gateway(environment_id='envid', gateway_id='gateway_id')
         assert len(responses.calls) == 8
+
+
+    @responses.activate
+    def test_get_autocompletion(self):
+        endpoint = 'environments/{0}/collections/{1}/autocompletion?version=2018-08-13&field=field&prefix=prefix&count=count'.format('environment_id', 'collection_id').format('collection_id')
+        url = '{0}{1}'.format(base_discovery_url, endpoint)
+        print('hello')
+        print(url)
+        response = {
+        "completions" : [ "completions", "completions" ]
+        }
+        responses.add(responses.GET,
+            url,
+            body=json.dumps(response),
+            status=200,
+            content_type='application/json')
+
+        authenticator = IAMAuthenticator('iam_apikey')
+        discovery = ibm_watson.DiscoveryV1('2018-08-13', authenticator=authenticator)
+
+        detailed_response = discovery.get_autocompletion(environment_id='environment_id',
+            collection_id='collection_id',
+            field='field',
+            prefix='prefix',
+            count='count')
+        result = detailed_response.get_result()
+        assert len(responses.calls) == 2
