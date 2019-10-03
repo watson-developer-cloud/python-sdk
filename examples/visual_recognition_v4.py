@@ -41,7 +41,7 @@ train_result = service.train(collection_id).get_result()
 
 # analyze
 dog_path = os.path.join(os.path.dirname(__file__), '../resources/dog.jpg')
-giraffe_path = os.path.join(os.path.dirname(__file__),'../resources/my-giraffe.jpeg')
+giraffe_path = os.path.join(os.path.dirname(__file__), '../resources/my-giraffe.jpeg')
 with open(dog_path, 'rb') as dog_file, open(giraffe_path, 'rb') as giraffe_files:
     analyze_images = service.analyze(
         collection_ids=[collection_id],

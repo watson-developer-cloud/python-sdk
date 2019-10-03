@@ -14,15 +14,13 @@
 
 import json
 import ibm_watson
+from ibm_watson.visual_recognition_v4 import AnalyzeEnums, FileWithMetadata
 import responses
-import json
 import os
 import jwt
 import time
-import pytest
 from unittest import TestCase
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
-from ibm_watson.visual_recognition_v4 import AnalyzeEnums, FileWithMetadata
 
 platform_url = 'https://gateway.watsonplatform.net'
 service_path = '/visual-recognition/api'
@@ -294,6 +292,7 @@ class TestVisualRecognitionV4(TestCase):
         detailed_response = service.create_collection(name='name',
                                                       description='description')
         result = detailed_response.get_result()
+        assert result is not None
         assert len(responses.calls) == 2
 
     @responses.activate
@@ -348,6 +347,7 @@ class TestVisualRecognitionV4(TestCase):
 
         detailed_response = service.list_collections()
         result = detailed_response.get_result()
+        assert result is not None
         assert len(responses.calls) == 2
 
     @responses.activate
@@ -385,6 +385,7 @@ class TestVisualRecognitionV4(TestCase):
         detailed_response = service.get_collection(
             collection_id='collection_id')
         result = detailed_response.get_result()
+        assert result is not None
         assert len(responses.calls) == 2
 
     @responses.activate
@@ -424,6 +425,7 @@ class TestVisualRecognitionV4(TestCase):
             name='name',
             description='description')
         result = detailed_response.get_result()
+        assert result is not None
         assert len(responses.calls) == 2
 
     @responses.activate
@@ -445,10 +447,8 @@ class TestVisualRecognitionV4(TestCase):
         detailed_response = service.delete_collection(
             collection_id='collection_id')
         result = detailed_response.get_result()
+        assert result is not None
         assert len(responses.calls) == 2
-
-        with pytest.raises(TypeError):
-            service.delete_collection()
 
     # #########################
     # # images
@@ -580,10 +580,8 @@ class TestVisualRecognitionV4(TestCase):
                                                training_data='training_data')
 
         result = detailed_response.get_result()
+        assert result is not None
         assert len(responses.calls) == 2
-
-        with pytest.raises(TypeError):
-            service.add_images()
 
     @responses.activate
     def test_list_images(self):
@@ -611,10 +609,8 @@ class TestVisualRecognitionV4(TestCase):
 
         detailed_response = service.list_images(collection_id='collection_id')
         result = detailed_response.get_result()
+        assert result is not None
         assert len(responses.calls) == 2
-
-        with pytest.raises(TypeError):
-            service.list_images()
 
     @responses.activate
     def test_get_image_details(self):
@@ -682,10 +678,8 @@ class TestVisualRecognitionV4(TestCase):
         detailed_response = service.get_image_details(
             collection_id='collection_id', image_id='image_id')
         result = detailed_response.get_result()
+        assert result is not None
         assert len(responses.calls) == 2
-
-        with pytest.raises(TypeError):
-            service.get_image_details()
 
     @responses.activate
     def test_delete_image(self):
@@ -707,10 +701,8 @@ class TestVisualRecognitionV4(TestCase):
         detailed_response = service.delete_image(collection_id='collection_id',
                                                  image_id='image_id')
         result = detailed_response.get_result()
+        assert result is not None
         assert len(responses.calls) == 2
-
-        with pytest.raises(TypeError):
-            service.delete_image()
 
     @responses.activate
     def test_get_jpeg_image(self):
@@ -732,10 +724,8 @@ class TestVisualRecognitionV4(TestCase):
         detailed_response = service.get_jpeg_image(
             collection_id='collection_id', image_id='image_id', size='size')
         result = detailed_response.get_result()
+        assert result is not None
         assert len(responses.calls) == 2
-
-        with pytest.raises(TypeError):
-            service.get_jpeg_image()
 
     #########################
     # training
@@ -775,10 +765,8 @@ class TestVisualRecognitionV4(TestCase):
 
         detailed_response = service.train(collection_id='collection_id')
         result = detailed_response.get_result()
+        assert result is not None
         assert len(responses.calls) == 2
-
-        with pytest.raises(TypeError):
-            service.train()
 
     @responses.activate
     def test_add_image_training_data(self):
@@ -818,10 +806,8 @@ class TestVisualRecognitionV4(TestCase):
         detailed_response = service.add_image_training_data(
             collection_id='collection_id', image_id='image_id')
         result = detailed_response.get_result()
+        assert result is not None
         assert len(responses.calls) == 2
-
-        with pytest.raises(TypeError):
-            service.add_image_training_data()
 
     #########################
     # userData
@@ -845,7 +831,5 @@ class TestVisualRecognitionV4(TestCase):
 
         detailed_response = service.delete_user_data(customer_id='customer_id')
         result = detailed_response.get_result()
+        assert result is not None
         assert len(responses.calls) == 2
-
-        with pytest.raises(TypeError):
-            service.delete_user_data()

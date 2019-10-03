@@ -5,9 +5,10 @@
 # passed in the request. When the service responds with the synthesized
 # audio, the pyaudio would play it in a blocking mode
 
-from ibm_watson import TextToSpeechV1
+from ibm_watson import SpeechToTextV1
 from ibm_watson.websocket import SynthesizeCallback
 import pyaudio
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 authenticator = IAMAuthenticator('your_api_key')
 service = SpeechToTextV1(authenticator=authenticator)
