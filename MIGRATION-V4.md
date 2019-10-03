@@ -124,6 +124,17 @@ We need to specify the optional param name:
 assistant_service.list_workspaces(page_limit=10)
 ```
 
+## DISABLING SSL VERIFICATION
+#### Before
+```python
+service.disable_ssl_verification(True)
+```
+
+#### After(v4.0)
+```python
+service.set_disable_ssl_verification(True)
+```
+
 ## SUPPORT FOR CONSTANTS
 Constants for methods and models are shown in the form of Enums
 

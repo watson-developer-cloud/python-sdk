@@ -29,7 +29,7 @@ Python client library to quickly get started with the various [Watson APIs][wdc]
   * [Disable SSL certificate verification](#disable-ssl-certificate-verification)
   * [Setting the service url](#setting-the-service-url)
   * [Sending request headers](#sending-request-headers)
-  * [Parsing HTTP response info](#parsing-http-response-info)
+  * [Parsing HTTP response information](#parsing-http-response-information)
   * [Using Websockets](#using-websockets)
   * [Cloud Pak for Data(CP4D)](#cloud-pak-for-data)
   * [Logging](#logging)
@@ -41,7 +41,7 @@ Python client library to quickly get started with the various [Watson APIs][wdc]
 </details>
 
 ## Before you begin
-* You need an [IBM Cloud][ibm-cloud-onboarding] account.
+* You need an [IBM Cloud][ibm-cloud-onboarding] account. We now only support `python 3.5` and above
 
 ## Installation
 To install, use `pip` or `easy_install`:
@@ -94,8 +94,6 @@ Watson services are migrating to token-based Identity and Access Management (IAM
 - With some service instances, you authenticate to the API by using **[IAM](#iam)**.
 - In other instances, you authenticate by providing the **[username and password](#username-and-password)** for the service instance.
 
-**Note:** Authenticating with the X-Watson-Authorization-Token header is deprecated. The token continues to work with Cloud Foundry services, but is not supported for services that use Identity and Access Management (IAM) authentication. See [here](#iam) for details.
-
 ### Getting credentials
 To find out which authentication to use, view the service credentials. You find the service credentials for authentication the same way for all Watson services:
 
@@ -115,8 +113,8 @@ With a credential file, you just need to put the file in the right place and the
 
 The file downloaded will be called `ibm-credentials.env`. This is the name the SDK will search for and **must** be preserved unless you want to configure the file path (more on that later). The SDK will look for your `ibm-credentials.env` file in the following places (in order):
 
-- Your system's home directory
 - The top-level directory of the project you're using the SDK in
+- Your system's home directory
 
 As long as you set that up correctly, you don't have to worry about setting any authentication options in your code. So, for example, if you created and downloaded the credential file for your Discovery instance, you just need to do the following:
 
@@ -140,8 +138,8 @@ where `<path>` is something like `/home/user/Downloads/<file_name>.env`.
 Simply set the environment variables using <service name>_<variable name> syntax. For example, using your favourite terminal, you can set environment variables for Assistant service instance:
 
 ```bash
-export assistant_apikey="<your apikey>"
-export assistant_auth_type="iam"
+export ASSISTANT_APIKEY="<your apikey>"
+export ASSISTANT_AUTH_TYPE="iam"
 ```
 
 The credentials will be loaded from the environment automatically
@@ -177,11 +175,11 @@ discovery = DiscoveryV1(version='2018-08-01',
 discovery.set_service_url('<url_as_per_region>')
 ```
 
-#### Generating access tokens using API key
+#### Generating bearer tokens using API key
 ```python
 from ibm_watson import IAMTokenManager
 
-# In your API endpoint use this to generate new access tokens
+# In your API endpoint use this to generate new bearer tokens
 iam_token_manager = IAMTokenManager(apikey='<apikey>')
 token = iam_token_manager.get_token()
 ```
@@ -261,12 +259,13 @@ assistant = AssistantV1(
     authenticator=authenticator)
 assistant.set_service_url('<url as per region>')
 ```
+For more information, follow the [MIGRATION-V4](https://github.com/watson-developer-cloud/python-sdk/MIGRATION-V4.md)
 
 ## Migration
-This version includes many breaking changes as a result of standardizing behavior across the new generated services. Full details on migration from previous versions can be found [here](https://github.com/watson-developer-cloud/python-sdk/wiki/Migration).
+To move from v3.x to v4.0, refer to the [MIGRATION-V4](https://github.com/watson-developer-cloud/python-sdk/MIGRATION-V4.md).
 
 ## Configuring the http client (Supported from v1.1.0)
-To set client configs like timeout use the `with_http_config()` function and pass it a dictionary of configs.
+To set client configs like timeout use the `with_http_config()` function and pass it a dictionary of configs. For example for a Assistant service instance
 
 ```python
 from ibm_watson import AssistantV1
@@ -291,6 +290,12 @@ For ICP(IBM Cloud Private), you can disable the SSL certificate verification by:
 service.set_disable_ssl_verification(True)
 ```
 
+Or can set it from extrernal sources. For example set in the environment variable.
+
+```
+export <service name>_DISABLE_SSL=True
+```
+
 ## Setting the service url
 To set the base service to be used when contacting the service
 
@@ -298,7 +303,7 @@ To set the base service to be used when contacting the service
 service.set_service_url('my_new_service_url')
 ```
 
-Or can set it in the environment variable.
+Or can set it from extrernal sources. For example set in the environment variable.
 
 ```
 export <service name>_URL="<your url>"
@@ -326,7 +331,7 @@ assistant.set_service_url('https://gateway.watsonplatform.net/assistant/api')
 response = assistant.list_workspaces(headers={'Custom-Header': 'custom_value'}).get_result()
 ```
 
-## Parsing HTTP response info
+## Parsing HTTP response information
 If you would like access to some HTTP response information along with the response model, you can set the `set_detailed_response()` to `True`. Since Python SDK `v2.0`, it is set to `True`
 ```python
 from ibm_watson import AssistantV1
