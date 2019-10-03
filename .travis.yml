@@ -39,7 +39,7 @@ deploy:
     branch: master
 - provider: pypi
   user: watson-devex
-  password: "$PYPI_PASSWORD"
+  password: $PYPI_PASSWORD
   repository: https://upload.pypi.org/legacy
   skip_cleanup: true
   on:
