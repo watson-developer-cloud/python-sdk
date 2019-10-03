@@ -2442,7 +2442,7 @@ class FileWithMetadata():
                 'Unrecognized keys detected in dictionary for class FileWithMetadata: '
                 + ', '.join(bad_keys))
         if 'data' in _dict:
-            args['data'] = file._from_dict(_dict.get('data'))
+            args['data'] = _dict.get('data')
         else:
             raise ValueError(
                 'Required property \'data\' not present in FileWithMetadata JSON'
