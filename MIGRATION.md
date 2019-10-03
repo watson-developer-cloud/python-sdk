@@ -1,1 +1,0 @@
-Moved to [https://github.com/watson-developer-cloud/python-sdk/wiki/Migration](https://github.com/watson-developer-cloud/python-sdk/wiki/Migration)

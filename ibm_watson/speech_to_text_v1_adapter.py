@@ -221,7 +221,6 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
             'model': model,
             'customization_id': customization_id,
             'acoustic_customization_id': acoustic_customization_id,
-            'customization_weight': customization_weight,
             'base_model_version': base_model_version,
             'language_customization_id': language_customization_id
         }
@@ -230,6 +229,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
         request['url'] = url
 
         options = {
+            'customization_weight': customization_weight,
             'content_type': content_type,
             'inactivity_timeout': inactivity_timeout,
             'interim_results': interim_results,

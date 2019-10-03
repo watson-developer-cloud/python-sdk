@@ -446,7 +446,7 @@ HTTPConnection.debuglevel = 1
 * [responses] for testing
 * Following for web sockets support in speech to text
    * `websocket-client` 0.48.0
-* `ibm_cloud_sdk_core` >= 1.0.0rc9
+* `ibm_cloud_sdk_core` == 1.0.0
 
 ## Contributing
 
