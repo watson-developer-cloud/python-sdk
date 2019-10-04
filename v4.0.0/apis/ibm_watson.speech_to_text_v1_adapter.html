@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>ibm_watson.speech_to_text_v1_adapter module &#8212; Watson Developer Cloud Python SDK 4.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ibm_watson.text_to_speech_adapter_v1 module" href="ibm_watson.text_to_speech_adapter_v1.html" />
+    <link rel="prev" title="ibm_watson.speech_to_text_v1 module" href="ibm_watson.speech_to_text_v1.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-ibm_watson.speech_to_text_v1_adapter">
+<span id="ibm-watson-speech-to-text-v1-adapter-module"></span><h1>ibm_watson.speech_to_text_v1_adapter module<a class="headerlink" href="#module-ibm_watson.speech_to_text_v1_adapter" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="ibm_watson.speech_to_text_v1_adapter.SpeechToTextV1Adapter">
+<em class="property">class </em><code class="sig-name descname">SpeechToTextV1Adapter</code><span class="sig-paren">(</span><em class="sig-param">authenticator=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/speech_to_text_v1_adapter.html#SpeechToTextV1Adapter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.speech_to_text_v1_adapter.SpeechToTextV1Adapter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="ibm_watson.speech_to_text_v1.html#ibm_watson.speech_to_text_v1.SpeechToTextV1" title="ibm_watson.speech_to_text_v1.SpeechToTextV1"><code class="xref py py-class docutils literal notranslate"><span class="pre">ibm_watson.speech_to_text_v1.SpeechToTextV1</span></code></a></p>
+<dl class="method">
+<dt id="ibm_watson.speech_to_text_v1_adapter.SpeechToTextV1Adapter.recognize_using_websocket">
+<code class="sig-name descname">recognize_using_websocket</code><span class="sig-paren">(</span><em class="sig-param">audio</em>, <em class="sig-param">content_type</em>, <em class="sig-param">recognize_callback</em>, <em class="sig-param">model=None</em>, <em class="sig-param">language_customization_id=None</em>, <em class="sig-param">acoustic_customization_id=None</em>, <em class="sig-param">customization_weight=None</em>, <em class="sig-param">base_model_version=None</em>, <em class="sig-param">inactivity_timeout=None</em>, <em class="sig-param">interim_results=None</em>, <em class="sig-param">keywords=None</em>, <em class="sig-param">keywords_threshold=None</em>, <em class="sig-param">max_alternatives=None</em>, <em class="sig-param">word_alternatives_threshold=None</em>, <em class="sig-param">word_confidence=None</em>, <em class="sig-param">timestamps=None</em>, <em class="sig-param">profanity_filter=None</em>, <em class="sig-param">smart_formatting=None</em>, <em class="sig-param">speaker_labels=None</em>, <em class="sig-param">http_proxy_host=None</em>, <em class="sig-param">http_proxy_port=None</em>, <em class="sig-param">customization_id=None</em>, <em class="sig-param">grammar_name=None</em>, <em class="sig-param">redaction=None</em>, <em class="sig-param">processing_metrics=None</em>, <em class="sig-param">processing_metrics_interval=None</em>, <em class="sig-param">audio_metrics=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/speech_to_text_v1_adapter.html#SpeechToTextV1Adapter.recognize_using_websocket"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.speech_to_text_v1_adapter.SpeechToTextV1Adapter.recognize_using_websocket" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends audio for speech recognition using web sockets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>audio</strong> (<a class="reference internal" href="ibm_watson.websocket.audio_source.html#ibm_watson.websocket.audio_source.AudioSource" title="ibm_watson.websocket.audio_source.AudioSource"><em>AudioSource</em></a>) – The audio to transcribe in the format specified by the</p>
+</dd>
+</dl>
+<p><cite>Content-Type</cite> header.
+:param str content_type: The type of the input: audio/basic, audio/flac,
+audio/l16, audio/mp3, audio/mpeg, audio/mulaw, audio/ogg, audio/ogg;codecs=opus,
+audio/ogg;codecs=vorbis, audio/wav, audio/webm, audio/webm;codecs=opus, or
+audio/webm;codecs=vorbis.
+:param RecognizeCallback recognize_callback: The callback method for the websocket.
+:param str model: The identifier of the model that is to be used for the
+recognition request or, for the <strong>Create a session</strong> method, with the new session.
+:param str language_customization_id: The customization ID (GUID) of a custom
+language model that is to be used with the recognition request. The base model of
+the specified custom language model must match the model specified with the
+<cite>model</cite> parameter. You must make the request with service credentials created for
+the instance of the service that owns the custom model. By default, no custom
+language model is used. See [Custom
+models](<a class="reference external" href="https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-input#custom">https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-input#custom</a>).
+<strong>Note:</strong> Use this parameter instead of the deprecated <cite>customization_id</cite>
+parameter.
+:param str acoustic_customization_id: The customization ID (GUID) of a custom
+acoustic model that is to be used with the recognition request or, for the
+<strong>Create a session</strong> method, with the new session. The base model of the specified
+custom acoustic model must match the model specified with the <cite>model</cite> parameter.
+You must make the request with service credentials created for the instance of the
+service that owns the custom model. By default, no custom acoustic model is used.
+:param float customization_weight: If you specify the customization ID (GUID) of a
+custom language model with the recognition request or, for sessions, with the
+<strong>Create a session</strong> method, the customization weight tells the service how much
+weight to give to words from the custom language model compared to those from the
+base model for the current request.
+Specify a value between 0.0 and 1.0. Unless a different customization weight was
+specified for the custom model when it was trained, the default value is 0.3. A
+customization weight that you specify overrides a weight that was specified when
+the custom model was trained.
+The default value yields the best performance in general. Assign a higher value if
+your audio makes frequent use of OOV words from the custom model. Use caution when
+setting the weight: a higher value can improve the accuracy of phrases from the
+custom model’s domain, but it can negatively affect performance on non-domain
+phrases.
+:param str base_model_version: The version of the specified base model that is to
+be used with recognition request or, for the <strong>Create a session</strong> method, with the
+new session. Multiple versions of a base model can exist when a model is updated
+for internal improvements. The parameter is intended primarily for use with custom
+models that have been upgraded for a new base model. The default value depends on
+whether the parameter is used with or without a custom model. For more
+information, see [Base model
+version](<a class="reference external" href="https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-input#version">https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-input#version</a>).
+:param int inactivity_timeout: The time in seconds after which, if only silence
+(no speech) is detected in submitted audio, the connection is closed with a 400
+error. Useful for stopping audio submission from a live microphone when a user
+simply walks away. Use <cite>-1</cite> for infinity.
+:param list[str] keywords: An array of keyword strings to spot in the audio. Each
+keyword string can include one or more tokens. Keywords are spotted only in the
+final hypothesis, not in interim results. If you specify any keywords, you must
+also specify a keywords threshold. You can spot a maximum of 1000 keywords. Omit
+the parameter or specify an empty array if you do not need to spot keywords.
+:param float keywords_threshold: A confidence value that is the lower bound for
+spotting a keyword. A word is considered to match a keyword if its confidence is
+greater than or equal to the threshold. Specify a probability between 0 and 1
+inclusive. No keyword spotting is performed if you omit the parameter. If you
+specify a threshold, you must also specify one or more keywords.
+:param int max_alternatives: The maximum number of alternative transcripts to be
+returned. By default, a single transcription is returned.
+:param float word_alternatives_threshold: A confidence value that is the lower
+bound for identifying a hypothesis as a possible word alternative (also known as
+“Confusion Networks”). An alternative word is considered if its confidence is
+greater than or equal to the threshold. Specify a probability between 0 and 1
+inclusive. No alternative words are computed if you omit the parameter.
+:param bool word_confidence: If <cite>true</cite>, a confidence measure in the range of 0 to
+1 is returned for each word. By default, no word confidence measures are returned.
+:param bool timestamps: If <cite>true</cite>, time alignment is returned for each word. By
+default, no timestamps are returned.
+:param bool profanity_filter: If <cite>true</cite> (the default), filters profanity from all
+output except for keyword results by replacing inappropriate words with a series
+of asterisks. Set the parameter to <cite>false</cite> to return results with no censoring.
+Applies to US English transcription only.
+:param bool smart_formatting: If <cite>true</cite>, converts dates, times, series of digits
+and numbers, phone numbers, currency values, and internet addresses into more
+readable, conventional representations in the final transcript of a recognition
+request. For US English, also converts certain keyword strings to punctuation
+symbols. By default, no smart formatting is performed. Applies to US English and
+Spanish transcription only.
+:param bool speaker_labels: If <cite>true</cite>, the response includes labels that identify
+which words were spoken by which participants in a multi-person exchange. By
+default, no speaker labels are returned. Setting <cite>speaker_labels</cite> to <cite>true</cite> forces
+the <cite>timestamps</cite> parameter to be <cite>true</cite>, regardless of whether you specify <cite>false</cite>
+for the parameter.
+To determine whether a language model supports speaker labels, use the <strong>Get
+models</strong> method and check that the attribute <cite>speaker_labels</cite> is set to <cite>true</cite>.
+You can also refer to [Speaker
+labels](<a class="reference external" href="https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-output#speaker_labels">https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-output#speaker_labels</a>).
+:param str http_proxy_host: http proxy host name.
+:param str http_proxy_port: http proxy port. If not set, set to 80.
+:param str customization_id: <strong>Deprecated.</strong> Use the <cite>language_customization_id</cite>
+parameter to specify the customization ID (GUID) of a custom language model that
+is to be used with the recognition request. Do not specify both parameters with a
+request.
+:param str grammar_name: The name of a grammar that is to be used with the
+recognition request. If you specify a grammar, you must also use the
+<cite>language_customization_id</cite> parameter to specify the name of the custom language
+model for which the grammar is defined. The service recognizes only strings that
+are recognized by the specified grammar; it does not recognize other custom words
+from the model’s words resource. See
+[Grammars](<a class="reference external" href="https://cloud.ibm.com/docs/services/speech-to-text/output.html">https://cloud.ibm.com/docs/services/speech-to-text/output.html</a>).
+:param bool redaction: If <cite>true</cite>, the service redacts, or masks, numeric data from
+final transcripts. The feature redacts any number that has three or more
+consecutive digits by replacing each digit with an <cite>X</cite> character. It is intended
+to redact sensitive numeric data, such as credit card numbers. By default, the
+service performs no redaction.
+When you enable redaction, the service automatically enables smart formatting,
+regardless of whether you explicitly disable that feature. To ensure maximum
+security, the service also disables keyword spotting (ignores the <cite>keywords</cite> and
+<cite>keywords_threshold</cite> parameters) and returns only a single final transcript
+(forces the <cite>max_alternatives</cite> parameter to be <cite>1</cite>).
+<strong>Note:</strong> Applies to US English, Japanese, and Korean transcription only.
+See [Numeric
+redaction](<a class="reference external" href="https://cloud.ibm.com/docs/services/speech-to-text/output.html#redaction">https://cloud.ibm.com/docs/services/speech-to-text/output.html#redaction</a>).
+:param bool processing_metrics: If <cite>true</cite>, requests processing metrics about the
+service’s transcription of the input audio. The service returns processing metrics
+at the interval specified by the <cite>processing_metrics_interval</cite> parameter. It also
+returns processing metrics for transcription events, for example, for final and
+interim results. By default, the service returns no processing metrics.
+:param float processing_metrics_interval: Specifies the interval in real
+wall-clock seconds at which the service is to return processing metrics. The
+parameter is ignored unless the <cite>processing_metrics</cite> parameter is set to <cite>true</cite>.
+The parameter accepts a minimum value of 0.1 seconds. The level of precision is
+not restricted, so you can specify values such as 0.25 and 0.125.
+The service does not impose a maximum value. If you want to receive processing
+metrics only for transcription events instead of at periodic intervals, set the
+value to a large number. If the value is larger than the duration of the audio,
+the service returns processing metrics only for transcription events.
+:param bool audio_metrics: If <cite>true</cite>, requests detailed information about the
+signal characteristics of the input audio. The service returns audio metrics with
+the final transcription results. By default, the service returns no audio metrics.
+:param dict headers: A <cite>dict</cite> containing the request headers
+:return: A <cite>dict</cite> containing the <cite>SpeechRecognitionResults</cite> response.
+:rtype: dict</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="ibm_watson.speech_to_text_v1.html" title="previous chapter">ibm_watson.speech_to_text_v1 module</a></li>
+      <li>Next: <a href="ibm_watson.text_to_speech_adapter_v1.html" title="next chapter">ibm_watson.text_to_speech_adapter_v1 module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

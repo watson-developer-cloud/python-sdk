@@ -1,0 +1,902 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>ibm_watson.assistant_v2 module &#8212; Watson Developer Cloud Python SDK 4.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ibm_watson.common module" href="ibm_watson.common.html" />
+    <link rel="prev" title="ibm_watson.assistant_v1 module" href="ibm_watson.assistant_v1.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-ibm_watson.assistant_v2">
+<span id="ibm-watson-assistant-v2-module"></span><h1>ibm_watson.assistant_v2 module<a class="headerlink" href="#module-ibm_watson.assistant_v2" title="Permalink to this headline">¶</a></h1>
+<p>The IBM Watson&amp;trade; Assistant service combines machine learning, natural language
+understanding, and an integrated dialog editor to create conversation flows between your
+apps and your users.
+The Assistant v2 API provides runtime methods your client application can use to send user
+input to an assistant and receive a response.</p>
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.AssistantV2">
+<em class="property">class </em><code class="sig-name descname">AssistantV2</code><span class="sig-paren">(</span><em class="sig-param">version</em>, <em class="sig-param">authenticator=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#AssistantV2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.AssistantV2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ibm_cloud_sdk_core.base_service.BaseService</span></code></p>
+<p>The Assistant V2 service.</p>
+<dl class="attribute">
+<dt id="ibm_watson.assistant_v2.AssistantV2.default_service_url">
+<code class="sig-name descname">default_service_url</code><em class="property"> = 'https://gateway.watsonplatform.net/assistant/api'</em><a class="headerlink" href="#ibm_watson.assistant_v2.AssistantV2.default_service_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.assistant_v2.AssistantV2.create_session">
+<code class="sig-name descname">create_session</code><span class="sig-paren">(</span><em class="sig-param">assistant_id</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#AssistantV2.create_session"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.AssistantV2.create_session" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a session.</p>
+<p>Create a new session. A session is used to send user input to a skill and receive
+responses. It also maintains the state of the conversation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>assistant_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Unique identifier of the assistant. To find the
+assistant ID in the Watson Assistant user interface, open the assistant
+settings and click <strong>API Details</strong>. For information about creating
+assistants, see the
+[documentation](<a class="reference external" href="https://cloud.ibm.com/docs/services/assistant?topic=assistant-assistant-add#assistant-add-task">https://cloud.ibm.com/docs/services/assistant?topic=assistant-assistant-add#assistant-add-task</a>).
+<strong>Note:</strong> Currently, the v2 API does not support creating assistants.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.assistant_v2.AssistantV2.delete_session">
+<code class="sig-name descname">delete_session</code><span class="sig-paren">(</span><em class="sig-param">assistant_id</em>, <em class="sig-param">session_id</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#AssistantV2.delete_session"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.AssistantV2.delete_session" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete session.</p>
+<p>Deletes a session explicitly before it times out.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>assistant_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Unique identifier of the assistant. To find the
+assistant ID in the Watson Assistant user interface, open the assistant
+settings and click <strong>API Details</strong>. For information about creating
+assistants, see the
+[documentation](<a class="reference external" href="https://cloud.ibm.com/docs/services/assistant?topic=assistant-assistant-add#assistant-add-task">https://cloud.ibm.com/docs/services/assistant?topic=assistant-assistant-add#assistant-add-task</a>).
+<strong>Note:</strong> Currently, the v2 API does not support creating assistants.</p></li>
+<li><p><strong>session_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Unique identifier of the session.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.assistant_v2.AssistantV2.message">
+<code class="sig-name descname">message</code><span class="sig-paren">(</span><em class="sig-param">assistant_id</em>, <em class="sig-param">session_id</em>, <em class="sig-param">*</em>, <em class="sig-param">input=None</em>, <em class="sig-param">context=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#AssistantV2.message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.AssistantV2.message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Send user input to assistant.</p>
+<p>Send user input to an assistant and receive a response.
+There is no rate limit for this operation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>assistant_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Unique identifier of the assistant. To find the
+assistant ID in the Watson Assistant user interface, open the assistant
+settings and click <strong>API Details</strong>. For information about creating
+assistants, see the
+[documentation](<a class="reference external" href="https://cloud.ibm.com/docs/services/assistant?topic=assistant-assistant-add#assistant-add-task">https://cloud.ibm.com/docs/services/assistant?topic=assistant-assistant-add#assistant-add-task</a>).
+<strong>Note:</strong> Currently, the v2 API does not support creating assistants.</p></li>
+<li><p><strong>session_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Unique identifier of the session.</p></li>
+<li><p><strong>input</strong> (<a class="reference internal" href="ibm_watson.assistant_v1.html#ibm_watson.assistant_v1.MessageInput" title="ibm_watson.assistant_v1.MessageInput"><em>MessageInput</em></a>) – (optional) An input object that includes the
+input text.</p></li>
+<li><p><strong>context</strong> (<a class="reference internal" href="#ibm_watson.assistant_v2.MessageContext" title="ibm_watson.assistant_v2.MessageContext"><em>MessageContext</em></a>) – (optional) State information for the
+conversation. The context is stored by the assistant on a per-session
+basis. You can use this property to set or modify context variables, which
+can also be accessed by dialog nodes.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.CaptureGroup">
+<em class="property">class </em><code class="sig-name descname">CaptureGroup</code><span class="sig-paren">(</span><em class="sig-param">group</em>, <em class="sig-param">*</em>, <em class="sig-param">location=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#CaptureGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.CaptureGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>CaptureGroup.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str group</dt>
+<dd class="field-odd"><p>A recognized capture group for the entity.</p>
+</dd>
+<dt class="field-even">Attr list[int] location</dt>
+<dd class="field-even"><p>(optional) Zero-based character offsets that indicate
+where the entity value begins and ends in the input text.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.DialogLogMessage">
+<em class="property">class </em><code class="sig-name descname">DialogLogMessage</code><span class="sig-paren">(</span><em class="sig-param">level</em>, <em class="sig-param">message</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#DialogLogMessage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.DialogLogMessage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Dialog log message details.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str level</dt>
+<dd class="field-odd"><p>The severity of the log message.</p>
+</dd>
+<dt class="field-even">Attr str message</dt>
+<dd class="field-even"><p>The text of the log message.</p>
+</dd>
+</dl>
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.DialogLogMessage.LevelEnum">
+<em class="property">class </em><code class="sig-name descname">LevelEnum</code><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#DialogLogMessage.LevelEnum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.DialogLogMessage.LevelEnum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>The severity of the log message.</p>
+<dl class="attribute">
+<dt id="ibm_watson.assistant_v2.DialogLogMessage.LevelEnum.INFO">
+<code class="sig-name descname">INFO</code><em class="property"> = 'info'</em><a class="headerlink" href="#ibm_watson.assistant_v2.DialogLogMessage.LevelEnum.INFO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.assistant_v2.DialogLogMessage.LevelEnum.ERROR">
+<code class="sig-name descname">ERROR</code><em class="property"> = 'error'</em><a class="headerlink" href="#ibm_watson.assistant_v2.DialogLogMessage.LevelEnum.ERROR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.assistant_v2.DialogLogMessage.LevelEnum.WARN">
+<code class="sig-name descname">WARN</code><em class="property"> = 'warn'</em><a class="headerlink" href="#ibm_watson.assistant_v2.DialogLogMessage.LevelEnum.WARN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.DialogNodeAction">
+<em class="property">class </em><code class="sig-name descname">DialogNodeAction</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">result_variable</em>, <em class="sig-param">*</em>, <em class="sig-param">type=None</em>, <em class="sig-param">parameters=None</em>, <em class="sig-param">credentials=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#DialogNodeAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.DialogNodeAction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>DialogNodeAction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str name</dt>
+<dd class="field-odd"><p>The name of the action.</p>
+</dd>
+<dt class="field-even">Attr str type</dt>
+<dd class="field-even"><p>(optional) The type of action to invoke.</p>
+</dd>
+<dt class="field-odd">Attr dict parameters</dt>
+<dd class="field-odd"><p>(optional) A map of key/value pairs to be provided to the
+action.</p>
+</dd>
+<dt class="field-even">Attr str result_variable</dt>
+<dd class="field-even"><p>The location in the dialog context where the result
+of the action is stored.</p>
+</dd>
+<dt class="field-odd">Attr str credentials</dt>
+<dd class="field-odd"><p>(optional) The name of the context variable that the
+client application will use to pass in credentials for the action.</p>
+</dd>
+</dl>
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.DialogNodeAction.TypeEnum">
+<em class="property">class </em><code class="sig-name descname">TypeEnum</code><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#DialogNodeAction.TypeEnum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.DialogNodeAction.TypeEnum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>The type of action to invoke.</p>
+<dl class="attribute">
+<dt id="ibm_watson.assistant_v2.DialogNodeAction.TypeEnum.CLIENT">
+<code class="sig-name descname">CLIENT</code><em class="property"> = 'client'</em><a class="headerlink" href="#ibm_watson.assistant_v2.DialogNodeAction.TypeEnum.CLIENT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.assistant_v2.DialogNodeAction.TypeEnum.SERVER">
+<code class="sig-name descname">SERVER</code><em class="property"> = 'server'</em><a class="headerlink" href="#ibm_watson.assistant_v2.DialogNodeAction.TypeEnum.SERVER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.assistant_v2.DialogNodeAction.TypeEnum.WEB_ACTION">
+<code class="sig-name descname">WEB_ACTION</code><em class="property"> = 'web-action'</em><a class="headerlink" href="#ibm_watson.assistant_v2.DialogNodeAction.TypeEnum.WEB_ACTION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.assistant_v2.DialogNodeAction.TypeEnum.CLOUD_FUNCTION">
+<code class="sig-name descname">CLOUD_FUNCTION</code><em class="property"> = 'cloud-function'</em><a class="headerlink" href="#ibm_watson.assistant_v2.DialogNodeAction.TypeEnum.CLOUD_FUNCTION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.DialogNodeOutputOptionsElement">
+<em class="property">class </em><code class="sig-name descname">DialogNodeOutputOptionsElement</code><span class="sig-paren">(</span><em class="sig-param">label</em>, <em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#DialogNodeOutputOptionsElement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.DialogNodeOutputOptionsElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>DialogNodeOutputOptionsElement.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str label</dt>
+<dd class="field-odd"><p>The user-facing label for the option.</p>
+</dd>
+<dt class="field-even">Attr DialogNodeOutputOptionsElementValue value</dt>
+<dd class="field-even"><p>An object defining the message
+input to be sent to the assistant if the user selects the corresponding option.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.DialogNodeOutputOptionsElementValue">
+<em class="property">class </em><code class="sig-name descname">DialogNodeOutputOptionsElementValue</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">input=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#DialogNodeOutputOptionsElementValue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.DialogNodeOutputOptionsElementValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An object defining the message input to be sent to the assistant if the user selects
+the corresponding option.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr MessageInput input</dt>
+<dd class="field-odd"><p>(optional) An input object that includes the input
+text.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.DialogNodesVisited">
+<em class="property">class </em><code class="sig-name descname">DialogNodesVisited</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">dialog_node=None</em>, <em class="sig-param">title=None</em>, <em class="sig-param">conditions=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#DialogNodesVisited"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.DialogNodesVisited" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>DialogNodesVisited.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str dialog_node</dt>
+<dd class="field-odd"><p>(optional) A dialog node that was triggered during
+processing of the input message.</p>
+</dd>
+<dt class="field-even">Attr str title</dt>
+<dd class="field-even"><p>(optional) The title of the dialog node.</p>
+</dd>
+<dt class="field-odd">Attr str conditions</dt>
+<dd class="field-odd"><p>(optional) The conditions that trigger the dialog node.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.DialogSuggestion">
+<em class="property">class </em><code class="sig-name descname">DialogSuggestion</code><span class="sig-paren">(</span><em class="sig-param">label</em>, <em class="sig-param">value</em>, <em class="sig-param">*</em>, <em class="sig-param">output=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#DialogSuggestion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.DialogSuggestion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>DialogSuggestion.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str label</dt>
+<dd class="field-odd"><p>The user-facing label for the disambiguation option. This label
+is taken from the <strong>user_label</strong> property of the corresponding dialog node.</p>
+</dd>
+<dt class="field-even">Attr DialogSuggestionValue value</dt>
+<dd class="field-even"><p>An object defining the message input to be
+sent to the assistant if the user selects the corresponding disambiguation
+option.</p>
+</dd>
+<dt class="field-odd">Attr dict output</dt>
+<dd class="field-odd"><p>(optional) The dialog output that will be returned from the
+Watson Assistant service if the user selects the corresponding option.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.DialogSuggestionValue">
+<em class="property">class </em><code class="sig-name descname">DialogSuggestionValue</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">input=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#DialogSuggestionValue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.DialogSuggestionValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An object defining the message input to be sent to the assistant if the user selects
+the corresponding disambiguation option.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr MessageInput input</dt>
+<dd class="field-odd"><p>(optional) An input object that includes the input
+text.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.MessageContext">
+<em class="property">class </em><code class="sig-name descname">MessageContext</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">global_=None</em>, <em class="sig-param">skills=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#MessageContext"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.MessageContext" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>MessageContext.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr MessageContextGlobal global<a href="#id3"><span class="problematic" id="id4">global_</span></a></dt>
+<dd class="field-odd"><p>(optional) Information that is shared by all
+skills used by the Assistant.</p>
+</dd>
+<dt class="field-even">Attr MessageContextSkills skills</dt>
+<dd class="field-even"><p>(optional) Information specific to particular
+skills used by the Assistant.
+<strong>Note:</strong> Currently, only a single property named <cite>main skill</cite> is supported.
+This object contains variables that apply to the dialog skill used by the
+assistant.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.MessageContextGlobal">
+<em class="property">class </em><code class="sig-name descname">MessageContextGlobal</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">system=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#MessageContextGlobal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.MessageContextGlobal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Information that is shared by all skills used by the Assistant.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr MessageContextGlobalSystem system</dt>
+<dd class="field-odd"><p>(optional) Built-in system properties
+that apply to all skills used by the assistant.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.MessageContextGlobalSystem">
+<em class="property">class </em><code class="sig-name descname">MessageContextGlobalSystem</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">timezone=None</em>, <em class="sig-param">user_id=None</em>, <em class="sig-param">turn_count=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#MessageContextGlobalSystem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.MessageContextGlobalSystem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Built-in system properties that apply to all skills used by the assistant.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str timezone</dt>
+<dd class="field-odd"><p>(optional) The user time zone. The assistant uses the time
+zone to correctly resolve relative time references.</p>
+</dd>
+<dt class="field-even">Attr str user_id</dt>
+<dd class="field-even"><p>(optional) A string value that identifies the user who is
+interacting with the assistant. The client must provide a unique identifier for
+each individual end user who accesses the application. For Plus and Premium
+plans, this user ID is used to identify unique users for billing purposes. This
+string cannot contain carriage return, newline, or tab characters.</p>
+</dd>
+<dt class="field-odd">Attr int turn_count</dt>
+<dd class="field-odd"><p>(optional) A counter that is automatically incremented
+with each turn of the conversation. A value of 1 indicates that this is the the
+first turn of a new conversation, which can affect the behavior of some skills
+(for example, triggering the start node of a dialog).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.MessageContextSkill">
+<em class="property">class </em><code class="sig-name descname">MessageContextSkill</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">user_defined=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#MessageContextSkill"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.MessageContextSkill" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Contains information specific to a particular skill used by the Assistant.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr dict user_defined</dt>
+<dd class="field-odd"><p>(optional) Arbitrary variables that can be read and
+written by a particular skill.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.MessageContextSkills">
+<em class="property">class </em><code class="sig-name descname">MessageContextSkills</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#MessageContextSkills"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.MessageContextSkills" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Information specific to particular skills used by the Assistant.
+<strong>Note:</strong> Currently, only a single property named <cite>main skill</cite> is supported. This
+object contains variables that apply to the dialog skill used by the assistant.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.MessageInput">
+<em class="property">class </em><code class="sig-name descname">MessageInput</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">message_type=None</em>, <em class="sig-param">text=None</em>, <em class="sig-param">options=None</em>, <em class="sig-param">intents=None</em>, <em class="sig-param">entities=None</em>, <em class="sig-param">suggestion_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#MessageInput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.MessageInput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An input object that includes the input text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str message_type</dt>
+<dd class="field-odd"><p>(optional) The type of user input. Currently, only text
+input is supported.</p>
+</dd>
+<dt class="field-even">Attr str text</dt>
+<dd class="field-even"><p>(optional) The text of the user input. This string cannot
+contain carriage return, newline, or tab characters.</p>
+</dd>
+<dt class="field-odd">Attr MessageInputOptions options</dt>
+<dd class="field-odd"><p>(optional) Optional properties that control
+how the assistant responds.</p>
+</dd>
+<dt class="field-even">Attr list[RuntimeIntent] intents</dt>
+<dd class="field-even"><p>(optional) Intents to use when evaluating the
+user input. Include intents from the previous response to continue using those
+intents rather than trying to recognize intents in the new input.</p>
+</dd>
+<dt class="field-odd">Attr list[RuntimeEntity] entities</dt>
+<dd class="field-odd"><p>(optional) Entities to use when evaluating
+the message. Include entities from the previous response to continue using those
+entities rather than detecting entities in the new input.</p>
+</dd>
+<dt class="field-even">Attr str suggestion_id</dt>
+<dd class="field-even"><p>(optional) For internal use only.</p>
+</dd>
+</dl>
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.MessageInput.MessageTypeEnum">
+<em class="property">class </em><code class="sig-name descname">MessageTypeEnum</code><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#MessageInput.MessageTypeEnum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.MessageInput.MessageTypeEnum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>The type of user input. Currently, only text input is supported.</p>
+<dl class="attribute">
+<dt id="ibm_watson.assistant_v2.MessageInput.MessageTypeEnum.TEXT">
+<code class="sig-name descname">TEXT</code><em class="property"> = 'text'</em><a class="headerlink" href="#ibm_watson.assistant_v2.MessageInput.MessageTypeEnum.TEXT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.MessageInputOptions">
+<em class="property">class </em><code class="sig-name descname">MessageInputOptions</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">debug=None</em>, <em class="sig-param">restart=None</em>, <em class="sig-param">alternate_intents=None</em>, <em class="sig-param">return_context=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#MessageInputOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.MessageInputOptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Optional properties that control how the assistant responds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr bool debug</dt>
+<dd class="field-odd"><p>(optional) Whether to return additional diagnostic
+information. Set to <cite>true</cite> to return additional information under the
+<cite>output.debug</cite> key.</p>
+</dd>
+<dt class="field-even">Attr bool restart</dt>
+<dd class="field-even"><p>(optional) Whether to restart dialog processing at the root
+of the dialog, regardless of any previously visited nodes. <strong>Note:</strong> This does
+not affect <cite>turn_count</cite> or any other context variables.</p>
+</dd>
+<dt class="field-odd">Attr bool alternate_intents</dt>
+<dd class="field-odd"><p>(optional) Whether to return more than one intent.
+Set to <cite>true</cite> to return all matching intents.</p>
+</dd>
+<dt class="field-even">Attr bool return_context</dt>
+<dd class="field-even"><p>(optional) Whether to return session context with the
+response. If you specify <cite>true</cite>, the response will include the <cite>context</cite>
+property.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.MessageOutput">
+<em class="property">class </em><code class="sig-name descname">MessageOutput</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">generic=None</em>, <em class="sig-param">intents=None</em>, <em class="sig-param">entities=None</em>, <em class="sig-param">actions=None</em>, <em class="sig-param">debug=None</em>, <em class="sig-param">user_defined=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#MessageOutput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.MessageOutput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Assistant output to be rendered or processed by the client.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr list[RuntimeResponseGeneric] generic</dt>
+<dd class="field-odd"><p>(optional) Output intended for any
+channel. It is the responsibility of the client application to implement the
+supported response types.</p>
+</dd>
+<dt class="field-even">Attr list[RuntimeIntent] intents</dt>
+<dd class="field-even"><p>(optional) An array of intents recognized in
+the user input, sorted in descending order of confidence.</p>
+</dd>
+<dt class="field-odd">Attr list[RuntimeEntity] entities</dt>
+<dd class="field-odd"><p>(optional) An array of entities identified
+in the user input.</p>
+</dd>
+<dt class="field-even">Attr list[DialogNodeAction] actions</dt>
+<dd class="field-even"><p>(optional) An array of objects describing
+any actions requested by the dialog node.</p>
+</dd>
+<dt class="field-odd">Attr MessageOutputDebug debug</dt>
+<dd class="field-odd"><p>(optional) Additional detailed information about
+a message response and how it was generated.</p>
+</dd>
+<dt class="field-even">Attr dict user_defined</dt>
+<dd class="field-even"><p>(optional) An object containing any custom properties
+included in the response. This object includes any arbitrary properties defined
+in the dialog JSON editor as part of the dialog node output.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.MessageOutputDebug">
+<em class="property">class </em><code class="sig-name descname">MessageOutputDebug</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">nodes_visited=None</em>, <em class="sig-param">log_messages=None</em>, <em class="sig-param">branch_exited=None</em>, <em class="sig-param">branch_exited_reason=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#MessageOutputDebug"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.MessageOutputDebug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Additional detailed information about a message response and how it was generated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr list[DialogNodesVisited] nodes_visited</dt>
+<dd class="field-odd"><p>(optional) An array of objects
+containing detailed diagnostic information about the nodes that were triggered
+during processing of the input message.</p>
+</dd>
+<dt class="field-even">Attr list[DialogLogMessage] log_messages</dt>
+<dd class="field-even"><p>(optional) An array of up to 50
+messages logged with the request.</p>
+</dd>
+<dt class="field-odd">Attr bool branch_exited</dt>
+<dd class="field-odd"><p>(optional) Assistant sets this to true when this
+message response concludes or interrupts a dialog.</p>
+</dd>
+<dt class="field-even">Attr str branch_exited_reason</dt>
+<dd class="field-even"><p>(optional) When <cite>branch_exited</cite> is set to <cite>true</cite>
+by the Assistant, the <cite>branch_exited_reason</cite> specifies whether the dialog
+completed by itself or got interrupted.</p>
+</dd>
+</dl>
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.MessageOutputDebug.BranchExitedReasonEnum">
+<em class="property">class </em><code class="sig-name descname">BranchExitedReasonEnum</code><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#MessageOutputDebug.BranchExitedReasonEnum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.MessageOutputDebug.BranchExitedReasonEnum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>When <cite>branch_exited</cite> is set to <cite>true</cite> by the Assistant, the <cite>branch_exited_reason</cite>
+specifies whether the dialog completed by itself or got interrupted.</p>
+<dl class="attribute">
+<dt id="ibm_watson.assistant_v2.MessageOutputDebug.BranchExitedReasonEnum.COMPLETED">
+<code class="sig-name descname">COMPLETED</code><em class="property"> = 'completed'</em><a class="headerlink" href="#ibm_watson.assistant_v2.MessageOutputDebug.BranchExitedReasonEnum.COMPLETED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.assistant_v2.MessageOutputDebug.BranchExitedReasonEnum.FALLBACK">
+<code class="sig-name descname">FALLBACK</code><em class="property"> = 'fallback'</em><a class="headerlink" href="#ibm_watson.assistant_v2.MessageOutputDebug.BranchExitedReasonEnum.FALLBACK" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.MessageResponse">
+<em class="property">class </em><code class="sig-name descname">MessageResponse</code><span class="sig-paren">(</span><em class="sig-param">output</em>, <em class="sig-param">*</em>, <em class="sig-param">context=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#MessageResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.MessageResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A response from the Watson Assistant service.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr MessageOutput output</dt>
+<dd class="field-odd"><p>Assistant output to be rendered or processed by the
+client.</p>
+</dd>
+<dt class="field-even">Attr MessageContext context</dt>
+<dd class="field-even"><p>(optional) State information for the conversation.
+The context is stored by the assistant on a per-session basis. You can use this
+property to access context variables.
+<strong>Note:</strong> The context is included in message responses only if
+<a href="#id1"><span class="problematic" id="id2">**</span></a>return_context**=`true` in the message request.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.RuntimeEntity">
+<em class="property">class </em><code class="sig-name descname">RuntimeEntity</code><span class="sig-paren">(</span><em class="sig-param">entity</em>, <em class="sig-param">location</em>, <em class="sig-param">value</em>, <em class="sig-param">*</em>, <em class="sig-param">confidence=None</em>, <em class="sig-param">metadata=None</em>, <em class="sig-param">groups=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#RuntimeEntity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.RuntimeEntity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The entity value that was recognized in the user input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str entity</dt>
+<dd class="field-odd"><p>An entity detected in the input.</p>
+</dd>
+<dt class="field-even">Attr list[int] location</dt>
+<dd class="field-even"><p>An array of zero-based character offsets that indicate
+where the detected entity values begin and end in the input text.</p>
+</dd>
+<dt class="field-odd">Attr str value</dt>
+<dd class="field-odd"><p>The term in the input text that was recognized as an entity
+value.</p>
+</dd>
+<dt class="field-even">Attr float confidence</dt>
+<dd class="field-even"><p>(optional) A decimal percentage that represents Watson’s
+confidence in the recognized entity.</p>
+</dd>
+<dt class="field-odd">Attr dict metadata</dt>
+<dd class="field-odd"><p>(optional) Any metadata for the entity.</p>
+</dd>
+<dt class="field-even">Attr list[CaptureGroup] groups</dt>
+<dd class="field-even"><p>(optional) The recognized capture groups for
+the entity, as defined by the entity pattern.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.RuntimeIntent">
+<em class="property">class </em><code class="sig-name descname">RuntimeIntent</code><span class="sig-paren">(</span><em class="sig-param">intent</em>, <em class="sig-param">confidence</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#RuntimeIntent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.RuntimeIntent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An intent identified in the user input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str intent</dt>
+<dd class="field-odd"><p>The name of the recognized intent.</p>
+</dd>
+<dt class="field-even">Attr float confidence</dt>
+<dd class="field-even"><p>A decimal percentage that represents Watson’s confidence
+in the intent.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.RuntimeResponseGeneric">
+<em class="property">class </em><code class="sig-name descname">RuntimeResponseGeneric</code><span class="sig-paren">(</span><em class="sig-param">response_type</em>, <em class="sig-param">*</em>, <em class="sig-param">text=None</em>, <em class="sig-param">time=None</em>, <em class="sig-param">typing=None</em>, <em class="sig-param">source=None</em>, <em class="sig-param">title=None</em>, <em class="sig-param">description=None</em>, <em class="sig-param">preference=None</em>, <em class="sig-param">options=None</em>, <em class="sig-param">message_to_human_agent=None</em>, <em class="sig-param">topic=None</em>, <em class="sig-param">suggestions=None</em>, <em class="sig-param">header=None</em>, <em class="sig-param">results=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#RuntimeResponseGeneric"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.RuntimeResponseGeneric" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>RuntimeResponseGeneric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str response_type</dt>
+<dd class="field-odd"><p>The type of response returned by the dialog node. The
+specified response type must be supported by the client application or channel.
+<strong>Note:</strong> The <strong>suggestion</strong> response type is part of the disambiguation
+feature, which is only available for Premium users.</p>
+</dd>
+<dt class="field-even">Attr str text</dt>
+<dd class="field-even"><p>(optional) The text of the response.</p>
+</dd>
+<dt class="field-odd">Attr int time</dt>
+<dd class="field-odd"><p>(optional) How long to pause, in milliseconds.</p>
+</dd>
+<dt class="field-even">Attr bool typing</dt>
+<dd class="field-even"><p>(optional) Whether to send a “user is typing” event during
+the pause.</p>
+</dd>
+<dt class="field-odd">Attr str source</dt>
+<dd class="field-odd"><p>(optional) The URL of the image.</p>
+</dd>
+<dt class="field-even">Attr str title</dt>
+<dd class="field-even"><p>(optional) The title or introductory text to show before the
+response.</p>
+</dd>
+<dt class="field-odd">Attr str description</dt>
+<dd class="field-odd"><p>(optional) The description to show with the the response.</p>
+</dd>
+<dt class="field-even">Attr str preference</dt>
+<dd class="field-even"><p>(optional) The preferred type of control to display.</p>
+</dd>
+<dt class="field-odd">Attr list[DialogNodeOutputOptionsElement] options</dt>
+<dd class="field-odd"><p>(optional) An array of
+objects describing the options from which the user can choose.</p>
+</dd>
+<dt class="field-even">Attr str message_to_human_agent</dt>
+<dd class="field-even"><p>(optional) A message to be sent to the human
+agent who will be taking over the conversation.</p>
+</dd>
+<dt class="field-odd">Attr str topic</dt>
+<dd class="field-odd"><p>(optional) A label identifying the topic of the conversation,
+derived from the <strong>user_label</strong> property of the relevant node.</p>
+</dd>
+<dt class="field-even">Attr list[DialogSuggestion] suggestions</dt>
+<dd class="field-even"><p>(optional) An array of objects
+describing the possible matching dialog nodes from which the user can choose.
+<strong>Note:</strong> The <strong>suggestions</strong> property is part of the disambiguation feature,
+which is only available for Premium users.</p>
+</dd>
+<dt class="field-odd">Attr str header</dt>
+<dd class="field-odd"><p>(optional) The title or introductory text to show before the
+response. This text is defined in the search skill configuration.</p>
+</dd>
+<dt class="field-even">Attr list[SearchResult] results</dt>
+<dd class="field-even"><p>(optional) An array of objects containing
+search results.</p>
+</dd>
+</dl>
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.RuntimeResponseGeneric.ResponseTypeEnum">
+<em class="property">class </em><code class="sig-name descname">ResponseTypeEnum</code><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#RuntimeResponseGeneric.ResponseTypeEnum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.RuntimeResponseGeneric.ResponseTypeEnum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>The type of response returned by the dialog node. The specified response type must
+be supported by the client application or channel.
+<strong>Note:</strong> The <strong>suggestion</strong> response type is part of the disambiguation feature,
+which is only available for Premium users.</p>
+<dl class="attribute">
+<dt id="ibm_watson.assistant_v2.RuntimeResponseGeneric.ResponseTypeEnum.TEXT">
+<code class="sig-name descname">TEXT</code><em class="property"> = 'text'</em><a class="headerlink" href="#ibm_watson.assistant_v2.RuntimeResponseGeneric.ResponseTypeEnum.TEXT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.assistant_v2.RuntimeResponseGeneric.ResponseTypeEnum.PAUSE">
+<code class="sig-name descname">PAUSE</code><em class="property"> = 'pause'</em><a class="headerlink" href="#ibm_watson.assistant_v2.RuntimeResponseGeneric.ResponseTypeEnum.PAUSE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.assistant_v2.RuntimeResponseGeneric.ResponseTypeEnum.IMAGE">
+<code class="sig-name descname">IMAGE</code><em class="property"> = 'image'</em><a class="headerlink" href="#ibm_watson.assistant_v2.RuntimeResponseGeneric.ResponseTypeEnum.IMAGE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.assistant_v2.RuntimeResponseGeneric.ResponseTypeEnum.OPTION">
+<code class="sig-name descname">OPTION</code><em class="property"> = 'option'</em><a class="headerlink" href="#ibm_watson.assistant_v2.RuntimeResponseGeneric.ResponseTypeEnum.OPTION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.assistant_v2.RuntimeResponseGeneric.ResponseTypeEnum.CONNECT_TO_AGENT">
+<code class="sig-name descname">CONNECT_TO_AGENT</code><em class="property"> = 'connect_to_agent'</em><a class="headerlink" href="#ibm_watson.assistant_v2.RuntimeResponseGeneric.ResponseTypeEnum.CONNECT_TO_AGENT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.assistant_v2.RuntimeResponseGeneric.ResponseTypeEnum.SUGGESTION">
+<code class="sig-name descname">SUGGESTION</code><em class="property"> = 'suggestion'</em><a class="headerlink" href="#ibm_watson.assistant_v2.RuntimeResponseGeneric.ResponseTypeEnum.SUGGESTION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.assistant_v2.RuntimeResponseGeneric.ResponseTypeEnum.SEARCH">
+<code class="sig-name descname">SEARCH</code><em class="property"> = 'search'</em><a class="headerlink" href="#ibm_watson.assistant_v2.RuntimeResponseGeneric.ResponseTypeEnum.SEARCH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.RuntimeResponseGeneric.PreferenceEnum">
+<em class="property">class </em><code class="sig-name descname">PreferenceEnum</code><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#RuntimeResponseGeneric.PreferenceEnum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.RuntimeResponseGeneric.PreferenceEnum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>The preferred type of control to display.</p>
+<dl class="attribute">
+<dt id="ibm_watson.assistant_v2.RuntimeResponseGeneric.PreferenceEnum.DROPDOWN">
+<code class="sig-name descname">DROPDOWN</code><em class="property"> = 'dropdown'</em><a class="headerlink" href="#ibm_watson.assistant_v2.RuntimeResponseGeneric.PreferenceEnum.DROPDOWN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.assistant_v2.RuntimeResponseGeneric.PreferenceEnum.BUTTON">
+<code class="sig-name descname">BUTTON</code><em class="property"> = 'button'</em><a class="headerlink" href="#ibm_watson.assistant_v2.RuntimeResponseGeneric.PreferenceEnum.BUTTON" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.SearchResult">
+<em class="property">class </em><code class="sig-name descname">SearchResult</code><span class="sig-paren">(</span><em class="sig-param">id</em>, <em class="sig-param">result_metadata</em>, <em class="sig-param">*</em>, <em class="sig-param">body=None</em>, <em class="sig-param">title=None</em>, <em class="sig-param">url=None</em>, <em class="sig-param">highlight=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#SearchResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.SearchResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>SearchResult.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str id</dt>
+<dd class="field-odd"><p>The unique identifier of the document in the Discovery service
+collection.
+This property is included in responses from search skills, which are a beta
+feature available only to Plus or Premium plan users.</p>
+</dd>
+<dt class="field-even">Attr SearchResultMetadata result_metadata</dt>
+<dd class="field-even"><p>An object containing search result
+metadata from the Discovery service.</p>
+</dd>
+<dt class="field-odd">Attr str body</dt>
+<dd class="field-odd"><p>(optional) A description of the search result. This is taken
+from an abstract, summary, or highlight field in the Discovery service response,
+as specified in the search skill configuration.</p>
+</dd>
+<dt class="field-even">Attr str title</dt>
+<dd class="field-even"><p>(optional) The title of the search result. This is taken from a
+title or name field in the Discovery service response, as specified in the
+search skill configuration.</p>
+</dd>
+<dt class="field-odd">Attr str url</dt>
+<dd class="field-odd"><p>(optional) The URL of the original data object in its native data
+source.</p>
+</dd>
+<dt class="field-even">Attr SearchResultHighlight highlight</dt>
+<dd class="field-even"><p>(optional) An object containing segments
+of text from search results with query-matching text highlighted using HTML &lt;em&gt;
+tags.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.SearchResultHighlight">
+<em class="property">class </em><code class="sig-name descname">SearchResultHighlight</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">body=None</em>, <em class="sig-param">title=None</em>, <em class="sig-param">url=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#SearchResultHighlight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.SearchResultHighlight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An object containing segments of text from search results with query-matching text
+highlighted using HTML &lt;em&gt; tags.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr list[str] body</dt>
+<dd class="field-odd"><p>(optional) An array of strings containing segments taken
+from body text in the search results, with query-matching substrings
+highlighted.</p>
+</dd>
+<dt class="field-even">Attr list[str] title</dt>
+<dd class="field-even"><p>(optional) An array of strings containing segments taken
+from title text in the search results, with query-matching substrings
+highlighted.</p>
+</dd>
+<dt class="field-odd">Attr list[str] url</dt>
+<dd class="field-odd"><p>(optional) An array of strings containing segments taken
+from URLs in the search results, with query-matching substrings highlighted.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.SearchResultMetadata">
+<em class="property">class </em><code class="sig-name descname">SearchResultMetadata</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">confidence=None</em>, <em class="sig-param">score=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#SearchResultMetadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.SearchResultMetadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An object containing search result metadata from the Discovery service.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr float confidence</dt>
+<dd class="field-odd"><p>(optional) The confidence score for the given result.
+For more information about how the confidence is calculated, see the Discovery
+service [documentation](../discovery#query-your-collection).</p>
+</dd>
+<dt class="field-even">Attr float score</dt>
+<dd class="field-even"><p>(optional) An unbounded measure of the relevance of a
+particular result, dependent on the query and matching document. A higher score
+indicates a greater match to the query parameters.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.assistant_v2.SessionResponse">
+<em class="property">class </em><code class="sig-name descname">SessionResponse</code><span class="sig-paren">(</span><em class="sig-param">session_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/assistant_v2.html#SessionResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.assistant_v2.SessionResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>SessionResponse.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str session_id</dt>
+<dd class="field-odd"><p>The session ID.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="ibm_watson.assistant_v1.html" title="previous chapter">ibm_watson.assistant_v1 module</a></li>
+      <li>Next: <a href="ibm_watson.common.html" title="next chapter">ibm_watson.common module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

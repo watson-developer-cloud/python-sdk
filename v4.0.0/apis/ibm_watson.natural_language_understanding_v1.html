@@ -1,0 +1,1341 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>ibm_watson.natural_language_understanding_v1 module &#8212; Watson Developer Cloud Python SDK 4.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ibm_watson.personality_insights_v3 module" href="ibm_watson.personality_insights_v3.html" />
+    <link rel="prev" title="ibm_watson.natural_language_classifier_v1 module" href="ibm_watson.natural_language_classifier_v1.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-ibm_watson.natural_language_understanding_v1">
+<span id="ibm-watson-natural-language-understanding-v1-module"></span><h1>ibm_watson.natural_language_understanding_v1 module<a class="headerlink" href="#module-ibm_watson.natural_language_understanding_v1" title="Permalink to this headline">¶</a></h1>
+<p>Analyze various features of text content at scale. Provide text, raw HTML, or a public URL
+and IBM Watson Natural Language Understanding will give you results for the features you
+request. The service cleans HTML content before analysis by default, so the results can
+ignore most advertisements and other unwanted content.
+You can create [custom
+models](<a class="reference external" href="https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing">https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing</a>)
+with Watson Knowledge Studio to detect custom entities, relations, and categories in
+Natural Language Understanding.</p>
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.NaturalLanguageUnderstandingV1">
+<em class="property">class </em><code class="sig-name descname">NaturalLanguageUnderstandingV1</code><span class="sig-paren">(</span><em class="sig-param">version</em>, <em class="sig-param">authenticator=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#NaturalLanguageUnderstandingV1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.NaturalLanguageUnderstandingV1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ibm_cloud_sdk_core.base_service.BaseService</span></code></p>
+<p>The Natural Language Understanding V1 service.</p>
+<dl class="attribute">
+<dt id="ibm_watson.natural_language_understanding_v1.NaturalLanguageUnderstandingV1.default_service_url">
+<code class="sig-name descname">default_service_url</code><em class="property"> = 'https://gateway.watsonplatform.net/natural-language-understanding/api'</em><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.NaturalLanguageUnderstandingV1.default_service_url" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.natural_language_understanding_v1.NaturalLanguageUnderstandingV1.analyze">
+<code class="sig-name descname">analyze</code><span class="sig-paren">(</span><em class="sig-param">features</em>, <em class="sig-param">*</em>, <em class="sig-param">text=None</em>, <em class="sig-param">html=None</em>, <em class="sig-param">url=None</em>, <em class="sig-param">clean=None</em>, <em class="sig-param">xpath=None</em>, <em class="sig-param">fallback_to_raw=None</em>, <em class="sig-param">return_analyzed_text=None</em>, <em class="sig-param">language=None</em>, <em class="sig-param">limit_text_characters=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#NaturalLanguageUnderstandingV1.analyze"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.NaturalLanguageUnderstandingV1.analyze" title="Permalink to this definition">¶</a></dt>
+<dd><p>Analyze text.</p>
+<p>Analyzes text, HTML, or a public webpage for the following features:
+- Categories
+- Concepts
+- Emotion
+- Entities
+- Keywords
+- Metadata
+- Relations
+- Semantic roles
+- Sentiment
+- Syntax (Experimental).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>features</strong> (<a class="reference internal" href="ibm_watson.visual_recognition_v4.html#ibm_watson.visual_recognition_v4.AnalyzeEnums.Features" title="ibm_watson.visual_recognition_v4.AnalyzeEnums.Features"><em>Features</em></a>) – Specific features to analyze the document for.</p></li>
+<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – (optional) The plain text to analyze. One of the <cite>text</cite>,
+<cite>html</cite>, or <cite>url</cite> parameters is required.</p></li>
+<li><p><strong>html</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – (optional) The HTML file to analyze. One of the <cite>text</cite>,
+<cite>html</cite>, or <cite>url</cite> parameters is required.</p></li>
+<li><p><strong>url</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – (optional) The webpage to analyze. One of the <cite>text</cite>,
+<cite>html</cite>, or <cite>url</cite> parameters is required.</p></li>
+<li><p><strong>clean</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – (optional) Set this to <cite>false</cite> to disable webpage
+cleaning. To learn more about webpage cleaning, see the [Analyzing
+webpages](<a class="reference external" href="https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-analyzing-webpages">https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-analyzing-webpages</a>)
+documentation.</p></li>
+<li><p><strong>xpath</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – (optional) An [XPath
+query](<a class="reference external" href="https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-analyzing-webpages#xpath">https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-analyzing-webpages#xpath</a>)
+to perform on <cite>html</cite> or <cite>url</cite> input. Results of the query will be appended
+to the cleaned webpage text before it is analyzed. To analyze only the
+results of the XPath query, set the <cite>clean</cite> parameter to <cite>false</cite>.</p></li>
+<li><p><strong>fallback_to_raw</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – (optional) Whether to use raw HTML content if
+text cleaning fails.</p></li>
+<li><p><strong>return_analyzed_text</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – (optional) Whether or not to return the
+analyzed text.</p></li>
+<li><p><strong>language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – (optional) ISO 639-1 code that specifies the language
+of your text. This overrides automatic language detection. Language support
+differs depending on the features you include in your analysis. See
+[Language
+support](<a class="reference external" href="https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-language-support">https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-language-support</a>)
+for more information.</p></li>
+<li><p><strong>limit_text_characters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – (optional) Sets the maximum number of
+characters that are processed by the service.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.natural_language_understanding_v1.NaturalLanguageUnderstandingV1.list_models">
+<code class="sig-name descname">list_models</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#NaturalLanguageUnderstandingV1.list_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.NaturalLanguageUnderstandingV1.list_models" title="Permalink to this definition">¶</a></dt>
+<dd><p>List models.</p>
+<p>Lists Watson Knowledge Studio [custom entities and relations
+models](<a class="reference external" href="https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing">https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing</a>)
+that are deployed to your Natural Language Understanding service.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.natural_language_understanding_v1.NaturalLanguageUnderstandingV1.delete_model">
+<code class="sig-name descname">delete_model</code><span class="sig-paren">(</span><em class="sig-param">model_id</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#NaturalLanguageUnderstandingV1.delete_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.NaturalLanguageUnderstandingV1.delete_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete model.</p>
+<p>Deletes a custom model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Model ID of the model to delete.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.AnalysisResults">
+<em class="property">class </em><code class="sig-name descname">AnalysisResults</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">language=None</em>, <em class="sig-param">analyzed_text=None</em>, <em class="sig-param">retrieved_url=None</em>, <em class="sig-param">usage=None</em>, <em class="sig-param">concepts=None</em>, <em class="sig-param">entities=None</em>, <em class="sig-param">keywords=None</em>, <em class="sig-param">categories=None</em>, <em class="sig-param">emotion=None</em>, <em class="sig-param">metadata=None</em>, <em class="sig-param">relations=None</em>, <em class="sig-param">semantic_roles=None</em>, <em class="sig-param">sentiment=None</em>, <em class="sig-param">syntax=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#AnalysisResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.AnalysisResults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Results of the analysis, organized by feature.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str language</dt>
+<dd class="field-odd"><p>(optional) Language used to analyze the text.</p>
+</dd>
+<dt class="field-even">Attr str analyzed_text</dt>
+<dd class="field-even"><p>(optional) Text that was used in the analysis.</p>
+</dd>
+<dt class="field-odd">Attr str retrieved_url</dt>
+<dd class="field-odd"><p>(optional) URL of the webpage that was analyzed.</p>
+</dd>
+<dt class="field-even">Attr AnalysisResultsUsage usage</dt>
+<dd class="field-even"><p>(optional) API usage information for the
+request.</p>
+</dd>
+<dt class="field-odd">Attr list[ConceptsResult] concepts</dt>
+<dd class="field-odd"><p>(optional) The general concepts referenced
+or alluded to in the analyzed text.</p>
+</dd>
+<dt class="field-even">Attr list[EntitiesResult] entities</dt>
+<dd class="field-even"><p>(optional) The entities detected in the
+analyzed text.</p>
+</dd>
+<dt class="field-odd">Attr list[KeywordsResult] keywords</dt>
+<dd class="field-odd"><p>(optional) The keywords from the analyzed
+text.</p>
+</dd>
+<dt class="field-even">Attr list[CategoriesResult] categories</dt>
+<dd class="field-even"><p>(optional) The categories that the
+service assigned to the analyzed text.</p>
+</dd>
+<dt class="field-odd">Attr EmotionResult emotion</dt>
+<dd class="field-odd"><p>(optional) The anger, disgust, fear, joy, or
+sadness conveyed by the content.</p>
+</dd>
+<dt class="field-even">Attr AnalysisResultsMetadata metadata</dt>
+<dd class="field-even"><p>(optional) Webpage metadata, such as the
+author and the title of the page.</p>
+</dd>
+<dt class="field-odd">Attr list[RelationsResult] relations</dt>
+<dd class="field-odd"><p>(optional) The relationships between
+entities in the content.</p>
+</dd>
+<dt class="field-even">Attr list[SemanticRolesResult] semantic_roles</dt>
+<dd class="field-even"><p>(optional) Sentences parsed into
+<cite>subject</cite>, <cite>action</cite>, and <cite>object</cite> form.</p>
+</dd>
+<dt class="field-odd">Attr SentimentResult sentiment</dt>
+<dd class="field-odd"><p>(optional) The sentiment of the content.</p>
+</dd>
+<dt class="field-even">Attr SyntaxResult syntax</dt>
+<dd class="field-even"><p>(optional) Tokens and sentences returned from syntax
+analysis.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.AnalysisResultsMetadata">
+<em class="property">class </em><code class="sig-name descname">AnalysisResultsMetadata</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">authors=None</em>, <em class="sig-param">publication_date=None</em>, <em class="sig-param">title=None</em>, <em class="sig-param">image=None</em>, <em class="sig-param">feeds=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#AnalysisResultsMetadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.AnalysisResultsMetadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Webpage metadata, such as the author and the title of the page.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr list[Author] authors</dt>
+<dd class="field-odd"><p>(optional) The authors of the document.</p>
+</dd>
+<dt class="field-even">Attr str publication_date</dt>
+<dd class="field-even"><p>(optional) The publication date in the format ISO
+8601.</p>
+</dd>
+<dt class="field-odd">Attr str title</dt>
+<dd class="field-odd"><p>(optional) The title of the document.</p>
+</dd>
+<dt class="field-even">Attr str image</dt>
+<dd class="field-even"><p>(optional) URL of a prominent image on the webpage.</p>
+</dd>
+<dt class="field-odd">Attr list[Feed] feeds</dt>
+<dd class="field-odd"><p>(optional) RSS/ATOM feeds found on the webpage.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.AnalysisResultsUsage">
+<em class="property">class </em><code class="sig-name descname">AnalysisResultsUsage</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">features=None</em>, <em class="sig-param">text_characters=None</em>, <em class="sig-param">text_units=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#AnalysisResultsUsage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.AnalysisResultsUsage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>API usage information for the request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr int features</dt>
+<dd class="field-odd"><p>(optional) Number of features used in the API call.</p>
+</dd>
+<dt class="field-even">Attr int text_characters</dt>
+<dd class="field-even"><p>(optional) Number of text characters processed.</p>
+</dd>
+<dt class="field-odd">Attr int text_units</dt>
+<dd class="field-odd"><p>(optional) Number of 10,000-character units processed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.Author">
+<em class="property">class </em><code class="sig-name descname">Author</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#Author"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.Author" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The author of the analyzed content.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str name</dt>
+<dd class="field-odd"><p>(optional) Name of the author.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.CategoriesOptions">
+<em class="property">class </em><code class="sig-name descname">CategoriesOptions</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">explanation=None</em>, <em class="sig-param">limit=None</em>, <em class="sig-param">model=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#CategoriesOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.CategoriesOptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Returns a five-level taxonomy of the content. The top three categories are returned.
+Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
+Portuguese, Spanish.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr bool explanation</dt>
+<dd class="field-odd"><p>(optional) Set this to <cite>true</cite> to return explanations for
+each categorization. <strong>This is available only for English categories.</strong>.</p>
+</dd>
+<dt class="field-even">Attr int limit</dt>
+<dd class="field-even"><p>(optional) Maximum number of categories to return.</p>
+</dd>
+<dt class="field-odd">Attr str model</dt>
+<dd class="field-odd"><p>(optional) Enter a [custom
+model](<a class="reference external" href="https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing">https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing</a>)
+ID to override the standard categories model.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.CategoriesRelevantText">
+<em class="property">class </em><code class="sig-name descname">CategoriesRelevantText</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">text=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#CategoriesRelevantText"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.CategoriesRelevantText" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Relevant text that contributed to the categorization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str text</dt>
+<dd class="field-odd"><p>(optional) Text from the analyzed source that supports the
+categorization.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.CategoriesResult">
+<em class="property">class </em><code class="sig-name descname">CategoriesResult</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">label=None</em>, <em class="sig-param">score=None</em>, <em class="sig-param">explanation=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#CategoriesResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.CategoriesResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A categorization of the analyzed text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str label</dt>
+<dd class="field-odd"><p>(optional) The path to the category through the 5-level
+taxonomy hierarchy. For the complete list of categories, see the [Categories
+hierarchy](<a class="reference external" href="https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-categories#categories-hierarchy">https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-categories#categories-hierarchy</a>)
+documentation.</p>
+</dd>
+<dt class="field-even">Attr float score</dt>
+<dd class="field-even"><p>(optional) Confidence score for the category classification.
+Higher values indicate greater confidence.</p>
+</dd>
+<dt class="field-odd">Attr CategoriesResultExplanation explanation</dt>
+<dd class="field-odd"><p>(optional) Information that helps
+to explain what contributed to the categories result.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.CategoriesResultExplanation">
+<em class="property">class </em><code class="sig-name descname">CategoriesResultExplanation</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">relevant_text=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#CategoriesResultExplanation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.CategoriesResultExplanation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Information that helps to explain what contributed to the categories result.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr list[CategoriesRelevantText] relevant_text</dt>
+<dd class="field-odd"><p>(optional) An array of
+relevant text from the source that contributed to the categorization. The sorted
+array begins with the phrase that contributed most significantly to the result,
+followed by phrases that were less and less impactful.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.ConceptsOptions">
+<em class="property">class </em><code class="sig-name descname">ConceptsOptions</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">limit=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#ConceptsOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.ConceptsOptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Returns high-level concepts in the content. For example, a research paper about deep
+learning might return the concept, “Artificial Intelligence” although the term is not
+mentioned.
+Supported languages: English, French, German, Italian, Japanese, Korean, Portuguese,
+Spanish.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr int limit</dt>
+<dd class="field-odd"><p>(optional) Maximum number of concepts to return.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.ConceptsResult">
+<em class="property">class </em><code class="sig-name descname">ConceptsResult</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">text=None</em>, <em class="sig-param">relevance=None</em>, <em class="sig-param">dbpedia_resource=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#ConceptsResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.ConceptsResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The general concepts referenced or alluded to in the analyzed text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str text</dt>
+<dd class="field-odd"><p>(optional) Name of the concept.</p>
+</dd>
+<dt class="field-even">Attr float relevance</dt>
+<dd class="field-even"><p>(optional) Relevance score between 0 and 1. Higher scores
+indicate greater relevance.</p>
+</dd>
+<dt class="field-odd">Attr str dbpedia_resource</dt>
+<dd class="field-odd"><p>(optional) Link to the corresponding DBpedia
+resource.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.DeleteModelResults">
+<em class="property">class </em><code class="sig-name descname">DeleteModelResults</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">deleted=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#DeleteModelResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.DeleteModelResults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Delete model results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str deleted</dt>
+<dd class="field-odd"><p>(optional) model_id of the deleted model.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.DisambiguationResult">
+<em class="property">class </em><code class="sig-name descname">DisambiguationResult</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">name=None</em>, <em class="sig-param">dbpedia_resource=None</em>, <em class="sig-param">subtype=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#DisambiguationResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.DisambiguationResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Disambiguation information for the entity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str name</dt>
+<dd class="field-odd"><p>(optional) Common entity name.</p>
+</dd>
+<dt class="field-even">Attr str dbpedia_resource</dt>
+<dd class="field-even"><p>(optional) Link to the corresponding DBpedia
+resource.</p>
+</dd>
+<dt class="field-odd">Attr list[str] subtype</dt>
+<dd class="field-odd"><p>(optional) Entity subtype information.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.DocumentEmotionResults">
+<em class="property">class </em><code class="sig-name descname">DocumentEmotionResults</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">emotion=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#DocumentEmotionResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.DocumentEmotionResults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Emotion results for the document as a whole.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr EmotionScores emotion</dt>
+<dd class="field-odd"><p>(optional) Emotion results for the document as a
+whole.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.DocumentSentimentResults">
+<em class="property">class </em><code class="sig-name descname">DocumentSentimentResults</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">label=None</em>, <em class="sig-param">score=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#DocumentSentimentResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.DocumentSentimentResults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>DocumentSentimentResults.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str label</dt>
+<dd class="field-odd"><p>(optional) Indicates whether the sentiment is positive,
+neutral, or negative.</p>
+</dd>
+<dt class="field-even">Attr float score</dt>
+<dd class="field-even"><p>(optional) Sentiment score from -1 (negative) to 1
+(positive).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.EmotionOptions">
+<em class="property">class </em><code class="sig-name descname">EmotionOptions</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">document=None</em>, <em class="sig-param">targets=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#EmotionOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.EmotionOptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Detects anger, disgust, fear, joy, or sadness that is conveyed in the content or by
+the context around target phrases specified in the targets parameter. You can analyze
+emotion for detected entities with <cite>entities.emotion</cite> and for keywords with
+<cite>keywords.emotion</cite>.
+Supported languages: English.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr bool document</dt>
+<dd class="field-odd"><p>(optional) Set this to <cite>false</cite> to hide document-level
+emotion results.</p>
+</dd>
+<dt class="field-even">Attr list[str] targets</dt>
+<dd class="field-even"><p>(optional) Emotion results will be returned for each
+target string that is found in the document.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.EmotionResult">
+<em class="property">class </em><code class="sig-name descname">EmotionResult</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">document=None</em>, <em class="sig-param">targets=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#EmotionResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.EmotionResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The detected anger, disgust, fear, joy, or sadness that is conveyed by the content.
+Emotion information can be returned for detected entities, keywords, or user-specified
+target phrases found in the text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr DocumentEmotionResults document</dt>
+<dd class="field-odd"><p>(optional) Emotion results for the
+document as a whole.</p>
+</dd>
+<dt class="field-even">Attr list[TargetedEmotionResults] targets</dt>
+<dd class="field-even"><p>(optional) Emotion results for
+specified targets.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.EmotionScores">
+<em class="property">class </em><code class="sig-name descname">EmotionScores</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">anger=None</em>, <em class="sig-param">disgust=None</em>, <em class="sig-param">fear=None</em>, <em class="sig-param">joy=None</em>, <em class="sig-param">sadness=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#EmotionScores"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.EmotionScores" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>EmotionScores.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr float anger</dt>
+<dd class="field-odd"><p>(optional) Anger score from 0 to 1. A higher score means that
+the text is more likely to convey anger.</p>
+</dd>
+<dt class="field-even">Attr float disgust</dt>
+<dd class="field-even"><p>(optional) Disgust score from 0 to 1. A higher score means
+that the text is more likely to convey disgust.</p>
+</dd>
+<dt class="field-odd">Attr float fear</dt>
+<dd class="field-odd"><p>(optional) Fear score from 0 to 1. A higher score means that
+the text is more likely to convey fear.</p>
+</dd>
+<dt class="field-even">Attr float joy</dt>
+<dd class="field-even"><p>(optional) Joy score from 0 to 1. A higher score means that the
+text is more likely to convey joy.</p>
+</dd>
+<dt class="field-odd">Attr float sadness</dt>
+<dd class="field-odd"><p>(optional) Sadness score from 0 to 1. A higher score means
+that the text is more likely to convey sadness.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.EntitiesOptions">
+<em class="property">class </em><code class="sig-name descname">EntitiesOptions</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">limit=None</em>, <em class="sig-param">mentions=None</em>, <em class="sig-param">model=None</em>, <em class="sig-param">sentiment=None</em>, <em class="sig-param">emotion=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#EntitiesOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.EntitiesOptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Identifies people, cities, organizations, and other entities in the content. See
+[Entity types and
+subtypes](<a class="reference external" href="https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-entity-types">https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-entity-types</a>).
+Supported languages: English, French, German, Italian, Japanese, Korean, Portuguese,
+Russian, Spanish, Swedish. Arabic, Chinese, and Dutch are supported only through
+custom models.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr int limit</dt>
+<dd class="field-odd"><p>(optional) Maximum number of entities to return.</p>
+</dd>
+<dt class="field-even">Attr bool mentions</dt>
+<dd class="field-even"><p>(optional) Set this to <cite>true</cite> to return locations of entity
+mentions.</p>
+</dd>
+<dt class="field-odd">Attr str model</dt>
+<dd class="field-odd"><p>(optional) Enter a [custom
+model](<a class="reference external" href="https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing">https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing</a>)
+ID to override the standard entity detection model.</p>
+</dd>
+<dt class="field-even">Attr bool sentiment</dt>
+<dd class="field-even"><p>(optional) Set this to <cite>true</cite> to return sentiment
+information for detected entities.</p>
+</dd>
+<dt class="field-odd">Attr bool emotion</dt>
+<dd class="field-odd"><p>(optional) Set this to <cite>true</cite> to analyze emotion for
+detected keywords.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.EntitiesResult">
+<em class="property">class </em><code class="sig-name descname">EntitiesResult</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">type=None</em>, <em class="sig-param">text=None</em>, <em class="sig-param">relevance=None</em>, <em class="sig-param">confidence=None</em>, <em class="sig-param">mentions=None</em>, <em class="sig-param">count=None</em>, <em class="sig-param">emotion=None</em>, <em class="sig-param">sentiment=None</em>, <em class="sig-param">disambiguation=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#EntitiesResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.EntitiesResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The important people, places, geopolitical entities and other types of entities in
+your content.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str type</dt>
+<dd class="field-odd"><p>(optional) Entity type.</p>
+</dd>
+<dt class="field-even">Attr str text</dt>
+<dd class="field-even"><p>(optional) The name of the entity.</p>
+</dd>
+<dt class="field-odd">Attr float relevance</dt>
+<dd class="field-odd"><p>(optional) Relevance score from 0 to 1. Higher values
+indicate greater relevance.</p>
+</dd>
+<dt class="field-even">Attr float confidence</dt>
+<dd class="field-even"><p>(optional) Confidence in the entity identification from
+0 to 1. Higher values indicate higher confidence. In standard entities requests,
+confidence is returned only for English text. All entities requests that use
+custom models return the confidence score.</p>
+</dd>
+<dt class="field-odd">Attr list[EntityMention] mentions</dt>
+<dd class="field-odd"><p>(optional) Entity mentions and locations.</p>
+</dd>
+<dt class="field-even">Attr int count</dt>
+<dd class="field-even"><p>(optional) How many times the entity was mentioned in the text.</p>
+</dd>
+<dt class="field-odd">Attr EmotionScores emotion</dt>
+<dd class="field-odd"><p>(optional) Emotion analysis results for the entity,
+enabled with the <cite>emotion</cite> option.</p>
+</dd>
+<dt class="field-even">Attr FeatureSentimentResults sentiment</dt>
+<dd class="field-even"><p>(optional) Sentiment analysis results
+for the entity, enabled with the <cite>sentiment</cite> option.</p>
+</dd>
+<dt class="field-odd">Attr DisambiguationResult disambiguation</dt>
+<dd class="field-odd"><p>(optional) Disambiguation information
+for the entity.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.EntityMention">
+<em class="property">class </em><code class="sig-name descname">EntityMention</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">text=None</em>, <em class="sig-param">location=None</em>, <em class="sig-param">confidence=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#EntityMention"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.EntityMention" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>EntityMention.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str text</dt>
+<dd class="field-odd"><p>(optional) Entity mention text.</p>
+</dd>
+<dt class="field-even">Attr list[int] location</dt>
+<dd class="field-even"><p>(optional) Character offsets indicating the beginning
+and end of the mention in the analyzed text.</p>
+</dd>
+<dt class="field-odd">Attr float confidence</dt>
+<dd class="field-odd"><p>(optional) Confidence in the entity identification from
+0 to 1. Higher values indicate higher confidence. In standard entities requests,
+confidence is returned only for English text. All entities requests that use
+custom models return the confidence score.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.FeatureSentimentResults">
+<em class="property">class </em><code class="sig-name descname">FeatureSentimentResults</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">score=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#FeatureSentimentResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.FeatureSentimentResults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>FeatureSentimentResults.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr float score</dt>
+<dd class="field-odd"><p>(optional) Sentiment score from -1 (negative) to 1
+(positive).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.Features">
+<em class="property">class </em><code class="sig-name descname">Features</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">concepts=None</em>, <em class="sig-param">emotion=None</em>, <em class="sig-param">entities=None</em>, <em class="sig-param">keywords=None</em>, <em class="sig-param">metadata=None</em>, <em class="sig-param">relations=None</em>, <em class="sig-param">semantic_roles=None</em>, <em class="sig-param">sentiment=None</em>, <em class="sig-param">categories=None</em>, <em class="sig-param">syntax=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#Features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.Features" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Analysis features and options.</p>
+<dl class="field-list">
+<dt class="field-odd">Attr ConceptsOptions concepts</dt>
+<dd class="field-odd"><p>(optional) Returns high-level concepts in the
+content. For example, a research paper about deep learning might return the
+concept, “Artificial Intelligence” although the term is not mentioned.
+Supported languages: English, French, German, Italian, Japanese, Korean,
+Portuguese, Spanish.</p>
+</dd>
+<dt class="field-even">Attr EmotionOptions emotion</dt>
+<dd class="field-even"><p>(optional) Detects anger, disgust, fear, joy, or
+sadness that is conveyed in the content or by the context around target phrases
+specified in the targets parameter. You can analyze emotion for detected
+entities with <cite>entities.emotion</cite> and for keywords with <cite>keywords.emotion</cite>.
+Supported languages: English.</p>
+</dd>
+<dt class="field-odd">Attr EntitiesOptions entities</dt>
+<dd class="field-odd"><p>(optional) Identifies people, cities,
+organizations, and other entities in the content. See [Entity types and
+subtypes](<a class="reference external" href="https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-entity-types">https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-entity-types</a>).
+Supported languages: English, French, German, Italian, Japanese, Korean,
+Portuguese, Russian, Spanish, Swedish. Arabic, Chinese, and Dutch are supported
+only through custom models.</p>
+</dd>
+<dt class="field-even">Attr KeywordsOptions keywords</dt>
+<dd class="field-even"><p>(optional) Returns important keywords in the
+content.
+Supported languages: English, French, German, Italian, Japanese, Korean,
+Portuguese, Russian, Spanish, Swedish.</p>
+</dd>
+<dt class="field-odd">Attr MetadataOptions metadata</dt>
+<dd class="field-odd"><p>(optional) Returns information from the
+document, including author name, title, RSS/ATOM feeds, prominent page image,
+and publication date. Supports URL and HTML input types only.</p>
+</dd>
+<dt class="field-even">Attr RelationsOptions relations</dt>
+<dd class="field-even"><p>(optional) Recognizes when two entities are
+related and identifies the type of relation. For example, an <cite>awardedTo</cite>
+relation might connect the entities “Nobel Prize” and “Albert Einstein”. See
+[Relation
+types](<a class="reference external" href="https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-relations">https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-relations</a>).
+Supported languages: Arabic, English, German, Japanese, Korean, Spanish.
+Chinese, Dutch, French, Italian, and Portuguese custom models are also
+supported.</p>
+</dd>
+<dt class="field-odd">Attr SemanticRolesOptions semantic_roles</dt>
+<dd class="field-odd"><p>(optional) Parses sentences into
+subject, action, and object form.
+Supported languages: English, German, Japanese, Korean, Spanish.</p>
+</dd>
+<dt class="field-even">Attr SentimentOptions sentiment</dt>
+<dd class="field-even"><p>(optional) Analyzes the general sentiment of
+your content or the sentiment toward specific target phrases. You can analyze
+sentiment for detected entities with <cite>entities.sentiment</cite> and for keywords with
+<cite>keywords.sentiment</cite>.</p>
+<blockquote>
+<div><p>Supported languages: Arabic, English, French, German, Italian, Japanese,</p>
+</div></blockquote>
+<p>Korean, Portuguese, Russian, Spanish.</p>
+</dd>
+<dt class="field-odd">Attr CategoriesOptions categories</dt>
+<dd class="field-odd"><p>(optional) Returns a five-level taxonomy of
+the content. The top three categories are returned.
+Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
+Portuguese, Spanish.</p>
+</dd>
+<dt class="field-even">Attr SyntaxOptions syntax</dt>
+<dd class="field-even"><p>(optional) Returns tokens and sentences from the
+input text.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.Feed">
+<em class="property">class </em><code class="sig-name descname">Feed</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">link=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#Feed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.Feed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>RSS or ATOM feed found on the webpage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str link</dt>
+<dd class="field-odd"><p>(optional) URL of the RSS or ATOM feed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.KeywordsOptions">
+<em class="property">class </em><code class="sig-name descname">KeywordsOptions</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">limit=None</em>, <em class="sig-param">sentiment=None</em>, <em class="sig-param">emotion=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#KeywordsOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.KeywordsOptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Returns important keywords in the content.
+Supported languages: English, French, German, Italian, Japanese, Korean, Portuguese,
+Russian, Spanish, Swedish.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr int limit</dt>
+<dd class="field-odd"><p>(optional) Maximum number of keywords to return.</p>
+</dd>
+<dt class="field-even">Attr bool sentiment</dt>
+<dd class="field-even"><p>(optional) Set this to <cite>true</cite> to return sentiment
+information for detected keywords.</p>
+</dd>
+<dt class="field-odd">Attr bool emotion</dt>
+<dd class="field-odd"><p>(optional) Set this to <cite>true</cite> to analyze emotion for
+detected keywords.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.KeywordsResult">
+<em class="property">class </em><code class="sig-name descname">KeywordsResult</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">count=None</em>, <em class="sig-param">relevance=None</em>, <em class="sig-param">text=None</em>, <em class="sig-param">emotion=None</em>, <em class="sig-param">sentiment=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#KeywordsResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.KeywordsResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The important keywords in the content, organized by relevance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr int count</dt>
+<dd class="field-odd"><p>(optional) Number of times the keyword appears in the analyzed
+text.</p>
+</dd>
+<dt class="field-even">Attr float relevance</dt>
+<dd class="field-even"><p>(optional) Relevance score from 0 to 1. Higher values
+indicate greater relevance.</p>
+</dd>
+<dt class="field-odd">Attr str text</dt>
+<dd class="field-odd"><p>(optional) The keyword text.</p>
+</dd>
+<dt class="field-even">Attr EmotionScores emotion</dt>
+<dd class="field-even"><p>(optional) Emotion analysis results for the
+keyword, enabled with the <cite>emotion</cite> option.</p>
+</dd>
+<dt class="field-odd">Attr FeatureSentimentResults sentiment</dt>
+<dd class="field-odd"><p>(optional) Sentiment analysis results
+for the keyword, enabled with the <cite>sentiment</cite> option.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.ListModelsResults">
+<em class="property">class </em><code class="sig-name descname">ListModelsResults</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">models=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#ListModelsResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.ListModelsResults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Custom models that are available for entities and relations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr list[Model] models</dt>
+<dd class="field-odd"><p>(optional) An array of available models.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.MetadataOptions">
+<em class="property">class </em><code class="sig-name descname">MetadataOptions</code><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#MetadataOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.MetadataOptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Returns information from the document, including author name, title, RSS/ATOM feeds,
+prominent page image, and publication date. Supports URL and HTML input types only.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.Model">
+<em class="property">class </em><code class="sig-name descname">Model</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">status=None</em>, <em class="sig-param">model_id=None</em>, <em class="sig-param">language=None</em>, <em class="sig-param">description=None</em>, <em class="sig-param">workspace_id=None</em>, <em class="sig-param">version=None</em>, <em class="sig-param">version_description=None</em>, <em class="sig-param">created=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#Model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.Model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str status</dt>
+<dd class="field-odd"><p>(optional) When the status is <cite>available</cite>, the model is ready
+to use.</p>
+</dd>
+<dt class="field-even">Attr str model_id</dt>
+<dd class="field-even"><p>(optional) Unique model ID.</p>
+</dd>
+<dt class="field-odd">Attr str language</dt>
+<dd class="field-odd"><p>(optional) ISO 639-1 code indicating the language of the
+model.</p>
+</dd>
+<dt class="field-even">Attr str description</dt>
+<dd class="field-even"><p>(optional) Model description.</p>
+</dd>
+<dt class="field-odd">Attr str workspace_id</dt>
+<dd class="field-odd"><p>(optional) ID of the Watson Knowledge Studio workspace
+that deployed this model to Natural Language Understanding.</p>
+</dd>
+<dt class="field-even">Attr str version</dt>
+<dd class="field-even"><p>(optional) The model version, if it was manually provided in
+Watson Knowledge Studio.</p>
+</dd>
+<dt class="field-odd">Attr str version_description</dt>
+<dd class="field-odd"><p>(optional) The description of the version, if it
+was manually provided in Watson Knowledge Studio.</p>
+</dd>
+<dt class="field-even">Attr datetime created</dt>
+<dd class="field-even"><p>(optional) A dateTime indicating when the model was
+created.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.RelationArgument">
+<em class="property">class </em><code class="sig-name descname">RelationArgument</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">entities=None</em>, <em class="sig-param">location=None</em>, <em class="sig-param">text=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#RelationArgument"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.RelationArgument" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>RelationArgument.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr list[RelationEntity] entities</dt>
+<dd class="field-odd"><p>(optional) An array of extracted entities.</p>
+</dd>
+<dt class="field-even">Attr list[int] location</dt>
+<dd class="field-even"><p>(optional) Character offsets indicating the beginning
+and end of the mention in the analyzed text.</p>
+</dd>
+<dt class="field-odd">Attr str text</dt>
+<dd class="field-odd"><p>(optional) Text that corresponds to the argument.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.RelationEntity">
+<em class="property">class </em><code class="sig-name descname">RelationEntity</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">text=None</em>, <em class="sig-param">type=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#RelationEntity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.RelationEntity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An entity that corresponds with an argument in a relation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str text</dt>
+<dd class="field-odd"><p>(optional) Text that corresponds to the entity.</p>
+</dd>
+<dt class="field-even">Attr str type</dt>
+<dd class="field-even"><p>(optional) Entity type.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.RelationsOptions">
+<em class="property">class </em><code class="sig-name descname">RelationsOptions</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">model=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#RelationsOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.RelationsOptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Recognizes when two entities are related and identifies the type of relation. For
+example, an <cite>awardedTo</cite> relation might connect the entities “Nobel Prize” and “Albert
+Einstein”. See [Relation
+types](<a class="reference external" href="https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-relations">https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-relations</a>).
+Supported languages: Arabic, English, German, Japanese, Korean, Spanish. Chinese,
+Dutch, French, Italian, and Portuguese custom models are also supported.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str model</dt>
+<dd class="field-odd"><p>(optional) Enter a [custom
+model](<a class="reference external" href="https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing">https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing</a>)
+ID to override the default model.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.RelationsResult">
+<em class="property">class </em><code class="sig-name descname">RelationsResult</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">score=None</em>, <em class="sig-param">sentence=None</em>, <em class="sig-param">type=None</em>, <em class="sig-param">arguments=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#RelationsResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.RelationsResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The relations between entities found in the content.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr float score</dt>
+<dd class="field-odd"><p>(optional) Confidence score for the relation. Higher values
+indicate greater confidence.</p>
+</dd>
+<dt class="field-even">Attr str sentence</dt>
+<dd class="field-even"><p>(optional) The sentence that contains the relation.</p>
+</dd>
+<dt class="field-odd">Attr str type</dt>
+<dd class="field-odd"><p>(optional) The type of the relation.</p>
+</dd>
+<dt class="field-even">Attr list[RelationArgument] arguments</dt>
+<dd class="field-even"><p>(optional) Entity mentions that are
+involved in the relation.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.SemanticRolesEntity">
+<em class="property">class </em><code class="sig-name descname">SemanticRolesEntity</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">type=None</em>, <em class="sig-param">text=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#SemanticRolesEntity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.SemanticRolesEntity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>SemanticRolesEntity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str type</dt>
+<dd class="field-odd"><p>(optional) Entity type.</p>
+</dd>
+<dt class="field-even">Attr str text</dt>
+<dd class="field-even"><p>(optional) The entity text.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.SemanticRolesKeyword">
+<em class="property">class </em><code class="sig-name descname">SemanticRolesKeyword</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">text=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#SemanticRolesKeyword"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.SemanticRolesKeyword" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>SemanticRolesKeyword.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str text</dt>
+<dd class="field-odd"><p>(optional) The keyword text.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.SemanticRolesOptions">
+<em class="property">class </em><code class="sig-name descname">SemanticRolesOptions</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">limit=None</em>, <em class="sig-param">keywords=None</em>, <em class="sig-param">entities=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#SemanticRolesOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.SemanticRolesOptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Parses sentences into subject, action, and object form.
+Supported languages: English, German, Japanese, Korean, Spanish.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr int limit</dt>
+<dd class="field-odd"><p>(optional) Maximum number of semantic_roles results to return.</p>
+</dd>
+<dt class="field-even">Attr bool keywords</dt>
+<dd class="field-even"><p>(optional) Set this to <cite>true</cite> to return keyword information
+for subjects and objects.</p>
+</dd>
+<dt class="field-odd">Attr bool entities</dt>
+<dd class="field-odd"><p>(optional) Set this to <cite>true</cite> to return entity information
+for subjects and objects.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.SemanticRolesResult">
+<em class="property">class </em><code class="sig-name descname">SemanticRolesResult</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">sentence=None</em>, <em class="sig-param">subject=None</em>, <em class="sig-param">action=None</em>, <em class="sig-param">object=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#SemanticRolesResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.SemanticRolesResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The object containing the actions and the objects the actions act upon.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str sentence</dt>
+<dd class="field-odd"><p>(optional) Sentence from the source that contains the
+subject, action, and object.</p>
+</dd>
+<dt class="field-even">Attr SemanticRolesResultSubject subject</dt>
+<dd class="field-even"><p>(optional) The extracted subject from
+the sentence.</p>
+</dd>
+<dt class="field-odd">Attr SemanticRolesResultAction action</dt>
+<dd class="field-odd"><p>(optional) The extracted action from the
+sentence.</p>
+</dd>
+<dt class="field-even">Attr SemanticRolesResultObject object</dt>
+<dd class="field-even"><p>(optional) The extracted object from the
+sentence.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.SemanticRolesResultAction">
+<em class="property">class </em><code class="sig-name descname">SemanticRolesResultAction</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">text=None</em>, <em class="sig-param">normalized=None</em>, <em class="sig-param">verb=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#SemanticRolesResultAction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.SemanticRolesResultAction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The extracted action from the sentence.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str text</dt>
+<dd class="field-odd"><p>(optional) Analyzed text that corresponds to the action.</p>
+</dd>
+<dt class="field-even">Attr str normalized</dt>
+<dd class="field-even"><p>(optional) normalized version of the action.</p>
+</dd>
+<dt class="field-odd">Attr SemanticRolesVerb verb</dt>
+<dd class="field-odd"><p>(optional)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.SemanticRolesResultObject">
+<em class="property">class </em><code class="sig-name descname">SemanticRolesResultObject</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">text=None</em>, <em class="sig-param">keywords=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#SemanticRolesResultObject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.SemanticRolesResultObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The extracted object from the sentence.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str text</dt>
+<dd class="field-odd"><p>(optional) Object text.</p>
+</dd>
+<dt class="field-even">Attr list[SemanticRolesKeyword] keywords</dt>
+<dd class="field-even"><p>(optional) An array of extracted
+keywords.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.SemanticRolesResultSubject">
+<em class="property">class </em><code class="sig-name descname">SemanticRolesResultSubject</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">text=None</em>, <em class="sig-param">entities=None</em>, <em class="sig-param">keywords=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#SemanticRolesResultSubject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.SemanticRolesResultSubject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The extracted subject from the sentence.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str text</dt>
+<dd class="field-odd"><p>(optional) Text that corresponds to the subject role.</p>
+</dd>
+<dt class="field-even">Attr list[SemanticRolesEntity] entities</dt>
+<dd class="field-even"><p>(optional) An array of extracted
+entities.</p>
+</dd>
+<dt class="field-odd">Attr list[SemanticRolesKeyword] keywords</dt>
+<dd class="field-odd"><p>(optional) An array of extracted
+keywords.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.SemanticRolesVerb">
+<em class="property">class </em><code class="sig-name descname">SemanticRolesVerb</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">text=None</em>, <em class="sig-param">tense=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#SemanticRolesVerb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.SemanticRolesVerb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>SemanticRolesVerb.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str text</dt>
+<dd class="field-odd"><p>(optional) The keyword text.</p>
+</dd>
+<dt class="field-even">Attr str tense</dt>
+<dd class="field-even"><p>(optional) Verb tense.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.SentenceResult">
+<em class="property">class </em><code class="sig-name descname">SentenceResult</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">text=None</em>, <em class="sig-param">location=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#SentenceResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.SentenceResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>SentenceResult.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str text</dt>
+<dd class="field-odd"><p>(optional) The sentence.</p>
+</dd>
+<dt class="field-even">Attr list[int] location</dt>
+<dd class="field-even"><p>(optional) Character offsets indicating the beginning
+and end of the sentence in the analyzed text.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.SentimentOptions">
+<em class="property">class </em><code class="sig-name descname">SentimentOptions</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">document=None</em>, <em class="sig-param">targets=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#SentimentOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.SentimentOptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Analyzes the general sentiment of your content or the sentiment toward specific target
+phrases. You can analyze sentiment for detected entities with <cite>entities.sentiment</cite> and
+for keywords with <cite>keywords.sentiment</cite>.</p>
+<blockquote>
+<div><p>Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,</p>
+</div></blockquote>
+<p>Portuguese, Russian, Spanish.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr bool document</dt>
+<dd class="field-odd"><p>(optional) Set this to <cite>false</cite> to hide document-level
+sentiment results.</p>
+</dd>
+<dt class="field-even">Attr list[str] targets</dt>
+<dd class="field-even"><p>(optional) Sentiment results will be returned for each
+target string that is found in the document.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.SentimentResult">
+<em class="property">class </em><code class="sig-name descname">SentimentResult</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">document=None</em>, <em class="sig-param">targets=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#SentimentResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.SentimentResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The sentiment of the content.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr DocumentSentimentResults document</dt>
+<dd class="field-odd"><p>(optional) The document level
+sentiment.</p>
+</dd>
+<dt class="field-even">Attr list[TargetedSentimentResults] targets</dt>
+<dd class="field-even"><p>(optional) The targeted sentiment
+to analyze.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.SyntaxOptions">
+<em class="property">class </em><code class="sig-name descname">SyntaxOptions</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">tokens=None</em>, <em class="sig-param">sentences=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#SyntaxOptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.SyntaxOptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Returns tokens and sentences from the input text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr SyntaxOptionsTokens tokens</dt>
+<dd class="field-odd"><p>(optional) Tokenization options.</p>
+</dd>
+<dt class="field-even">Attr bool sentences</dt>
+<dd class="field-even"><p>(optional) Set this to <cite>true</cite> to return sentence
+information.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.SyntaxOptionsTokens">
+<em class="property">class </em><code class="sig-name descname">SyntaxOptionsTokens</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">lemma=None</em>, <em class="sig-param">part_of_speech=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#SyntaxOptionsTokens"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.SyntaxOptionsTokens" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Tokenization options.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr bool lemma</dt>
+<dd class="field-odd"><p>(optional) Set this to <cite>true</cite> to return the lemma for each
+token.</p>
+</dd>
+<dt class="field-even">Attr bool part_of_speech</dt>
+<dd class="field-even"><p>(optional) Set this to <cite>true</cite> to return the part of
+speech for each token.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.SyntaxResult">
+<em class="property">class </em><code class="sig-name descname">SyntaxResult</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">tokens=None</em>, <em class="sig-param">sentences=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#SyntaxResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.SyntaxResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Tokens and sentences returned from syntax analysis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr list[TokenResult] tokens</dt>
+<dd class="field-odd"><p>(optional)</p>
+</dd>
+<dt class="field-even">Attr list[SentenceResult] sentences</dt>
+<dd class="field-even"><p>(optional)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.TargetedEmotionResults">
+<em class="property">class </em><code class="sig-name descname">TargetedEmotionResults</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">text=None</em>, <em class="sig-param">emotion=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#TargetedEmotionResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.TargetedEmotionResults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Emotion results for a specified target.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str text</dt>
+<dd class="field-odd"><p>(optional) Targeted text.</p>
+</dd>
+<dt class="field-even">Attr EmotionScores emotion</dt>
+<dd class="field-even"><p>(optional) The emotion results for the target.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.TargetedSentimentResults">
+<em class="property">class </em><code class="sig-name descname">TargetedSentimentResults</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">text=None</em>, <em class="sig-param">score=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#TargetedSentimentResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.TargetedSentimentResults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>TargetedSentimentResults.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str text</dt>
+<dd class="field-odd"><p>(optional) Targeted text.</p>
+</dd>
+<dt class="field-even">Attr float score</dt>
+<dd class="field-even"><p>(optional) Sentiment score from -1 (negative) to 1
+(positive).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.TokenResult">
+<em class="property">class </em><code class="sig-name descname">TokenResult</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">text=None</em>, <em class="sig-param">part_of_speech=None</em>, <em class="sig-param">location=None</em>, <em class="sig-param">lemma=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#TokenResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.TokenResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>TokenResult.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str text</dt>
+<dd class="field-odd"><p>(optional) The token as it appears in the analyzed text.</p>
+</dd>
+<dt class="field-even">Attr str part_of_speech</dt>
+<dd class="field-even"><p>(optional) The part of speech of the token. For
+descriptions of the values, see [Universal Dependencies POS
+tags](<a class="reference external" href="https://universaldependencies.org/u/pos/">https://universaldependencies.org/u/pos/</a>).</p>
+</dd>
+<dt class="field-odd">Attr list[int] location</dt>
+<dd class="field-odd"><p>(optional) Character offsets indicating the beginning
+and end of the token in the analyzed text.</p>
+</dd>
+<dt class="field-even">Attr str lemma</dt>
+<dd class="field-even"><p>(optional) The
+[lemma](<a class="reference external" href="https://wikipedia.org/wiki/Lemma_%28morphology%29">https://wikipedia.org/wiki/Lemma_%28morphology%29</a>) of the token.</p>
+</dd>
+</dl>
+<dl class="class">
+<dt id="ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum">
+<em class="property">class </em><code class="sig-name descname">PartOfSpeechEnum</code><a class="reference internal" href="../_modules/ibm_watson/natural_language_understanding_v1.html#TokenResult.PartOfSpeechEnum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>The part of speech of the token. For descriptions of the values, see [Universal
+Dependencies POS tags](<a class="reference external" href="https://universaldependencies.org/u/pos/">https://universaldependencies.org/u/pos/</a>).</p>
+<dl class="attribute">
+<dt id="ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.ADJ">
+<code class="sig-name descname">ADJ</code><em class="property"> = 'ADJ'</em><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.ADJ" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.ADP">
+<code class="sig-name descname">ADP</code><em class="property"> = 'ADP'</em><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.ADP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.ADV">
+<code class="sig-name descname">ADV</code><em class="property"> = 'ADV'</em><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.ADV" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.AUX">
+<code class="sig-name descname">AUX</code><em class="property"> = 'AUX'</em><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.AUX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.CCONJ">
+<code class="sig-name descname">CCONJ</code><em class="property"> = 'CCONJ'</em><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.CCONJ" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.DET">
+<code class="sig-name descname">DET</code><em class="property"> = 'DET'</em><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.DET" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.INTJ">
+<code class="sig-name descname">INTJ</code><em class="property"> = 'INTJ'</em><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.INTJ" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.NOUN">
+<code class="sig-name descname">NOUN</code><em class="property"> = 'NOUN'</em><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.NOUN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.NUM">
+<code class="sig-name descname">NUM</code><em class="property"> = 'NUM'</em><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.NUM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.PART">
+<code class="sig-name descname">PART</code><em class="property"> = 'PART'</em><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.PART" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.PRON">
+<code class="sig-name descname">PRON</code><em class="property"> = 'PRON'</em><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.PRON" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.PROPN">
+<code class="sig-name descname">PROPN</code><em class="property"> = 'PROPN'</em><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.PROPN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.PUNCT">
+<code class="sig-name descname">PUNCT</code><em class="property"> = 'PUNCT'</em><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.PUNCT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.SCONJ">
+<code class="sig-name descname">SCONJ</code><em class="property"> = 'SCONJ'</em><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.SCONJ" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.SYM">
+<code class="sig-name descname">SYM</code><em class="property"> = 'SYM'</em><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.SYM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.VERB">
+<code class="sig-name descname">VERB</code><em class="property"> = 'VERB'</em><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.VERB" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.X">
+<code class="sig-name descname">X</code><em class="property"> = 'X'</em><a class="headerlink" href="#ibm_watson.natural_language_understanding_v1.TokenResult.PartOfSpeechEnum.X" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="ibm_watson.natural_language_classifier_v1.html" title="previous chapter">ibm_watson.natural_language_classifier_v1 module</a></li>
+      <li>Next: <a href="ibm_watson.personality_insights_v3.html" title="next chapter">ibm_watson.personality_insights_v3 module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
