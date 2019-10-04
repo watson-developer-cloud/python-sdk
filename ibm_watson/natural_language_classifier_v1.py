@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# Copyright 2018 IBM All Rights Reserved.
+# (C) Copyright IBM Corp. 2019.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,12 +20,13 @@ classifier to connect predefined classes to example texts so that the service ca
 those classes to new inputs.
 """
 
-from __future__ import absolute_import
-
 import json
 from .common import get_sdk_headers
+from enum import Enum
 from ibm_cloud_sdk_core import BaseService
 from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
+from ibm_cloud_sdk_core import get_authenticator_from_environment
+from ibm_cloud_sdk_core import read_external_sources
 
 ##############################################################################
 # Service
@@ -35,85 +36,37 @@ from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
 class NaturalLanguageClassifierV1(BaseService):
     """The Natural Language Classifier V1 service."""
 
-    default_url = 'https://gateway.watsonplatform.net/natural-language-classifier/api'
+    default_service_url = 'https://gateway.watsonplatform.net/natural-language-classifier/api'
 
     def __init__(
             self,
-            url=default_url,
-            username=None,
-            password=None,
-            iam_apikey=None,
-            iam_access_token=None,
-            iam_url=None,
-            iam_client_id=None,
-            iam_client_secret=None,
-            icp4d_access_token=None,
-            icp4d_url=None,
-            authentication_type=None,
+            authenticator=None,
     ):
         """
         Construct a new client for the Natural Language Classifier service.
 
-        :param str url: The base url to use when contacting the service (e.g.
-               "https://gateway.watsonplatform.net/natural-language-classifier/api/natural-language-classifier/api").
-               The base url may differ between IBM Cloud regions.
-
-        :param str username: The username used to authenticate with the service.
-               Username and password credentials are only required to run your
-               application locally or outside of IBM Cloud. When running on
-               IBM Cloud, the credentials will be automatically loaded from the
-               `VCAP_SERVICES` environment variable.
-
-        :param str password: The password used to authenticate with the service.
-               Username and password credentials are only required to run your
-               application locally or outside of IBM Cloud. When running on
-               IBM Cloud, the credentials will be automatically loaded from the
-               `VCAP_SERVICES` environment variable.
-
-        :param str iam_apikey: An API key that can be used to request IAM tokens. If
-               this API key is provided, the SDK will manage the token and handle the
-               refreshing.
-
-        :param str iam_access_token:  An IAM access token is fully managed by the application.
-               Responsibility falls on the application to refresh the token, either before
-               it expires or reactively upon receiving a 401 from the service as any requests
-               made with an expired token will fail.
-
-        :param str iam_url: An optional URL for the IAM service API. Defaults to
-               'https://iam.cloud.ibm.com/identity/token'.
-
-        :param str iam_client_id: An optional client_id value to use when interacting with the IAM service.
-
-        :param str iam_client_secret: An optional client_secret value to use when interacting with the IAM service.
-
-        :param str icp4d_access_token:  A ICP4D(IBM Cloud Pak for Data) access token is
-               fully managed by the application. Responsibility falls on the application to
-               refresh the token, either before it expires or reactively upon receiving a 401
-               from the service as any requests made with an expired token will fail.
-
-        :param str icp4d_url: In order to use an SDK-managed token with ICP4D authentication, this
-               URL must be passed in.
-
-        :param str authentication_type: Specifies the authentication pattern to use. Values that it
-               takes are basic, iam or icp4d.
+        :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
+               Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
+               about initializing the authenticator of your choice.
         """
 
-        BaseService.__init__(
-            self,
-            vcap_services_name='natural_language_classifier',
-            url=url,
-            username=username,
-            password=password,
-            iam_apikey=iam_apikey,
-            iam_access_token=iam_access_token,
-            iam_url=iam_url,
-            iam_client_id=iam_client_id,
-            iam_client_secret=iam_client_secret,
-            use_vcap_services=True,
-            display_name='Natural Language Classifier',
-            icp4d_access_token=icp4d_access_token,
-            icp4d_url=icp4d_url,
-            authentication_type=authentication_type)
+        service_url = self.default_service_url
+        disable_ssl_verification = False
+
+        config = read_external_sources('natural_language_classifier')
+        if config.get('URL'):
+            service_url = config.get('URL')
+        if config.get('DISABLE_SSL'):
+            disable_ssl_verification = config.get('DISABLE_SSL')
+
+        if not authenticator:
+            authenticator = get_authenticator_from_environment(
+                'natural_language_classifier')
+
+        BaseService.__init__(self,
+                             service_url=service_url,
+                             authenticator=authenticator,
+                             disable_ssl_verification=disable_ssl_verification)
 
     #########################
     # Classify text
@@ -127,7 +80,8 @@ class NaturalLanguageClassifierV1(BaseService):
         can use the classifier to classify text.
 
         :param str classifier_id: Classifier ID to use.
-        :param str text: The submitted phrase. The maximum length is 2048 characters.
+        :param str text: The submitted phrase. The maximum length is 2048
+               characters.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -149,12 +103,12 @@ class NaturalLanguageClassifierV1(BaseService):
 
         url = '/v1/classifiers/{0}/classify'.format(
             *self._encode_path_vars(classifier_id))
-        response = self.request(
-            method='POST',
-            url=url,
-            headers=headers,
-            json=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       data=data,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def classify_collection(self, classifier_id, collection, **kwargs):
@@ -176,7 +130,7 @@ class NaturalLanguageClassifierV1(BaseService):
             raise ValueError('classifier_id must be provided')
         if collection is None:
             raise ValueError('collection must be provided')
-        collection = [self._convert_model(x, ClassifyInput) for x in collection]
+        collection = [self._convert_model(x) for x in collection]
 
         headers = {}
         if 'headers' in kwargs:
@@ -189,42 +143,43 @@ class NaturalLanguageClassifierV1(BaseService):
 
         url = '/v1/classifiers/{0}/classify_collection'.format(
             *self._encode_path_vars(classifier_id))
-        response = self.request(
-            method='POST',
-            url=url,
-            headers=headers,
-            json=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       data=data,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     #########################
     # Manage classifiers
     #########################
 
-    def create_classifier(self, metadata, training_data, **kwargs):
+    def create_classifier(self, training_metadata, training_data, **kwargs):
         """
         Create classifier.
 
         Sends data to create and train a classifier and returns information about the new
         classifier.
 
-        :param file metadata: Metadata in JSON format. The metadata identifies the
-        language of the data, and an optional name to identify the classifier. Specify the
-        language with the 2-letter primary language code as assigned in ISO standard 639.
-        Supported languages are English (`en`), Arabic (`ar`), French (`fr`), German,
-        (`de`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Brazilian Portuguese
-        (`pt`), and Spanish (`es`).
-        :param file training_data: Training data in CSV format. Each text value must have
-        at least one class. The data can include up to 3,000 classes and 20,000 records.
-        For details, see [Data
-        preparation](https://cloud.ibm.com/docs/services/natural-language-classifier?topic=natural-language-classifier-using-your-data).
+        :param file training_metadata: Metadata in JSON format. The metadata
+               identifies the language of the data, and an optional name to identify the
+               classifier. Specify the language with the 2-letter primary language code as
+               assigned in ISO standard 639.
+               Supported languages are English (`en`), Arabic (`ar`), French (`fr`),
+               German, (`de`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Brazilian
+               Portuguese (`pt`), and Spanish (`es`).
+        :param file training_data: Training data in CSV format. Each text value
+               must have at least one class. The data can include up to 3,000 classes and
+               20,000 records. For details, see [Data
+               preparation](https://cloud.ibm.com/docs/services/natural-language-classifier?topic=natural-language-classifier-using-your-data).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
         """
 
-        if metadata is None:
-            raise ValueError('metadata must be provided')
+        if training_metadata is None:
+            raise ValueError('training_metadata must be provided')
         if training_data is None:
             raise ValueError('training_data must be provided')
 
@@ -235,17 +190,18 @@ class NaturalLanguageClassifierV1(BaseService):
                                       'create_classifier')
         headers.update(sdk_headers)
 
-        form_data = {}
-        form_data['training_metadata'] = (None, metadata, 'application/json')
-        form_data['training_data'] = (None, training_data, 'text/csv')
+        form_data = []
+        form_data.append(('training_metadata', (None, training_metadata,
+                                                'application/json')))
+        form_data.append(('training_data', (None, training_data, 'text/csv')))
 
         url = '/v1/classifiers'
-        response = self.request(
-            method='POST',
-            url=url,
-            headers=headers,
-            files=form_data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       files=form_data,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def list_classifiers(self, **kwargs):
@@ -267,8 +223,11 @@ class NaturalLanguageClassifierV1(BaseService):
         headers.update(sdk_headers)
 
         url = '/v1/classifiers'
-        response = self.request(
-            method='GET', url=url, headers=headers, accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def get_classifier(self, classifier_id, **kwargs):
@@ -295,8 +254,11 @@ class NaturalLanguageClassifierV1(BaseService):
 
         url = '/v1/classifiers/{0}'.format(
             *self._encode_path_vars(classifier_id))
-        response = self.request(
-            method='GET', url=url, headers=headers, accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def delete_classifier(self, classifier_id, **kwargs):
@@ -321,8 +283,11 @@ class NaturalLanguageClassifierV1(BaseService):
 
         url = '/v1/classifiers/{0}'.format(
             *self._encode_path_vars(classifier_id))
-        response = self.request(
-            method='DELETE', url=url, headers=headers, accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
 
@@ -331,7 +296,7 @@ class NaturalLanguageClassifierV1(BaseService):
 ##############################################################################
 
 
-class Classification(object):
+class Classification():
     """
     Response from the classifier for a phrase.
 
@@ -339,11 +304,12 @@ class Classification(object):
     :attr str url: (optional) Link to the classifier.
     :attr str text: (optional) The submitted phrase.
     :attr str top_class: (optional) The class with the highest confidence.
-    :attr list[ClassifiedClass] classes: (optional) An array of up to ten class-confidence
-    pairs sorted in descending order of confidence.
+    :attr list[ClassifiedClass] classes: (optional) An array of up to ten
+          class-confidence pairs sorted in descending order of confidence.
     """
 
     def __init__(self,
+                 *,
                  classifier_id=None,
                  url=None,
                  text=None,
@@ -357,7 +323,7 @@ class Classification(object):
         :param str text: (optional) The submitted phrase.
         :param str top_class: (optional) The class with the highest confidence.
         :param list[ClassifiedClass] classes: (optional) An array of up to ten
-        class-confidence pairs sorted in descending order of confidence.
+               class-confidence pairs sorted in descending order of confidence.
         """
         self.classifier_id = classifier_id
         self.url = url
@@ -369,12 +335,12 @@ class Classification(object):
     def _from_dict(cls, _dict):
         """Initialize a Classification object from a json dictionary."""
         args = {}
-        validKeys = ['classifier_id', 'url', 'text', 'top_class', 'classes']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['classifier_id', 'url', 'text', 'top_class', 'classes']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Classification: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'classifier_id' in _dict:
             args['classifier_id'] = _dict.get('classifier_id')
         if 'url' in _dict:
@@ -419,24 +385,24 @@ class Classification(object):
         return not self == other
 
 
-class ClassificationCollection(object):
+class ClassificationCollection():
     """
     Response from the classifier for multiple phrases.
 
     :attr str classifier_id: (optional) Unique identifier for this classifier.
     :attr str url: (optional) Link to the classifier.
-    :attr list[CollectionItem] collection: (optional) An array of classifier responses for
-    each submitted phrase.
+    :attr list[CollectionItem] collection: (optional) An array of classifier
+          responses for each submitted phrase.
     """
 
-    def __init__(self, classifier_id=None, url=None, collection=None):
+    def __init__(self, *, classifier_id=None, url=None, collection=None):
         """
         Initialize a ClassificationCollection object.
 
         :param str classifier_id: (optional) Unique identifier for this classifier.
         :param str url: (optional) Link to the classifier.
         :param list[CollectionItem] collection: (optional) An array of classifier
-        responses for each submitted phrase.
+               responses for each submitted phrase.
         """
         self.classifier_id = classifier_id
         self.url = url
@@ -446,12 +412,12 @@ class ClassificationCollection(object):
     def _from_dict(cls, _dict):
         """Initialize a ClassificationCollection object from a json dictionary."""
         args = {}
-        validKeys = ['classifier_id', 'url', 'collection']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['classifier_id', 'url', 'collection']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ClassificationCollection: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'classifier_id' in _dict:
             args['classifier_id'] = _dict.get('classifier_id')
         if 'url' in _dict:
@@ -488,22 +454,23 @@ class ClassificationCollection(object):
         return not self == other
 
 
-class ClassifiedClass(object):
+class ClassifiedClass():
     """
     Class and confidence.
 
-    :attr float confidence: (optional) A decimal percentage that represents the confidence
-    that Watson has in this class. Higher values represent higher confidences.
+    :attr float confidence: (optional) A decimal percentage that represents the
+          confidence that Watson has in this class. Higher values represent higher
+          confidences.
     :attr str class_name: (optional) Class label.
     """
 
-    def __init__(self, confidence=None, class_name=None):
+    def __init__(self, *, confidence=None, class_name=None):
         """
         Initialize a ClassifiedClass object.
 
-        :param float confidence: (optional) A decimal percentage that represents the
-        confidence that Watson has in this class. Higher values represent higher
-        confidences.
+        :param float confidence: (optional) A decimal percentage that represents
+               the confidence that Watson has in this class. Higher values represent
+               higher confidences.
         :param str class_name: (optional) Class label.
         """
         self.confidence = confidence
@@ -513,12 +480,12 @@ class ClassifiedClass(object):
     def _from_dict(cls, _dict):
         """Initialize a ClassifiedClass object from a json dictionary."""
         args = {}
-        validKeys = ['confidence', 'class_name']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['confidence', 'class_name']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ClassifiedClass: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'confidence' in _dict:
             args['confidence'] = _dict.get('confidence')
         if 'class_name' in _dict:
@@ -549,7 +516,7 @@ class ClassifiedClass(object):
         return not self == other
 
 
-class Classifier(object):
+class Classifier():
     """
     A classifier for natural language phrases.
 
@@ -557,7 +524,8 @@ class Classifier(object):
     :attr str url: Link to the classifier.
     :attr str status: (optional) The state of the classifier.
     :attr str classifier_id: Unique identifier for this classifier.
-    :attr datetime created: (optional) Date and time (UTC) the classifier was created.
+    :attr datetime created: (optional) Date and time (UTC) the classifier was
+          created.
     :attr str status_description: (optional) Additional detail about the status.
     :attr str language: (optional) The language used for the classifier.
     """
@@ -565,6 +533,7 @@ class Classifier(object):
     def __init__(self,
                  url,
                  classifier_id,
+                 *,
                  name=None,
                  status=None,
                  created=None,
@@ -578,8 +547,9 @@ class Classifier(object):
         :param str name: (optional) User-supplied name for the classifier.
         :param str status: (optional) The state of the classifier.
         :param datetime created: (optional) Date and time (UTC) the classifier was
-        created.
-        :param str status_description: (optional) Additional detail about the status.
+               created.
+        :param str status_description: (optional) Additional detail about the
+               status.
         :param str language: (optional) The language used for the classifier.
         """
         self.name = name
@@ -594,15 +564,15 @@ class Classifier(object):
     def _from_dict(cls, _dict):
         """Initialize a Classifier object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'name', 'url', 'status', 'classifier_id', 'created',
             'status_description', 'language'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Classifier: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         if 'url' in _dict:
@@ -661,13 +631,23 @@ class Classifier(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class StatusEnum(Enum):
+        """
+        The state of the classifier.
+        """
+        NON_EXISTENT = "Non Existent"
+        TRAINING = "Training"
+        FAILED = "Failed"
+        AVAILABLE = "Available"
+        UNAVAILABLE = "Unavailable"
 
-class ClassifierList(object):
+
+class ClassifierList():
     """
     List of available classifiers.
 
-    :attr list[Classifier] classifiers: The classifiers available to the user. Returns an
-    empty array if no classifiers are available.
+    :attr list[Classifier] classifiers: The classifiers available to the user.
+          Returns an empty array if no classifiers are available.
     """
 
     def __init__(self, classifiers):
@@ -675,7 +655,7 @@ class ClassifierList(object):
         Initialize a ClassifierList object.
 
         :param list[Classifier] classifiers: The classifiers available to the user.
-        Returns an empty array if no classifiers are available.
+               Returns an empty array if no classifiers are available.
         """
         self.classifiers = classifiers
 
@@ -683,12 +663,12 @@ class ClassifierList(object):
     def _from_dict(cls, _dict):
         """Initialize a ClassifierList object from a json dictionary."""
         args = {}
-        validKeys = ['classifiers']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['classifiers']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ClassifierList: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'classifiers' in _dict:
             args['classifiers'] = [
                 Classifier._from_dict(x) for x in (_dict.get('classifiers'))
@@ -721,7 +701,7 @@ class ClassifierList(object):
         return not self == other
 
 
-class ClassifyInput(object):
+class ClassifyInput():
     """
     Request payload to classify.
 
@@ -732,7 +712,8 @@ class ClassifyInput(object):
         """
         Initialize a ClassifyInput object.
 
-        :param str text: The submitted phrase. The maximum length is 2048 characters.
+        :param str text: The submitted phrase. The maximum length is 2048
+               characters.
         """
         self.text = text
 
@@ -740,12 +721,12 @@ class ClassifyInput(object):
     def _from_dict(cls, _dict):
         """Initialize a ClassifyInput object from a json dictionary."""
         args = {}
-        validKeys = ['text']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ClassifyInput: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         else:
@@ -775,26 +756,26 @@ class ClassifyInput(object):
         return not self == other
 
 
-class CollectionItem(object):
+class CollectionItem():
     """
     Response from the classifier for a phrase in a collection.
 
     :attr str text: (optional) The submitted phrase. The maximum length is 2048
-    characters.
+          characters.
     :attr str top_class: (optional) The class with the highest confidence.
-    :attr list[ClassifiedClass] classes: (optional) An array of up to ten class-confidence
-    pairs sorted in descending order of confidence.
+    :attr list[ClassifiedClass] classes: (optional) An array of up to ten
+          class-confidence pairs sorted in descending order of confidence.
     """
 
-    def __init__(self, text=None, top_class=None, classes=None):
+    def __init__(self, *, text=None, top_class=None, classes=None):
         """
         Initialize a CollectionItem object.
 
-        :param str text: (optional) The submitted phrase. The maximum length is 2048
-        characters.
+        :param str text: (optional) The submitted phrase. The maximum length is
+               2048 characters.
         :param str top_class: (optional) The class with the highest confidence.
         :param list[ClassifiedClass] classes: (optional) An array of up to ten
-        class-confidence pairs sorted in descending order of confidence.
+               class-confidence pairs sorted in descending order of confidence.
         """
         self.text = text
         self.top_class = top_class
@@ -804,12 +785,12 @@ class CollectionItem(object):
     def _from_dict(cls, _dict):
         """Initialize a CollectionItem object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'top_class', 'classes']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'top_class', 'classes']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CollectionItem: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'top_class' in _dict:

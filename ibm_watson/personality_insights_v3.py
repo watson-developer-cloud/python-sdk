@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# Copyright 2018 IBM All Rights Reserved.
+# (C) Copyright IBM Corp. 2019.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -33,11 +33,12 @@ whether you set the `X-Watson-Learning-Opt-Out` request header, the service does
 or retain data from requests and responses.
 """
 
-from __future__ import absolute_import
-
 import json
 from .common import get_sdk_headers
+from enum import Enum
 from ibm_cloud_sdk_core import BaseService
+from ibm_cloud_sdk_core import get_authenticator_from_environment
+from ibm_cloud_sdk_core import read_external_sources
 
 ##############################################################################
 # Service
@@ -47,22 +48,12 @@ from ibm_cloud_sdk_core import BaseService
 class PersonalityInsightsV3(BaseService):
     """The Personality Insights V3 service."""
 
-    default_url = 'https://gateway.watsonplatform.net/personality-insights/api'
+    default_service_url = 'https://gateway.watsonplatform.net/personality-insights/api'
 
     def __init__(
             self,
             version,
-            url=default_url,
-            username=None,
-            password=None,
-            iam_apikey=None,
-            iam_access_token=None,
-            iam_url=None,
-            iam_client_id=None,
-            iam_client_secret=None,
-            icp4d_access_token=None,
-            icp4d_url=None,
-            authentication_type=None,
+            authenticator=None,
     ):
         """
         Construct a new client for the Personality Insights service.
@@ -78,66 +69,28 @@ class PersonalityInsightsV3(BaseService):
                application, and don't change it until your application is
                ready for a later version.
 
-        :param str url: The base url to use when contacting the service (e.g.
-               "https://gateway.watsonplatform.net/personality-insights/api/personality-insights/api").
-               The base url may differ between IBM Cloud regions.
-
-        :param str username: The username used to authenticate with the service.
-               Username and password credentials are only required to run your
-               application locally or outside of IBM Cloud. When running on
-               IBM Cloud, the credentials will be automatically loaded from the
-               `VCAP_SERVICES` environment variable.
-
-        :param str password: The password used to authenticate with the service.
-               Username and password credentials are only required to run your
-               application locally or outside of IBM Cloud. When running on
-               IBM Cloud, the credentials will be automatically loaded from the
-               `VCAP_SERVICES` environment variable.
-
-        :param str iam_apikey: An API key that can be used to request IAM tokens. If
-               this API key is provided, the SDK will manage the token and handle the
-               refreshing.
-
-        :param str iam_access_token:  An IAM access token is fully managed by the application.
-               Responsibility falls on the application to refresh the token, either before
-               it expires or reactively upon receiving a 401 from the service as any requests
-               made with an expired token will fail.
-
-        :param str iam_url: An optional URL for the IAM service API. Defaults to
-               'https://iam.cloud.ibm.com/identity/token'.
-
-        :param str iam_client_id: An optional client_id value to use when interacting with the IAM service.
-
-        :param str iam_client_secret: An optional client_secret value to use when interacting with the IAM service.
-
-        :param str icp4d_access_token:  A ICP4D(IBM Cloud Pak for Data) access token is
-               fully managed by the application. Responsibility falls on the application to
-               refresh the token, either before it expires or reactively upon receiving a 401
-               from the service as any requests made with an expired token will fail.
-
-        :param str icp4d_url: In order to use an SDK-managed token with ICP4D authentication, this
-               URL must be passed in.
-
-        :param str authentication_type: Specifies the authentication pattern to use. Values that it
-               takes are basic, iam or icp4d.
+        :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
+               Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
+               about initializing the authenticator of your choice.
         """
 
-        BaseService.__init__(
-            self,
-            vcap_services_name='personality_insights',
-            url=url,
-            username=username,
-            password=password,
-            iam_apikey=iam_apikey,
-            iam_access_token=iam_access_token,
-            iam_url=iam_url,
-            iam_client_id=iam_client_id,
-            iam_client_secret=iam_client_secret,
-            use_vcap_services=True,
-            display_name='Personality Insights',
-            icp4d_access_token=icp4d_access_token,
-            icp4d_url=icp4d_url,
-            authentication_type=authentication_type)
+        service_url = self.default_service_url
+        disable_ssl_verification = False
+
+        config = read_external_sources('personality_insights')
+        if config.get('URL'):
+            service_url = config.get('URL')
+        if config.get('DISABLE_SSL'):
+            disable_ssl_verification = config.get('DISABLE_SSL')
+
+        if not authenticator:
+            authenticator = get_authenticator_from_environment(
+                'personality_insights')
+
+        BaseService.__init__(self,
+                             service_url=service_url,
+                             authenticator=authenticator,
+                             disable_ssl_verification=disable_ssl_verification)
         self.version = version
 
     #########################
@@ -147,12 +100,13 @@ class PersonalityInsightsV3(BaseService):
     def profile(self,
                 content,
                 accept,
+                *,
+                content_type=None,
                 content_language=None,
                 accept_language=None,
                 raw_scores=None,
                 csv_headers=None,
                 consumption_preferences=None,
-                content_type=None,
                 **kwargs):
         """
         Get profile.
@@ -190,37 +144,42 @@ class PersonalityInsightsV3(BaseService):
         * [Understanding a CSV
         profile](https://cloud.ibm.com/docs/services/personality-insights?topic=personality-insights-outputCSV#outputCSV).
 
-        :param Content content: A maximum of 20 MB of content to analyze, though the
-        service requires much less text; for more information, see [Providing sufficient
-        input](https://cloud.ibm.com/docs/services/personality-insights?topic=personality-insights-input#sufficient).
-        For JSON input, provide an object of type `Content`.
-        :param str accept: The type of the response. For more information, see **Accept
-        types** in the method description.
-        :param str content_language: The language of the input text for the request:
-        Arabic, English, Japanese, Korean, or Spanish. Regional variants are treated as
-        their parent language; for example, `en-US` is interpreted as `en`.
-        The effect of the **Content-Language** parameter depends on the **Content-Type**
-        parameter. When **Content-Type** is `text/plain` or `text/html`,
-        **Content-Language** is the only way to specify the language. When
-        **Content-Type** is `application/json`, **Content-Language** overrides a language
-        specified with the `language` parameter of a `ContentItem` object, and content
-        items that specify a different language are ignored; omit this parameter to base
-        the language on the specification of the content items. You can specify any
-        combination of languages for **Content-Language** and **Accept-Language**.
-        :param str accept_language: The desired language of the response. For
-        two-character arguments, regional variants are treated as their parent language;
-        for example, `en-US` is interpreted as `en`. You can specify any combination of
-        languages for the input and response content.
-        :param bool raw_scores: Indicates whether a raw score in addition to a normalized
-        percentile is returned for each characteristic; raw scores are not compared with a
-        sample population. By default, only normalized percentiles are returned.
-        :param bool csv_headers: Indicates whether column labels are returned with a CSV
-        response. By default, no column labels are returned. Applies only when the
-        response type is CSV (`text/csv`).
-        :param bool consumption_preferences: Indicates whether consumption preferences are
-        returned with the results. By default, no consumption preferences are returned.
-        :param str content_type: The type of the input. For more information, see
-        **Content types** in the method description.
+        :param Content content: A maximum of 20 MB of content to analyze, though
+               the service requires much less text; for more information, see [Providing
+               sufficient
+               input](https://cloud.ibm.com/docs/services/personality-insights?topic=personality-insights-input#sufficient).
+               For JSON input, provide an object of type `Content`.
+        :param str accept: The type of the response. For more information, see
+               **Accept types** in the method description.
+        :param str content_type: (optional) The type of the input. For more
+               information, see **Content types** in the method description.
+        :param str content_language: (optional) The language of the input text for
+               the request: Arabic, English, Japanese, Korean, or Spanish. Regional
+               variants are treated as their parent language; for example, `en-US` is
+               interpreted as `en`.
+               The effect of the **Content-Language** parameter depends on the
+               **Content-Type** parameter. When **Content-Type** is `text/plain` or
+               `text/html`, **Content-Language** is the only way to specify the language.
+               When **Content-Type** is `application/json`, **Content-Language** overrides
+               a language specified with the `language` parameter of a `ContentItem`
+               object, and content items that specify a different language are ignored;
+               omit this parameter to base the language on the specification of the
+               content items. You can specify any combination of languages for
+               **Content-Language** and **Accept-Language**.
+        :param str accept_language: (optional) The desired language of the
+               response. For two-character arguments, regional variants are treated as
+               their parent language; for example, `en-US` is interpreted as `en`. You can
+               specify any combination of languages for the input and response content.
+        :param bool raw_scores: (optional) Indicates whether a raw score in
+               addition to a normalized percentile is returned for each characteristic;
+               raw scores are not compared with a sample population. By default, only
+               normalized percentiles are returned.
+        :param bool csv_headers: (optional) Indicates whether column labels are
+               returned with a CSV response. By default, no column labels are returned.
+               Applies only when the response type is CSV (`text/csv`).
+        :param bool consumption_preferences: (optional) Indicates whether
+               consumption preferences are returned with the results. By default, no
+               consumption preferences are returned.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -231,13 +190,13 @@ class PersonalityInsightsV3(BaseService):
         if accept is None:
             raise ValueError('accept must be provided')
         if isinstance(content, Content):
-            content = self._convert_model(content, Content)
+            content = self._convert_model(content)
 
         headers = {
             'Accept': accept,
+            'Content-Type': content_type,
             'Content-Language': content_language,
-            'Accept-Language': accept_language,
-            'Content-Type': content_type
+            'Accept-Language': accept_language
         }
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -257,14 +216,74 @@ class PersonalityInsightsV3(BaseService):
             data = content
 
         url = '/v3/profile'
-        response = self.request(
+        request = self.prepare_request(
             method='POST',
             url=url,
             headers=headers,
             params=params,
             data=data,
             accept_json=(accept is None or accept == 'application/json'))
+        response = self.send(request)
         return response
+
+
+class ProfileEnums(object):
+
+    class Accept(Enum):
+        """
+        The type of the response. For more information, see **Accept types** in the method
+        description.
+        """
+        APPLICATION_JSON = 'application/json'
+        TEXT_CSV = 'text/csv'
+
+    class ContentType(Enum):
+        """
+        The type of the input. For more information, see **Content types** in the method
+        description.
+        """
+        APPLICATION_JSON = 'application/json'
+        TEXT_HTML = 'text/html'
+        TEXT_PLAIN = 'text/plain'
+
+    class ContentLanguage(Enum):
+        """
+        The language of the input text for the request: Arabic, English, Japanese, Korean,
+        or Spanish. Regional variants are treated as their parent language; for example,
+        `en-US` is interpreted as `en`.
+        The effect of the **Content-Language** parameter depends on the **Content-Type**
+        parameter. When **Content-Type** is `text/plain` or `text/html`,
+        **Content-Language** is the only way to specify the language. When
+        **Content-Type** is `application/json`, **Content-Language** overrides a language
+        specified with the `language` parameter of a `ContentItem` object, and content
+        items that specify a different language are ignored; omit this parameter to base
+        the language on the specification of the content items. You can specify any
+        combination of languages for **Content-Language** and **Accept-Language**.
+        """
+        AR = 'ar'
+        EN = 'en'
+        ES = 'es'
+        JA = 'ja'
+        KO = 'ko'
+
+    class AcceptLanguage(Enum):
+        """
+        The desired language of the response. For two-character arguments, regional
+        variants are treated as their parent language; for example, `en-US` is interpreted
+        as `en`. You can specify any combination of languages for the input and response
+        content.
+        """
+        AR = 'ar'
+        DE = 'de'
+        EN = 'en'
+        ES = 'es'
+        FR = 'fr'
+        IT = 'it'
+        JA = 'ja'
+        KO = 'ko'
+        PT_BR = 'pt-br'
+        ZH_CN = 'zh-cn'
+        ZH_TW = 'zh-tw'
 
 
 ##############################################################################
@@ -272,31 +291,33 @@ class PersonalityInsightsV3(BaseService):
 ##############################################################################
 
 
-class Behavior(object):
+class Behavior():
     """
     The temporal behavior for the input content.
 
-    :attr str trait_id: The unique, non-localized identifier of the characteristic to
-    which the results pertain. IDs have the form `behavior_{value}`.
+    :attr str trait_id: The unique, non-localized identifier of the characteristic
+          to which the results pertain. IDs have the form `behavior_{value}`.
     :attr str name: The user-visible, localized name of the characteristic.
-    :attr str category: The category of the characteristic: `behavior` for temporal data.
+    :attr str category: The category of the characteristic: `behavior` for temporal
+          data.
     :attr float percentage: For JSON content that is timestamped, the percentage of
-    timestamped input data that occurred during that day of the week or hour of the day.
-    The range is 0 to 1.
+          timestamped input data that occurred during that day of the week or hour of the
+          day. The range is 0 to 1.
     """
 
     def __init__(self, trait_id, name, category, percentage):
         """
         Initialize a Behavior object.
 
-        :param str trait_id: The unique, non-localized identifier of the characteristic to
-        which the results pertain. IDs have the form `behavior_{value}`.
+        :param str trait_id: The unique, non-localized identifier of the
+               characteristic to which the results pertain. IDs have the form
+               `behavior_{value}`.
         :param str name: The user-visible, localized name of the characteristic.
-        :param str category: The category of the characteristic: `behavior` for temporal
-        data.
-        :param float percentage: For JSON content that is timestamped, the percentage of
-        timestamped input data that occurred during that day of the week or hour of the
-        day. The range is 0 to 1.
+        :param str category: The category of the characteristic: `behavior` for
+               temporal data.
+        :param float percentage: For JSON content that is timestamped, the
+               percentage of timestamped input data that occurred during that day of the
+               week or hour of the day. The range is 0 to 1.
         """
         self.trait_id = trait_id
         self.name = name
@@ -307,12 +328,12 @@ class Behavior(object):
     def _from_dict(cls, _dict):
         """Initialize a Behavior object from a json dictionary."""
         args = {}
-        validKeys = ['trait_id', 'name', 'category', 'percentage']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['trait_id', 'name', 'category', 'percentage']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Behavior: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'trait_id' in _dict:
             args['trait_id'] = _dict.get('trait_id')
         else:
@@ -363,38 +384,39 @@ class Behavior(object):
         return not self == other
 
 
-class ConsumptionPreferences(object):
+class ConsumptionPreferences():
     """
     A consumption preference that the service inferred from the input content.
 
     :attr str consumption_preference_id: The unique, non-localized identifier of the
-    consumption preference to which the results pertain. IDs have the form
-    `consumption_preferences_{preference}`.
+          consumption preference to which the results pertain. IDs have the form
+          `consumption_preferences_{preference}`.
     :attr str name: The user-visible, localized name of the consumption preference.
     :attr float score: The score for the consumption preference:
-    * `0.0`: Unlikely
-    * `0.5`: Neutral
-    * `1.0`: Likely
-    The scores for some preferences are binary and do not allow a neutral value. The score
-    is an indication of preference based on the results inferred from the input text, not
-    a normalized percentile.
+          * `0.0`: Unlikely
+          * `0.5`: Neutral
+          * `1.0`: Likely
+          The scores for some preferences are binary and do not allow a neutral value. The
+          score is an indication of preference based on the results inferred from the
+          input text, not a normalized percentile.
     """
 
     def __init__(self, consumption_preference_id, name, score):
         """
         Initialize a ConsumptionPreferences object.
 
-        :param str consumption_preference_id: The unique, non-localized identifier of the
-        consumption preference to which the results pertain. IDs have the form
-        `consumption_preferences_{preference}`.
-        :param str name: The user-visible, localized name of the consumption preference.
+        :param str consumption_preference_id: The unique, non-localized identifier
+               of the consumption preference to which the results pertain. IDs have the
+               form `consumption_preferences_{preference}`.
+        :param str name: The user-visible, localized name of the consumption
+               preference.
         :param float score: The score for the consumption preference:
-        * `0.0`: Unlikely
-        * `0.5`: Neutral
-        * `1.0`: Likely
-        The scores for some preferences are binary and do not allow a neutral value. The
-        score is an indication of preference based on the results inferred from the input
-        text, not a normalized percentile.
+               * `0.0`: Unlikely
+               * `0.5`: Neutral
+               * `1.0`: Likely
+               The scores for some preferences are binary and do not allow a neutral
+               value. The score is an indication of preference based on the results
+               inferred from the input text, not a normalized percentile.
         """
         self.consumption_preference_id = consumption_preference_id
         self.name = name
@@ -404,12 +426,12 @@ class ConsumptionPreferences(object):
     def _from_dict(cls, _dict):
         """Initialize a ConsumptionPreferences object from a json dictionary."""
         args = {}
-        validKeys = ['consumption_preference_id', 'name', 'score']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['consumption_preference_id', 'name', 'score']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ConsumptionPreferences: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'consumption_preference_id' in _dict:
             args['consumption_preference_id'] = _dict.get(
                 'consumption_preference_id')
@@ -458,16 +480,16 @@ class ConsumptionPreferences(object):
         return not self == other
 
 
-class ConsumptionPreferencesCategory(object):
+class ConsumptionPreferencesCategory():
     """
     The consumption preferences that the service inferred from the input content.
 
-    :attr str consumption_preference_category_id: The unique, non-localized identifier of
-    the consumption preferences category to which the results pertain. IDs have the form
-    `consumption_preferences_{category}`.
+    :attr str consumption_preference_category_id: The unique, non-localized
+          identifier of the consumption preferences category to which the results pertain.
+          IDs have the form `consumption_preferences_{category}`.
     :attr str name: The user-visible name of the consumption preferences category.
-    :attr list[ConsumptionPreferences] consumption_preferences: Detailed results inferred
-    from the input text for the individual preferences of the category.
+    :attr list[ConsumptionPreferences] consumption_preferences: Detailed results
+          inferred from the input text for the individual preferences of the category.
     """
 
     def __init__(self, consumption_preference_category_id, name,
@@ -476,11 +498,13 @@ class ConsumptionPreferencesCategory(object):
         Initialize a ConsumptionPreferencesCategory object.
 
         :param str consumption_preference_category_id: The unique, non-localized
-        identifier of the consumption preferences category to which the results pertain.
-        IDs have the form `consumption_preferences_{category}`.
-        :param str name: The user-visible name of the consumption preferences category.
-        :param list[ConsumptionPreferences] consumption_preferences: Detailed results
-        inferred from the input text for the individual preferences of the category.
+               identifier of the consumption preferences category to which the results
+               pertain. IDs have the form `consumption_preferences_{category}`.
+        :param str name: The user-visible name of the consumption preferences
+               category.
+        :param list[ConsumptionPreferences] consumption_preferences: Detailed
+               results inferred from the input text for the individual preferences of the
+               category.
         """
         self.consumption_preference_category_id = consumption_preference_category_id
         self.name = name
@@ -490,15 +514,15 @@ class ConsumptionPreferencesCategory(object):
     def _from_dict(cls, _dict):
         """Initialize a ConsumptionPreferencesCategory object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'consumption_preference_category_id', 'name',
             'consumption_preferences'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ConsumptionPreferencesCategory: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'consumption_preference_category_id' in _dict:
             args['consumption_preference_category_id'] = _dict.get(
                 'consumption_preference_category_id')
@@ -554,20 +578,20 @@ class ConsumptionPreferencesCategory(object):
         return not self == other
 
 
-class Content(object):
+class Content():
     """
     The full input content that the service is to analyze.
 
-    :attr list[ContentItem] content_items: An array of `ContentItem` objects that provides
-    the text that is to be analyzed.
+    :attr list[ContentItem] content_items: An array of `ContentItem` objects that
+          provides the text that is to be analyzed.
     """
 
     def __init__(self, content_items):
         """
         Initialize a Content object.
 
-        :param list[ContentItem] content_items: An array of `ContentItem` objects that
-        provides the text that is to be analyzed.
+        :param list[ContentItem] content_items: An array of `ContentItem` objects
+               that provides the text that is to be analyzed.
         """
         self.content_items = content_items
 
@@ -575,12 +599,12 @@ class Content(object):
     def _from_dict(cls, _dict):
         """Initialize a Content object from a json dictionary."""
         args = {}
-        validKeys = ['content_items', 'contentItems']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['content_items', 'contentItems']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Content: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'contentItems' in _dict:
             args['content_items'] = [
                 ContentItem._from_dict(x) for x in (_dict.get('contentItems'))
@@ -613,42 +637,44 @@ class Content(object):
         return not self == other
 
 
-class ContentItem(object):
+class ContentItem():
     """
     An input content item that the service is to analyze.
 
-    :attr str content: The content that is to be analyzed. The service supports up to 20
-    MB of content for all `ContentItem` objects combined.
+    :attr str content: The content that is to be analyzed. The service supports up
+          to 20 MB of content for all `ContentItem` objects combined.
     :attr str id: (optional) A unique identifier for this content item.
     :attr int created: (optional) A timestamp that identifies when this content was
-    created. Specify a value in milliseconds since the UNIX Epoch (January 1, 1970, at
-    0:00 UTC). Required only for results that include temporal behavior data.
-    :attr int updated: (optional) A timestamp that identifies when this content was last
-    updated. Specify a value in milliseconds since the UNIX Epoch (January 1, 1970, at
-    0:00 UTC). Required only for results that include temporal behavior data.
-    :attr str contenttype: (optional) The MIME type of the content. The default is plain
-    text. The tags are stripped from HTML content before it is analyzed; plain text is
-    processed as submitted.
+          created. Specify a value in milliseconds since the UNIX Epoch (January 1, 1970,
+          at 0:00 UTC). Required only for results that include temporal behavior data.
+    :attr int updated: (optional) A timestamp that identifies when this content was
+          last updated. Specify a value in milliseconds since the UNIX Epoch (January 1,
+          1970, at 0:00 UTC). Required only for results that include temporal behavior
+          data.
+    :attr str contenttype: (optional) The MIME type of the content. The default is
+          plain text. The tags are stripped from HTML content before it is analyzed; plain
+          text is processed as submitted.
     :attr str language: (optional) The language identifier (two-letter ISO 639-1
-    identifier) for the language of the content item. The default is `en` (English).
-    Regional variants are treated as their parent language; for example, `en-US` is
-    interpreted as `en`. A language specified with the **Content-Type** parameter
-    overrides the value of this parameter; any content items that specify a different
-    language are ignored. Omit the **Content-Type** parameter to base the language on the
-    most prevalent specification among the content items; again, content items that
-    specify a different language are ignored. You can specify any combination of languages
-    for the input and response content.
-    :attr str parentid: (optional) The unique ID of the parent content item for this item.
-    Used to identify hierarchical relationships between posts/replies, messages/replies,
-    and so on.
-    :attr bool reply: (optional) Indicates whether this content item is a reply to another
-    content item.
+          identifier) for the language of the content item. The default is `en` (English).
+          Regional variants are treated as their parent language; for example, `en-US` is
+          interpreted as `en`. A language specified with the **Content-Type** parameter
+          overrides the value of this parameter; any content items that specify a
+          different language are ignored. Omit the **Content-Type** parameter to base the
+          language on the most prevalent specification among the content items; again,
+          content items that specify a different language are ignored. You can specify any
+          combination of languages for the input and response content.
+    :attr str parentid: (optional) The unique ID of the parent content item for this
+          item. Used to identify hierarchical relationships between posts/replies,
+          messages/replies, and so on.
+    :attr bool reply: (optional) Indicates whether this content item is a reply to
+          another content item.
     :attr bool forward: (optional) Indicates whether this content item is a
-    forwarded/copied version of another content item.
+          forwarded/copied version of another content item.
     """
 
     def __init__(self,
                  content,
+                 *,
                  id=None,
                  created=None,
                  updated=None,
@@ -660,34 +686,37 @@ class ContentItem(object):
         """
         Initialize a ContentItem object.
 
-        :param str content: The content that is to be analyzed. The service supports up to
-        20 MB of content for all `ContentItem` objects combined.
+        :param str content: The content that is to be analyzed. The service
+               supports up to 20 MB of content for all `ContentItem` objects combined.
         :param str id: (optional) A unique identifier for this content item.
-        :param int created: (optional) A timestamp that identifies when this content was
-        created. Specify a value in milliseconds since the UNIX Epoch (January 1, 1970, at
-        0:00 UTC). Required only for results that include temporal behavior data.
-        :param int updated: (optional) A timestamp that identifies when this content was
-        last updated. Specify a value in milliseconds since the UNIX Epoch (January 1,
-        1970, at 0:00 UTC). Required only for results that include temporal behavior data.
-        :param str contenttype: (optional) The MIME type of the content. The default is
-        plain text. The tags are stripped from HTML content before it is analyzed; plain
-        text is processed as submitted.
-        :param str language: (optional) The language identifier (two-letter ISO 639-1
-        identifier) for the language of the content item. The default is `en` (English).
-        Regional variants are treated as their parent language; for example, `en-US` is
-        interpreted as `en`. A language specified with the **Content-Type** parameter
-        overrides the value of this parameter; any content items that specify a different
-        language are ignored. Omit the **Content-Type** parameter to base the language on
-        the most prevalent specification among the content items; again, content items
-        that specify a different language are ignored. You can specify any combination of
-        languages for the input and response content.
-        :param str parentid: (optional) The unique ID of the parent content item for this
-        item. Used to identify hierarchical relationships between posts/replies,
-        messages/replies, and so on.
-        :param bool reply: (optional) Indicates whether this content item is a reply to
-        another content item.
+        :param int created: (optional) A timestamp that identifies when this
+               content was created. Specify a value in milliseconds since the UNIX Epoch
+               (January 1, 1970, at 0:00 UTC). Required only for results that include
+               temporal behavior data.
+        :param int updated: (optional) A timestamp that identifies when this
+               content was last updated. Specify a value in milliseconds since the UNIX
+               Epoch (January 1, 1970, at 0:00 UTC). Required only for results that
+               include temporal behavior data.
+        :param str contenttype: (optional) The MIME type of the content. The
+               default is plain text. The tags are stripped from HTML content before it is
+               analyzed; plain text is processed as submitted.
+        :param str language: (optional) The language identifier (two-letter ISO
+               639-1 identifier) for the language of the content item. The default is `en`
+               (English). Regional variants are treated as their parent language; for
+               example, `en-US` is interpreted as `en`. A language specified with the
+               **Content-Type** parameter overrides the value of this parameter; any
+               content items that specify a different language are ignored. Omit the
+               **Content-Type** parameter to base the language on the most prevalent
+               specification among the content items; again, content items that specify a
+               different language are ignored. You can specify any combination of
+               languages for the input and response content.
+        :param str parentid: (optional) The unique ID of the parent content item
+               for this item. Used to identify hierarchical relationships between
+               posts/replies, messages/replies, and so on.
+        :param bool reply: (optional) Indicates whether this content item is a
+               reply to another content item.
         :param bool forward: (optional) Indicates whether this content item is a
-        forwarded/copied version of another content item.
+               forwarded/copied version of another content item.
         """
         self.content = content
         self.id = id
@@ -703,15 +732,15 @@ class ContentItem(object):
     def _from_dict(cls, _dict):
         """Initialize a ContentItem object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'content', 'id', 'created', 'updated', 'contenttype', 'language',
             'parentid', 'reply', 'forward'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ContentItem: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'content' in _dict:
             args['content'] = _dict.get('content')
         else:
@@ -772,34 +801,63 @@ class ContentItem(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class ContenttypeEnum(Enum):
+        """
+        The MIME type of the content. The default is plain text. The tags are stripped
+        from HTML content before it is analyzed; plain text is processed as submitted.
+        """
+        TEXT_PLAIN = "text/plain"
+        TEXT_HTML = "text/html"
 
-class Profile(object):
+    class LanguageEnum(Enum):
+        """
+        The language identifier (two-letter ISO 639-1 identifier) for the language of the
+        content item. The default is `en` (English). Regional variants are treated as
+        their parent language; for example, `en-US` is interpreted as `en`. A language
+        specified with the **Content-Type** parameter overrides the value of this
+        parameter; any content items that specify a different language are ignored. Omit
+        the **Content-Type** parameter to base the language on the most prevalent
+        specification among the content items; again, content items that specify a
+        different language are ignored. You can specify any combination of languages for
+        the input and response content.
+        """
+        AR = "ar"
+        EN = "en"
+        ES = "es"
+        JA = "ja"
+        KO = "ko"
+
+
+class Profile():
     """
     The personality profile that the service generated for the input content.
 
-    :attr str processed_language: The language model that was used to process the input.
-    :attr int word_count: The number of words from the input that were used to produce the
-    profile.
-    :attr str word_count_message: (optional) When guidance is appropriate, a string that
-    provides a message that indicates the number of words found and where that value falls
-    in the range of required or suggested number of words.
-    :attr list[Trait] personality: A recursive array of `Trait` objects that provides
-    detailed results for the Big Five personality characteristics (dimensions and facets)
-    inferred from the input text.
-    :attr list[Trait] needs: Detailed results for the Needs characteristics inferred from
-    the input text.
-    :attr list[Trait] values: Detailed results for the Values characteristics inferred
-    from the input text.
+    :attr str processed_language: The language model that was used to process the
+          input.
+    :attr int word_count: The number of words from the input that were used to
+          produce the profile.
+    :attr str word_count_message: (optional) When guidance is appropriate, a string
+          that provides a message that indicates the number of words found and where that
+          value falls in the range of required or suggested number of words.
+    :attr list[Trait] personality: A recursive array of `Trait` objects that
+          provides detailed results for the Big Five personality characteristics
+          (dimensions and facets) inferred from the input text.
+    :attr list[Trait] needs: Detailed results for the Needs characteristics inferred
+          from the input text.
+    :attr list[Trait] values: Detailed results for the Values characteristics
+          inferred from the input text.
     :attr list[Behavior] behavior: (optional) For JSON content that is timestamped,
-    detailed results about the social behavior disclosed by the input in terms of temporal
-    characteristics. The results include information about the distribution of the content
-    over the days of the week and the hours of the day.
-    :attr list[ConsumptionPreferencesCategory] consumption_preferences: (optional) If the
-    **consumption_preferences** parameter is `true`, detailed results for each category of
-    consumption preferences. Each element of the array provides information inferred from
-    the input text for the individual preferences of that category.
-    :attr list[Warning] warnings: An array of warning messages that are associated with
-    the input text for the request. The array is empty if the input generated no warnings.
+          detailed results about the social behavior disclosed by the input in terms of
+          temporal characteristics. The results include information about the distribution
+          of the content over the days of the week and the hours of the day.
+    :attr list[ConsumptionPreferencesCategory] consumption_preferences: (optional)
+          If the **consumption_preferences** parameter is `true`, detailed results for
+          each category of consumption preferences. Each element of the array provides
+          information inferred from the input text for the individual preferences of that
+          category.
+    :attr list[Warning] warnings: An array of warning messages that are associated
+          with the input text for the request. The array is empty if the input generated
+          no warnings.
     """
 
     def __init__(self,
@@ -809,38 +867,41 @@ class Profile(object):
                  needs,
                  values,
                  warnings,
+                 *,
                  word_count_message=None,
                  behavior=None,
                  consumption_preferences=None):
         """
         Initialize a Profile object.
 
-        :param str processed_language: The language model that was used to process the
-        input.
+        :param str processed_language: The language model that was used to process
+               the input.
         :param int word_count: The number of words from the input that were used to
-        produce the profile.
-        :param list[Trait] personality: A recursive array of `Trait` objects that provides
-        detailed results for the Big Five personality characteristics (dimensions and
-        facets) inferred from the input text.
-        :param list[Trait] needs: Detailed results for the Needs characteristics inferred
-        from the input text.
+               produce the profile.
+        :param list[Trait] personality: A recursive array of `Trait` objects that
+               provides detailed results for the Big Five personality characteristics
+               (dimensions and facets) inferred from the input text.
+        :param list[Trait] needs: Detailed results for the Needs characteristics
+               inferred from the input text.
         :param list[Trait] values: Detailed results for the Values characteristics
-        inferred from the input text.
-        :param list[Warning] warnings: An array of warning messages that are associated
-        with the input text for the request. The array is empty if the input generated no
-        warnings.
-        :param str word_count_message: (optional) When guidance is appropriate, a string
-        that provides a message that indicates the number of words found and where that
-        value falls in the range of required or suggested number of words.
-        :param list[Behavior] behavior: (optional) For JSON content that is timestamped,
-        detailed results about the social behavior disclosed by the input in terms of
-        temporal characteristics. The results include information about the distribution
-        of the content over the days of the week and the hours of the day.
-        :param list[ConsumptionPreferencesCategory] consumption_preferences: (optional) If
-        the **consumption_preferences** parameter is `true`, detailed results for each
-        category of consumption preferences. Each element of the array provides
-        information inferred from the input text for the individual preferences of that
-        category.
+               inferred from the input text.
+        :param list[Warning] warnings: An array of warning messages that are
+               associated with the input text for the request. The array is empty if the
+               input generated no warnings.
+        :param str word_count_message: (optional) When guidance is appropriate, a
+               string that provides a message that indicates the number of words found and
+               where that value falls in the range of required or suggested number of
+               words.
+        :param list[Behavior] behavior: (optional) For JSON content that is
+               timestamped, detailed results about the social behavior disclosed by the
+               input in terms of temporal characteristics. The results include information
+               about the distribution of the content over the days of the week and the
+               hours of the day.
+        :param list[ConsumptionPreferencesCategory] consumption_preferences:
+               (optional) If the **consumption_preferences** parameter is `true`, detailed
+               results for each category of consumption preferences. Each element of the
+               array provides information inferred from the input text for the individual
+               preferences of that category.
         """
         self.processed_language = processed_language
         self.word_count = word_count
@@ -856,16 +917,16 @@ class Profile(object):
     def _from_dict(cls, _dict):
         """Initialize a Profile object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'processed_language', 'word_count', 'word_count_message',
             'personality', 'needs', 'values', 'behavior',
             'consumption_preferences', 'warnings'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Profile: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'processed_language' in _dict:
             args['processed_language'] = _dict.get('processed_language')
         else:
@@ -960,40 +1021,53 @@ class Profile(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class ProcessedLanguageEnum(Enum):
+        """
+        The language model that was used to process the input.
+        """
+        AR = "ar"
+        EN = "en"
+        ES = "es"
+        JA = "ja"
+        KO = "ko"
 
-class Trait(object):
+
+class Trait():
     """
     The characteristics that the service inferred from the input content.
 
-    :attr str trait_id: The unique, non-localized identifier of the characteristic to
-    which the results pertain. IDs have the form
-    * `big5_{characteristic}` for Big Five personality dimensions
-    * `facet_{characteristic}` for Big Five personality facets
-    * `need_{characteristic}` for Needs
-     *`value_{characteristic}` for Values.
+    :attr str trait_id: The unique, non-localized identifier of the characteristic
+          to which the results pertain. IDs have the form
+          * `big5_{characteristic}` for Big Five personality dimensions
+          * `facet_{characteristic}` for Big Five personality facets
+          * `need_{characteristic}` for Needs
+           *`value_{characteristic}` for Values.
     :attr str name: The user-visible, localized name of the characteristic.
-    :attr str category: The category of the characteristic: `personality` for Big Five
-    personality characteristics, `needs` for Needs, and `values` for Values.
-    :attr float percentile: The normalized percentile score for the characteristic. The
-    range is 0 to 1. For example, if the percentage for Openness is 0.60, the author
-    scored in the 60th percentile; the author is more open than 59 percent of the
-    population and less open than 39 percent of the population.
-    :attr float raw_score: (optional) The raw score for the characteristic. The range is 0
-    to 1. A higher score generally indicates a greater likelihood that the author has that
-    characteristic, but raw scores must be considered in aggregate: The range of values in
-    practice might be much smaller than 0 to 1, so an individual score must be considered
-    in the context of the overall scores and their range.
-    The raw score is computed based on the input and the service model; it is not
-    normalized or compared with a sample population. The raw score enables comparison of
-    the results against a different sampling population and with a custom normalization
-    approach.
+    :attr str category: The category of the characteristic: `personality` for Big
+          Five personality characteristics, `needs` for Needs, and `values` for Values.
+    :attr float percentile: The normalized percentile score for the characteristic.
+          The range is 0 to 1. For example, if the percentage for Openness is 0.60, the
+          author scored in the 60th percentile; the author is more open than 59 percent of
+          the population and less open than 39 percent of the population.
+    :attr float raw_score: (optional) The raw score for the characteristic. The
+          range is 0 to 1. A higher score generally indicates a greater likelihood that
+          the author has that characteristic, but raw scores must be considered in
+          aggregate: The range of values in practice might be much smaller than 0 to 1, so
+          an individual score must be considered in the context of the overall scores and
+          their range.
+          The raw score is computed based on the input and the service model; it is not
+          normalized or compared with a sample population. The raw score enables
+          comparison of the results against a different sampling population and with a
+          custom normalization approach.
     :attr bool significant: (optional) **`2017-10-13`**: Indicates whether the
-    characteristic is meaningful for the input language. The field is always `true` for
-    all characteristics of English, Spanish, and Japanese input. The field is `false` for
-    the subset of characteristics of Arabic and Korean input for which the service's
-    models are unable to generate meaningful results. **`2016-10-19`**: Not returned.
-    :attr list[Trait] children: (optional) For `personality` (Big Five) dimensions, more
-    detailed results for the facets of each dimension as inferred from the input text.
+          characteristic is meaningful for the input language. The field is always `true`
+          for all characteristics of English, Spanish, and Japanese input. The field is
+          `false` for the subset of characteristics of Arabic and Korean input for which
+          the service's models are unable to generate meaningful results.
+          **`2016-10-19`**: Not returned.
+    :attr list[Trait] children: (optional) For `personality` (Big Five) dimensions,
+          more detailed results for the facets of each dimension as inferred from the
+          input text.
     """
 
     def __init__(self,
@@ -1001,43 +1075,47 @@ class Trait(object):
                  name,
                  category,
                  percentile,
+                 *,
                  raw_score=None,
                  significant=None,
                  children=None):
         """
         Initialize a Trait object.
 
-        :param str trait_id: The unique, non-localized identifier of the characteristic to
-        which the results pertain. IDs have the form
-        * `big5_{characteristic}` for Big Five personality dimensions
-        * `facet_{characteristic}` for Big Five personality facets
-        * `need_{characteristic}` for Needs
-         *`value_{characteristic}` for Values.
+        :param str trait_id: The unique, non-localized identifier of the
+               characteristic to which the results pertain. IDs have the form
+               * `big5_{characteristic}` for Big Five personality dimensions
+               * `facet_{characteristic}` for Big Five personality facets
+               * `need_{characteristic}` for Needs
+                *`value_{characteristic}` for Values.
         :param str name: The user-visible, localized name of the characteristic.
-        :param str category: The category of the characteristic: `personality` for Big
-        Five personality characteristics, `needs` for Needs, and `values` for Values.
-        :param float percentile: The normalized percentile score for the characteristic.
-        The range is 0 to 1. For example, if the percentage for Openness is 0.60, the
-        author scored in the 60th percentile; the author is more open than 59 percent of
-        the population and less open than 39 percent of the population.
-        :param float raw_score: (optional) The raw score for the characteristic. The range
-        is 0 to 1. A higher score generally indicates a greater likelihood that the author
-        has that characteristic, but raw scores must be considered in aggregate: The range
-        of values in practice might be much smaller than 0 to 1, so an individual score
-        must be considered in the context of the overall scores and their range.
-        The raw score is computed based on the input and the service model; it is not
-        normalized or compared with a sample population. The raw score enables comparison
-        of the results against a different sampling population and with a custom
-        normalization approach.
+        :param str category: The category of the characteristic: `personality` for
+               Big Five personality characteristics, `needs` for Needs, and `values` for
+               Values.
+        :param float percentile: The normalized percentile score for the
+               characteristic. The range is 0 to 1. For example, if the percentage for
+               Openness is 0.60, the author scored in the 60th percentile; the author is
+               more open than 59 percent of the population and less open than 39 percent
+               of the population.
+        :param float raw_score: (optional) The raw score for the characteristic.
+               The range is 0 to 1. A higher score generally indicates a greater
+               likelihood that the author has that characteristic, but raw scores must be
+               considered in aggregate: The range of values in practice might be much
+               smaller than 0 to 1, so an individual score must be considered in the
+               context of the overall scores and their range.
+               The raw score is computed based on the input and the service model; it is
+               not normalized or compared with a sample population. The raw score enables
+               comparison of the results against a different sampling population and with
+               a custom normalization approach.
         :param bool significant: (optional) **`2017-10-13`**: Indicates whether the
-        characteristic is meaningful for the input language. The field is always `true`
-        for all characteristics of English, Spanish, and Japanese input. The field is
-        `false` for the subset of characteristics of Arabic and Korean input for which the
-        service's models are unable to generate meaningful results. **`2016-10-19`**: Not
-        returned.
-        :param list[Trait] children: (optional) For `personality` (Big Five) dimensions,
-        more detailed results for the facets of each dimension as inferred from the input
-        text.
+               characteristic is meaningful for the input language. The field is always
+               `true` for all characteristics of English, Spanish, and Japanese input. The
+               field is `false` for the subset of characteristics of Arabic and Korean
+               input for which the service's models are unable to generate meaningful
+               results. **`2016-10-19`**: Not returned.
+        :param list[Trait] children: (optional) For `personality` (Big Five)
+               dimensions, more detailed results for the facets of each dimension as
+               inferred from the input text.
         """
         self.trait_id = trait_id
         self.name = name
@@ -1051,15 +1129,15 @@ class Trait(object):
     def _from_dict(cls, _dict):
         """Initialize a Trait object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'trait_id', 'name', 'category', 'percentile', 'raw_score',
             'significant', 'children'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Trait: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'trait_id' in _dict:
             args['trait_id'] = _dict.get('trait_id')
         else:
@@ -1123,24 +1201,36 @@ class Trait(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class CategoryEnum(Enum):
+        """
+        The category of the characteristic: `personality` for Big Five personality
+        characteristics, `needs` for Needs, and `values` for Values.
+        """
+        PERSONALITY = "personality"
+        NEEDS = "needs"
+        VALUES = "values"
 
-class Warning(object):
+
+class Warning():
     """
     A warning message that is associated with the input content.
 
     :attr str warning_id: The identifier of the warning message.
     :attr str message: The message associated with the `warning_id`:
-    * `WORD_COUNT_MESSAGE`: "There were {number} words in the input. We need a minimum of
-    600, preferably 1,200 or more, to compute statistically significant estimates."
-    * `JSON_AS_TEXT`: "Request input was processed as text/plain as indicated, however
-    detected a JSON input. Did you mean application/json?"
-    * `CONTENT_TRUNCATED`: "For maximum accuracy while also optimizing processing time,
-    only the first 250KB of input text (excluding markup) was analyzed. Accuracy levels
-    off at approximately 3,000 words so this did not affect the accuracy of the profile."
-    * `PARTIAL_TEXT_USED`, "The text provided to compute the profile was trimmed for
-    performance reasons. This action does not affect the accuracy of the output, as not
-    all of the input text was required." Applies only when Arabic input text exceeds a
-    threshold at which additional words do not contribute to the accuracy of the profile.
+          * `WORD_COUNT_MESSAGE`: "There were {number} words in the input. We need a
+          minimum of 600, preferably 1,200 or more, to compute statistically significant
+          estimates."
+          * `JSON_AS_TEXT`: "Request input was processed as text/plain as indicated,
+          however detected a JSON input. Did you mean application/json?"
+          * `CONTENT_TRUNCATED`: "For maximum accuracy while also optimizing processing
+          time, only the first 250KB of input text (excluding markup) was analyzed.
+          Accuracy levels off at approximately 3,000 words so this did not affect the
+          accuracy of the profile."
+          * `PARTIAL_TEXT_USED`, "The text provided to compute the profile was trimmed for
+          performance reasons. This action does not affect the accuracy of the output, as
+          not all of the input text was required." Applies only when Arabic input text
+          exceeds a threshold at which additional words do not contribute to the accuracy
+          of the profile.
     """
 
     def __init__(self, warning_id, message):
@@ -1149,19 +1239,20 @@ class Warning(object):
 
         :param str warning_id: The identifier of the warning message.
         :param str message: The message associated with the `warning_id`:
-        * `WORD_COUNT_MESSAGE`: "There were {number} words in the input. We need a minimum
-        of 600, preferably 1,200 or more, to compute statistically significant estimates."
-        * `JSON_AS_TEXT`: "Request input was processed as text/plain as indicated, however
-        detected a JSON input. Did you mean application/json?"
-        * `CONTENT_TRUNCATED`: "For maximum accuracy while also optimizing processing
-        time, only the first 250KB of input text (excluding markup) was analyzed. Accuracy
-        levels off at approximately 3,000 words so this did not affect the accuracy of the
-        profile."
-        * `PARTIAL_TEXT_USED`, "The text provided to compute the profile was trimmed for
-        performance reasons. This action does not affect the accuracy of the output, as
-        not all of the input text was required." Applies only when Arabic input text
-        exceeds a threshold at which additional words do not contribute to the accuracy of
-        the profile.
+               * `WORD_COUNT_MESSAGE`: "There were {number} words in the input. We need a
+               minimum of 600, preferably 1,200 or more, to compute statistically
+               significant estimates."
+               * `JSON_AS_TEXT`: "Request input was processed as text/plain as indicated,
+               however detected a JSON input. Did you mean application/json?"
+               * `CONTENT_TRUNCATED`: "For maximum accuracy while also optimizing
+               processing time, only the first 250KB of input text (excluding markup) was
+               analyzed. Accuracy levels off at approximately 3,000 words so this did not
+               affect the accuracy of the profile."
+               * `PARTIAL_TEXT_USED`, "The text provided to compute the profile was
+               trimmed for performance reasons. This action does not affect the accuracy
+               of the output, as not all of the input text was required." Applies only
+               when Arabic input text exceeds a threshold at which additional words do not
+               contribute to the accuracy of the profile.
         """
         self.warning_id = warning_id
         self.message = message
@@ -1170,12 +1261,12 @@ class Warning(object):
     def _from_dict(cls, _dict):
         """Initialize a Warning object from a json dictionary."""
         args = {}
-        validKeys = ['warning_id', 'message']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['warning_id', 'message']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Warning: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'warning_id' in _dict:
             args['warning_id'] = _dict.get('warning_id')
         else:
@@ -1210,3 +1301,12 @@ class Warning(object):
     def __ne__(self, other):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
+
+    class WarningIdEnum(Enum):
+        """
+        The identifier of the warning message.
+        """
+        WORD_COUNT_MESSAGE = "WORD_COUNT_MESSAGE"
+        JSON_AS_TEXT = "JSON_AS_TEXT"
+        CONTENT_TRUNCATED = "CONTENT_TRUNCATED"
+        PARTIAL_TEXT_USED = "PARTIAL_TEXT_USED"

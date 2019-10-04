@@ -1,20 +1,13 @@
-from __future__ import print_function
 import json
 from os.path import join, dirname
 from ibm_watson import SpeechToTextV1
 from ibm_watson.websocket import RecognizeCallback, AudioSource
 import threading
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
-# If service instance provides API key authentication
-service = SpeechToTextV1(
-    ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-    url='https://stream.watsonplatform.net/speech-to-text/api',
-    iam_apikey='YOUR APIKEY')
-
-# service = SpeechToTextV1(
-#     username='YOUR SERVICE USERNAME',
-#     password='YOUR SERVICE PASSWORD',
-#     url='https://stream.watsonplatform.net/speech-to-text/api')
+authenticator = IAMAuthenticator('your_api_key')
+service = SpeechToTextV1(authenticator=authenticator)
+service.set_service_url('https://stream.watsonplatform.net/speech-to-text/api')
 
 models = service.list_models().get_result()
 print(json.dumps(models, indent=2))

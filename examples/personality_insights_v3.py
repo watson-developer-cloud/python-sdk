@@ -2,25 +2,17 @@
 The example returns a JSON response whose content is the same as that in
   ../resources/personality-v3-expect2.txt
 """
-from __future__ import print_function
 import json
 from os.path import join, dirname
 from ibm_watson import PersonalityInsightsV3
 import csv
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
-# If service instance provides API key authentication
+authenticator = IAMAuthenticator('your_api_key')
 service = PersonalityInsightsV3(
     version='2017-10-13',
-    ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-    url='https://gateway.watsonplatform.net/personality-insights/api',
-    iam_apikey='YOUR APIKEY')
-
-# service = PersonalityInsightsV3(
-#     version='2017-10-13',
-#     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-#     # url='https://gateway.watsonplatform.net/personality-insights/api',
-#     username='YOUR SERVICE USERNAME',
-#     password='YOUR SERVICE PASSWORD')
+    authenticator=authenticator)
+service.set_service_url('https://gateway.watsonplatform.net/personality-insights/api')
 
 ############################
 # Profile with JSON output #
@@ -40,7 +32,7 @@ with open(join(dirname(__file__), '../resources/personality-v3.json')) as \
 # Profile with CSV output #
 ###########################
 
-with open(join(dirname(__file__), '../resources/personality-v3.json')) as \
+with open(join(dirname(__file__), '../resources/personality-v3.json'), 'r') as \
         profile_json:
     response = service.profile(
         profile_json.read(),
@@ -48,7 +40,7 @@ with open(join(dirname(__file__), '../resources/personality-v3.json')) as \
         csv_headers=True).get_result()
 
 profile = response.content
-cr = csv.reader(profile.splitlines())
+cr = csv.reader(profile.decode('utf-8').splitlines())
 my_list = list(cr)
 for row in my_list:
     print(row)

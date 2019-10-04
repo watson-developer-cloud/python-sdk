@@ -16,12 +16,8 @@
 # limitations under the License.
 
 from ibm_watson.websocket import SynthesizeCallback, SynthesizeListener
-import base64
 from .text_to_speech_v1 import TextToSpeechV1
-try:
-    from urllib.parse import urlencode
-except ImportError:
-    from urllib import urlencode
+from urllib.parse import urlencode
 
 BEARER = 'Bearer'
 
@@ -77,39 +73,39 @@ class TextToSpeechV1Adapter(TextToSpeechV1):
             raise Exception(
                 'Callback is not a derived class of SynthesizeCallback')
 
+        request = {}
+
         headers = {}
         if self.default_headers is not None:
             headers = self.default_headers.copy()
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        request['headers'] = headers
 
-        if self.token_manager:
-            access_token = self.token_manager.get_token()
-            headers['Authorization'] = '{0} {1}'.format(BEARER, access_token)
-        else:
-            authstring = "{0}:{1}".format(self.username, self.password)
-            base64_authorization = base64.b64encode(authstring.encode('utf-8')).decode('utf-8')
-            headers['Authorization'] = 'Basic {0}'.format(base64_authorization)
+        if self.authenticator:
+            self.authenticator.authenticate(request)
 
-        url = self.url.replace('https:', 'wss:')
+        url = self.service_url.replace('https:', 'wss:')
         params = {
             'voice': voice,
             'customization_id': customization_id,
         }
-        params = dict([(k, v) for k, v in params.items() if v is not None])
+        params = {k: v for k, v in params.items() if v is not None}
         url += '/v1/synthesize?{0}'.format(urlencode(params))
+        request['url'] = url
 
         options = {
             'text': text,
             'accept': accept,
             'timings': timings
         }
-        options = dict([(k, v) for k, v in options.items() if v is not None])
+        options = {k: v for k, v in options.items() if v is not None}
+        request['options'] = options
 
-        SynthesizeListener(options,
+        SynthesizeListener(request.get('options'),
                            synthesize_callback,
-                           url,
-                           headers,
+                           request.get('url'),
+                           request.get('headers'),
                            http_proxy_host,
                            http_proxy_port,
-                           self.verify)
+                           self.disable_ssl_verification)

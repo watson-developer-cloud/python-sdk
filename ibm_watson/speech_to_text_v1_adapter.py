@@ -16,11 +16,7 @@
 
 from ibm_watson.websocket import RecognizeCallback, RecognizeListener, AudioSource
 from .speech_to_text_v1 import SpeechToTextV1
-import base64
-try:
-    from urllib.parse import urlencode
-except ImportError:
-    from urllib import urlencode
+from urllib.parse import urlencode
 
 BEARER = 'Bearer'
 
@@ -207,21 +203,20 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
             raise Exception(
                 'Callback is not a derived class of RecognizeCallback')
 
+        request = {}
+
         headers = {}
         if self.default_headers is not None:
             headers = self.default_headers.copy()
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
+        request['headers'] = headers
 
-        if self.token_manager:
-            access_token = self.token_manager.get_token()
-            headers['Authorization'] = '{0} {1}'.format(BEARER, access_token)
-        else:
-            authstring = "{0}:{1}".format(self.username, self.password)
-            base64_authorization = base64.b64encode(authstring.encode('utf-8')).decode('utf-8')
-            headers['Authorization'] = 'Basic {0}'.format(base64_authorization)
+        if self.authenticator:
+            self.authenticator.authenticate(request)
 
-        url = self.url.replace('https:', 'wss:')
+        url = self.service_url.replace('https:', 'wss:')
+
         params = {
             'model': model,
             'customization_id': customization_id,
@@ -229,8 +224,9 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
             'base_model_version': base_model_version,
             'language_customization_id': language_customization_id
         }
-        params = dict([(k, v) for k, v in params.items() if v is not None])
+        params = {k: v for k, v in params.items() if v is not None}
         url += '/v1/recognize?{0}'.format(urlencode(params))
+        request['url'] = url
 
         options = {
             'customization_weight': customization_weight,
@@ -252,13 +248,14 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
             'processing_metrics_interval': processing_metrics_interval,
             'audio_metrics': audio_metrics
         }
-        options = dict([(k, v) for k, v in options.items() if v is not None])
+        options = {k: v for k, v in options.items() if v is not None}
+        request['options'] = options
 
         RecognizeListener(audio,
-                          options,
+                          request.get('options'),
                           recognize_callback,
-                          url,
-                          headers,
+                          request.get('url'),
+                          request.get('headers'),
                           http_proxy_host,
                           http_proxy_port,
-                          self.verify)
+                          self.disable_ssl_verification)

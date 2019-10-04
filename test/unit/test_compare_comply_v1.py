@@ -5,8 +5,8 @@ import json
 import os
 import time
 import jwt
-
 from unittest import TestCase
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 base_url = "https://gateway.watsonplatform.net/compare-comply/api"
 feedback = {
@@ -152,8 +152,8 @@ class TestCompareComplyV1(TestCase):
 
     @responses.activate
     def test_convert_to_html(self):
-        service = ibm_watson.CompareComplyV1(
-            '2016-10-20', iam_apikey='bogusapikey')
+        authenticator = IAMAuthenticator('bogusapikey')
+        service = ibm_watson.CompareComplyV1('2016-10-20', authenticator=authenticator)
 
         url = "{0}{1}".format(base_url, '/v1/html_conversion')
 
@@ -173,8 +173,8 @@ class TestCompareComplyV1(TestCase):
             content_type='application/json')
 
         with open(
-            os.path.join(os.path.dirname(__file__),
-                         '../../resources/contract_A.pdf'), 'rb') as file:
+                os.path.join(os.path.dirname(__file__),
+                             '../../resources/contract_A.pdf'), 'rb') as file:
             service.convert_to_html(
                 file,
                 model_id="contracts",
@@ -184,8 +184,8 @@ class TestCompareComplyV1(TestCase):
 
     @responses.activate
     def test_classify_elements(self):
-        service = ibm_watson.CompareComplyV1(
-            '2016-10-20', iam_apikey='bogusapikey')
+        authenticator = IAMAuthenticator('bogusapikey')
+        service = ibm_watson.CompareComplyV1('2016-10-20', authenticator=authenticator)
 
         url = "{0}{1}".format(base_url, '/v1/element_classification')
 
@@ -226,8 +226,8 @@ class TestCompareComplyV1(TestCase):
 
     @responses.activate
     def test_extract_tables(self):
-        service = ibm_watson.CompareComplyV1(
-            '2016-10-20', iam_apikey='bogusapikey')
+        authenticator = IAMAuthenticator('bogusapikey')
+        service = ibm_watson.CompareComplyV1('2016-10-20', authenticator=authenticator)
 
         url = "{0}{1}".format(base_url, '/v1/tables')
 
@@ -275,8 +275,8 @@ class TestCompareComplyV1(TestCase):
 
     @responses.activate
     def test_compare_documents(self):
-        service = ibm_watson.CompareComplyV1(
-            '2016-10-20', iam_apikey='bogusapikey')
+        authenticator = IAMAuthenticator('bogusapikey')
+        service = ibm_watson.CompareComplyV1('2016-10-20', authenticator=authenticator)
 
         url = "{0}{1}".format(base_url, '/v1/comparison')
 
@@ -335,8 +335,8 @@ class TestCompareComplyV1(TestCase):
 
     @responses.activate
     def test_add_feedback(self):
-        service = ibm_watson.CompareComplyV1(
-            '2016-10-20', iam_apikey='bogusapikey')
+        authenticator = IAMAuthenticator('bogusapikey')
+        service = ibm_watson.CompareComplyV1('2016-10-20', authenticator=authenticator)
 
         url = "{0}{1}".format(base_url, '/v1/feedback')
 
@@ -422,16 +422,16 @@ class TestCompareComplyV1(TestCase):
 
         result = service.add_feedback(
             feedback_data,
-            "wonder woman",
-            "test commment").get_result()
+            user_id="wonder woman",
+            comment="test commment").get_result()
         assert result["feedback_id"] == "lala"
 
         assert len(responses.calls) == 2
 
     @responses.activate
     def test_get_feedback(self):
-        service = ibm_watson.CompareComplyV1(
-            '2016-10-20', iam_apikey='bogusapikey')
+        authenticator = IAMAuthenticator('bogusapikey')
+        service = ibm_watson.CompareComplyV1('2016-10-20', authenticator=authenticator)
 
         url = "{0}{1}".format(base_url, '/v1/feedback/xxx')
 
@@ -449,8 +449,8 @@ class TestCompareComplyV1(TestCase):
 
     @responses.activate
     def test_list_feedback(self):
-        service = ibm_watson.CompareComplyV1(
-            '2016-10-20', iam_apikey='bogusapikey')
+        authenticator = IAMAuthenticator('bogusapikey')
+        service = ibm_watson.CompareComplyV1('2016-10-20', authenticator=authenticator)
 
         url = "{0}{1}".format(base_url, '/v1/feedback')
 
@@ -468,8 +468,8 @@ class TestCompareComplyV1(TestCase):
 
     @responses.activate
     def test_delete_feedback(self):
-        service = ibm_watson.CompareComplyV1(
-            '2016-10-20', iam_apikey='bogusapikey')
+        authenticator = IAMAuthenticator('bogusapikey')
+        service = ibm_watson.CompareComplyV1('2016-10-20', authenticator=authenticator)
 
         url = "{0}{1}".format(base_url, '/v1/feedback/xxx')
 
@@ -492,8 +492,8 @@ class TestCompareComplyV1(TestCase):
 
     @responses.activate
     def test_create_batch(self):
-        service = ibm_watson.CompareComplyV1(
-            '2016-10-20', iam_apikey='bogusapikey')
+        authenticator = IAMAuthenticator('bogusapikey')
+        service = ibm_watson.CompareComplyV1('2016-10-20', authenticator=authenticator)
 
         url = "{0}{1}".format(base_url, '/v1/batches')
 
@@ -522,8 +522,8 @@ class TestCompareComplyV1(TestCase):
 
     @responses.activate
     def test_get_batch(self):
-        service = ibm_watson.CompareComplyV1(
-            '2016-10-20', iam_apikey='bogusapikey')
+        authenticator = IAMAuthenticator('bogusapikey')
+        service = ibm_watson.CompareComplyV1('2016-10-20', authenticator=authenticator)
 
         url = "{0}{1}".format(base_url, '/v1/batches/xxx')
 
@@ -541,8 +541,8 @@ class TestCompareComplyV1(TestCase):
 
     @responses.activate
     def test_list_batches(self):
-        service = ibm_watson.CompareComplyV1(
-            '2016-10-20', iam_apikey='bogusapikey')
+        authenticator = IAMAuthenticator('bogusapikey')
+        service = ibm_watson.CompareComplyV1('2016-10-20', authenticator=authenticator)
 
         url = "{0}{1}".format(base_url, '/v1/batches')
 
@@ -560,8 +560,8 @@ class TestCompareComplyV1(TestCase):
 
     @responses.activate
     def test_update_batch(self):
-        service = ibm_watson.CompareComplyV1(
-            '2016-10-20', iam_apikey='bogusapikey')
+        authenticator = IAMAuthenticator('bogusapikey')
+        service = ibm_watson.CompareComplyV1('2016-10-20', authenticator=authenticator)
 
         url = "{0}{1}".format(base_url, '/v1/batches/xxx')
 

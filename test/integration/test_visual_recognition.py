@@ -31,11 +31,6 @@ class IntegrationTestVisualRecognitionV3(TestCase):
                 classifier_ids=['default']).get_result()
         assert dog_results is not None
 
-    def test_detect_faces(self):
-        output = self.visual_recognition.detect_faces(
-            url='https://www.ibm.com/ibm/ginni/images/ginni_bio_780x981_v4_03162016.jpg').get_result()
-        assert output is not None
-
     @pytest.mark.skip(reason="Time consuming")
     def test_custom_classifier(self):
         with open(abspath('resources/cars.zip'), 'rb') as cars, \
@@ -54,6 +49,7 @@ class IntegrationTestVisualRecognitionV3(TestCase):
 
         output = self.visual_recognition.delete_classifier(classifier_id).get_result()
 
+    @pytest.mark.skip(reason="temporay disable")
     def test_core_ml_model(self):
         core_ml_model = self.visual_recognition.get_core_ml_model(self.classifier_id).get_result()
         assert core_ml_model.ok

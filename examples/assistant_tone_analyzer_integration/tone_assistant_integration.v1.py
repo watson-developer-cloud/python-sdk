@@ -1,10 +1,10 @@
-from __future__ import print_function
 import json
 import os
 from dotenv import load_dotenv, find_dotenv
 
 from ibm_watson import AssistantV1
 from ibm_watson import ToneAnalyzerV3
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 # import tone detection
 import tone_detection
@@ -14,14 +14,16 @@ import tone_detection
 load_dotenv(find_dotenv())
 
 # replace with your own assistant credentials or put them in a .env file
+assistant_authenticator = IAMAuthenticator(os.environ.get('ASSISTANT_APIKEY') or 'YOUR ASSISTANT APIKEY')
 assistant = AssistantV1(
-    iam_apikey=os.environ.get('ASSISTANT_APIKEY') or 'YOUR ASSISTANT APIKEY',
-    version='2018-07-10')
+    version='2018-07-10',
+    authenticator=assistant_authenticator)
 
 # replace with your own tone analyzer credentials
+tone_analyzer_authenticator = IAMAuthenticator(os.environ.get('TONE_ANALYZER_APIKEY') or 'YOUR TONE ANALYZER APIKEY')
 tone_analyzer = ToneAnalyzerV3(
-    iam_apikey=os.environ.get('TONE_ANALYZER_APIKEY') or 'YOUR TONE ANALYZER APIKEY',
-    version='2016-05-19')
+    version='2016-05-19',
+    authenticator=tone_analyzer_authenticator)
 
 # replace with your own workspace_id
 workspace_id = os.environ.get('WORKSPACE_ID') or 'YOUR WORKSPACE ID'

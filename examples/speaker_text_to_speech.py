@@ -5,22 +5,14 @@
 # passed in the request. When the service responds with the synthesized
 # audio, the pyaudio would play it in a blocking mode
 
-from __future__ import print_function
-from ibm_watson import TextToSpeechV1
+from ibm_watson import SpeechToTextV1
 from ibm_watson.websocket import SynthesizeCallback
 import pyaudio
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
-# If service instance provides API key authentication
-service = TextToSpeechV1(
-    ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-    url='https://stream.watsonplatform.net/text-to-speech/api',
-    iam_apikey='your_apikey')
-
-# service = TextToSpeechV1(
-#     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-#     # url='https://stream.watsonplatform.net/text-to-speech/api,
-#     username='YOUR SERVICE USERNAME',
-#     password='YOUR SERVICE PASSWORD')
+authenticator = IAMAuthenticator('your_api_key')
+service = SpeechToTextV1(authenticator=authenticator)
+service.set_service_url('https://stream.watsonplatform.net/speech-to-text/api')
 
 class Play(object):
     """

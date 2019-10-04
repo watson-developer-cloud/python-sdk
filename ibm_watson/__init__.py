@@ -15,7 +15,6 @@
 
 from ibm_cloud_sdk_core import IAMTokenManager, DetailedResponse, BaseService, ApiException
 
-from .authorization_v1 import AuthorizationV1
 from .assistant_v1 import AssistantV1
 from .assistant_v2 import AssistantV2
 from .language_translator_v3 import LanguageTranslatorV3
@@ -31,3 +30,4 @@ from .version import __version__
 from .common import get_sdk_headers
 from .speech_to_text_v1_adapter import SpeechToTextV1Adapter as SpeechToTextV1
 from .text_to_speech_adapter_v1 import TextToSpeechV1Adapter as TextToSpeechV1
+from .visual_recognition_v4 import VisualRecognitionV4

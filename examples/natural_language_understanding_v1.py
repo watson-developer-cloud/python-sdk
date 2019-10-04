@@ -1,21 +1,13 @@
-from __future__ import print_function
 import json
 from ibm_watson import NaturalLanguageUnderstandingV1
 from ibm_watson.natural_language_understanding_v1 import Features, EntitiesOptions, KeywordsOptions
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
-# If service instance provides API key authentication
+authenticator = IAMAuthenticator('your_api_key')
 service = NaturalLanguageUnderstandingV1(
     version='2018-03-16',
-    ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-    url='https://gateway.watsonplatform.net/natural-language-understanding/api',
-    iam_apikey='YOUR APIKEY')
-
-# service = NaturalLanguageUnderstandingV1(
-#     version='2018-03-16',
-#     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-#     # url='https://gateway.watsonplatform.net/natural-language-understanding/api',
-#     username='YOUR SERVICE USERNAME',
-#     password='YOUR SERVICE PASSWORD')
+    authenticator=authenticator)
+service.set_service_url('https://gateway.watsonplatform.net/natural-language-understanding/api')
 
 response = service.analyze(
     text='Bruce Banner is the Hulk and Bruce Wayne is BATMAN! '

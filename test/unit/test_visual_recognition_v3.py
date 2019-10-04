@@ -7,6 +7,7 @@ import jwt
 import time
 
 from unittest import TestCase
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 base_url = "https://gateway.watsonplatform.net/visual-recognition/api/"
 
@@ -44,8 +45,8 @@ class TestVisualRecognitionV3(TestCase):
 
     @responses.activate
     def test_get_classifier(self):
-        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
-
+        authenticator = IAMAuthenticator('bogusapikey')
+        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', authenticator=authenticator)
         gc_url = "{0}{1}".format(base_url, 'v3/classifiers/bogusnumber')
 
         response = {
@@ -68,7 +69,8 @@ class TestVisualRecognitionV3(TestCase):
 
     @responses.activate
     def test_delete_classifier(self):
-        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
+        authenticator = IAMAuthenticator('bogusapikey')
+        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', authenticator=authenticator)
 
         gc_url = "{0}{1}".format(base_url, 'v3/classifiers/bogusnumber')
 
@@ -83,7 +85,8 @@ class TestVisualRecognitionV3(TestCase):
 
     @responses.activate
     def test_list_classifiers(self):
-        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
+        authenticator = IAMAuthenticator('bogusapikey')
+        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', authenticator=authenticator)
 
         gc_url = "{0}{1}".format(base_url, 'v3/classifiers')
 
@@ -111,7 +114,8 @@ class TestVisualRecognitionV3(TestCase):
 
     @responses.activate
     def test_create_classifier(self):
-        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
+        authenticator = IAMAuthenticator('bogusapikey')
+        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', authenticator=authenticator)
 
         gc_url = "{0}{1}".format(base_url, 'v3/classifiers')
 
@@ -138,7 +142,8 @@ class TestVisualRecognitionV3(TestCase):
 
     @responses.activate
     def test_update_classifier(self):
-        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
+        authenticator = IAMAuthenticator('bogusapikey')
+        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', authenticator=authenticator)
 
         gc_url = "{0}{1}".format(base_url, 'v3/classifiers/bogusid')
 
@@ -166,7 +171,8 @@ class TestVisualRecognitionV3(TestCase):
 
     @responses.activate
     def test_classify(self):
-        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
+        authenticator = IAMAuthenticator('bogusapikey')
+        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', authenticator=authenticator)
 
         gc_url = "{0}{1}".format(base_url, 'v3/classify')
 
@@ -211,63 +217,6 @@ class TestVisualRecognitionV3(TestCase):
         assert len(responses.calls) == 8
 
     @responses.activate
-    def test_detect_faces(self):
-        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
-
-        gc_url = "{0}{1}".format(base_url, 'v3/detect_faces')
-
-        response = {
-            "images": [
-                {
-                    "faces": [
-                        {
-                            "age": {
-                                "max": 44,
-                                "min": 35,
-                                "score": 0.446989
-                            },
-                            "face_location": {
-                                "height": 159,
-                                "left": 256,
-                                "top": 64,
-                                "width": 92
-                            },
-                            "gender": {
-                                "gender": "MALE",
-                                "score": 0.99593
-                            },
-                            "identity": {
-                                "name": "Barack Obama",
-                                "score": 0.970688,
-                                "type_hierarchy": "/people/politicians/democrats/barack obama"
-                            }
-                        }
-                    ],
-                    "resolved_url": "https://watson-developer-cloud.github.io/doc-tutorial-downloads/visual-recognition/prez.jpg",
-                    "source_url": "https://watson-developer-cloud.github.io/doc-tutorial-downloads/visual-recognition/prez.jpg"
-                }
-            ],
-            "images_processed": 1
-        }
-
-        responses.add(responses.GET,
-                      gc_url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
-        responses.add(responses.POST,
-                      gc_url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
-        vr_service.detect_faces(parameters='{"url": "http://google.com"}')
-        with open(os.path.join(os.path.dirname(__file__), '../../resources/test.jpg'), 'rb') as image_file:
-            vr_service.detect_faces(images_file=image_file)
-        assert len(responses.calls) == 4
-
-    @responses.activate
     def test_delete_user_data(self):
         url = "{0}{1}".format(base_url, 'v3/user_data')
         responses.add(
@@ -277,7 +226,8 @@ class TestVisualRecognitionV3(TestCase):
             status=204,
             content_type='application_json')
 
-        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', iam_apikey='bogusapikey')
+        authenticator = IAMAuthenticator('bogusapikey')
+        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', authenticator=authenticator)
         response = vr_service.delete_user_data('id').get_result()
         assert response is None
         assert len(responses.calls) == 2

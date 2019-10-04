@@ -18,13 +18,13 @@ IBM Watson&trade; Compare and Comply analyzes governing documents to provide det
 critical aspects of the documents.
 """
 
-from __future__ import absolute_import
-
 import json
 from .common import get_sdk_headers
+from enum import Enum
 from ibm_cloud_sdk_core import BaseService
 from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
-from os.path import basename
+from ibm_cloud_sdk_core import get_authenticator_from_environment
+from ibm_cloud_sdk_core import read_external_sources
 
 ##############################################################################
 # Service
@@ -34,22 +34,12 @@ from os.path import basename
 class CompareComplyV1(BaseService):
     """The Compare Comply V1 service."""
 
-    default_url = 'https://gateway.watsonplatform.net/compare-comply/api'
+    default_service_url = 'https://gateway.watsonplatform.net/compare-comply/api'
 
     def __init__(
             self,
             version,
-            url=default_url,
-            iam_apikey=None,
-            iam_access_token=None,
-            iam_url=None,
-            iam_client_id=None,
-            iam_client_secret=None,
-            icp4d_access_token=None,
-            icp4d_url=None,
-            authentication_type=None,
-            username=None,
-            password=None,
+            authenticator=None,
     ):
         """
         Construct a new client for the Compare Comply service.
@@ -65,66 +55,27 @@ class CompareComplyV1(BaseService):
                application, and don't change it until your application is
                ready for a later version.
 
-        :param str url: The base url to use when contacting the service (e.g.
-               "https://gateway.watsonplatform.net/compare-comply/api/compare-comply/api").
-               The base url may differ between IBM Cloud regions.
-
-        :param str username: The username used to authenticate with the service.
-               Username and password credentials are only required to run your
-               application locally or outside of IBM Cloud. When running on
-               IBM Cloud, the credentials will be automatically loaded from the
-               `VCAP_SERVICES` environment variable.
-
-        :param str password: The password used to authenticate with the service.
-               Username and password credentials are only required to run your
-               application locally or outside of IBM Cloud. When running on
-               IBM Cloud, the credentials will be automatically loaded from the
-               `VCAP_SERVICES` environment variable.
-
-        :param str iam_apikey: An API key that can be used to request IAM tokens. If
-               this API key is provided, the SDK will manage the token and handle the
-               refreshing.
-
-        :param str iam_access_token:  An IAM access token is fully managed by the application.
-               Responsibility falls on the application to refresh the token, either before
-               it expires or reactively upon receiving a 401 from the service as any requests
-               made with an expired token will fail.
-
-        :param str iam_url: An optional URL for the IAM service API. Defaults to
-               'https://iam.cloud.ibm.com/identity/token'.
-
-        :param str iam_client_id: An optional client_id value to use when interacting with the IAM service.
-
-        :param str iam_client_secret: An optional client_secret value to use when interacting with the IAM service.
-
-        :param str icp4d_access_token:  A ICP4D(IBM Cloud Pak for Data) access token is
-               fully managed by the application. Responsibility falls on the application to
-               refresh the token, either before it expires or reactively upon receiving a 401
-               from the service as any requests made with an expired token will fail.
-
-        :param str icp4d_url: In order to use an SDK-managed token with ICP4D authentication, this
-               URL must be passed in.
-
-        :param str authentication_type: Specifies the authentication pattern to use. Values that it
-               takes are basic, iam or icp4d.
+        :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
+               Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
+               about initializing the authenticator of your choice.
         """
 
-        BaseService.__init__(
-            self,
-            vcap_services_name='compare-comply',
-            url=url,
-            username=username,
-            password=password,
-            iam_apikey=iam_apikey,
-            iam_access_token=iam_access_token,
-            iam_url=iam_url,
-            iam_client_id=iam_client_id,
-            iam_client_secret=iam_client_secret,
-            use_vcap_services=True,
-            display_name='Compare Comply',
-            icp4d_access_token=icp4d_access_token,
-            icp4d_url=icp4d_url,
-            authentication_type=authentication_type)
+        service_url = self.default_service_url
+        disable_ssl_verification = False
+
+        config = read_external_sources('compare_comply')
+        if config.get('URL'):
+            service_url = config.get('URL')
+        if config.get('DISABLE_SSL'):
+            disable_ssl_verification = config.get('DISABLE_SSL')
+
+        if not authenticator:
+            authenticator = get_authenticator_from_environment('compare_comply')
+
+        BaseService.__init__(self,
+                             service_url=service_url,
+                             authenticator=authenticator,
+                             disable_ssl_verification=disable_ssl_verification)
         self.version = version
 
     #########################
@@ -133,7 +84,7 @@ class CompareComplyV1(BaseService):
 
     def convert_to_html(self,
                         file,
-                        filename=None,
+                        *,
                         file_content_type=None,
                         model=None,
                         **kwargs):
@@ -143,13 +94,12 @@ class CompareComplyV1(BaseService):
         Converts a document to HTML.
 
         :param file file: The document to convert.
-        :param str filename: The filename for file.
-        :param str file_content_type: The content type of file.
-        :param str model: The analysis model to be used by the service. For the **Element
-        classification** and **Compare two documents** methods, the default is
-        `contracts`. For the **Extract tables** method, the default is `tables`. These
-        defaults apply to the standalone methods as well as to the methods' use in
-        batch-processing requests.
+        :param str file_content_type: (optional) The content type of file.
+        :param str model: (optional) The analysis model to be used by the service.
+               For the **Element classification** and **Compare two documents** methods,
+               the default is `contracts`. For the **Extract tables** method, the default
+               is `tables`. These defaults apply to the standalone methods as well as to
+               the methods' use in batch-processing requests.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -166,22 +116,18 @@ class CompareComplyV1(BaseService):
 
         params = {'version': self.version, 'model': model}
 
-        form_data = {}
-        if not filename and hasattr(file, 'name'):
-            filename = basename(file.name)
-        if not filename:
-            raise ValueError('filename must be provided')
-        form_data['file'] = (filename, file, file_content_type or
-                             'application/octet-stream')
+        form_data = []
+        form_data.append(('file', (None, file, file_content_type or
+                                   'application/octet-stream')))
 
         url = '/v1/html_conversion'
-        response = self.request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            files=form_data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     #########################
@@ -190,6 +136,7 @@ class CompareComplyV1(BaseService):
 
     def classify_elements(self,
                           file,
+                          *,
                           file_content_type=None,
                           model=None,
                           **kwargs):
@@ -199,12 +146,12 @@ class CompareComplyV1(BaseService):
         Analyzes the structural and semantic elements of a document.
 
         :param file file: The document to classify.
-        :param str file_content_type: The content type of file.
-        :param str model: The analysis model to be used by the service. For the **Element
-        classification** and **Compare two documents** methods, the default is
-        `contracts`. For the **Extract tables** method, the default is `tables`. These
-        defaults apply to the standalone methods as well as to the methods' use in
-        batch-processing requests.
+        :param str file_content_type: (optional) The content type of file.
+        :param str model: (optional) The analysis model to be used by the service.
+               For the **Element classification** and **Compare two documents** methods,
+               the default is `contracts`. For the **Extract tables** method, the default
+               is `tables`. These defaults apply to the standalone methods as well as to
+               the methods' use in batch-processing requests.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -222,25 +169,29 @@ class CompareComplyV1(BaseService):
 
         params = {'version': self.version, 'model': model}
 
-        form_data = {}
-        form_data['file'] = (None, file, file_content_type or
-                             'application/octet-stream')
+        form_data = []
+        form_data.append(('file', (None, file, file_content_type or
+                                   'application/octet-stream')))
 
         url = '/v1/element_classification'
-        response = self.request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            files=form_data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     #########################
     # Tables
     #########################
 
-    def extract_tables(self, file, file_content_type=None, model=None,
+    def extract_tables(self,
+                       file,
+                       *,
+                       file_content_type=None,
+                       model=None,
                        **kwargs):
         """
         Extract a document's tables.
@@ -248,12 +199,12 @@ class CompareComplyV1(BaseService):
         Analyzes the tables in a document.
 
         :param file file: The document on which to run table extraction.
-        :param str file_content_type: The content type of file.
-        :param str model: The analysis model to be used by the service. For the **Element
-        classification** and **Compare two documents** methods, the default is
-        `contracts`. For the **Extract tables** method, the default is `tables`. These
-        defaults apply to the standalone methods as well as to the methods' use in
-        batch-processing requests.
+        :param str file_content_type: (optional) The content type of file.
+        :param str model: (optional) The analysis model to be used by the service.
+               For the **Element classification** and **Compare two documents** methods,
+               the default is `contracts`. For the **Extract tables** method, the default
+               is `tables`. These defaults apply to the standalone methods as well as to
+               the methods' use in batch-processing requests.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -270,18 +221,18 @@ class CompareComplyV1(BaseService):
 
         params = {'version': self.version, 'model': model}
 
-        form_data = {}
-        form_data['file'] = (None, file, file_content_type or
-                             'application/octet-stream')
+        form_data = []
+        form_data.append(('file', (None, file, file_content_type or
+                                   'application/octet-stream')))
 
         url = '/v1/tables'
-        response = self.request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            files=form_data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     #########################
@@ -291,6 +242,7 @@ class CompareComplyV1(BaseService):
     def compare_documents(self,
                           file_1,
                           file_2,
+                          *,
                           file_1_content_type=None,
                           file_2_content_type=None,
                           file_1_label=None,
@@ -304,15 +256,15 @@ class CompareComplyV1(BaseService):
 
         :param file file_1: The first document to compare.
         :param file file_2: The second document to compare.
-        :param str file_1_content_type: The content type of file_1.
-        :param str file_2_content_type: The content type of file_2.
-        :param str file_1_label: A text label for the first document.
-        :param str file_2_label: A text label for the second document.
-        :param str model: The analysis model to be used by the service. For the **Element
-        classification** and **Compare two documents** methods, the default is
-        `contracts`. For the **Extract tables** method, the default is `tables`. These
-        defaults apply to the standalone methods as well as to the methods' use in
-        batch-processing requests.
+        :param str file_1_content_type: (optional) The content type of file_1.
+        :param str file_2_content_type: (optional) The content type of file_2.
+        :param str file_1_label: (optional) A text label for the first document.
+        :param str file_2_label: (optional) A text label for the second document.
+        :param str model: (optional) The analysis model to be used by the service.
+               For the **Element classification** and **Compare two documents** methods,
+               the default is `contracts`. For the **Extract tables** method, the default
+               is `tables`. These defaults apply to the standalone methods as well as to
+               the methods' use in batch-processing requests.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -337,27 +289,32 @@ class CompareComplyV1(BaseService):
             'model': model
         }
 
-        form_data = {}
-        form_data['file_1'] = (None, file_1, file_1_content_type or
-                               'application/octet-stream')
-        form_data['file_2'] = (None, file_2, file_2_content_type or
-                               'application/octet-stream')
+        form_data = []
+        form_data.append(('file_1', (None, file_1, file_1_content_type or
+                                     'application/octet-stream')))
+        form_data.append(('file_2', (None, file_2, file_2_content_type or
+                                     'application/octet-stream')))
 
         url = '/v1/comparison'
-        response = self.request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            files=form_data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     #########################
     # Feedback
     #########################
 
-    def add_feedback(self, feedback_data, user_id=None, comment=None, **kwargs):
+    def add_feedback(self,
+                     feedback_data,
+                     *,
+                     user_id=None,
+                     comment=None,
+                     **kwargs):
         """
         Add feedback.
 
@@ -368,8 +325,9 @@ class CompareComplyV1(BaseService):
         feedback is used to suggest future updates to the training model.
 
         :param FeedbackDataInput feedback_data: Feedback data for submission.
-        :param str user_id: An optional string identifying the user.
-        :param str comment: An optional comment on or description of the feedback.
+        :param str user_id: (optional) An optional string identifying the user.
+        :param str comment: (optional) An optional comment on or description of the
+               feedback.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -377,7 +335,7 @@ class CompareComplyV1(BaseService):
 
         if feedback_data is None:
             raise ValueError('feedback_data must be provided')
-        feedback_data = self._convert_model(feedback_data, FeedbackDataInput)
+        feedback_data = self._convert_model(feedback_data)
 
         headers = {}
         if 'headers' in kwargs:
@@ -394,16 +352,17 @@ class CompareComplyV1(BaseService):
         }
 
         url = '/v1/feedback'
-        response = self.request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            json=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def list_feedback(self,
+                      *,
                       feedback_type=None,
                       before=None,
                       after=None,
@@ -426,50 +385,60 @@ class CompareComplyV1(BaseService):
 
         Lists the feedback in a document.
 
-        :param str feedback_type: An optional string that filters the output to include
-        only feedback with the specified feedback type. The only permitted value is
-        `element_classification`.
-        :param date before: An optional string in the format `YYYY-MM-DD` that filters the
-        output to include only feedback that was added before the specified date.
-        :param date after: An optional string in the format `YYYY-MM-DD` that filters the
-        output to include only feedback that was added after the specified date.
-        :param str document_title: An optional string that filters the output to include
-        only feedback from the document with the specified `document_title`.
-        :param str model_id: An optional string that filters the output to include only
-        feedback with the specified `model_id`. The only permitted value is `contracts`.
-        :param str model_version: An optional string that filters the output to include
-        only feedback with the specified `model_version`.
-        :param str category_removed: An optional string in the form of a comma-separated
-        list of categories. If it is specified, the service filters the output to include
-        only feedback that has at least one category from the list removed.
-        :param str category_added: An optional string in the form of a comma-separated
-        list of categories. If this is specified, the service filters the output to
-        include only feedback that has at least one category from the list added.
-        :param str category_not_changed: An optional string in the form of a
-        comma-separated list of categories. If this is specified, the service filters the
-        output to include only feedback that has at least one category from the list
-        unchanged.
-        :param str type_removed: An optional string of comma-separated `nature`:`party`
-        pairs. If this is specified, the service filters the output to include only
-        feedback that has at least one `nature`:`party` pair from the list removed.
-        :param str type_added: An optional string of comma-separated `nature`:`party`
-        pairs. If this is specified, the service filters the output to include only
-        feedback that has at least one `nature`:`party` pair from the list removed.
-        :param str type_not_changed: An optional string of comma-separated
-        `nature`:`party` pairs. If this is specified, the service filters the output to
-        include only feedback that has at least one `nature`:`party` pair from the list
-        unchanged.
-        :param int page_limit: An optional integer specifying the number of documents that
-        you want the service to return.
-        :param str cursor: An optional string that returns the set of documents after the
-        previous set. Use this parameter with the `page_limit` parameter.
-        :param str sort: An optional comma-separated list of fields in the document to
-        sort on. You can optionally specify the sort direction by prefixing the value of
-        the field with `-` for descending order or `+` for ascending order (the default).
-        Currently permitted sorting fields are `created`, `user_id`, and `document_title`.
-        :param bool include_total: An optional boolean value. If specified as `true`, the
-        `pagination` object in the output includes a value called `total` that gives the
-        total count of feedback created.
+        :param str feedback_type: (optional) An optional string that filters the
+               output to include only feedback with the specified feedback type. The only
+               permitted value is `element_classification`.
+        :param date before: (optional) An optional string in the format
+               `YYYY-MM-DD` that filters the output to include only feedback that was
+               added before the specified date.
+        :param date after: (optional) An optional string in the format `YYYY-MM-DD`
+               that filters the output to include only feedback that was added after the
+               specified date.
+        :param str document_title: (optional) An optional string that filters the
+               output to include only feedback from the document with the specified
+               `document_title`.
+        :param str model_id: (optional) An optional string that filters the output
+               to include only feedback with the specified `model_id`. The only permitted
+               value is `contracts`.
+        :param str model_version: (optional) An optional string that filters the
+               output to include only feedback with the specified `model_version`.
+        :param str category_removed: (optional) An optional string in the form of a
+               comma-separated list of categories. If it is specified, the service filters
+               the output to include only feedback that has at least one category from the
+               list removed.
+        :param str category_added: (optional) An optional string in the form of a
+               comma-separated list of categories. If this is specified, the service
+               filters the output to include only feedback that has at least one category
+               from the list added.
+        :param str category_not_changed: (optional) An optional string in the form
+               of a comma-separated list of categories. If this is specified, the service
+               filters the output to include only feedback that has at least one category
+               from the list unchanged.
+        :param str type_removed: (optional) An optional string of comma-separated
+               `nature`:`party` pairs. If this is specified, the service filters the
+               output to include only feedback that has at least one `nature`:`party` pair
+               from the list removed.
+        :param str type_added: (optional) An optional string of comma-separated
+               `nature`:`party` pairs. If this is specified, the service filters the
+               output to include only feedback that has at least one `nature`:`party` pair
+               from the list removed.
+        :param str type_not_changed: (optional) An optional string of
+               comma-separated `nature`:`party` pairs. If this is specified, the service
+               filters the output to include only feedback that has at least one
+               `nature`:`party` pair from the list unchanged.
+        :param int page_limit: (optional) An optional integer specifying the number
+               of documents that you want the service to return.
+        :param str cursor: (optional) An optional string that returns the set of
+               documents after the previous set. Use this parameter with the `page_limit`
+               parameter.
+        :param str sort: (optional) An optional comma-separated list of fields in
+               the document to sort on. You can optionally specify the sort direction by
+               prefixing the value of the field with `-` for descending order or `+` for
+               ascending order (the default). Currently permitted sorting fields are
+               `created`, `user_id`, and `document_title`.
+        :param bool include_total: (optional) An optional boolean value. If
+               specified as `true`, the `pagination` object in the output includes a value
+               called `total` that gives the total count of feedback created.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -502,27 +471,27 @@ class CompareComplyV1(BaseService):
         }
 
         url = '/v1/feedback'
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
-    def get_feedback(self, feedback_id, model=None, **kwargs):
+    def get_feedback(self, feedback_id, *, model=None, **kwargs):
         """
         Get a specified feedback entry.
 
         Gets a feedback entry with a specified `feedback_id`.
 
-        :param str feedback_id: A string that specifies the feedback entry to be included
-        in the output.
-        :param str model: The analysis model to be used by the service. For the **Element
-        classification** and **Compare two documents** methods, the default is
-        `contracts`. For the **Extract tables** method, the default is `tables`. These
-        defaults apply to the standalone methods as well as to the methods' use in
-        batch-processing requests.
+        :param str feedback_id: A string that specifies the feedback entry to be
+               included in the output.
+        :param str model: (optional) The analysis model to be used by the service.
+               For the **Element classification** and **Compare two documents** methods,
+               the default is `contracts`. For the **Extract tables** method, the default
+               is `tables`. These defaults apply to the standalone methods as well as to
+               the methods' use in batch-processing requests.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -540,27 +509,27 @@ class CompareComplyV1(BaseService):
         params = {'version': self.version, 'model': model}
 
         url = '/v1/feedback/{0}'.format(*self._encode_path_vars(feedback_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
-    def delete_feedback(self, feedback_id, model=None, **kwargs):
+    def delete_feedback(self, feedback_id, *, model=None, **kwargs):
         """
         Delete a specified feedback entry.
 
         Deletes a feedback entry with a specified `feedback_id`.
 
-        :param str feedback_id: A string that specifies the feedback entry to be deleted
-        from the document.
-        :param str model: The analysis model to be used by the service. For the **Element
-        classification** and **Compare two documents** methods, the default is
-        `contracts`. For the **Extract tables** method, the default is `tables`. These
-        defaults apply to the standalone methods as well as to the methods' use in
-        batch-processing requests.
+        :param str feedback_id: A string that specifies the feedback entry to be
+               deleted from the document.
+        :param str model: (optional) The analysis model to be used by the service.
+               For the **Element classification** and **Compare two documents** methods,
+               the default is `contracts`. For the **Extract tables** method, the default
+               is `tables`. These defaults apply to the standalone methods as well as to
+               the methods' use in batch-processing requests.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -578,12 +547,12 @@ class CompareComplyV1(BaseService):
         params = {'version': self.version, 'model': model}
 
         url = '/v1/feedback/{0}'.format(*self._encode_path_vars(feedback_id))
-        response = self.request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     #########################
@@ -598,6 +567,7 @@ class CompareComplyV1(BaseService):
                      output_credentials_file,
                      output_bucket_location,
                      output_bucket_name,
+                     *,
                      model=None,
                      **kwargs):
         """
@@ -610,27 +580,32 @@ class CompareComplyV1(BaseService):
         batch
         processing](https://cloud.ibm.com/docs/services/compare-comply?topic=compare-comply-batching#before-you-batch).
 
-        :param str function: The Compare and Comply method to run across the submitted
-        input documents.
-        :param file input_credentials_file: A JSON file containing the input Cloud Object
-        Storage credentials. At a minimum, the credentials must enable `READ` permissions
-        on the bucket defined by the `input_bucket_name` parameter.
-        :param str input_bucket_location: The geographical location of the Cloud Object
-        Storage input bucket as listed on the **Endpoint** tab of your Cloud Object
-        Storage instance; for example, `us-geo`, `eu-geo`, or `ap-geo`.
-        :param str input_bucket_name: The name of the Cloud Object Storage input bucket.
-        :param file output_credentials_file: A JSON file that lists the Cloud Object
-        Storage output credentials. At a minimum, the credentials must enable `READ` and
-        `WRITE` permissions on the bucket defined by the `output_bucket_name` parameter.
-        :param str output_bucket_location: The geographical location of the Cloud Object
-        Storage output bucket as listed on the **Endpoint** tab of your Cloud Object
-        Storage instance; for example, `us-geo`, `eu-geo`, or `ap-geo`.
-        :param str output_bucket_name: The name of the Cloud Object Storage output bucket.
-        :param str model: The analysis model to be used by the service. For the **Element
-        classification** and **Compare two documents** methods, the default is
-        `contracts`. For the **Extract tables** method, the default is `tables`. These
-        defaults apply to the standalone methods as well as to the methods' use in
-        batch-processing requests.
+        :param str function: The Compare and Comply method to run across the
+               submitted input documents.
+        :param file input_credentials_file: A JSON file containing the input Cloud
+               Object Storage credentials. At a minimum, the credentials must enable
+               `READ` permissions on the bucket defined by the `input_bucket_name`
+               parameter.
+        :param str input_bucket_location: The geographical location of the Cloud
+               Object Storage input bucket as listed on the **Endpoint** tab of your Cloud
+               Object Storage instance; for example, `us-geo`, `eu-geo`, or `ap-geo`.
+        :param str input_bucket_name: The name of the Cloud Object Storage input
+               bucket.
+        :param file output_credentials_file: A JSON file that lists the Cloud
+               Object Storage output credentials. At a minimum, the credentials must
+               enable `READ` and `WRITE` permissions on the bucket defined by the
+               `output_bucket_name` parameter.
+        :param str output_bucket_location: The geographical location of the Cloud
+               Object Storage output bucket as listed on the **Endpoint** tab of your
+               Cloud Object Storage instance; for example, `us-geo`, `eu-geo`, or
+               `ap-geo`.
+        :param str output_bucket_name: The name of the Cloud Object Storage output
+               bucket.
+        :param str model: (optional) The analysis model to be used by the service.
+               For the **Element classification** and **Compare two documents** methods,
+               the default is `contracts`. For the **Extract tables** method, the default
+               is `tables`. These defaults apply to the standalone methods as well as to
+               the methods' use in batch-processing requests.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -659,27 +634,28 @@ class CompareComplyV1(BaseService):
 
         params = {'version': self.version, 'function': function, 'model': model}
 
-        form_data = {}
-        form_data['input_credentials_file'] = (None, input_credentials_file,
-                                               'application/json')
-        form_data['input_bucket_location'] = (None, input_bucket_location,
-                                              'text/plain')
-        form_data['input_bucket_name'] = (None, input_bucket_name, 'text/plain')
-        form_data['output_credentials_file'] = (None, output_credentials_file,
-                                                'application/json')
-        form_data['output_bucket_location'] = (None, output_bucket_location,
-                                               'text/plain')
-        form_data['output_bucket_name'] = (None, output_bucket_name,
-                                           'text/plain')
+        form_data = []
+        form_data.append(('input_credentials_file',
+                          (None, input_credentials_file, 'application/json')))
+        form_data.append(('input_bucket_location', (None, input_bucket_location,
+                                                    'text/plain')))
+        form_data.append(
+            ('input_bucket_name', (None, input_bucket_name, 'text/plain')))
+        form_data.append(('output_credentials_file',
+                          (None, output_credentials_file, 'application/json')))
+        form_data.append(('output_bucket_location',
+                          (None, output_bucket_location, 'text/plain')))
+        form_data.append(
+            ('output_bucket_name', (None, output_bucket_name, 'text/plain')))
 
         url = '/v1/batches'
-        response = self.request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            files=form_data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def list_batches(self, **kwargs):
@@ -702,12 +678,12 @@ class CompareComplyV1(BaseService):
         params = {'version': self.version}
 
         url = '/v1/batches'
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def get_batch(self, batch_id, **kwargs):
@@ -716,8 +692,8 @@ class CompareComplyV1(BaseService):
 
         Gets information about a batch-processing job with a specified ID.
 
-        :param str batch_id: The ID of the batch-processing job whose information you want
-        to retrieve.
+        :param str batch_id: The ID of the batch-processing job whose information
+               you want to retrieve.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -735,15 +711,15 @@ class CompareComplyV1(BaseService):
         params = {'version': self.version}
 
         url = '/v1/batches/{0}'.format(*self._encode_path_vars(batch_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
-    def update_batch(self, batch_id, action, model=None, **kwargs):
+    def update_batch(self, batch_id, action, *, model=None, **kwargs):
         """
         Update a pending or active batch-processing job.
 
@@ -752,12 +728,12 @@ class CompareComplyV1(BaseService):
 
         :param str batch_id: The ID of the batch-processing job you want to update.
         :param str action: The action you want to perform on the specified
-        batch-processing job.
-        :param str model: The analysis model to be used by the service. For the **Element
-        classification** and **Compare two documents** methods, the default is
-        `contracts`. For the **Extract tables** method, the default is `tables`. These
-        defaults apply to the standalone methods as well as to the methods' use in
-        batch-processing requests.
+               batch-processing job.
+        :param str model: (optional) The analysis model to be used by the service.
+               For the **Element classification** and **Compare two documents** methods,
+               the default is `contracts`. For the **Extract tables** method, the default
+               is `tables`. These defaults apply to the standalone methods as well as to
+               the methods' use in batch-processing requests.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -777,13 +753,201 @@ class CompareComplyV1(BaseService):
         params = {'version': self.version, 'action': action, 'model': model}
 
         url = '/v1/batches/{0}'.format(*self._encode_path_vars(batch_id))
-        response = self.request(
-            method='PUT',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='PUT',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
+
+
+class ConvertToHtmlEnums(object):
+
+    class FileContentType(Enum):
+        """
+        The content type of file.
+        """
+        APPLICATION_PDF = 'application/pdf'
+        APPLICATION_MSWORD = 'application/msword'
+        APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        IMAGE_BMP = 'image/bmp'
+        IMAGE_GIF = 'image/gif'
+        IMAGE_JPEG = 'image/jpeg'
+        IMAGE_PNG = 'image/png'
+        IMAGE_TIFF = 'image/tiff'
+        TEXT_PLAIN = 'text/plain'
+
+    class Model(Enum):
+        """
+        The analysis model to be used by the service. For the **Element classification**
+        and **Compare two documents** methods, the default is `contracts`. For the
+        **Extract tables** method, the default is `tables`. These defaults apply to the
+        standalone methods as well as to the methods' use in batch-processing requests.
+        """
+        CONTRACTS = 'contracts'
+        TABLES = 'tables'
+
+
+class ClassifyElementsEnums(object):
+
+    class FileContentType(Enum):
+        """
+        The content type of file.
+        """
+        APPLICATION_PDF = 'application/pdf'
+        APPLICATION_MSWORD = 'application/msword'
+        APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        IMAGE_BMP = 'image/bmp'
+        IMAGE_GIF = 'image/gif'
+        IMAGE_JPEG = 'image/jpeg'
+        IMAGE_PNG = 'image/png'
+        IMAGE_TIFF = 'image/tiff'
+
+    class Model(Enum):
+        """
+        The analysis model to be used by the service. For the **Element classification**
+        and **Compare two documents** methods, the default is `contracts`. For the
+        **Extract tables** method, the default is `tables`. These defaults apply to the
+        standalone methods as well as to the methods' use in batch-processing requests.
+        """
+        CONTRACTS = 'contracts'
+        TABLES = 'tables'
+
+
+class ExtractTablesEnums(object):
+
+    class FileContentType(Enum):
+        """
+        The content type of file.
+        """
+        APPLICATION_PDF = 'application/pdf'
+        APPLICATION_MSWORD = 'application/msword'
+        APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        IMAGE_BMP = 'image/bmp'
+        IMAGE_GIF = 'image/gif'
+        IMAGE_JPEG = 'image/jpeg'
+        IMAGE_PNG = 'image/png'
+        IMAGE_TIFF = 'image/tiff'
+        TEXT_PLAIN = 'text/plain'
+
+    class Model(Enum):
+        """
+        The analysis model to be used by the service. For the **Element classification**
+        and **Compare two documents** methods, the default is `contracts`. For the
+        **Extract tables** method, the default is `tables`. These defaults apply to the
+        standalone methods as well as to the methods' use in batch-processing requests.
+        """
+        CONTRACTS = 'contracts'
+        TABLES = 'tables'
+
+
+class CompareDocumentsEnums(object):
+
+    class File1ContentType(Enum):
+        """
+        The content type of file_1.
+        """
+        APPLICATION_PDF = 'application/pdf'
+        APPLICATION_JSON = 'application/json'
+        APPLICATION_MSWORD = 'application/msword'
+        APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        IMAGE_BMP = 'image/bmp'
+        IMAGE_GIF = 'image/gif'
+        IMAGE_JPEG = 'image/jpeg'
+        IMAGE_PNG = 'image/png'
+        IMAGE_TIFF = 'image/tiff'
+
+    class File2ContentType(Enum):
+        """
+        The content type of file_2.
+        """
+        APPLICATION_PDF = 'application/pdf'
+        APPLICATION_JSON = 'application/json'
+        APPLICATION_MSWORD = 'application/msword'
+        APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        IMAGE_BMP = 'image/bmp'
+        IMAGE_GIF = 'image/gif'
+        IMAGE_JPEG = 'image/jpeg'
+        IMAGE_PNG = 'image/png'
+        IMAGE_TIFF = 'image/tiff'
+
+    class Model(Enum):
+        """
+        The analysis model to be used by the service. For the **Element classification**
+        and **Compare two documents** methods, the default is `contracts`. For the
+        **Extract tables** method, the default is `tables`. These defaults apply to the
+        standalone methods as well as to the methods' use in batch-processing requests.
+        """
+        CONTRACTS = 'contracts'
+        TABLES = 'tables'
+
+
+class GetFeedbackEnums(object):
+
+    class Model(Enum):
+        """
+        The analysis model to be used by the service. For the **Element classification**
+        and **Compare two documents** methods, the default is `contracts`. For the
+        **Extract tables** method, the default is `tables`. These defaults apply to the
+        standalone methods as well as to the methods' use in batch-processing requests.
+        """
+        CONTRACTS = 'contracts'
+        TABLES = 'tables'
+
+
+class DeleteFeedbackEnums(object):
+
+    class Model(Enum):
+        """
+        The analysis model to be used by the service. For the **Element classification**
+        and **Compare two documents** methods, the default is `contracts`. For the
+        **Extract tables** method, the default is `tables`. These defaults apply to the
+        standalone methods as well as to the methods' use in batch-processing requests.
+        """
+        CONTRACTS = 'contracts'
+        TABLES = 'tables'
+
+
+class CreateBatchEnums(object):
+
+    class Function(Enum):
+        """
+        The Compare and Comply method to run across the submitted input documents.
+        """
+        HTML_CONVERSION = 'html_conversion'
+        ELEMENT_CLASSIFICATION = 'element_classification'
+        TABLES = 'tables'
+
+    class Model(Enum):
+        """
+        The analysis model to be used by the service. For the **Element classification**
+        and **Compare two documents** methods, the default is `contracts`. For the
+        **Extract tables** method, the default is `tables`. These defaults apply to the
+        standalone methods as well as to the methods' use in batch-processing requests.
+        """
+        CONTRACTS = 'contracts'
+        TABLES = 'tables'
+
+
+class UpdateBatchEnums(object):
+
+    class Action(Enum):
+        """
+        The action you want to perform on the specified batch-processing job.
+        """
+        RESCAN = 'rescan'
+        CANCEL = 'cancel'
+
+    class Model(Enum):
+        """
+        The analysis model to be used by the service. For the **Element classification**
+        and **Compare two documents** methods, the default is `contracts`. For the
+        **Extract tables** method, the default is `tables`. These defaults apply to the
+        standalone methods as well as to the methods' use in batch-processing requests.
+        """
+        CONTRACTS = 'contracts'
+        TABLES = 'tables'
 
 
 ##############################################################################
@@ -791,22 +955,24 @@ class CompareComplyV1(BaseService):
 ##############################################################################
 
 
-class Address(object):
+class Address():
     """
     A party's address.
 
     :attr str text: (optional) A string listing the address.
-    :attr Location location: (optional) The numeric location of the identified element in
-    the document, represented with two integers labeled `begin` and `end`.
+    :attr Location location: (optional) The numeric location of the identified
+          element in the document, represented with two integers labeled `begin` and
+          `end`.
     """
 
-    def __init__(self, text=None, location=None):
+    def __init__(self, *, text=None, location=None):
         """
         Initialize a Address object.
 
         :param str text: (optional) A string listing the address.
         :param Location location: (optional) The numeric location of the identified
-        element in the document, represented with two integers labeled `begin` and `end`.
+               element in the document, represented with two integers labeled `begin` and
+               `end`.
         """
         self.text = text
         self.location = location
@@ -815,12 +981,12 @@ class Address(object):
     def _from_dict(cls, _dict):
         """Initialize a Address object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'location']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'location']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Address: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'location' in _dict:
@@ -851,23 +1017,24 @@ class Address(object):
         return not self == other
 
 
-class AlignedElement(object):
+class AlignedElement():
     """
     AlignedElement.
 
     :attr list[ElementPair] element_pair: (optional) Identifies two elements that
-    semantically align between the compared documents.
+          semantically align between the compared documents.
     :attr bool identical_text: (optional) Specifies whether the aligned element is
-    identical. Elements are considered identical despite minor differences such as leading
-    punctuation, end-of-sentence punctuation, whitespace, the presence or absence of
-    definite or indefinite articles, and others.
-    :attr list[str] provenance_ids: (optional) Hashed values that you can send to IBM to
-    provide feedback or receive support.
-    :attr bool significant_elements: (optional) Indicates that the elements aligned are
-    contractual clauses of significance.
+          identical. Elements are considered identical despite minor differences such as
+          leading punctuation, end-of-sentence punctuation, whitespace, the presence or
+          absence of definite or indefinite articles, and others.
+    :attr list[str] provenance_ids: (optional) Hashed values that you can send to
+          IBM to provide feedback or receive support.
+    :attr bool significant_elements: (optional) Indicates that the elements aligned
+          are contractual clauses of significance.
     """
 
     def __init__(self,
+                 *,
                  element_pair=None,
                  identical_text=None,
                  provenance_ids=None,
@@ -875,16 +1042,17 @@ class AlignedElement(object):
         """
         Initialize a AlignedElement object.
 
-        :param list[ElementPair] element_pair: (optional) Identifies two elements that
-        semantically align between the compared documents.
-        :param bool identical_text: (optional) Specifies whether the aligned element is
-        identical. Elements are considered identical despite minor differences such as
-        leading punctuation, end-of-sentence punctuation, whitespace, the presence or
-        absence of definite or indefinite articles, and others.
-        :param list[str] provenance_ids: (optional) Hashed values that you can send to IBM
-        to provide feedback or receive support.
-        :param bool significant_elements: (optional) Indicates that the elements aligned
-        are contractual clauses of significance.
+        :param list[ElementPair] element_pair: (optional) Identifies two elements
+               that semantically align between the compared documents.
+        :param bool identical_text: (optional) Specifies whether the aligned
+               element is identical. Elements are considered identical despite minor
+               differences such as leading punctuation, end-of-sentence punctuation,
+               whitespace, the presence or absence of definite or indefinite articles, and
+               others.
+        :param list[str] provenance_ids: (optional) Hashed values that you can send
+               to IBM to provide feedback or receive support.
+        :param bool significant_elements: (optional) Indicates that the elements
+               aligned are contractual clauses of significance.
         """
         self.element_pair = element_pair
         self.identical_text = identical_text
@@ -895,15 +1063,15 @@ class AlignedElement(object):
     def _from_dict(cls, _dict):
         """Initialize a AlignedElement object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'element_pair', 'identical_text', 'provenance_ids',
             'significant_elements'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class AlignedElement: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'element_pair' in _dict:
             args['element_pair'] = [
                 ElementPair._from_dict(x) for x in (_dict.get('element_pair'))
@@ -945,24 +1113,26 @@ class AlignedElement(object):
         return not self == other
 
 
-class Attribute(object):
+class Attribute():
     """
     List of document attributes.
 
     :attr str type: (optional) The type of attribute.
     :attr str text: (optional) The text associated with the attribute.
-    :attr Location location: (optional) The numeric location of the identified element in
-    the document, represented with two integers labeled `begin` and `end`.
+    :attr Location location: (optional) The numeric location of the identified
+          element in the document, represented with two integers labeled `begin` and
+          `end`.
     """
 
-    def __init__(self, type=None, text=None, location=None):
+    def __init__(self, *, type=None, text=None, location=None):
         """
         Initialize a Attribute object.
 
         :param str type: (optional) The type of attribute.
         :param str text: (optional) The text associated with the attribute.
         :param Location location: (optional) The numeric location of the identified
-        element in the document, represented with two integers labeled `begin` and `end`.
+               element in the document, represented with two integers labeled `begin` and
+               `end`.
         """
         self.type = type
         self.text = text
@@ -972,12 +1142,12 @@ class Attribute(object):
     def _from_dict(cls, _dict):
         """Initialize a Attribute object from a json dictionary."""
         args = {}
-        validKeys = ['type', 'text', 'location']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['type', 'text', 'location']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Attribute: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'text' in _dict:
@@ -1011,32 +1181,47 @@ class Attribute(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class TypeEnum(Enum):
+        """
+        The type of attribute.
+        """
+        CURRENCY = "Currency"
+        DATETIME = "DateTime"
+        DEFINEDTERM = "DefinedTerm"
+        DURATION = "Duration"
+        LOCATION = "Location"
+        NUMBER = "Number"
+        ORGANIZATION = "Organization"
+        PERCENTAGE = "Percentage"
+        PERSON = "Person"
 
-class BatchStatus(object):
+
+class BatchStatus():
     """
     The batch-request status.
 
-    :attr str function: (optional) The method to be run against the documents. Possible
-    values are `html_conversion`, `element_classification`, and `tables`.
-    :attr str input_bucket_location: (optional) The geographical location of the Cloud
-    Object Storage input bucket as listed on the **Endpoint** tab of your COS instance;
-    for example, `us-geo`, `eu-geo`, or `ap-geo`.
-    :attr str input_bucket_name: (optional) The name of the Cloud Object Storage input
-    bucket.
-    :attr str output_bucket_location: (optional) The geographical location of the Cloud
-    Object Storage output bucket as listed on the **Endpoint** tab of your COS instance;
-    for example, `us-geo`, `eu-geo`, or `ap-geo`.
-    :attr str output_bucket_name: (optional) The name of the Cloud Object Storage output
-    bucket.
+    :attr str function: (optional) The method to be run against the documents.
+          Possible values are `html_conversion`, `element_classification`, and `tables`.
+    :attr str input_bucket_location: (optional) The geographical location of the
+          Cloud Object Storage input bucket as listed on the **Endpoint** tab of your COS
+          instance; for example, `us-geo`, `eu-geo`, or `ap-geo`.
+    :attr str input_bucket_name: (optional) The name of the Cloud Object Storage
+          input bucket.
+    :attr str output_bucket_location: (optional) The geographical location of the
+          Cloud Object Storage output bucket as listed on the **Endpoint** tab of your COS
+          instance; for example, `us-geo`, `eu-geo`, or `ap-geo`.
+    :attr str output_bucket_name: (optional) The name of the Cloud Object Storage
+          output bucket.
     :attr str batch_id: (optional) The unique identifier for the batch request.
     :attr DocCounts document_counts: (optional) Document counts.
     :attr str status: (optional) The status of the batch request.
     :attr datetime created: (optional) The creation time of the batch request.
-    :attr datetime updated: (optional) The time of the most recent update to the batch
-    request.
+    :attr datetime updated: (optional) The time of the most recent update to the
+          batch request.
     """
 
     def __init__(self,
+                 *,
                  function=None,
                  input_bucket_location=None,
                  input_bucket_name=None,
@@ -1051,23 +1236,25 @@ class BatchStatus(object):
         Initialize a BatchStatus object.
 
         :param str function: (optional) The method to be run against the documents.
-        Possible values are `html_conversion`, `element_classification`, and `tables`.
-        :param str input_bucket_location: (optional) The geographical location of the
-        Cloud Object Storage input bucket as listed on the **Endpoint** tab of your COS
-        instance; for example, `us-geo`, `eu-geo`, or `ap-geo`.
-        :param str input_bucket_name: (optional) The name of the Cloud Object Storage
-        input bucket.
-        :param str output_bucket_location: (optional) The geographical location of the
-        Cloud Object Storage output bucket as listed on the **Endpoint** tab of your COS
-        instance; for example, `us-geo`, `eu-geo`, or `ap-geo`.
-        :param str output_bucket_name: (optional) The name of the Cloud Object Storage
-        output bucket.
-        :param str batch_id: (optional) The unique identifier for the batch request.
+               Possible values are `html_conversion`, `element_classification`, and
+               `tables`.
+        :param str input_bucket_location: (optional) The geographical location of
+               the Cloud Object Storage input bucket as listed on the **Endpoint** tab of
+               your COS instance; for example, `us-geo`, `eu-geo`, or `ap-geo`.
+        :param str input_bucket_name: (optional) The name of the Cloud Object
+               Storage input bucket.
+        :param str output_bucket_location: (optional) The geographical location of
+               the Cloud Object Storage output bucket as listed on the **Endpoint** tab of
+               your COS instance; for example, `us-geo`, `eu-geo`, or `ap-geo`.
+        :param str output_bucket_name: (optional) The name of the Cloud Object
+               Storage output bucket.
+        :param str batch_id: (optional) The unique identifier for the batch
+               request.
         :param DocCounts document_counts: (optional) Document counts.
         :param str status: (optional) The status of the batch request.
         :param datetime created: (optional) The creation time of the batch request.
-        :param datetime updated: (optional) The time of the most recent update to the
-        batch request.
+        :param datetime updated: (optional) The time of the most recent update to
+               the batch request.
         """
         self.function = function
         self.input_bucket_location = input_bucket_location
@@ -1084,16 +1271,16 @@ class BatchStatus(object):
     def _from_dict(cls, _dict):
         """Initialize a BatchStatus object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'function', 'input_bucket_location', 'input_bucket_name',
             'output_bucket_location', 'output_bucket_name', 'batch_id',
             'document_counts', 'status', 'created', 'updated'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class BatchStatus: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'function' in _dict:
             args['function'] = _dict.get('function')
         if 'input_bucket_location' in _dict:
@@ -1162,21 +1349,30 @@ class BatchStatus(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class FunctionEnum(Enum):
+        """
+        The method to be run against the documents. Possible values are `html_conversion`,
+        `element_classification`, and `tables`.
+        """
+        ELEMENT_CLASSIFICATION = "element_classification"
+        HTML_CONVERSION = "html_conversion"
+        TABLES = "tables"
 
-class Batches(object):
+
+class Batches():
     """
     The results of a successful **List Batches** request.
 
     :attr list[BatchStatus] batches: (optional) A list of the status of all batch
-    requests.
+          requests.
     """
 
-    def __init__(self, batches=None):
+    def __init__(self, *, batches=None):
         """
         Initialize a Batches object.
 
-        :param list[BatchStatus] batches: (optional) A list of the status of all batch
-        requests.
+        :param list[BatchStatus] batches: (optional) A list of the status of all
+               batch requests.
         """
         self.batches = batches
 
@@ -1184,12 +1380,12 @@ class Batches(object):
     def _from_dict(cls, _dict):
         """Initialize a Batches object from a json dictionary."""
         args = {}
-        validKeys = ['batches']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['batches']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Batches: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'batches' in _dict:
             args['batches'] = [
                 BatchStatus._from_dict(x) for x in (_dict.get('batches'))
@@ -1218,41 +1414,43 @@ class Batches(object):
         return not self == other
 
 
-class BodyCells(object):
+class BodyCells():
     """
     Cells that are not table header, column header, or row header cells.
 
     :attr str cell_id: (optional) The unique ID of the cell in the current table.
-    :attr Location location: (optional) The numeric location of the identified element in
-    the document, represented with two integers labeled `begin` and `end`.
-    :attr str text: (optional) The textual contents of this cell from the input document
-    without associated markup content.
-    :attr int row_index_begin: (optional) The `begin` index of this cell's `row` location
-    in the current table.
-    :attr int row_index_end: (optional) The `end` index of this cell's `row` location in
-    the current table.
-    :attr int column_index_begin: (optional) The `begin` index of this cell's `column`
-    location in the current table.
+    :attr Location location: (optional) The numeric location of the identified
+          element in the document, represented with two integers labeled `begin` and
+          `end`.
+    :attr str text: (optional) The textual contents of this cell from the input
+          document without associated markup content.
+    :attr int row_index_begin: (optional) The `begin` index of this cell's `row`
+          location in the current table.
+    :attr int row_index_end: (optional) The `end` index of this cell's `row`
+          location in the current table.
+    :attr int column_index_begin: (optional) The `begin` index of this cell's
+          `column` location in the current table.
     :attr int column_index_end: (optional) The `end` index of this cell's `column`
-    location in the current table.
-    :attr list[str] row_header_ids: (optional) An array that contains the `id` value of a
-    row header that is applicable to this body cell.
-    :attr list[str] row_header_texts: (optional) An array that contains the `text` value
-    of a row header that is applicable to this body cell.
-    :attr list[str] row_header_texts_normalized: (optional) If you provide customization
-    input, the normalized version of the row header texts according to the customization;
-    otherwise, the same value as `row_header_texts`.
-    :attr list[str] column_header_ids: (optional) An array that contains the `id` value of
-    a column header that is applicable to the current cell.
-    :attr list[str] column_header_texts: (optional) An array that contains the `text`
-    value of a column header that is applicable to the current cell.
+          location in the current table.
+    :attr list[str] row_header_ids: (optional) An array that contains the `id` value
+          of a row header that is applicable to this body cell.
+    :attr list[str] row_header_texts: (optional) An array that contains the `text`
+          value of a row header that is applicable to this body cell.
+    :attr list[str] row_header_texts_normalized: (optional) If you provide
+          customization input, the normalized version of the row header texts according to
+          the customization; otherwise, the same value as `row_header_texts`.
+    :attr list[str] column_header_ids: (optional) An array that contains the `id`
+          value of a column header that is applicable to the current cell.
+    :attr list[str] column_header_texts: (optional) An array that contains the
+          `text` value of a column header that is applicable to the current cell.
     :attr list[str] column_header_texts_normalized: (optional) If you provide
-    customization input, the normalized version of the column header texts according to
-    the customization; otherwise, the same value as `column_header_texts`.
+          customization input, the normalized version of the column header texts according
+          to the customization; otherwise, the same value as `column_header_texts`.
     :attr list[Attribute] attributes: (optional)
     """
 
     def __init__(self,
+                 *,
                  cell_id=None,
                  location=None,
                  text=None,
@@ -1270,33 +1468,37 @@ class BodyCells(object):
         """
         Initialize a BodyCells object.
 
-        :param str cell_id: (optional) The unique ID of the cell in the current table.
+        :param str cell_id: (optional) The unique ID of the cell in the current
+               table.
         :param Location location: (optional) The numeric location of the identified
-        element in the document, represented with two integers labeled `begin` and `end`.
-        :param str text: (optional) The textual contents of this cell from the input
-        document without associated markup content.
-        :param int row_index_begin: (optional) The `begin` index of this cell's `row`
-        location in the current table.
-        :param int row_index_end: (optional) The `end` index of this cell's `row` location
-        in the current table.
+               element in the document, represented with two integers labeled `begin` and
+               `end`.
+        :param str text: (optional) The textual contents of this cell from the
+               input document without associated markup content.
+        :param int row_index_begin: (optional) The `begin` index of this cell's
+               `row` location in the current table.
+        :param int row_index_end: (optional) The `end` index of this cell's `row`
+               location in the current table.
         :param int column_index_begin: (optional) The `begin` index of this cell's
-        `column` location in the current table.
-        :param int column_index_end: (optional) The `end` index of this cell's `column`
-        location in the current table.
-        :param list[str] row_header_ids: (optional) An array that contains the `id` value
-        of a row header that is applicable to this body cell.
-        :param list[str] row_header_texts: (optional) An array that contains the `text`
-        value of a row header that is applicable to this body cell.
+               `column` location in the current table.
+        :param int column_index_end: (optional) The `end` index of this cell's
+               `column` location in the current table.
+        :param list[str] row_header_ids: (optional) An array that contains the `id`
+               value of a row header that is applicable to this body cell.
+        :param list[str] row_header_texts: (optional) An array that contains the
+               `text` value of a row header that is applicable to this body cell.
         :param list[str] row_header_texts_normalized: (optional) If you provide
-        customization input, the normalized version of the row header texts according to
-        the customization; otherwise, the same value as `row_header_texts`.
-        :param list[str] column_header_ids: (optional) An array that contains the `id`
-        value of a column header that is applicable to the current cell.
-        :param list[str] column_header_texts: (optional) An array that contains the `text`
-        value of a column header that is applicable to the current cell.
+               customization input, the normalized version of the row header texts
+               according to the customization; otherwise, the same value as
+               `row_header_texts`.
+        :param list[str] column_header_ids: (optional) An array that contains the
+               `id` value of a column header that is applicable to the current cell.
+        :param list[str] column_header_texts: (optional) An array that contains the
+               `text` value of a column header that is applicable to the current cell.
         :param list[str] column_header_texts_normalized: (optional) If you provide
-        customization input, the normalized version of the column header texts according
-        to the customization; otherwise, the same value as `column_header_texts`.
+               customization input, the normalized version of the column header texts
+               according to the customization; otherwise, the same value as
+               `column_header_texts`.
         :param list[Attribute] attributes: (optional)
         """
         self.cell_id = cell_id
@@ -1318,18 +1520,18 @@ class BodyCells(object):
     def _from_dict(cls, _dict):
         """Initialize a BodyCells object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'cell_id', 'location', 'text', 'row_index_begin', 'row_index_end',
             'column_index_begin', 'column_index_end', 'row_header_ids',
             'row_header_texts', 'row_header_texts_normalized',
             'column_header_ids', 'column_header_texts',
             'column_header_texts_normalized', 'attributes'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class BodyCells: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'cell_id' in _dict:
             args['cell_id'] = _dict.get('cell_id')
         if 'location' in _dict:
@@ -1424,22 +1626,22 @@ class BodyCells(object):
         return not self == other
 
 
-class Category(object):
+class Category():
     """
     Information defining an element's subject matter.
 
     :attr str label: (optional) The category of the associated element.
-    :attr list[str] provenance_ids: (optional) Hashed values that you can send to IBM to
-    provide feedback or receive support.
+    :attr list[str] provenance_ids: (optional) Hashed values that you can send to
+          IBM to provide feedback or receive support.
     """
 
-    def __init__(self, label=None, provenance_ids=None):
+    def __init__(self, *, label=None, provenance_ids=None):
         """
         Initialize a Category object.
 
         :param str label: (optional) The category of the associated element.
-        :param list[str] provenance_ids: (optional) Hashed values that you can send to IBM
-        to provide feedback or receive support.
+        :param list[str] provenance_ids: (optional) Hashed values that you can send
+               to IBM to provide feedback or receive support.
         """
         self.label = label
         self.provenance_ids = provenance_ids
@@ -1448,12 +1650,12 @@ class Category(object):
     def _from_dict(cls, _dict):
         """Initialize a Category object from a json dictionary."""
         args = {}
-        validKeys = ['label', 'provenance_ids']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['label', 'provenance_ids']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Category: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'label' in _dict:
             args['label'] = _dict.get('label')
         if 'provenance_ids' in _dict:
@@ -1483,15 +1685,45 @@ class Category(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class LabelEnum(Enum):
+        """
+        The category of the associated element.
+        """
+        AMENDMENTS = "Amendments"
+        ASSET_USE = "Asset Use"
+        ASSIGNMENTS = "Assignments"
+        AUDITS = "Audits"
+        BUSINESS_CONTINUITY = "Business Continuity"
+        COMMUNICATION = "Communication"
+        CONFIDENTIALITY = "Confidentiality"
+        DELIVERABLES = "Deliverables"
+        DELIVERY = "Delivery"
+        DISPUTE_RESOLUTION = "Dispute Resolution"
+        FORCE_MAJEURE = "Force Majeure"
+        INDEMNIFICATION = "Indemnification"
+        INSURANCE = "Insurance"
+        INTELLECTUAL_PROPERTY = "Intellectual Property"
+        LIABILITY = "Liability"
+        ORDER_OF_PRECEDENCE = "Order of Precedence"
+        PAYMENT_TERMS_BILLING = "Payment Terms & Billing"
+        PRICING_TAXES = "Pricing & Taxes"
+        PRIVACY = "Privacy"
+        RESPONSIBILITIES = "Responsibilities"
+        SAFETY_AND_SECURITY = "Safety and Security"
+        SCOPE_OF_WORK = "Scope of Work"
+        SUBCONTRACTS = "Subcontracts"
+        TERM_TERMINATION = "Term & Termination"
+        WARRANTIES = "Warranties"
 
-class CategoryComparison(object):
+
+class CategoryComparison():
     """
     Information defining an element's subject matter.
 
     :attr str label: (optional) The category of the associated element.
     """
 
-    def __init__(self, label=None):
+    def __init__(self, *, label=None):
         """
         Initialize a CategoryComparison object.
 
@@ -1503,12 +1735,12 @@ class CategoryComparison(object):
     def _from_dict(cls, _dict):
         """Initialize a CategoryComparison object from a json dictionary."""
         args = {}
-        validKeys = ['label']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['label']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CategoryComparison: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'label' in _dict:
             args['label'] = _dict.get('label')
         return cls(**args)
@@ -1534,45 +1766,78 @@ class CategoryComparison(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class LabelEnum(Enum):
+        """
+        The category of the associated element.
+        """
+        AMENDMENTS = "Amendments"
+        ASSET_USE = "Asset Use"
+        ASSIGNMENTS = "Assignments"
+        AUDITS = "Audits"
+        BUSINESS_CONTINUITY = "Business Continuity"
+        COMMUNICATION = "Communication"
+        CONFIDENTIALITY = "Confidentiality"
+        DELIVERABLES = "Deliverables"
+        DELIVERY = "Delivery"
+        DISPUTE_RESOLUTION = "Dispute Resolution"
+        FORCE_MAJEURE = "Force Majeure"
+        INDEMNIFICATION = "Indemnification"
+        INSURANCE = "Insurance"
+        INTELLECTUAL_PROPERTY = "Intellectual Property"
+        LIABILITY = "Liability"
+        ORDER_OF_PRECEDENCE = "Order of Precedence"
+        PAYMENT_TERMS_BILLING = "Payment Terms & Billing"
+        PRICING_TAXES = "Pricing & Taxes"
+        PRIVACY = "Privacy"
+        RESPONSIBILITIES = "Responsibilities"
+        SAFETY_AND_SECURITY = "Safety and Security"
+        SCOPE_OF_WORK = "Scope of Work"
+        SUBCONTRACTS = "Subcontracts"
+        TERM_TERMINATION = "Term & Termination"
+        WARRANTIES = "Warranties"
 
-class ClassifyReturn(object):
+
+class ClassifyReturn():
     """
     The analysis of objects returned by the **Element classification** method.
 
     :attr Document document: (optional) Basic information about the input document.
-    :attr str model_id: (optional) The analysis model used to classify the input document.
-    For the **Element classification** method, the only valid value is `contracts`.
-    :attr str model_version: (optional) The version of the analysis model identified by
-    the value of the `model_id` key.
-    :attr list[Element] elements: (optional) Document elements identified by the service.
-    :attr list[EffectiveDates] effective_dates: (optional) The date or dates on which the
-    document becomes effective.
+    :attr str model_id: (optional) The analysis model used to classify the input
+          document. For the **Element classification** method, the only valid value is
+          `contracts`.
+    :attr str model_version: (optional) The version of the analysis model identified
+          by the value of the `model_id` key.
+    :attr list[Element] elements: (optional) Document elements identified by the
+          service.
+    :attr list[EffectiveDates] effective_dates: (optional) The date or dates on
+          which the document becomes effective.
     :attr list[ContractAmts] contract_amounts: (optional) The monetary amounts that
-    identify the total amount of the contract that needs to be paid from one party to
-    another.
-    :attr list[TerminationDates] termination_dates: (optional) The dates on which the
-    document is to be terminated.
-    :attr list[ContractTypes] contract_types: (optional) The contract type as declared in
-    the document.
-    :attr list[ContractTerms] contract_terms: (optional) The durations of the contract.
-    :attr list[PaymentTerms] payment_terms: (optional) The document's payment durations.
-    :attr list[ContractCurrencies] contract_currencies: (optional) The contract currencies
-    as declared in the document.
-    :attr list[Tables] tables: (optional) Definition of tables identified in the input
-    document.
-    :attr DocStructure document_structure: (optional) The structure of the input document.
-    :attr list[Parties] parties: (optional) Definitions of the parties identified in the
-    input document.
+          identify the total amount of the contract that needs to be paid from one party
+          to another.
+    :attr list[TerminationDates] termination_dates: (optional) The dates on which
+          the document is to be terminated.
+    :attr list[ContractTypes] contract_types: (optional) The contract type as
+          declared in the document.
+    :attr list[ContractTerms] contract_terms: (optional) The durations of the
+          contract.
+    :attr list[PaymentTerms] payment_terms: (optional) The document's payment
+          durations.
+    :attr list[ContractCurrencies] contract_currencies: (optional) The contract
+          currencies as declared in the document.
+    :attr list[Tables] tables: (optional) Definition of tables identified in the
+          input document.
+    :attr DocStructure document_structure: (optional) The structure of the input
+          document.
+    :attr list[Parties] parties: (optional) Definitions of the parties identified in
+          the input document.
     """
 
     def __init__(self,
+                 *,
                  document=None,
                  model_id=None,
                  model_version=None,
                  elements=None,
-                 tables=None,
-                 document_structure=None,
-                 parties=None,
                  effective_dates=None,
                  contract_amounts=None,
                  termination_dates=None,
@@ -1580,39 +1845,42 @@ class ClassifyReturn(object):
                  contract_terms=None,
                  payment_terms=None,
                  contract_currencies=None,
-                ):
+                 tables=None,
+                 document_structure=None,
+                 parties=None):
         """
         Initialize a ClassifyReturn object.
 
-        :param Document document: (optional) Basic information about the input document.
-        :param str model_id: (optional) The analysis model used to classify the input
-        document. For the **Element classification** method, the only valid value is
-        `contracts`.
-        :param str model_version: (optional) The version of the analysis model identified
-        by the value of the `model_id` key.
-        :param list[Element] elements: (optional) Document elements identified by the
-        service.
-        :param list[EffectiveDates] effective_dates: (optional) The date or dates on which
-        the document becomes effective.
-        :param list[ContractAmts] contract_amounts: (optional) The monetary amounts that
-        identify the total amount of the contract that needs to be paid from one party to
-        another.
-        :param list[TerminationDates] termination_dates: (optional) The dates on which the
-        document is to be terminated.
+        :param Document document: (optional) Basic information about the input
+               document.
+        :param str model_id: (optional) The analysis model used to classify the
+               input document. For the **Element classification** method, the only valid
+               value is `contracts`.
+        :param str model_version: (optional) The version of the analysis model
+               identified by the value of the `model_id` key.
+        :param list[Element] elements: (optional) Document elements identified by
+               the service.
+        :param list[EffectiveDates] effective_dates: (optional) The date or dates
+               on which the document becomes effective.
+        :param list[ContractAmts] contract_amounts: (optional) The monetary amounts
+               that identify the total amount of the contract that needs to be paid from
+               one party to another.
+        :param list[TerminationDates] termination_dates: (optional) The dates on
+               which the document is to be terminated.
         :param list[ContractTypes] contract_types: (optional) The contract type as
-        declared in the document.
+               declared in the document.
         :param list[ContractTerms] contract_terms: (optional) The durations of the
-        contract.
+               contract.
         :param list[PaymentTerms] payment_terms: (optional) The document's payment
-        durations.
-        :param list[ContractCurrencies] contract_currencies: (optional) The contract
-        currencies as declared in the document.
-        :param list[Tables] tables: (optional) Definition of tables identified in the
-        input document.
-        :param DocStructure document_structure: (optional) The structure of the input
-        document.
-        :param list[Parties] parties: (optional) Definitions of the parties identified in
-        the input document.
+               durations.
+        :param list[ContractCurrencies] contract_currencies: (optional) The
+               contract currencies as declared in the document.
+        :param list[Tables] tables: (optional) Definition of tables identified in
+               the input document.
+        :param DocStructure document_structure: (optional) The structure of the
+               input document.
+        :param list[Parties] parties: (optional) Definitions of the parties
+               identified in the input document.
         """
         self.document = document
         self.model_id = model_id
@@ -1633,17 +1901,17 @@ class ClassifyReturn(object):
     def _from_dict(cls, _dict):
         """Initialize a ClassifyReturn object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'document', 'model_id', 'model_version', 'elements',
             'effective_dates', 'contract_amounts', 'termination_dates',
             'contract_types', 'contract_terms', 'payment_terms',
             'contract_currencies', 'tables', 'document_structure', 'parties'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ClassifyReturn: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document' in _dict:
             args['document'] = Document._from_dict(_dict.get('document'))
         if 'model_id' in _dict:
@@ -1768,31 +2036,32 @@ class ClassifyReturn(object):
         return not self == other
 
 
-class ColumnHeaders(object):
+class ColumnHeaders():
     """
     Column-level cells, each applicable as a header to other cells in the same column as
     itself, of the current table.
 
     :attr str cell_id: (optional) The unique ID of the cell in the current table.
     :attr object location: (optional) The location of the column header cell in the
-    current table as defined by its `begin` and `end` offsets, respectfully, in the input
-    document.
-    :attr str text: (optional) The textual contents of this cell from the input document
-    without associated markup content.
+          current table as defined by its `begin` and `end` offsets, respectfully, in the
+          input document.
+    :attr str text: (optional) The textual contents of this cell from the input
+          document without associated markup content.
     :attr str text_normalized: (optional) If you provide customization input, the
-    normalized version of the cell text according to the customization; otherwise, the
-    same value as `text`.
-    :attr int row_index_begin: (optional) The `begin` index of this cell's `row` location
-    in the current table.
-    :attr int row_index_end: (optional) The `end` index of this cell's `row` location in
-    the current table.
-    :attr int column_index_begin: (optional) The `begin` index of this cell's `column`
-    location in the current table.
+          normalized version of the cell text according to the customization; otherwise,
+          the same value as `text`.
+    :attr int row_index_begin: (optional) The `begin` index of this cell's `row`
+          location in the current table.
+    :attr int row_index_end: (optional) The `end` index of this cell's `row`
+          location in the current table.
+    :attr int column_index_begin: (optional) The `begin` index of this cell's
+          `column` location in the current table.
     :attr int column_index_end: (optional) The `end` index of this cell's `column`
-    location in the current table.
+          location in the current table.
     """
 
     def __init__(self,
+                 *,
                  cell_id=None,
                  location=None,
                  text=None,
@@ -1804,23 +2073,24 @@ class ColumnHeaders(object):
         """
         Initialize a ColumnHeaders object.
 
-        :param str cell_id: (optional) The unique ID of the cell in the current table.
-        :param object location: (optional) The location of the column header cell in the
-        current table as defined by its `begin` and `end` offsets, respectfully, in the
-        input document.
-        :param str text: (optional) The textual contents of this cell from the input
-        document without associated markup content.
-        :param str text_normalized: (optional) If you provide customization input, the
-        normalized version of the cell text according to the customization; otherwise, the
-        same value as `text`.
-        :param int row_index_begin: (optional) The `begin` index of this cell's `row`
-        location in the current table.
-        :param int row_index_end: (optional) The `end` index of this cell's `row` location
-        in the current table.
+        :param str cell_id: (optional) The unique ID of the cell in the current
+               table.
+        :param object location: (optional) The location of the column header cell
+               in the current table as defined by its `begin` and `end` offsets,
+               respectfully, in the input document.
+        :param str text: (optional) The textual contents of this cell from the
+               input document without associated markup content.
+        :param str text_normalized: (optional) If you provide customization input,
+               the normalized version of the cell text according to the customization;
+               otherwise, the same value as `text`.
+        :param int row_index_begin: (optional) The `begin` index of this cell's
+               `row` location in the current table.
+        :param int row_index_end: (optional) The `end` index of this cell's `row`
+               location in the current table.
         :param int column_index_begin: (optional) The `begin` index of this cell's
-        `column` location in the current table.
-        :param int column_index_end: (optional) The `end` index of this cell's `column`
-        location in the current table.
+               `column` location in the current table.
+        :param int column_index_end: (optional) The `end` index of this cell's
+               `column` location in the current table.
         """
         self.cell_id = cell_id
         self.location = location
@@ -1835,15 +2105,15 @@ class ColumnHeaders(object):
     def _from_dict(cls, _dict):
         """Initialize a ColumnHeaders object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'cell_id', 'location', 'text', 'text_normalized', 'row_index_begin',
             'row_index_end', 'column_index_begin', 'column_index_end'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ColumnHeaders: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'cell_id' in _dict:
             args['cell_id'] = _dict.get('cell_id')
         if 'location' in _dict:
@@ -1903,23 +2173,25 @@ class ColumnHeaders(object):
         return not self == other
 
 
-class CompareReturn(object):
+class CompareReturn():
     """
     The comparison of the two submitted documents.
 
-    :attr str model_id: (optional) The analysis model used to compare the input documents.
-    For the **Compare two documents** method, the only valid value is `contracts`.
-    :attr str model_version: (optional) The version of the analysis model identified by
-    the value of the `model_id` key.
+    :attr str model_id: (optional) The analysis model used to compare the input
+          documents. For the **Compare two documents** method, the only valid value is
+          `contracts`.
+    :attr str model_version: (optional) The version of the analysis model identified
+          by the value of the `model_id` key.
     :attr list[Document] documents: (optional) Information about the documents being
-    compared.
-    :attr list[AlignedElement] aligned_elements: (optional) A list of pairs of elements
-    that semantically align between the compared documents.
-    :attr list[UnalignedElement] unaligned_elements: (optional) A list of elements that do
-    not semantically align between the compared documents.
+          compared.
+    :attr list[AlignedElement] aligned_elements: (optional) A list of pairs of
+          elements that semantically align between the compared documents.
+    :attr list[UnalignedElement] unaligned_elements: (optional) A list of elements
+          that do not semantically align between the compared documents.
     """
 
     def __init__(self,
+                 *,
                  model_id=None,
                  model_version=None,
                  documents=None,
@@ -1928,17 +2200,17 @@ class CompareReturn(object):
         """
         Initialize a CompareReturn object.
 
-        :param str model_id: (optional) The analysis model used to compare the input
-        documents. For the **Compare two documents** method, the only valid value is
-        `contracts`.
-        :param str model_version: (optional) The version of the analysis model identified
-        by the value of the `model_id` key.
-        :param list[Document] documents: (optional) Information about the documents being
-        compared.
+        :param str model_id: (optional) The analysis model used to compare the
+               input documents. For the **Compare two documents** method, the only valid
+               value is `contracts`.
+        :param str model_version: (optional) The version of the analysis model
+               identified by the value of the `model_id` key.
+        :param list[Document] documents: (optional) Information about the documents
+               being compared.
         :param list[AlignedElement] aligned_elements: (optional) A list of pairs of
-        elements that semantically align between the compared documents.
-        :param list[UnalignedElement] unaligned_elements: (optional) A list of elements
-        that do not semantically align between the compared documents.
+               elements that semantically align between the compared documents.
+        :param list[UnalignedElement] unaligned_elements: (optional) A list of
+               elements that do not semantically align between the compared documents.
         """
         self.model_id = model_id
         self.model_version = model_version
@@ -1950,15 +2222,15 @@ class CompareReturn(object):
     def _from_dict(cls, _dict):
         """Initialize a CompareReturn object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'model_id', 'model_version', 'documents', 'aligned_elements',
             'unaligned_elements'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CompareReturn: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'model_id' in _dict:
             args['model_id'] = _dict.get('model_id')
         if 'model_version' in _dict:
@@ -2016,7 +2288,7 @@ class CompareReturn(object):
         return not self == other
 
 
-class Contact(object):
+class Contact():
     """
     A contact.
 
@@ -2024,7 +2296,7 @@ class Contact(object):
     :attr str role: (optional) A string listing the role of the contact.
     """
 
-    def __init__(self, name=None, role=None):
+    def __init__(self, *, name=None, role=None):
         """
         Initialize a Contact object.
 
@@ -2038,12 +2310,12 @@ class Contact(object):
     def _from_dict(cls, _dict):
         """Initialize a Contact object from a json dictionary."""
         args = {}
-        validKeys = ['name', 'role']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['name', 'role']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Contact: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         if 'role' in _dict:
@@ -2074,23 +2346,25 @@ class Contact(object):
         return not self == other
 
 
-class Contexts(object):
+class Contexts():
     """
     Text that is related to the contents of the table and that precedes or follows the
     current table.
 
     :attr str text: (optional) The related text.
-    :attr Location location: (optional) The numeric location of the identified element in
-    the document, represented with two integers labeled `begin` and `end`.
+    :attr Location location: (optional) The numeric location of the identified
+          element in the document, represented with two integers labeled `begin` and
+          `end`.
     """
 
-    def __init__(self, text=None, location=None):
+    def __init__(self, *, text=None, location=None):
         """
         Initialize a Contexts object.
 
         :param str text: (optional) The related text.
         :param Location location: (optional) The numeric location of the identified
-        element in the document, represented with two integers labeled `begin` and `end`.
+               element in the document, represented with two integers labeled `begin` and
+               `end`.
         """
         self.text = text
         self.location = location
@@ -2099,12 +2373,12 @@ class Contexts(object):
     def _from_dict(cls, _dict):
         """Initialize a Contexts object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'location']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'location']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Contexts: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'location' in _dict:
@@ -2135,47 +2409,51 @@ class Contexts(object):
         return not self == other
 
 
-class ContractAmts(object):
+class ContractAmts():
     """
     A monetary amount identified in the input document.
 
-    :attr str confidence_level: (optional) The confidence level in the identification of
-    the contract amount.
+    :attr str confidence_level: (optional) The confidence level in the
+          identification of the contract amount.
     :attr str text: (optional) The monetary amount.
-    :attr str text_normalized: (optional) The normalized form of the amount, which is
-    listed as a string. This element is optional; it is returned only if normalized text
-    exists.
-    :attr Interpretation interpretation: (optional) The details of the normalized text, if
-    applicable. This element is optional; it is returned only if normalized text exists.
-    :attr list[str] provenance_ids: (optional) Hashed values that you can send to IBM to
-    provide feedback or receive support.
-    :attr Location location: (optional) The numeric location of the identified element in
-    the document, represented with two integers labeled `begin` and `end`.
+    :attr str text_normalized: (optional) The normalized form of the amount, which
+          is listed as a string. This element is optional; it is returned only if
+          normalized text exists.
+    :attr Interpretation interpretation: (optional) The details of the normalized
+          text, if applicable. This element is optional; it is returned only if normalized
+          text exists.
+    :attr list[str] provenance_ids: (optional) Hashed values that you can send to
+          IBM to provide feedback or receive support.
+    :attr Location location: (optional) The numeric location of the identified
+          element in the document, represented with two integers labeled `begin` and
+          `end`.
     """
 
     def __init__(self,
-                 text=None,
+                 *,
                  confidence_level=None,
-                 location=None,
+                 text=None,
                  text_normalized=None,
                  interpretation=None,
-                 provenance_ids=None):
+                 provenance_ids=None,
+                 location=None):
         """
         Initialize a ContractAmts object.
 
-        :param str confidence_level: (optional) The confidence level in the identification
-        of the contract amount.
+        :param str confidence_level: (optional) The confidence level in the
+               identification of the contract amount.
         :param str text: (optional) The monetary amount.
-        :param str text_normalized: (optional) The normalized form of the amount, which is
-        listed as a string. This element is optional; it is returned only if normalized
-        text exists.
-        :param Interpretation interpretation: (optional) The details of the normalized
-        text, if applicable. This element is optional; it is returned only if normalized
-        text exists.
-        :param list[str] provenance_ids: (optional) Hashed values that you can send to IBM
-        to provide feedback or receive support.
+        :param str text_normalized: (optional) The normalized form of the amount,
+               which is listed as a string. This element is optional; it is returned only
+               if normalized text exists.
+        :param Interpretation interpretation: (optional) The details of the
+               normalized text, if applicable. This element is optional; it is returned
+               only if normalized text exists.
+        :param list[str] provenance_ids: (optional) Hashed values that you can send
+               to IBM to provide feedback or receive support.
         :param Location location: (optional) The numeric location of the identified
-        element in the document, represented with two integers labeled `begin` and `end`.
+               element in the document, represented with two integers labeled `begin` and
+               `end`.
         """
         self.confidence_level = confidence_level
         self.text = text
@@ -2188,15 +2466,15 @@ class ContractAmts(object):
     def _from_dict(cls, _dict):
         """Initialize a ContractAmts object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'confidence_level', 'text', 'text_normalized', 'interpretation',
             'provenance_ids', 'location'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ContractAmts: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'confidence_level' in _dict:
             args['confidence_level'] = _dict.get('confidence_level')
         if 'text' in _dict:
@@ -2245,25 +2523,35 @@ class ContractAmts(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class ConfidenceLevelEnum(Enum):
+        """
+        The confidence level in the identification of the contract amount.
+        """
+        HIGH = "High"
+        MEDIUM = "Medium"
+        LOW = "Low"
 
-class ContractCurrencies(object):
+
+class ContractCurrencies():
     """
     The contract currencies that are declared in the document.
 
-    :attr str confidence_level: (optional) The confidence level in the identification of
-    the contract currency.
+    :attr str confidence_level: (optional) The confidence level in the
+          identification of the contract currency.
     :attr str text: (optional) The contract currency.
-    :attr str text_normalized: (optional) The normalized form of the contract currency,
-    which is listed as a string in
-    [ISO-4217](https://www.iso.org/iso-4217-currency-codes.html) format. This element is
-    optional; it is returned only if normalized text exists.
-    :attr list[str] provenance_ids: (optional) Hashed values that you can send to IBM to
-    provide feedback or receive support.
-    :attr Location location: (optional) The numeric location of the identified element in
-    the document, represented with two integers labeled `begin` and `end`.
+    :attr str text_normalized: (optional) The normalized form of the contract
+          currency, which is listed as a string in
+          [ISO-4217](https://www.iso.org/iso-4217-currency-codes.html) format. This
+          element is optional; it is returned only if normalized text exists.
+    :attr list[str] provenance_ids: (optional) Hashed values that you can send to
+          IBM to provide feedback or receive support.
+    :attr Location location: (optional) The numeric location of the identified
+          element in the document, represented with two integers labeled `begin` and
+          `end`.
     """
 
     def __init__(self,
+                 *,
                  confidence_level=None,
                  text=None,
                  text_normalized=None,
@@ -2272,17 +2560,18 @@ class ContractCurrencies(object):
         """
         Initialize a ContractCurrencies object.
 
-        :param str confidence_level: (optional) The confidence level in the identification
-        of the contract currency.
+        :param str confidence_level: (optional) The confidence level in the
+               identification of the contract currency.
         :param str text: (optional) The contract currency.
         :param str text_normalized: (optional) The normalized form of the contract
-        currency, which is listed as a string in
-        [ISO-4217](https://www.iso.org/iso-4217-currency-codes.html) format. This element
-        is optional; it is returned only if normalized text exists.
-        :param list[str] provenance_ids: (optional) Hashed values that you can send to IBM
-        to provide feedback or receive support.
+               currency, which is listed as a string in
+               [ISO-4217](https://www.iso.org/iso-4217-currency-codes.html) format. This
+               element is optional; it is returned only if normalized text exists.
+        :param list[str] provenance_ids: (optional) Hashed values that you can send
+               to IBM to provide feedback or receive support.
         :param Location location: (optional) The numeric location of the identified
-        element in the document, represented with two integers labeled `begin` and `end`.
+               element in the document, represented with two integers labeled `begin` and
+               `end`.
         """
         self.confidence_level = confidence_level
         self.text = text
@@ -2294,15 +2583,15 @@ class ContractCurrencies(object):
     def _from_dict(cls, _dict):
         """Initialize a ContractCurrencies object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'confidence_level', 'text', 'text_normalized', 'provenance_ids',
             'location'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ContractCurrencies: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'confidence_level' in _dict:
             args['confidence_level'] = _dict.get('confidence_level')
         if 'text' in _dict:
@@ -2346,26 +2635,37 @@ class ContractCurrencies(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class ConfidenceLevelEnum(Enum):
+        """
+        The confidence level in the identification of the contract currency.
+        """
+        HIGH = "High"
+        MEDIUM = "Medium"
+        LOW = "Low"
 
-class ContractTerms(object):
+
+class ContractTerms():
     """
     The duration or durations of the contract.
 
-    :attr str confidence_level: (optional) The confidence level in the identification of
-    the contract term.
+    :attr str confidence_level: (optional) The confidence level in the
+          identification of the contract term.
     :attr str text: (optional) The contract term (duration).
-    :attr str text_normalized: (optional) The normalized form of the contract term, which
-    is listed as a string. This element is optional; it is returned only if normalized
-    text exists.
-    :attr Interpretation interpretation: (optional) The details of the normalized text, if
-    applicable. This element is optional; it is returned only if normalized text exists.
-    :attr list[str] provenance_ids: (optional) Hashed values that you can send to IBM to
-    provide feedback or receive support.
-    :attr Location location: (optional) The numeric location of the identified element in
-    the document, represented with two integers labeled `begin` and `end`.
+    :attr str text_normalized: (optional) The normalized form of the contract term,
+          which is listed as a string. This element is optional; it is returned only if
+          normalized text exists.
+    :attr Interpretation interpretation: (optional) The details of the normalized
+          text, if applicable. This element is optional; it is returned only if normalized
+          text exists.
+    :attr list[str] provenance_ids: (optional) Hashed values that you can send to
+          IBM to provide feedback or receive support.
+    :attr Location location: (optional) The numeric location of the identified
+          element in the document, represented with two integers labeled `begin` and
+          `end`.
     """
 
     def __init__(self,
+                 *,
                  confidence_level=None,
                  text=None,
                  text_normalized=None,
@@ -2375,19 +2675,20 @@ class ContractTerms(object):
         """
         Initialize a ContractTerms object.
 
-        :param str confidence_level: (optional) The confidence level in the identification
-        of the contract term.
+        :param str confidence_level: (optional) The confidence level in the
+               identification of the contract term.
         :param str text: (optional) The contract term (duration).
-        :param str text_normalized: (optional) The normalized form of the contract term,
-        which is listed as a string. This element is optional; it is returned only if
-        normalized text exists.
-        :param Interpretation interpretation: (optional) The details of the normalized
-        text, if applicable. This element is optional; it is returned only if normalized
-        text exists.
-        :param list[str] provenance_ids: (optional) Hashed values that you can send to IBM
-        to provide feedback or receive support.
+        :param str text_normalized: (optional) The normalized form of the contract
+               term, which is listed as a string. This element is optional; it is returned
+               only if normalized text exists.
+        :param Interpretation interpretation: (optional) The details of the
+               normalized text, if applicable. This element is optional; it is returned
+               only if normalized text exists.
+        :param list[str] provenance_ids: (optional) Hashed values that you can send
+               to IBM to provide feedback or receive support.
         :param Location location: (optional) The numeric location of the identified
-        element in the document, represented with two integers labeled `begin` and `end`.
+               element in the document, represented with two integers labeled `begin` and
+               `end`.
         """
         self.confidence_level = confidence_level
         self.text = text
@@ -2400,15 +2701,15 @@ class ContractTerms(object):
     def _from_dict(cls, _dict):
         """Initialize a ContractTerms object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'confidence_level', 'text', 'text_normalized', 'interpretation',
             'provenance_ids', 'location'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ContractTerms: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'confidence_level' in _dict:
             args['confidence_level'] = _dict.get('confidence_level')
         if 'text' in _dict:
@@ -2457,21 +2758,31 @@ class ContractTerms(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class ConfidenceLevelEnum(Enum):
+        """
+        The confidence level in the identification of the contract term.
+        """
+        HIGH = "High"
+        MEDIUM = "Medium"
+        LOW = "Low"
 
-class ContractTypes(object):
+
+class ContractTypes():
     """
     The contract type identified in the input document.
 
-    :attr str confidence_level: (optional) The confidence level in the identification of
-    the contract type.
+    :attr str confidence_level: (optional) The confidence level in the
+          identification of the contract type.
     :attr str text: (optional) The contract type.
-    :attr list[str] provenance_ids: (optional) Hashed values that you can send to IBM to
-    provide feedback or receive support.
-    :attr Location location: (optional) The numeric location of the identified element in
-    the document, represented with two integers labeled `begin` and `end`.
+    :attr list[str] provenance_ids: (optional) Hashed values that you can send to
+          IBM to provide feedback or receive support.
+    :attr Location location: (optional) The numeric location of the identified
+          element in the document, represented with two integers labeled `begin` and
+          `end`.
     """
 
     def __init__(self,
+                 *,
                  confidence_level=None,
                  text=None,
                  provenance_ids=None,
@@ -2479,13 +2790,14 @@ class ContractTypes(object):
         """
         Initialize a ContractTypes object.
 
-        :param str confidence_level: (optional) The confidence level in the identification
-        of the contract type.
+        :param str confidence_level: (optional) The confidence level in the
+               identification of the contract type.
         :param str text: (optional) The contract type.
-        :param list[str] provenance_ids: (optional) Hashed values that you can send to IBM
-        to provide feedback or receive support.
+        :param list[str] provenance_ids: (optional) Hashed values that you can send
+               to IBM to provide feedback or receive support.
         :param Location location: (optional) The numeric location of the identified
-        element in the document, represented with two integers labeled `begin` and `end`.
+               element in the document, represented with two integers labeled `begin` and
+               `end`.
         """
         self.confidence_level = confidence_level
         self.text = text
@@ -2496,12 +2808,12 @@ class ContractTypes(object):
     def _from_dict(cls, _dict):
         """Initialize a ContractTypes object from a json dictionary."""
         args = {}
-        validKeys = ['confidence_level', 'text', 'provenance_ids', 'location']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['confidence_level', 'text', 'provenance_ids', 'location']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ContractTypes: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'confidence_level' in _dict:
             args['confidence_level'] = _dict.get('confidence_level')
         if 'text' in _dict:
@@ -2540,8 +2852,16 @@ class ContractTypes(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class ConfidenceLevelEnum(Enum):
+        """
+        The confidence level in the identification of the contract type.
+        """
+        HIGH = "High"
+        MEDIUM = "Medium"
+        LOW = "Low"
 
-class DocCounts(object):
+
+class DocCounts():
     """
     Document counts.
 
@@ -2551,14 +2871,21 @@ class DocCounts(object):
     :attr int failed: (optional) Number of documents not successfully processed.
     """
 
-    def __init__(self, total=None, pending=None, successful=None, failed=None):
+    def __init__(self,
+                 *,
+                 total=None,
+                 pending=None,
+                 successful=None,
+                 failed=None):
         """
         Initialize a DocCounts object.
 
         :param int total: (optional) Total number of documents.
         :param int pending: (optional) Number of pending documents.
-        :param int successful: (optional) Number of documents successfully processed.
-        :param int failed: (optional) Number of documents not successfully processed.
+        :param int successful: (optional) Number of documents successfully
+               processed.
+        :param int failed: (optional) Number of documents not successfully
+               processed.
         """
         self.total = total
         self.pending = pending
@@ -2569,12 +2896,12 @@ class DocCounts(object):
     def _from_dict(cls, _dict):
         """Initialize a DocCounts object from a json dictionary."""
         args = {}
-        validKeys = ['total', 'pending', 'successful', 'failed']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['total', 'pending', 'successful', 'failed']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DocCounts: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'total' in _dict:
             args['total'] = _dict.get('total')
         if 'pending' in _dict:
@@ -2613,23 +2940,24 @@ class DocCounts(object):
         return not self == other
 
 
-class DocInfo(object):
+class DocInfo():
     """
     Information about the parsed input document.
 
     :attr str html: (optional) The full text of the parsed document in HTML format.
-    :attr str title: (optional) The title of the parsed document. If the service did not
-    detect a title, the value of this element is `null`.
+    :attr str title: (optional) The title of the parsed document. If the service did
+          not detect a title, the value of this element is `null`.
     :attr str hash: (optional) The MD5 hash of the input document.
     """
 
-    def __init__(self, html=None, title=None, hash=None):
+    def __init__(self, *, html=None, title=None, hash=None):
         """
         Initialize a DocInfo object.
 
-        :param str html: (optional) The full text of the parsed document in HTML format.
-        :param str title: (optional) The title of the parsed document. If the service did
-        not detect a title, the value of this element is `null`.
+        :param str html: (optional) The full text of the parsed document in HTML
+               format.
+        :param str title: (optional) The title of the parsed document. If the
+               service did not detect a title, the value of this element is `null`.
         :param str hash: (optional) The MD5 hash of the input document.
         """
         self.html = html
@@ -2640,12 +2968,12 @@ class DocInfo(object):
     def _from_dict(cls, _dict):
         """Initialize a DocInfo object from a json dictionary."""
         args = {}
-        validKeys = ['html', 'title', 'hash']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['html', 'title', 'hash']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DocInfo: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'html' in _dict:
             args['html'] = _dict.get('html')
         if 'title' in _dict:
@@ -2680,33 +3008,37 @@ class DocInfo(object):
         return not self == other
 
 
-class DocStructure(object):
+class DocStructure():
     """
     The structure of the input document.
 
-    :attr list[SectionTitles] section_titles: (optional) An array containing one object
-    per section or subsection identified in the input document.
-    :attr list[LeadingSentence] leading_sentences: (optional) An array containing one
-    object per section or subsection, in parallel with the `section_titles` array, that
-    details the leading sentences in the corresponding section or subsection.
+    :attr list[SectionTitles] section_titles: (optional) An array containing one
+          object per section or subsection identified in the input document.
+    :attr list[LeadingSentence] leading_sentences: (optional) An array containing
+          one object per section or subsection, in parallel with the `section_titles`
+          array, that details the leading sentences in the corresponding section or
+          subsection.
     :attr list[Paragraphs] paragraphs: (optional) An array containing one object per
-    paragraph, in parallel with the `section_titles` and `leading_sentences` arrays.
+          paragraph, in parallel with the `section_titles` and `leading_sentences` arrays.
     """
 
     def __init__(self,
+                 *,
                  section_titles=None,
                  leading_sentences=None,
                  paragraphs=None):
         """
         Initialize a DocStructure object.
 
-        :param list[SectionTitles] section_titles: (optional) An array containing one
-        object per section or subsection identified in the input document.
-        :param list[LeadingSentence] leading_sentences: (optional) An array containing one
-        object per section or subsection, in parallel with the `section_titles` array,
-        that details the leading sentences in the corresponding section or subsection.
-        :param list[Paragraphs] paragraphs: (optional) An array containing one object per
-        paragraph, in parallel with the `section_titles` and `leading_sentences` arrays.
+        :param list[SectionTitles] section_titles: (optional) An array containing
+               one object per section or subsection identified in the input document.
+        :param list[LeadingSentence] leading_sentences: (optional) An array
+               containing one object per section or subsection, in parallel with the
+               `section_titles` array, that details the leading sentences in the
+               corresponding section or subsection.
+        :param list[Paragraphs] paragraphs: (optional) An array containing one
+               object per paragraph, in parallel with the `section_titles` and
+               `leading_sentences` arrays.
         """
         self.section_titles = section_titles
         self.leading_sentences = leading_sentences
@@ -2716,12 +3048,12 @@ class DocStructure(object):
     def _from_dict(cls, _dict):
         """Initialize a DocStructure object from a json dictionary."""
         args = {}
-        validKeys = ['section_titles', 'leading_sentences', 'paragraphs']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['section_titles', 'leading_sentences', 'paragraphs']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DocStructure: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'section_titles' in _dict:
             args['section_titles'] = [
                 SectionTitles._from_dict(x)
@@ -2769,28 +3101,28 @@ class DocStructure(object):
         return not self == other
 
 
-class Document(object):
+class Document():
     """
     Basic information about the input document.
 
     :attr str title: (optional) Document title, if detected.
     :attr str html: (optional) The input document converted into HTML format.
     :attr str hash: (optional) The MD5 hash value of the input document.
-    :attr str label: (optional) The label applied to the input document with the calling
-    method's `file_1_label` or `file_2_label` value. This field is specified only in the
-    output of the **Comparing two documents** method.
+    :attr str label: (optional) The label applied to the input document with the
+          calling method's `file_1_label` or `file_2_label` value. This field is specified
+          only in the output of the **Comparing two documents** method.
     """
 
-    def __init__(self, title=None, html=None, hash=None, label=None):
+    def __init__(self, *, title=None, html=None, hash=None, label=None):
         """
         Initialize a Document object.
 
         :param str title: (optional) Document title, if detected.
         :param str html: (optional) The input document converted into HTML format.
         :param str hash: (optional) The MD5 hash value of the input document.
-        :param str label: (optional) The label applied to the input document with the
-        calling method's `file_1_label` or `file_2_label` value. This field is specified
-        only in the output of the **Comparing two documents** method.
+        :param str label: (optional) The label applied to the input document with
+               the calling method's `file_1_label` or `file_2_label` value. This field is
+               specified only in the output of the **Comparing two documents** method.
         """
         self.title = title
         self.html = html
@@ -2801,12 +3133,12 @@ class Document(object):
     def _from_dict(cls, _dict):
         """Initialize a Document object from a json dictionary."""
         args = {}
-        validKeys = ['title', 'html', 'hash', 'label']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['title', 'html', 'hash', 'label']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Document: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'title' in _dict:
             args['title'] = _dict.get('title')
         if 'html' in _dict:
@@ -2845,23 +3177,25 @@ class Document(object):
         return not self == other
 
 
-class EffectiveDates(object):
+class EffectiveDates():
     """
     An effective date.
 
-    :attr str confidence_level: (optional) The confidence level in the identification of
-    the effective date.
+    :attr str confidence_level: (optional) The confidence level in the
+          identification of the effective date.
     :attr str text: (optional) The effective date, listed as a string.
-    :attr str text_normalized: (optional) The normalized form of the effective date, which
-    is listed as a string. This element is optional; it is returned only if normalized
-    text exists.
-    :attr list[str] provenance_ids: (optional) Hashed values that you can send to IBM to
-    provide feedback or receive support.
-    :attr Location location: (optional) The numeric location of the identified element in
-    the document, represented with two integers labeled `begin` and `end`.
+    :attr str text_normalized: (optional) The normalized form of the effective date,
+          which is listed as a string. This element is optional; it is returned only if
+          normalized text exists.
+    :attr list[str] provenance_ids: (optional) Hashed values that you can send to
+          IBM to provide feedback or receive support.
+    :attr Location location: (optional) The numeric location of the identified
+          element in the document, represented with two integers labeled `begin` and
+          `end`.
     """
 
     def __init__(self,
+                 *,
                  confidence_level=None,
                  text=None,
                  text_normalized=None,
@@ -2870,16 +3204,17 @@ class EffectiveDates(object):
         """
         Initialize a EffectiveDates object.
 
-        :param str confidence_level: (optional) The confidence level in the identification
-        of the effective date.
+        :param str confidence_level: (optional) The confidence level in the
+               identification of the effective date.
         :param str text: (optional) The effective date, listed as a string.
-        :param str text_normalized: (optional) The normalized form of the effective date,
-        which is listed as a string. This element is optional; it is returned only if
-        normalized text exists.
-        :param list[str] provenance_ids: (optional) Hashed values that you can send to IBM
-        to provide feedback or receive support.
+        :param str text_normalized: (optional) The normalized form of the effective
+               date, which is listed as a string. This element is optional; it is returned
+               only if normalized text exists.
+        :param list[str] provenance_ids: (optional) Hashed values that you can send
+               to IBM to provide feedback or receive support.
         :param Location location: (optional) The numeric location of the identified
-        element in the document, represented with two integers labeled `begin` and `end`.
+               element in the document, represented with two integers labeled `begin` and
+               `end`.
         """
         self.confidence_level = confidence_level
         self.text = text
@@ -2891,15 +3226,15 @@ class EffectiveDates(object):
     def _from_dict(cls, _dict):
         """Initialize a EffectiveDates object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'confidence_level', 'text', 'text_normalized', 'provenance_ids',
             'location'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class EffectiveDates: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'confidence_level' in _dict:
             args['confidence_level'] = _dict.get('confidence_level')
         if 'text' in _dict:
@@ -2943,22 +3278,32 @@ class EffectiveDates(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class ConfidenceLevelEnum(Enum):
+        """
+        The confidence level in the identification of the effective date.
+        """
+        HIGH = "High"
+        MEDIUM = "Medium"
+        LOW = "Low"
 
-class Element(object):
+
+class Element():
     """
     A component part of the document.
 
-    :attr Location location: (optional) The numeric location of the identified element in
-    the document, represented with two integers labeled `begin` and `end`.
+    :attr Location location: (optional) The numeric location of the identified
+          element in the document, represented with two integers labeled `begin` and
+          `end`.
     :attr str text: (optional) The text of the element.
-    :attr list[TypeLabel] types: (optional) Description of the action specified by the
-    element  and whom it affects.
-    :attr list[Category] categories: (optional) List of functional categories into which
-    the element falls; in other words, the subject matter of the element.
+    :attr list[TypeLabel] types: (optional) Description of the action specified by
+          the element  and whom it affects.
+    :attr list[Category] categories: (optional) List of functional categories into
+          which the element falls; in other words, the subject matter of the element.
     :attr list[Attribute] attributes: (optional) List of document attributes.
     """
 
     def __init__(self,
+                 *,
                  location=None,
                  text=None,
                  types=None,
@@ -2968,12 +3313,14 @@ class Element(object):
         Initialize a Element object.
 
         :param Location location: (optional) The numeric location of the identified
-        element in the document, represented with two integers labeled `begin` and `end`.
+               element in the document, represented with two integers labeled `begin` and
+               `end`.
         :param str text: (optional) The text of the element.
-        :param list[TypeLabel] types: (optional) Description of the action specified by
-        the element  and whom it affects.
-        :param list[Category] categories: (optional) List of functional categories into
-        which the element falls; in other words, the subject matter of the element.
+        :param list[TypeLabel] types: (optional) Description of the action
+               specified by the element  and whom it affects.
+        :param list[Category] categories: (optional) List of functional categories
+               into which the element falls; in other words, the subject matter of the
+               element.
         :param list[Attribute] attributes: (optional) List of document attributes.
         """
         self.location = location
@@ -2986,12 +3333,12 @@ class Element(object):
     def _from_dict(cls, _dict):
         """Initialize a Element object from a json dictionary."""
         args = {}
-        validKeys = ['location', 'text', 'types', 'categories', 'attributes']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['location', 'text', 'types', 'categories', 'attributes']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Element: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'location' in _dict:
             args['location'] = Location._from_dict(_dict.get('location'))
         if 'text' in _dict:
@@ -3040,25 +3387,25 @@ class Element(object):
         return not self == other
 
 
-class ElementLocations(object):
+class ElementLocations():
     """
     A list of `begin` and `end` indexes that indicate the locations of the elements in the
     input document.
 
-    :attr int begin: (optional) An integer that indicates the starting position of the
-    element in the input document.
-    :attr int end: (optional) An integer that indicates the ending position of the element
-    in the input document.
+    :attr int begin: (optional) An integer that indicates the starting position of
+          the element in the input document.
+    :attr int end: (optional) An integer that indicates the ending position of the
+          element in the input document.
     """
 
-    def __init__(self, begin=None, end=None):
+    def __init__(self, *, begin=None, end=None):
         """
         Initialize a ElementLocations object.
 
-        :param int begin: (optional) An integer that indicates the starting position of
-        the element in the input document.
-        :param int end: (optional) An integer that indicates the ending position of the
-        element in the input document.
+        :param int begin: (optional) An integer that indicates the starting
+               position of the element in the input document.
+        :param int end: (optional) An integer that indicates the ending position of
+               the element in the input document.
         """
         self.begin = begin
         self.end = end
@@ -3067,12 +3414,12 @@ class ElementLocations(object):
     def _from_dict(cls, _dict):
         """Initialize a ElementLocations object from a json dictionary."""
         args = {}
-        validKeys = ['begin', 'end']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['begin', 'end']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ElementLocations: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'begin' in _dict:
             args['begin'] = _dict.get('begin')
         if 'end' in _dict:
@@ -3103,23 +3450,27 @@ class ElementLocations(object):
         return not self == other
 
 
-class ElementPair(object):
+class ElementPair():
     """
     Details of semantically aligned elements.
 
-    :attr str document_label: (optional) The label of the document (that is, the value of
-    either the `file_1_label` or `file_2_label` parameters) in which the element occurs.
+    :attr str document_label: (optional) The label of the document (that is, the
+          value of either the `file_1_label` or `file_2_label` parameters) in which the
+          element occurs.
     :attr str text: (optional) The contents of the element.
-    :attr Location location: (optional) The numeric location of the identified element in
-    the document, represented with two integers labeled `begin` and `end`.
-    :attr list[TypeLabelComparison] types: (optional) Description of the action specified
-    by the element and whom it affects.
-    :attr list[CategoryComparison] categories: (optional) List of functional categories
-    into which the element falls; in other words, the subject matter of the element.
+    :attr Location location: (optional) The numeric location of the identified
+          element in the document, represented with two integers labeled `begin` and
+          `end`.
+    :attr list[TypeLabelComparison] types: (optional) Description of the action
+          specified by the element and whom it affects.
+    :attr list[CategoryComparison] categories: (optional) List of functional
+          categories into which the element falls; in other words, the subject matter of
+          the element.
     :attr list[Attribute] attributes: (optional) List of document attributes.
     """
 
     def __init__(self,
+                 *,
                  document_label=None,
                  text=None,
                  location=None,
@@ -3129,17 +3480,18 @@ class ElementPair(object):
         """
         Initialize a ElementPair object.
 
-        :param str document_label: (optional) The label of the document (that is, the
-        value of either the `file_1_label` or `file_2_label` parameters) in which the
-        element occurs.
+        :param str document_label: (optional) The label of the document (that is,
+               the value of either the `file_1_label` or `file_2_label` parameters) in
+               which the element occurs.
         :param str text: (optional) The contents of the element.
         :param Location location: (optional) The numeric location of the identified
-        element in the document, represented with two integers labeled `begin` and `end`.
-        :param list[TypeLabelComparison] types: (optional) Description of the action
-        specified by the element and whom it affects.
+               element in the document, represented with two integers labeled `begin` and
+               `end`.
+        :param list[TypeLabelComparison] types: (optional) Description of the
+               action specified by the element and whom it affects.
         :param list[CategoryComparison] categories: (optional) List of functional
-        categories into which the element falls; in other words, the subject matter of the
-        element.
+               categories into which the element falls; in other words, the subject matter
+               of the element.
         :param list[Attribute] attributes: (optional) List of document attributes.
         """
         self.document_label = document_label
@@ -3153,15 +3505,15 @@ class ElementPair(object):
     def _from_dict(cls, _dict):
         """Initialize a ElementPair object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'document_label', 'text', 'location', 'types', 'categories',
             'attributes'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ElementPair: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document_label' in _dict:
             args['document_label'] = _dict.get('document_label')
         if 'text' in _dict:
@@ -3215,24 +3567,24 @@ class ElementPair(object):
         return not self == other
 
 
-class FeedbackDataInput(object):
+class FeedbackDataInput():
     """
     Feedback data for submission.
 
     :attr str feedback_type: The type of feedback. The only permitted value is
-    `element_classification`.
+          `element_classification`.
     :attr ShortDoc document: (optional) Brief information about the input document.
-    :attr str model_id: (optional) An optional string identifying the model ID. The only
-    permitted value is `contracts`.
-    :attr str model_version: (optional) An optional string identifying the version of the
-    model used.
+    :attr str model_id: (optional) An optional string identifying the model ID. The
+          only permitted value is `contracts`.
+    :attr str model_version: (optional) An optional string identifying the version
+          of the model used.
     :attr Location location: The numeric location of the identified element in the
-    document, represented with two integers labeled `begin` and `end`.
+          document, represented with two integers labeled `begin` and `end`.
     :attr str text: The text on which to submit feedback.
-    :attr OriginalLabelsIn original_labels: The original labeling from the input document,
-    without the submitted feedback.
-    :attr UpdatedLabelsIn updated_labels: The updated labeling from the input document,
-    accounting for the submitted feedback.
+    :attr OriginalLabelsIn original_labels: The original labeling from the input
+          document, without the submitted feedback.
+    :attr UpdatedLabelsIn updated_labels: The updated labeling from the input
+          document, accounting for the submitted feedback.
     """
 
     def __init__(self,
@@ -3241,6 +3593,7 @@ class FeedbackDataInput(object):
                  text,
                  original_labels,
                  updated_labels,
+                 *,
                  document=None,
                  model_id=None,
                  model_version=None):
@@ -3248,19 +3601,20 @@ class FeedbackDataInput(object):
         Initialize a FeedbackDataInput object.
 
         :param str feedback_type: The type of feedback. The only permitted value is
-        `element_classification`.
-        :param Location location: The numeric location of the identified element in the
-        document, represented with two integers labeled `begin` and `end`.
+               `element_classification`.
+        :param Location location: The numeric location of the identified element in
+               the document, represented with two integers labeled `begin` and `end`.
         :param str text: The text on which to submit feedback.
-        :param OriginalLabelsIn original_labels: The original labeling from the input
-        document, without the submitted feedback.
+        :param OriginalLabelsIn original_labels: The original labeling from the
+               input document, without the submitted feedback.
         :param UpdatedLabelsIn updated_labels: The updated labeling from the input
-        document, accounting for the submitted feedback.
-        :param ShortDoc document: (optional) Brief information about the input document.
-        :param str model_id: (optional) An optional string identifying the model ID. The
-        only permitted value is `contracts`.
-        :param str model_version: (optional) An optional string identifying the version of
-        the model used.
+               document, accounting for the submitted feedback.
+        :param ShortDoc document: (optional) Brief information about the input
+               document.
+        :param str model_id: (optional) An optional string identifying the model
+               ID. The only permitted value is `contracts`.
+        :param str model_version: (optional) An optional string identifying the
+               version of the model used.
         """
         self.feedback_type = feedback_type
         self.document = document
@@ -3275,15 +3629,15 @@ class FeedbackDataInput(object):
     def _from_dict(cls, _dict):
         """Initialize a FeedbackDataInput object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'feedback_type', 'document', 'model_id', 'model_version',
             'location', 'text', 'original_labels', 'updated_labels'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class FeedbackDataInput: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'feedback_type' in _dict:
             args['feedback_type'] = _dict.get('feedback_type')
         else:
@@ -3361,29 +3715,31 @@ class FeedbackDataInput(object):
         return not self == other
 
 
-class FeedbackDataOutput(object):
+class FeedbackDataOutput():
     """
     Information returned from the **Add Feedback** method.
 
-    :attr str feedback_type: (optional) A string identifying the user adding the feedback.
-    The only permitted value is `element_classification`.
+    :attr str feedback_type: (optional) A string identifying the user adding the
+          feedback. The only permitted value is `element_classification`.
     :attr ShortDoc document: (optional) Brief information about the input document.
-    :attr str model_id: (optional) An optional string identifying the model ID. The only
-    permitted value is `contracts`.
-    :attr str model_version: (optional) An optional string identifying the version of the
-    model used.
-    :attr Location location: (optional) The numeric location of the identified element in
-    the document, represented with two integers labeled `begin` and `end`.
+    :attr str model_id: (optional) An optional string identifying the model ID. The
+          only permitted value is `contracts`.
+    :attr str model_version: (optional) An optional string identifying the version
+          of the model used.
+    :attr Location location: (optional) The numeric location of the identified
+          element in the document, represented with two integers labeled `begin` and
+          `end`.
     :attr str text: (optional) The text to which the feedback applies.
-    :attr OriginalLabelsOut original_labels: (optional) The original labeling from the
-    input document, without the submitted feedback.
-    :attr UpdatedLabelsOut updated_labels: (optional) The updated labeling from the input
-    document, accounting for the submitted feedback.
-    :attr Pagination pagination: (optional) Pagination details, if required by the length
-    of the output.
+    :attr OriginalLabelsOut original_labels: (optional) The original labeling from
+          the input document, without the submitted feedback.
+    :attr UpdatedLabelsOut updated_labels: (optional) The updated labeling from the
+          input document, accounting for the submitted feedback.
+    :attr Pagination pagination: (optional) Pagination details, if required by the
+          length of the output.
     """
 
     def __init__(self,
+                 *,
                  feedback_type=None,
                  document=None,
                  model_id=None,
@@ -3396,22 +3752,24 @@ class FeedbackDataOutput(object):
         """
         Initialize a FeedbackDataOutput object.
 
-        :param str feedback_type: (optional) A string identifying the user adding the
-        feedback. The only permitted value is `element_classification`.
-        :param ShortDoc document: (optional) Brief information about the input document.
-        :param str model_id: (optional) An optional string identifying the model ID. The
-        only permitted value is `contracts`.
-        :param str model_version: (optional) An optional string identifying the version of
-        the model used.
+        :param str feedback_type: (optional) A string identifying the user adding
+               the feedback. The only permitted value is `element_classification`.
+        :param ShortDoc document: (optional) Brief information about the input
+               document.
+        :param str model_id: (optional) An optional string identifying the model
+               ID. The only permitted value is `contracts`.
+        :param str model_version: (optional) An optional string identifying the
+               version of the model used.
         :param Location location: (optional) The numeric location of the identified
-        element in the document, represented with two integers labeled `begin` and `end`.
+               element in the document, represented with two integers labeled `begin` and
+               `end`.
         :param str text: (optional) The text to which the feedback applies.
-        :param OriginalLabelsOut original_labels: (optional) The original labeling from
-        the input document, without the submitted feedback.
-        :param UpdatedLabelsOut updated_labels: (optional) The updated labeling from the
-        input document, accounting for the submitted feedback.
-        :param Pagination pagination: (optional) Pagination details, if required by the
-        length of the output.
+        :param OriginalLabelsOut original_labels: (optional) The original labeling
+               from the input document, without the submitted feedback.
+        :param UpdatedLabelsOut updated_labels: (optional) The updated labeling
+               from the input document, accounting for the submitted feedback.
+        :param Pagination pagination: (optional) Pagination details, if required by
+               the length of the output.
         """
         self.feedback_type = feedback_type
         self.document = document
@@ -3427,16 +3785,16 @@ class FeedbackDataOutput(object):
     def _from_dict(cls, _dict):
         """Initialize a FeedbackDataOutput object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'feedback_type', 'document', 'model_id', 'model_version',
             'location', 'text', 'original_labels', 'updated_labels',
             'pagination'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class FeedbackDataOutput: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'feedback_type' in _dict:
             args['feedback_type'] = _dict.get('feedback_type')
         if 'document' in _dict:
@@ -3498,7 +3856,7 @@ class FeedbackDataOutput(object):
         return not self == other
 
 
-class FeedbackDeleted(object):
+class FeedbackDeleted():
     """
     The status and message of the deletion request.
 
@@ -3506,7 +3864,7 @@ class FeedbackDeleted(object):
     :attr str message: (optional) Status message returned from the service.
     """
 
-    def __init__(self, status=None, message=None):
+    def __init__(self, *, status=None, message=None):
         """
         Initialize a FeedbackDeleted object.
 
@@ -3520,12 +3878,12 @@ class FeedbackDeleted(object):
     def _from_dict(cls, _dict):
         """Initialize a FeedbackDeleted object from a json dictionary."""
         args = {}
-        validKeys = ['status', 'message']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['status', 'message']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class FeedbackDeleted: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'status' in _dict:
             args['status'] = _dict.get('status')
         if 'message' in _dict:
@@ -3556,19 +3914,20 @@ class FeedbackDeleted(object):
         return not self == other
 
 
-class FeedbackList(object):
+class FeedbackList():
     """
     The results of a successful **List Feedback** request for all feedback.
 
-    :attr list[GetFeedback] feedback: (optional) A list of all feedback for the document.
+    :attr list[GetFeedback] feedback: (optional) A list of all feedback for the
+          document.
     """
 
-    def __init__(self, feedback=None):
+    def __init__(self, *, feedback=None):
         """
         Initialize a FeedbackList object.
 
-        :param list[GetFeedback] feedback: (optional) A list of all feedback for the
-        document.
+        :param list[GetFeedback] feedback: (optional) A list of all feedback for
+               the document.
         """
         self.feedback = feedback
 
@@ -3576,12 +3935,12 @@ class FeedbackList(object):
     def _from_dict(cls, _dict):
         """Initialize a FeedbackList object from a json dictionary."""
         args = {}
-        validKeys = ['feedback']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['feedback']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class FeedbackList: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'feedback' in _dict:
             args['feedback'] = [
                 GetFeedback._from_dict(x) for x in (_dict.get('feedback'))
@@ -3610,22 +3969,23 @@ class FeedbackList(object):
         return not self == other
 
 
-class FeedbackReturn(object):
+class FeedbackReturn():
     """
     Information about the document and the submitted feedback.
 
     :attr str feedback_id: (optional) The unique ID of the feedback object.
-    :attr str user_id: (optional) An optional string identifying the person submitting
-    feedback.
+    :attr str user_id: (optional) An optional string identifying the person
+          submitting feedback.
     :attr str comment: (optional) An optional comment from the person submitting the
-    feedback.
-    :attr datetime created: (optional) Timestamp listing the creation time of the feedback
-    submission.
-    :attr FeedbackDataOutput feedback_data: (optional) Information returned from the **Add
-    Feedback** method.
+          feedback.
+    :attr datetime created: (optional) Timestamp listing the creation time of the
+          feedback submission.
+    :attr FeedbackDataOutput feedback_data: (optional) Information returned from the
+          **Add Feedback** method.
     """
 
     def __init__(self,
+                 *,
                  feedback_id=None,
                  user_id=None,
                  comment=None,
@@ -3636,13 +3996,13 @@ class FeedbackReturn(object):
 
         :param str feedback_id: (optional) The unique ID of the feedback object.
         :param str user_id: (optional) An optional string identifying the person
-        submitting feedback.
-        :param str comment: (optional) An optional comment from the person submitting the
-        feedback.
-        :param datetime created: (optional) Timestamp listing the creation time of the
-        feedback submission.
-        :param FeedbackDataOutput feedback_data: (optional) Information returned from the
-        **Add Feedback** method.
+               submitting feedback.
+        :param str comment: (optional) An optional comment from the person
+               submitting the feedback.
+        :param datetime created: (optional) Timestamp listing the creation time of
+               the feedback submission.
+        :param FeedbackDataOutput feedback_data: (optional) Information returned
+               from the **Add Feedback** method.
         """
         self.feedback_id = feedback_id
         self.user_id = user_id
@@ -3654,14 +4014,14 @@ class FeedbackReturn(object):
     def _from_dict(cls, _dict):
         """Initialize a FeedbackReturn object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'feedback_id', 'user_id', 'comment', 'created', 'feedback_data'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class FeedbackReturn: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'feedback_id' in _dict:
             args['feedback_id'] = _dict.get('feedback_id')
         if 'user_id' in _dict:
@@ -3705,20 +4065,22 @@ class FeedbackReturn(object):
         return not self == other
 
 
-class GetFeedback(object):
+class GetFeedback():
     """
     The results of a successful **Get Feedback** request for a single feedback entry.
 
-    :attr str feedback_id: (optional) A string uniquely identifying the feedback entry.
-    :attr datetime created: (optional) A timestamp identifying the creation time of the
-    feedback entry.
+    :attr str feedback_id: (optional) A string uniquely identifying the feedback
+          entry.
+    :attr datetime created: (optional) A timestamp identifying the creation time of
+          the feedback entry.
     :attr str comment: (optional) A string containing the user's comment about the
-    feedback entry.
-    :attr FeedbackDataOutput feedback_data: (optional) Information returned from the **Add
-    Feedback** method.
+          feedback entry.
+    :attr FeedbackDataOutput feedback_data: (optional) Information returned from the
+          **Add Feedback** method.
     """
 
     def __init__(self,
+                 *,
                  feedback_id=None,
                  created=None,
                  comment=None,
@@ -3726,14 +4088,14 @@ class GetFeedback(object):
         """
         Initialize a GetFeedback object.
 
-        :param str feedback_id: (optional) A string uniquely identifying the feedback
-        entry.
-        :param datetime created: (optional) A timestamp identifying the creation time of
-        the feedback entry.
-        :param str comment: (optional) A string containing the user's comment about the
-        feedback entry.
-        :param FeedbackDataOutput feedback_data: (optional) Information returned from the
-        **Add Feedback** method.
+        :param str feedback_id: (optional) A string uniquely identifying the
+               feedback entry.
+        :param datetime created: (optional) A timestamp identifying the creation
+               time of the feedback entry.
+        :param str comment: (optional) A string containing the user's comment about
+               the feedback entry.
+        :param FeedbackDataOutput feedback_data: (optional) Information returned
+               from the **Add Feedback** method.
         """
         self.feedback_id = feedback_id
         self.created = created
@@ -3744,12 +4106,12 @@ class GetFeedback(object):
     def _from_dict(cls, _dict):
         """Initialize a GetFeedback object from a json dictionary."""
         args = {}
-        validKeys = ['feedback_id', 'created', 'comment', 'feedback_data']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['feedback_id', 'created', 'comment', 'feedback_data']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class GetFeedback: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'feedback_id' in _dict:
             args['feedback_id'] = _dict.get('feedback_id')
         if 'created' in _dict:
@@ -3789,19 +4151,20 @@ class GetFeedback(object):
         return not self == other
 
 
-class HTMLReturn(object):
+class HTMLReturn():
     """
     The HTML converted from an input document.
 
     :attr str num_pages: (optional) The number of pages in the input document.
     :attr str author: (optional) The author of the input document, if identified.
-    :attr str publication_date: (optional) The publication date of the input document, if
-    identified.
+    :attr str publication_date: (optional) The publication date of the input
+          document, if identified.
     :attr str title: (optional) The title of the input document, if identified.
     :attr str html: (optional) The HTML version of the input document.
     """
 
     def __init__(self,
+                 *,
                  num_pages=None,
                  author=None,
                  publication_date=None,
@@ -3811,10 +4174,12 @@ class HTMLReturn(object):
         Initialize a HTMLReturn object.
 
         :param str num_pages: (optional) The number of pages in the input document.
-        :param str author: (optional) The author of the input document, if identified.
+        :param str author: (optional) The author of the input document, if
+               identified.
         :param str publication_date: (optional) The publication date of the input
-        document, if identified.
-        :param str title: (optional) The title of the input document, if identified.
+               document, if identified.
+        :param str title: (optional) The title of the input document, if
+               identified.
         :param str html: (optional) The HTML version of the input document.
         """
         self.num_pages = num_pages
@@ -3827,12 +4192,14 @@ class HTMLReturn(object):
     def _from_dict(cls, _dict):
         """Initialize a HTMLReturn object from a json dictionary."""
         args = {}
-        validKeys = ['num_pages', 'author', 'publication_date', 'title', 'html']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = [
+            'num_pages', 'author', 'publication_date', 'title', 'html'
+        ]
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class HTMLReturn: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'num_pages' in _dict:
             args['num_pages'] = _dict.get('num_pages')
         if 'author' in _dict:
@@ -3876,37 +4243,38 @@ class HTMLReturn(object):
         return not self == other
 
 
-class Interpretation(object):
+class Interpretation():
     """
     The details of the normalized text, if applicable. This element is optional; it is
     returned only if normalized text exists.
 
     :attr str value: (optional) The value that was located in the normalized text.
-    :attr float numeric_value: (optional) An integer or float expressing the numeric value
-    of the `value` key.
-    :attr str unit: (optional) A string listing the unit of the value that was found in
-    the normalized text.
-    **Note:** The value of `unit` is the [ISO-4217 currency
-    code](https://www.iso.org/iso-4217-currency-codes.html) identified for the currency
-    amount (for example, `USD` or `EUR`). If the service cannot disambiguate a currency
-    symbol (for example, `$` or `£`), the value of `unit` contains the ambiguous symbol
-    as-is.
+    :attr float numeric_value: (optional) An integer or float expressing the numeric
+          value of the `value` key.
+    :attr str unit: (optional) A string listing the unit of the value that was found
+          in the normalized text.
+          **Note:** The value of `unit` is the [ISO-4217 currency
+          code](https://www.iso.org/iso-4217-currency-codes.html) identified for the
+          currency amount (for example, `USD` or `EUR`). If the service cannot
+          disambiguate a currency symbol (for example, `$` or `£`), the value of `unit`
+          contains the ambiguous symbol as-is.
     """
 
-    def __init__(self, value=None, numeric_value=None, unit=None):
+    def __init__(self, *, value=None, numeric_value=None, unit=None):
         """
         Initialize a Interpretation object.
 
-        :param str value: (optional) The value that was located in the normalized text.
-        :param float numeric_value: (optional) An integer or float expressing the numeric
-        value of the `value` key.
-        :param str unit: (optional) A string listing the unit of the value that was found
-        in the normalized text.
-        **Note:** The value of `unit` is the [ISO-4217 currency
-        code](https://www.iso.org/iso-4217-currency-codes.html) identified for the
-        currency amount (for example, `USD` or `EUR`). If the service cannot disambiguate
-        a currency symbol (for example, `$` or `£`), the value of `unit` contains the
-        ambiguous symbol as-is.
+        :param str value: (optional) The value that was located in the normalized
+               text.
+        :param float numeric_value: (optional) An integer or float expressing the
+               numeric value of the `value` key.
+        :param str unit: (optional) A string listing the unit of the value that was
+               found in the normalized text.
+               **Note:** The value of `unit` is the [ISO-4217 currency
+               code](https://www.iso.org/iso-4217-currency-codes.html) identified for the
+               currency amount (for example, `USD` or `EUR`). If the service cannot
+               disambiguate a currency symbol (for example, `$` or `£`), the value of
+               `unit` contains the ambiguous symbol as-is.
         """
         self.value = value
         self.numeric_value = numeric_value
@@ -3916,12 +4284,12 @@ class Interpretation(object):
     def _from_dict(cls, _dict):
         """Initialize a Interpretation object from a json dictionary."""
         args = {}
-        validKeys = ['value', 'numeric_value', 'unit']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['value', 'numeric_value', 'unit']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Interpretation: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'value' in _dict:
             args['value'] = _dict.get('value')
         if 'numeric_value' in _dict:
@@ -3956,25 +4324,28 @@ class Interpretation(object):
         return not self == other
 
 
-class Key(object):
+class Key():
     """
     A key in a key-value pair.
 
     :attr str cell_id: (optional) The unique ID of the key in the table.
-    :attr Location location: (optional) The numeric location of the identified element in
-    the document, represented with two integers labeled `begin` and `end`.
-    :attr str text: (optional) The text content of the table cell without HTML markup.
+    :attr Location location: (optional) The numeric location of the identified
+          element in the document, represented with two integers labeled `begin` and
+          `end`.
+    :attr str text: (optional) The text content of the table cell without HTML
+          markup.
     """
 
-    def __init__(self, cell_id=None, location=None, text=None):
+    def __init__(self, *, cell_id=None, location=None, text=None):
         """
         Initialize a Key object.
 
         :param str cell_id: (optional) The unique ID of the key in the table.
         :param Location location: (optional) The numeric location of the identified
-        element in the document, represented with two integers labeled `begin` and `end`.
+               element in the document, represented with two integers labeled `begin` and
+               `end`.
         :param str text: (optional) The text content of the table cell without HTML
-        markup.
+               markup.
         """
         self.cell_id = cell_id
         self.location = location
@@ -3984,12 +4355,12 @@ class Key(object):
     def _from_dict(cls, _dict):
         """Initialize a Key object from a json dictionary."""
         args = {}
-        validKeys = ['cell_id', 'location', 'text']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['cell_id', 'location', 'text']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Key: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'cell_id' in _dict:
             args['cell_id'] = _dict.get('cell_id')
         if 'location' in _dict:
@@ -4024,7 +4395,7 @@ class Key(object):
         return not self == other
 
 
-class KeyValuePair(object):
+class KeyValuePair():
     """
     Key-value pairs detected across cell boundaries.
 
@@ -4032,7 +4403,7 @@ class KeyValuePair(object):
     :attr list[Value] value: (optional) A list of values in a key-value pair.
     """
 
-    def __init__(self, key=None, value=None):
+    def __init__(self, *, key=None, value=None):
         """
         Initialize a KeyValuePair object.
 
@@ -4046,12 +4417,12 @@ class KeyValuePair(object):
     def _from_dict(cls, _dict):
         """Initialize a KeyValuePair object from a json dictionary."""
         args = {}
-        validKeys = ['key', 'value']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['key', 'value']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class KeyValuePair: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'key' in _dict:
             args['key'] = Key._from_dict(_dict.get('key'))
         if 'value' in _dict:
@@ -4082,7 +4453,7 @@ class KeyValuePair(object):
         return not self == other
 
 
-class Label(object):
+class Label():
     """
     A pair of `nature` and `party` objects. The `nature` object identifies the effect of
     the element on the identified `party`, and the `party` object identifies the affected
@@ -4106,12 +4477,12 @@ class Label(object):
     def _from_dict(cls, _dict):
         """Initialize a Label object from a json dictionary."""
         args = {}
-        validKeys = ['nature', 'party']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['nature', 'party']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Label: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'nature' in _dict:
             args['nature'] = _dict.get('nature')
         else:
@@ -4148,26 +4519,28 @@ class Label(object):
         return not self == other
 
 
-class LeadingSentence(object):
+class LeadingSentence():
     """
     The leading sentences in a section or subsection of the input document.
 
     :attr str text: (optional) The text of the leading sentence.
-    :attr Location location: (optional) The numeric location of the identified element in
-    the document, represented with two integers labeled `begin` and `end`.
-    :attr list[ElementLocations] element_locations: (optional) An array of `location`
-    objects that lists the locations of detected leading sentences.
+    :attr Location location: (optional) The numeric location of the identified
+          element in the document, represented with two integers labeled `begin` and
+          `end`.
+    :attr list[ElementLocations] element_locations: (optional) An array of
+          `location` objects that lists the locations of detected leading sentences.
     """
 
-    def __init__(self, text=None, location=None, element_locations=None):
+    def __init__(self, *, text=None, location=None, element_locations=None):
         """
         Initialize a LeadingSentence object.
 
         :param str text: (optional) The text of the leading sentence.
         :param Location location: (optional) The numeric location of the identified
-        element in the document, represented with two integers labeled `begin` and `end`.
-        :param list[ElementLocations] element_locations: (optional) An array of `location`
-        objects that lists the locations of detected leading sentences.
+               element in the document, represented with two integers labeled `begin` and
+               `end`.
+        :param list[ElementLocations] element_locations: (optional) An array of
+               `location` objects that lists the locations of detected leading sentences.
         """
         self.text = text
         self.location = location
@@ -4177,12 +4550,12 @@ class LeadingSentence(object):
     def _from_dict(cls, _dict):
         """Initialize a LeadingSentence object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'location', 'element_locations']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'location', 'element_locations']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class LeadingSentence: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'location' in _dict:
@@ -4223,7 +4596,7 @@ class LeadingSentence(object):
         return not self == other
 
 
-class Location(object):
+class Location():
     """
     The numeric location of the identified element in the document, represented with two
     integers labeled `begin` and `end`.
@@ -4246,12 +4619,12 @@ class Location(object):
     def _from_dict(cls, _dict):
         """Initialize a Location object from a json dictionary."""
         args = {}
-        validKeys = ['begin', 'end']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['begin', 'end']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Location: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'begin' in _dict:
             args['begin'] = _dict.get('begin')
         else:
@@ -4288,22 +4661,24 @@ class Location(object):
         return not self == other
 
 
-class Mention(object):
+class Mention():
     """
     A mention of a party.
 
     :attr str text: (optional) The name of the party.
-    :attr Location location: (optional) The numeric location of the identified element in
-    the document, represented with two integers labeled `begin` and `end`.
+    :attr Location location: (optional) The numeric location of the identified
+          element in the document, represented with two integers labeled `begin` and
+          `end`.
     """
 
-    def __init__(self, text=None, location=None):
+    def __init__(self, *, text=None, location=None):
         """
         Initialize a Mention object.
 
         :param str text: (optional) The name of the party.
         :param Location location: (optional) The numeric location of the identified
-        element in the document, represented with two integers labeled `begin` and `end`.
+               element in the document, represented with two integers labeled `begin` and
+               `end`.
         """
         self.text = text
         self.location = location
@@ -4312,12 +4687,12 @@ class Mention(object):
     def _from_dict(cls, _dict):
         """Initialize a Mention object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'location']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'location']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Mention: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'location' in _dict:
@@ -4348,24 +4723,24 @@ class Mention(object):
         return not self == other
 
 
-class OriginalLabelsIn(object):
+class OriginalLabelsIn():
     """
     The original labeling from the input document, without the submitted feedback.
 
-    :attr list[TypeLabel] types: Description of the action specified by the element and
-    whom it affects.
-    :attr list[Category] categories: List of functional categories into which the element
-    falls; in other words, the subject matter of the element.
+    :attr list[TypeLabel] types: Description of the action specified by the element
+          and whom it affects.
+    :attr list[Category] categories: List of functional categories into which the
+          element falls; in other words, the subject matter of the element.
     """
 
     def __init__(self, types, categories):
         """
         Initialize a OriginalLabelsIn object.
 
-        :param list[TypeLabel] types: Description of the action specified by the element
-        and whom it affects.
-        :param list[Category] categories: List of functional categories into which the
-        element falls; in other words, the subject matter of the element.
+        :param list[TypeLabel] types: Description of the action specified by the
+               element and whom it affects.
+        :param list[Category] categories: List of functional categories into which
+               the element falls; in other words, the subject matter of the element.
         """
         self.types = types
         self.categories = categories
@@ -4374,12 +4749,12 @@ class OriginalLabelsIn(object):
     def _from_dict(cls, _dict):
         """Initialize a OriginalLabelsIn object from a json dictionary."""
         args = {}
-        validKeys = ['types', 'categories']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['types', 'categories']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class OriginalLabelsIn: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'types' in _dict:
             args['types'] = [
                 TypeLabel._from_dict(x) for x in (_dict.get('types'))
@@ -4422,30 +4797,31 @@ class OriginalLabelsIn(object):
         return not self == other
 
 
-class OriginalLabelsOut(object):
+class OriginalLabelsOut():
     """
     The original labeling from the input document, without the submitted feedback.
 
-    :attr list[TypeLabel] types: (optional) Description of the action specified by the
-    element and whom it affects.
-    :attr list[Category] categories: (optional) List of functional categories into which
-    the element falls; in other words, the subject matter of the element.
-    :attr str modification: (optional) A string identifying the type of modification the
-    feedback entry in the `updated_labels` array. Possible values are `added`,
-    `not_changed`, and `removed`.
+    :attr list[TypeLabel] types: (optional) Description of the action specified by
+          the element and whom it affects.
+    :attr list[Category] categories: (optional) List of functional categories into
+          which the element falls; in other words, the subject matter of the element.
+    :attr str modification: (optional) A string identifying the type of modification
+          the feedback entry in the `updated_labels` array. Possible values are `added`,
+          `not_changed`, and `removed`.
     """
 
-    def __init__(self, types=None, categories=None, modification=None):
+    def __init__(self, *, types=None, categories=None, modification=None):
         """
         Initialize a OriginalLabelsOut object.
 
-        :param list[TypeLabel] types: (optional) Description of the action specified by
-        the element and whom it affects.
-        :param list[Category] categories: (optional) List of functional categories into
-        which the element falls; in other words, the subject matter of the element.
-        :param str modification: (optional) A string identifying the type of modification
-        the feedback entry in the `updated_labels` array. Possible values are `added`,
-        `not_changed`, and `removed`.
+        :param list[TypeLabel] types: (optional) Description of the action
+               specified by the element and whom it affects.
+        :param list[Category] categories: (optional) List of functional categories
+               into which the element falls; in other words, the subject matter of the
+               element.
+        :param str modification: (optional) A string identifying the type of
+               modification the feedback entry in the `updated_labels` array. Possible
+               values are `added`, `not_changed`, and `removed`.
         """
         self.types = types
         self.categories = categories
@@ -4455,12 +4831,12 @@ class OriginalLabelsOut(object):
     def _from_dict(cls, _dict):
         """Initialize a OriginalLabelsOut object from a json dictionary."""
         args = {}
-        validKeys = ['types', 'categories', 'modification']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['types', 'categories', 'modification']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class OriginalLabelsOut: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'types' in _dict:
             args['types'] = [
                 TypeLabel._from_dict(x) for x in (_dict.get('types'))
@@ -4498,19 +4874,31 @@ class OriginalLabelsOut(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class ModificationEnum(Enum):
+        """
+        A string identifying the type of modification the feedback entry in the
+        `updated_labels` array. Possible values are `added`, `not_changed`, and `removed`.
+        """
+        ADDED = "added"
+        NOT_CHANGED = "not_changed"
+        REMOVED = "removed"
 
-class Pagination(object):
+
+class Pagination():
     """
     Pagination details, if required by the length of the output.
 
-    :attr str refresh_cursor: (optional) A token identifying the current page of results.
+    :attr str refresh_cursor: (optional) A token identifying the current page of
+          results.
     :attr str next_cursor: (optional) A token identifying the next page of results.
-    :attr str refresh_url: (optional) The URL that returns the current page of results.
+    :attr str refresh_url: (optional) The URL that returns the current page of
+          results.
     :attr str next_url: (optional) The URL that returns the next page of results.
     :attr int total: (optional) Reserved for future use.
     """
 
     def __init__(self,
+                 *,
                  refresh_cursor=None,
                  next_cursor=None,
                  refresh_url=None,
@@ -4519,12 +4907,14 @@ class Pagination(object):
         """
         Initialize a Pagination object.
 
-        :param str refresh_cursor: (optional) A token identifying the current page of
-        results.
-        :param str next_cursor: (optional) A token identifying the next page of results.
+        :param str refresh_cursor: (optional) A token identifying the current page
+               of results.
+        :param str next_cursor: (optional) A token identifying the next page of
+               results.
         :param str refresh_url: (optional) The URL that returns the current page of
-        results.
-        :param str next_url: (optional) The URL that returns the next page of results.
+               results.
+        :param str next_url: (optional) The URL that returns the next page of
+               results.
         :param int total: (optional) Reserved for future use.
         """
         self.refresh_cursor = refresh_cursor
@@ -4537,14 +4927,14 @@ class Pagination(object):
     def _from_dict(cls, _dict):
         """Initialize a Pagination object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'refresh_cursor', 'next_cursor', 'refresh_url', 'next_url', 'total'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Pagination: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'refresh_cursor' in _dict:
             args['refresh_cursor'] = _dict.get('refresh_cursor')
         if 'next_cursor' in _dict:
@@ -4587,20 +4977,22 @@ class Pagination(object):
         return not self == other
 
 
-class Paragraphs(object):
+class Paragraphs():
     """
     The locations of each paragraph in the input document.
 
-    :attr Location location: (optional) The numeric location of the identified element in
-    the document, represented with two integers labeled `begin` and `end`.
+    :attr Location location: (optional) The numeric location of the identified
+          element in the document, represented with two integers labeled `begin` and
+          `end`.
     """
 
-    def __init__(self, location=None):
+    def __init__(self, *, location=None):
         """
         Initialize a Paragraphs object.
 
         :param Location location: (optional) The numeric location of the identified
-        element in the document, represented with two integers labeled `begin` and `end`.
+               element in the document, represented with two integers labeled `begin` and
+               `end`.
         """
         self.location = location
 
@@ -4608,12 +5000,12 @@ class Paragraphs(object):
     def _from_dict(cls, _dict):
         """Initialize a Paragraphs object from a json dictionary."""
         args = {}
-        validKeys = ['location']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['location']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Paragraphs: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'location' in _dict:
             args['location'] = Location._from_dict(_dict.get('location'))
         return cls(**args)
@@ -4640,25 +5032,28 @@ class Paragraphs(object):
         return not self == other
 
 
-class Parties(object):
+class Parties():
     """
     A party and its corresponding role, including address and contact information if
     identified.
 
     :attr str party: (optional) The normalized form of the party's name.
     :attr str role: (optional) A string identifying the party's role.
-    :attr str importance: (optional) A string that identifies the importance of the party.
-    :attr list[Address] addresses: (optional) A list of the party's address or addresses.
-    :attr list[Contact] contacts: (optional) A list of the names and roles of contacts
-    identified in the input document.
-    :attr list[Mention] mentions: (optional) A list of the party's mentions in the input
-    document.
+    :attr str importance: (optional) A string that identifies the importance of the
+          party.
+    :attr list[Address] addresses: (optional) A list of the party's address or
+          addresses.
+    :attr list[Contact] contacts: (optional) A list of the names and roles of
+          contacts identified in the input document.
+    :attr list[Mention] mentions: (optional) A list of the party's mentions in the
+          input document.
     """
 
     def __init__(self,
+                 *,
                  party=None,
-                 importance=None,
                  role=None,
+                 importance=None,
                  addresses=None,
                  contacts=None,
                  mentions=None):
@@ -4667,14 +5062,14 @@ class Parties(object):
 
         :param str party: (optional) The normalized form of the party's name.
         :param str role: (optional) A string identifying the party's role.
-        :param str importance: (optional) A string that identifies the importance of the
-        party.
+        :param str importance: (optional) A string that identifies the importance
+               of the party.
         :param list[Address] addresses: (optional) A list of the party's address or
-        addresses.
+               addresses.
         :param list[Contact] contacts: (optional) A list of the names and roles of
-        contacts identified in the input document.
-        :param list[Mention] mentions: (optional) A list of the party's mentions in the
-        input document.
+               contacts identified in the input document.
+        :param list[Mention] mentions: (optional) A list of the party's mentions in
+               the input document.
         """
         self.party = party
         self.role = role
@@ -4687,14 +5082,14 @@ class Parties(object):
     def _from_dict(cls, _dict):
         """Initialize a Parties object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'party', 'role', 'importance', 'addresses', 'contacts', 'mentions'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Parties: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'party' in _dict:
             args['party'] = _dict.get('party')
         if 'role' in _dict:
@@ -4746,26 +5141,36 @@ class Parties(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class ImportanceEnum(Enum):
+        """
+        A string that identifies the importance of the party.
+        """
+        PRIMARY = "Primary"
+        UNKNOWN = "Unknown"
 
-class PaymentTerms(object):
+
+class PaymentTerms():
     """
     The document's payment duration or durations.
 
-    :attr str confidence_level: (optional) The confidence level in the identification of
-    the payment term.
+    :attr str confidence_level: (optional) The confidence level in the
+          identification of the payment term.
     :attr str text: (optional) The payment term (duration).
-    :attr str text_normalized: (optional) The normalized form of the payment term, which
-    is listed as a string. This element is optional; it is returned only if normalized
-    text exists.
-    :attr Interpretation interpretation: (optional) The details of the normalized text, if
-    applicable. This element is optional; it is returned only if normalized text exists.
-    :attr list[str] provenance_ids: (optional) Hashed values that you can send to IBM to
-    provide feedback or receive support.
-    :attr Location location: (optional) The numeric location of the identified element in
-    the document, represented with two integers labeled `begin` and `end`.
+    :attr str text_normalized: (optional) The normalized form of the payment term,
+          which is listed as a string. This element is optional; it is returned only if
+          normalized text exists.
+    :attr Interpretation interpretation: (optional) The details of the normalized
+          text, if applicable. This element is optional; it is returned only if normalized
+          text exists.
+    :attr list[str] provenance_ids: (optional) Hashed values that you can send to
+          IBM to provide feedback or receive support.
+    :attr Location location: (optional) The numeric location of the identified
+          element in the document, represented with two integers labeled `begin` and
+          `end`.
     """
 
     def __init__(self,
+                 *,
                  confidence_level=None,
                  text=None,
                  text_normalized=None,
@@ -4775,19 +5180,20 @@ class PaymentTerms(object):
         """
         Initialize a PaymentTerms object.
 
-        :param str confidence_level: (optional) The confidence level in the identification
-        of the payment term.
+        :param str confidence_level: (optional) The confidence level in the
+               identification of the payment term.
         :param str text: (optional) The payment term (duration).
-        :param str text_normalized: (optional) The normalized form of the payment term,
-        which is listed as a string. This element is optional; it is returned only if
-        normalized text exists.
-        :param Interpretation interpretation: (optional) The details of the normalized
-        text, if applicable. This element is optional; it is returned only if normalized
-        text exists.
-        :param list[str] provenance_ids: (optional) Hashed values that you can send to IBM
-        to provide feedback or receive support.
+        :param str text_normalized: (optional) The normalized form of the payment
+               term, which is listed as a string. This element is optional; it is returned
+               only if normalized text exists.
+        :param Interpretation interpretation: (optional) The details of the
+               normalized text, if applicable. This element is optional; it is returned
+               only if normalized text exists.
+        :param list[str] provenance_ids: (optional) Hashed values that you can send
+               to IBM to provide feedback or receive support.
         :param Location location: (optional) The numeric location of the identified
-        element in the document, represented with two integers labeled `begin` and `end`.
+               element in the document, represented with two integers labeled `begin` and
+               `end`.
         """
         self.confidence_level = confidence_level
         self.text = text
@@ -4800,15 +5206,15 @@ class PaymentTerms(object):
     def _from_dict(cls, _dict):
         """Initialize a PaymentTerms object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'confidence_level', 'text', 'text_normalized', 'interpretation',
             'provenance_ids', 'location'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class PaymentTerms: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'confidence_level' in _dict:
             args['confidence_level'] = _dict.get('confidence_level')
         if 'text' in _dict:
@@ -4857,31 +5263,41 @@ class PaymentTerms(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class ConfidenceLevelEnum(Enum):
+        """
+        The confidence level in the identification of the payment term.
+        """
+        HIGH = "High"
+        MEDIUM = "Medium"
+        LOW = "Low"
 
-class RowHeaders(object):
+
+class RowHeaders():
     """
     Row-level cells, each applicable as a header to other cells in the same row as itself,
     of the current table.
 
     :attr str cell_id: (optional) The unique ID of the cell in the current table.
-    :attr Location location: (optional) The numeric location of the identified element in
-    the document, represented with two integers labeled `begin` and `end`.
-    :attr str text: (optional) The textual contents of this cell from the input document
-    without associated markup content.
+    :attr Location location: (optional) The numeric location of the identified
+          element in the document, represented with two integers labeled `begin` and
+          `end`.
+    :attr str text: (optional) The textual contents of this cell from the input
+          document without associated markup content.
     :attr str text_normalized: (optional) If you provide customization input, the
-    normalized version of the cell text according to the customization; otherwise, the
-    same value as `text`.
-    :attr int row_index_begin: (optional) The `begin` index of this cell's `row` location
-    in the current table.
-    :attr int row_index_end: (optional) The `end` index of this cell's `row` location in
-    the current table.
-    :attr int column_index_begin: (optional) The `begin` index of this cell's `column`
-    location in the current table.
+          normalized version of the cell text according to the customization; otherwise,
+          the same value as `text`.
+    :attr int row_index_begin: (optional) The `begin` index of this cell's `row`
+          location in the current table.
+    :attr int row_index_end: (optional) The `end` index of this cell's `row`
+          location in the current table.
+    :attr int column_index_begin: (optional) The `begin` index of this cell's
+          `column` location in the current table.
     :attr int column_index_end: (optional) The `end` index of this cell's `column`
-    location in the current table.
+          location in the current table.
     """
 
     def __init__(self,
+                 *,
                  cell_id=None,
                  location=None,
                  text=None,
@@ -4893,22 +5309,24 @@ class RowHeaders(object):
         """
         Initialize a RowHeaders object.
 
-        :param str cell_id: (optional) The unique ID of the cell in the current table.
+        :param str cell_id: (optional) The unique ID of the cell in the current
+               table.
         :param Location location: (optional) The numeric location of the identified
-        element in the document, represented with two integers labeled `begin` and `end`.
-        :param str text: (optional) The textual contents of this cell from the input
-        document without associated markup content.
-        :param str text_normalized: (optional) If you provide customization input, the
-        normalized version of the cell text according to the customization; otherwise, the
-        same value as `text`.
-        :param int row_index_begin: (optional) The `begin` index of this cell's `row`
-        location in the current table.
-        :param int row_index_end: (optional) The `end` index of this cell's `row` location
-        in the current table.
+               element in the document, represented with two integers labeled `begin` and
+               `end`.
+        :param str text: (optional) The textual contents of this cell from the
+               input document without associated markup content.
+        :param str text_normalized: (optional) If you provide customization input,
+               the normalized version of the cell text according to the customization;
+               otherwise, the same value as `text`.
+        :param int row_index_begin: (optional) The `begin` index of this cell's
+               `row` location in the current table.
+        :param int row_index_end: (optional) The `end` index of this cell's `row`
+               location in the current table.
         :param int column_index_begin: (optional) The `begin` index of this cell's
-        `column` location in the current table.
-        :param int column_index_end: (optional) The `end` index of this cell's `column`
-        location in the current table.
+               `column` location in the current table.
+        :param int column_index_end: (optional) The `end` index of this cell's
+               `column` location in the current table.
         """
         self.cell_id = cell_id
         self.location = location
@@ -4923,15 +5341,15 @@ class RowHeaders(object):
     def _from_dict(cls, _dict):
         """Initialize a RowHeaders object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'cell_id', 'location', 'text', 'text_normalized', 'row_index_begin',
             'row_index_end', 'column_index_begin', 'column_index_end'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class RowHeaders: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'cell_id' in _dict:
             args['cell_id'] = _dict.get('cell_id')
         if 'location' in _dict:
@@ -4991,22 +5409,24 @@ class RowHeaders(object):
         return not self == other
 
 
-class SectionTitle(object):
+class SectionTitle():
     """
     The table's section title, if identified.
 
     :attr str text: (optional) The text of the section title, if identified.
-    :attr Location location: (optional) The numeric location of the identified element in
-    the document, represented with two integers labeled `begin` and `end`.
+    :attr Location location: (optional) The numeric location of the identified
+          element in the document, represented with two integers labeled `begin` and
+          `end`.
     """
 
-    def __init__(self, text=None, location=None):
+    def __init__(self, *, text=None, location=None):
         """
         Initialize a SectionTitle object.
 
         :param str text: (optional) The text of the section title, if identified.
         :param Location location: (optional) The numeric location of the identified
-        element in the document, represented with two integers labeled `begin` and `end`.
+               element in the document, represented with two integers labeled `begin` and
+               `end`.
         """
         self.text = text
         self.location = location
@@ -5015,12 +5435,12 @@ class SectionTitle(object):
     def _from_dict(cls, _dict):
         """Initialize a SectionTitle object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'location']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'location']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SectionTitle: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'location' in _dict:
@@ -5051,7 +5471,7 @@ class SectionTitle(object):
         return not self == other
 
 
-class SectionTitles(object):
+class SectionTitles():
     """
     An array containing one object per section or subsection detected in the input
     document. Sections and subsections are not nested; instead, they are flattened out and
@@ -5059,16 +5479,18 @@ class SectionTitles(object):
     the `level` value of the section.
 
     :attr str text: (optional) The text of the section title, if identified.
-    :attr Location location: (optional) The numeric location of the identified element in
-    the document, represented with two integers labeled `begin` and `end`.
-    :attr int level: (optional) An integer indicating the level at which the section is
-    located in the input document. For example, `1` represents a top-level section, `2`
-    represents a subsection within the level `1` section, and so forth.
-    :attr list[ElementLocations] element_locations: (optional) An array of `location`
-    objects that lists the locations of detected section titles.
+    :attr Location location: (optional) The numeric location of the identified
+          element in the document, represented with two integers labeled `begin` and
+          `end`.
+    :attr int level: (optional) An integer indicating the level at which the section
+          is located in the input document. For example, `1` represents a top-level
+          section, `2` represents a subsection within the level `1` section, and so forth.
+    :attr list[ElementLocations] element_locations: (optional) An array of
+          `location` objects that lists the locations of detected section titles.
     """
 
     def __init__(self,
+                 *,
                  text=None,
                  location=None,
                  level=None,
@@ -5078,12 +5500,14 @@ class SectionTitles(object):
 
         :param str text: (optional) The text of the section title, if identified.
         :param Location location: (optional) The numeric location of the identified
-        element in the document, represented with two integers labeled `begin` and `end`.
-        :param int level: (optional) An integer indicating the level at which the section
-        is located in the input document. For example, `1` represents a top-level section,
-        `2` represents a subsection within the level `1` section, and so forth.
-        :param list[ElementLocations] element_locations: (optional) An array of `location`
-        objects that lists the locations of detected section titles.
+               element in the document, represented with two integers labeled `begin` and
+               `end`.
+        :param int level: (optional) An integer indicating the level at which the
+               section is located in the input document. For example, `1` represents a
+               top-level section, `2` represents a subsection within the level `1`
+               section, and so forth.
+        :param list[ElementLocations] element_locations: (optional) An array of
+               `location` objects that lists the locations of detected section titles.
         """
         self.text = text
         self.location = location
@@ -5094,12 +5518,12 @@ class SectionTitles(object):
     def _from_dict(cls, _dict):
         """Initialize a SectionTitles object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'location', 'level', 'element_locations']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'location', 'level', 'element_locations']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SectionTitles: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'location' in _dict:
@@ -5144,7 +5568,7 @@ class SectionTitles(object):
         return not self == other
 
 
-class ShortDoc(object):
+class ShortDoc():
     """
     Brief information about the input document.
 
@@ -5152,11 +5576,12 @@ class ShortDoc(object):
     :attr str hash: (optional) The MD5 hash of the input document.
     """
 
-    def __init__(self, title=None, hash=None):
+    def __init__(self, *, title=None, hash=None):
         """
         Initialize a ShortDoc object.
 
-        :param str title: (optional) The title of the input document, if identified.
+        :param str title: (optional) The title of the input document, if
+               identified.
         :param str hash: (optional) The MD5 hash of the input document.
         """
         self.title = title
@@ -5166,12 +5591,12 @@ class ShortDoc(object):
     def _from_dict(cls, _dict):
         """Initialize a ShortDoc object from a json dictionary."""
         args = {}
-        validKeys = ['title', 'hash']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['title', 'hash']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ShortDoc: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'title' in _dict:
             args['title'] = _dict.get('title')
         if 'hash' in _dict:
@@ -5202,27 +5627,28 @@ class ShortDoc(object):
         return not self == other
 
 
-class TableHeaders(object):
+class TableHeaders():
     """
     The contents of the current table's header.
 
     :attr str cell_id: (optional) The unique ID of the cell in the current table.
-    :attr object location: (optional) The location of the table header cell in the current
-    table as defined by its `begin` and `end` offsets, respectfully, in the input
-    document.
-    :attr str text: (optional) The textual contents of the cell from the input document
-    without associated markup content.
-    :attr int row_index_begin: (optional) The `begin` index of this cell's `row` location
-    in the current table.
-    :attr int row_index_end: (optional) The `end` index of this cell's `row` location in
-    the current table.
-    :attr int column_index_begin: (optional) The `begin` index of this cell's `column`
-    location in the current table.
+    :attr object location: (optional) The location of the table header cell in the
+          current table as defined by its `begin` and `end` offsets, respectfully, in the
+          input document.
+    :attr str text: (optional) The textual contents of the cell from the input
+          document without associated markup content.
+    :attr int row_index_begin: (optional) The `begin` index of this cell's `row`
+          location in the current table.
+    :attr int row_index_end: (optional) The `end` index of this cell's `row`
+          location in the current table.
+    :attr int column_index_begin: (optional) The `begin` index of this cell's
+          `column` location in the current table.
     :attr int column_index_end: (optional) The `end` index of this cell's `column`
-    location in the current table.
+          location in the current table.
     """
 
     def __init__(self,
+                 *,
                  cell_id=None,
                  location=None,
                  text=None,
@@ -5233,20 +5659,21 @@ class TableHeaders(object):
         """
         Initialize a TableHeaders object.
 
-        :param str cell_id: (optional) The unique ID of the cell in the current table.
-        :param object location: (optional) The location of the table header cell in the
-        current table as defined by its `begin` and `end` offsets, respectfully, in the
-        input document.
+        :param str cell_id: (optional) The unique ID of the cell in the current
+               table.
+        :param object location: (optional) The location of the table header cell in
+               the current table as defined by its `begin` and `end` offsets,
+               respectfully, in the input document.
         :param str text: (optional) The textual contents of the cell from the input
-        document without associated markup content.
-        :param int row_index_begin: (optional) The `begin` index of this cell's `row`
-        location in the current table.
-        :param int row_index_end: (optional) The `end` index of this cell's `row` location
-        in the current table.
+               document without associated markup content.
+        :param int row_index_begin: (optional) The `begin` index of this cell's
+               `row` location in the current table.
+        :param int row_index_end: (optional) The `end` index of this cell's `row`
+               location in the current table.
         :param int column_index_begin: (optional) The `begin` index of this cell's
-        `column` location in the current table.
-        :param int column_index_end: (optional) The `end` index of this cell's `column`
-        location in the current table.
+               `column` location in the current table.
+        :param int column_index_end: (optional) The `end` index of this cell's
+               `column` location in the current table.
         """
         self.cell_id = cell_id
         self.location = location
@@ -5260,15 +5687,15 @@ class TableHeaders(object):
     def _from_dict(cls, _dict):
         """Initialize a TableHeaders object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'cell_id', 'location', 'text', 'row_index_begin', 'row_index_end',
             'column_index_begin', 'column_index_end'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TableHeaders: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'cell_id' in _dict:
             args['cell_id'] = _dict.get('cell_id')
         if 'location' in _dict:
@@ -5323,19 +5750,20 @@ class TableHeaders(object):
         return not self == other
 
 
-class TableReturn(object):
+class TableReturn():
     """
     The analysis of the document's tables.
 
     :attr DocInfo document: (optional) Information about the parsed input document.
-    :attr str model_id: (optional) The ID of the model used to extract the table contents.
-    The value for table extraction is `tables`.
+    :attr str model_id: (optional) The ID of the model used to extract the table
+          contents. The value for table extraction is `tables`.
     :attr str model_version: (optional) The version of the `tables` model ID.
-    :attr list[Tables] tables: (optional) Definitions of the tables identified in the
-    input document.
+    :attr list[Tables] tables: (optional) Definitions of the tables identified in
+          the input document.
     """
 
     def __init__(self,
+                 *,
                  document=None,
                  model_id=None,
                  model_version=None,
@@ -5343,12 +5771,13 @@ class TableReturn(object):
         """
         Initialize a TableReturn object.
 
-        :param DocInfo document: (optional) Information about the parsed input document.
-        :param str model_id: (optional) The ID of the model used to extract the table
-        contents. The value for table extraction is `tables`.
+        :param DocInfo document: (optional) Information about the parsed input
+               document.
+        :param str model_id: (optional) The ID of the model used to extract the
+               table contents. The value for table extraction is `tables`.
         :param str model_version: (optional) The version of the `tables` model ID.
-        :param list[Tables] tables: (optional) Definitions of the tables identified in the
-        input document.
+        :param list[Tables] tables: (optional) Definitions of the tables identified
+               in the input document.
         """
         self.document = document
         self.model_id = model_id
@@ -5359,12 +5788,12 @@ class TableReturn(object):
     def _from_dict(cls, _dict):
         """Initialize a TableReturn object from a json dictionary."""
         args = {}
-        validKeys = ['document', 'model_id', 'model_version', 'tables']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['document', 'model_id', 'model_version', 'tables']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TableReturn: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document' in _dict:
             args['document'] = DocInfo._from_dict(_dict.get('document'))
         if 'model_id' in _dict:
@@ -5405,24 +5834,27 @@ class TableReturn(object):
         return not self == other
 
 
-class TableTitle(object):
+class TableTitle():
     """
     If identified, the title or caption of the current table of the form `Table x.: ...`.
     Empty when no title is identified. When exposed, the `title` is also excluded from the
     `contexts` array of the same table.
 
-    :attr Location location: (optional) The numeric location of the identified element in
-    the document, represented with two integers labeled `begin` and `end`.
+    :attr Location location: (optional) The numeric location of the identified
+          element in the document, represented with two integers labeled `begin` and
+          `end`.
     :attr str text: (optional) The text of the identified table title or caption.
     """
 
-    def __init__(self, location=None, text=None):
+    def __init__(self, *, location=None, text=None):
         """
         Initialize a TableTitle object.
 
         :param Location location: (optional) The numeric location of the identified
-        element in the document, represented with two integers labeled `begin` and `end`.
-        :param str text: (optional) The text of the identified table title or caption.
+               element in the document, represented with two integers labeled `begin` and
+               `end`.
+        :param str text: (optional) The text of the identified table title or
+               caption.
         """
         self.location = location
         self.text = text
@@ -5431,12 +5863,12 @@ class TableTitle(object):
     def _from_dict(cls, _dict):
         """Initialize a TableTitle object from a json dictionary."""
         args = {}
-        validKeys = ['location', 'text']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['location', 'text']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TableTitle: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'location' in _dict:
             args['location'] = Location._from_dict(_dict.get('location'))
         if 'text' in _dict:
@@ -5467,73 +5899,81 @@ class TableTitle(object):
         return not self == other
 
 
-class Tables(object):
+class Tables():
     """
     The contents of the tables extracted from a document.
 
-    :attr Location location: (optional) The numeric location of the identified element in
-    the document, represented with two integers labeled `begin` and `end`.
-    :attr str text: (optional) The textual contents of the current table from the input
-    document without associated markup content.
-    :attr SectionTitle section_title: (optional) The table's section title, if identified.
-    :attr TableTitle title: (optional) If identified, the title or caption of the current
-    table of the form `Table x.: ...`. Empty when no title is identified. When exposed,
-    the `title` is also excluded from the `contexts` array of the same table.
-    :attr list[TableHeaders] table_headers: (optional) An array of table-level cells that
-    apply as headers to all the other cells in the current table.
+    :attr Location location: (optional) The numeric location of the identified
+          element in the document, represented with two integers labeled `begin` and
+          `end`.
+    :attr str text: (optional) The textual contents of the current table from the
+          input document without associated markup content.
+    :attr SectionTitle section_title: (optional) The table's section title, if
+          identified.
+    :attr TableTitle title: (optional) If identified, the title or caption of the
+          current table of the form `Table x.: ...`. Empty when no title is identified.
+          When exposed, the `title` is also excluded from the `contexts` array of the same
+          table.
+    :attr list[TableHeaders] table_headers: (optional) An array of table-level cells
+          that apply as headers to all the other cells in the current table.
     :attr list[RowHeaders] row_headers: (optional) An array of row-level cells, each
-    applicable as a header to other cells in the same row as itself, of the current table.
-    :attr list[ColumnHeaders] column_headers: (optional) An array of column-level cells,
-    each applicable as a header to other cells in the same column as itself, of the
-    current table.
-    :attr list[BodyCells] body_cells: (optional) An array of cells that are neither table
-    header nor column header nor row header cells, of the current table with corresponding
-    row and column header associations.
-    :attr list[Contexts] contexts: (optional) An array of objects that list text that is
-    related to the table contents and that precedes or follows the current table.
+          applicable as a header to other cells in the same row as itself, of the current
+          table.
+    :attr list[ColumnHeaders] column_headers: (optional) An array of column-level
+          cells, each applicable as a header to other cells in the same column as itself,
+          of the current table.
+    :attr list[BodyCells] body_cells: (optional) An array of cells that are neither
+          table header nor column header nor row header cells, of the current table with
+          corresponding row and column header associations.
+    :attr list[Contexts] contexts: (optional) An array of objects that list text
+          that is related to the table contents and that precedes or follows the current
+          table.
     :attr list[KeyValuePair] key_value_pairs: (optional) An array of key-value pairs
-    identified in the current table.
+          identified in the current table.
     """
 
-    def __init__(
-            self,
-            location=None,
-            text=None,
-            section_title=None,
-            table_headers=None,
-            row_headers=None,
-            column_headers=None,
-            key_value_pairs=None,
-            body_cells=None,
-            contexts=None,
-            title=None):
+    def __init__(self,
+                 *,
+                 location=None,
+                 text=None,
+                 section_title=None,
+                 title=None,
+                 table_headers=None,
+                 row_headers=None,
+                 column_headers=None,
+                 body_cells=None,
+                 contexts=None,
+                 key_value_pairs=None):
         """
         Initialize a Tables object.
 
         :param Location location: (optional) The numeric location of the identified
-        element in the document, represented with two integers labeled `begin` and `end`.
-        :param str text: (optional) The textual contents of the current table from the
-        input document without associated markup content.
+               element in the document, represented with two integers labeled `begin` and
+               `end`.
+        :param str text: (optional) The textual contents of the current table from
+               the input document without associated markup content.
         :param SectionTitle section_title: (optional) The table's section title, if
-        identified.
-        :param TableTitle title: (optional) If identified, the title or caption of the
-        current table of the form `Table x.: ...`. Empty when no title is identified. When
-        exposed, the `title` is also excluded from the `contexts` array of the same table.
-        :param list[TableHeaders] table_headers: (optional) An array of table-level cells
-        that apply as headers to all the other cells in the current table.
-        :param list[RowHeaders] row_headers: (optional) An array of row-level cells, each
-        applicable as a header to other cells in the same row as itself, of the current
-        table.
-        :param list[ColumnHeaders] column_headers: (optional) An array of column-level
-        cells, each applicable as a header to other cells in the same column as itself, of
-        the current table.
-        :param list[BodyCells] body_cells: (optional) An array of cells that are neither
-        table header nor column header nor row header cells, of the current table with
-        corresponding row and column header associations.
-        :param list[Contexts] contexts: (optional) An array of objects that list text that
-        is related to the table contents and that precedes or follows the current table.
-        :param list[KeyValuePair] key_value_pairs: (optional) An array of key-value pairs
-        identified in the current table.
+               identified.
+        :param TableTitle title: (optional) If identified, the title or caption of
+               the current table of the form `Table x.: ...`. Empty when no title is
+               identified. When exposed, the `title` is also excluded from the `contexts`
+               array of the same table.
+        :param list[TableHeaders] table_headers: (optional) An array of table-level
+               cells that apply as headers to all the other cells in the current table.
+        :param list[RowHeaders] row_headers: (optional) An array of row-level
+               cells, each applicable as a header to other cells in the same row as
+               itself, of the current table.
+        :param list[ColumnHeaders] column_headers: (optional) An array of
+               column-level cells, each applicable as a header to other cells in the same
+               column as itself, of the current table.
+        :param list[BodyCells] body_cells: (optional) An array of cells that are
+               neither table header nor column header nor row header cells, of the current
+               table with corresponding row and column header associations.
+        :param list[Contexts] contexts: (optional) An array of objects that list
+               text that is related to the table contents and that precedes or follows the
+               current table.
+        :param list[KeyValuePair] key_value_pairs: (optional) An array of key-value
+               pairs identified in the current table.
         """
         self.location = location
         self.text = text
@@ -5550,16 +5990,16 @@ class Tables(object):
     def _from_dict(cls, _dict):
         """Initialize a Tables object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'location', 'text', 'section_title', 'title', 'table_headers',
             'row_headers', 'column_headers', 'body_cells', 'contexts',
             'key_value_pairs'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Tables: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'location' in _dict:
             args['location'] = Location._from_dict(_dict.get('location'))
         if 'text' in _dict:
@@ -5642,23 +6082,25 @@ class Tables(object):
         return not self == other
 
 
-class TerminationDates(object):
+class TerminationDates():
     """
     Termination dates identified in the input document.
 
-    :attr str confidence_level: (optional) The confidence level in the identification of
-    the termination date.
+    :attr str confidence_level: (optional) The confidence level in the
+          identification of the termination date.
     :attr str text: (optional) The termination date.
-    :attr str text_normalized: (optional) The normalized form of the termination date,
-    which is listed as a string. This element is optional; it is returned only if
-    normalized text exists.
-    :attr list[str] provenance_ids: (optional) Hashed values that you can send to IBM to
-    provide feedback or receive support.
-    :attr Location location: (optional) The numeric location of the identified element in
-    the document, represented with two integers labeled `begin` and `end`.
+    :attr str text_normalized: (optional) The normalized form of the termination
+          date, which is listed as a string. This element is optional; it is returned only
+          if normalized text exists.
+    :attr list[str] provenance_ids: (optional) Hashed values that you can send to
+          IBM to provide feedback or receive support.
+    :attr Location location: (optional) The numeric location of the identified
+          element in the document, represented with two integers labeled `begin` and
+          `end`.
     """
 
     def __init__(self,
+                 *,
                  confidence_level=None,
                  text=None,
                  text_normalized=None,
@@ -5667,16 +6109,17 @@ class TerminationDates(object):
         """
         Initialize a TerminationDates object.
 
-        :param str confidence_level: (optional) The confidence level in the identification
-        of the termination date.
+        :param str confidence_level: (optional) The confidence level in the
+               identification of the termination date.
         :param str text: (optional) The termination date.
-        :param str text_normalized: (optional) The normalized form of the termination
-        date, which is listed as a string. This element is optional; it is returned only
-        if normalized text exists.
-        :param list[str] provenance_ids: (optional) Hashed values that you can send to IBM
-        to provide feedback or receive support.
+        :param str text_normalized: (optional) The normalized form of the
+               termination date, which is listed as a string. This element is optional; it
+               is returned only if normalized text exists.
+        :param list[str] provenance_ids: (optional) Hashed values that you can send
+               to IBM to provide feedback or receive support.
         :param Location location: (optional) The numeric location of the identified
-        element in the document, represented with two integers labeled `begin` and `end`.
+               element in the document, represented with two integers labeled `begin` and
+               `end`.
         """
         self.confidence_level = confidence_level
         self.text = text
@@ -5688,15 +6131,15 @@ class TerminationDates(object):
     def _from_dict(cls, _dict):
         """Initialize a TerminationDates object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'confidence_level', 'text', 'text_normalized', 'provenance_ids',
             'location'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TerminationDates: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'confidence_level' in _dict:
             args['confidence_level'] = _dict.get('confidence_level')
         if 'text' in _dict:
@@ -5740,27 +6183,35 @@ class TerminationDates(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class ConfidenceLevelEnum(Enum):
+        """
+        The confidence level in the identification of the termination date.
+        """
+        HIGH = "High"
+        MEDIUM = "Medium"
+        LOW = "Low"
 
-class TypeLabel(object):
+
+class TypeLabel():
     """
     Identification of a specific type.
 
-    :attr Label label: (optional) A pair of `nature` and `party` objects. The `nature`
-    object identifies the effect of the element on the identified `party`, and the `party`
-    object identifies the affected party.
-    :attr list[str] provenance_ids: (optional) Hashed values that you can send to IBM to
-    provide feedback or receive support.
+    :attr Label label: (optional) A pair of `nature` and `party` objects. The
+          `nature` object identifies the effect of the element on the identified `party`,
+          and the `party` object identifies the affected party.
+    :attr list[str] provenance_ids: (optional) Hashed values that you can send to
+          IBM to provide feedback or receive support.
     """
 
-    def __init__(self, label=None, provenance_ids=None):
+    def __init__(self, *, label=None, provenance_ids=None):
         """
         Initialize a TypeLabel object.
 
         :param Label label: (optional) A pair of `nature` and `party` objects. The
-        `nature` object identifies the effect of the element on the identified `party`,
-        and the `party` object identifies the affected party.
-        :param list[str] provenance_ids: (optional) Hashed values that you can send to IBM
-        to provide feedback or receive support.
+               `nature` object identifies the effect of the element on the identified
+               `party`, and the `party` object identifies the affected party.
+        :param list[str] provenance_ids: (optional) Hashed values that you can send
+               to IBM to provide feedback or receive support.
         """
         self.label = label
         self.provenance_ids = provenance_ids
@@ -5769,12 +6220,12 @@ class TypeLabel(object):
     def _from_dict(cls, _dict):
         """Initialize a TypeLabel object from a json dictionary."""
         args = {}
-        validKeys = ['label', 'provenance_ids']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['label', 'provenance_ids']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TypeLabel: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'label' in _dict:
             args['label'] = Label._from_dict(_dict.get('label'))
         if 'provenance_ids' in _dict:
@@ -5805,22 +6256,22 @@ class TypeLabel(object):
         return not self == other
 
 
-class TypeLabelComparison(object):
+class TypeLabelComparison():
     """
     Identification of a specific type.
 
-    :attr Label label: (optional) A pair of `nature` and `party` objects. The `nature`
-    object identifies the effect of the element on the identified `party`, and the `party`
-    object identifies the affected party.
+    :attr Label label: (optional) A pair of `nature` and `party` objects. The
+          `nature` object identifies the effect of the element on the identified `party`,
+          and the `party` object identifies the affected party.
     """
 
-    def __init__(self, label=None):
+    def __init__(self, *, label=None):
         """
         Initialize a TypeLabelComparison object.
 
         :param Label label: (optional) A pair of `nature` and `party` objects. The
-        `nature` object identifies the effect of the element on the identified `party`,
-        and the `party` object identifies the affected party.
+               `nature` object identifies the effect of the element on the identified
+               `party`, and the `party` object identifies the affected party.
         """
         self.label = label
 
@@ -5828,12 +6279,12 @@ class TypeLabelComparison(object):
     def _from_dict(cls, _dict):
         """Initialize a TypeLabelComparison object from a json dictionary."""
         args = {}
-        validKeys = ['label']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['label']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TypeLabelComparison: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'label' in _dict:
             args['label'] = Label._from_dict(_dict.get('label'))
         return cls(**args)
@@ -5860,24 +6311,27 @@ class TypeLabelComparison(object):
         return not self == other
 
 
-class UnalignedElement(object):
+class UnalignedElement():
     """
     Element that does not align semantically between two compared documents.
 
-    :attr str document_label: (optional) The label assigned to the document by the value
-    of the `file_1_label` or `file_2_label` parameters on the **Compare two documents**
-    method.
-    :attr Location location: (optional) The numeric location of the identified element in
-    the document, represented with two integers labeled `begin` and `end`.
+    :attr str document_label: (optional) The label assigned to the document by the
+          value of the `file_1_label` or `file_2_label` parameters on the **Compare two
+          documents** method.
+    :attr Location location: (optional) The numeric location of the identified
+          element in the document, represented with two integers labeled `begin` and
+          `end`.
     :attr str text: (optional) The text of the element.
-    :attr list[TypeLabelComparison] types: (optional) Description of the action specified
-    by the element and whom it affects.
-    :attr list[CategoryComparison] categories: (optional) List of functional categories
-    into which the element falls; in other words, the subject matter of the element.
+    :attr list[TypeLabelComparison] types: (optional) Description of the action
+          specified by the element and whom it affects.
+    :attr list[CategoryComparison] categories: (optional) List of functional
+          categories into which the element falls; in other words, the subject matter of
+          the element.
     :attr list[Attribute] attributes: (optional) List of document attributes.
     """
 
     def __init__(self,
+                 *,
                  document_label=None,
                  location=None,
                  text=None,
@@ -5887,17 +6341,18 @@ class UnalignedElement(object):
         """
         Initialize a UnalignedElement object.
 
-        :param str document_label: (optional) The label assigned to the document by the
-        value of the `file_1_label` or `file_2_label` parameters on the **Compare two
-        documents** method.
+        :param str document_label: (optional) The label assigned to the document by
+               the value of the `file_1_label` or `file_2_label` parameters on the
+               **Compare two documents** method.
         :param Location location: (optional) The numeric location of the identified
-        element in the document, represented with two integers labeled `begin` and `end`.
+               element in the document, represented with two integers labeled `begin` and
+               `end`.
         :param str text: (optional) The text of the element.
-        :param list[TypeLabelComparison] types: (optional) Description of the action
-        specified by the element and whom it affects.
+        :param list[TypeLabelComparison] types: (optional) Description of the
+               action specified by the element and whom it affects.
         :param list[CategoryComparison] categories: (optional) List of functional
-        categories into which the element falls; in other words, the subject matter of the
-        element.
+               categories into which the element falls; in other words, the subject matter
+               of the element.
         :param list[Attribute] attributes: (optional) List of document attributes.
         """
         self.document_label = document_label
@@ -5911,15 +6366,15 @@ class UnalignedElement(object):
     def _from_dict(cls, _dict):
         """Initialize a UnalignedElement object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'document_label', 'location', 'text', 'types', 'categories',
             'attributes'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class UnalignedElement: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document_label' in _dict:
             args['document_label'] = _dict.get('document_label')
         if 'location' in _dict:
@@ -5973,24 +6428,24 @@ class UnalignedElement(object):
         return not self == other
 
 
-class UpdatedLabelsIn(object):
+class UpdatedLabelsIn():
     """
     The updated labeling from the input document, accounting for the submitted feedback.
 
-    :attr list[TypeLabel] types: Description of the action specified by the element and
-    whom it affects.
-    :attr list[Category] categories: List of functional categories into which the element
-    falls; in other words, the subject matter of the element.
+    :attr list[TypeLabel] types: Description of the action specified by the element
+          and whom it affects.
+    :attr list[Category] categories: List of functional categories into which the
+          element falls; in other words, the subject matter of the element.
     """
 
     def __init__(self, types, categories):
         """
         Initialize a UpdatedLabelsIn object.
 
-        :param list[TypeLabel] types: Description of the action specified by the element
-        and whom it affects.
-        :param list[Category] categories: List of functional categories into which the
-        element falls; in other words, the subject matter of the element.
+        :param list[TypeLabel] types: Description of the action specified by the
+               element and whom it affects.
+        :param list[Category] categories: List of functional categories into which
+               the element falls; in other words, the subject matter of the element.
         """
         self.types = types
         self.categories = categories
@@ -5999,12 +6454,12 @@ class UpdatedLabelsIn(object):
     def _from_dict(cls, _dict):
         """Initialize a UpdatedLabelsIn object from a json dictionary."""
         args = {}
-        validKeys = ['types', 'categories']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['types', 'categories']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class UpdatedLabelsIn: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'types' in _dict:
             args['types'] = [
                 TypeLabel._from_dict(x) for x in (_dict.get('types'))
@@ -6047,29 +6502,31 @@ class UpdatedLabelsIn(object):
         return not self == other
 
 
-class UpdatedLabelsOut(object):
+class UpdatedLabelsOut():
     """
     The updated labeling from the input document, accounting for the submitted feedback.
 
-    :attr list[TypeLabel] types: (optional) Description of the action specified by the
-    element and whom it affects.
-    :attr list[Category] categories: (optional) List of functional categories into which
-    the element falls; in other words, the subject matter of the element.
-    :attr str modification: (optional) The type of modification the feedback entry in the
-    `updated_labels` array. Possible values are `added`, `not_changed`, and `removed`.
+    :attr list[TypeLabel] types: (optional) Description of the action specified by
+          the element and whom it affects.
+    :attr list[Category] categories: (optional) List of functional categories into
+          which the element falls; in other words, the subject matter of the element.
+    :attr str modification: (optional) The type of modification the feedback entry
+          in the `updated_labels` array. Possible values are `added`, `not_changed`, and
+          `removed`.
     """
 
-    def __init__(self, types=None, categories=None, modification=None):
+    def __init__(self, *, types=None, categories=None, modification=None):
         """
         Initialize a UpdatedLabelsOut object.
 
-        :param list[TypeLabel] types: (optional) Description of the action specified by
-        the element and whom it affects.
-        :param list[Category] categories: (optional) List of functional categories into
-        which the element falls; in other words, the subject matter of the element.
-        :param str modification: (optional) The type of modification the feedback entry in
-        the `updated_labels` array. Possible values are `added`, `not_changed`, and
-        `removed`.
+        :param list[TypeLabel] types: (optional) Description of the action
+               specified by the element and whom it affects.
+        :param list[Category] categories: (optional) List of functional categories
+               into which the element falls; in other words, the subject matter of the
+               element.
+        :param str modification: (optional) The type of modification the feedback
+               entry in the `updated_labels` array. Possible values are `added`,
+               `not_changed`, and `removed`.
         """
         self.types = types
         self.categories = categories
@@ -6079,12 +6536,12 @@ class UpdatedLabelsOut(object):
     def _from_dict(cls, _dict):
         """Initialize a UpdatedLabelsOut object from a json dictionary."""
         args = {}
-        validKeys = ['types', 'categories', 'modification']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['types', 'categories', 'modification']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class UpdatedLabelsOut: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'types' in _dict:
             args['types'] = [
                 TypeLabel._from_dict(x) for x in (_dict.get('types'))
@@ -6122,26 +6579,38 @@ class UpdatedLabelsOut(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class ModificationEnum(Enum):
+        """
+        The type of modification the feedback entry in the `updated_labels` array.
+        Possible values are `added`, `not_changed`, and `removed`.
+        """
+        ADDED = "added"
+        NOT_CHANGED = "not_changed"
+        REMOVED = "removed"
 
-class Value(object):
+
+class Value():
     """
     A value in a key-value pair.
 
     :attr str cell_id: (optional) The unique ID of the value in the table.
-    :attr Location location: (optional) The numeric location of the identified element in
-    the document, represented with two integers labeled `begin` and `end`.
-    :attr str text: (optional) The text content of the table cell without HTML markup.
+    :attr Location location: (optional) The numeric location of the identified
+          element in the document, represented with two integers labeled `begin` and
+          `end`.
+    :attr str text: (optional) The text content of the table cell without HTML
+          markup.
     """
 
-    def __init__(self, cell_id=None, location=None, text=None):
+    def __init__(self, *, cell_id=None, location=None, text=None):
         """
         Initialize a Value object.
 
         :param str cell_id: (optional) The unique ID of the value in the table.
         :param Location location: (optional) The numeric location of the identified
-        element in the document, represented with two integers labeled `begin` and `end`.
+               element in the document, represented with two integers labeled `begin` and
+               `end`.
         :param str text: (optional) The text content of the table cell without HTML
-        markup.
+               markup.
         """
         self.cell_id = cell_id
         self.location = location
@@ -6151,12 +6620,12 @@ class Value(object):
     def _from_dict(cls, _dict):
         """Initialize a Value object from a json dictionary."""
         args = {}
-        validKeys = ['cell_id', 'location', 'text']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['cell_id', 'location', 'text']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Value: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'cell_id' in _dict:
             args['cell_id'] = _dict.get('cell_id')
         if 'location' in _dict:

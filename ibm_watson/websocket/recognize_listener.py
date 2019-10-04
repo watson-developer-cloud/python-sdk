@@ -51,7 +51,7 @@ class RecognizeListener(object):
         self.isListening = False
         self.verify = verify
 
-        # websocket.enableTrace(True)
+        websocket.enableTrace(True)
 
         self.ws_client = websocket.WebSocketApp(
             self.url,

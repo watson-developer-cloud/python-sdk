@@ -1,20 +1,12 @@
-from __future__ import print_function
 import json
 from ibm_watson import AssistantV1
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
-# If service instance provides API key authentication
+authenticator = IAMAuthenticator('your apikey')
 assistant = AssistantV1(
     version='2018-07-10',
-    ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-    url='https://gateway.watsonplatform.net/assistant/api',
-    iam_apikey='YOUR APIKEY')
-
-# assistant = AssistantV1(
-#     username='YOUR SERVICE USERNAME',
-#     password='YOUR SERVICE PASSWORD',
-#     ## url is optional, and defaults to the URL below. Use the correct URL for your region.
-#     # url='https://gateway.watsonplatform.net/assistant/api',
-#     version='2018-07-10')
+    authenticator=authenticator)
+assistant.set_service_url('https://gateway.watsonplatform.net/assistant/api')
 
 #########################
 # Workspaces
@@ -196,18 +188,18 @@ entities = [{
     'values': [{
         'value': 'value0',
         'patterns': ['\\d{6}\\w{1}\\d{7}'],
-        'value_type': 'patterns'
+        'type': 'patterns'
     }, {
         'value':
         'value1',
         'patterns':
         ['[-9][0-9][0-9][0-9][0-9]~! [1-9][1-9][1-9][1-9][1-9][1-9]'],
-        'value_type':
+        'type':
         'patterns'
     }, {
         'value': 'value2',
         'patterns': ['[a-z-9]{17}'],
-        'value_type': 'patterns'
+        'type': 'patterns'
     }, {
         'value':
         'value3',
@@ -215,12 +207,12 @@ entities = [{
             '\\d{3}(\\ |-)\\d{3}(\\ |-)\\d{4}',
             '\\(\\d{3}\\)(\\ |-)\\d{3}(\\ |-)\\d{4}'
         ],
-        'value_type':
+        'type':
         'patterns'
     }, {
         'value': 'value4',
         'patterns': ['\\b\\d{5}\\b'],
-        'value_type': 'patterns'
+        'type': 'patterns'
     }]
 }]
 response = assistant.create_entity(
@@ -266,7 +258,7 @@ response = assistant.list_synonyms(workspace_id, 'beverage',
 print(json.dumps(response, indent=2))
 
 response = assistant.update_synonym(workspace_id, 'beverage', 'orange juice',
-                                    'oj', 'OJ').get_result()
+                                    'oj', new_synonym='OJ').get_result()
 print(json.dumps(response, indent=2))
 
 response = assistant.delete_synonym(workspace_id, 'beverage', 'orange juice',
@@ -292,7 +284,7 @@ response = assistant.list_values(workspace_id, 'test_entity').get_result()
 print(json.dumps(response, indent=2))
 
 response = assistant.update_value(workspace_id, 'test_entity', 'test',
-                                  'example').get_result()
+                                  new_value='example').get_result()
 print(json.dumps(response, indent=2))
 
 response = assistant.delete_value(workspace_id, 'test_entity',
@@ -320,7 +312,7 @@ create_dialog_node = {
 response = assistant.create_dialog_node(
     workspace_id,
     create_dialog_node['dialog_node'],
-    create_dialog_node['description'],
+    description=create_dialog_node['description'],
     actions=create_dialog_node['actions']).get_result()
 print(json.dumps(response, indent=2))
 

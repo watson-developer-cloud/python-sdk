@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# Copyright 2018 IBM All Rights Reserved.
+# (C) Copyright IBM Corp. 2019.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -24,12 +24,13 @@ with Watson Knowledge Studio to detect custom entities, relations, and categorie
 Natural Language Understanding.
 """
 
-from __future__ import absolute_import
-
 import json
 from .common import get_sdk_headers
+from enum import Enum
 from ibm_cloud_sdk_core import BaseService
 from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
+from ibm_cloud_sdk_core import get_authenticator_from_environment
+from ibm_cloud_sdk_core import read_external_sources
 
 ##############################################################################
 # Service
@@ -39,22 +40,12 @@ from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
 class NaturalLanguageUnderstandingV1(BaseService):
     """The Natural Language Understanding V1 service."""
 
-    default_url = 'https://gateway.watsonplatform.net/natural-language-understanding/api'
+    default_service_url = 'https://gateway.watsonplatform.net/natural-language-understanding/api'
 
     def __init__(
             self,
             version,
-            url=default_url,
-            username=None,
-            password=None,
-            iam_apikey=None,
-            iam_access_token=None,
-            iam_url=None,
-            iam_client_id=None,
-            iam_client_secret=None,
-            icp4d_access_token=None,
-            icp4d_url=None,
-            authentication_type=None,
+            authenticator=None,
     ):
         """
         Construct a new client for the Natural Language Understanding service.
@@ -70,66 +61,28 @@ class NaturalLanguageUnderstandingV1(BaseService):
                application, and don't change it until your application is
                ready for a later version.
 
-        :param str url: The base url to use when contacting the service (e.g.
-               "https://gateway.watsonplatform.net/natural-language-understanding/api/natural-language-understanding/api").
-               The base url may differ between IBM Cloud regions.
-
-        :param str username: The username used to authenticate with the service.
-               Username and password credentials are only required to run your
-               application locally or outside of IBM Cloud. When running on
-               IBM Cloud, the credentials will be automatically loaded from the
-               `VCAP_SERVICES` environment variable.
-
-        :param str password: The password used to authenticate with the service.
-               Username and password credentials are only required to run your
-               application locally or outside of IBM Cloud. When running on
-               IBM Cloud, the credentials will be automatically loaded from the
-               `VCAP_SERVICES` environment variable.
-
-        :param str iam_apikey: An API key that can be used to request IAM tokens. If
-               this API key is provided, the SDK will manage the token and handle the
-               refreshing.
-
-        :param str iam_access_token:  An IAM access token is fully managed by the application.
-               Responsibility falls on the application to refresh the token, either before
-               it expires or reactively upon receiving a 401 from the service as any requests
-               made with an expired token will fail.
-
-        :param str iam_url: An optional URL for the IAM service API. Defaults to
-               'https://iam.cloud.ibm.com/identity/token'.
-
-        :param str iam_client_id: An optional client_id value to use when interacting with the IAM service.
-
-        :param str iam_client_secret: An optional client_secret value to use when interacting with the IAM service.
-
-        :param str icp4d_access_token:  A ICP4D(IBM Cloud Pak for Data) access token is
-               fully managed by the application. Responsibility falls on the application to
-               refresh the token, either before it expires or reactively upon receiving a 401
-               from the service as any requests made with an expired token will fail.
-
-        :param str icp4d_url: In order to use an SDK-managed token with ICP4D authentication, this
-               URL must be passed in.
-
-        :param str authentication_type: Specifies the authentication pattern to use. Values that it
-               takes are basic, iam or icp4d.
+        :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
+               Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
+               about initializing the authenticator of your choice.
         """
 
-        BaseService.__init__(
-            self,
-            vcap_services_name='natural-language-understanding',
-            url=url,
-            username=username,
-            password=password,
-            iam_apikey=iam_apikey,
-            iam_access_token=iam_access_token,
-            iam_url=iam_url,
-            iam_client_id=iam_client_id,
-            iam_client_secret=iam_client_secret,
-            use_vcap_services=True,
-            display_name='Natural Language Understanding',
-            icp4d_access_token=icp4d_access_token,
-            icp4d_url=icp4d_url,
-            authentication_type=authentication_type)
+        service_url = self.default_service_url
+        disable_ssl_verification = False
+
+        config = read_external_sources('natural_language_understanding')
+        if config.get('URL'):
+            service_url = config.get('URL')
+        if config.get('DISABLE_SSL'):
+            disable_ssl_verification = config.get('DISABLE_SSL')
+
+        if not authenticator:
+            authenticator = get_authenticator_from_environment(
+                'natural_language_understanding')
+
+        BaseService.__init__(self,
+                             service_url=service_url,
+                             authenticator=authenticator,
+                             disable_ssl_verification=disable_ssl_verification)
         self.version = version
 
     #########################
@@ -138,6 +91,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
 
     def analyze(self,
                 features,
+                *,
                 text=None,
                 html=None,
                 url=None,
@@ -164,31 +118,33 @@ class NaturalLanguageUnderstandingV1(BaseService):
         - Syntax (Experimental).
 
         :param Features features: Specific features to analyze the document for.
-        :param str text: The plain text to analyze. One of the `text`, `html`, or `url`
-        parameters is required.
-        :param str html: The HTML file to analyze. One of the `text`, `html`, or `url`
-        parameters is required.
-        :param str url: The webpage to analyze. One of the `text`, `html`, or `url`
-        parameters is required.
-        :param bool clean: Set this to `false` to disable webpage cleaning. To learn more
-        about webpage cleaning, see the [Analyzing
-        webpages](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-analyzing-webpages)
-        documentation.
-        :param str xpath: An [XPath
-        query](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-analyzing-webpages#xpath)
-        to perform on `html` or `url` input. Results of the query will be appended to the
-        cleaned webpage text before it is analyzed. To analyze only the results of the
-        XPath query, set the `clean` parameter to `false`.
-        :param bool fallback_to_raw: Whether to use raw HTML content if text cleaning
-        fails.
-        :param bool return_analyzed_text: Whether or not to return the analyzed text.
-        :param str language: ISO 639-1 code that specifies the language of your text. This
-        overrides automatic language detection. Language support differs depending on the
-        features you include in your analysis. See [Language
-        support](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-language-support)
-        for more information.
-        :param int limit_text_characters: Sets the maximum number of characters that are
-        processed by the service.
+        :param str text: (optional) The plain text to analyze. One of the `text`,
+               `html`, or `url` parameters is required.
+        :param str html: (optional) The HTML file to analyze. One of the `text`,
+               `html`, or `url` parameters is required.
+        :param str url: (optional) The webpage to analyze. One of the `text`,
+               `html`, or `url` parameters is required.
+        :param bool clean: (optional) Set this to `false` to disable webpage
+               cleaning. To learn more about webpage cleaning, see the [Analyzing
+               webpages](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-analyzing-webpages)
+               documentation.
+        :param str xpath: (optional) An [XPath
+               query](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-analyzing-webpages#xpath)
+               to perform on `html` or `url` input. Results of the query will be appended
+               to the cleaned webpage text before it is analyzed. To analyze only the
+               results of the XPath query, set the `clean` parameter to `false`.
+        :param bool fallback_to_raw: (optional) Whether to use raw HTML content if
+               text cleaning fails.
+        :param bool return_analyzed_text: (optional) Whether or not to return the
+               analyzed text.
+        :param str language: (optional) ISO 639-1 code that specifies the language
+               of your text. This overrides automatic language detection. Language support
+               differs depending on the features you include in your analysis. See
+               [Language
+               support](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-language-support)
+               for more information.
+        :param int limit_text_characters: (optional) Sets the maximum number of
+               characters that are processed by the service.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -196,7 +152,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
 
         if features is None:
             raise ValueError('features must be provided')
-        features = self._convert_model(features, Features)
+        features = self._convert_model(features)
 
         headers = {}
         if 'headers' in kwargs:
@@ -221,13 +177,13 @@ class NaturalLanguageUnderstandingV1(BaseService):
         }
 
         url = '/v1/analyze'
-        response = self.request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            json=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     #########################
@@ -257,12 +213,12 @@ class NaturalLanguageUnderstandingV1(BaseService):
         params = {'version': self.version}
 
         url = '/v1/models'
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def delete_model(self, model_id, **kwargs):
@@ -290,12 +246,12 @@ class NaturalLanguageUnderstandingV1(BaseService):
         params = {'version': self.version}
 
         url = '/v1/models/{0}'.format(*self._encode_path_vars(model_id))
-        response = self.request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
 
@@ -304,35 +260,38 @@ class NaturalLanguageUnderstandingV1(BaseService):
 ##############################################################################
 
 
-class AnalysisResults(object):
+class AnalysisResults():
     """
     Results of the analysis, organized by feature.
 
     :attr str language: (optional) Language used to analyze the text.
     :attr str analyzed_text: (optional) Text that was used in the analysis.
     :attr str retrieved_url: (optional) URL of the webpage that was analyzed.
-    :attr AnalysisResultsUsage usage: (optional) API usage information for the request.
-    :attr list[ConceptsResult] concepts: (optional) The general concepts referenced or
-    alluded to in the analyzed text.
-    :attr list[EntitiesResult] entities: (optional) The entities detected in the analyzed
-    text.
-    :attr list[KeywordsResult] keywords: (optional) The keywords from the analyzed text.
-    :attr list[CategoriesResult] categories: (optional) The categories that the service
-    assigned to the analyzed text.
-    :attr EmotionResult emotion: (optional) The anger, disgust, fear, joy, or sadness
-    conveyed by the content.
+    :attr AnalysisResultsUsage usage: (optional) API usage information for the
+          request.
+    :attr list[ConceptsResult] concepts: (optional) The general concepts referenced
+          or alluded to in the analyzed text.
+    :attr list[EntitiesResult] entities: (optional) The entities detected in the
+          analyzed text.
+    :attr list[KeywordsResult] keywords: (optional) The keywords from the analyzed
+          text.
+    :attr list[CategoriesResult] categories: (optional) The categories that the
+          service assigned to the analyzed text.
+    :attr EmotionResult emotion: (optional) The anger, disgust, fear, joy, or
+          sadness conveyed by the content.
     :attr AnalysisResultsMetadata metadata: (optional) Webpage metadata, such as the
-    author and the title of the page.
-    :attr list[RelationsResult] relations: (optional) The relationships between entities
-    in the content.
+          author and the title of the page.
+    :attr list[RelationsResult] relations: (optional) The relationships between
+          entities in the content.
     :attr list[SemanticRolesResult] semantic_roles: (optional) Sentences parsed into
-    `subject`, `action`, and `object` form.
+          `subject`, `action`, and `object` form.
     :attr SentimentResult sentiment: (optional) The sentiment of the content.
     :attr SyntaxResult syntax: (optional) Tokens and sentences returned from syntax
-    analysis.
+          analysis.
     """
 
     def __init__(self,
+                 *,
                  language=None,
                  analyzed_text=None,
                  retrieved_url=None,
@@ -354,26 +313,26 @@ class AnalysisResults(object):
         :param str analyzed_text: (optional) Text that was used in the analysis.
         :param str retrieved_url: (optional) URL of the webpage that was analyzed.
         :param AnalysisResultsUsage usage: (optional) API usage information for the
-        request.
-        :param list[ConceptsResult] concepts: (optional) The general concepts referenced
-        or alluded to in the analyzed text.
-        :param list[EntitiesResult] entities: (optional) The entities detected in the
-        analyzed text.
-        :param list[KeywordsResult] keywords: (optional) The keywords from the analyzed
-        text.
-        :param list[CategoriesResult] categories: (optional) The categories that the
-        service assigned to the analyzed text.
-        :param EmotionResult emotion: (optional) The anger, disgust, fear, joy, or sadness
-        conveyed by the content.
-        :param AnalysisResultsMetadata metadata: (optional) Webpage metadata, such as the
-        author and the title of the page.
-        :param list[RelationsResult] relations: (optional) The relationships between
-        entities in the content.
-        :param list[SemanticRolesResult] semantic_roles: (optional) Sentences parsed into
-        `subject`, `action`, and `object` form.
+               request.
+        :param list[ConceptsResult] concepts: (optional) The general concepts
+               referenced or alluded to in the analyzed text.
+        :param list[EntitiesResult] entities: (optional) The entities detected in
+               the analyzed text.
+        :param list[KeywordsResult] keywords: (optional) The keywords from the
+               analyzed text.
+        :param list[CategoriesResult] categories: (optional) The categories that
+               the service assigned to the analyzed text.
+        :param EmotionResult emotion: (optional) The anger, disgust, fear, joy, or
+               sadness conveyed by the content.
+        :param AnalysisResultsMetadata metadata: (optional) Webpage metadata, such
+               as the author and the title of the page.
+        :param list[RelationsResult] relations: (optional) The relationships
+               between entities in the content.
+        :param list[SemanticRolesResult] semantic_roles: (optional) Sentences
+               parsed into `subject`, `action`, and `object` form.
         :param SentimentResult sentiment: (optional) The sentiment of the content.
-        :param SyntaxResult syntax: (optional) Tokens and sentences returned from syntax
-        analysis.
+        :param SyntaxResult syntax: (optional) Tokens and sentences returned from
+               syntax analysis.
         """
         self.language = language
         self.analyzed_text = analyzed_text
@@ -394,16 +353,16 @@ class AnalysisResults(object):
     def _from_dict(cls, _dict):
         """Initialize a AnalysisResults object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'language', 'analyzed_text', 'retrieved_url', 'usage', 'concepts',
             'entities', 'keywords', 'categories', 'emotion', 'metadata',
             'relations', 'semantic_roles', 'sentiment', 'syntax'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class AnalysisResults: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'language' in _dict:
             args['language'] = _dict.get('language')
         if 'analyzed_text' in _dict:
@@ -500,18 +459,20 @@ class AnalysisResults(object):
         return not self == other
 
 
-class AnalysisResultsMetadata(object):
+class AnalysisResultsMetadata():
     """
     Webpage metadata, such as the author and the title of the page.
 
     :attr list[Author] authors: (optional) The authors of the document.
-    :attr str publication_date: (optional) The publication date in the format ISO 8601.
+    :attr str publication_date: (optional) The publication date in the format ISO
+          8601.
     :attr str title: (optional) The title of the document.
     :attr str image: (optional) URL of a prominent image on the webpage.
     :attr list[Feed] feeds: (optional) RSS/ATOM feeds found on the webpage.
     """
 
     def __init__(self,
+                 *,
                  authors=None,
                  publication_date=None,
                  title=None,
@@ -521,8 +482,8 @@ class AnalysisResultsMetadata(object):
         Initialize a AnalysisResultsMetadata object.
 
         :param list[Author] authors: (optional) The authors of the document.
-        :param str publication_date: (optional) The publication date in the format ISO
-        8601.
+        :param str publication_date: (optional) The publication date in the format
+               ISO 8601.
         :param str title: (optional) The title of the document.
         :param str image: (optional) URL of a prominent image on the webpage.
         :param list[Feed] feeds: (optional) RSS/ATOM feeds found on the webpage.
@@ -537,12 +498,12 @@ class AnalysisResultsMetadata(object):
     def _from_dict(cls, _dict):
         """Initialize a AnalysisResultsMetadata object from a json dictionary."""
         args = {}
-        validKeys = ['authors', 'publication_date', 'title', 'image', 'feeds']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['authors', 'publication_date', 'title', 'image', 'feeds']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class AnalysisResultsMetadata: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'authors' in _dict:
             args['authors'] = [
                 Author._from_dict(x) for x in (_dict.get('authors'))
@@ -588,7 +549,7 @@ class AnalysisResultsMetadata(object):
         return not self == other
 
 
-class AnalysisResultsUsage(object):
+class AnalysisResultsUsage():
     """
     API usage information for the request.
 
@@ -597,13 +558,14 @@ class AnalysisResultsUsage(object):
     :attr int text_units: (optional) Number of 10,000-character units processed.
     """
 
-    def __init__(self, features=None, text_characters=None, text_units=None):
+    def __init__(self, *, features=None, text_characters=None, text_units=None):
         """
         Initialize a AnalysisResultsUsage object.
 
         :param int features: (optional) Number of features used in the API call.
         :param int text_characters: (optional) Number of text characters processed.
-        :param int text_units: (optional) Number of 10,000-character units processed.
+        :param int text_units: (optional) Number of 10,000-character units
+               processed.
         """
         self.features = features
         self.text_characters = text_characters
@@ -613,12 +575,12 @@ class AnalysisResultsUsage(object):
     def _from_dict(cls, _dict):
         """Initialize a AnalysisResultsUsage object from a json dictionary."""
         args = {}
-        validKeys = ['features', 'text_characters', 'text_units']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['features', 'text_characters', 'text_units']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class AnalysisResultsUsage: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'features' in _dict:
             args['features'] = _dict.get('features')
         if 'text_characters' in _dict:
@@ -654,14 +616,14 @@ class AnalysisResultsUsage(object):
         return not self == other
 
 
-class Author(object):
+class Author():
     """
     The author of the analyzed content.
 
     :attr str name: (optional) Name of the author.
     """
 
-    def __init__(self, name=None):
+    def __init__(self, *, name=None):
         """
         Initialize a Author object.
 
@@ -673,12 +635,12 @@ class Author(object):
     def _from_dict(cls, _dict):
         """Initialize a Author object from a json dictionary."""
         args = {}
-        validKeys = ['name']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['name']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Author: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         return cls(**args)
@@ -705,30 +667,31 @@ class Author(object):
         return not self == other
 
 
-class CategoriesOptions(object):
+class CategoriesOptions():
     """
     Returns a five-level taxonomy of the content. The top three categories are returned.
     Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
     Portuguese, Spanish.
 
-    :attr bool explanation: (optional) Set this to `true` to return explanations for each
-    categorization. **This is available only for English categories.**.
+    :attr bool explanation: (optional) Set this to `true` to return explanations for
+          each categorization. **This is available only for English categories.**.
     :attr int limit: (optional) Maximum number of categories to return.
     :attr str model: (optional) Enter a [custom
-    model](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing)
-    ID to override the standard categories model.
+          model](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing)
+          ID to override the standard categories model.
     """
 
-    def __init__(self, explanation=None, limit=None, model=None):
+    def __init__(self, *, explanation=None, limit=None, model=None):
         """
         Initialize a CategoriesOptions object.
 
-        :param bool explanation: (optional) Set this to `true` to return explanations for
-        each categorization. **This is available only for English categories.**.
+        :param bool explanation: (optional) Set this to `true` to return
+               explanations for each categorization. **This is available only for English
+               categories.**.
         :param int limit: (optional) Maximum number of categories to return.
         :param str model: (optional) Enter a [custom
-        model](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing)
-        ID to override the standard categories model.
+               model](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing)
+               ID to override the standard categories model.
         """
         self.explanation = explanation
         self.limit = limit
@@ -738,12 +701,12 @@ class CategoriesOptions(object):
     def _from_dict(cls, _dict):
         """Initialize a CategoriesOptions object from a json dictionary."""
         args = {}
-        validKeys = ['explanation', 'limit', 'model']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['explanation', 'limit', 'model']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CategoriesOptions: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'explanation' in _dict:
             args['explanation'] = _dict.get('explanation')
         if 'limit' in _dict:
@@ -778,20 +741,20 @@ class CategoriesOptions(object):
         return not self == other
 
 
-class CategoriesRelevantText(object):
+class CategoriesRelevantText():
     """
     Relevant text that contributed to the categorization.
 
     :attr str text: (optional) Text from the analyzed source that supports the
-    categorization.
+          categorization.
     """
 
-    def __init__(self, text=None):
+    def __init__(self, *, text=None):
         """
         Initialize a CategoriesRelevantText object.
 
         :param str text: (optional) Text from the analyzed source that supports the
-        categorization.
+               categorization.
         """
         self.text = text
 
@@ -799,12 +762,12 @@ class CategoriesRelevantText(object):
     def _from_dict(cls, _dict):
         """Initialize a CategoriesRelevantText object from a json dictionary."""
         args = {}
-        validKeys = ['text']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CategoriesRelevantText: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         return cls(**args)
@@ -831,32 +794,33 @@ class CategoriesRelevantText(object):
         return not self == other
 
 
-class CategoriesResult(object):
+class CategoriesResult():
     """
     A categorization of the analyzed text.
 
-    :attr str label: (optional) The path to the category through the 5-level taxonomy
-    hierarchy. For the complete list of categories, see the [Categories
-    hierarchy](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-categories#categories-hierarchy)
-    documentation.
-    :attr float score: (optional) Confidence score for the category classification. Higher
-    values indicate greater confidence.
-    :attr CategoriesResultExplanation explanation: (optional) Information that helps to
-    explain what contributed to the categories result.
+    :attr str label: (optional) The path to the category through the 5-level
+          taxonomy hierarchy. For the complete list of categories, see the [Categories
+          hierarchy](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-categories#categories-hierarchy)
+          documentation.
+    :attr float score: (optional) Confidence score for the category classification.
+          Higher values indicate greater confidence.
+    :attr CategoriesResultExplanation explanation: (optional) Information that helps
+          to explain what contributed to the categories result.
     """
 
-    def __init__(self, label=None, score=None, explanation=None):
+    def __init__(self, *, label=None, score=None, explanation=None):
         """
         Initialize a CategoriesResult object.
 
-        :param str label: (optional) The path to the category through the 5-level taxonomy
-        hierarchy. For the complete list of categories, see the [Categories
-        hierarchy](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-categories#categories-hierarchy)
-        documentation.
-        :param float score: (optional) Confidence score for the category classification.
-        Higher values indicate greater confidence.
-        :param CategoriesResultExplanation explanation: (optional) Information that helps
-        to explain what contributed to the categories result.
+        :param str label: (optional) The path to the category through the 5-level
+               taxonomy hierarchy. For the complete list of categories, see the
+               [Categories
+               hierarchy](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-categories#categories-hierarchy)
+               documentation.
+        :param float score: (optional) Confidence score for the category
+               classification. Higher values indicate greater confidence.
+        :param CategoriesResultExplanation explanation: (optional) Information that
+               helps to explain what contributed to the categories result.
         """
         self.label = label
         self.score = score
@@ -866,12 +830,12 @@ class CategoriesResult(object):
     def _from_dict(cls, _dict):
         """Initialize a CategoriesResult object from a json dictionary."""
         args = {}
-        validKeys = ['label', 'score', 'explanation']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['label', 'score', 'explanation']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CategoriesResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'label' in _dict:
             args['label'] = _dict.get('label')
         if 'score' in _dict:
@@ -907,24 +871,24 @@ class CategoriesResult(object):
         return not self == other
 
 
-class CategoriesResultExplanation(object):
+class CategoriesResultExplanation():
     """
     Information that helps to explain what contributed to the categories result.
 
-    :attr list[CategoriesRelevantText] relevant_text: (optional) An array of relevant text
-    from the source that contributed to the categorization. The sorted array begins with
-    the phrase that contributed most significantly to the result, followed by phrases that
-    were less and less impactful.
+    :attr list[CategoriesRelevantText] relevant_text: (optional) An array of
+          relevant text from the source that contributed to the categorization. The sorted
+          array begins with the phrase that contributed most significantly to the result,
+          followed by phrases that were less and less impactful.
     """
 
-    def __init__(self, relevant_text=None):
+    def __init__(self, *, relevant_text=None):
         """
         Initialize a CategoriesResultExplanation object.
 
-        :param list[CategoriesRelevantText] relevant_text: (optional) An array of relevant
-        text from the source that contributed to the categorization. The sorted array
-        begins with the phrase that contributed most significantly to the result, followed
-        by phrases that were less and less impactful.
+        :param list[CategoriesRelevantText] relevant_text: (optional) An array of
+               relevant text from the source that contributed to the categorization. The
+               sorted array begins with the phrase that contributed most significantly to
+               the result, followed by phrases that were less and less impactful.
         """
         self.relevant_text = relevant_text
 
@@ -932,12 +896,12 @@ class CategoriesResultExplanation(object):
     def _from_dict(cls, _dict):
         """Initialize a CategoriesResultExplanation object from a json dictionary."""
         args = {}
-        validKeys = ['relevant_text']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['relevant_text']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CategoriesResultExplanation: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'relevant_text' in _dict:
             args['relevant_text'] = [
                 CategoriesRelevantText._from_dict(x)
@@ -967,7 +931,7 @@ class CategoriesResultExplanation(object):
         return not self == other
 
 
-class ConceptsOptions(object):
+class ConceptsOptions():
     """
     Returns high-level concepts in the content. For example, a research paper about deep
     learning might return the concept, "Artificial Intelligence" although the term is not
@@ -978,7 +942,7 @@ class ConceptsOptions(object):
     :attr int limit: (optional) Maximum number of concepts to return.
     """
 
-    def __init__(self, limit=None):
+    def __init__(self, *, limit=None):
         """
         Initialize a ConceptsOptions object.
 
@@ -990,12 +954,12 @@ class ConceptsOptions(object):
     def _from_dict(cls, _dict):
         """Initialize a ConceptsOptions object from a json dictionary."""
         args = {}
-        validKeys = ['limit']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['limit']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ConceptsOptions: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'limit' in _dict:
             args['limit'] = _dict.get('limit')
         return cls(**args)
@@ -1022,25 +986,26 @@ class ConceptsOptions(object):
         return not self == other
 
 
-class ConceptsResult(object):
+class ConceptsResult():
     """
     The general concepts referenced or alluded to in the analyzed text.
 
     :attr str text: (optional) Name of the concept.
     :attr float relevance: (optional) Relevance score between 0 and 1. Higher scores
-    indicate greater relevance.
-    :attr str dbpedia_resource: (optional) Link to the corresponding DBpedia resource.
+          indicate greater relevance.
+    :attr str dbpedia_resource: (optional) Link to the corresponding DBpedia
+          resource.
     """
 
-    def __init__(self, text=None, relevance=None, dbpedia_resource=None):
+    def __init__(self, *, text=None, relevance=None, dbpedia_resource=None):
         """
         Initialize a ConceptsResult object.
 
         :param str text: (optional) Name of the concept.
-        :param float relevance: (optional) Relevance score between 0 and 1. Higher scores
-        indicate greater relevance.
+        :param float relevance: (optional) Relevance score between 0 and 1. Higher
+               scores indicate greater relevance.
         :param str dbpedia_resource: (optional) Link to the corresponding DBpedia
-        resource.
+               resource.
         """
         self.text = text
         self.relevance = relevance
@@ -1050,12 +1015,12 @@ class ConceptsResult(object):
     def _from_dict(cls, _dict):
         """Initialize a ConceptsResult object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'relevance', 'dbpedia_resource']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'relevance', 'dbpedia_resource']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ConceptsResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'relevance' in _dict:
@@ -1091,14 +1056,14 @@ class ConceptsResult(object):
         return not self == other
 
 
-class DeleteModelResults(object):
+class DeleteModelResults():
     """
     Delete model results.
 
     :attr str deleted: (optional) model_id of the deleted model.
     """
 
-    def __init__(self, deleted=None):
+    def __init__(self, *, deleted=None):
         """
         Initialize a DeleteModelResults object.
 
@@ -1110,12 +1075,12 @@ class DeleteModelResults(object):
     def _from_dict(cls, _dict):
         """Initialize a DeleteModelResults object from a json dictionary."""
         args = {}
-        validKeys = ['deleted']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['deleted']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DeleteModelResults: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'deleted' in _dict:
             args['deleted'] = _dict.get('deleted')
         return cls(**args)
@@ -1142,22 +1107,23 @@ class DeleteModelResults(object):
         return not self == other
 
 
-class DisambiguationResult(object):
+class DisambiguationResult():
     """
     Disambiguation information for the entity.
 
     :attr str name: (optional) Common entity name.
-    :attr str dbpedia_resource: (optional) Link to the corresponding DBpedia resource.
+    :attr str dbpedia_resource: (optional) Link to the corresponding DBpedia
+          resource.
     :attr list[str] subtype: (optional) Entity subtype information.
     """
 
-    def __init__(self, name=None, dbpedia_resource=None, subtype=None):
+    def __init__(self, *, name=None, dbpedia_resource=None, subtype=None):
         """
         Initialize a DisambiguationResult object.
 
         :param str name: (optional) Common entity name.
         :param str dbpedia_resource: (optional) Link to the corresponding DBpedia
-        resource.
+               resource.
         :param list[str] subtype: (optional) Entity subtype information.
         """
         self.name = name
@@ -1168,12 +1134,12 @@ class DisambiguationResult(object):
     def _from_dict(cls, _dict):
         """Initialize a DisambiguationResult object from a json dictionary."""
         args = {}
-        validKeys = ['name', 'dbpedia_resource', 'subtype']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['name', 'dbpedia_resource', 'subtype']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DisambiguationResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         if 'dbpedia_resource' in _dict:
@@ -1209,19 +1175,20 @@ class DisambiguationResult(object):
         return not self == other
 
 
-class DocumentEmotionResults(object):
+class DocumentEmotionResults():
     """
     Emotion results for the document as a whole.
 
-    :attr EmotionScores emotion: (optional) Emotion results for the document as a whole.
+    :attr EmotionScores emotion: (optional) Emotion results for the document as a
+          whole.
     """
 
-    def __init__(self, emotion=None):
+    def __init__(self, *, emotion=None):
         """
         Initialize a DocumentEmotionResults object.
 
-        :param EmotionScores emotion: (optional) Emotion results for the document as a
-        whole.
+        :param EmotionScores emotion: (optional) Emotion results for the document
+               as a whole.
         """
         self.emotion = emotion
 
@@ -1229,12 +1196,12 @@ class DocumentEmotionResults(object):
     def _from_dict(cls, _dict):
         """Initialize a DocumentEmotionResults object from a json dictionary."""
         args = {}
-        validKeys = ['emotion']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['emotion']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DocumentEmotionResults: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'emotion' in _dict:
             args['emotion'] = EmotionScores._from_dict(_dict.get('emotion'))
         return cls(**args)
@@ -1261,22 +1228,24 @@ class DocumentEmotionResults(object):
         return not self == other
 
 
-class DocumentSentimentResults(object):
+class DocumentSentimentResults():
     """
     DocumentSentimentResults.
 
-    :attr str label: (optional) Indicates whether the sentiment is positive, neutral, or
-    negative.
-    :attr float score: (optional) Sentiment score from -1 (negative) to 1 (positive).
+    :attr str label: (optional) Indicates whether the sentiment is positive,
+          neutral, or negative.
+    :attr float score: (optional) Sentiment score from -1 (negative) to 1
+          (positive).
     """
 
-    def __init__(self, label=None, score=None):
+    def __init__(self, *, label=None, score=None):
         """
         Initialize a DocumentSentimentResults object.
 
-        :param str label: (optional) Indicates whether the sentiment is positive, neutral,
-        or negative.
-        :param float score: (optional) Sentiment score from -1 (negative) to 1 (positive).
+        :param str label: (optional) Indicates whether the sentiment is positive,
+               neutral, or negative.
+        :param float score: (optional) Sentiment score from -1 (negative) to 1
+               (positive).
         """
         self.label = label
         self.score = score
@@ -1285,12 +1254,12 @@ class DocumentSentimentResults(object):
     def _from_dict(cls, _dict):
         """Initialize a DocumentSentimentResults object from a json dictionary."""
         args = {}
-        validKeys = ['label', 'score']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['label', 'score']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DocumentSentimentResults: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'label' in _dict:
             args['label'] = _dict.get('label')
         if 'score' in _dict:
@@ -1321,7 +1290,7 @@ class DocumentSentimentResults(object):
         return not self == other
 
 
-class EmotionOptions(object):
+class EmotionOptions():
     """
     Detects anger, disgust, fear, joy, or sadness that is conveyed in the content or by
     the context around target phrases specified in the targets parameter. You can analyze
@@ -1329,20 +1298,20 @@ class EmotionOptions(object):
     `keywords.emotion`.
     Supported languages: English.
 
-    :attr bool document: (optional) Set this to `false` to hide document-level emotion
-    results.
-    :attr list[str] targets: (optional) Emotion results will be returned for each target
-    string that is found in the document.
+    :attr bool document: (optional) Set this to `false` to hide document-level
+          emotion results.
+    :attr list[str] targets: (optional) Emotion results will be returned for each
+          target string that is found in the document.
     """
 
-    def __init__(self, document=None, targets=None):
+    def __init__(self, *, document=None, targets=None):
         """
         Initialize a EmotionOptions object.
 
         :param bool document: (optional) Set this to `false` to hide document-level
-        emotion results.
-        :param list[str] targets: (optional) Emotion results will be returned for each
-        target string that is found in the document.
+               emotion results.
+        :param list[str] targets: (optional) Emotion results will be returned for
+               each target string that is found in the document.
         """
         self.document = document
         self.targets = targets
@@ -1351,12 +1320,12 @@ class EmotionOptions(object):
     def _from_dict(cls, _dict):
         """Initialize a EmotionOptions object from a json dictionary."""
         args = {}
-        validKeys = ['document', 'targets']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['document', 'targets']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class EmotionOptions: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document' in _dict:
             args['document'] = _dict.get('document')
         if 'targets' in _dict:
@@ -1387,26 +1356,26 @@ class EmotionOptions(object):
         return not self == other
 
 
-class EmotionResult(object):
+class EmotionResult():
     """
     The detected anger, disgust, fear, joy, or sadness that is conveyed by the content.
     Emotion information can be returned for detected entities, keywords, or user-specified
     target phrases found in the text.
 
-    :attr DocumentEmotionResults document: (optional) Emotion results for the document as
-    a whole.
-    :attr list[TargetedEmotionResults] targets: (optional) Emotion results for specified
-    targets.
+    :attr DocumentEmotionResults document: (optional) Emotion results for the
+          document as a whole.
+    :attr list[TargetedEmotionResults] targets: (optional) Emotion results for
+          specified targets.
     """
 
-    def __init__(self, document=None, targets=None):
+    def __init__(self, *, document=None, targets=None):
         """
         Initialize a EmotionResult object.
 
         :param DocumentEmotionResults document: (optional) Emotion results for the
-        document as a whole.
+               document as a whole.
         :param list[TargetedEmotionResults] targets: (optional) Emotion results for
-        specified targets.
+               specified targets.
         """
         self.document = document
         self.targets = targets
@@ -1415,12 +1384,12 @@ class EmotionResult(object):
     def _from_dict(cls, _dict):
         """Initialize a EmotionResult object from a json dictionary."""
         args = {}
-        validKeys = ['document', 'targets']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['document', 'targets']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class EmotionResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document' in _dict:
             args['document'] = DocumentEmotionResults._from_dict(
                 _dict.get('document'))
@@ -1455,23 +1424,24 @@ class EmotionResult(object):
         return not self == other
 
 
-class EmotionScores(object):
+class EmotionScores():
     """
     EmotionScores.
 
-    :attr float anger: (optional) Anger score from 0 to 1. A higher score means that the
-    text is more likely to convey anger.
-    :attr float disgust: (optional) Disgust score from 0 to 1. A higher score means that
-    the text is more likely to convey disgust.
-    :attr float fear: (optional) Fear score from 0 to 1. A higher score means that the
-    text is more likely to convey fear.
-    :attr float joy: (optional) Joy score from 0 to 1. A higher score means that the text
-    is more likely to convey joy.
-    :attr float sadness: (optional) Sadness score from 0 to 1. A higher score means that
-    the text is more likely to convey sadness.
+    :attr float anger: (optional) Anger score from 0 to 1. A higher score means that
+          the text is more likely to convey anger.
+    :attr float disgust: (optional) Disgust score from 0 to 1. A higher score means
+          that the text is more likely to convey disgust.
+    :attr float fear: (optional) Fear score from 0 to 1. A higher score means that
+          the text is more likely to convey fear.
+    :attr float joy: (optional) Joy score from 0 to 1. A higher score means that the
+          text is more likely to convey joy.
+    :attr float sadness: (optional) Sadness score from 0 to 1. A higher score means
+          that the text is more likely to convey sadness.
     """
 
     def __init__(self,
+                 *,
                  anger=None,
                  disgust=None,
                  fear=None,
@@ -1480,16 +1450,16 @@ class EmotionScores(object):
         """
         Initialize a EmotionScores object.
 
-        :param float anger: (optional) Anger score from 0 to 1. A higher score means that
-        the text is more likely to convey anger.
-        :param float disgust: (optional) Disgust score from 0 to 1. A higher score means
-        that the text is more likely to convey disgust.
-        :param float fear: (optional) Fear score from 0 to 1. A higher score means that
-        the text is more likely to convey fear.
-        :param float joy: (optional) Joy score from 0 to 1. A higher score means that the
-        text is more likely to convey joy.
-        :param float sadness: (optional) Sadness score from 0 to 1. A higher score means
-        that the text is more likely to convey sadness.
+        :param float anger: (optional) Anger score from 0 to 1. A higher score
+               means that the text is more likely to convey anger.
+        :param float disgust: (optional) Disgust score from 0 to 1. A higher score
+               means that the text is more likely to convey disgust.
+        :param float fear: (optional) Fear score from 0 to 1. A higher score means
+               that the text is more likely to convey fear.
+        :param float joy: (optional) Joy score from 0 to 1. A higher score means
+               that the text is more likely to convey joy.
+        :param float sadness: (optional) Sadness score from 0 to 1. A higher score
+               means that the text is more likely to convey sadness.
         """
         self.anger = anger
         self.disgust = disgust
@@ -1501,12 +1471,12 @@ class EmotionScores(object):
     def _from_dict(cls, _dict):
         """Initialize a EmotionScores object from a json dictionary."""
         args = {}
-        validKeys = ['anger', 'disgust', 'fear', 'joy', 'sadness']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['anger', 'disgust', 'fear', 'joy', 'sadness']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class EmotionScores: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'anger' in _dict:
             args['anger'] = _dict.get('anger')
         if 'disgust' in _dict:
@@ -1549,7 +1519,7 @@ class EmotionScores(object):
         return not self == other
 
 
-class EntitiesOptions(object):
+class EntitiesOptions():
     """
     Identifies people, cities, organizations, and other entities in the content. See
     [Entity types and
@@ -1560,17 +1530,18 @@ class EntitiesOptions(object):
 
     :attr int limit: (optional) Maximum number of entities to return.
     :attr bool mentions: (optional) Set this to `true` to return locations of entity
-    mentions.
+          mentions.
     :attr str model: (optional) Enter a [custom
-    model](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing)
-    ID to override the standard entity detection model.
-    :attr bool sentiment: (optional) Set this to `true` to return sentiment information
-    for detected entities.
-    :attr bool emotion: (optional) Set this to `true` to analyze emotion for detected
-    keywords.
+          model](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing)
+          ID to override the standard entity detection model.
+    :attr bool sentiment: (optional) Set this to `true` to return sentiment
+          information for detected entities.
+    :attr bool emotion: (optional) Set this to `true` to analyze emotion for
+          detected keywords.
     """
 
     def __init__(self,
+                 *,
                  limit=None,
                  mentions=None,
                  model=None,
@@ -1580,15 +1551,15 @@ class EntitiesOptions(object):
         Initialize a EntitiesOptions object.
 
         :param int limit: (optional) Maximum number of entities to return.
-        :param bool mentions: (optional) Set this to `true` to return locations of entity
-        mentions.
+        :param bool mentions: (optional) Set this to `true` to return locations of
+               entity mentions.
         :param str model: (optional) Enter a [custom
-        model](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing)
-        ID to override the standard entity detection model.
+               model](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing)
+               ID to override the standard entity detection model.
         :param bool sentiment: (optional) Set this to `true` to return sentiment
-        information for detected entities.
-        :param bool emotion: (optional) Set this to `true` to analyze emotion for detected
-        keywords.
+               information for detected entities.
+        :param bool emotion: (optional) Set this to `true` to analyze emotion for
+               detected keywords.
         """
         self.limit = limit
         self.mentions = mentions
@@ -1600,12 +1571,12 @@ class EntitiesOptions(object):
     def _from_dict(cls, _dict):
         """Initialize a EntitiesOptions object from a json dictionary."""
         args = {}
-        validKeys = ['limit', 'mentions', 'model', 'sentiment', 'emotion']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['limit', 'mentions', 'model', 'sentiment', 'emotion']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class EntitiesOptions: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'limit' in _dict:
             args['limit'] = _dict.get('limit')
         if 'mentions' in _dict:
@@ -1648,30 +1619,31 @@ class EntitiesOptions(object):
         return not self == other
 
 
-class EntitiesResult(object):
+class EntitiesResult():
     """
     The important people, places, geopolitical entities and other types of entities in
     your content.
 
     :attr str type: (optional) Entity type.
     :attr str text: (optional) The name of the entity.
-    :attr float relevance: (optional) Relevance score from 0 to 1. Higher values indicate
-    greater relevance.
-    :attr float confidence: (optional) Confidence in the entity identification from 0 to
-    1. Higher values indicate higher confidence. In standard entities requests, confidence
-    is returned only for English text. All entities requests that use custom models return
-    the confidence score.
+    :attr float relevance: (optional) Relevance score from 0 to 1. Higher values
+          indicate greater relevance.
+    :attr float confidence: (optional) Confidence in the entity identification from
+          0 to 1. Higher values indicate higher confidence. In standard entities requests,
+          confidence is returned only for English text. All entities requests that use
+          custom models return the confidence score.
     :attr list[EntityMention] mentions: (optional) Entity mentions and locations.
     :attr int count: (optional) How many times the entity was mentioned in the text.
     :attr EmotionScores emotion: (optional) Emotion analysis results for the entity,
-    enabled with the `emotion` option.
-    :attr FeatureSentimentResults sentiment: (optional) Sentiment analysis results for the
-    entity, enabled with the `sentiment` option.
-    :attr DisambiguationResult disambiguation: (optional) Disambiguation information for
-    the entity.
+          enabled with the `emotion` option.
+    :attr FeatureSentimentResults sentiment: (optional) Sentiment analysis results
+          for the entity, enabled with the `sentiment` option.
+    :attr DisambiguationResult disambiguation: (optional) Disambiguation information
+          for the entity.
     """
 
     def __init__(self,
+                 *,
                  type=None,
                  text=None,
                  relevance=None,
@@ -1686,20 +1658,22 @@ class EntitiesResult(object):
 
         :param str type: (optional) Entity type.
         :param str text: (optional) The name of the entity.
-        :param float relevance: (optional) Relevance score from 0 to 1. Higher values
-        indicate greater relevance.
-        :param float confidence: (optional) Confidence in the entity identification from 0
-        to 1. Higher values indicate higher confidence. In standard entities requests,
-        confidence is returned only for English text. All entities requests that use
-        custom models return the confidence score.
-        :param list[EntityMention] mentions: (optional) Entity mentions and locations.
-        :param int count: (optional) How many times the entity was mentioned in the text.
-        :param EmotionScores emotion: (optional) Emotion analysis results for the entity,
-        enabled with the `emotion` option.
-        :param FeatureSentimentResults sentiment: (optional) Sentiment analysis results
-        for the entity, enabled with the `sentiment` option.
-        :param DisambiguationResult disambiguation: (optional) Disambiguation information
-        for the entity.
+        :param float relevance: (optional) Relevance score from 0 to 1. Higher
+               values indicate greater relevance.
+        :param float confidence: (optional) Confidence in the entity identification
+               from 0 to 1. Higher values indicate higher confidence. In standard entities
+               requests, confidence is returned only for English text. All entities
+               requests that use custom models return the confidence score.
+        :param list[EntityMention] mentions: (optional) Entity mentions and
+               locations.
+        :param int count: (optional) How many times the entity was mentioned in the
+               text.
+        :param EmotionScores emotion: (optional) Emotion analysis results for the
+               entity, enabled with the `emotion` option.
+        :param FeatureSentimentResults sentiment: (optional) Sentiment analysis
+               results for the entity, enabled with the `sentiment` option.
+        :param DisambiguationResult disambiguation: (optional) Disambiguation
+               information for the entity.
         """
         self.type = type
         self.text = text
@@ -1715,15 +1689,15 @@ class EntitiesResult(object):
     def _from_dict(cls, _dict):
         """Initialize a EntitiesResult object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'type', 'text', 'relevance', 'confidence', 'mentions', 'count',
             'emotion', 'sentiment', 'disambiguation'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class EntitiesResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'text' in _dict:
@@ -1786,30 +1760,30 @@ class EntitiesResult(object):
         return not self == other
 
 
-class EntityMention(object):
+class EntityMention():
     """
     EntityMention.
 
     :attr str text: (optional) Entity mention text.
-    :attr list[int] location: (optional) Character offsets indicating the beginning and
-    end of the mention in the analyzed text.
-    :attr float confidence: (optional) Confidence in the entity identification from 0 to
-    1. Higher values indicate higher confidence. In standard entities requests, confidence
-    is returned only for English text. All entities requests that use custom models return
-    the confidence score.
+    :attr list[int] location: (optional) Character offsets indicating the beginning
+          and end of the mention in the analyzed text.
+    :attr float confidence: (optional) Confidence in the entity identification from
+          0 to 1. Higher values indicate higher confidence. In standard entities requests,
+          confidence is returned only for English text. All entities requests that use
+          custom models return the confidence score.
     """
 
-    def __init__(self, text=None, location=None, confidence=None):
+    def __init__(self, *, text=None, location=None, confidence=None):
         """
         Initialize a EntityMention object.
 
         :param str text: (optional) Entity mention text.
-        :param list[int] location: (optional) Character offsets indicating the beginning
-        and end of the mention in the analyzed text.
-        :param float confidence: (optional) Confidence in the entity identification from 0
-        to 1. Higher values indicate higher confidence. In standard entities requests,
-        confidence is returned only for English text. All entities requests that use
-        custom models return the confidence score.
+        :param list[int] location: (optional) Character offsets indicating the
+               beginning and end of the mention in the analyzed text.
+        :param float confidence: (optional) Confidence in the entity identification
+               from 0 to 1. Higher values indicate higher confidence. In standard entities
+               requests, confidence is returned only for English text. All entities
+               requests that use custom models return the confidence score.
         """
         self.text = text
         self.location = location
@@ -1819,12 +1793,12 @@ class EntityMention(object):
     def _from_dict(cls, _dict):
         """Initialize a EntityMention object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'location', 'confidence']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'location', 'confidence']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class EntityMention: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'location' in _dict:
@@ -1859,18 +1833,20 @@ class EntityMention(object):
         return not self == other
 
 
-class FeatureSentimentResults(object):
+class FeatureSentimentResults():
     """
     FeatureSentimentResults.
 
-    :attr float score: (optional) Sentiment score from -1 (negative) to 1 (positive).
+    :attr float score: (optional) Sentiment score from -1 (negative) to 1
+          (positive).
     """
 
-    def __init__(self, score=None):
+    def __init__(self, *, score=None):
         """
         Initialize a FeatureSentimentResults object.
 
-        :param float score: (optional) Sentiment score from -1 (negative) to 1 (positive).
+        :param float score: (optional) Sentiment score from -1 (negative) to 1
+               (positive).
         """
         self.score = score
 
@@ -1878,12 +1854,12 @@ class FeatureSentimentResults(object):
     def _from_dict(cls, _dict):
         """Initialize a FeatureSentimentResults object from a json dictionary."""
         args = {}
-        validKeys = ['score']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['score']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class FeatureSentimentResults: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'score' in _dict:
             args['score'] = _dict.get('score')
         return cls(**args)
@@ -1910,56 +1886,60 @@ class FeatureSentimentResults(object):
         return not self == other
 
 
-class Features(object):
+class Features():
     """
     Analysis features and options.
 
-    :attr ConceptsOptions concepts: (optional) Returns high-level concepts in the content.
-    For example, a research paper about deep learning might return the concept,
-    "Artificial Intelligence" although the term is not mentioned.
-    Supported languages: English, French, German, Italian, Japanese, Korean, Portuguese,
-    Spanish.
-    :attr EmotionOptions emotion: (optional) Detects anger, disgust, fear, joy, or sadness
-    that is conveyed in the content or by the context around target phrases specified in
-    the targets parameter. You can analyze emotion for detected entities with
-    `entities.emotion` and for keywords with `keywords.emotion`.
-    Supported languages: English.
-    :attr EntitiesOptions entities: (optional) Identifies people, cities, organizations,
-    and other entities in the content. See [Entity types and
-    subtypes](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-entity-types).
-    Supported languages: English, French, German, Italian, Japanese, Korean, Portuguese,
-    Russian, Spanish, Swedish. Arabic, Chinese, and Dutch are supported only through
-    custom models.
-    :attr KeywordsOptions keywords: (optional) Returns important keywords in the content.
-    Supported languages: English, French, German, Italian, Japanese, Korean, Portuguese,
-    Russian, Spanish, Swedish.
-    :attr MetadataOptions metadata: (optional) Returns information from the document,
-    including author name, title, RSS/ATOM feeds, prominent page image, and publication
-    date. Supports URL and HTML input types only.
-    :attr RelationsOptions relations: (optional) Recognizes when two entities are related
-    and identifies the type of relation. For example, an `awardedTo` relation might
-    connect the entities "Nobel Prize" and "Albert Einstein". See [Relation
-    types](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-relations).
-    Supported languages: Arabic, English, German, Japanese, Korean, Spanish. Chinese,
-    Dutch, French, Italian, and Portuguese custom models are also supported.
-    :attr SemanticRolesOptions semantic_roles: (optional) Parses sentences into subject,
-    action, and object form.
-    Supported languages: English, German, Japanese, Korean, Spanish.
-    :attr SentimentOptions sentiment: (optional) Analyzes the general sentiment of your
-    content or the sentiment toward specific target phrases. You can analyze sentiment for
-    detected entities with `entities.sentiment` and for keywords with
-    `keywords.sentiment`.
-     Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
-    Portuguese, Russian, Spanish.
-    :attr CategoriesOptions categories: (optional) Returns a five-level taxonomy of the
-    content. The top three categories are returned.
-    Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
-    Portuguese, Spanish.
-    :attr SyntaxOptions syntax: (optional) Returns tokens and sentences from the input
-    text.
+    :attr ConceptsOptions concepts: (optional) Returns high-level concepts in the
+          content. For example, a research paper about deep learning might return the
+          concept, "Artificial Intelligence" although the term is not mentioned.
+          Supported languages: English, French, German, Italian, Japanese, Korean,
+          Portuguese, Spanish.
+    :attr EmotionOptions emotion: (optional) Detects anger, disgust, fear, joy, or
+          sadness that is conveyed in the content or by the context around target phrases
+          specified in the targets parameter. You can analyze emotion for detected
+          entities with `entities.emotion` and for keywords with `keywords.emotion`.
+          Supported languages: English.
+    :attr EntitiesOptions entities: (optional) Identifies people, cities,
+          organizations, and other entities in the content. See [Entity types and
+          subtypes](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-entity-types).
+          Supported languages: English, French, German, Italian, Japanese, Korean,
+          Portuguese, Russian, Spanish, Swedish. Arabic, Chinese, and Dutch are supported
+          only through custom models.
+    :attr KeywordsOptions keywords: (optional) Returns important keywords in the
+          content.
+          Supported languages: English, French, German, Italian, Japanese, Korean,
+          Portuguese, Russian, Spanish, Swedish.
+    :attr MetadataOptions metadata: (optional) Returns information from the
+          document, including author name, title, RSS/ATOM feeds, prominent page image,
+          and publication date. Supports URL and HTML input types only.
+    :attr RelationsOptions relations: (optional) Recognizes when two entities are
+          related and identifies the type of relation. For example, an `awardedTo`
+          relation might connect the entities "Nobel Prize" and "Albert Einstein". See
+          [Relation
+          types](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-relations).
+          Supported languages: Arabic, English, German, Japanese, Korean, Spanish.
+          Chinese, Dutch, French, Italian, and Portuguese custom models are also
+          supported.
+    :attr SemanticRolesOptions semantic_roles: (optional) Parses sentences into
+          subject, action, and object form.
+          Supported languages: English, German, Japanese, Korean, Spanish.
+    :attr SentimentOptions sentiment: (optional) Analyzes the general sentiment of
+          your content or the sentiment toward specific target phrases. You can analyze
+          sentiment for detected entities with `entities.sentiment` and for keywords with
+          `keywords.sentiment`.
+           Supported languages: Arabic, English, French, German, Italian, Japanese,
+          Korean, Portuguese, Russian, Spanish.
+    :attr CategoriesOptions categories: (optional) Returns a five-level taxonomy of
+          the content. The top three categories are returned.
+          Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
+          Portuguese, Spanish.
+    :attr SyntaxOptions syntax: (optional) Returns tokens and sentences from the
+          input text.
     """
 
     def __init__(self,
+                 *,
                  concepts=None,
                  emotion=None,
                  entities=None,
@@ -1973,50 +1953,53 @@ class Features(object):
         """
         Initialize a Features object.
 
-        :param ConceptsOptions concepts: (optional) Returns high-level concepts in the
-        content. For example, a research paper about deep learning might return the
-        concept, "Artificial Intelligence" although the term is not mentioned.
-        Supported languages: English, French, German, Italian, Japanese, Korean,
-        Portuguese, Spanish.
-        :param EmotionOptions emotion: (optional) Detects anger, disgust, fear, joy, or
-        sadness that is conveyed in the content or by the context around target phrases
-        specified in the targets parameter. You can analyze emotion for detected entities
-        with `entities.emotion` and for keywords with `keywords.emotion`.
-        Supported languages: English.
+        :param ConceptsOptions concepts: (optional) Returns high-level concepts in
+               the content. For example, a research paper about deep learning might return
+               the concept, "Artificial Intelligence" although the term is not mentioned.
+               Supported languages: English, French, German, Italian, Japanese, Korean,
+               Portuguese, Spanish.
+        :param EmotionOptions emotion: (optional) Detects anger, disgust, fear,
+               joy, or sadness that is conveyed in the content or by the context around
+               target phrases specified in the targets parameter. You can analyze emotion
+               for detected entities with `entities.emotion` and for keywords with
+               `keywords.emotion`.
+               Supported languages: English.
         :param EntitiesOptions entities: (optional) Identifies people, cities,
-        organizations, and other entities in the content. See [Entity types and
-        subtypes](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-entity-types).
-        Supported languages: English, French, German, Italian, Japanese, Korean,
-        Portuguese, Russian, Spanish, Swedish. Arabic, Chinese, and Dutch are supported
-        only through custom models.
-        :param KeywordsOptions keywords: (optional) Returns important keywords in the
-        content.
-        Supported languages: English, French, German, Italian, Japanese, Korean,
-        Portuguese, Russian, Spanish, Swedish.
-        :param MetadataOptions metadata: (optional) Returns information from the document,
-        including author name, title, RSS/ATOM feeds, prominent page image, and
-        publication date. Supports URL and HTML input types only.
-        :param RelationsOptions relations: (optional) Recognizes when two entities are
-        related and identifies the type of relation. For example, an `awardedTo` relation
-        might connect the entities "Nobel Prize" and "Albert Einstein". See [Relation
-        types](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-relations).
-        Supported languages: Arabic, English, German, Japanese, Korean, Spanish. Chinese,
-        Dutch, French, Italian, and Portuguese custom models are also supported.
-        :param SemanticRolesOptions semantic_roles: (optional) Parses sentences into
-        subject, action, and object form.
-        Supported languages: English, German, Japanese, Korean, Spanish.
-        :param SentimentOptions sentiment: (optional) Analyzes the general sentiment of
-        your content or the sentiment toward specific target phrases. You can analyze
-        sentiment for detected entities with `entities.sentiment` and for keywords with
-        `keywords.sentiment`.
-         Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
-        Portuguese, Russian, Spanish.
-        :param CategoriesOptions categories: (optional) Returns a five-level taxonomy of
-        the content. The top three categories are returned.
-        Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
-        Portuguese, Spanish.
-        :param SyntaxOptions syntax: (optional) Returns tokens and sentences from the
-        input text.
+               organizations, and other entities in the content. See [Entity types and
+               subtypes](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-entity-types).
+               Supported languages: English, French, German, Italian, Japanese, Korean,
+               Portuguese, Russian, Spanish, Swedish. Arabic, Chinese, and Dutch are
+               supported only through custom models.
+        :param KeywordsOptions keywords: (optional) Returns important keywords in
+               the content.
+               Supported languages: English, French, German, Italian, Japanese, Korean,
+               Portuguese, Russian, Spanish, Swedish.
+        :param MetadataOptions metadata: (optional) Returns information from the
+               document, including author name, title, RSS/ATOM feeds, prominent page
+               image, and publication date. Supports URL and HTML input types only.
+        :param RelationsOptions relations: (optional) Recognizes when two entities
+               are related and identifies the type of relation. For example, an
+               `awardedTo` relation might connect the entities "Nobel Prize" and "Albert
+               Einstein". See [Relation
+               types](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-relations).
+               Supported languages: Arabic, English, German, Japanese, Korean, Spanish.
+               Chinese, Dutch, French, Italian, and Portuguese custom models are also
+               supported.
+        :param SemanticRolesOptions semantic_roles: (optional) Parses sentences
+               into subject, action, and object form.
+               Supported languages: English, German, Japanese, Korean, Spanish.
+        :param SentimentOptions sentiment: (optional) Analyzes the general
+               sentiment of your content or the sentiment toward specific target phrases.
+               You can analyze sentiment for detected entities with `entities.sentiment`
+               and for keywords with `keywords.sentiment`.
+                Supported languages: Arabic, English, French, German, Italian, Japanese,
+               Korean, Portuguese, Russian, Spanish.
+        :param CategoriesOptions categories: (optional) Returns a five-level
+               taxonomy of the content. The top three categories are returned.
+               Supported languages: Arabic, English, French, German, Italian, Japanese,
+               Korean, Portuguese, Spanish.
+        :param SyntaxOptions syntax: (optional) Returns tokens and sentences from
+               the input text.
         """
         self.concepts = concepts
         self.emotion = emotion
@@ -2033,15 +2016,15 @@ class Features(object):
     def _from_dict(cls, _dict):
         """Initialize a Features object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'concepts', 'emotion', 'entities', 'keywords', 'metadata',
             'relations', 'semantic_roles', 'sentiment', 'categories', 'syntax'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Features: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'concepts' in _dict:
             args['concepts'] = ConceptsOptions._from_dict(_dict.get('concepts'))
         if 'emotion' in _dict:
@@ -2108,14 +2091,14 @@ class Features(object):
         return not self == other
 
 
-class Feed(object):
+class Feed():
     """
     RSS or ATOM feed found on the webpage.
 
     :attr str link: (optional) URL of the RSS or ATOM feed.
     """
 
-    def __init__(self, link=None):
+    def __init__(self, *, link=None):
         """
         Initialize a Feed object.
 
@@ -2127,12 +2110,12 @@ class Feed(object):
     def _from_dict(cls, _dict):
         """Initialize a Feed object from a json dictionary."""
         args = {}
-        validKeys = ['link']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['link']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Feed: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'link' in _dict:
             args['link'] = _dict.get('link')
         return cls(**args)
@@ -2159,28 +2142,28 @@ class Feed(object):
         return not self == other
 
 
-class KeywordsOptions(object):
+class KeywordsOptions():
     """
     Returns important keywords in the content.
     Supported languages: English, French, German, Italian, Japanese, Korean, Portuguese,
     Russian, Spanish, Swedish.
 
     :attr int limit: (optional) Maximum number of keywords to return.
-    :attr bool sentiment: (optional) Set this to `true` to return sentiment information
-    for detected keywords.
-    :attr bool emotion: (optional) Set this to `true` to analyze emotion for detected
-    keywords.
+    :attr bool sentiment: (optional) Set this to `true` to return sentiment
+          information for detected keywords.
+    :attr bool emotion: (optional) Set this to `true` to analyze emotion for
+          detected keywords.
     """
 
-    def __init__(self, limit=None, sentiment=None, emotion=None):
+    def __init__(self, *, limit=None, sentiment=None, emotion=None):
         """
         Initialize a KeywordsOptions object.
 
         :param int limit: (optional) Maximum number of keywords to return.
         :param bool sentiment: (optional) Set this to `true` to return sentiment
-        information for detected keywords.
-        :param bool emotion: (optional) Set this to `true` to analyze emotion for detected
-        keywords.
+               information for detected keywords.
+        :param bool emotion: (optional) Set this to `true` to analyze emotion for
+               detected keywords.
         """
         self.limit = limit
         self.sentiment = sentiment
@@ -2190,12 +2173,12 @@ class KeywordsOptions(object):
     def _from_dict(cls, _dict):
         """Initialize a KeywordsOptions object from a json dictionary."""
         args = {}
-        validKeys = ['limit', 'sentiment', 'emotion']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['limit', 'sentiment', 'emotion']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class KeywordsOptions: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'limit' in _dict:
             args['limit'] = _dict.get('limit')
         if 'sentiment' in _dict:
@@ -2230,21 +2213,23 @@ class KeywordsOptions(object):
         return not self == other
 
 
-class KeywordsResult(object):
+class KeywordsResult():
     """
     The important keywords in the content, organized by relevance.
 
-    :attr int count: (optional) Number of times the keyword appears in the analyzed text.
-    :attr float relevance: (optional) Relevance score from 0 to 1. Higher values indicate
-    greater relevance.
+    :attr int count: (optional) Number of times the keyword appears in the analyzed
+          text.
+    :attr float relevance: (optional) Relevance score from 0 to 1. Higher values
+          indicate greater relevance.
     :attr str text: (optional) The keyword text.
-    :attr EmotionScores emotion: (optional) Emotion analysis results for the keyword,
-    enabled with the `emotion` option.
-    :attr FeatureSentimentResults sentiment: (optional) Sentiment analysis results for the
-    keyword, enabled with the `sentiment` option.
+    :attr EmotionScores emotion: (optional) Emotion analysis results for the
+          keyword, enabled with the `emotion` option.
+    :attr FeatureSentimentResults sentiment: (optional) Sentiment analysis results
+          for the keyword, enabled with the `sentiment` option.
     """
 
     def __init__(self,
+                 *,
                  count=None,
                  relevance=None,
                  text=None,
@@ -2253,15 +2238,15 @@ class KeywordsResult(object):
         """
         Initialize a KeywordsResult object.
 
-        :param int count: (optional) Number of times the keyword appears in the analyzed
-        text.
-        :param float relevance: (optional) Relevance score from 0 to 1. Higher values
-        indicate greater relevance.
+        :param int count: (optional) Number of times the keyword appears in the
+               analyzed text.
+        :param float relevance: (optional) Relevance score from 0 to 1. Higher
+               values indicate greater relevance.
         :param str text: (optional) The keyword text.
-        :param EmotionScores emotion: (optional) Emotion analysis results for the keyword,
-        enabled with the `emotion` option.
-        :param FeatureSentimentResults sentiment: (optional) Sentiment analysis results
-        for the keyword, enabled with the `sentiment` option.
+        :param EmotionScores emotion: (optional) Emotion analysis results for the
+               keyword, enabled with the `emotion` option.
+        :param FeatureSentimentResults sentiment: (optional) Sentiment analysis
+               results for the keyword, enabled with the `sentiment` option.
         """
         self.count = count
         self.relevance = relevance
@@ -2273,12 +2258,12 @@ class KeywordsResult(object):
     def _from_dict(cls, _dict):
         """Initialize a KeywordsResult object from a json dictionary."""
         args = {}
-        validKeys = ['count', 'relevance', 'text', 'emotion', 'sentiment']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['count', 'relevance', 'text', 'emotion', 'sentiment']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class KeywordsResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'count' in _dict:
             args['count'] = _dict.get('count')
         if 'relevance' in _dict:
@@ -2322,14 +2307,14 @@ class KeywordsResult(object):
         return not self == other
 
 
-class ListModelsResults(object):
+class ListModelsResults():
     """
     Custom models that are available for entities and relations.
 
     :attr list[Model] models: (optional) An array of available models.
     """
 
-    def __init__(self, models=None):
+    def __init__(self, *, models=None):
         """
         Initialize a ListModelsResults object.
 
@@ -2341,12 +2326,12 @@ class ListModelsResults(object):
     def _from_dict(cls, _dict):
         """Initialize a ListModelsResults object from a json dictionary."""
         args = {}
-        validKeys = ['models']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['models']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ListModelsResults: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'models' in _dict:
             args['models'] = [
                 Model._from_dict(x) for x in (_dict.get('models'))
@@ -2375,7 +2360,7 @@ class ListModelsResults(object):
         return not self == other
 
 
-class MetadataOptions(object):
+class MetadataOptions():
     """
     Returns information from the document, including author name, title, RSS/ATOM feeds,
     prominent page image, and publication date. Supports URL and HTML input types only.
@@ -2414,25 +2399,28 @@ class MetadataOptions(object):
         return not self == other
 
 
-class Model(object):
+class Model():
     """
     Model.
 
-    :attr str status: (optional) When the status is `available`, the model is ready to
-    use.
+    :attr str status: (optional) When the status is `available`, the model is ready
+          to use.
     :attr str model_id: (optional) Unique model ID.
-    :attr str language: (optional) ISO 639-1 code indicating the language of the model.
+    :attr str language: (optional) ISO 639-1 code indicating the language of the
+          model.
     :attr str description: (optional) Model description.
-    :attr str workspace_id: (optional) ID of the Watson Knowledge Studio workspace that
-    deployed this model to Natural Language Understanding.
-    :attr str version: (optional) The model version, if it was manually provided in Watson
-    Knowledge Studio.
-    :attr str version_description: (optional) The description of the version, if it was
-    manually provided in Watson Knowledge Studio.
-    :attr datetime created: (optional) A dateTime indicating when the model was created.
+    :attr str workspace_id: (optional) ID of the Watson Knowledge Studio workspace
+          that deployed this model to Natural Language Understanding.
+    :attr str version: (optional) The model version, if it was manually provided in
+          Watson Knowledge Studio.
+    :attr str version_description: (optional) The description of the version, if it
+          was manually provided in Watson Knowledge Studio.
+    :attr datetime created: (optional) A dateTime indicating when the model was
+          created.
     """
 
     def __init__(self,
+                 *,
                  status=None,
                  model_id=None,
                  language=None,
@@ -2444,20 +2432,20 @@ class Model(object):
         """
         Initialize a Model object.
 
-        :param str status: (optional) When the status is `available`, the model is ready
-        to use.
+        :param str status: (optional) When the status is `available`, the model is
+               ready to use.
         :param str model_id: (optional) Unique model ID.
-        :param str language: (optional) ISO 639-1 code indicating the language of the
-        model.
+        :param str language: (optional) ISO 639-1 code indicating the language of
+               the model.
         :param str description: (optional) Model description.
-        :param str workspace_id: (optional) ID of the Watson Knowledge Studio workspace
-        that deployed this model to Natural Language Understanding.
-        :param str version: (optional) The model version, if it was manually provided in
-        Watson Knowledge Studio.
-        :param str version_description: (optional) The description of the version, if it
-        was manually provided in Watson Knowledge Studio.
-        :param datetime created: (optional) A dateTime indicating when the model was
-        created.
+        :param str workspace_id: (optional) ID of the Watson Knowledge Studio
+               workspace that deployed this model to Natural Language Understanding.
+        :param str version: (optional) The model version, if it was manually
+               provided in Watson Knowledge Studio.
+        :param str version_description: (optional) The description of the version,
+               if it was manually provided in Watson Knowledge Studio.
+        :param datetime created: (optional) A dateTime indicating when the model
+               was created.
         """
         self.status = status
         self.model_id = model_id
@@ -2472,15 +2460,15 @@ class Model(object):
     def _from_dict(cls, _dict):
         """Initialize a Model object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'status', 'model_id', 'language', 'description', 'workspace_id',
             'version', 'version_description', 'created'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Model: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'status' in _dict:
             args['status'] = _dict.get('status')
         if 'model_id' in _dict:
@@ -2537,23 +2525,24 @@ class Model(object):
         return not self == other
 
 
-class RelationArgument(object):
+class RelationArgument():
     """
     RelationArgument.
 
     :attr list[RelationEntity] entities: (optional) An array of extracted entities.
-    :attr list[int] location: (optional) Character offsets indicating the beginning and
-    end of the mention in the analyzed text.
+    :attr list[int] location: (optional) Character offsets indicating the beginning
+          and end of the mention in the analyzed text.
     :attr str text: (optional) Text that corresponds to the argument.
     """
 
-    def __init__(self, entities=None, location=None, text=None):
+    def __init__(self, *, entities=None, location=None, text=None):
         """
         Initialize a RelationArgument object.
 
-        :param list[RelationEntity] entities: (optional) An array of extracted entities.
-        :param list[int] location: (optional) Character offsets indicating the beginning
-        and end of the mention in the analyzed text.
+        :param list[RelationEntity] entities: (optional) An array of extracted
+               entities.
+        :param list[int] location: (optional) Character offsets indicating the
+               beginning and end of the mention in the analyzed text.
         :param str text: (optional) Text that corresponds to the argument.
         """
         self.entities = entities
@@ -2564,12 +2553,12 @@ class RelationArgument(object):
     def _from_dict(cls, _dict):
         """Initialize a RelationArgument object from a json dictionary."""
         args = {}
-        validKeys = ['entities', 'location', 'text']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['entities', 'location', 'text']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class RelationArgument: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'entities' in _dict:
             args['entities'] = [
                 RelationEntity._from_dict(x) for x in (_dict.get('entities'))
@@ -2606,7 +2595,7 @@ class RelationArgument(object):
         return not self == other
 
 
-class RelationEntity(object):
+class RelationEntity():
     """
     An entity that corresponds with an argument in a relation.
 
@@ -2614,7 +2603,7 @@ class RelationEntity(object):
     :attr str type: (optional) Entity type.
     """
 
-    def __init__(self, text=None, type=None):
+    def __init__(self, *, text=None, type=None):
         """
         Initialize a RelationEntity object.
 
@@ -2628,12 +2617,12 @@ class RelationEntity(object):
     def _from_dict(cls, _dict):
         """Initialize a RelationEntity object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'type']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'type']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class RelationEntity: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'type' in _dict:
@@ -2664,7 +2653,7 @@ class RelationEntity(object):
         return not self == other
 
 
-class RelationsOptions(object):
+class RelationsOptions():
     """
     Recognizes when two entities are related and identifies the type of relation. For
     example, an `awardedTo` relation might connect the entities "Nobel Prize" and "Albert
@@ -2674,17 +2663,17 @@ class RelationsOptions(object):
     Dutch, French, Italian, and Portuguese custom models are also supported.
 
     :attr str model: (optional) Enter a [custom
-    model](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing)
-    ID to override the default model.
+          model](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing)
+          ID to override the default model.
     """
 
-    def __init__(self, model=None):
+    def __init__(self, *, model=None):
         """
         Initialize a RelationsOptions object.
 
         :param str model: (optional) Enter a [custom
-        model](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing)
-        ID to override the default model.
+               model](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing)
+               ID to override the default model.
         """
         self.model = model
 
@@ -2692,12 +2681,12 @@ class RelationsOptions(object):
     def _from_dict(cls, _dict):
         """Initialize a RelationsOptions object from a json dictionary."""
         args = {}
-        validKeys = ['model']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['model']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class RelationsOptions: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'model' in _dict:
             args['model'] = _dict.get('model')
         return cls(**args)
@@ -2724,28 +2713,28 @@ class RelationsOptions(object):
         return not self == other
 
 
-class RelationsResult(object):
+class RelationsResult():
     """
     The relations between entities found in the content.
 
     :attr float score: (optional) Confidence score for the relation. Higher values
-    indicate greater confidence.
+          indicate greater confidence.
     :attr str sentence: (optional) The sentence that contains the relation.
     :attr str type: (optional) The type of the relation.
-    :attr list[RelationArgument] arguments: (optional) Entity mentions that are involved
-    in the relation.
+    :attr list[RelationArgument] arguments: (optional) Entity mentions that are
+          involved in the relation.
     """
 
-    def __init__(self, score=None, sentence=None, type=None, arguments=None):
+    def __init__(self, *, score=None, sentence=None, type=None, arguments=None):
         """
         Initialize a RelationsResult object.
 
-        :param float score: (optional) Confidence score for the relation. Higher values
-        indicate greater confidence.
+        :param float score: (optional) Confidence score for the relation. Higher
+               values indicate greater confidence.
         :param str sentence: (optional) The sentence that contains the relation.
         :param str type: (optional) The type of the relation.
-        :param list[RelationArgument] arguments: (optional) Entity mentions that are
-        involved in the relation.
+        :param list[RelationArgument] arguments: (optional) Entity mentions that
+               are involved in the relation.
         """
         self.score = score
         self.sentence = sentence
@@ -2756,12 +2745,12 @@ class RelationsResult(object):
     def _from_dict(cls, _dict):
         """Initialize a RelationsResult object from a json dictionary."""
         args = {}
-        validKeys = ['score', 'sentence', 'type', 'arguments']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['score', 'sentence', 'type', 'arguments']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class RelationsResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'score' in _dict:
             args['score'] = _dict.get('score')
         if 'sentence' in _dict:
@@ -2802,7 +2791,7 @@ class RelationsResult(object):
         return not self == other
 
 
-class SemanticRolesEntity(object):
+class SemanticRolesEntity():
     """
     SemanticRolesEntity.
 
@@ -2810,7 +2799,7 @@ class SemanticRolesEntity(object):
     :attr str text: (optional) The entity text.
     """
 
-    def __init__(self, type=None, text=None):
+    def __init__(self, *, type=None, text=None):
         """
         Initialize a SemanticRolesEntity object.
 
@@ -2824,12 +2813,12 @@ class SemanticRolesEntity(object):
     def _from_dict(cls, _dict):
         """Initialize a SemanticRolesEntity object from a json dictionary."""
         args = {}
-        validKeys = ['type', 'text']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['type', 'text']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SemanticRolesEntity: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'text' in _dict:
@@ -2860,14 +2849,14 @@ class SemanticRolesEntity(object):
         return not self == other
 
 
-class SemanticRolesKeyword(object):
+class SemanticRolesKeyword():
     """
     SemanticRolesKeyword.
 
     :attr str text: (optional) The keyword text.
     """
 
-    def __init__(self, text=None):
+    def __init__(self, *, text=None):
         """
         Initialize a SemanticRolesKeyword object.
 
@@ -2879,12 +2868,12 @@ class SemanticRolesKeyword(object):
     def _from_dict(cls, _dict):
         """Initialize a SemanticRolesKeyword object from a json dictionary."""
         args = {}
-        validKeys = ['text']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SemanticRolesKeyword: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         return cls(**args)
@@ -2911,27 +2900,28 @@ class SemanticRolesKeyword(object):
         return not self == other
 
 
-class SemanticRolesOptions(object):
+class SemanticRolesOptions():
     """
     Parses sentences into subject, action, and object form.
     Supported languages: English, German, Japanese, Korean, Spanish.
 
     :attr int limit: (optional) Maximum number of semantic_roles results to return.
-    :attr bool keywords: (optional) Set this to `true` to return keyword information for
-    subjects and objects.
-    :attr bool entities: (optional) Set this to `true` to return entity information for
-    subjects and objects.
+    :attr bool keywords: (optional) Set this to `true` to return keyword information
+          for subjects and objects.
+    :attr bool entities: (optional) Set this to `true` to return entity information
+          for subjects and objects.
     """
 
-    def __init__(self, limit=None, keywords=None, entities=None):
+    def __init__(self, *, limit=None, keywords=None, entities=None):
         """
         Initialize a SemanticRolesOptions object.
 
-        :param int limit: (optional) Maximum number of semantic_roles results to return.
-        :param bool keywords: (optional) Set this to `true` to return keyword information
-        for subjects and objects.
-        :param bool entities: (optional) Set this to `true` to return entity information
-        for subjects and objects.
+        :param int limit: (optional) Maximum number of semantic_roles results to
+               return.
+        :param bool keywords: (optional) Set this to `true` to return keyword
+               information for subjects and objects.
+        :param bool entities: (optional) Set this to `true` to return entity
+               information for subjects and objects.
         """
         self.limit = limit
         self.keywords = keywords
@@ -2941,12 +2931,12 @@ class SemanticRolesOptions(object):
     def _from_dict(cls, _dict):
         """Initialize a SemanticRolesOptions object from a json dictionary."""
         args = {}
-        validKeys = ['limit', 'keywords', 'entities']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['limit', 'keywords', 'entities']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SemanticRolesOptions: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'limit' in _dict:
             args['limit'] = _dict.get('limit')
         if 'keywords' in _dict:
@@ -2981,32 +2971,33 @@ class SemanticRolesOptions(object):
         return not self == other
 
 
-class SemanticRolesResult(object):
+class SemanticRolesResult():
     """
     The object containing the actions and the objects the actions act upon.
 
-    :attr str sentence: (optional) Sentence from the source that contains the subject,
-    action, and object.
-    :attr SemanticRolesResultSubject subject: (optional) The extracted subject from the
-    sentence.
+    :attr str sentence: (optional) Sentence from the source that contains the
+          subject, action, and object.
+    :attr SemanticRolesResultSubject subject: (optional) The extracted subject from
+          the sentence.
     :attr SemanticRolesResultAction action: (optional) The extracted action from the
-    sentence.
+          sentence.
     :attr SemanticRolesResultObject object: (optional) The extracted object from the
-    sentence.
+          sentence.
     """
 
-    def __init__(self, sentence=None, subject=None, action=None, object=None):
+    def __init__(self, *, sentence=None, subject=None, action=None,
+                 object=None):
         """
         Initialize a SemanticRolesResult object.
 
         :param str sentence: (optional) Sentence from the source that contains the
-        subject, action, and object.
-        :param SemanticRolesResultSubject subject: (optional) The extracted subject from
-        the sentence.
-        :param SemanticRolesResultAction action: (optional) The extracted action from the
-        sentence.
-        :param SemanticRolesResultObject object: (optional) The extracted object from the
-        sentence.
+               subject, action, and object.
+        :param SemanticRolesResultSubject subject: (optional) The extracted subject
+               from the sentence.
+        :param SemanticRolesResultAction action: (optional) The extracted action
+               from the sentence.
+        :param SemanticRolesResultObject object: (optional) The extracted object
+               from the sentence.
         """
         self.sentence = sentence
         self.subject = subject
@@ -3017,12 +3008,12 @@ class SemanticRolesResult(object):
     def _from_dict(cls, _dict):
         """Initialize a SemanticRolesResult object from a json dictionary."""
         args = {}
-        validKeys = ['sentence', 'subject', 'action', 'object']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['sentence', 'subject', 'action', 'object']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SemanticRolesResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'sentence' in _dict:
             args['sentence'] = _dict.get('sentence')
         if 'subject' in _dict:
@@ -3064,7 +3055,7 @@ class SemanticRolesResult(object):
         return not self == other
 
 
-class SemanticRolesResultAction(object):
+class SemanticRolesResultAction():
     """
     The extracted action from the sentence.
 
@@ -3073,7 +3064,7 @@ class SemanticRolesResultAction(object):
     :attr SemanticRolesVerb verb: (optional)
     """
 
-    def __init__(self, text=None, normalized=None, verb=None):
+    def __init__(self, *, text=None, normalized=None, verb=None):
         """
         Initialize a SemanticRolesResultAction object.
 
@@ -3089,12 +3080,12 @@ class SemanticRolesResultAction(object):
     def _from_dict(cls, _dict):
         """Initialize a SemanticRolesResultAction object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'normalized', 'verb']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'normalized', 'verb']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SemanticRolesResultAction: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'normalized' in _dict:
@@ -3129,21 +3120,22 @@ class SemanticRolesResultAction(object):
         return not self == other
 
 
-class SemanticRolesResultObject(object):
+class SemanticRolesResultObject():
     """
     The extracted object from the sentence.
 
     :attr str text: (optional) Object text.
-    :attr list[SemanticRolesKeyword] keywords: (optional) An array of extracted keywords.
+    :attr list[SemanticRolesKeyword] keywords: (optional) An array of extracted
+          keywords.
     """
 
-    def __init__(self, text=None, keywords=None):
+    def __init__(self, *, text=None, keywords=None):
         """
         Initialize a SemanticRolesResultObject object.
 
         :param str text: (optional) Object text.
-        :param list[SemanticRolesKeyword] keywords: (optional) An array of extracted
-        keywords.
+        :param list[SemanticRolesKeyword] keywords: (optional) An array of
+               extracted keywords.
         """
         self.text = text
         self.keywords = keywords
@@ -3152,12 +3144,12 @@ class SemanticRolesResultObject(object):
     def _from_dict(cls, _dict):
         """Initialize a SemanticRolesResultObject object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'keywords']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'keywords']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SemanticRolesResultObject: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'keywords' in _dict:
@@ -3191,24 +3183,26 @@ class SemanticRolesResultObject(object):
         return not self == other
 
 
-class SemanticRolesResultSubject(object):
+class SemanticRolesResultSubject():
     """
     The extracted subject from the sentence.
 
     :attr str text: (optional) Text that corresponds to the subject role.
-    :attr list[SemanticRolesEntity] entities: (optional) An array of extracted entities.
-    :attr list[SemanticRolesKeyword] keywords: (optional) An array of extracted keywords.
+    :attr list[SemanticRolesEntity] entities: (optional) An array of extracted
+          entities.
+    :attr list[SemanticRolesKeyword] keywords: (optional) An array of extracted
+          keywords.
     """
 
-    def __init__(self, text=None, entities=None, keywords=None):
+    def __init__(self, *, text=None, entities=None, keywords=None):
         """
         Initialize a SemanticRolesResultSubject object.
 
         :param str text: (optional) Text that corresponds to the subject role.
         :param list[SemanticRolesEntity] entities: (optional) An array of extracted
-        entities.
-        :param list[SemanticRolesKeyword] keywords: (optional) An array of extracted
-        keywords.
+               entities.
+        :param list[SemanticRolesKeyword] keywords: (optional) An array of
+               extracted keywords.
         """
         self.text = text
         self.entities = entities
@@ -3218,12 +3212,12 @@ class SemanticRolesResultSubject(object):
     def _from_dict(cls, _dict):
         """Initialize a SemanticRolesResultSubject object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'entities', 'keywords']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'entities', 'keywords']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SemanticRolesResultSubject: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'entities' in _dict:
@@ -3264,7 +3258,7 @@ class SemanticRolesResultSubject(object):
         return not self == other
 
 
-class SemanticRolesVerb(object):
+class SemanticRolesVerb():
     """
     SemanticRolesVerb.
 
@@ -3272,7 +3266,7 @@ class SemanticRolesVerb(object):
     :attr str tense: (optional) Verb tense.
     """
 
-    def __init__(self, text=None, tense=None):
+    def __init__(self, *, text=None, tense=None):
         """
         Initialize a SemanticRolesVerb object.
 
@@ -3286,12 +3280,12 @@ class SemanticRolesVerb(object):
     def _from_dict(cls, _dict):
         """Initialize a SemanticRolesVerb object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'tense']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'tense']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SemanticRolesVerb: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'tense' in _dict:
@@ -3322,22 +3316,22 @@ class SemanticRolesVerb(object):
         return not self == other
 
 
-class SentenceResult(object):
+class SentenceResult():
     """
     SentenceResult.
 
     :attr str text: (optional) The sentence.
-    :attr list[int] location: (optional) Character offsets indicating the beginning and
-    end of the sentence in the analyzed text.
+    :attr list[int] location: (optional) Character offsets indicating the beginning
+          and end of the sentence in the analyzed text.
     """
 
-    def __init__(self, text=None, location=None):
+    def __init__(self, *, text=None, location=None):
         """
         Initialize a SentenceResult object.
 
         :param str text: (optional) The sentence.
-        :param list[int] location: (optional) Character offsets indicating the beginning
-        and end of the sentence in the analyzed text.
+        :param list[int] location: (optional) Character offsets indicating the
+               beginning and end of the sentence in the analyzed text.
         """
         self.text = text
         self.location = location
@@ -3346,12 +3340,12 @@ class SentenceResult(object):
     def _from_dict(cls, _dict):
         """Initialize a SentenceResult object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'location']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'location']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SentenceResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'location' in _dict:
@@ -3382,7 +3376,7 @@ class SentenceResult(object):
         return not self == other
 
 
-class SentimentOptions(object):
+class SentimentOptions():
     """
     Analyzes the general sentiment of your content or the sentiment toward specific target
     phrases. You can analyze sentiment for detected entities with `entities.sentiment` and
@@ -3390,20 +3384,20 @@ class SentimentOptions(object):
      Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
     Portuguese, Russian, Spanish.
 
-    :attr bool document: (optional) Set this to `false` to hide document-level sentiment
-    results.
-    :attr list[str] targets: (optional) Sentiment results will be returned for each target
-    string that is found in the document.
+    :attr bool document: (optional) Set this to `false` to hide document-level
+          sentiment results.
+    :attr list[str] targets: (optional) Sentiment results will be returned for each
+          target string that is found in the document.
     """
 
-    def __init__(self, document=None, targets=None):
+    def __init__(self, *, document=None, targets=None):
         """
         Initialize a SentimentOptions object.
 
         :param bool document: (optional) Set this to `false` to hide document-level
-        sentiment results.
-        :param list[str] targets: (optional) Sentiment results will be returned for each
-        target string that is found in the document.
+               sentiment results.
+        :param list[str] targets: (optional) Sentiment results will be returned for
+               each target string that is found in the document.
         """
         self.document = document
         self.targets = targets
@@ -3412,12 +3406,12 @@ class SentimentOptions(object):
     def _from_dict(cls, _dict):
         """Initialize a SentimentOptions object from a json dictionary."""
         args = {}
-        validKeys = ['document', 'targets']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['document', 'targets']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SentimentOptions: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document' in _dict:
             args['document'] = _dict.get('document')
         if 'targets' in _dict:
@@ -3448,22 +3442,24 @@ class SentimentOptions(object):
         return not self == other
 
 
-class SentimentResult(object):
+class SentimentResult():
     """
     The sentiment of the content.
 
-    :attr DocumentSentimentResults document: (optional) The document level sentiment.
-    :attr list[TargetedSentimentResults] targets: (optional) The targeted sentiment to
-    analyze.
+    :attr DocumentSentimentResults document: (optional) The document level
+          sentiment.
+    :attr list[TargetedSentimentResults] targets: (optional) The targeted sentiment
+          to analyze.
     """
 
-    def __init__(self, document=None, targets=None):
+    def __init__(self, *, document=None, targets=None):
         """
         Initialize a SentimentResult object.
 
-        :param DocumentSentimentResults document: (optional) The document level sentiment.
-        :param list[TargetedSentimentResults] targets: (optional) The targeted sentiment
-        to analyze.
+        :param DocumentSentimentResults document: (optional) The document level
+               sentiment.
+        :param list[TargetedSentimentResults] targets: (optional) The targeted
+               sentiment to analyze.
         """
         self.document = document
         self.targets = targets
@@ -3472,12 +3468,12 @@ class SentimentResult(object):
     def _from_dict(cls, _dict):
         """Initialize a SentimentResult object from a json dictionary."""
         args = {}
-        validKeys = ['document', 'targets']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['document', 'targets']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SentimentResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document' in _dict:
             args['document'] = DocumentSentimentResults._from_dict(
                 _dict.get('document'))
@@ -3512,21 +3508,22 @@ class SentimentResult(object):
         return not self == other
 
 
-class SyntaxOptions(object):
+class SyntaxOptions():
     """
     Returns tokens and sentences from the input text.
 
     :attr SyntaxOptionsTokens tokens: (optional) Tokenization options.
-    :attr bool sentences: (optional) Set this to `true` to return sentence information.
+    :attr bool sentences: (optional) Set this to `true` to return sentence
+          information.
     """
 
-    def __init__(self, tokens=None, sentences=None):
+    def __init__(self, *, tokens=None, sentences=None):
         """
         Initialize a SyntaxOptions object.
 
         :param SyntaxOptionsTokens tokens: (optional) Tokenization options.
         :param bool sentences: (optional) Set this to `true` to return sentence
-        information.
+               information.
         """
         self.tokens = tokens
         self.sentences = sentences
@@ -3535,12 +3532,12 @@ class SyntaxOptions(object):
     def _from_dict(cls, _dict):
         """Initialize a SyntaxOptions object from a json dictionary."""
         args = {}
-        validKeys = ['tokens', 'sentences']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['tokens', 'sentences']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SyntaxOptions: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'tokens' in _dict:
             args['tokens'] = SyntaxOptionsTokens._from_dict(_dict.get('tokens'))
         if 'sentences' in _dict:
@@ -3571,23 +3568,24 @@ class SyntaxOptions(object):
         return not self == other
 
 
-class SyntaxOptionsTokens(object):
+class SyntaxOptionsTokens():
     """
     Tokenization options.
 
-    :attr bool lemma: (optional) Set this to `true` to return the lemma for each token.
-    :attr bool part_of_speech: (optional) Set this to `true` to return the part of speech
-    for each token.
+    :attr bool lemma: (optional) Set this to `true` to return the lemma for each
+          token.
+    :attr bool part_of_speech: (optional) Set this to `true` to return the part of
+          speech for each token.
     """
 
-    def __init__(self, lemma=None, part_of_speech=None):
+    def __init__(self, *, lemma=None, part_of_speech=None):
         """
         Initialize a SyntaxOptionsTokens object.
 
-        :param bool lemma: (optional) Set this to `true` to return the lemma for each
-        token.
-        :param bool part_of_speech: (optional) Set this to `true` to return the part of
-        speech for each token.
+        :param bool lemma: (optional) Set this to `true` to return the lemma for
+               each token.
+        :param bool part_of_speech: (optional) Set this to `true` to return the
+               part of speech for each token.
         """
         self.lemma = lemma
         self.part_of_speech = part_of_speech
@@ -3596,12 +3594,12 @@ class SyntaxOptionsTokens(object):
     def _from_dict(cls, _dict):
         """Initialize a SyntaxOptionsTokens object from a json dictionary."""
         args = {}
-        validKeys = ['lemma', 'part_of_speech']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['lemma', 'part_of_speech']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SyntaxOptionsTokens: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'lemma' in _dict:
             args['lemma'] = _dict.get('lemma')
         if 'part_of_speech' in _dict:
@@ -3632,7 +3630,7 @@ class SyntaxOptionsTokens(object):
         return not self == other
 
 
-class SyntaxResult(object):
+class SyntaxResult():
     """
     Tokens and sentences returned from syntax analysis.
 
@@ -3640,7 +3638,7 @@ class SyntaxResult(object):
     :attr list[SentenceResult] sentences: (optional)
     """
 
-    def __init__(self, tokens=None, sentences=None):
+    def __init__(self, *, tokens=None, sentences=None):
         """
         Initialize a SyntaxResult object.
 
@@ -3654,12 +3652,12 @@ class SyntaxResult(object):
     def _from_dict(cls, _dict):
         """Initialize a SyntaxResult object from a json dictionary."""
         args = {}
-        validKeys = ['tokens', 'sentences']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['tokens', 'sentences']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SyntaxResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'tokens' in _dict:
             args['tokens'] = [
                 TokenResult._from_dict(x) for x in (_dict.get('tokens'))
@@ -3694,7 +3692,7 @@ class SyntaxResult(object):
         return not self == other
 
 
-class TargetedEmotionResults(object):
+class TargetedEmotionResults():
     """
     Emotion results for a specified target.
 
@@ -3702,12 +3700,13 @@ class TargetedEmotionResults(object):
     :attr EmotionScores emotion: (optional) The emotion results for the target.
     """
 
-    def __init__(self, text=None, emotion=None):
+    def __init__(self, *, text=None, emotion=None):
         """
         Initialize a TargetedEmotionResults object.
 
         :param str text: (optional) Targeted text.
-        :param EmotionScores emotion: (optional) The emotion results for the target.
+        :param EmotionScores emotion: (optional) The emotion results for the
+               target.
         """
         self.text = text
         self.emotion = emotion
@@ -3716,12 +3715,12 @@ class TargetedEmotionResults(object):
     def _from_dict(cls, _dict):
         """Initialize a TargetedEmotionResults object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'emotion']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'emotion']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TargetedEmotionResults: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'emotion' in _dict:
@@ -3752,20 +3751,22 @@ class TargetedEmotionResults(object):
         return not self == other
 
 
-class TargetedSentimentResults(object):
+class TargetedSentimentResults():
     """
     TargetedSentimentResults.
 
     :attr str text: (optional) Targeted text.
-    :attr float score: (optional) Sentiment score from -1 (negative) to 1 (positive).
+    :attr float score: (optional) Sentiment score from -1 (negative) to 1
+          (positive).
     """
 
-    def __init__(self, text=None, score=None):
+    def __init__(self, *, text=None, score=None):
         """
         Initialize a TargetedSentimentResults object.
 
         :param str text: (optional) Targeted text.
-        :param float score: (optional) Sentiment score from -1 (negative) to 1 (positive).
+        :param float score: (optional) Sentiment score from -1 (negative) to 1
+               (positive).
         """
         self.text = text
         self.score = score
@@ -3774,12 +3775,12 @@ class TargetedSentimentResults(object):
     def _from_dict(cls, _dict):
         """Initialize a TargetedSentimentResults object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'score']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'score']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TargetedSentimentResults: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'score' in _dict:
@@ -3810,21 +3811,22 @@ class TargetedSentimentResults(object):
         return not self == other
 
 
-class TokenResult(object):
+class TokenResult():
     """
     TokenResult.
 
     :attr str text: (optional) The token as it appears in the analyzed text.
-    :attr str part_of_speech: (optional) The part of speech of the token. For descriptions
-    of the values, see [Universal Dependencies POS
-    tags](https://universaldependencies.org/u/pos/).
-    :attr list[int] location: (optional) Character offsets indicating the beginning and
-    end of the token in the analyzed text.
+    :attr str part_of_speech: (optional) The part of speech of the token. For
+          descriptions of the values, see [Universal Dependencies POS
+          tags](https://universaldependencies.org/u/pos/).
+    :attr list[int] location: (optional) Character offsets indicating the beginning
+          and end of the token in the analyzed text.
     :attr str lemma: (optional) The
-    [lemma](https://wikipedia.org/wiki/Lemma_%28morphology%29) of the token.
+          [lemma](https://wikipedia.org/wiki/Lemma_%28morphology%29) of the token.
     """
 
     def __init__(self,
+                 *,
                  text=None,
                  part_of_speech=None,
                  location=None,
@@ -3834,12 +3836,12 @@ class TokenResult(object):
 
         :param str text: (optional) The token as it appears in the analyzed text.
         :param str part_of_speech: (optional) The part of speech of the token. For
-        descriptions of the values, see [Universal Dependencies POS
-        tags](https://universaldependencies.org/u/pos/).
-        :param list[int] location: (optional) Character offsets indicating the beginning
-        and end of the token in the analyzed text.
+               descriptions of the values, see [Universal Dependencies POS
+               tags](https://universaldependencies.org/u/pos/).
+        :param list[int] location: (optional) Character offsets indicating the
+               beginning and end of the token in the analyzed text.
         :param str lemma: (optional) The
-        [lemma](https://wikipedia.org/wiki/Lemma_%28morphology%29) of the token.
+               [lemma](https://wikipedia.org/wiki/Lemma_%28morphology%29) of the token.
         """
         self.text = text
         self.part_of_speech = part_of_speech
@@ -3850,12 +3852,12 @@ class TokenResult(object):
     def _from_dict(cls, _dict):
         """Initialize a TokenResult object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'part_of_speech', 'location', 'lemma']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'part_of_speech', 'location', 'lemma']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TokenResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'part_of_speech' in _dict:
@@ -3892,3 +3894,26 @@ class TokenResult(object):
     def __ne__(self, other):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
+
+    class PartOfSpeechEnum(Enum):
+        """
+        The part of speech of the token. For descriptions of the values, see [Universal
+        Dependencies POS tags](https://universaldependencies.org/u/pos/).
+        """
+        ADJ = "ADJ"
+        ADP = "ADP"
+        ADV = "ADV"
+        AUX = "AUX"
+        CCONJ = "CCONJ"
+        DET = "DET"
+        INTJ = "INTJ"
+        NOUN = "NOUN"
+        NUM = "NUM"
+        PART = "PART"
+        PRON = "PRON"
+        PROPN = "PROPN"
+        PUNCT = "PUNCT"
+        SCONJ = "SCONJ"
+        SYM = "SYM"
+        VERB = "VERB"
+        X = "X"

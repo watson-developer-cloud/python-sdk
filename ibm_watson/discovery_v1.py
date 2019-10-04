@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# Copyright 2018 IBM All Rights Reserved.
+# (C) Copyright IBM Corp. 2019.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,12 +21,13 @@ content, and use a simplified query language to eliminate the need for manual fi
 results.
 """
 
-from __future__ import absolute_import
-
 import json
 from .common import get_sdk_headers
+from enum import Enum
 from ibm_cloud_sdk_core import BaseService
 from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
+from ibm_cloud_sdk_core import get_authenticator_from_environment
+from ibm_cloud_sdk_core import read_external_sources
 from os.path import basename
 
 ##############################################################################
@@ -37,22 +38,12 @@ from os.path import basename
 class DiscoveryV1(BaseService):
     """The Discovery V1 service."""
 
-    default_url = 'https://gateway.watsonplatform.net/discovery/api'
+    default_service_url = 'https://gateway.watsonplatform.net/discovery/api'
 
     def __init__(
             self,
             version,
-            url=default_url,
-            username=None,
-            password=None,
-            iam_apikey=None,
-            iam_access_token=None,
-            iam_url=None,
-            iam_client_id=None,
-            iam_client_secret=None,
-            icp4d_access_token=None,
-            icp4d_url=None,
-            authentication_type=None,
+            authenticator=None,
     ):
         """
         Construct a new client for the Discovery service.
@@ -68,73 +59,35 @@ class DiscoveryV1(BaseService):
                application, and don't change it until your application is
                ready for a later version.
 
-        :param str url: The base url to use when contacting the service (e.g.
-               "https://gateway.watsonplatform.net/discovery/api/discovery/api").
-               The base url may differ between IBM Cloud regions.
-
-        :param str username: The username used to authenticate with the service.
-               Username and password credentials are only required to run your
-               application locally or outside of IBM Cloud. When running on
-               IBM Cloud, the credentials will be automatically loaded from the
-               `VCAP_SERVICES` environment variable.
-
-        :param str password: The password used to authenticate with the service.
-               Username and password credentials are only required to run your
-               application locally or outside of IBM Cloud. When running on
-               IBM Cloud, the credentials will be automatically loaded from the
-               `VCAP_SERVICES` environment variable.
-
-        :param str iam_apikey: An API key that can be used to request IAM tokens. If
-               this API key is provided, the SDK will manage the token and handle the
-               refreshing.
-
-        :param str iam_access_token:  An IAM access token is fully managed by the application.
-               Responsibility falls on the application to refresh the token, either before
-               it expires or reactively upon receiving a 401 from the service as any requests
-               made with an expired token will fail.
-
-        :param str iam_url: An optional URL for the IAM service API. Defaults to
-               'https://iam.cloud.ibm.com/identity/token'.
-
-        :param str iam_client_id: An optional client_id value to use when interacting with the IAM service.
-
-        :param str iam_client_secret: An optional client_secret value to use when interacting with the IAM service.
-
-        :param str icp4d_access_token:  A ICP4D(IBM Cloud Pak for Data) access token is
-               fully managed by the application. Responsibility falls on the application to
-               refresh the token, either before it expires or reactively upon receiving a 401
-               from the service as any requests made with an expired token will fail.
-
-        :param str icp4d_url: In order to use an SDK-managed token with ICP4D authentication, this
-               URL must be passed in.
-
-        :param str authentication_type: Specifies the authentication pattern to use. Values that it
-               takes are basic, iam or icp4d.
+        :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
+               Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
+               about initializing the authenticator of your choice.
         """
 
-        BaseService.__init__(
-            self,
-            vcap_services_name='discovery',
-            url=url,
-            username=username,
-            password=password,
-            iam_apikey=iam_apikey,
-            iam_access_token=iam_access_token,
-            iam_url=iam_url,
-            iam_client_id=iam_client_id,
-            iam_client_secret=iam_client_secret,
-            use_vcap_services=True,
-            display_name='Discovery',
-            icp4d_access_token=icp4d_access_token,
-            icp4d_url=icp4d_url,
-            authentication_type=authentication_type)
+        service_url = self.default_service_url
+        disable_ssl_verification = False
+
+        config = read_external_sources('discovery')
+        if config.get('URL'):
+            service_url = config.get('URL')
+        if config.get('DISABLE_SSL'):
+            disable_ssl_verification = config.get('DISABLE_SSL')
+
+        if not authenticator:
+            authenticator = get_authenticator_from_environment('discovery')
+
+        BaseService.__init__(self,
+                             service_url=service_url,
+                             authenticator=authenticator,
+                             disable_ssl_verification=disable_ssl_verification)
         self.version = version
 
     #########################
     # Environments
     #########################
 
-    def create_environment(self, name, description=None, size=None, **kwargs):
+    def create_environment(self, name, *, description=None, size=None,
+                           **kwargs):
         """
         Create an environment.
 
@@ -144,9 +97,10 @@ class DiscoveryV1(BaseService):
         instance. An attempt to create another environment results in an error.
 
         :param str name: Name that identifies the environment.
-        :param str description: Description of the environment.
-        :param str size: Size of the environment. In the Lite plan the default and only
-        accepted value is `LT`, in all other plans the default is `S`.
+        :param str description: (optional) Description of the environment.
+        :param str size: (optional) Size of the environment. In the Lite plan the
+               default and only accepted value is `LT`, in all other plans the default is
+               `S`.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -166,22 +120,22 @@ class DiscoveryV1(BaseService):
         data = {'name': name, 'description': description, 'size': size}
 
         url = '/v1/environments'
-        response = self.request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            json=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
-    def list_environments(self, name=None, **kwargs):
+    def list_environments(self, *, name=None, **kwargs):
         """
         List environments.
 
         List existing environments for the service instance.
 
-        :param str name: Show only the environment with the given name.
+        :param str name: (optional) Show only the environment with the given name.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -196,12 +150,12 @@ class DiscoveryV1(BaseService):
         params = {'version': self.version, 'name': name}
 
         url = '/v1/environments'
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def get_environment(self, environment_id, **kwargs):
@@ -227,16 +181,17 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}'.format(
             *self._encode_path_vars(environment_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def update_environment(self,
                            environment_id,
+                           *,
                            name=None,
                            description=None,
                            size=None,
@@ -248,11 +203,11 @@ class DiscoveryV1(BaseService):
         can be changed. You must specify a **name** for the environment.
 
         :param str environment_id: The ID of the environment.
-        :param str name: Name that identifies the environment.
-        :param str description: Description of the environment.
-        :param str size: Size that the environment should be increased to. Environment
-        size cannot be modified when using a Lite plan. Environment size can only
-        increased and not decreased.
+        :param str name: (optional) Name that identifies the environment.
+        :param str description: (optional) Description of the environment.
+        :param str size: (optional) Size that the environment should be increased
+               to. Environment size cannot be modified when using a Lite plan. Environment
+               size can only increased and not decreased.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -273,13 +228,13 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}'.format(
             *self._encode_path_vars(environment_id))
-        response = self.request(
-            method='PUT',
-            url=url,
-            headers=headers,
-            params=params,
-            json=data,
-            accept_json=True)
+        request = self.prepare_request(method='PUT',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def delete_environment(self, environment_id, **kwargs):
@@ -305,12 +260,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}'.format(
             *self._encode_path_vars(environment_id))
-        response = self.request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def list_fields(self, environment_id, collection_ids, **kwargs):
@@ -321,8 +276,8 @@ class DiscoveryV1(BaseService):
         specified collections.
 
         :param str environment_id: The ID of the environment.
-        :param list[str] collection_ids: A comma-separated list of collection IDs to be
-        queried against.
+        :param list[str] collection_ids: A comma-separated list of collection IDs
+               to be queried against.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -346,12 +301,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/fields'.format(
             *self._encode_path_vars(environment_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     #########################
@@ -361,6 +316,7 @@ class DiscoveryV1(BaseService):
     def create_configuration(self,
                              environment_id,
                              name,
+                             *,
                              description=None,
                              conversions=None,
                              enrichments=None,
@@ -383,14 +339,17 @@ class DiscoveryV1(BaseService):
 
         :param str environment_id: The ID of the environment.
         :param str name: The name of the configuration.
-        :param str description: The description of the configuration, if available.
-        :param Conversions conversions: Document conversion settings.
-        :param list[Enrichment] enrichments: An array of document enrichment settings for
-        the configuration.
-        :param list[NormalizationOperation] normalizations: Defines operations that can be
-        used to transform the final output JSON into a normalized form. Operations are
-        executed in the order that they appear in the array.
-        :param Source source: Object containing source parameters for the configuration.
+        :param str description: (optional) The description of the configuration, if
+               available.
+        :param Conversions conversions: (optional) Document conversion settings.
+        :param list[Enrichment] enrichments: (optional) An array of document
+               enrichment settings for the configuration.
+        :param list[NormalizationOperation] normalizations: (optional) Defines
+               operations that can be used to transform the final output JSON into a
+               normalized form. Operations are executed in the order that they appear in
+               the array.
+        :param Source source: (optional) Object containing source parameters for
+               the configuration.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -401,18 +360,13 @@ class DiscoveryV1(BaseService):
         if name is None:
             raise ValueError('name must be provided')
         if conversions is not None:
-            conversions = self._convert_model(conversions, Conversions)
+            conversions = self._convert_model(conversions)
         if enrichments is not None:
-            enrichments = [
-                self._convert_model(x, Enrichment) for x in enrichments
-            ]
+            enrichments = [self._convert_model(x) for x in enrichments]
         if normalizations is not None:
-            normalizations = [
-                self._convert_model(x, NormalizationOperation)
-                for x in normalizations
-            ]
+            normalizations = [self._convert_model(x) for x in normalizations]
         if source is not None:
-            source = self._convert_model(source, Source)
+            source = self._convert_model(source)
 
         headers = {}
         if 'headers' in kwargs:
@@ -433,23 +387,23 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/configurations'.format(
             *self._encode_path_vars(environment_id))
-        response = self.request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            json=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
-    def list_configurations(self, environment_id, name=None, **kwargs):
+    def list_configurations(self, environment_id, *, name=None, **kwargs):
         """
         List configurations.
 
         Lists existing configurations for the service instance.
 
         :param str environment_id: The ID of the environment.
-        :param str name: Find configurations with the given name.
+        :param str name: (optional) Find configurations with the given name.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -468,12 +422,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/configurations'.format(
             *self._encode_path_vars(environment_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def get_configuration(self, environment_id, configuration_id, **kwargs):
@@ -502,18 +456,19 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/configurations/{1}'.format(
             *self._encode_path_vars(environment_id, configuration_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def update_configuration(self,
                              environment_id,
                              configuration_id,
                              name,
+                             *,
                              description=None,
                              conversions=None,
                              enrichments=None,
@@ -536,14 +491,17 @@ class DiscoveryV1(BaseService):
         :param str environment_id: The ID of the environment.
         :param str configuration_id: The ID of the configuration.
         :param str name: The name of the configuration.
-        :param str description: The description of the configuration, if available.
-        :param Conversions conversions: Document conversion settings.
-        :param list[Enrichment] enrichments: An array of document enrichment settings for
-        the configuration.
-        :param list[NormalizationOperation] normalizations: Defines operations that can be
-        used to transform the final output JSON into a normalized form. Operations are
-        executed in the order that they appear in the array.
-        :param Source source: Object containing source parameters for the configuration.
+        :param str description: (optional) The description of the configuration, if
+               available.
+        :param Conversions conversions: (optional) Document conversion settings.
+        :param list[Enrichment] enrichments: (optional) An array of document
+               enrichment settings for the configuration.
+        :param list[NormalizationOperation] normalizations: (optional) Defines
+               operations that can be used to transform the final output JSON into a
+               normalized form. Operations are executed in the order that they appear in
+               the array.
+        :param Source source: (optional) Object containing source parameters for
+               the configuration.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -556,18 +514,13 @@ class DiscoveryV1(BaseService):
         if name is None:
             raise ValueError('name must be provided')
         if conversions is not None:
-            conversions = self._convert_model(conversions, Conversions)
+            conversions = self._convert_model(conversions)
         if enrichments is not None:
-            enrichments = [
-                self._convert_model(x, Enrichment) for x in enrichments
-            ]
+            enrichments = [self._convert_model(x) for x in enrichments]
         if normalizations is not None:
-            normalizations = [
-                self._convert_model(x, NormalizationOperation)
-                for x in normalizations
-            ]
+            normalizations = [self._convert_model(x) for x in normalizations]
         if source is not None:
-            source = self._convert_model(source, Source)
+            source = self._convert_model(source)
 
         headers = {}
         if 'headers' in kwargs:
@@ -588,13 +541,13 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/configurations/{1}'.format(
             *self._encode_path_vars(environment_id, configuration_id))
-        response = self.request(
-            method='PUT',
-            url=url,
-            headers=headers,
-            params=params,
-            json=data,
-            accept_json=True)
+        request = self.prepare_request(method='PUT',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def delete_configuration(self, environment_id, configuration_id, **kwargs):
@@ -630,106 +583,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/configurations/{1}'.format(
             *self._encode_path_vars(environment_id, configuration_id))
-        response = self.request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
-        return response
-
-    #########################
-    # Test your configuration on a document
-    #########################
-
-    def test_configuration_in_environment(self,
-                                          environment_id,
-                                          configuration=None,
-                                          file=None,
-                                          filename=None,
-                                          file_content_type=None,
-                                          metadata=None,
-                                          step=None,
-                                          configuration_id=None,
-                                          **kwargs):
-        """
-        Test configuration.
-
-        **Deprecated** This method is no longer supported and is scheduled to be removed
-        from service on July 31st 2019.
-         Runs a sample document through the default or your configuration and returns
-        diagnostic information designed to help you understand how the document was
-        processed. The document is not added to the index.
-
-        :param str environment_id: The ID of the environment.
-        :param str configuration: The configuration to use to process the document. If
-        this part is provided, then the provided configuration is used to process the
-        document. If the **configuration_id** is also provided (both are present at the
-        same time), then request is rejected. The maximum supported configuration size is
-        1 MB. Configuration parts larger than 1 MB are rejected.
-        See the `GET /configurations/{configuration_id}` operation for an example
-        configuration.
-        :param file file: The content of the document to ingest. The maximum supported
-        file size when adding a file to a collection is 50 megabytes, the maximum
-        supported file size when testing a confiruration is 1 megabyte. Files larger than
-        the supported size are rejected.
-        :param str filename: The filename for file.
-        :param str file_content_type: The content type of file.
-        :param str metadata: The maximum supported metadata file size is 1 MB. Metadata
-        parts larger than 1 MB are rejected.
-        Example:  ``` {
-          \"Creator\": \"Johnny Appleseed\",
-          \"Subject\": \"Apples\"
-        } ```.
-        :param str step: Specify to only run the input document through the given step
-        instead of running the input document through the entire ingestion workflow. Valid
-        values are `convert`, `enrich`, and `normalize`.
-        :param str configuration_id: The ID of the configuration to use to process the
-        document. If the **configuration** form part is also provided (both are present at
-        the same time), then the request will be rejected.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-
-        headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1',
-                                      'test_configuration_in_environment')
-        headers.update(sdk_headers)
-
-        params = {
-            'version': self.version,
-            'step': step,
-            'configuration_id': configuration_id
-        }
-
-        form_data = {}
-        if configuration:
-            form_data['configuration'] = (None, configuration, 'text/plain')
-        if file:
-            if not filename and hasattr(file, 'name'):
-                filename = basename(file.name)
-            if not filename:
-                raise ValueError('filename must be provided')
-            form_data['file'] = (filename, file, file_content_type or
-                                 'application/octet-stream')
-        if metadata:
-            form_data['metadata'] = (None, metadata, 'text/plain')
-
-        url = '/v1/environments/{0}/preview'.format(
-            *self._encode_path_vars(environment_id))
-        response = self.request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            files=form_data,
-            accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     #########################
@@ -739,6 +598,7 @@ class DiscoveryV1(BaseService):
     def create_collection(self,
                           environment_id,
                           name,
+                          *,
                           description=None,
                           configuration_id=None,
                           language=None,
@@ -748,11 +608,11 @@ class DiscoveryV1(BaseService):
 
         :param str environment_id: The ID of the environment.
         :param str name: The name of the collection to be created.
-        :param str description: A description of the collection.
-        :param str configuration_id: The ID of the configuration in which the collection
-        is to be created.
-        :param str language: The language of the documents stored in the collection, in
-        the form of an ISO 639-1 language code.
+        :param str description: (optional) A description of the collection.
+        :param str configuration_id: (optional) The ID of the configuration in
+               which the collection is to be created.
+        :param str language: (optional) The language of the documents stored in the
+               collection, in the form of an ISO 639-1 language code.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -780,23 +640,23 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections'.format(
             *self._encode_path_vars(environment_id))
-        response = self.request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            json=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
-    def list_collections(self, environment_id, name=None, **kwargs):
+    def list_collections(self, environment_id, *, name=None, **kwargs):
         """
         List collections.
 
         Lists existing collections for the service instance.
 
         :param str environment_id: The ID of the environment.
-        :param str name: Find collections with the given name.
+        :param str name: (optional) Find collections with the given name.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -815,12 +675,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections'.format(
             *self._encode_path_vars(environment_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def get_collection(self, environment_id, collection_id, **kwargs):
@@ -849,18 +709,19 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def update_collection(self,
                           environment_id,
                           collection_id,
                           name,
+                          *,
                           description=None,
                           configuration_id=None,
                           **kwargs):
@@ -870,9 +731,9 @@ class DiscoveryV1(BaseService):
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
         :param str name: The name of the collection.
-        :param str description: A description of the collection.
-        :param str configuration_id: The ID of the configuration in which the collection
-        is to be updated.
+        :param str description: (optional) A description of the collection.
+        :param str configuration_id: (optional) The ID of the configuration in
+               which the collection is to be updated.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -899,13 +760,13 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='PUT',
-            url=url,
-            headers=headers,
-            params=params,
-            json=data,
-            accept_json=True)
+        request = self.prepare_request(method='PUT',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def delete_collection(self, environment_id, collection_id, **kwargs):
@@ -934,12 +795,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def list_collection_fields(self, environment_id, collection_id, **kwargs):
@@ -971,12 +832,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/fields'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     #########################
@@ -1012,12 +873,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/expansions'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def create_expansions(self, environment_id, collection_id, expansions,
@@ -1026,24 +887,24 @@ class DiscoveryV1(BaseService):
         Create or update expansion list.
 
         Create or replace the Expansion list for this collection. The maximum number of
-        expanded terms per collection is `500`.
-        The current expansion list is replaced with the uploaded content.
+        expanded terms per collection is `500`. The current expansion list is replaced
+        with the uploaded content.
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
         :param list[Expansion] expansions: An array of query expansion definitions.
-         Each object in the **expansions** array represents a term or set of terms that
-        will be expanded into other terms. Each expansion object can be configured as
-        bidirectional or unidirectional. Bidirectional means that all terms are expanded
-        to all other terms in the object. Unidirectional means that a set list of terms
-        can be expanded into a second list of terms.
-         To create a bi-directional expansion specify an **expanded_terms** array. When
-        found in a query, all items in the **expanded_terms** array are then expanded to
-        the other items in the same array.
-         To create a uni-directional expansion, specify both an array of **input_terms**
-        and an array of **expanded_terms**. When items in the **input_terms** array are
-        present in a query, they are expanded using the items listed in the
-        **expanded_terms** array.
+                Each object in the **expansions** array represents a term or set of terms
+               that will be expanded into other terms. Each expansion object can be
+               configured as bidirectional or unidirectional. Bidirectional means that all
+               terms are expanded to all other terms in the object. Unidirectional means
+               that a set list of terms can be expanded into a second list of terms.
+                To create a bi-directional expansion specify an **expanded_terms** array.
+               When found in a query, all items in the **expanded_terms** array are then
+               expanded to the other items in the same array.
+                To create a uni-directional expansion, specify both an array of
+               **input_terms** and an array of **expanded_terms**. When items in the
+               **input_terms** array are present in a query, they are expanded using the
+               items listed in the **expanded_terms** array.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1055,7 +916,7 @@ class DiscoveryV1(BaseService):
             raise ValueError('collection_id must be provided')
         if expansions is None:
             raise ValueError('expansions must be provided')
-        expansions = [self._convert_model(x, Expansion) for x in expansions]
+        expansions = [self._convert_model(x) for x in expansions]
 
         headers = {}
         if 'headers' in kwargs:
@@ -1069,13 +930,13 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/expansions'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            json=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def delete_expansions(self, environment_id, collection_id, **kwargs):
@@ -1107,12 +968,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/expansions'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=False)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=False)
+        response = self.send(request)
         return response
 
     def get_tokenization_dictionary_status(self, environment_id, collection_id,
@@ -1146,17 +1007,18 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/word_lists/tokenization_dictionary'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def create_tokenization_dictionary(self,
                                        environment_id,
                                        collection_id,
+                                       *,
                                        tokenization_rules=None,
                                        **kwargs):
         """
@@ -1166,9 +1028,10 @@ class DiscoveryV1(BaseService):
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
-        :param list[TokenDictRule] tokenization_rules: An array of tokenization rules.
-        Each rule contains, the original `text` string, component `tokens`, any alternate
-        character set `readings`, and which `part_of_speech` the text is from.
+        :param list[TokenDictRule] tokenization_rules: (optional) An array of
+               tokenization rules. Each rule contains, the original `text` string,
+               component `tokens`, any alternate character set `readings`, and which
+               `part_of_speech` the text is from.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1180,8 +1043,7 @@ class DiscoveryV1(BaseService):
             raise ValueError('collection_id must be provided')
         if tokenization_rules is not None:
             tokenization_rules = [
-                self._convert_model(x, TokenDictRule)
-                for x in tokenization_rules
+                self._convert_model(x) for x in tokenization_rules
             ]
 
         headers = {}
@@ -1197,13 +1059,13 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/word_lists/tokenization_dictionary'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            json=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def delete_tokenization_dictionary(self, environment_id, collection_id,
@@ -1236,12 +1098,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/word_lists/tokenization_dictionary'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=False)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=False)
+        response = self.send(request)
         return response
 
     def get_stopword_list_status(self, environment_id, collection_id, **kwargs):
@@ -1273,18 +1135,19 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/word_lists/stopwords'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def create_stopword_list(self,
                              environment_id,
                              collection_id,
                              stopword_file,
+                             *,
                              stopword_filename=None,
                              **kwargs):
         """
@@ -1295,7 +1158,7 @@ class DiscoveryV1(BaseService):
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
         :param file stopword_file: The content of the stopword list to ingest.
-        :param str stopword_filename: The filename for stopword_file.
+        :param str stopword_filename: (optional) The filename for stopword_file.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1316,23 +1179,23 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        form_data = {}
+        form_data = []
         if not stopword_filename and hasattr(stopword_file, 'name'):
             stopword_filename = basename(stopword_file.name)
         if not stopword_filename:
             raise ValueError('stopword_filename must be provided')
-        form_data['stopword_file'] = (stopword_filename, stopword_file,
-                                      'application/octet-stream')
+        form_data.append(('stopword_file', (stopword_filename, stopword_file,
+                                            'application/octet-stream')))
 
         url = '/v1/environments/{0}/collections/{1}/word_lists/stopwords'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            files=form_data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def delete_stopword_list(self, environment_id, collection_id, **kwargs):
@@ -1364,12 +1227,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/word_lists/stopwords'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=False)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=False)
+        response = self.send(request)
         return response
 
     #########################
@@ -1379,6 +1242,7 @@ class DiscoveryV1(BaseService):
     def add_document(self,
                      environment_id,
                      collection_id,
+                     *,
                      file=None,
                      filename=None,
                      file_content_type=None,
@@ -1410,18 +1274,17 @@ class DiscoveryV1(BaseService):
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
-        :param file file: The content of the document to ingest. The maximum supported
-        file size when adding a file to a collection is 50 megabytes, the maximum
-        supported file size when testing a confiruration is 1 megabyte. Files larger than
-        the supported size are rejected.
-        :param str filename: The filename for file.
-        :param str file_content_type: The content type of file.
-        :param str metadata: The maximum supported metadata file size is 1 MB. Metadata
-        parts larger than 1 MB are rejected.
-        Example:  ``` {
-          \"Creator\": \"Johnny Appleseed\",
-          \"Subject\": \"Apples\"
-        } ```.
+        :param file file: (optional) The content of the document to ingest. The
+               maximum supported file size when adding a file to a collection is 50
+               megabytes, the maximum supported file size when testing a confiruration is
+               1 megabyte. Files larger than the supported size are rejected.
+        :param str filename: (optional) The filename for file.
+        :param str file_content_type: (optional) The content type of file.
+        :param str metadata: (optional) The maximum supported metadata file size is
+               1 MB. Metadata parts larger than 1 MB are rejected. Example:  ``` {
+                 "Creator": "Johnny Appleseed",
+                 "Subject": "Apples"
+               } ```.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1440,26 +1303,26 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        form_data = {}
+        form_data = []
         if file:
             if not filename and hasattr(file, 'name'):
                 filename = basename(file.name)
             if not filename:
                 raise ValueError('filename must be provided')
-            form_data['file'] = (filename, file, file_content_type or
-                                 'application/octet-stream')
+            form_data.append(('file', (filename, file, file_content_type or
+                                       'application/octet-stream')))
         if metadata:
-            form_data['metadata'] = (None, metadata, 'text/plain')
+            form_data.append(('metadata', (None, metadata, 'text/plain')))
 
         url = '/v1/environments/{0}/collections/{1}/documents'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            files=form_data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def get_document_status(self, environment_id, collection_id, document_id,
@@ -1497,18 +1360,19 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
             *self._encode_path_vars(environment_id, collection_id, document_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def update_document(self,
                         environment_id,
                         collection_id,
                         document_id,
+                        *,
                         file=None,
                         filename=None,
                         file_content_type=None,
@@ -1525,18 +1389,17 @@ class DiscoveryV1(BaseService):
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
         :param str document_id: The ID of the document.
-        :param file file: The content of the document to ingest. The maximum supported
-        file size when adding a file to a collection is 50 megabytes, the maximum
-        supported file size when testing a confiruration is 1 megabyte. Files larger than
-        the supported size are rejected.
-        :param str filename: The filename for file.
-        :param str file_content_type: The content type of file.
-        :param str metadata: The maximum supported metadata file size is 1 MB. Metadata
-        parts larger than 1 MB are rejected.
-        Example:  ``` {
-          \"Creator\": \"Johnny Appleseed\",
-          \"Subject\": \"Apples\"
-        } ```.
+        :param file file: (optional) The content of the document to ingest. The
+               maximum supported file size when adding a file to a collection is 50
+               megabytes, the maximum supported file size when testing a confiruration is
+               1 megabyte. Files larger than the supported size are rejected.
+        :param str filename: (optional) The filename for file.
+        :param str file_content_type: (optional) The content type of file.
+        :param str metadata: (optional) The maximum supported metadata file size is
+               1 MB. Metadata parts larger than 1 MB are rejected. Example:  ``` {
+                 "Creator": "Johnny Appleseed",
+                 "Subject": "Apples"
+               } ```.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1557,26 +1420,26 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        form_data = {}
+        form_data = []
         if file:
             if not filename and hasattr(file, 'name'):
                 filename = basename(file.name)
             if not filename:
                 raise ValueError('filename must be provided')
-            form_data['file'] = (filename, file, file_content_type or
-                                 'application/octet-stream')
+            form_data.append(('file', (filename, file, file_content_type or
+                                       'application/octet-stream')))
         if metadata:
-            form_data['metadata'] = (None, metadata, 'text/plain')
+            form_data.append(('metadata', (None, metadata, 'text/plain')))
 
         url = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
             *self._encode_path_vars(environment_id, collection_id, document_id))
-        response = self.request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            files=form_data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def delete_document(self, environment_id, collection_id, document_id,
@@ -1613,12 +1476,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
             *self._encode_path_vars(environment_id, collection_id, document_id))
-        response = self.request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     #########################
@@ -1628,13 +1491,14 @@ class DiscoveryV1(BaseService):
     def query(self,
               environment_id,
               collection_id,
+              *,
               filter=None,
               query=None,
               natural_language_query=None,
               passages=None,
               aggregation=None,
               count=None,
-              return_fields=None,
+              return_=None,
               offset=None,
               sort=None,
               highlight=None,
@@ -1643,12 +1507,12 @@ class DiscoveryV1(BaseService):
               passages_characters=None,
               deduplicate=None,
               deduplicate_field=None,
-              collection_ids=None,
               similar=None,
               similar_document_ids=None,
               similar_fields=None,
               bias=None,
-              logging_opt_out=None,
+              spelling_suggestions=None,
+              x_watson_logging_opt_out=None,
               **kwargs):
         """
         Query a collection.
@@ -1659,72 +1523,80 @@ class DiscoveryV1(BaseService):
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
-        :param str filter: A cacheable query that excludes documents that don't mention
-        the query content. Filter searches are better for metadata-type searches and for
-        assessing the concepts in the data set.
-        :param str query: A query search returns all documents in your data set with full
-        enrichments and full text, but with the most relevant documents listed first. Use
-        a query search when you want to find the most relevant search results.
-        :param str natural_language_query: A natural language query that returns relevant
-        documents by utilizing training data and natural language understanding.
-        :param bool passages: A passages query that returns the most relevant passages
-        from the results.
-        :param str aggregation: An aggregation search that returns an exact answer by
-        combining query search with filters. Useful for applications to build lists,
-        tables, and time series. For a full list of possible aggregations, see the Query
-        reference.
-        :param int count: Number of results to return.
-        :param str return_fields: A comma-separated list of the portion of the document
-        hierarchy to return.
-        :param int offset: The number of query results to skip at the beginning. For
-        example, if the total number of results that are returned is 10 and the offset is
-        8, it returns the last two results.
-        :param str sort: A comma-separated list of fields in the document to sort on. You
-        can optionally specify a sort direction by prefixing the field with `-` for
-        descending or `+` for ascending. Ascending is the default sort direction if no
-        prefix is specified. This parameter cannot be used in the same query as the
-        **bias** parameter.
-        :param bool highlight: When true, a highlight field is returned for each result
-        which contains the fields which match the query with `<em></em>` tags around the
-        matching query terms.
-        :param str passages_fields: A comma-separated list of fields that passages are
-        drawn from. If this parameter not specified, then all top-level fields are
-        included.
-        :param int passages_count: The maximum number of passages to return. The search
-        returns fewer passages if the requested total is not found. The default is `10`.
-        The maximum is `100`.
-        :param int passages_characters: The approximate number of characters that any one
-        passage will have.
-        :param bool deduplicate: When `true`, and used with a Watson Discovery News
-        collection, duplicate results (based on the contents of the **title** field) are
-        removed. Duplicate comparison is limited to the current query only; **offset** is
-        not considered. This parameter is currently Beta functionality.
-        :param str deduplicate_field: When specified, duplicate results based on the field
-        specified are removed from the returned results. Duplicate comparison is limited
-        to the current query only, **offset** is not considered. This parameter is
-        currently Beta functionality.
-        :param str collection_ids: A comma-separated list of collection IDs to be queried
-        against. Required when querying multiple collections, invalid when performing a
-        single collection query.
-        :param bool similar: When `true`, results are returned based on their similarity
-        to the document IDs specified in the **similar.document_ids** parameter.
-        :param str similar_document_ids: A comma-separated list of document IDs to find
-        similar documents.
-        **Tip:** Include the **natural_language_query** parameter to expand the scope of
-        the document similarity search with the natural language query. Other query
-        parameters, such as **filter** and **query**, are subsequently applied and reduce
-        the scope.
-        :param str similar_fields: A comma-separated list of field names that are used as
-        a basis for comparison to identify similar documents. If not specified, the entire
-        document is used for comparison.
-        :param str bias: Field which the returned results will be biased against. The
-        specified field must be either a **date** or **number** format. When a **date**
-        type field is specified returned results are biased towards field values closer to
-        the current date. When a **number** type field is specified, returned results are
-        biased towards higher field values. This parameter cannot be used in the same
-        query as the **sort** parameter.
-        :param bool logging_opt_out: If `true`, queries are not stored in the Discovery
-        **Logs** endpoint.
+        :param str filter: (optional) A cacheable query that excludes documents
+               that don't mention the query content. Filter searches are better for
+               metadata-type searches and for assessing the concepts in the data set.
+        :param str query: (optional) A query search returns all documents in your
+               data set with full enrichments and full text, but with the most relevant
+               documents listed first. Use a query search when you want to find the most
+               relevant search results.
+        :param str natural_language_query: (optional) A natural language query that
+               returns relevant documents by utilizing training data and natural language
+               understanding.
+        :param bool passages: (optional) A passages query that returns the most
+               relevant passages from the results.
+        :param str aggregation: (optional) An aggregation search that returns an
+               exact answer by combining query search with filters. Useful for
+               applications to build lists, tables, and time series. For a full list of
+               possible aggregations, see the Query reference.
+        :param int count: (optional) Number of results to return.
+        :param str return_: (optional) A comma-separated list of the portion of the
+               document hierarchy to return.
+        :param int offset: (optional) The number of query results to skip at the
+               beginning. For example, if the total number of results that are returned is
+               10 and the offset is 8, it returns the last two results.
+        :param str sort: (optional) A comma-separated list of fields in the
+               document to sort on. You can optionally specify a sort direction by
+               prefixing the field with `-` for descending or `+` for ascending. Ascending
+               is the default sort direction if no prefix is specified. This parameter
+               cannot be used in the same query as the **bias** parameter.
+        :param bool highlight: (optional) When true, a highlight field is returned
+               for each result which contains the fields which match the query with
+               `<em></em>` tags around the matching query terms.
+        :param str passages_fields: (optional) A comma-separated list of fields
+               that passages are drawn from. If this parameter not specified, then all
+               top-level fields are included.
+        :param int passages_count: (optional) The maximum number of passages to
+               return. The search returns fewer passages if the requested total is not
+               found. The default is `10`. The maximum is `100`.
+        :param int passages_characters: (optional) The approximate number of
+               characters that any one passage will have.
+        :param bool deduplicate: (optional) When `true`, and used with a Watson
+               Discovery News collection, duplicate results (based on the contents of the
+               **title** field) are removed. Duplicate comparison is limited to the
+               current query only; **offset** is not considered. This parameter is
+               currently Beta functionality.
+        :param str deduplicate_field: (optional) When specified, duplicate results
+               based on the field specified are removed from the returned results.
+               Duplicate comparison is limited to the current query only, **offset** is
+               not considered. This parameter is currently Beta functionality.
+        :param bool similar: (optional) When `true`, results are returned based on
+               their similarity to the document IDs specified in the
+               **similar.document_ids** parameter.
+        :param str similar_document_ids: (optional) A comma-separated list of
+               document IDs to find similar documents.
+               **Tip:** Include the **natural_language_query** parameter to expand the
+               scope of the document similarity search with the natural language query.
+               Other query parameters, such as **filter** and **query**, are subsequently
+               applied and reduce the scope.
+        :param str similar_fields: (optional) A comma-separated list of field names
+               that are used as a basis for comparison to identify similar documents. If
+               not specified, the entire document is used for comparison.
+        :param str bias: (optional) Field which the returned results will be biased
+               against. The specified field must be either a **date** or **number**
+               format. When a **date** type field is specified returned results are biased
+               towards field values closer to the current date. When a **number** type
+               field is specified, returned results are biased towards higher field
+               values. This parameter cannot be used in the same query as the **sort**
+               parameter.
+        :param bool spelling_suggestions: (optional) When `true` and the
+               **natural_language_query** parameter is used, the **natural_languge_query**
+               parameter is spell checked. The most likely correction is retunred in the
+               **suggested_query** field of the response (if one exists).
+               **Important:** this parameter is only valid when using the Cloud Pak
+               version of Discovery.
+        :param bool x_watson_logging_opt_out: (optional) If `true`, queries are not
+               stored in the Discovery **Logs** endpoint.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1735,7 +1607,7 @@ class DiscoveryV1(BaseService):
         if collection_id is None:
             raise ValueError('collection_id must be provided')
 
-        headers = {'X-Watson-Logging-Opt-Out': logging_opt_out}
+        headers = {'X-Watson-Logging-Opt-Out': x_watson_logging_opt_out}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers('discovery', 'V1', 'query')
@@ -1750,7 +1622,7 @@ class DiscoveryV1(BaseService):
             'passages': passages,
             'aggregation': aggregation,
             'count': count,
-            'return': return_fields,
+            'return': return_,
             'offset': offset,
             'sort': sort,
             'highlight': highlight,
@@ -1759,34 +1631,35 @@ class DiscoveryV1(BaseService):
             'passages.characters': passages_characters,
             'deduplicate': deduplicate,
             'deduplicate.field': deduplicate_field,
-            'collection_ids': collection_ids,
             'similar': similar,
             'similar.document_ids': similar_document_ids,
             'similar.fields': similar_fields,
-            'bias': bias
+            'bias': bias,
+            'spelling_suggestions': spelling_suggestions
         }
 
         url = '/v1/environments/{0}/collections/{1}/query'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            json=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def query_notices(self,
                       environment_id,
                       collection_id,
+                      *,
                       filter=None,
                       query=None,
                       natural_language_query=None,
                       passages=None,
                       aggregation=None,
                       count=None,
-                      return_fields=None,
+                      return_=None,
                       offset=None,
                       sort=None,
                       highlight=None,
@@ -1809,56 +1682,60 @@ class DiscoveryV1(BaseService):
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
-        :param str filter: A cacheable query that excludes documents that don't mention
-        the query content. Filter searches are better for metadata-type searches and for
-        assessing the concepts in the data set.
-        :param str query: A query search returns all documents in your data set with full
-        enrichments and full text, but with the most relevant documents listed first.
-        :param str natural_language_query: A natural language query that returns relevant
-        documents by utilizing training data and natural language understanding.
-        :param bool passages: A passages query that returns the most relevant passages
-        from the results.
-        :param str aggregation: An aggregation search that returns an exact answer by
-        combining query search with filters. Useful for applications to build lists,
-        tables, and time series. For a full list of possible aggregations, see the Query
-        reference.
-        :param int count: Number of results to return. The maximum for the **count** and
-        **offset** values together in any one query is **10000**.
-        :param list[str] return_fields: A comma-separated list of the portion of the
-        document hierarchy to return.
-        :param int offset: The number of query results to skip at the beginning. For
-        example, if the total number of results that are returned is 10 and the offset is
-        8, it returns the last two results. The maximum for the **count** and **offset**
-        values together in any one query is **10000**.
-        :param list[str] sort: A comma-separated list of fields in the document to sort
-        on. You can optionally specify a sort direction by prefixing the field with `-`
-        for descending or `+` for ascending. Ascending is the default sort direction if no
-        prefix is specified.
-        :param bool highlight: When true, a highlight field is returned for each result
-        which contains the fields which match the query with `<em></em>` tags around the
-        matching query terms.
-        :param list[str] passages_fields: A comma-separated list of fields that passages
-        are drawn from. If this parameter not specified, then all top-level fields are
-        included.
-        :param int passages_count: The maximum number of passages to return. The search
-        returns fewer passages if the requested total is not found.
-        :param int passages_characters: The approximate number of characters that any one
-        passage will have.
-        :param str deduplicate_field: When specified, duplicate results based on the field
-        specified are removed from the returned results. Duplicate comparison is limited
-        to the current query only, **offset** is not considered. This parameter is
-        currently Beta functionality.
-        :param bool similar: When `true`, results are returned based on their similarity
-        to the document IDs specified in the **similar.document_ids** parameter.
-        :param list[str] similar_document_ids: A comma-separated list of document IDs to
-        find similar documents.
-        **Tip:** Include the **natural_language_query** parameter to expand the scope of
-        the document similarity search with the natural language query. Other query
-        parameters, such as **filter** and **query**, are subsequently applied and reduce
-        the scope.
-        :param list[str] similar_fields: A comma-separated list of field names that are
-        used as a basis for comparison to identify similar documents. If not specified,
-        the entire document is used for comparison.
+        :param str filter: (optional) A cacheable query that excludes documents
+               that don't mention the query content. Filter searches are better for
+               metadata-type searches and for assessing the concepts in the data set.
+        :param str query: (optional) A query search returns all documents in your
+               data set with full enrichments and full text, but with the most relevant
+               documents listed first.
+        :param str natural_language_query: (optional) A natural language query that
+               returns relevant documents by utilizing training data and natural language
+               understanding.
+        :param bool passages: (optional) A passages query that returns the most
+               relevant passages from the results.
+        :param str aggregation: (optional) An aggregation search that returns an
+               exact answer by combining query search with filters. Useful for
+               applications to build lists, tables, and time series. For a full list of
+               possible aggregations, see the Query reference.
+        :param int count: (optional) Number of results to return. The maximum for
+               the **count** and **offset** values together in any one query is **10000**.
+        :param list[str] return_: (optional) A comma-separated list of the portion
+               of the document hierarchy to return.
+        :param int offset: (optional) The number of query results to skip at the
+               beginning. For example, if the total number of results that are returned is
+               10 and the offset is 8, it returns the last two results. The maximum for
+               the **count** and **offset** values together in any one query is **10000**.
+        :param list[str] sort: (optional) A comma-separated list of fields in the
+               document to sort on. You can optionally specify a sort direction by
+               prefixing the field with `-` for descending or `+` for ascending. Ascending
+               is the default sort direction if no prefix is specified.
+        :param bool highlight: (optional) When true, a highlight field is returned
+               for each result which contains the fields which match the query with
+               `<em></em>` tags around the matching query terms.
+        :param list[str] passages_fields: (optional) A comma-separated list of
+               fields that passages are drawn from. If this parameter not specified, then
+               all top-level fields are included.
+        :param int passages_count: (optional) The maximum number of passages to
+               return. The search returns fewer passages if the requested total is not
+               found.
+        :param int passages_characters: (optional) The approximate number of
+               characters that any one passage will have.
+        :param str deduplicate_field: (optional) When specified, duplicate results
+               based on the field specified are removed from the returned results.
+               Duplicate comparison is limited to the current query only, **offset** is
+               not considered. This parameter is currently Beta functionality.
+        :param bool similar: (optional) When `true`, results are returned based on
+               their similarity to the document IDs specified in the
+               **similar.document_ids** parameter.
+        :param list[str] similar_document_ids: (optional) A comma-separated list of
+               document IDs to find similar documents.
+               **Tip:** Include the **natural_language_query** parameter to expand the
+               scope of the document similarity search with the natural language query.
+               Other query parameters, such as **filter** and **query**, are subsequently
+               applied and reduce the scope.
+        :param list[str] similar_fields: (optional) A comma-separated list of field
+               names that are used as a basis for comparison to identify similar
+               documents. If not specified, the entire document is used for comparison.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1883,7 +1760,7 @@ class DiscoveryV1(BaseService):
             'passages': passages,
             'aggregation': aggregation,
             'count': count,
-            'return': self._convert_list(return_fields),
+            'return': self._convert_list(return_),
             'offset': offset,
             'sort': self._convert_list(sort),
             'highlight': highlight,
@@ -1898,23 +1775,25 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/notices'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def federated_query(self,
                         environment_id,
+                        collection_ids,
+                        *,
                         filter=None,
                         query=None,
                         natural_language_query=None,
                         passages=None,
                         aggregation=None,
                         count=None,
-                        return_fields=None,
+                        return_=None,
                         offset=None,
                         sort=None,
                         highlight=None,
@@ -1923,12 +1802,11 @@ class DiscoveryV1(BaseService):
                         passages_characters=None,
                         deduplicate=None,
                         deduplicate_field=None,
-                        collection_ids=None,
                         similar=None,
                         similar_document_ids=None,
                         similar_fields=None,
                         bias=None,
-                        logging_opt_out=None,
+                        x_watson_logging_opt_out=None,
                         **kwargs):
         """
         Query multiple collections.
@@ -1938,72 +1816,76 @@ class DiscoveryV1(BaseService):
         documentation](https://cloud.ibm.com/docs/services/discovery?topic=discovery-query-concepts#query-concepts).
 
         :param str environment_id: The ID of the environment.
-        :param str filter: A cacheable query that excludes documents that don't mention
-        the query content. Filter searches are better for metadata-type searches and for
-        assessing the concepts in the data set.
-        :param str query: A query search returns all documents in your data set with full
-        enrichments and full text, but with the most relevant documents listed first. Use
-        a query search when you want to find the most relevant search results.
-        :param str natural_language_query: A natural language query that returns relevant
-        documents by utilizing training data and natural language understanding.
-        :param bool passages: A passages query that returns the most relevant passages
-        from the results.
-        :param str aggregation: An aggregation search that returns an exact answer by
-        combining query search with filters. Useful for applications to build lists,
-        tables, and time series. For a full list of possible aggregations, see the Query
-        reference.
-        :param int count: Number of results to return.
-        :param str return_fields: A comma-separated list of the portion of the document
-        hierarchy to return.
-        :param int offset: The number of query results to skip at the beginning. For
-        example, if the total number of results that are returned is 10 and the offset is
-        8, it returns the last two results.
-        :param str sort: A comma-separated list of fields in the document to sort on. You
-        can optionally specify a sort direction by prefixing the field with `-` for
-        descending or `+` for ascending. Ascending is the default sort direction if no
-        prefix is specified. This parameter cannot be used in the same query as the
-        **bias** parameter.
-        :param bool highlight: When true, a highlight field is returned for each result
-        which contains the fields which match the query with `<em></em>` tags around the
-        matching query terms.
-        :param str passages_fields: A comma-separated list of fields that passages are
-        drawn from. If this parameter not specified, then all top-level fields are
-        included.
-        :param int passages_count: The maximum number of passages to return. The search
-        returns fewer passages if the requested total is not found. The default is `10`.
-        The maximum is `100`.
-        :param int passages_characters: The approximate number of characters that any one
-        passage will have.
-        :param bool deduplicate: When `true`, and used with a Watson Discovery News
-        collection, duplicate results (based on the contents of the **title** field) are
-        removed. Duplicate comparison is limited to the current query only; **offset** is
-        not considered. This parameter is currently Beta functionality.
-        :param str deduplicate_field: When specified, duplicate results based on the field
-        specified are removed from the returned results. Duplicate comparison is limited
-        to the current query only, **offset** is not considered. This parameter is
-        currently Beta functionality.
-        :param str collection_ids: A comma-separated list of collection IDs to be queried
-        against. Required when querying multiple collections, invalid when performing a
-        single collection query.
-        :param bool similar: When `true`, results are returned based on their similarity
-        to the document IDs specified in the **similar.document_ids** parameter.
-        :param str similar_document_ids: A comma-separated list of document IDs to find
-        similar documents.
-        **Tip:** Include the **natural_language_query** parameter to expand the scope of
-        the document similarity search with the natural language query. Other query
-        parameters, such as **filter** and **query**, are subsequently applied and reduce
-        the scope.
-        :param str similar_fields: A comma-separated list of field names that are used as
-        a basis for comparison to identify similar documents. If not specified, the entire
-        document is used for comparison.
-        :param str bias: Field which the returned results will be biased against. The
-        specified field must be either a **date** or **number** format. When a **date**
-        type field is specified returned results are biased towards field values closer to
-        the current date. When a **number** type field is specified, returned results are
-        biased towards higher field values. This parameter cannot be used in the same
-        query as the **sort** parameter.
-        :param bool logging_opt_out: If `true`, queries are not stored in the Discovery
-        **Logs** endpoint.
+        :param str collection_ids: A comma-separated list of collection IDs to be
+               queried against.
+        :param str filter: (optional) A cacheable query that excludes documents
+               that don't mention the query content. Filter searches are better for
+               metadata-type searches and for assessing the concepts in the data set.
+        :param str query: (optional) A query search returns all documents in your
+               data set with full enrichments and full text, but with the most relevant
+               documents listed first. Use a query search when you want to find the most
+               relevant search results.
+        :param str natural_language_query: (optional) A natural language query that
+               returns relevant documents by utilizing training data and natural language
+               understanding.
+        :param bool passages: (optional) A passages query that returns the most
+               relevant passages from the results.
+        :param str aggregation: (optional) An aggregation search that returns an
+               exact answer by combining query search with filters. Useful for
+               applications to build lists, tables, and time series. For a full list of
+               possible aggregations, see the Query reference.
+        :param int count: (optional) Number of results to return.
+        :param str return_: (optional) A comma-separated list of the portion of the
+               document hierarchy to return.
+        :param int offset: (optional) The number of query results to skip at the
+               beginning. For example, if the total number of results that are returned is
+               10 and the offset is 8, it returns the last two results.
+        :param str sort: (optional) A comma-separated list of fields in the
+               document to sort on. You can optionally specify a sort direction by
+               prefixing the field with `-` for descending or `+` for ascending. Ascending
+               is the default sort direction if no prefix is specified. This parameter
+               cannot be used in the same query as the **bias** parameter.
+        :param bool highlight: (optional) When true, a highlight field is returned
+               for each result which contains the fields which match the query with
+               `<em></em>` tags around the matching query terms.
+        :param str passages_fields: (optional) A comma-separated list of fields
+               that passages are drawn from. If this parameter not specified, then all
+               top-level fields are included.
+        :param int passages_count: (optional) The maximum number of passages to
+               return. The search returns fewer passages if the requested total is not
+               found. The default is `10`. The maximum is `100`.
+        :param int passages_characters: (optional) The approximate number of
+               characters that any one passage will have.
+        :param bool deduplicate: (optional) When `true`, and used with a Watson
+               Discovery News collection, duplicate results (based on the contents of the
+               **title** field) are removed. Duplicate comparison is limited to the
+               current query only; **offset** is not considered. This parameter is
+               currently Beta functionality.
+        :param str deduplicate_field: (optional) When specified, duplicate results
+               based on the field specified are removed from the returned results.
+               Duplicate comparison is limited to the current query only, **offset** is
+               not considered. This parameter is currently Beta functionality.
+        :param bool similar: (optional) When `true`, results are returned based on
+               their similarity to the document IDs specified in the
+               **similar.document_ids** parameter.
+        :param str similar_document_ids: (optional) A comma-separated list of
+               document IDs to find similar documents.
+               **Tip:** Include the **natural_language_query** parameter to expand the
+               scope of the document similarity search with the natural language query.
+               Other query parameters, such as **filter** and **query**, are subsequently
+               applied and reduce the scope.
+        :param str similar_fields: (optional) A comma-separated list of field names
+               that are used as a basis for comparison to identify similar documents. If
+               not specified, the entire document is used for comparison.
+        :param str bias: (optional) Field which the returned results will be biased
+               against. The specified field must be either a **date** or **number**
+               format. When a **date** type field is specified returned results are biased
+               towards field values closer to the current date. When a **number** type
+               field is specified, returned results are biased towards higher field
+               values. This parameter cannot be used in the same query as the **sort**
+               parameter.
+        :param bool x_watson_logging_opt_out: (optional) If `true`, queries are not
+               stored in the Discovery **Logs** endpoint.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2012,7 +1894,7 @@ class DiscoveryV1(BaseService):
         if environment_id is None:
             raise ValueError('environment_id must be provided')
 
-        headers = {'X-Watson-Logging-Opt-Out': logging_opt_out}
+        headers = {'X-Watson-Logging-Opt-Out': x_watson_logging_opt_out}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers('discovery', 'V1', 'federated_query')
@@ -2021,13 +1903,14 @@ class DiscoveryV1(BaseService):
         params = {'version': self.version}
 
         data = {
+            'collection_ids': collection_ids,
             'filter': filter,
             'query': query,
             'natural_language_query': natural_language_query,
             'passages': passages,
             'aggregation': aggregation,
             'count': count,
-            'return': return_fields,
+            'return': return_,
             'offset': offset,
             'sort': sort,
             'highlight': highlight,
@@ -2036,7 +1919,6 @@ class DiscoveryV1(BaseService):
             'passages.characters': passages_characters,
             'deduplicate': deduplicate,
             'deduplicate.field': deduplicate_field,
-            'collection_ids': collection_ids,
             'similar': similar,
             'similar.document_ids': similar_document_ids,
             'similar.fields': similar_fields,
@@ -2045,24 +1927,25 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/query'.format(
             *self._encode_path_vars(environment_id))
-        response = self.request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            json=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def federated_query_notices(self,
                                 environment_id,
                                 collection_ids,
+                                *,
                                 filter=None,
                                 query=None,
                                 natural_language_query=None,
                                 aggregation=None,
                                 count=None,
-                                return_fields=None,
+                                return_=None,
                                 offset=None,
                                 sort=None,
                                 highlight=None,
@@ -2081,49 +1964,52 @@ class DiscoveryV1(BaseService):
         for more details on the query language.
 
         :param str environment_id: The ID of the environment.
-        :param list[str] collection_ids: A comma-separated list of collection IDs to be
-        queried against.
-        :param str filter: A cacheable query that excludes documents that don't mention
-        the query content. Filter searches are better for metadata-type searches and for
-        assessing the concepts in the data set.
-        :param str query: A query search returns all documents in your data set with full
-        enrichments and full text, but with the most relevant documents listed first.
-        :param str natural_language_query: A natural language query that returns relevant
-        documents by utilizing training data and natural language understanding.
-        :param str aggregation: An aggregation search that returns an exact answer by
-        combining query search with filters. Useful for applications to build lists,
-        tables, and time series. For a full list of possible aggregations, see the Query
-        reference.
-        :param int count: Number of results to return. The maximum for the **count** and
-        **offset** values together in any one query is **10000**.
-        :param list[str] return_fields: A comma-separated list of the portion of the
-        document hierarchy to return.
-        :param int offset: The number of query results to skip at the beginning. For
-        example, if the total number of results that are returned is 10 and the offset is
-        8, it returns the last two results. The maximum for the **count** and **offset**
-        values together in any one query is **10000**.
-        :param list[str] sort: A comma-separated list of fields in the document to sort
-        on. You can optionally specify a sort direction by prefixing the field with `-`
-        for descending or `+` for ascending. Ascending is the default sort direction if no
-        prefix is specified.
-        :param bool highlight: When true, a highlight field is returned for each result
-        which contains the fields which match the query with `<em></em>` tags around the
-        matching query terms.
-        :param str deduplicate_field: When specified, duplicate results based on the field
-        specified are removed from the returned results. Duplicate comparison is limited
-        to the current query only, **offset** is not considered. This parameter is
-        currently Beta functionality.
-        :param bool similar: When `true`, results are returned based on their similarity
-        to the document IDs specified in the **similar.document_ids** parameter.
-        :param list[str] similar_document_ids: A comma-separated list of document IDs to
-        find similar documents.
-        **Tip:** Include the **natural_language_query** parameter to expand the scope of
-        the document similarity search with the natural language query. Other query
-        parameters, such as **filter** and **query**, are subsequently applied and reduce
-        the scope.
-        :param list[str] similar_fields: A comma-separated list of field names that are
-        used as a basis for comparison to identify similar documents. If not specified,
-        the entire document is used for comparison.
+        :param list[str] collection_ids: A comma-separated list of collection IDs
+               to be queried against.
+        :param str filter: (optional) A cacheable query that excludes documents
+               that don't mention the query content. Filter searches are better for
+               metadata-type searches and for assessing the concepts in the data set.
+        :param str query: (optional) A query search returns all documents in your
+               data set with full enrichments and full text, but with the most relevant
+               documents listed first.
+        :param str natural_language_query: (optional) A natural language query that
+               returns relevant documents by utilizing training data and natural language
+               understanding.
+        :param str aggregation: (optional) An aggregation search that returns an
+               exact answer by combining query search with filters. Useful for
+               applications to build lists, tables, and time series. For a full list of
+               possible aggregations, see the Query reference.
+        :param int count: (optional) Number of results to return. The maximum for
+               the **count** and **offset** values together in any one query is **10000**.
+        :param list[str] return_: (optional) A comma-separated list of the portion
+               of the document hierarchy to return.
+        :param int offset: (optional) The number of query results to skip at the
+               beginning. For example, if the total number of results that are returned is
+               10 and the offset is 8, it returns the last two results. The maximum for
+               the **count** and **offset** values together in any one query is **10000**.
+        :param list[str] sort: (optional) A comma-separated list of fields in the
+               document to sort on. You can optionally specify a sort direction by
+               prefixing the field with `-` for descending or `+` for ascending. Ascending
+               is the default sort direction if no prefix is specified.
+        :param bool highlight: (optional) When true, a highlight field is returned
+               for each result which contains the fields which match the query with
+               `<em></em>` tags around the matching query terms.
+        :param str deduplicate_field: (optional) When specified, duplicate results
+               based on the field specified are removed from the returned results.
+               Duplicate comparison is limited to the current query only, **offset** is
+               not considered. This parameter is currently Beta functionality.
+        :param bool similar: (optional) When `true`, results are returned based on
+               their similarity to the document IDs specified in the
+               **similar.document_ids** parameter.
+        :param list[str] similar_document_ids: (optional) A comma-separated list of
+               document IDs to find similar documents.
+               **Tip:** Include the **natural_language_query** parameter to expand the
+               scope of the document similarity search with the natural language query.
+               Other query parameters, such as **filter** and **query**, are subsequently
+               applied and reduce the scope.
+        :param list[str] similar_fields: (optional) A comma-separated list of field
+               names that are used as a basis for comparison to identify similar
+               documents. If not specified, the entire document is used for comparison.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2149,7 +2035,7 @@ class DiscoveryV1(BaseService):
             'natural_language_query': natural_language_query,
             'aggregation': aggregation,
             'count': count,
-            'return': self._convert_list(return_fields),
+            'return': self._convert_list(return_),
             'offset': offset,
             'sort': self._convert_list(sort),
             'highlight': highlight,
@@ -2161,44 +2047,38 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/notices'.format(
             *self._encode_path_vars(environment_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
-    def query_entities(self,
-                       environment_id,
-                       collection_id,
-                       feature=None,
-                       entity=None,
-                       context=None,
-                       count=None,
-                       evidence_count=None,
-                       **kwargs):
+    def get_autocompletion(self,
+                           environment_id,
+                           collection_id,
+                           prefix,
+                           *,
+                           field=None,
+                           count=None,
+                           **kwargs):
         """
-        Knowledge Graph entity query.
+        Get Autocomplete Suggestions.
 
-        See the [Knowledge Graph
-        documentation](https://cloud.ibm.com/docs/services/discovery?topic=discovery-kg#kg)
-        for more details.
+        Returns completion query suggestions for the specified prefix.  /n/n
+        **Important:** this method is only valid when using the Cloud Pak version of
+        Discovery.
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
-        :param str feature: The entity query feature to perform. Supported features are
-        `disambiguate` and `similar_entities`.
-        :param QueryEntitiesEntity entity: A text string that appears within the entity
-        text field.
-        :param QueryEntitiesContext context: Entity text to provide context for the
-        queried entity and rank based on that association. For example, if you wanted to
-        query the city of London in England your query would look for `London` with the
-        context of `England`.
-        :param int count: The number of results to return. The default is `10`. The
-        maximum is `1000`.
-        :param int evidence_count: The number of evidence items to return for each result.
-        The default is `0`. The maximum number of evidence items per query is 10,000.
+        :param str prefix: The prefix to use for autocompletion. For example, the
+               prefix `Ho` could autocomplete to `Hot`, `Housing`, or `How do I upgrade`.
+               Possible completions are.
+        :param str field: (optional) The field in the result documents that
+               autocompletion suggestions are identified from.
+        :param int count: (optional) The number of autocompletion suggestions to
+               return.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2208,116 +2088,30 @@ class DiscoveryV1(BaseService):
             raise ValueError('environment_id must be provided')
         if collection_id is None:
             raise ValueError('collection_id must be provided')
-        if entity is not None:
-            entity = self._convert_model(entity, QueryEntitiesEntity)
-        if context is not None:
-            context = self._convert_model(context, QueryEntitiesContext)
+        if prefix is None:
+            raise ValueError('prefix must be provided')
 
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1', 'query_entities')
+        sdk_headers = get_sdk_headers('discovery', 'V1', 'get_autocompletion')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
-
-        data = {
-            'feature': feature,
-            'entity': entity,
-            'context': context,
-            'count': count,
-            'evidence_count': evidence_count
+        params = {
+            'version': self.version,
+            'prefix': prefix,
+            'field': field,
+            'count': count
         }
 
-        url = '/v1/environments/{0}/collections/{1}/query_entities'.format(
+        url = '/v1/environments/{0}/collections/{1}/autocompletion'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            json=data,
-            accept_json=True)
-        return response
-
-    def query_relations(self,
-                        environment_id,
-                        collection_id,
-                        entities=None,
-                        context=None,
-                        sort=None,
-                        filter=None,
-                        count=None,
-                        evidence_count=None,
-                        **kwargs):
-        """
-        Knowledge Graph relationship query.
-
-        See the [Knowledge Graph
-        documentation](https://cloud.ibm.com/docs/services/discovery?topic=discovery-kg#kg)
-        for more details.
-
-        :param str environment_id: The ID of the environment.
-        :param str collection_id: The ID of the collection.
-        :param list[QueryRelationsEntity] entities: An array of entities to find
-        relationships for.
-        :param QueryEntitiesContext context: Entity text to provide context for the
-        queried entity and rank based on that association. For example, if you wanted to
-        query the city of London in England your query would look for `London` with the
-        context of `England`.
-        :param str sort: The sorting method for the relationships, can be `score` or
-        `frequency`. `frequency` is the number of unique times each entity is identified.
-        The default is `score`. This parameter cannot be used in the same query as the
-        **bias** parameter.
-        :param QueryRelationsFilter filter:
-        :param int count: The number of results to return. The default is `10`. The
-        maximum is `1000`.
-        :param int evidence_count: The number of evidence items to return for each result.
-        The default is `0`. The maximum number of evidence items per query is 10,000.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
-        """
-
-        if environment_id is None:
-            raise ValueError('environment_id must be provided')
-        if collection_id is None:
-            raise ValueError('collection_id must be provided')
-        if entities is not None:
-            entities = [
-                self._convert_model(x, QueryRelationsEntity) for x in entities
-            ]
-        if context is not None:
-            context = self._convert_model(context, QueryEntitiesContext)
-        if filter is not None:
-            filter = self._convert_model(filter, QueryRelationsFilter)
-
-        headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V1', 'query_relations')
-        headers.update(sdk_headers)
-
-        params = {'version': self.version}
-
-        data = {
-            'entities': entities,
-            'context': context,
-            'sort': sort,
-            'filter': filter,
-            'count': count,
-            'evidence_count': evidence_count
-        }
-
-        url = '/v1/environments/{0}/collections/{1}/query_relations'.format(
-            *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            json=data,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     #########################
@@ -2352,17 +2146,18 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/training_data'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def add_training_data(self,
                           environment_id,
                           collection_id,
+                          *,
                           natural_language_query=None,
                           filter=None,
                           examples=None,
@@ -2375,11 +2170,12 @@ class DiscoveryV1(BaseService):
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
-        :param str natural_language_query: The natural text query for the new training
-        query.
-        :param str filter: The filter used on the collection before the
-        **natural_language_query** is applied.
-        :param list[TrainingExample] examples: Array of training examples.
+        :param str natural_language_query: (optional) The natural text query for
+               the new training query.
+        :param str filter: (optional) The filter used on the collection before the
+               **natural_language_query** is applied.
+        :param list[TrainingExample] examples: (optional) Array of training
+               examples.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2390,9 +2186,7 @@ class DiscoveryV1(BaseService):
         if collection_id is None:
             raise ValueError('collection_id must be provided')
         if examples is not None:
-            examples = [
-                self._convert_model(x, TrainingExample) for x in examples
-            ]
+            examples = [self._convert_model(x) for x in examples]
 
         headers = {}
         if 'headers' in kwargs:
@@ -2410,13 +2204,13 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/training_data'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            json=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def delete_all_training_data(self, environment_id, collection_id, **kwargs):
@@ -2448,12 +2242,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/training_data'.format(
             *self._encode_path_vars(environment_id, collection_id))
-        response = self.request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=False)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=False)
+        response = self.send(request)
         return response
 
     def get_training_data(self, environment_id, collection_id, query_id,
@@ -2489,12 +2283,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/training_data/{2}'.format(
             *self._encode_path_vars(environment_id, collection_id, query_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def delete_training_data(self, environment_id, collection_id, query_id,
@@ -2530,12 +2324,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/training_data/{2}'.format(
             *self._encode_path_vars(environment_id, collection_id, query_id))
-        response = self.request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=False)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=False)
+        response = self.send(request)
         return response
 
     def list_training_examples(self, environment_id, collection_id, query_id,
@@ -2571,18 +2365,19 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples'.format(
             *self._encode_path_vars(environment_id, collection_id, query_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def create_training_example(self,
                                 environment_id,
                                 collection_id,
                                 query_id,
+                                *,
                                 document_id=None,
                                 cross_reference=None,
                                 relevance=None,
@@ -2595,10 +2390,11 @@ class DiscoveryV1(BaseService):
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
         :param str query_id: The ID of the query used for training.
-        :param str document_id: The document ID associated with this training example.
-        :param str cross_reference: The cross reference associated with this training
-        example.
-        :param int relevance: The relevance of the training example.
+        :param str document_id: (optional) The document ID associated with this
+               training example.
+        :param str cross_reference: (optional) The cross reference associated with
+               this training example.
+        :param int relevance: (optional) The relevance of the training example.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2628,13 +2424,13 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples'.format(
             *self._encode_path_vars(environment_id, collection_id, query_id))
-        response = self.request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            json=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def delete_training_example(self, environment_id, collection_id, query_id,
@@ -2674,12 +2470,12 @@ class DiscoveryV1(BaseService):
         url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.format(
             *self._encode_path_vars(environment_id, collection_id, query_id,
                                     example_id))
-        response = self.request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=False)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=False)
+        response = self.send(request)
         return response
 
     def update_training_example(self,
@@ -2687,6 +2483,7 @@ class DiscoveryV1(BaseService):
                                 collection_id,
                                 query_id,
                                 example_id,
+                                *,
                                 cross_reference=None,
                                 relevance=None,
                                 **kwargs):
@@ -2699,8 +2496,8 @@ class DiscoveryV1(BaseService):
         :param str collection_id: The ID of the collection.
         :param str query_id: The ID of the query used for training.
         :param str example_id: The ID of the document as it is indexed.
-        :param str cross_reference: The example to add.
-        :param int relevance: The relevance value for this example.
+        :param str cross_reference: (optional) The example to add.
+        :param int relevance: (optional) The relevance value for this example.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2729,13 +2526,13 @@ class DiscoveryV1(BaseService):
         url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.format(
             *self._encode_path_vars(environment_id, collection_id, query_id,
                                     example_id))
-        response = self.request(
-            method='PUT',
-            url=url,
-            headers=headers,
-            params=params,
-            json=data,
-            accept_json=True)
+        request = self.prepare_request(method='PUT',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def get_training_example(self, environment_id, collection_id, query_id,
@@ -2774,12 +2571,12 @@ class DiscoveryV1(BaseService):
         url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.format(
             *self._encode_path_vars(environment_id, collection_id, query_id,
                                     example_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     #########################
@@ -2797,7 +2594,8 @@ class DiscoveryV1(BaseService):
         customer IDs, see [Information
         security](https://cloud.ibm.com/docs/services/discovery?topic=discovery-information-security#information-security).
 
-        :param str customer_id: The customer ID for which all data is to be deleted.
+        :param str customer_id: The customer ID for which all data is to be
+               deleted.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2815,12 +2613,12 @@ class DiscoveryV1(BaseService):
         params = {'version': self.version, 'customer_id': customer_id}
 
         url = '/v1/user_data'
-        response = self.request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=False)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=False)
+        response = self.send(request)
         return response
 
     #########################
@@ -2833,7 +2631,7 @@ class DiscoveryV1(BaseService):
 
         The **Events** API can be used to create log entries that are associated with
         specific queries. For example, you can record which documents in the results set
-        were \"clicked\" by a user and when that click occured.
+        were "clicked" by a user and when that click occured.
 
         :param str type: The event type to be created.
         :param EventData data: Query event data object.
@@ -2846,7 +2644,7 @@ class DiscoveryV1(BaseService):
             raise ValueError('type must be provided')
         if data is None:
             raise ValueError('data must be provided')
-        data = self._convert_model(data, EventData)
+        data = self._convert_model(data)
 
         headers = {}
         if 'headers' in kwargs:
@@ -2859,16 +2657,17 @@ class DiscoveryV1(BaseService):
         data = {'type': type, 'data': data}
 
         url = '/v1/events'
-        response = self.request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            json=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def query_log(self,
+                  *,
                   filter=None,
                   query=None,
                   count=None,
@@ -2882,21 +2681,22 @@ class DiscoveryV1(BaseService):
         criteria. Searching the **logs** endpoint uses the standard Discovery query syntax
         for the parameters that are supported.
 
-        :param str filter: A cacheable query that excludes documents that don't mention
-        the query content. Filter searches are better for metadata-type searches and for
-        assessing the concepts in the data set.
-        :param str query: A query search returns all documents in your data set with full
-        enrichments and full text, but with the most relevant documents listed first.
-        :param int count: Number of results to return. The maximum for the **count** and
-        **offset** values together in any one query is **10000**.
-        :param int offset: The number of query results to skip at the beginning. For
-        example, if the total number of results that are returned is 10 and the offset is
-        8, it returns the last two results. The maximum for the **count** and **offset**
-        values together in any one query is **10000**.
-        :param list[str] sort: A comma-separated list of fields in the document to sort
-        on. You can optionally specify a sort direction by prefixing the field with `-`
-        for descending or `+` for ascending. Ascending is the default sort direction if no
-        prefix is specified.
+        :param str filter: (optional) A cacheable query that excludes documents
+               that don't mention the query content. Filter searches are better for
+               metadata-type searches and for assessing the concepts in the data set.
+        :param str query: (optional) A query search returns all documents in your
+               data set with full enrichments and full text, but with the most relevant
+               documents listed first.
+        :param int count: (optional) Number of results to return. The maximum for
+               the **count** and **offset** values together in any one query is **10000**.
+        :param int offset: (optional) The number of query results to skip at the
+               beginning. For example, if the total number of results that are returned is
+               10 and the offset is 8, it returns the last two results. The maximum for
+               the **count** and **offset** values together in any one query is **10000**.
+        :param list[str] sort: (optional) A comma-separated list of fields in the
+               document to sort on. You can optionally specify a sort direction by
+               prefixing the field with `-` for descending or `+` for ascending. Ascending
+               is the default sort direction if no prefix is specified.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2918,15 +2718,16 @@ class DiscoveryV1(BaseService):
         }
 
         url = '/v1/logs'
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def get_metrics_query(self,
+                          *,
                           start_time=None,
                           end_time=None,
                           result_type=None,
@@ -2937,12 +2738,12 @@ class DiscoveryV1(BaseService):
         Total number of queries using the **natural_language_query** parameter over a
         specific time window.
 
-        :param datetime start_time: Metric is computed from data recorded after this
-        timestamp; must be in `YYYY-MM-DDThh:mm:ssZ` format.
-        :param datetime end_time: Metric is computed from data recorded before this
-        timestamp; must be in `YYYY-MM-DDThh:mm:ssZ` format.
-        :param str result_type: The type of result to consider when calculating the
-        metric.
+        :param datetime start_time: (optional) Metric is computed from data
+               recorded after this timestamp; must be in `YYYY-MM-DDThh:mm:ssZ` format.
+        :param datetime end_time: (optional) Metric is computed from data recorded
+               before this timestamp; must be in `YYYY-MM-DDThh:mm:ssZ` format.
+        :param str result_type: (optional) The type of result to consider when
+               calculating the metric.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2962,15 +2763,16 @@ class DiscoveryV1(BaseService):
         }
 
         url = '/v1/metrics/number_of_queries'
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def get_metrics_query_event(self,
+                                *,
                                 start_time=None,
                                 end_time=None,
                                 result_type=None,
@@ -2979,15 +2781,15 @@ class DiscoveryV1(BaseService):
         Number of queries with an event over time.
 
         Total number of queries using the **natural_language_query** parameter that have a
-        corresponding \"click\" event over a specified time window. This metric requires
+        corresponding "click" event over a specified time window. This metric requires
         having integrated event tracking in your application using the **Events** API.
 
-        :param datetime start_time: Metric is computed from data recorded after this
-        timestamp; must be in `YYYY-MM-DDThh:mm:ssZ` format.
-        :param datetime end_time: Metric is computed from data recorded before this
-        timestamp; must be in `YYYY-MM-DDThh:mm:ssZ` format.
-        :param str result_type: The type of result to consider when calculating the
-        metric.
+        :param datetime start_time: (optional) Metric is computed from data
+               recorded after this timestamp; must be in `YYYY-MM-DDThh:mm:ssZ` format.
+        :param datetime end_time: (optional) Metric is computed from data recorded
+               before this timestamp; must be in `YYYY-MM-DDThh:mm:ssZ` format.
+        :param str result_type: (optional) The type of result to consider when
+               calculating the metric.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -3008,15 +2810,16 @@ class DiscoveryV1(BaseService):
         }
 
         url = '/v1/metrics/number_of_queries_with_event'
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def get_metrics_query_no_results(self,
+                                     *,
                                      start_time=None,
                                      end_time=None,
                                      result_type=None,
@@ -3027,12 +2830,12 @@ class DiscoveryV1(BaseService):
         Total number of queries using the **natural_language_query** parameter that have
         no results returned over a specified time window.
 
-        :param datetime start_time: Metric is computed from data recorded after this
-        timestamp; must be in `YYYY-MM-DDThh:mm:ssZ` format.
-        :param datetime end_time: Metric is computed from data recorded before this
-        timestamp; must be in `YYYY-MM-DDThh:mm:ssZ` format.
-        :param str result_type: The type of result to consider when calculating the
-        metric.
+        :param datetime start_time: (optional) Metric is computed from data
+               recorded after this timestamp; must be in `YYYY-MM-DDThh:mm:ssZ` format.
+        :param datetime end_time: (optional) Metric is computed from data recorded
+               before this timestamp; must be in `YYYY-MM-DDThh:mm:ssZ` format.
+        :param str result_type: (optional) The type of result to consider when
+               calculating the metric.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -3053,15 +2856,16 @@ class DiscoveryV1(BaseService):
         }
 
         url = '/v1/metrics/number_of_queries_with_no_search_results'
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def get_metrics_event_rate(self,
+                               *,
                                start_time=None,
                                end_time=None,
                                result_type=None,
@@ -3070,16 +2874,15 @@ class DiscoveryV1(BaseService):
         Percentage of queries with an associated event.
 
         The percentage of queries using the **natural_language_query** parameter that have
-        a corresponding \"click\" event over a specified time window.  This metric
-        requires having integrated event tracking in your application using the **Events**
-        API.
+        a corresponding "click" event over a specified time window.  This metric requires
+        having integrated event tracking in your application using the **Events** API.
 
-        :param datetime start_time: Metric is computed from data recorded after this
-        timestamp; must be in `YYYY-MM-DDThh:mm:ssZ` format.
-        :param datetime end_time: Metric is computed from data recorded before this
-        timestamp; must be in `YYYY-MM-DDThh:mm:ssZ` format.
-        :param str result_type: The type of result to consider when calculating the
-        metric.
+        :param datetime start_time: (optional) Metric is computed from data
+               recorded after this timestamp; must be in `YYYY-MM-DDThh:mm:ssZ` format.
+        :param datetime end_time: (optional) Metric is computed from data recorded
+               before this timestamp; must be in `YYYY-MM-DDThh:mm:ssZ` format.
+        :param str result_type: (optional) The type of result to consider when
+               calculating the metric.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -3100,25 +2903,25 @@ class DiscoveryV1(BaseService):
         }
 
         url = '/v1/metrics/event_rate'
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
-    def get_metrics_query_token_event(self, count=None, **kwargs):
+    def get_metrics_query_token_event(self, *, count=None, **kwargs):
         """
         Most frequent query tokens with an event.
 
         The most frequent query tokens parsed from the **natural_language_query**
-        parameter and their corresponding \"click\" event rate within the recording period
+        parameter and their corresponding "click" event rate within the recording period
         (queries and events are stored for 30 days). A query token is an individual word
         or unigram within the query string.
 
-        :param int count: Number of results to return. The maximum for the **count** and
-        **offset** values together in any one query is **10000**.
+        :param int count: (optional) Number of results to return. The maximum for
+               the **count** and **offset** values together in any one query is **10000**.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -3134,12 +2937,12 @@ class DiscoveryV1(BaseService):
         params = {'version': self.version, 'count': count}
 
         url = '/v1/metrics/top_query_tokens_with_event_rate'
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     #########################
@@ -3173,16 +2976,17 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/credentials'.format(
             *self._encode_path_vars(environment_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def create_credentials(self,
                            environment_id,
+                           *,
                            source_type=None,
                            credential_details=None,
                            status=None,
@@ -3196,23 +3000,25 @@ class DiscoveryV1(BaseService):
         rest.
 
         :param str environment_id: The ID of the environment.
-        :param str source_type: The source that this credentials object connects to.
-        -  `box` indicates the credentials are used to connect an instance of Enterprise
-        Box.
-        -  `salesforce` indicates the credentials are used to connect to Salesforce.
-        -  `sharepoint` indicates the credentials are used to connect to Microsoft
-        SharePoint Online.
-        -  `web_crawl` indicates the credentials are used to perform a web crawl.
-        =  `cloud_object_storage` indicates the credentials are used to connect to an IBM
-        Cloud Object Store.
-        :param CredentialDetails credential_details: Object containing details of the
-        stored credentials.
-        Obtain credentials for your source from the administrator of the source.
-        :param str status: The current status of this set of credentials. `connected`
-        indicates that the credentials are available to use with the source configuration
-        of a collection. `invalid` refers to the credentials (for example, the password
-        provided has expired) and must be corrected before they can be used with a
-        collection.
+        :param str source_type: (optional) The source that this credentials object
+               connects to.
+               -  `box` indicates the credentials are used to connect an instance of
+               Enterprise Box.
+               -  `salesforce` indicates the credentials are used to connect to
+               Salesforce.
+               -  `sharepoint` indicates the credentials are used to connect to Microsoft
+               SharePoint Online.
+               -  `web_crawl` indicates the credentials are used to perform a web crawl.
+               =  `cloud_object_storage` indicates the credentials are used to connect to
+               an IBM Cloud Object Store.
+        :param CredentialDetails credential_details: (optional) Object containing
+               details of the stored credentials.
+               Obtain credentials for your source from the administrator of the source.
+        :param str status: (optional) The current status of this set of
+               credentials. `connected` indicates that the credentials are available to
+               use with the source configuration of a collection. `invalid` refers to the
+               credentials (for example, the password provided has expired) and must be
+               corrected before they can be used with a collection.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -3221,8 +3027,7 @@ class DiscoveryV1(BaseService):
         if environment_id is None:
             raise ValueError('environment_id must be provided')
         if credential_details is not None:
-            credential_details = self._convert_model(credential_details,
-                                                     CredentialDetails)
+            credential_details = self._convert_model(credential_details)
 
         headers = {}
         if 'headers' in kwargs:
@@ -3240,13 +3045,13 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/credentials'.format(
             *self._encode_path_vars(environment_id))
-        response = self.request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            json=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def get_credentials(self, environment_id, credential_id, **kwargs):
@@ -3258,7 +3063,8 @@ class DiscoveryV1(BaseService):
         returned and must be obtained from the source system.
 
         :param str environment_id: The ID of the environment.
-        :param str credential_id: The unique identifier for a set of source credentials.
+        :param str credential_id: The unique identifier for a set of source
+               credentials.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -3279,17 +3085,18 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/credentials/{1}'.format(
             *self._encode_path_vars(environment_id, credential_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def update_credentials(self,
                            environment_id,
                            credential_id,
+                           *,
                            source_type=None,
                            credential_details=None,
                            status=None,
@@ -3302,24 +3109,27 @@ class DiscoveryV1(BaseService):
         rest.
 
         :param str environment_id: The ID of the environment.
-        :param str credential_id: The unique identifier for a set of source credentials.
-        :param str source_type: The source that this credentials object connects to.
-        -  `box` indicates the credentials are used to connect an instance of Enterprise
-        Box.
-        -  `salesforce` indicates the credentials are used to connect to Salesforce.
-        -  `sharepoint` indicates the credentials are used to connect to Microsoft
-        SharePoint Online.
-        -  `web_crawl` indicates the credentials are used to perform a web crawl.
-        =  `cloud_object_storage` indicates the credentials are used to connect to an IBM
-        Cloud Object Store.
-        :param CredentialDetails credential_details: Object containing details of the
-        stored credentials.
-        Obtain credentials for your source from the administrator of the source.
-        :param str status: The current status of this set of credentials. `connected`
-        indicates that the credentials are available to use with the source configuration
-        of a collection. `invalid` refers to the credentials (for example, the password
-        provided has expired) and must be corrected before they can be used with a
-        collection.
+        :param str credential_id: The unique identifier for a set of source
+               credentials.
+        :param str source_type: (optional) The source that this credentials object
+               connects to.
+               -  `box` indicates the credentials are used to connect an instance of
+               Enterprise Box.
+               -  `salesforce` indicates the credentials are used to connect to
+               Salesforce.
+               -  `sharepoint` indicates the credentials are used to connect to Microsoft
+               SharePoint Online.
+               -  `web_crawl` indicates the credentials are used to perform a web crawl.
+               =  `cloud_object_storage` indicates the credentials are used to connect to
+               an IBM Cloud Object Store.
+        :param CredentialDetails credential_details: (optional) Object containing
+               details of the stored credentials.
+               Obtain credentials for your source from the administrator of the source.
+        :param str status: (optional) The current status of this set of
+               credentials. `connected` indicates that the credentials are available to
+               use with the source configuration of a collection. `invalid` refers to the
+               credentials (for example, the password provided has expired) and must be
+               corrected before they can be used with a collection.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -3330,8 +3140,7 @@ class DiscoveryV1(BaseService):
         if credential_id is None:
             raise ValueError('credential_id must be provided')
         if credential_details is not None:
-            credential_details = self._convert_model(credential_details,
-                                                     CredentialDetails)
+            credential_details = self._convert_model(credential_details)
 
         headers = {}
         if 'headers' in kwargs:
@@ -3349,13 +3158,13 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/credentials/{1}'.format(
             *self._encode_path_vars(environment_id, credential_id))
-        response = self.request(
-            method='PUT',
-            url=url,
-            headers=headers,
-            params=params,
-            json=data,
-            accept_json=True)
+        request = self.prepare_request(method='PUT',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def delete_credentials(self, environment_id, credential_id, **kwargs):
@@ -3365,7 +3174,8 @@ class DiscoveryV1(BaseService):
         Deletes a set of stored credentials from your Discovery instance.
 
         :param str environment_id: The ID of the environment.
-        :param str credential_id: The unique identifier for a set of source credentials.
+        :param str credential_id: The unique identifier for a set of source
+               credentials.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -3386,12 +3196,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/credentials/{1}'.format(
             *self._encode_path_vars(environment_id, credential_id))
-        response = self.request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     #########################
@@ -3423,22 +3233,22 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/gateways'.format(
             *self._encode_path_vars(environment_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
-    def create_gateway(self, environment_id, name=None, **kwargs):
+    def create_gateway(self, environment_id, *, name=None, **kwargs):
         """
         Create Gateway.
 
         Create a gateway configuration to use with a remotely installed gateway.
 
         :param str environment_id: The ID of the environment.
-        :param str name: User-defined name.
+        :param str name: (optional) User-defined name.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -3459,13 +3269,13 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/gateways'.format(
             *self._encode_path_vars(environment_id))
-        response = self.request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            json=data,
-            accept_json=True)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def get_gateway(self, environment_id, gateway_id, **kwargs):
@@ -3496,12 +3306,12 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/gateways/{1}'.format(
             *self._encode_path_vars(environment_id, gateway_id))
-        response = self.request(
-            method='GET',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
 
     def delete_gateway(self, environment_id, gateway_id, **kwargs):
@@ -3532,13 +3342,77 @@ class DiscoveryV1(BaseService):
 
         url = '/v1/environments/{0}/gateways/{1}'.format(
             *self._encode_path_vars(environment_id, gateway_id))
-        response = self.request(
-            method='DELETE',
-            url=url,
-            headers=headers,
-            params=params,
-            accept_json=True)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
         return response
+
+
+class AddDocumentEnums(object):
+
+    class FileContentType(Enum):
+        """
+        The content type of file.
+        """
+        APPLICATION_JSON = 'application/json'
+        APPLICATION_MSWORD = 'application/msword'
+        APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        APPLICATION_PDF = 'application/pdf'
+        TEXT_HTML = 'text/html'
+        APPLICATION_XHTML_XML = 'application/xhtml+xml'
+
+
+class UpdateDocumentEnums(object):
+
+    class FileContentType(Enum):
+        """
+        The content type of file.
+        """
+        APPLICATION_JSON = 'application/json'
+        APPLICATION_MSWORD = 'application/msword'
+        APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        APPLICATION_PDF = 'application/pdf'
+        TEXT_HTML = 'text/html'
+        APPLICATION_XHTML_XML = 'application/xhtml+xml'
+
+
+class GetMetricsQueryEnums(object):
+
+    class ResultType(Enum):
+        """
+        The type of result to consider when calculating the metric.
+        """
+        DOCUMENT = 'document'
+
+
+class GetMetricsQueryEventEnums(object):
+
+    class ResultType(Enum):
+        """
+        The type of result to consider when calculating the metric.
+        """
+        DOCUMENT = 'document'
+
+
+class GetMetricsQueryNoResultsEnums(object):
+
+    class ResultType(Enum):
+        """
+        The type of result to consider when calculating the metric.
+        """
+        DOCUMENT = 'document'
+
+
+class GetMetricsEventRateEnums(object):
+
+    class ResultType(Enum):
+        """
+        The type of result to consider when calculating the metric.
+        """
+        DOCUMENT = 'document'
 
 
 ##############################################################################
@@ -3546,24 +3420,24 @@ class DiscoveryV1(BaseService):
 ##############################################################################
 
 
-class AggregationResult(object):
+class AggregationResult():
     """
-    AggregationResult.
+    Aggregation results for the specified query.
 
     :attr str key: (optional) Key that matched the aggregation type.
     :attr int matching_results: (optional) Number of matching results.
-    :attr list[QueryAggregation] aggregations: (optional) Aggregations returned in the
-    case of chained aggregations.
+    :attr list[QueryAggregation] aggregations: (optional) Aggregations returned in
+          the case of chained aggregations.
     """
 
-    def __init__(self, key=None, matching_results=None, aggregations=None):
+    def __init__(self, *, key=None, matching_results=None, aggregations=None):
         """
         Initialize a AggregationResult object.
 
         :param str key: (optional) Key that matched the aggregation type.
         :param int matching_results: (optional) Number of matching results.
-        :param list[QueryAggregation] aggregations: (optional) Aggregations returned in
-        the case of chained aggregations.
+        :param list[QueryAggregation] aggregations: (optional) Aggregations
+               returned in the case of chained aggregations.
         """
         self.key = key
         self.matching_results = matching_results
@@ -3573,12 +3447,12 @@ class AggregationResult(object):
     def _from_dict(cls, _dict):
         """Initialize a AggregationResult object from a json dictionary."""
         args = {}
-        validKeys = ['key', 'matching_results', 'aggregations']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['key', 'matching_results', 'aggregations']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class AggregationResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'key' in _dict:
             args['key'] = _dict.get('key')
         if 'matching_results' in _dict:
@@ -3617,16 +3491,17 @@ class AggregationResult(object):
         return not self == other
 
 
-class Calculation(object):
+class Calculation():
     """
     Calculation.
 
     :attr str field: (optional) The field where the aggregation is located in the
-    document.
+          document.
     :attr float value: (optional) Value of the aggregation.
     """
 
     def __init__(self,
+                 *,
                  type=None,
                  results=None,
                  matching_results=None,
@@ -3636,14 +3511,15 @@ class Calculation(object):
         """
         Initialize a Calculation object.
 
-        :param str type: (optional) The type of aggregation command used. For example:
-        term, filter, max, min, etc.
-        :param list[AggregationResult] results: (optional) Array of aggregation results.
+        :param str type: (optional) The type of aggregation command used. For
+               example: term, filter, max, min, etc.
+        :param list[AggregationResult] results: (optional) Array of aggregation
+               results.
         :param int matching_results: (optional) Number of matching results.
-        :param list[QueryAggregation] aggregations: (optional) Aggregations returned by
-        Discovery.
-        :param str field: (optional) The field where the aggregation is located in the
-        document.
+        :param list[QueryAggregation] aggregations: (optional) Aggregations
+               returned by Discovery.
+        :param str field: (optional) The field where the aggregation is located in
+               the document.
         :param float value: (optional) Value of the aggregation.
         """
         self.field = field
@@ -3653,12 +3529,12 @@ class Calculation(object):
     def _from_dict(cls, _dict):
         """Initialize a Calculation object from a json dictionary."""
         args = {}
-        validKeys = ['field', 'value']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['field', 'value']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Calculation: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'field' in _dict:
             args['field'] = _dict.get('field')
         if 'value' in _dict:
@@ -3689,33 +3565,36 @@ class Calculation(object):
         return not self == other
 
 
-class Collection(object):
+class Collection():
     """
     A collection for storing documents.
 
     :attr str collection_id: (optional) The unique identifier of the collection.
     :attr str name: (optional) The name of the collection.
     :attr str description: (optional) The description of the collection.
-    :attr datetime created: (optional) The creation date of the collection in the format
-    yyyy-MM-dd'T'HH:mmcon:ss.SSS'Z'.
+    :attr datetime created: (optional) The creation date of the collection in the
+          format yyyy-MM-dd'T'HH:mmcon:ss.SSS'Z'.
     :attr datetime updated: (optional) The timestamp of when the collection was last
-    updated in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+          updated in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
     :attr str status: (optional) The status of the collection.
     :attr str configuration_id: (optional) The unique identifier of the collection's
-    configuration.
-    :attr str language: (optional) The language of the documents stored in the collection.
-    Permitted values include `en` (English), `de` (German), and `es` (Spanish).
-    :attr DocumentCounts document_counts: (optional)
-    :attr CollectionDiskUsage disk_usage: (optional) Summary of the disk usage statistics
-    for this collection.
-    :attr TrainingStatus training_status: (optional)
-    :attr CollectionCrawlStatus crawl_status: (optional) Object containing information
-    about the crawl status of this collection.
+          configuration.
+    :attr str language: (optional) The language of the documents stored in the
+          collection. Permitted values include `en` (English), `de` (German), and `es`
+          (Spanish).
+    :attr DocumentCounts document_counts: (optional) Object containing collection
+          document count information.
+    :attr CollectionDiskUsage disk_usage: (optional) Summary of the disk usage
+          statistics for this collection.
+    :attr TrainingStatus training_status: (optional) Training status details.
+    :attr CollectionCrawlStatus crawl_status: (optional) Object containing
+          information about the crawl status of this collection.
     :attr SduStatus smart_document_understanding: (optional) Object containing smart
-    document understanding information for this collection.
+          document understanding information for this collection.
     """
 
     def __init__(self,
+                 *,
                  collection_id=None,
                  name=None,
                  description=None,
@@ -3732,27 +3611,29 @@ class Collection(object):
         """
         Initialize a Collection object.
 
-        :param str collection_id: (optional) The unique identifier of the collection.
+        :param str collection_id: (optional) The unique identifier of the
+               collection.
         :param str name: (optional) The name of the collection.
         :param str description: (optional) The description of the collection.
-        :param datetime created: (optional) The creation date of the collection in the
-        format yyyy-MM-dd'T'HH:mmcon:ss.SSS'Z'.
-        :param datetime updated: (optional) The timestamp of when the collection was last
-        updated in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+        :param datetime created: (optional) The creation date of the collection in
+               the format yyyy-MM-dd'T'HH:mmcon:ss.SSS'Z'.
+        :param datetime updated: (optional) The timestamp of when the collection
+               was last updated in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
         :param str status: (optional) The status of the collection.
-        :param str configuration_id: (optional) The unique identifier of the collection's
-        configuration.
+        :param str configuration_id: (optional) The unique identifier of the
+               collection's configuration.
         :param str language: (optional) The language of the documents stored in the
-        collection. Permitted values include `en` (English), `de` (German), and `es`
-        (Spanish).
-        :param DocumentCounts document_counts: (optional)
+               collection. Permitted values include `en` (English), `de` (German), and
+               `es` (Spanish).
+        :param DocumentCounts document_counts: (optional) Object containing
+               collection document count information.
         :param CollectionDiskUsage disk_usage: (optional) Summary of the disk usage
-        statistics for this collection.
-        :param TrainingStatus training_status: (optional)
+               statistics for this collection.
+        :param TrainingStatus training_status: (optional) Training status details.
         :param CollectionCrawlStatus crawl_status: (optional) Object containing
-        information about the crawl status of this collection.
-        :param SduStatus smart_document_understanding: (optional) Object containing smart
-        document understanding information for this collection.
+               information about the crawl status of this collection.
+        :param SduStatus smart_document_understanding: (optional) Object containing
+               smart document understanding information for this collection.
         """
         self.collection_id = collection_id
         self.name = name
@@ -3772,17 +3653,17 @@ class Collection(object):
     def _from_dict(cls, _dict):
         """Initialize a Collection object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'collection_id', 'name', 'description', 'created', 'updated',
             'status', 'configuration_id', 'language', 'document_counts',
             'disk_usage', 'training_status', 'crawl_status',
             'smart_document_understanding'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Collection: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'collection_id' in _dict:
             args['collection_id'] = _dict.get('collection_id')
         if 'name' in _dict:
@@ -3867,21 +3748,29 @@ class Collection(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class StatusEnum(Enum):
+        """
+        The status of the collection.
+        """
+        ACTIVE = "active"
+        PENDING = "pending"
+        MAINTENANCE = "maintenance"
 
-class CollectionCrawlStatus(object):
+
+class CollectionCrawlStatus():
     """
     Object containing information about the crawl status of this collection.
 
-    :attr SourceStatus source_crawl: (optional) Object containing source crawl status
-    information.
+    :attr SourceStatus source_crawl: (optional) Object containing source crawl
+          status information.
     """
 
-    def __init__(self, source_crawl=None):
+    def __init__(self, *, source_crawl=None):
         """
         Initialize a CollectionCrawlStatus object.
 
-        :param SourceStatus source_crawl: (optional) Object containing source crawl status
-        information.
+        :param SourceStatus source_crawl: (optional) Object containing source crawl
+               status information.
         """
         self.source_crawl = source_crawl
 
@@ -3889,12 +3778,12 @@ class CollectionCrawlStatus(object):
     def _from_dict(cls, _dict):
         """Initialize a CollectionCrawlStatus object from a json dictionary."""
         args = {}
-        validKeys = ['source_crawl']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['source_crawl']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CollectionCrawlStatus: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'source_crawl' in _dict:
             args['source_crawl'] = SourceStatus._from_dict(
                 _dict.get('source_crawl'))
@@ -3922,14 +3811,14 @@ class CollectionCrawlStatus(object):
         return not self == other
 
 
-class CollectionDiskUsage(object):
+class CollectionDiskUsage():
     """
     Summary of the disk usage statistics for this collection.
 
     :attr int used_bytes: (optional) Number of bytes used by the collection.
     """
 
-    def __init__(self, used_bytes=None):
+    def __init__(self, *, used_bytes=None):
         """
         Initialize a CollectionDiskUsage object.
 
@@ -3941,12 +3830,12 @@ class CollectionDiskUsage(object):
     def _from_dict(cls, _dict):
         """Initialize a CollectionDiskUsage object from a json dictionary."""
         args = {}
-        validKeys = ['used_bytes']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['used_bytes']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CollectionDiskUsage: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'used_bytes' in _dict:
             args['used_bytes'] = _dict.get('used_bytes')
         return cls(**args)
@@ -3973,22 +3862,23 @@ class CollectionDiskUsage(object):
         return not self == other
 
 
-class CollectionUsage(object):
+class CollectionUsage():
     """
     Summary of the collection usage in the environment.
 
     :attr int available: (optional) Number of active collections in the environment.
     :attr int maximum_allowed: (optional) Total number of collections allowed in the
-    environment.
+          environment.
     """
 
-    def __init__(self, available=None, maximum_allowed=None):
+    def __init__(self, *, available=None, maximum_allowed=None):
         """
         Initialize a CollectionUsage object.
 
-        :param int available: (optional) Number of active collections in the environment.
-        :param int maximum_allowed: (optional) Total number of collections allowed in the
-        environment.
+        :param int available: (optional) Number of active collections in the
+               environment.
+        :param int maximum_allowed: (optional) Total number of collections allowed
+               in the environment.
         """
         self.available = available
         self.maximum_allowed = maximum_allowed
@@ -3997,12 +3887,12 @@ class CollectionUsage(object):
     def _from_dict(cls, _dict):
         """Initialize a CollectionUsage object from a json dictionary."""
         args = {}
-        validKeys = ['available', 'maximum_allowed']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['available', 'maximum_allowed']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CollectionUsage: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'available' in _dict:
             args['available'] = _dict.get('available')
         if 'maximum_allowed' in _dict:
@@ -4034,29 +3924,85 @@ class CollectionUsage(object):
         return not self == other
 
 
-class Configuration(object):
+class Completions():
+    """
+    An object containing an array of autocompletion suggestions.
+
+    :attr list[str] completions: (optional) Array of autcomplete suggestion based on
+          the provided prefix.
+    """
+
+    def __init__(self, *, completions=None):
+        """
+        Initialize a Completions object.
+
+        :param list[str] completions: (optional) Array of autcomplete suggestion
+               based on the provided prefix.
+        """
+        self.completions = completions
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Completions object from a json dictionary."""
+        args = {}
+        valid_keys = ['completions']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Completions: '
+                + ', '.join(bad_keys))
+        if 'completions' in _dict:
+            args['completions'] = _dict.get('completions')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'completions') and self.completions is not None:
+            _dict['completions'] = self.completions
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this Completions object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class Configuration():
     """
     A custom configuration for the environment.
 
-    :attr str configuration_id: (optional) The unique identifier of the configuration.
+    :attr str configuration_id: (optional) The unique identifier of the
+          configuration.
     :attr str name: The name of the configuration.
     :attr datetime created: (optional) The creation date of the configuration in the
-    format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
-    :attr datetime updated: (optional) The timestamp of when the configuration was last
-    updated in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
-    :attr str description: (optional) The description of the configuration, if available.
+          format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+    :attr datetime updated: (optional) The timestamp of when the configuration was
+          last updated in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+    :attr str description: (optional) The description of the configuration, if
+          available.
     :attr Conversions conversions: (optional) Document conversion settings.
     :attr list[Enrichment] enrichments: (optional) An array of document enrichment
-    settings for the configuration.
-    :attr list[NormalizationOperation] normalizations: (optional) Defines operations that
-    can be used to transform the final output JSON into a normalized form. Operations are
-    executed in the order that they appear in the array.
+          settings for the configuration.
+    :attr list[NormalizationOperation] normalizations: (optional) Defines operations
+          that can be used to transform the final output JSON into a normalized form.
+          Operations are executed in the order that they appear in the array.
     :attr Source source: (optional) Object containing source parameters for the
-    configuration.
+          configuration.
     """
 
     def __init__(self,
                  name,
+                 *,
                  configuration_id=None,
                  created=None,
                  updated=None,
@@ -4070,21 +4016,22 @@ class Configuration(object):
 
         :param str name: The name of the configuration.
         :param str configuration_id: (optional) The unique identifier of the
-        configuration.
-        :param datetime created: (optional) The creation date of the configuration in the
-        format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
-        :param datetime updated: (optional) The timestamp of when the configuration was
-        last updated in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+               configuration.
+        :param datetime created: (optional) The creation date of the configuration
+               in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+        :param datetime updated: (optional) The timestamp of when the configuration
+               was last updated in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
         :param str description: (optional) The description of the configuration, if
-        available.
+               available.
         :param Conversions conversions: (optional) Document conversion settings.
-        :param list[Enrichment] enrichments: (optional) An array of document enrichment
-        settings for the configuration.
-        :param list[NormalizationOperation] normalizations: (optional) Defines operations
-        that can be used to transform the final output JSON into a normalized form.
-        Operations are executed in the order that they appear in the array.
-        :param Source source: (optional) Object containing source parameters for the
-        configuration.
+        :param list[Enrichment] enrichments: (optional) An array of document
+               enrichment settings for the configuration.
+        :param list[NormalizationOperation] normalizations: (optional) Defines
+               operations that can be used to transform the final output JSON into a
+               normalized form. Operations are executed in the order that they appear in
+               the array.
+        :param Source source: (optional) Object containing source parameters for
+               the configuration.
         """
         self.configuration_id = configuration_id
         self.name = name
@@ -4100,15 +4047,15 @@ class Configuration(object):
     def _from_dict(cls, _dict):
         """Initialize a Configuration object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'configuration_id', 'name', 'created', 'updated', 'description',
             'conversions', 'enrichments', 'normalizations', 'source'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Configuration: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'configuration_id' in _dict:
             args['configuration_id'] = _dict.get('configuration_id')
         if 'name' in _dict:
@@ -4179,25 +4126,28 @@ class Configuration(object):
         return not self == other
 
 
-class Conversions(object):
+class Conversions():
     """
     Document conversion settings.
 
     :attr PdfSettings pdf: (optional) A list of PDF conversion settings.
     :attr WordSettings word: (optional) A list of Word conversion settings.
     :attr HtmlSettings html: (optional) A list of HTML conversion settings.
-    :attr SegmentSettings segment: (optional) A list of Document Segmentation settings.
-    :attr list[NormalizationOperation] json_normalizations: (optional) Defines operations
-    that can be used to transform the final output JSON into a normalized form. Operations
-    are executed in the order that they appear in the array.
-    :attr bool image_text_recognition: (optional) When `true`, automatic text extraction
-    from images (this includes images embedded in supported document formats, for example
-    PDF, and suppported image formats, for example TIFF) is performed on documents
-    uploaded to the collection. This field is supported on **Advanced** and higher plans
-    only. **Lite** plans do not support image text recognition.
+    :attr SegmentSettings segment: (optional) A list of Document Segmentation
+          settings.
+    :attr list[NormalizationOperation] json_normalizations: (optional) Defines
+          operations that can be used to transform the final output JSON into a normalized
+          form. Operations are executed in the order that they appear in the array.
+    :attr bool image_text_recognition: (optional) When `true`, automatic text
+          extraction from images (this includes images embedded in supported document
+          formats, for example PDF, and suppported image formats, for example TIFF) is
+          performed on documents uploaded to the collection. This field is supported on
+          **Advanced** and higher plans only. **Lite** plans do not support image text
+          recognition.
     """
 
     def __init__(self,
+                 *,
                  pdf=None,
                  word=None,
                  html=None,
@@ -4211,16 +4161,17 @@ class Conversions(object):
         :param WordSettings word: (optional) A list of Word conversion settings.
         :param HtmlSettings html: (optional) A list of HTML conversion settings.
         :param SegmentSettings segment: (optional) A list of Document Segmentation
-        settings.
+               settings.
         :param list[NormalizationOperation] json_normalizations: (optional) Defines
-        operations that can be used to transform the final output JSON into a normalized
-        form. Operations are executed in the order that they appear in the array.
+               operations that can be used to transform the final output JSON into a
+               normalized form. Operations are executed in the order that they appear in
+               the array.
         :param bool image_text_recognition: (optional) When `true`, automatic text
-        extraction from images (this includes images embedded in supported document
-        formats, for example PDF, and suppported image formats, for example TIFF) is
-        performed on documents uploaded to the collection. This field is supported on
-        **Advanced** and higher plans only. **Lite** plans do not support image text
-        recognition.
+               extraction from images (this includes images embedded in supported document
+               formats, for example PDF, and suppported image formats, for example TIFF)
+               is performed on documents uploaded to the collection. This field is
+               supported on **Advanced** and higher plans only. **Lite** plans do not
+               support image text recognition.
         """
         self.pdf = pdf
         self.word = word
@@ -4233,15 +4184,15 @@ class Conversions(object):
     def _from_dict(cls, _dict):
         """Initialize a Conversions object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'pdf', 'word', 'html', 'segment', 'json_normalizations',
             'image_text_recognition'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Conversions: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'pdf' in _dict:
             args['pdf'] = PdfSettings._from_dict(_dict.get('pdf'))
         if 'word' in _dict:
@@ -4296,7 +4247,7 @@ class Conversions(object):
         return not self == other
 
 
-class CreateEventResponse(object):
+class CreateEventResponse():
     """
     An object defining the event being created.
 
@@ -4304,7 +4255,7 @@ class CreateEventResponse(object):
     :attr EventData data: (optional) Query event data object.
     """
 
-    def __init__(self, type=None, data=None):
+    def __init__(self, *, type=None, data=None):
         """
         Initialize a CreateEventResponse object.
 
@@ -4318,12 +4269,12 @@ class CreateEventResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a CreateEventResponse object from a json dictionary."""
         args = {}
-        validKeys = ['type', 'data']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['type', 'data']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CreateEventResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'data' in _dict:
@@ -4353,86 +4304,98 @@ class CreateEventResponse(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class TypeEnum(Enum):
+        """
+        The event type that was created.
+        """
+        CLICK = "click"
 
-class CredentialDetails(object):
+
+class CredentialDetails():
     """
     Object containing details of the stored credentials.
     Obtain credentials for your source from the administrator of the source.
 
-    :attr str credential_type: (optional) The authentication method for this credentials
-    definition. The  **credential_type** specified must be supported by the
-    **source_type**. The following combinations are possible:
-    -  `"source_type": "box"` - valid `credential_type`s: `oauth2`
-    -  `"source_type": "salesforce"` - valid `credential_type`s: `username_password`
-    -  `"source_type": "sharepoint"` - valid `credential_type`s: `saml` with
-    **source_version** of `online`, or `ntlm_v1` with **source_version** of `2016`
-    -  `"source_type": "web_crawl"` - valid `credential_type`s: `noauth` or `basic`
-    -  "source_type": "cloud_object_storage"` - valid `credential_type`s: `aws4_hmac`.
-    :attr str client_id: (optional) The **client_id** of the source that these credentials
-    connect to. Only valid, and required, with a **credential_type** of `oauth2`.
-    :attr str enterprise_id: (optional) The **enterprise_id** of the Box site that these
-    credentials connect to. Only valid, and required, with a **source_type** of `box`.
-    :attr str url: (optional) The **url** of the source that these credentials connect to.
-    Only valid, and required, with a **credential_type** of `username_password`, `noauth`,
-    and `basic`.
-    :attr str username: (optional) The **username** of the source that these credentials
-    connect to. Only valid, and required, with a **credential_type** of `saml`,
-    `username_password`, `basic`, or `ntlm_v1`.
-    :attr str organization_url: (optional) The **organization_url** of the source that
-    these credentials connect to. Only valid, and required, with a **credential_type** of
-    `saml`.
-    :attr str site_collection_path: (optional) The **site_collection.path** of the source
-    that these credentials connect to. Only valid, and required, with a **source_type** of
-    `sharepoint`.
-    :attr str client_secret: (optional) The **client_secret** of the source that these
-    credentials connect to. Only valid, and required, with a **credential_type** of
-    `oauth2`. This value is never returned and is only used when creating or modifying
-    **credentials**.
-    :attr str public_key_id: (optional) The **public_key_id** of the source that these
-    credentials connect to. Only valid, and required, with a **credential_type** of
-    `oauth2`. This value is never returned and is only used when creating or modifying
-    **credentials**.
+    :attr str credential_type: (optional) The authentication method for this
+          credentials definition. The  **credential_type** specified must be supported by
+          the **source_type**. The following combinations are possible:
+          -  `"source_type": "box"` - valid `credential_type`s: `oauth2`
+          -  `"source_type": "salesforce"` - valid `credential_type`s: `username_password`
+          -  `"source_type": "sharepoint"` - valid `credential_type`s: `saml` with
+          **source_version** of `online`, or `ntlm_v1` with **source_version** of `2016`
+          -  `"source_type": "web_crawl"` - valid `credential_type`s: `noauth` or `basic`
+          -  "source_type": "cloud_object_storage"` - valid `credential_type`s:
+          `aws4_hmac`.
+    :attr str client_id: (optional) The **client_id** of the source that these
+          credentials connect to. Only valid, and required, with a **credential_type** of
+          `oauth2`.
+    :attr str enterprise_id: (optional) The **enterprise_id** of the Box site that
+          these credentials connect to. Only valid, and required, with a **source_type**
+          of `box`.
+    :attr str url: (optional) The **url** of the source that these credentials
+          connect to. Only valid, and required, with a **credential_type** of
+          `username_password`, `noauth`, and `basic`.
+    :attr str username: (optional) The **username** of the source that these
+          credentials connect to. Only valid, and required, with a **credential_type** of
+          `saml`, `username_password`, `basic`, or `ntlm_v1`.
+    :attr str organization_url: (optional) The **organization_url** of the source
+          that these credentials connect to. Only valid, and required, with a
+          **credential_type** of `saml`.
+    :attr str site_collection_path: (optional) The **site_collection.path** of the
+          source that these credentials connect to. Only valid, and required, with a
+          **source_type** of `sharepoint`.
+    :attr str client_secret: (optional) The **client_secret** of the source that
+          these credentials connect to. Only valid, and required, with a
+          **credential_type** of `oauth2`. This value is never returned and is only used
+          when creating or modifying **credentials**.
+    :attr str public_key_id: (optional) The **public_key_id** of the source that
+          these credentials connect to. Only valid, and required, with a
+          **credential_type** of `oauth2`. This value is never returned and is only used
+          when creating or modifying **credentials**.
     :attr str private_key: (optional) The **private_key** of the source that these
-    credentials connect to. Only valid, and required, with a **credential_type** of
-    `oauth2`. This value is never returned and is only used when creating or modifying
-    **credentials**.
+          credentials connect to. Only valid, and required, with a **credential_type** of
+          `oauth2`. This value is never returned and is only used when creating or
+          modifying **credentials**.
     :attr str passphrase: (optional) The **passphrase** of the source that these
-    credentials connect to. Only valid, and required, with a **credential_type** of
-    `oauth2`. This value is never returned and is only used when creating or modifying
-    **credentials**.
-    :attr str password: (optional) The **password** of the source that these credentials
-    connect to. Only valid, and required, with **credential_type**s of `saml`,
-    `username_password`, `basic`, or `ntlm_v1`.
-    **Note:** When used with a **source_type** of `salesforce`, the password consists of
-    the Salesforce password and a valid Salesforce security token concatenated. This value
-    is never returned and is only used when creating or modifying **credentials**.
-    :attr str gateway_id: (optional) The ID of the **gateway** to be connected through
-    (when connecting to intranet sites). Only valid with a **credential_type** of
-    `noauth`, `basic`, or `ntlm_v1`. Gateways are created using the
-    `/v1/environments/{environment_id}/gateways` methods.
-    :attr str source_version: (optional) The type of Sharepoint repository to connect to.
-    Only valid, and required, with a **source_type** of `sharepoint`.
-    :attr str web_application_url: (optional) SharePoint OnPrem WebApplication URL. Only
-    valid, and required, with a **source_version** of `2016`. If a port is not supplied,
-    the default to port `80` for http and port `443` for https connections are used.
+          credentials connect to. Only valid, and required, with a **credential_type** of
+          `oauth2`. This value is never returned and is only used when creating or
+          modifying **credentials**.
+    :attr str password: (optional) The **password** of the source that these
+          credentials connect to. Only valid, and required, with **credential_type**s of
+          `saml`, `username_password`, `basic`, or `ntlm_v1`.
+          **Note:** When used with a **source_type** of `salesforce`, the password
+          consists of the Salesforce password and a valid Salesforce security token
+          concatenated. This value is never returned and is only used when creating or
+          modifying **credentials**.
+    :attr str gateway_id: (optional) The ID of the **gateway** to be connected
+          through (when connecting to intranet sites). Only valid with a
+          **credential_type** of `noauth`, `basic`, or `ntlm_v1`. Gateways are created
+          using the `/v1/environments/{environment_id}/gateways` methods.
+    :attr str source_version: (optional) The type of Sharepoint repository to
+          connect to. Only valid, and required, with a **source_type** of `sharepoint`.
+    :attr str web_application_url: (optional) SharePoint OnPrem WebApplication URL.
+          Only valid, and required, with a **source_version** of `2016`. If a port is not
+          supplied, the default to port `80` for http and port `443` for https connections
+          are used.
     :attr str domain: (optional) The domain used to log in to your OnPrem SharePoint
-    account. Only valid, and required, with a **source_version** of `2016`.
-    :attr str endpoint: (optional) The endpoint associated with the cloud object store
-    that your are connecting to. Only valid, and required, with a **credential_type** of
-    `aws4_hmac`.
-    :attr str access_key_id: (optional) The access key ID associated with the cloud object
-    store. Only valid, and required, with a **credential_type** of `aws4_hmac`. This value
-    is never returned and is only used when creating or modifying **credentials**. For
-    more infomation, see the [cloud object store
-    documentation](https://cloud.ibm.com/docs/services/cloud-object-storage?topic=cloud-object-storage-using-hmac-credentials#using-hmac-credentials).
-    :attr str secret_access_key: (optional) The secret access key associated with the
-    cloud object store. Only valid, and required, with a **credential_type** of
-    `aws4_hmac`. This value is never returned and is only used when creating or modifying
-    **credentials**. For more infomation, see the [cloud object store
-    documentation](https://cloud.ibm.com/docs/services/cloud-object-storage?topic=cloud-object-storage-using-hmac-credentials#using-hmac-credentials).
+          account. Only valid, and required, with a **source_version** of `2016`.
+    :attr str endpoint: (optional) The endpoint associated with the cloud object
+          store that your are connecting to. Only valid, and required, with a
+          **credential_type** of `aws4_hmac`.
+    :attr str access_key_id: (optional) The access key ID associated with the cloud
+          object store. Only valid, and required, with a **credential_type** of
+          `aws4_hmac`. This value is never returned and is only used when creating or
+          modifying **credentials**. For more infomation, see the [cloud object store
+          documentation](https://cloud.ibm.com/docs/services/cloud-object-storage?topic=cloud-object-storage-using-hmac-credentials#using-hmac-credentials).
+    :attr str secret_access_key: (optional) The secret access key associated with
+          the cloud object store. Only valid, and required, with a **credential_type** of
+          `aws4_hmac`. This value is never returned and is only used when creating or
+          modifying **credentials**. For more infomation, see the [cloud object store
+          documentation](https://cloud.ibm.com/docs/services/cloud-object-storage?topic=cloud-object-storage-using-hmac-credentials#using-hmac-credentials).
     """
 
     def __init__(self,
+                 *,
                  credential_type=None,
                  client_id=None,
                  enterprise_id=None,
@@ -4456,80 +4419,87 @@ class CredentialDetails(object):
         Initialize a CredentialDetails object.
 
         :param str credential_type: (optional) The authentication method for this
-        credentials definition. The  **credential_type** specified must be supported by
-        the **source_type**. The following combinations are possible:
-        -  `"source_type": "box"` - valid `credential_type`s: `oauth2`
-        -  `"source_type": "salesforce"` - valid `credential_type`s: `username_password`
-        -  `"source_type": "sharepoint"` - valid `credential_type`s: `saml` with
-        **source_version** of `online`, or `ntlm_v1` with **source_version** of `2016`
-        -  `"source_type": "web_crawl"` - valid `credential_type`s: `noauth` or `basic`
-        -  "source_type": "cloud_object_storage"` - valid `credential_type`s: `aws4_hmac`.
+               credentials definition. The  **credential_type** specified must be
+               supported by the **source_type**. The following combinations are possible:
+               -  `"source_type": "box"` - valid `credential_type`s: `oauth2`
+               -  `"source_type": "salesforce"` - valid `credential_type`s:
+               `username_password`
+               -  `"source_type": "sharepoint"` - valid `credential_type`s: `saml` with
+               **source_version** of `online`, or `ntlm_v1` with **source_version** of
+               `2016`
+               -  `"source_type": "web_crawl"` - valid `credential_type`s: `noauth` or
+               `basic`
+               -  "source_type": "cloud_object_storage"` - valid `credential_type`s:
+               `aws4_hmac`.
         :param str client_id: (optional) The **client_id** of the source that these
-        credentials connect to. Only valid, and required, with a **credential_type** of
-        `oauth2`.
-        :param str enterprise_id: (optional) The **enterprise_id** of the Box site that
-        these credentials connect to. Only valid, and required, with a **source_type** of
-        `box`.
+               credentials connect to. Only valid, and required, with a
+               **credential_type** of `oauth2`.
+        :param str enterprise_id: (optional) The **enterprise_id** of the Box site
+               that these credentials connect to. Only valid, and required, with a
+               **source_type** of `box`.
         :param str url: (optional) The **url** of the source that these credentials
-        connect to. Only valid, and required, with a **credential_type** of
-        `username_password`, `noauth`, and `basic`.
+               connect to. Only valid, and required, with a **credential_type** of
+               `username_password`, `noauth`, and `basic`.
         :param str username: (optional) The **username** of the source that these
-        credentials connect to. Only valid, and required, with a **credential_type** of
-        `saml`, `username_password`, `basic`, or `ntlm_v1`.
-        :param str organization_url: (optional) The **organization_url** of the source
-        that these credentials connect to. Only valid, and required, with a
-        **credential_type** of `saml`.
-        :param str site_collection_path: (optional) The **site_collection.path** of the
-        source that these credentials connect to. Only valid, and required, with a
-        **source_type** of `sharepoint`.
-        :param str client_secret: (optional) The **client_secret** of the source that
-        these credentials connect to. Only valid, and required, with a **credential_type**
-        of `oauth2`. This value is never returned and is only used when creating or
-        modifying **credentials**.
-        :param str public_key_id: (optional) The **public_key_id** of the source that
-        these credentials connect to. Only valid, and required, with a **credential_type**
-        of `oauth2`. This value is never returned and is only used when creating or
-        modifying **credentials**.
-        :param str private_key: (optional) The **private_key** of the source that these
-        credentials connect to. Only valid, and required, with a **credential_type** of
-        `oauth2`. This value is never returned and is only used when creating or modifying
-        **credentials**.
-        :param str passphrase: (optional) The **passphrase** of the source that these
-        credentials connect to. Only valid, and required, with a **credential_type** of
-        `oauth2`. This value is never returned and is only used when creating or modifying
-        **credentials**.
+               credentials connect to. Only valid, and required, with a
+               **credential_type** of `saml`, `username_password`, `basic`, or `ntlm_v1`.
+        :param str organization_url: (optional) The **organization_url** of the
+               source that these credentials connect to. Only valid, and required, with a
+               **credential_type** of `saml`.
+        :param str site_collection_path: (optional) The **site_collection.path** of
+               the source that these credentials connect to. Only valid, and required,
+               with a **source_type** of `sharepoint`.
+        :param str client_secret: (optional) The **client_secret** of the source
+               that these credentials connect to. Only valid, and required, with a
+               **credential_type** of `oauth2`. This value is never returned and is only
+               used when creating or modifying **credentials**.
+        :param str public_key_id: (optional) The **public_key_id** of the source
+               that these credentials connect to. Only valid, and required, with a
+               **credential_type** of `oauth2`. This value is never returned and is only
+               used when creating or modifying **credentials**.
+        :param str private_key: (optional) The **private_key** of the source that
+               these credentials connect to. Only valid, and required, with a
+               **credential_type** of `oauth2`. This value is never returned and is only
+               used when creating or modifying **credentials**.
+        :param str passphrase: (optional) The **passphrase** of the source that
+               these credentials connect to. Only valid, and required, with a
+               **credential_type** of `oauth2`. This value is never returned and is only
+               used when creating or modifying **credentials**.
         :param str password: (optional) The **password** of the source that these
-        credentials connect to. Only valid, and required, with **credential_type**s of
-        `saml`, `username_password`, `basic`, or `ntlm_v1`.
-        **Note:** When used with a **source_type** of `salesforce`, the password consists
-        of the Salesforce password and a valid Salesforce security token concatenated.
-        This value is never returned and is only used when creating or modifying
-        **credentials**.
+               credentials connect to. Only valid, and required, with **credential_type**s
+               of `saml`, `username_password`, `basic`, or `ntlm_v1`.
+               **Note:** When used with a **source_type** of `salesforce`, the password
+               consists of the Salesforce password and a valid Salesforce security token
+               concatenated. This value is never returned and is only used when creating
+               or modifying **credentials**.
         :param str gateway_id: (optional) The ID of the **gateway** to be connected
-        through (when connecting to intranet sites). Only valid with a **credential_type**
-        of `noauth`, `basic`, or `ntlm_v1`. Gateways are created using the
-        `/v1/environments/{environment_id}/gateways` methods.
-        :param str source_version: (optional) The type of Sharepoint repository to connect
-        to. Only valid, and required, with a **source_type** of `sharepoint`.
-        :param str web_application_url: (optional) SharePoint OnPrem WebApplication URL.
-        Only valid, and required, with a **source_version** of `2016`. If a port is not
-        supplied, the default to port `80` for http and port `443` for https connections
-        are used.
-        :param str domain: (optional) The domain used to log in to your OnPrem SharePoint
-        account. Only valid, and required, with a **source_version** of `2016`.
-        :param str endpoint: (optional) The endpoint associated with the cloud object
-        store that your are connecting to. Only valid, and required, with a
-        **credential_type** of `aws4_hmac`.
-        :param str access_key_id: (optional) The access key ID associated with the cloud
-        object store. Only valid, and required, with a **credential_type** of `aws4_hmac`.
-        This value is never returned and is only used when creating or modifying
-        **credentials**. For more infomation, see the [cloud object store
-        documentation](https://cloud.ibm.com/docs/services/cloud-object-storage?topic=cloud-object-storage-using-hmac-credentials#using-hmac-credentials).
-        :param str secret_access_key: (optional) The secret access key associated with the
-        cloud object store. Only valid, and required, with a **credential_type** of
-        `aws4_hmac`. This value is never returned and is only used when creating or
-        modifying **credentials**. For more infomation, see the [cloud object store
-        documentation](https://cloud.ibm.com/docs/services/cloud-object-storage?topic=cloud-object-storage-using-hmac-credentials#using-hmac-credentials).
+               through (when connecting to intranet sites). Only valid with a
+               **credential_type** of `noauth`, `basic`, or `ntlm_v1`. Gateways are
+               created using the `/v1/environments/{environment_id}/gateways` methods.
+        :param str source_version: (optional) The type of Sharepoint repository to
+               connect to. Only valid, and required, with a **source_type** of
+               `sharepoint`.
+        :param str web_application_url: (optional) SharePoint OnPrem WebApplication
+               URL. Only valid, and required, with a **source_version** of `2016`. If a
+               port is not supplied, the default to port `80` for http and port `443` for
+               https connections are used.
+        :param str domain: (optional) The domain used to log in to your OnPrem
+               SharePoint account. Only valid, and required, with a **source_version** of
+               `2016`.
+        :param str endpoint: (optional) The endpoint associated with the cloud
+               object store that your are connecting to. Only valid, and required, with a
+               **credential_type** of `aws4_hmac`.
+        :param str access_key_id: (optional) The access key ID associated with the
+               cloud object store. Only valid, and required, with a **credential_type** of
+               `aws4_hmac`. This value is never returned and is only used when creating or
+               modifying **credentials**. For more infomation, see the [cloud object store
+               documentation](https://cloud.ibm.com/docs/services/cloud-object-storage?topic=cloud-object-storage-using-hmac-credentials#using-hmac-credentials).
+        :param str secret_access_key: (optional) The secret access key associated
+               with the cloud object store. Only valid, and required, with a
+               **credential_type** of `aws4_hmac`. This value is never returned and is
+               only used when creating or modifying **credentials**. For more infomation,
+               see the [cloud object store
+               documentation](https://cloud.ibm.com/docs/services/cloud-object-storage?topic=cloud-object-storage-using-hmac-credentials#using-hmac-credentials).
         """
         self.credential_type = credential_type
         self.client_id = client_id
@@ -4555,18 +4525,18 @@ class CredentialDetails(object):
     def _from_dict(cls, _dict):
         """Initialize a CredentialDetails object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'credential_type', 'client_id', 'enterprise_id', 'url', 'username',
             'organization_url', 'site_collection_path', 'site_collection.path',
             'client_secret', 'public_key_id', 'private_key', 'passphrase',
             'password', 'gateway_id', 'source_version', 'web_application_url',
             'domain', 'endpoint', 'access_key_id', 'secret_access_key'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CredentialDetails: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'credential_type' in _dict:
             args['credential_type'] = _dict.get('credential_type')
         if 'client_id' in _dict:
@@ -4670,31 +4640,62 @@ class CredentialDetails(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class CredentialTypeEnum(Enum):
+        """
+        The authentication method for this credentials definition. The
+        **credential_type** specified must be supported by the **source_type**. The
+        following combinations are possible:
+        -  `"source_type": "box"` - valid `credential_type`s: `oauth2`
+        -  `"source_type": "salesforce"` - valid `credential_type`s: `username_password`
+        -  `"source_type": "sharepoint"` - valid `credential_type`s: `saml` with
+        **source_version** of `online`, or `ntlm_v1` with **source_version** of `2016`
+        -  `"source_type": "web_crawl"` - valid `credential_type`s: `noauth` or `basic`
+        -  "source_type": "cloud_object_storage"` - valid `credential_type`s: `aws4_hmac`.
+        """
+        OAUTH2 = "oauth2"
+        SAML = "saml"
+        USERNAME_PASSWORD = "username_password"
+        NOAUTH = "noauth"
+        BASIC = "basic"
+        NTLM_V1 = "ntlm_v1"
+        AWS4_HMAC = "aws4_hmac"
 
-class Credentials(object):
+    class SourceVersionEnum(Enum):
+        """
+        The type of Sharepoint repository to connect to. Only valid, and required, with a
+        **source_type** of `sharepoint`.
+        """
+        ONLINE = "online"
+
+
+class Credentials():
     """
     Object containing credential information.
 
-    :attr str credential_id: (optional) Unique identifier for this set of credentials.
-    :attr str source_type: (optional) The source that this credentials object connects to.
-    -  `box` indicates the credentials are used to connect an instance of Enterprise Box.
-    -  `salesforce` indicates the credentials are used to connect to Salesforce.
-    -  `sharepoint` indicates the credentials are used to connect to Microsoft SharePoint
-    Online.
-    -  `web_crawl` indicates the credentials are used to perform a web crawl.
-    =  `cloud_object_storage` indicates the credentials are used to connect to an IBM
-    Cloud Object Store.
-    :attr CredentialDetails credential_details: (optional) Object containing details of
-    the stored credentials.
-    Obtain credentials for your source from the administrator of the source.
+    :attr str credential_id: (optional) Unique identifier for this set of
+          credentials.
+    :attr str source_type: (optional) The source that this credentials object
+          connects to.
+          -  `box` indicates the credentials are used to connect an instance of Enterprise
+          Box.
+          -  `salesforce` indicates the credentials are used to connect to Salesforce.
+          -  `sharepoint` indicates the credentials are used to connect to Microsoft
+          SharePoint Online.
+          -  `web_crawl` indicates the credentials are used to perform a web crawl.
+          =  `cloud_object_storage` indicates the credentials are used to connect to an
+          IBM Cloud Object Store.
+    :attr CredentialDetails credential_details: (optional) Object containing details
+          of the stored credentials.
+          Obtain credentials for your source from the administrator of the source.
     :attr str status: (optional) The current status of this set of credentials.
-    `connected` indicates that the credentials are available to use with the source
-    configuration of a collection. `invalid` refers to the credentials (for example, the
-    password provided has expired) and must be corrected before they can be used with a
-    collection.
+          `connected` indicates that the credentials are available to use with the source
+          configuration of a collection. `invalid` refers to the credentials (for example,
+          the password provided has expired) and must be corrected before they can be used
+          with a collection.
     """
 
     def __init__(self,
+                 *,
                  credential_id=None,
                  source_type=None,
                  credential_details=None,
@@ -4703,25 +4704,26 @@ class Credentials(object):
         Initialize a Credentials object.
 
         :param str credential_id: (optional) Unique identifier for this set of
-        credentials.
+               credentials.
         :param str source_type: (optional) The source that this credentials object
-        connects to.
-        -  `box` indicates the credentials are used to connect an instance of Enterprise
-        Box.
-        -  `salesforce` indicates the credentials are used to connect to Salesforce.
-        -  `sharepoint` indicates the credentials are used to connect to Microsoft
-        SharePoint Online.
-        -  `web_crawl` indicates the credentials are used to perform a web crawl.
-        =  `cloud_object_storage` indicates the credentials are used to connect to an IBM
-        Cloud Object Store.
-        :param CredentialDetails credential_details: (optional) Object containing details
-        of the stored credentials.
-        Obtain credentials for your source from the administrator of the source.
-        :param str status: (optional) The current status of this set of credentials.
-        `connected` indicates that the credentials are available to use with the source
-        configuration of a collection. `invalid` refers to the credentials (for example,
-        the password provided has expired) and must be corrected before they can be used
-        with a collection.
+               connects to.
+               -  `box` indicates the credentials are used to connect an instance of
+               Enterprise Box.
+               -  `salesforce` indicates the credentials are used to connect to
+               Salesforce.
+               -  `sharepoint` indicates the credentials are used to connect to Microsoft
+               SharePoint Online.
+               -  `web_crawl` indicates the credentials are used to perform a web crawl.
+               =  `cloud_object_storage` indicates the credentials are used to connect to
+               an IBM Cloud Object Store.
+        :param CredentialDetails credential_details: (optional) Object containing
+               details of the stored credentials.
+               Obtain credentials for your source from the administrator of the source.
+        :param str status: (optional) The current status of this set of
+               credentials. `connected` indicates that the credentials are available to
+               use with the source configuration of a collection. `invalid` refers to the
+               credentials (for example, the password provided has expired) and must be
+               corrected before they can be used with a collection.
         """
         self.credential_id = credential_id
         self.source_type = source_type
@@ -4732,14 +4734,14 @@ class Credentials(object):
     def _from_dict(cls, _dict):
         """Initialize a Credentials object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'credential_id', 'source_type', 'credential_details', 'status'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Credentials: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'credential_id' in _dict:
             args['credential_id'] = _dict.get('credential_id')
         if 'source_type' in _dict:
@@ -4780,21 +4782,49 @@ class Credentials(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class SourceTypeEnum(Enum):
+        """
+        The source that this credentials object connects to.
+        -  `box` indicates the credentials are used to connect an instance of Enterprise
+        Box.
+        -  `salesforce` indicates the credentials are used to connect to Salesforce.
+        -  `sharepoint` indicates the credentials are used to connect to Microsoft
+        SharePoint Online.
+        -  `web_crawl` indicates the credentials are used to perform a web crawl.
+        =  `cloud_object_storage` indicates the credentials are used to connect to an IBM
+        Cloud Object Store.
+        """
+        BOX = "box"
+        SALESFORCE = "salesforce"
+        SHAREPOINT = "sharepoint"
+        WEB_CRAWL = "web_crawl"
+        CLOUD_OBJECT_STORAGE = "cloud_object_storage"
 
-class CredentialsList(object):
+    class StatusEnum(Enum):
+        """
+        The current status of this set of credentials. `connected` indicates that the
+        credentials are available to use with the source configuration of a collection.
+        `invalid` refers to the credentials (for example, the password provided has
+        expired) and must be corrected before they can be used with a collection.
+        """
+        CONNECTED = "connected"
+        INVALID = "invalid"
+
+
+class CredentialsList():
     """
-    CredentialsList.
+    Object containing array of credential definitions.
 
-    :attr list[Credentials] credentials: (optional) An array of credential definitions
-    that were created for this instance.
+    :attr list[Credentials] credentials: (optional) An array of credential
+          definitions that were created for this instance.
     """
 
-    def __init__(self, credentials=None):
+    def __init__(self, *, credentials=None):
         """
         Initialize a CredentialsList object.
 
         :param list[Credentials] credentials: (optional) An array of credential
-        definitions that were created for this instance.
+               definitions that were created for this instance.
         """
         self.credentials = credentials
 
@@ -4802,12 +4832,12 @@ class CredentialsList(object):
     def _from_dict(cls, _dict):
         """Initialize a CredentialsList object from a json dictionary."""
         args = {}
-        validKeys = ['credentials']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['credentials']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class CredentialsList: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'credentials' in _dict:
             args['credentials'] = [
                 Credentials._from_dict(x) for x in (_dict.get('credentials'))
@@ -4836,24 +4866,24 @@ class CredentialsList(object):
         return not self == other
 
 
-class DeleteCollectionResponse(object):
+class DeleteCollectionResponse():
     """
-    DeleteCollectionResponse.
+    Response object returned when deleting a colleciton.
 
     :attr str collection_id: The unique identifier of the collection that is being
-    deleted.
-    :attr str status: The status of the collection. The status of a successful deletion
-    operation is `deleted`.
+          deleted.
+    :attr str status: The status of the collection. The status of a successful
+          deletion operation is `deleted`.
     """
 
     def __init__(self, collection_id, status):
         """
         Initialize a DeleteCollectionResponse object.
 
-        :param str collection_id: The unique identifier of the collection that is being
-        deleted.
+        :param str collection_id: The unique identifier of the collection that is
+               being deleted.
         :param str status: The status of the collection. The status of a successful
-        deletion operation is `deleted`.
+               deletion operation is `deleted`.
         """
         self.collection_id = collection_id
         self.status = status
@@ -4862,12 +4892,12 @@ class DeleteCollectionResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a DeleteCollectionResponse object from a json dictionary."""
         args = {}
-        validKeys = ['collection_id', 'status']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['collection_id', 'status']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DeleteCollectionResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'collection_id' in _dict:
             args['collection_id'] = _dict.get('collection_id')
         else:
@@ -4905,25 +4935,33 @@ class DeleteCollectionResponse(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class StatusEnum(Enum):
+        """
+        The status of the collection. The status of a successful deletion operation is
+        `deleted`.
+        """
+        DELETED = "deleted"
 
-class DeleteConfigurationResponse(object):
+
+class DeleteConfigurationResponse():
     """
-    DeleteConfigurationResponse.
+    Information returned when a configuration is deleted.
 
     :attr str configuration_id: The unique identifier for the configuration.
-    :attr str status: Status of the configuration. A deleted configuration has the status
-    deleted.
+    :attr str status: Status of the configuration. A deleted configuration has the
+          status deleted.
     :attr list[Notice] notices: (optional) An array of notice messages, if any.
     """
 
-    def __init__(self, configuration_id, status, notices=None):
+    def __init__(self, configuration_id, status, *, notices=None):
         """
         Initialize a DeleteConfigurationResponse object.
 
         :param str configuration_id: The unique identifier for the configuration.
-        :param str status: Status of the configuration. A deleted configuration has the
-        status deleted.
-        :param list[Notice] notices: (optional) An array of notice messages, if any.
+        :param str status: Status of the configuration. A deleted configuration has
+               the status deleted.
+        :param list[Notice] notices: (optional) An array of notice messages, if
+               any.
         """
         self.configuration_id = configuration_id
         self.status = status
@@ -4933,12 +4971,12 @@ class DeleteConfigurationResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a DeleteConfigurationResponse object from a json dictionary."""
         args = {}
-        validKeys = ['configuration_id', 'status', 'notices']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['configuration_id', 'status', 'notices']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DeleteConfigurationResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'configuration_id' in _dict:
             args['configuration_id'] = _dict.get('configuration_id')
         else:
@@ -4983,22 +5021,28 @@ class DeleteConfigurationResponse(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class StatusEnum(Enum):
+        """
+        Status of the configuration. A deleted configuration has the status deleted.
+        """
+        DELETED = "deleted"
 
-class DeleteCredentials(object):
+
+class DeleteCredentials():
     """
     Object returned after credentials are deleted.
 
-    :attr str credential_id: (optional) The unique identifier of the credentials that have
-    been deleted.
+    :attr str credential_id: (optional) The unique identifier of the credentials
+          that have been deleted.
     :attr str status: (optional) The status of the deletion request.
     """
 
-    def __init__(self, credential_id=None, status=None):
+    def __init__(self, *, credential_id=None, status=None):
         """
         Initialize a DeleteCredentials object.
 
-        :param str credential_id: (optional) The unique identifier of the credentials that
-        have been deleted.
+        :param str credential_id: (optional) The unique identifier of the
+               credentials that have been deleted.
         :param str status: (optional) The status of the deletion request.
         """
         self.credential_id = credential_id
@@ -5008,12 +5052,12 @@ class DeleteCredentials(object):
     def _from_dict(cls, _dict):
         """Initialize a DeleteCredentials object from a json dictionary."""
         args = {}
-        validKeys = ['credential_id', 'status']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['credential_id', 'status']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DeleteCredentials: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'credential_id' in _dict:
             args['credential_id'] = _dict.get('credential_id')
         if 'status' in _dict:
@@ -5043,23 +5087,29 @@ class DeleteCredentials(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class StatusEnum(Enum):
+        """
+        The status of the deletion request.
+        """
+        DELETED = "deleted"
 
-class DeleteDocumentResponse(object):
+
+class DeleteDocumentResponse():
     """
-    DeleteDocumentResponse.
+    Information returned when a document is deleted.
 
     :attr str document_id: (optional) The unique identifier of the document.
-    :attr str status: (optional) Status of the document. A deleted document has the status
-    deleted.
+    :attr str status: (optional) Status of the document. A deleted document has the
+          status deleted.
     """
 
-    def __init__(self, document_id=None, status=None):
+    def __init__(self, *, document_id=None, status=None):
         """
         Initialize a DeleteDocumentResponse object.
 
         :param str document_id: (optional) The unique identifier of the document.
-        :param str status: (optional) Status of the document. A deleted document has the
-        status deleted.
+        :param str status: (optional) Status of the document. A deleted document
+               has the status deleted.
         """
         self.document_id = document_id
         self.status = status
@@ -5068,12 +5118,12 @@ class DeleteDocumentResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a DeleteDocumentResponse object from a json dictionary."""
         args = {}
-        validKeys = ['document_id', 'status']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['document_id', 'status']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DeleteDocumentResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document_id' in _dict:
             args['document_id'] = _dict.get('document_id')
         if 'status' in _dict:
@@ -5103,10 +5153,16 @@ class DeleteDocumentResponse(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class StatusEnum(Enum):
+        """
+        Status of the document. A deleted document has the status deleted.
+        """
+        DELETED = "deleted"
 
-class DeleteEnvironmentResponse(object):
+
+class DeleteEnvironmentResponse():
     """
-    DeleteEnvironmentResponse.
+    Response object returned when deleting an environment.
 
     :attr str environment_id: The unique identifier for the environment.
     :attr str status: Status of the environment.
@@ -5126,12 +5182,12 @@ class DeleteEnvironmentResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a DeleteEnvironmentResponse object from a json dictionary."""
         args = {}
-        validKeys = ['environment_id', 'status']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['environment_id', 'status']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DeleteEnvironmentResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'environment_id' in _dict:
             args['environment_id'] = _dict.get('environment_id')
         else:
@@ -5169,25 +5225,31 @@ class DeleteEnvironmentResponse(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class StatusEnum(Enum):
+        """
+        Status of the environment.
+        """
+        DELETED = "deleted"
 
-class DiskUsage(object):
+
+class DiskUsage():
     """
     Summary of the disk usage statistics for the environment.
 
     :attr int used_bytes: (optional) Number of bytes within the environment's disk
-    capacity that are currently used to store data.
-    :attr int maximum_allowed_bytes: (optional) Total number of bytes available in the
-    environment's disk capacity.
+          capacity that are currently used to store data.
+    :attr int maximum_allowed_bytes: (optional) Total number of bytes available in
+          the environment's disk capacity.
     """
 
-    def __init__(self, used_bytes=None, maximum_allowed_bytes=None):
+    def __init__(self, *, used_bytes=None, maximum_allowed_bytes=None):
         """
         Initialize a DiskUsage object.
 
-        :param int used_bytes: (optional) Number of bytes within the environment's disk
-        capacity that are currently used to store data.
-        :param int maximum_allowed_bytes: (optional) Total number of bytes available in
-        the environment's disk capacity.
+        :param int used_bytes: (optional) Number of bytes within the environment's
+               disk capacity that are currently used to store data.
+        :param int maximum_allowed_bytes: (optional) Total number of bytes
+               available in the environment's disk capacity.
         """
         self.used_bytes = used_bytes
         self.maximum_allowed_bytes = maximum_allowed_bytes
@@ -5196,12 +5258,12 @@ class DiskUsage(object):
     def _from_dict(cls, _dict):
         """Initialize a DiskUsage object from a json dictionary."""
         args = {}
-        validKeys = ['used_bytes', 'maximum_allowed_bytes']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['used_bytes', 'maximum_allowed_bytes']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DiskUsage: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'used_bytes' in _dict:
             args['used_bytes'] = _dict.get('used_bytes')
         if 'maximum_allowed_bytes' in _dict:
@@ -5233,29 +5295,32 @@ class DiskUsage(object):
         return not self == other
 
 
-class DocumentAccepted(object):
+class DocumentAccepted():
     """
-    DocumentAccepted.
+    Information returned after an uploaded document is accepted.
 
-    :attr str document_id: (optional) The unique identifier of the ingested document.
-    :attr str status: (optional) Status of the document in the ingestion process. A status
-    of `processing` is returned for documents that are ingested with a *version* date
-    before `2019-01-01`. The `pending` status is returned for all others.
+    :attr str document_id: (optional) The unique identifier of the ingested
+          document.
+    :attr str status: (optional) Status of the document in the ingestion process. A
+          status of `processing` is returned for documents that are ingested with a
+          *version* date before `2019-01-01`. The `pending` status is returned for all
+          others.
     :attr list[Notice] notices: (optional) Array of notices produced by the
-    document-ingestion process.
+          document-ingestion process.
     """
 
-    def __init__(self, document_id=None, status=None, notices=None):
+    def __init__(self, *, document_id=None, status=None, notices=None):
         """
         Initialize a DocumentAccepted object.
 
-        :param str document_id: (optional) The unique identifier of the ingested document.
-        :param str status: (optional) Status of the document in the ingestion process. A
-        status of `processing` is returned for documents that are ingested with a
-        *version* date before `2019-01-01`. The `pending` status is returned for all
-        others.
+        :param str document_id: (optional) The unique identifier of the ingested
+               document.
+        :param str status: (optional) Status of the document in the ingestion
+               process. A status of `processing` is returned for documents that are
+               ingested with a *version* date before `2019-01-01`. The `pending` status is
+               returned for all others.
         :param list[Notice] notices: (optional) Array of notices produced by the
-        document-ingestion process.
+               document-ingestion process.
         """
         self.document_id = document_id
         self.status = status
@@ -5265,12 +5330,12 @@ class DocumentAccepted(object):
     def _from_dict(cls, _dict):
         """Initialize a DocumentAccepted object from a json dictionary."""
         args = {}
-        validKeys = ['document_id', 'status', 'notices']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['document_id', 'status', 'notices']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DocumentAccepted: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document_id' in _dict:
             args['document_id'] = _dict.get('document_id')
         if 'status' in _dict:
@@ -5306,22 +5371,32 @@ class DocumentAccepted(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class StatusEnum(Enum):
+        """
+        Status of the document in the ingestion process. A status of `processing` is
+        returned for documents that are ingested with a *version* date before
+        `2019-01-01`. The `pending` status is returned for all others.
+        """
+        PROCESSING = "processing"
+        PENDING = "pending"
 
-class DocumentCounts(object):
+
+class DocumentCounts():
     """
-    DocumentCounts.
+    Object containing collection document count information.
 
     :attr int available: (optional) The total number of available documents in the
-    collection.
-    :attr int processing: (optional) The number of documents in the collection that are
-    currently being processed.
-    :attr int failed: (optional) The number of documents in the collection that failed to
-    be ingested.
-    :attr int pending: (optional) The number of documents that have been uploaded to the
-    collection, but have not yet started processing.
+          collection.
+    :attr int processing: (optional) The number of documents in the collection that
+          are currently being processed.
+    :attr int failed: (optional) The number of documents in the collection that
+          failed to be ingested.
+    :attr int pending: (optional) The number of documents that have been uploaded to
+          the collection, but have not yet started processing.
     """
 
     def __init__(self,
+                 *,
                  available=None,
                  processing=None,
                  failed=None,
@@ -5329,14 +5404,14 @@ class DocumentCounts(object):
         """
         Initialize a DocumentCounts object.
 
-        :param int available: (optional) The total number of available documents in the
-        collection.
-        :param int processing: (optional) The number of documents in the collection that
-        are currently being processed.
-        :param int failed: (optional) The number of documents in the collection that
-        failed to be ingested.
-        :param int pending: (optional) The number of documents that have been uploaded to
-        the collection, but have not yet started processing.
+        :param int available: (optional) The total number of available documents in
+               the collection.
+        :param int processing: (optional) The number of documents in the collection
+               that are currently being processed.
+        :param int failed: (optional) The number of documents in the collection
+               that failed to be ingested.
+        :param int pending: (optional) The number of documents that have been
+               uploaded to the collection, but have not yet started processing.
         """
         self.available = available
         self.processing = processing
@@ -5347,12 +5422,12 @@ class DocumentCounts(object):
     def _from_dict(cls, _dict):
         """Initialize a DocumentCounts object from a json dictionary."""
         args = {}
-        validKeys = ['available', 'processing', 'failed', 'pending']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['available', 'processing', 'failed', 'pending']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DocumentCounts: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'available' in _dict:
             args['available'] = _dict.get('available')
         if 'processing' in _dict:
@@ -5391,80 +5466,21 @@ class DocumentCounts(object):
         return not self == other
 
 
-class DocumentSnapshot(object):
-    """
-    DocumentSnapshot.
-
-    :attr str step: (optional) The step in the document conversion process that the
-    snapshot object represents.
-    :attr dict snapshot: (optional) Snapshot of the conversion.
-    """
-
-    def __init__(self, step=None, snapshot=None):
-        """
-        Initialize a DocumentSnapshot object.
-
-        :param str step: (optional) The step in the document conversion process that the
-        snapshot object represents.
-        :param dict snapshot: (optional) Snapshot of the conversion.
-        """
-        self.step = step
-        self.snapshot = snapshot
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a DocumentSnapshot object from a json dictionary."""
-        args = {}
-        validKeys = ['step', 'snapshot']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DocumentSnapshot: '
-                + ', '.join(badKeys))
-        if 'step' in _dict:
-            args['step'] = _dict.get('step')
-        if 'snapshot' in _dict:
-            args['snapshot'] = _dict.get('snapshot')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'step') and self.step is not None:
-            _dict['step'] = self.step
-        if hasattr(self, 'snapshot') and self.snapshot is not None:
-            _dict['snapshot'] = self.snapshot
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this DocumentSnapshot object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class DocumentStatus(object):
+class DocumentStatus():
     """
     Status information about a submitted document.
 
     :attr str document_id: The unique identifier of the document.
-    :attr str configuration_id: (optional) The unique identifier for the configuration.
+    :attr str configuration_id: (optional) The unique identifier for the
+          configuration.
     :attr str status: Status of the document in the ingestion process.
     :attr str status_description: Description of the document status.
     :attr str filename: (optional) Name of the original source file (if available).
     :attr str file_type: (optional) The type of the original source file.
-    :attr str sha1: (optional) The SHA-1 hash of the original source file (formatted as a
-    hexadecimal string).
+    :attr str sha1: (optional) The SHA-1 hash of the original source file (formatted
+          as a hexadecimal string).
     :attr list[Notice] notices: Array of notices produced by the document-ingestion
-    process.
+          process.
     """
 
     def __init__(self,
@@ -5472,6 +5488,7 @@ class DocumentStatus(object):
                  status,
                  status_description,
                  notices,
+                 *,
                  configuration_id=None,
                  filename=None,
                  file_type=None,
@@ -5482,14 +5499,15 @@ class DocumentStatus(object):
         :param str document_id: The unique identifier of the document.
         :param str status: Status of the document in the ingestion process.
         :param str status_description: Description of the document status.
-        :param list[Notice] notices: Array of notices produced by the document-ingestion
-        process.
+        :param list[Notice] notices: Array of notices produced by the
+               document-ingestion process.
         :param str configuration_id: (optional) The unique identifier for the
-        configuration.
-        :param str filename: (optional) Name of the original source file (if available).
+               configuration.
+        :param str filename: (optional) Name of the original source file (if
+               available).
         :param str file_type: (optional) The type of the original source file.
-        :param str sha1: (optional) The SHA-1 hash of the original source file (formatted
-        as a hexadecimal string).
+        :param str sha1: (optional) The SHA-1 hash of the original source file
+               (formatted as a hexadecimal string).
         """
         self.document_id = document_id
         self.configuration_id = configuration_id
@@ -5504,15 +5522,15 @@ class DocumentStatus(object):
     def _from_dict(cls, _dict):
         """Initialize a DocumentStatus object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'document_id', 'configuration_id', 'status', 'status_description',
             'filename', 'file_type', 'sha1', 'notices'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class DocumentStatus: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document_id' in _dict:
             args['document_id'] = _dict.get('document_id')
         else:
@@ -5587,40 +5605,62 @@ class DocumentStatus(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class StatusEnum(Enum):
+        """
+        Status of the document in the ingestion process.
+        """
+        AVAILABLE = "available"
+        AVAILABLE_WITH_NOTICES = "available with notices"
+        FAILED = "failed"
+        PROCESSING = "processing"
+        PENDING = "pending"
 
-class Enrichment(object):
+    class FileTypeEnum(Enum):
+        """
+        The type of the original source file.
+        """
+        PDF = "pdf"
+        HTML = "html"
+        WORD = "word"
+        JSON = "json"
+
+
+class Enrichment():
     """
-    Enrichment.
+    Enrichment step to perform on the document. Each enrichment is performed on the
+    specified field in the order that they are listed in the configuration.
 
     :attr str description: (optional) Describes what the enrichment step does.
-    :attr str destination_field: Field where enrichments will be stored. This field must
-    already exist or be at most 1 level deeper than an existing field. For example, if
-    `text` is a top-level field with no sub-fields, `text.foo` is a valid destination but
-    `text.foo.bar` is not.
+    :attr str destination_field: Field where enrichments will be stored. This field
+          must already exist or be at most 1 level deeper than an existing field. For
+          example, if `text` is a top-level field with no sub-fields, `text.foo` is a
+          valid destination but `text.foo.bar` is not.
     :attr str source_field: Field to be enriched.
-    Arrays can be specified as the **source_field** if the **enrichment** service for this
-    enrichment is set to `natural_language_undstanding`.
-    :attr bool overwrite: (optional) Indicates that the enrichments will overwrite the
-    destination_field field if it already exists.
-    :attr str enrichment_name: Name of the enrichment service to call. Current options are
-    `natural_language_understanding` and `elements`.
-     When using `natual_language_understanding`, the **options** object must contain
-    Natural Language Understanding options.
-     When using `elements` the **options** object must contain Element Classification
-    options. Additionally, when using the `elements` enrichment the configuration
-    specified and files ingested must meet all the criteria specified in [the
-    documentation](https://cloud.ibm.com/docs/services/discovery?topic=discovery-element-classification#element-classification).
-    :attr bool ignore_downstream_errors: (optional) If true, then most errors generated
-    during the enrichment process will be treated as warnings and will not cause the
-    document to fail processing.
-    :attr EnrichmentOptions options: (optional) Options which are specific to a particular
-    enrichment.
+          Arrays can be specified as the **source_field** if the **enrichment** service
+          for this enrichment is set to `natural_language_undstanding`.
+    :attr bool overwrite: (optional) Indicates that the enrichments will overwrite
+          the destination_field field if it already exists.
+    :attr str enrichment: Name of the enrichment service to call. Current options
+          are `natural_language_understanding` and `elements`.
+           When using `natual_language_understanding`, the **options** object must contain
+          Natural Language Understanding options.
+           When using `elements` the **options** object must contain Element
+          Classification options. Additionally, when using the `elements` enrichment the
+          configuration specified and files ingested must meet all the criteria specified
+          in [the
+          documentation](https://cloud.ibm.com/docs/services/discovery?topic=discovery-element-classification#element-classification).
+    :attr bool ignore_downstream_errors: (optional) If true, then most errors
+          generated during the enrichment process will be treated as warnings and will not
+          cause the document to fail processing.
+    :attr EnrichmentOptions options: (optional) Options which are specific to a
+          particular enrichment.
     """
 
     def __init__(self,
                  destination_field,
                  source_field,
-                 enrichment_name,
+                 enrichment,
+                 *,
                  description=None,
                  overwrite=None,
                  ignore_downstream_errors=None,
@@ -5628,35 +5668,36 @@ class Enrichment(object):
         """
         Initialize a Enrichment object.
 
-        :param str destination_field: Field where enrichments will be stored. This field
-        must already exist or be at most 1 level deeper than an existing field. For
-        example, if `text` is a top-level field with no sub-fields, `text.foo` is a valid
-        destination but `text.foo.bar` is not.
+        :param str destination_field: Field where enrichments will be stored. This
+               field must already exist or be at most 1 level deeper than an existing
+               field. For example, if `text` is a top-level field with no sub-fields,
+               `text.foo` is a valid destination but `text.foo.bar` is not.
         :param str source_field: Field to be enriched.
-        Arrays can be specified as the **source_field** if the **enrichment** service for
-        this enrichment is set to `natural_language_undstanding`.
-        :param str enrichment_name: Name of the enrichment service to call. Current
-        options are `natural_language_understanding` and `elements`.
-         When using `natual_language_understanding`, the **options** object must contain
-        Natural Language Understanding options.
-         When using `elements` the **options** object must contain Element Classification
-        options. Additionally, when using the `elements` enrichment the configuration
-        specified and files ingested must meet all the criteria specified in [the
-        documentation](https://cloud.ibm.com/docs/services/discovery?topic=discovery-element-classification#element-classification).
+               Arrays can be specified as the **source_field** if the **enrichment**
+               service for this enrichment is set to `natural_language_undstanding`.
+        :param str enrichment: Name of the enrichment service to call. Current
+               options are `natural_language_understanding` and `elements`.
+                When using `natual_language_understanding`, the **options** object must
+               contain Natural Language Understanding options.
+                When using `elements` the **options** object must contain Element
+               Classification options. Additionally, when using the `elements` enrichment
+               the configuration specified and files ingested must meet all the criteria
+               specified in [the
+               documentation](https://cloud.ibm.com/docs/services/discovery?topic=discovery-element-classification#element-classification).
         :param str description: (optional) Describes what the enrichment step does.
-        :param bool overwrite: (optional) Indicates that the enrichments will overwrite
-        the destination_field field if it already exists.
+        :param bool overwrite: (optional) Indicates that the enrichments will
+               overwrite the destination_field field if it already exists.
         :param bool ignore_downstream_errors: (optional) If true, then most errors
-        generated during the enrichment process will be treated as warnings and will not
-        cause the document to fail processing.
-        :param EnrichmentOptions options: (optional) Options which are specific to a
-        particular enrichment.
+               generated during the enrichment process will be treated as warnings and
+               will not cause the document to fail processing.
+        :param EnrichmentOptions options: (optional) Options which are specific to
+               a particular enrichment.
         """
         self.description = description
         self.destination_field = destination_field
         self.source_field = source_field
         self.overwrite = overwrite
-        self.enrichment_name = enrichment_name
+        self.enrichment = enrichment
         self.ignore_downstream_errors = ignore_downstream_errors
         self.options = options
 
@@ -5664,16 +5705,15 @@ class Enrichment(object):
     def _from_dict(cls, _dict):
         """Initialize a Enrichment object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'description', 'destination_field', 'source_field', 'overwrite',
-            'enrichment_name', 'enrichment', 'ignore_downstream_errors',
-            'options'
+            'enrichment', 'ignore_downstream_errors', 'options'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Enrichment: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'description' in _dict:
             args['description'] = _dict.get('description')
         if 'destination_field' in _dict:
@@ -5690,9 +5730,8 @@ class Enrichment(object):
             )
         if 'overwrite' in _dict:
             args['overwrite'] = _dict.get('overwrite')
-        if 'enrichment' in _dict or 'enrichment_name' in _dict:
-            args['enrichment_name'] = _dict.get('enrichment') or _dict.get(
-                'enrichment_name')
+        if 'enrichment' in _dict:
+            args['enrichment'] = _dict.get('enrichment')
         else:
             raise ValueError(
                 'Required property \'enrichment\' not present in Enrichment JSON'
@@ -5716,9 +5755,8 @@ class Enrichment(object):
             _dict['source_field'] = self.source_field
         if hasattr(self, 'overwrite') and self.overwrite is not None:
             _dict['overwrite'] = self.overwrite
-        if hasattr(self,
-                   'enrichment_name') and self.enrichment_name is not None:
-            _dict['enrichment'] = self.enrichment_name
+        if hasattr(self, 'enrichment') and self.enrichment is not None:
+            _dict['enrichment'] = self.enrichment
         if hasattr(self, 'ignore_downstream_errors'
                   ) and self.ignore_downstream_errors is not None:
             _dict['ignore_downstream_errors'] = self.ignore_downstream_errors
@@ -5741,33 +5779,36 @@ class Enrichment(object):
         return not self == other
 
 
-class EnrichmentOptions(object):
+class EnrichmentOptions():
     """
     Options which are specific to a particular enrichment.
 
-    :attr NluEnrichmentFeatures features: (optional)
-    :attr str language: (optional) ISO 639-1 code indicating the language to use for the
-    analysis. This code overrides the automatic language detection performed by the
-    service. Valid codes are `ar` (Arabic), `en` (English), `fr` (French), `de` (German),
-    `it` (Italian), `pt` (Portuguese), `ru` (Russian), `es` (Spanish), and `sv` (Swedish).
-    **Note:** Not all features support all languages, automatic detection is recommended.
-    :attr str model: (optional) *For use with `elements` enrichments only.* The element
-    extraction model to use. Models available are: `contract`.
+    :attr NluEnrichmentFeatures features: (optional) Object containing Natural
+          Language Understanding features to be used.
+    :attr str language: (optional) ISO 639-1 code indicating the language to use for
+          the analysis. This code overrides the automatic language detection performed by
+          the service. Valid codes are `ar` (Arabic), `en` (English), `fr` (French), `de`
+          (German), `it` (Italian), `pt` (Portuguese), `ru` (Russian), `es` (Spanish), and
+          `sv` (Swedish). **Note:** Not all features support all languages, automatic
+          detection is recommended.
+    :attr str model: (optional) *For use with `elements` enrichments only.* The
+          element extraction model to use. Models available are: `contract`.
     """
 
-    def __init__(self, features=None, language=None, model=None):
+    def __init__(self, *, features=None, language=None, model=None):
         """
         Initialize a EnrichmentOptions object.
 
-        :param NluEnrichmentFeatures features: (optional)
-        :param str language: (optional) ISO 639-1 code indicating the language to use for
-        the analysis. This code overrides the automatic language detection performed by
-        the service. Valid codes are `ar` (Arabic), `en` (English), `fr` (French), `de`
-        (German), `it` (Italian), `pt` (Portuguese), `ru` (Russian), `es` (Spanish), and
-        `sv` (Swedish). **Note:** Not all features support all languages, automatic
-        detection is recommended.
-        :param str model: (optional) *For use with `elements` enrichments only.* The
-        element extraction model to use. Models available are: `contract`.
+        :param NluEnrichmentFeatures features: (optional) Object containing Natural
+               Language Understanding features to be used.
+        :param str language: (optional) ISO 639-1 code indicating the language to
+               use for the analysis. This code overrides the automatic language detection
+               performed by the service. Valid codes are `ar` (Arabic), `en` (English),
+               `fr` (French), `de` (German), `it` (Italian), `pt` (Portuguese), `ru`
+               (Russian), `es` (Spanish), and `sv` (Swedish). **Note:** Not all features
+               support all languages, automatic detection is recommended.
+        :param str model: (optional) *For use with `elements` enrichments only.*
+               The element extraction model to use. Models available are: `contract`.
         """
         self.features = features
         self.language = language
@@ -5777,12 +5818,12 @@ class EnrichmentOptions(object):
     def _from_dict(cls, _dict):
         """Initialize a EnrichmentOptions object from a json dictionary."""
         args = {}
-        validKeys = ['features', 'language', 'model']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['features', 'language', 'model']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class EnrichmentOptions: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'features' in _dict:
             args['features'] = NluEnrichmentFeatures._from_dict(
                 _dict.get('features'))
@@ -5817,34 +5858,54 @@ class EnrichmentOptions(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class LanguageEnum(Enum):
+        """
+        ISO 639-1 code indicating the language to use for the analysis. This code
+        overrides the automatic language detection performed by the service. Valid codes
+        are `ar` (Arabic), `en` (English), `fr` (French), `de` (German), `it` (Italian),
+        `pt` (Portuguese), `ru` (Russian), `es` (Spanish), and `sv` (Swedish). **Note:**
+        Not all features support all languages, automatic detection is recommended.
+        """
+        AR = "ar"
+        EN = "en"
+        FR = "fr"
+        DE = "de"
+        IT = "it"
+        PT = "pt"
+        RU = "ru"
+        ES = "es"
+        SV = "sv"
 
-class Environment(object):
+
+class Environment():
     """
     Details about an environment.
 
     :attr str environment_id: (optional) Unique identifier for the environment.
     :attr str name: (optional) Name that identifies the environment.
     :attr str description: (optional) Description of the environment.
-    :attr datetime created: (optional) Creation date of the environment, in the format
-    `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`.
-    :attr datetime updated: (optional) Date of most recent environment update, in the
-    format `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`.
+    :attr datetime created: (optional) Creation date of the environment, in the
+          format `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`.
+    :attr datetime updated: (optional) Date of most recent environment update, in
+          the format `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`.
     :attr str status: (optional) Current status of the environment. `resizing` is
-    displayed when a request to increase the environment size has been made, but is still
-    in the process of being completed.
+          displayed when a request to increase the environment size has been made, but is
+          still in the process of being completed.
     :attr bool read_only: (optional) If `true`, the environment contains read-only
-    collections that are maintained by IBM.
+          collections that are maintained by IBM.
     :attr str size: (optional) Current size of the environment.
-    :attr str requested_size: (optional) The new size requested for this environment. Only
-    returned when the environment *status* is `resizing`.
-    *Note:* Querying and indexing can still be performed during an environment upsize.
-    :attr IndexCapacity index_capacity: (optional) Details about the resource usage and
-    capacity of the environment.
+    :attr str requested_size: (optional) The new size requested for this
+          environment. Only returned when the environment *status* is `resizing`.
+          *Note:* Querying and indexing can still be performed during an environment
+          upsize.
+    :attr IndexCapacity index_capacity: (optional) Details about the resource usage
+          and capacity of the environment.
     :attr SearchStatus search_status: (optional) Information about the Continuous
-    Relevancy Training for this environment.
+          Relevancy Training for this environment.
     """
 
     def __init__(self,
+                 *,
                  environment_id=None,
                  name=None,
                  description=None,
@@ -5859,26 +5920,28 @@ class Environment(object):
         """
         Initialize a Environment object.
 
-        :param str environment_id: (optional) Unique identifier for the environment.
+        :param str environment_id: (optional) Unique identifier for the
+               environment.
         :param str name: (optional) Name that identifies the environment.
         :param str description: (optional) Description of the environment.
-        :param datetime created: (optional) Creation date of the environment, in the
-        format `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`.
-        :param datetime updated: (optional) Date of most recent environment update, in the
-        format `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`.
-        :param str status: (optional) Current status of the environment. `resizing` is
-        displayed when a request to increase the environment size has been made, but is
-        still in the process of being completed.
-        :param bool read_only: (optional) If `true`, the environment contains read-only
-        collections that are maintained by IBM.
+        :param datetime created: (optional) Creation date of the environment, in
+               the format `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`.
+        :param datetime updated: (optional) Date of most recent environment update,
+               in the format `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`.
+        :param str status: (optional) Current status of the environment. `resizing`
+               is displayed when a request to increase the environment size has been made,
+               but is still in the process of being completed.
+        :param bool read_only: (optional) If `true`, the environment contains
+               read-only collections that are maintained by IBM.
         :param str size: (optional) Current size of the environment.
-        :param str requested_size: (optional) The new size requested for this environment.
-        Only returned when the environment *status* is `resizing`.
-        *Note:* Querying and indexing can still be performed during an environment upsize.
-        :param IndexCapacity index_capacity: (optional) Details about the resource usage
-        and capacity of the environment.
-        :param SearchStatus search_status: (optional) Information about the Continuous
-        Relevancy Training for this environment.
+        :param str requested_size: (optional) The new size requested for this
+               environment. Only returned when the environment *status* is `resizing`.
+               *Note:* Querying and indexing can still be performed during an environment
+               upsize.
+        :param IndexCapacity index_capacity: (optional) Details about the resource
+               usage and capacity of the environment.
+        :param SearchStatus search_status: (optional) Information about the
+               Continuous Relevancy Training for this environment.
         """
         self.environment_id = environment_id
         self.name = name
@@ -5896,16 +5959,16 @@ class Environment(object):
     def _from_dict(cls, _dict):
         """Initialize a Environment object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'environment_id', 'name', 'description', 'created', 'updated',
             'status', 'read_only', 'size', 'requested_size', 'index_capacity',
             'search_status'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Environment: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'environment_id' in _dict:
             args['environment_id'] = _dict.get('environment_id')
         if 'name' in _dict:
@@ -5973,23 +6036,50 @@ class Environment(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class StatusEnum(Enum):
+        """
+        Current status of the environment. `resizing` is displayed when a request to
+        increase the environment size has been made, but is still in the process of being
+        completed.
+        """
+        ACTIVE = "active"
+        PENDING = "pending"
+        MAINTENANCE = "maintenance"
+        RESIZING = "resizing"
 
-class EnvironmentDocuments(object):
+    class SizeEnum(Enum):
+        """
+        Current size of the environment.
+        """
+        LT = "LT"
+        XS = "XS"
+        S = "S"
+        MS = "MS"
+        M = "M"
+        ML = "ML"
+        L = "L"
+        XL = "XL"
+        XXL = "XXL"
+        XXXL = "XXXL"
+
+
+class EnvironmentDocuments():
     """
     Summary of the document usage statistics for the environment.
 
     :attr int indexed: (optional) Number of documents indexed for the environment.
     :attr int maximum_allowed: (optional) Total number of documents allowed in the
-    environment's capacity.
+          environment's capacity.
     """
 
-    def __init__(self, indexed=None, maximum_allowed=None):
+    def __init__(self, *, indexed=None, maximum_allowed=None):
         """
         Initialize a EnvironmentDocuments object.
 
-        :param int indexed: (optional) Number of documents indexed for the environment.
-        :param int maximum_allowed: (optional) Total number of documents allowed in the
-        environment's capacity.
+        :param int indexed: (optional) Number of documents indexed for the
+               environment.
+        :param int maximum_allowed: (optional) Total number of documents allowed in
+               the environment's capacity.
         """
         self.indexed = indexed
         self.maximum_allowed = maximum_allowed
@@ -5998,12 +6088,12 @@ class EnvironmentDocuments(object):
     def _from_dict(cls, _dict):
         """Initialize a EnvironmentDocuments object from a json dictionary."""
         args = {}
-        validKeys = ['indexed', 'maximum_allowed']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['indexed', 'maximum_allowed']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class EnvironmentDocuments: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'indexed' in _dict:
             args['indexed'] = _dict.get('indexed')
         if 'maximum_allowed' in _dict:
@@ -6035,24 +6125,25 @@ class EnvironmentDocuments(object):
         return not self == other
 
 
-class EventData(object):
+class EventData():
     """
     Query event data object.
 
-    :attr str environment_id: The **environment_id** associated with the query that the
-    event is associated with.
-    :attr str session_token: The session token that was returned as part of the query
-    results that this event is associated with.
-    :attr datetime client_timestamp: (optional) The optional timestamp for the event that
-    was created. If not provided, the time that the event was created in the log was used.
-    :attr int display_rank: (optional) The rank of the result item which the event is
-    associated with.
-    :attr str collection_id: The **collection_id** of the document that this event is
-    associated with.
+    :attr str environment_id: The **environment_id** associated with the query that
+          the event is associated with.
+    :attr str session_token: The session token that was returned as part of the
+          query results that this event is associated with.
+    :attr datetime client_timestamp: (optional) The optional timestamp for the event
+          that was created. If not provided, the time that the event was created in the
+          log was used.
+    :attr int display_rank: (optional) The rank of the result item which the event
+          is associated with.
+    :attr str collection_id: The **collection_id** of the document that this event
+          is associated with.
     :attr str document_id: The **document_id** of the document that this event is
-    associated with.
-    :attr str query_id: (optional) The query identifier stored in the log. The query and
-    any events associated with that query are stored with the same **query_id**.
+          associated with.
+    :attr str query_id: (optional) The query identifier stored in the log. The query
+          and any events associated with that query are stored with the same **query_id**.
     """
 
     def __init__(self,
@@ -6060,27 +6151,29 @@ class EventData(object):
                  session_token,
                  collection_id,
                  document_id,
+                 *,
                  client_timestamp=None,
                  display_rank=None,
                  query_id=None):
         """
         Initialize a EventData object.
 
-        :param str environment_id: The **environment_id** associated with the query that
-        the event is associated with.
-        :param str session_token: The session token that was returned as part of the query
-        results that this event is associated with.
-        :param str collection_id: The **collection_id** of the document that this event is
-        associated with.
-        :param str document_id: The **document_id** of the document that this event is
-        associated with.
-        :param datetime client_timestamp: (optional) The optional timestamp for the event
-        that was created. If not provided, the time that the event was created in the log
-        was used.
-        :param int display_rank: (optional) The rank of the result item which the event is
-        associated with.
-        :param str query_id: (optional) The query identifier stored in the log. The query
-        and any events associated with that query are stored with the same **query_id**.
+        :param str environment_id: The **environment_id** associated with the query
+               that the event is associated with.
+        :param str session_token: The session token that was returned as part of
+               the query results that this event is associated with.
+        :param str collection_id: The **collection_id** of the document that this
+               event is associated with.
+        :param str document_id: The **document_id** of the document that this event
+               is associated with.
+        :param datetime client_timestamp: (optional) The optional timestamp for the
+               event that was created. If not provided, the time that the event was
+               created in the log was used.
+        :param int display_rank: (optional) The rank of the result item which the
+               event is associated with.
+        :param str query_id: (optional) The query identifier stored in the log. The
+               query and any events associated with that query are stored with the same
+               **query_id**.
         """
         self.environment_id = environment_id
         self.session_token = session_token
@@ -6094,15 +6187,15 @@ class EventData(object):
     def _from_dict(cls, _dict):
         """Initialize a EventData object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'environment_id', 'session_token', 'client_timestamp',
             'display_rank', 'collection_id', 'document_id', 'query_id'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class EventData: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'environment_id' in _dict:
             args['environment_id'] = _dict.get('environment_id')
         else:
@@ -6172,27 +6265,29 @@ class EventData(object):
         return not self == other
 
 
-class Expansion(object):
+class Expansion():
     """
     An expansion definition. Each object respresents one set of expandable strings. For
     example, you could have expansions for the word `hot` in one object, and expansions
     for the word `cold` in another.
 
-    :attr list[str] input_terms: (optional) A list of terms that will be expanded for this
-    expansion. If specified, only the items in this list are expanded.
-    :attr list[str] expanded_terms: A list of terms that this expansion will be expanded
-    to. If specified without **input_terms**, it also functions as the input term list.
+    :attr list[str] input_terms: (optional) A list of terms that will be expanded
+          for this expansion. If specified, only the items in this list are expanded.
+    :attr list[str] expanded_terms: A list of terms that this expansion will be
+          expanded to. If specified without **input_terms**, it also functions as the
+          input term list.
     """
 
-    def __init__(self, expanded_terms, input_terms=None):
+    def __init__(self, expanded_terms, *, input_terms=None):
         """
         Initialize a Expansion object.
 
-        :param list[str] expanded_terms: A list of terms that this expansion will be
-        expanded to. If specified without **input_terms**, it also functions as the input
-        term list.
-        :param list[str] input_terms: (optional) A list of terms that will be expanded for
-        this expansion. If specified, only the items in this list are expanded.
+        :param list[str] expanded_terms: A list of terms that this expansion will
+               be expanded to. If specified without **input_terms**, it also functions as
+               the input term list.
+        :param list[str] input_terms: (optional) A list of terms that will be
+               expanded for this expansion. If specified, only the items in this list are
+               expanded.
         """
         self.input_terms = input_terms
         self.expanded_terms = expanded_terms
@@ -6201,12 +6296,12 @@ class Expansion(object):
     def _from_dict(cls, _dict):
         """Initialize a Expansion object from a json dictionary."""
         args = {}
-        validKeys = ['input_terms', 'expanded_terms']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['input_terms', 'expanded_terms']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Expansion: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'input_terms' in _dict:
             args['input_terms'] = _dict.get('input_terms')
         if 'expanded_terms' in _dict:
@@ -6241,22 +6336,23 @@ class Expansion(object):
         return not self == other
 
 
-class Expansions(object):
+class Expansions():
     """
     The query expansion definitions for the specified collection.
 
     :attr list[Expansion] expansions: An array of query expansion definitions.
-     Each object in the **expansions** array represents a term or set of terms that will
-    be expanded into other terms. Each expansion object can be configured as bidirectional
-    or unidirectional. Bidirectional means that all terms are expanded to all other terms
-    in the object. Unidirectional means that a set list of terms can be expanded into a
-    second list of terms.
-     To create a bi-directional expansion specify an **expanded_terms** array. When found
-    in a query, all items in the **expanded_terms** array are then expanded to the other
-    items in the same array.
-     To create a uni-directional expansion, specify both an array of **input_terms** and
-    an array of **expanded_terms**. When items in the **input_terms** array are present in
-    a query, they are expanded using the items listed in the **expanded_terms** array.
+           Each object in the **expansions** array represents a term or set of terms that
+          will be expanded into other terms. Each expansion object can be configured as
+          bidirectional or unidirectional. Bidirectional means that all terms are expanded
+          to all other terms in the object. Unidirectional means that a set list of terms
+          can be expanded into a second list of terms.
+           To create a bi-directional expansion specify an **expanded_terms** array. When
+          found in a query, all items in the **expanded_terms** array are then expanded to
+          the other items in the same array.
+           To create a uni-directional expansion, specify both an array of **input_terms**
+          and an array of **expanded_terms**. When items in the **input_terms** array are
+          present in a query, they are expanded using the items listed in the
+          **expanded_terms** array.
     """
 
     def __init__(self, expansions):
@@ -6264,18 +6360,18 @@ class Expansions(object):
         Initialize a Expansions object.
 
         :param list[Expansion] expansions: An array of query expansion definitions.
-         Each object in the **expansions** array represents a term or set of terms that
-        will be expanded into other terms. Each expansion object can be configured as
-        bidirectional or unidirectional. Bidirectional means that all terms are expanded
-        to all other terms in the object. Unidirectional means that a set list of terms
-        can be expanded into a second list of terms.
-         To create a bi-directional expansion specify an **expanded_terms** array. When
-        found in a query, all items in the **expanded_terms** array are then expanded to
-        the other items in the same array.
-         To create a uni-directional expansion, specify both an array of **input_terms**
-        and an array of **expanded_terms**. When items in the **input_terms** array are
-        present in a query, they are expanded using the items listed in the
-        **expanded_terms** array.
+                Each object in the **expansions** array represents a term or set of terms
+               that will be expanded into other terms. Each expansion object can be
+               configured as bidirectional or unidirectional. Bidirectional means that all
+               terms are expanded to all other terms in the object. Unidirectional means
+               that a set list of terms can be expanded into a second list of terms.
+                To create a bi-directional expansion specify an **expanded_terms** array.
+               When found in a query, all items in the **expanded_terms** array are then
+               expanded to the other items in the same array.
+                To create a uni-directional expansion, specify both an array of
+               **input_terms** and an array of **expanded_terms**. When items in the
+               **input_terms** array are present in a query, they are expanded using the
+               items listed in the **expanded_terms** array.
         """
         self.expansions = expansions
 
@@ -6283,12 +6379,12 @@ class Expansions(object):
     def _from_dict(cls, _dict):
         """Initialize a Expansions object from a json dictionary."""
         args = {}
-        validKeys = ['expansions']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['expansions']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Expansions: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'expansions' in _dict:
             args['expansions'] = [
                 Expansion._from_dict(x) for x in (_dict.get('expansions'))
@@ -6321,47 +6417,47 @@ class Expansions(object):
         return not self == other
 
 
-class Field(object):
+class Field():
     """
-    Field.
+    Object containing field details.
 
-    :attr str field_name: (optional) The name of the field.
-    :attr str field_type: (optional) The type of the field.
+    :attr str field: (optional) The name of the field.
+    :attr str type: (optional) The type of the field.
     """
 
-    def __init__(self, field_name=None, field_type=None):
+    def __init__(self, *, field=None, type=None):
         """
         Initialize a Field object.
 
-        :param str field_name: (optional) The name of the field.
-        :param str field_type: (optional) The type of the field.
+        :param str field: (optional) The name of the field.
+        :param str type: (optional) The type of the field.
         """
-        self.field_name = field_name
-        self.field_type = field_type
+        self.field = field
+        self.type = type
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a Field object from a json dictionary."""
         args = {}
-        validKeys = ['field_name', 'field', 'field_type', 'type']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['field', 'type']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Field: ' +
-                ', '.join(badKeys))
-        if 'field' in _dict or 'field_name' in _dict:
-            args['field_name'] = _dict.get('field') or _dict.get('field_name')
-        if 'type' in _dict or 'field_type' in _dict:
-            args['field_type'] = _dict.get('type') or _dict.get('field_type')
+                ', '.join(bad_keys))
+        if 'field' in _dict:
+            args['field'] = _dict.get('field')
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
         return cls(**args)
 
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'field_name') and self.field_name is not None:
-            _dict['field'] = self.field_name
-        if hasattr(self, 'field_type') and self.field_type is not None:
-            _dict['type'] = self.field_type
+        if hasattr(self, 'field') and self.field is not None:
+            _dict['field'] = self.field
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
         return _dict
 
     def __str__(self):
@@ -6378,8 +6474,24 @@ class Field(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class TypeEnum(Enum):
+        """
+        The type of the field.
+        """
+        NESTED = "nested"
+        STRING = "string"
+        DATE = "date"
+        LONG = "long"
+        INTEGER = "integer"
+        SHORT = "short"
+        BYTE = "byte"
+        DOUBLE = "double"
+        FLOAT = "float"
+        BOOLEAN = "boolean"
+        BINARY = "binary"
 
-class Filter(object):
+
+class Filter():
     """
     Filter.
 
@@ -6387,6 +6499,7 @@ class Filter(object):
     """
 
     def __init__(self,
+                 *,
                  type=None,
                  results=None,
                  matching_results=None,
@@ -6395,12 +6508,13 @@ class Filter(object):
         """
         Initialize a Filter object.
 
-        :param str type: (optional) The type of aggregation command used. For example:
-        term, filter, max, min, etc.
-        :param list[AggregationResult] results: (optional) Array of aggregation results.
+        :param str type: (optional) The type of aggregation command used. For
+               example: term, filter, max, min, etc.
+        :param list[AggregationResult] results: (optional) Array of aggregation
+               results.
         :param int matching_results: (optional) Number of matching results.
-        :param list[QueryAggregation] aggregations: (optional) Aggregations returned by
-        Discovery.
+        :param list[QueryAggregation] aggregations: (optional) Aggregations
+               returned by Discovery.
         :param str match: (optional) The match the aggregated results queried for.
         """
         self.match = match
@@ -6409,12 +6523,12 @@ class Filter(object):
     def _from_dict(cls, _dict):
         """Initialize a Filter object from a json dictionary."""
         args = {}
-        validKeys = ['match']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['match']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Filter: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'match' in _dict:
             args['match'] = _dict.get('match')
         return cls(**args)
@@ -6441,12 +6555,12 @@ class Filter(object):
         return not self == other
 
 
-class FontSetting(object):
+class FontSetting():
     """
-    FontSetting.
+    Font matching configuration.
 
-    :attr int level: (optional) The HTML heading level that any content with the matching
-    font is converted to.
+    :attr int level: (optional) The HTML heading level that any content with the
+          matching font is converted to.
     :attr int min_size: (optional) The minimum size of the font to match.
     :attr int max_size: (optional) The maximum size of the font to match.
     :attr bool bold: (optional) When `true`, the font is matched if it is bold.
@@ -6455,6 +6569,7 @@ class FontSetting(object):
     """
 
     def __init__(self,
+                 *,
                  level=None,
                  min_size=None,
                  max_size=None,
@@ -6464,12 +6579,14 @@ class FontSetting(object):
         """
         Initialize a FontSetting object.
 
-        :param int level: (optional) The HTML heading level that any content with the
-        matching font is converted to.
+        :param int level: (optional) The HTML heading level that any content with
+               the matching font is converted to.
         :param int min_size: (optional) The minimum size of the font to match.
         :param int max_size: (optional) The maximum size of the font to match.
-        :param bool bold: (optional) When `true`, the font is matched if it is bold.
-        :param bool italic: (optional) When `true`, the font is matched if it is italic.
+        :param bool bold: (optional) When `true`, the font is matched if it is
+               bold.
+        :param bool italic: (optional) When `true`, the font is matched if it is
+               italic.
         :param str name: (optional) The name of the font.
         """
         self.level = level
@@ -6483,12 +6600,12 @@ class FontSetting(object):
     def _from_dict(cls, _dict):
         """Initialize a FontSetting object from a json dictionary."""
         args = {}
-        validKeys = ['level', 'min_size', 'max_size', 'bold', 'italic', 'name']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['level', 'min_size', 'max_size', 'bold', 'italic', 'name']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class FontSetting: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'level' in _dict:
             args['level'] = _dict.get('level')
         if 'min_size' in _dict:
@@ -6535,22 +6652,23 @@ class FontSetting(object):
         return not self == other
 
 
-class Gateway(object):
+class Gateway():
     """
     Object describing a specific gateway.
 
     :attr str gateway_id: (optional) The gateway ID of the gateway.
     :attr str name: (optional) The user defined name of the gateway.
-    :attr str status: (optional) The current status of the gateway. `connected` means the
-    gateway is connected to the remotly installed gateway. `idle` means this gateway is
-    not currently in use.
-    :attr str token: (optional) The generated **token** for this gateway. The value of
-    this field is used when configuring the remotly installed gateway.
-    :attr str token_id: (optional) The generated **token_id** for this gateway. The value
-    of this field is used when configuring the remotly installed gateway.
+    :attr str status: (optional) The current status of the gateway. `connected`
+          means the gateway is connected to the remotly installed gateway. `idle` means
+          this gateway is not currently in use.
+    :attr str token: (optional) The generated **token** for this gateway. The value
+          of this field is used when configuring the remotly installed gateway.
+    :attr str token_id: (optional) The generated **token_id** for this gateway. The
+          value of this field is used when configuring the remotly installed gateway.
     """
 
     def __init__(self,
+                 *,
                  gateway_id=None,
                  name=None,
                  status=None,
@@ -6561,13 +6679,14 @@ class Gateway(object):
 
         :param str gateway_id: (optional) The gateway ID of the gateway.
         :param str name: (optional) The user defined name of the gateway.
-        :param str status: (optional) The current status of the gateway. `connected` means
-        the gateway is connected to the remotly installed gateway. `idle` means this
-        gateway is not currently in use.
-        :param str token: (optional) The generated **token** for this gateway. The value
-        of this field is used when configuring the remotly installed gateway.
-        :param str token_id: (optional) The generated **token_id** for this gateway. The
-        value of this field is used when configuring the remotly installed gateway.
+        :param str status: (optional) The current status of the gateway.
+               `connected` means the gateway is connected to the remotly installed
+               gateway. `idle` means this gateway is not currently in use.
+        :param str token: (optional) The generated **token** for this gateway. The
+               value of this field is used when configuring the remotly installed gateway.
+        :param str token_id: (optional) The generated **token_id** for this
+               gateway. The value of this field is used when configuring the remotly
+               installed gateway.
         """
         self.gateway_id = gateway_id
         self.name = name
@@ -6579,12 +6698,12 @@ class Gateway(object):
     def _from_dict(cls, _dict):
         """Initialize a Gateway object from a json dictionary."""
         args = {}
-        validKeys = ['gateway_id', 'name', 'status', 'token', 'token_id']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['gateway_id', 'name', 'status', 'token', 'token_id']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Gateway: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'gateway_id' in _dict:
             args['gateway_id'] = _dict.get('gateway_id')
         if 'name' in _dict:
@@ -6626,8 +6745,16 @@ class Gateway(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class StatusEnum(Enum):
+        """
+        The current status of the gateway. `connected` means the gateway is connected to
+        the remotly installed gateway. `idle` means this gateway is not currently in use.
+        """
+        CONNECTED = "connected"
+        IDLE = "idle"
 
-class GatewayDelete(object):
+
+class GatewayDelete():
     """
     Gatway deletion confirmation.
 
@@ -6635,7 +6762,7 @@ class GatewayDelete(object):
     :attr str status: (optional) The status of the request.
     """
 
-    def __init__(self, gateway_id=None, status=None):
+    def __init__(self, *, gateway_id=None, status=None):
         """
         Initialize a GatewayDelete object.
 
@@ -6649,12 +6776,12 @@ class GatewayDelete(object):
     def _from_dict(cls, _dict):
         """Initialize a GatewayDelete object from a json dictionary."""
         args = {}
-        validKeys = ['gateway_id', 'status']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['gateway_id', 'status']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class GatewayDelete: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'gateway_id' in _dict:
             args['gateway_id'] = _dict.get('gateway_id')
         if 'status' in _dict:
@@ -6685,18 +6812,20 @@ class GatewayDelete(object):
         return not self == other
 
 
-class GatewayList(object):
+class GatewayList():
     """
     Object containing gateways array.
 
-    :attr list[Gateway] gateways: (optional) Array of configured gateway connections.
+    :attr list[Gateway] gateways: (optional) Array of configured gateway
+          connections.
     """
 
-    def __init__(self, gateways=None):
+    def __init__(self, *, gateways=None):
         """
         Initialize a GatewayList object.
 
-        :param list[Gateway] gateways: (optional) Array of configured gateway connections.
+        :param list[Gateway] gateways: (optional) Array of configured gateway
+               connections.
         """
         self.gateways = gateways
 
@@ -6704,12 +6833,12 @@ class GatewayList(object):
     def _from_dict(cls, _dict):
         """Initialize a GatewayList object from a json dictionary."""
         args = {}
-        validKeys = ['gateways']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['gateways']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class GatewayList: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'gateways' in _dict:
             args['gateways'] = [
                 Gateway._from_dict(x) for x in (_dict.get('gateways'))
@@ -6738,16 +6867,18 @@ class GatewayList(object):
         return not self == other
 
 
-class Histogram(object):
+class Histogram():
     """
     Histogram.
 
     :attr str field: (optional) The field where the aggregation is located in the
-    document.
-    :attr int interval: (optional) Interval of the aggregation. (For 'histogram' type).
+          document.
+    :attr int interval: (optional) Interval of the aggregation. (For 'histogram'
+          type).
     """
 
     def __init__(self,
+                 *,
                  type=None,
                  results=None,
                  matching_results=None,
@@ -6757,16 +6888,17 @@ class Histogram(object):
         """
         Initialize a Histogram object.
 
-        :param str type: (optional) The type of aggregation command used. For example:
-        term, filter, max, min, etc.
-        :param list[AggregationResult] results: (optional) Array of aggregation results.
+        :param str type: (optional) The type of aggregation command used. For
+               example: term, filter, max, min, etc.
+        :param list[AggregationResult] results: (optional) Array of aggregation
+               results.
         :param int matching_results: (optional) Number of matching results.
-        :param list[QueryAggregation] aggregations: (optional) Aggregations returned by
-        Discovery.
-        :param str field: (optional) The field where the aggregation is located in the
-        document.
-        :param int interval: (optional) Interval of the aggregation. (For 'histogram'
-        type).
+        :param list[QueryAggregation] aggregations: (optional) Aggregations
+               returned by Discovery.
+        :param str field: (optional) The field where the aggregation is located in
+               the document.
+        :param int interval: (optional) Interval of the aggregation. (For
+               'histogram' type).
         """
         self.field = field
         self.interval = interval
@@ -6775,12 +6907,12 @@ class Histogram(object):
     def _from_dict(cls, _dict):
         """Initialize a Histogram object from a json dictionary."""
         args = {}
-        validKeys = ['field', 'interval']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['field', 'interval']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Histogram: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'field' in _dict:
             args['field'] = _dict.get('field')
         if 'interval' in _dict:
@@ -6811,23 +6943,26 @@ class Histogram(object):
         return not self == other
 
 
-class HtmlSettings(object):
+class HtmlSettings():
     """
     A list of HTML conversion settings.
 
     :attr list[str] exclude_tags_completely: (optional) Array of HTML tags that are
-    excluded completely.
-    :attr list[str] exclude_tags_keep_content: (optional) Array of HTML tags which are
-    excluded but still retain content.
-    :attr XPathPatterns keep_content: (optional)
-    :attr XPathPatterns exclude_content: (optional)
-    :attr list[str] keep_tag_attributes: (optional) An array of HTML tag attributes to
-    keep in the converted document.
-    :attr list[str] exclude_tag_attributes: (optional) Array of HTML tag attributes to
-    exclude.
+          excluded completely.
+    :attr list[str] exclude_tags_keep_content: (optional) Array of HTML tags which
+          are excluded but still retain content.
+    :attr XPathPatterns keep_content: (optional) Object containing an array of
+          XPaths.
+    :attr XPathPatterns exclude_content: (optional) Object containing an array of
+          XPaths.
+    :attr list[str] keep_tag_attributes: (optional) An array of HTML tag attributes
+          to keep in the converted document.
+    :attr list[str] exclude_tag_attributes: (optional) Array of HTML tag attributes
+          to exclude.
     """
 
     def __init__(self,
+                 *,
                  exclude_tags_completely=None,
                  exclude_tags_keep_content=None,
                  keep_content=None,
@@ -6837,16 +6972,18 @@ class HtmlSettings(object):
         """
         Initialize a HtmlSettings object.
 
-        :param list[str] exclude_tags_completely: (optional) Array of HTML tags that are
-        excluded completely.
-        :param list[str] exclude_tags_keep_content: (optional) Array of HTML tags which
-        are excluded but still retain content.
-        :param XPathPatterns keep_content: (optional)
-        :param XPathPatterns exclude_content: (optional)
-        :param list[str] keep_tag_attributes: (optional) An array of HTML tag attributes
-        to keep in the converted document.
-        :param list[str] exclude_tag_attributes: (optional) Array of HTML tag attributes
-        to exclude.
+        :param list[str] exclude_tags_completely: (optional) Array of HTML tags
+               that are excluded completely.
+        :param list[str] exclude_tags_keep_content: (optional) Array of HTML tags
+               which are excluded but still retain content.
+        :param XPathPatterns keep_content: (optional) Object containing an array of
+               XPaths.
+        :param XPathPatterns exclude_content: (optional) Object containing an array
+               of XPaths.
+        :param list[str] keep_tag_attributes: (optional) An array of HTML tag
+               attributes to keep in the converted document.
+        :param list[str] exclude_tag_attributes: (optional) Array of HTML tag
+               attributes to exclude.
         """
         self.exclude_tags_completely = exclude_tags_completely
         self.exclude_tags_keep_content = exclude_tags_keep_content
@@ -6859,16 +6996,16 @@ class HtmlSettings(object):
     def _from_dict(cls, _dict):
         """Initialize a HtmlSettings object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'exclude_tags_completely', 'exclude_tags_keep_content',
             'keep_content', 'exclude_content', 'keep_tag_attributes',
             'exclude_tag_attributes'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class HtmlSettings: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'exclude_tags_completely' in _dict:
             args['exclude_tags_completely'] = _dict.get(
                 'exclude_tags_completely')
@@ -6925,28 +7062,28 @@ class HtmlSettings(object):
         return not self == other
 
 
-class IndexCapacity(object):
+class IndexCapacity():
     """
     Details about the resource usage and capacity of the environment.
 
     :attr EnvironmentDocuments documents: (optional) Summary of the document usage
-    statistics for the environment.
-    :attr DiskUsage disk_usage: (optional) Summary of the disk usage statistics for the
-    environment.
-    :attr CollectionUsage collections: (optional) Summary of the collection usage in the
-    environment.
+          statistics for the environment.
+    :attr DiskUsage disk_usage: (optional) Summary of the disk usage statistics for
+          the environment.
+    :attr CollectionUsage collections: (optional) Summary of the collection usage in
+          the environment.
     """
 
-    def __init__(self, documents=None, disk_usage=None, collections=None):
+    def __init__(self, *, documents=None, disk_usage=None, collections=None):
         """
         Initialize a IndexCapacity object.
 
-        :param EnvironmentDocuments documents: (optional) Summary of the document usage
-        statistics for the environment.
-        :param DiskUsage disk_usage: (optional) Summary of the disk usage statistics for
-        the environment.
-        :param CollectionUsage collections: (optional) Summary of the collection usage in
-        the environment.
+        :param EnvironmentDocuments documents: (optional) Summary of the document
+               usage statistics for the environment.
+        :param DiskUsage disk_usage: (optional) Summary of the disk usage
+               statistics for the environment.
+        :param CollectionUsage collections: (optional) Summary of the collection
+               usage in the environment.
         """
         self.documents = documents
         self.disk_usage = disk_usage
@@ -6956,12 +7093,12 @@ class IndexCapacity(object):
     def _from_dict(cls, _dict):
         """Initialize a IndexCapacity object from a json dictionary."""
         args = {}
-        validKeys = ['documents', 'disk_usage', 'collections']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['documents', 'disk_usage', 'collections']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class IndexCapacity: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'documents' in _dict:
             args['documents'] = EnvironmentDocuments._from_dict(
                 _dict.get('documents'))
@@ -6998,7 +7135,7 @@ class IndexCapacity(object):
         return not self == other
 
 
-class ListCollectionFieldsResponse(object):
+class ListCollectionFieldsResponse():
     """
     The list of fetched fields.
     The fields are returned using a fully qualified name format, however, the format
@@ -7011,16 +7148,16 @@ class ListCollectionFieldsResponse(object):
     `v{N}-fullnews-t3-{YEAR}.mappings` (for example,
     `v5-fullnews-t3-2016.mappings.text.properties.author`).
 
-    :attr list[Field] fields: (optional) An array containing information about each field
-    in the collections.
+    :attr list[Field] fields: (optional) An array containing information about each
+          field in the collections.
     """
 
-    def __init__(self, fields=None):
+    def __init__(self, *, fields=None):
         """
         Initialize a ListCollectionFieldsResponse object.
 
-        :param list[Field] fields: (optional) An array containing information about each
-        field in the collections.
+        :param list[Field] fields: (optional) An array containing information about
+               each field in the collections.
         """
         self.fields = fields
 
@@ -7028,12 +7165,12 @@ class ListCollectionFieldsResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a ListCollectionFieldsResponse object from a json dictionary."""
         args = {}
-        validKeys = ['fields']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['fields']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ListCollectionFieldsResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'fields' in _dict:
             args['fields'] = [
                 Field._from_dict(x) for x in (_dict.get('fields'))
@@ -7062,20 +7199,20 @@ class ListCollectionFieldsResponse(object):
         return not self == other
 
 
-class ListCollectionsResponse(object):
+class ListCollectionsResponse():
     """
-    ListCollectionsResponse.
+    Response object containing an array of collection details.
 
-    :attr list[Collection] collections: (optional) An array containing information about
-    each collection in the environment.
+    :attr list[Collection] collections: (optional) An array containing information
+          about each collection in the environment.
     """
 
-    def __init__(self, collections=None):
+    def __init__(self, *, collections=None):
         """
         Initialize a ListCollectionsResponse object.
 
-        :param list[Collection] collections: (optional) An array containing information
-        about each collection in the environment.
+        :param list[Collection] collections: (optional) An array containing
+               information about each collection in the environment.
         """
         self.collections = collections
 
@@ -7083,12 +7220,12 @@ class ListCollectionsResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a ListCollectionsResponse object from a json dictionary."""
         args = {}
-        validKeys = ['collections']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['collections']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ListCollectionsResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'collections' in _dict:
             args['collections'] = [
                 Collection._from_dict(x) for x in (_dict.get('collections'))
@@ -7117,20 +7254,20 @@ class ListCollectionsResponse(object):
         return not self == other
 
 
-class ListConfigurationsResponse(object):
+class ListConfigurationsResponse():
     """
-    ListConfigurationsResponse.
+    Object containing an array of available configurations.
 
-    :attr list[Configuration] configurations: (optional) An array of Configurations that
-    are available for the service instance.
+    :attr list[Configuration] configurations: (optional) An array of configurations
+          that are available for the service instance.
     """
 
-    def __init__(self, configurations=None):
+    def __init__(self, *, configurations=None):
         """
         Initialize a ListConfigurationsResponse object.
 
-        :param list[Configuration] configurations: (optional) An array of Configurations
-        that are available for the service instance.
+        :param list[Configuration] configurations: (optional) An array of
+               configurations that are available for the service instance.
         """
         self.configurations = configurations
 
@@ -7138,12 +7275,12 @@ class ListConfigurationsResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a ListConfigurationsResponse object from a json dictionary."""
         args = {}
-        validKeys = ['configurations']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['configurations']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ListConfigurationsResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'configurations' in _dict:
             args['configurations'] = [
                 Configuration._from_dict(x)
@@ -7175,20 +7312,20 @@ class ListConfigurationsResponse(object):
         return not self == other
 
 
-class ListEnvironmentsResponse(object):
+class ListEnvironmentsResponse():
     """
-    ListEnvironmentsResponse.
+    Response object containing an array of configured environments.
 
-    :attr list[Environment] environments: (optional) An array of [environments] that are
-    available for the service instance.
+    :attr list[Environment] environments: (optional) An array of [environments] that
+          are available for the service instance.
     """
 
-    def __init__(self, environments=None):
+    def __init__(self, *, environments=None):
         """
         Initialize a ListEnvironmentsResponse object.
 
-        :param list[Environment] environments: (optional) An array of [environments] that
-        are available for the service instance.
+        :param list[Environment] environments: (optional) An array of
+               [environments] that are available for the service instance.
         """
         self.environments = environments
 
@@ -7196,12 +7333,12 @@ class ListEnvironmentsResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a ListEnvironmentsResponse object from a json dictionary."""
         args = {}
-        validKeys = ['environments']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['environments']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class ListEnvironmentsResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'environments' in _dict:
             args['environments'] = [
                 Environment._from_dict(x) for x in (_dict.get('environments'))
@@ -7230,22 +7367,22 @@ class ListEnvironmentsResponse(object):
         return not self == other
 
 
-class LogQueryResponse(object):
+class LogQueryResponse():
     """
     Object containing results that match the requested **logs** query.
 
     :attr int matching_results: (optional) Number of matching results.
-    :attr list[LogQueryResponseResult] results: (optional) Array of log query response
-    results.
+    :attr list[LogQueryResponseResult] results: (optional) Array of log query
+          response results.
     """
 
-    def __init__(self, matching_results=None, results=None):
+    def __init__(self, *, matching_results=None, results=None):
         """
         Initialize a LogQueryResponse object.
 
         :param int matching_results: (optional) Number of matching results.
         :param list[LogQueryResponseResult] results: (optional) Array of log query
-        response results.
+               response results.
         """
         self.matching_results = matching_results
         self.results = results
@@ -7254,12 +7391,12 @@ class LogQueryResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a LogQueryResponse object from a json dictionary."""
         args = {}
-        validKeys = ['matching_results', 'results']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['matching_results', 'results']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class LogQueryResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'matching_results' in _dict:
             args['matching_results'] = _dict.get('matching_results')
         if 'results' in _dict:
@@ -7294,61 +7431,64 @@ class LogQueryResponse(object):
         return not self == other
 
 
-class LogQueryResponseResult(object):
+class LogQueryResponseResult():
     """
     Individual result object for a **logs** query. Each object represents either a query
     to a Discovery collection or an event that is associated with a query.
 
-    :attr str environment_id: (optional) The environment ID that is associated with this
-    log entry.
-    :attr str customer_id: (optional) The **customer_id** label that was specified in the
-    header of the query or event API call that corresponds to this log entry.
+    :attr str environment_id: (optional) The environment ID that is associated with
+          this log entry.
+    :attr str customer_id: (optional) The **customer_id** label that was specified
+          in the header of the query or event API call that corresponds to this log entry.
     :attr str document_type: (optional) The type of log entry returned.
-     **query** indicates that the log represents the results of a call to the single
-    collection **query** method.
-     **event** indicates that the log represents  a call to the **events** API.
+           **query** indicates that the log represents the results of a call to the single
+          collection **query** method.
+           **event** indicates that the log represents  a call to the **events** API.
     :attr str natural_language_query: (optional) The value of the
-    **natural_language_query** query parameter that was used to create these results. Only
-    returned with logs of type **query**.
-    **Note:** Other query parameters (such as **filter** or **deduplicate**) might  have
-    been used with this query, but are not recorded.
-    :attr LogQueryResponseResultDocuments document_results: (optional) Object containing
-    result information that was returned by the query used to create this log entry. Only
-    returned with logs of type `query`.
-    :attr datetime created_timestamp: (optional) Date that the log result was created.
-    Returned in `YYYY-MM-DDThh:mm:ssZ` format.
-    :attr datetime client_timestamp: (optional) Date specified by the user when recording
-    an event. Returned in `YYYY-MM-DDThh:mm:ssZ` format. Only returned with logs of type
-    **event**.
+          **natural_language_query** query parameter that was used to create these
+          results. Only returned with logs of type **query**.
+          **Note:** Other query parameters (such as **filter** or **deduplicate**) might
+          have been used with this query, but are not recorded.
+    :attr LogQueryResponseResultDocuments document_results: (optional) Object
+          containing result information that was returned by the query used to create this
+          log entry. Only returned with logs of type `query`.
+    :attr datetime created_timestamp: (optional) Date that the log result was
+          created. Returned in `YYYY-MM-DDThh:mm:ssZ` format.
+    :attr datetime client_timestamp: (optional) Date specified by the user when
+          recording an event. Returned in `YYYY-MM-DDThh:mm:ssZ` format. Only returned
+          with logs of type **event**.
     :attr str query_id: (optional) Identifier that corresponds to the
-    **natural_language_query** string used in the original or associated query. All
-    **event** and **query** log entries that have the same original
-    **natural_language_query** string also have them same **query_id**. This field can be
-    used to recall all **event** and **query** log results that have the same original
-    query (**event** logs do not contain the original **natural_language_query** field).
-    :attr str session_token: (optional) Unique identifier (within a 24-hour period) that
-    identifies a single `query` log and any `event` logs that were created for it.
-    **Note:** If the exact same query is run at the exact same time on different days, the
-    **session_token** for those queries might be identical. However, the
-    **created_timestamp** differs.
-    **Note:** Session tokens are case sensitive. To avoid matching on session tokens that
-    are identical except for case, use the exact match operator (`::`) when you query for
-    a specific session token.
-    :attr str collection_id: (optional) The collection ID of the document associated with
-    this event. Only returned with logs of type `event`.
+          **natural_language_query** string used in the original or associated query. All
+          **event** and **query** log entries that have the same original
+          **natural_language_query** string also have them same **query_id**. This field
+          can be used to recall all **event** and **query** log results that have the same
+          original query (**event** logs do not contain the original
+          **natural_language_query** field).
+    :attr str session_token: (optional) Unique identifier (within a 24-hour period)
+          that identifies a single `query` log and any `event` logs that were created for
+          it.
+          **Note:** If the exact same query is run at the exact same time on different
+          days, the **session_token** for those queries might be identical. However, the
+          **created_timestamp** differs.
+          **Note:** Session tokens are case sensitive. To avoid matching on session tokens
+          that are identical except for case, use the exact match operator (`::`) when you
+          query for a specific session token.
+    :attr str collection_id: (optional) The collection ID of the document associated
+          with this event. Only returned with logs of type `event`.
     :attr int display_rank: (optional) The original display rank of the document
-    associated with this event. Only returned with logs of type `event`.
-    :attr str document_id: (optional) The document ID of the document associated with this
-    event. Only returned with logs of type `event`.
+          associated with this event. Only returned with logs of type `event`.
+    :attr str document_id: (optional) The document ID of the document associated
+          with this event. Only returned with logs of type `event`.
     :attr str event_type: (optional) The type of event that this object respresents.
-    Possible values are
-     -  `query` the log of a query to a collection
-     -  `click` the result of a call to the **events** endpoint.
-    :attr str result_type: (optional) The type of result that this **event** is associated
-    with. Only returned with logs of type `event`.
+          Possible values are
+           -  `query` the log of a query to a collection
+           -  `click` the result of a call to the **events** endpoint.
+    :attr str result_type: (optional) The type of result that this **event** is
+          associated with. Only returned with logs of type `event`.
     """
 
     def __init__(self,
+                 *,
                  environment_id=None,
                  customer_id=None,
                  document_type=None,
@@ -7366,55 +7506,57 @@ class LogQueryResponseResult(object):
         """
         Initialize a LogQueryResponseResult object.
 
-        :param str environment_id: (optional) The environment ID that is associated with
-        this log entry.
-        :param str customer_id: (optional) The **customer_id** label that was specified in
-        the header of the query or event API call that corresponds to this log entry.
+        :param str environment_id: (optional) The environment ID that is associated
+               with this log entry.
+        :param str customer_id: (optional) The **customer_id** label that was
+               specified in the header of the query or event API call that corresponds to
+               this log entry.
         :param str document_type: (optional) The type of log entry returned.
-         **query** indicates that the log represents the results of a call to the single
-        collection **query** method.
-         **event** indicates that the log represents  a call to the **events** API.
+                **query** indicates that the log represents the results of a call to the
+               single collection **query** method.
+                **event** indicates that the log represents  a call to the **events** API.
         :param str natural_language_query: (optional) The value of the
-        **natural_language_query** query parameter that was used to create these results.
-        Only returned with logs of type **query**.
-        **Note:** Other query parameters (such as **filter** or **deduplicate**) might
-        have been used with this query, but are not recorded.
+               **natural_language_query** query parameter that was used to create these
+               results. Only returned with logs of type **query**.
+               **Note:** Other query parameters (such as **filter** or **deduplicate**)
+               might  have been used with this query, but are not recorded.
         :param LogQueryResponseResultDocuments document_results: (optional) Object
-        containing result information that was returned by the query used to create this
-        log entry. Only returned with logs of type `query`.
+               containing result information that was returned by the query used to create
+               this log entry. Only returned with logs of type `query`.
         :param datetime created_timestamp: (optional) Date that the log result was
-        created. Returned in `YYYY-MM-DDThh:mm:ssZ` format.
-        :param datetime client_timestamp: (optional) Date specified by the user when
-        recording an event. Returned in `YYYY-MM-DDThh:mm:ssZ` format. Only returned with
-        logs of type **event**.
+               created. Returned in `YYYY-MM-DDThh:mm:ssZ` format.
+        :param datetime client_timestamp: (optional) Date specified by the user
+               when recording an event. Returned in `YYYY-MM-DDThh:mm:ssZ` format. Only
+               returned with logs of type **event**.
         :param str query_id: (optional) Identifier that corresponds to the
-        **natural_language_query** string used in the original or associated query. All
-        **event** and **query** log entries that have the same original
-        **natural_language_query** string also have them same **query_id**. This field can
-        be used to recall all **event** and **query** log results that have the same
-        original query (**event** logs do not contain the original
-        **natural_language_query** field).
-        :param str session_token: (optional) Unique identifier (within a 24-hour period)
-        that identifies a single `query` log and any `event` logs that were created for
-        it.
-        **Note:** If the exact same query is run at the exact same time on different days,
-        the **session_token** for those queries might be identical. However, the
-        **created_timestamp** differs.
-        **Note:** Session tokens are case sensitive. To avoid matching on session tokens
-        that are identical except for case, use the exact match operator (`::`) when you
-        query for a specific session token.
-        :param str collection_id: (optional) The collection ID of the document associated
-        with this event. Only returned with logs of type `event`.
-        :param int display_rank: (optional) The original display rank of the document
-        associated with this event. Only returned with logs of type `event`.
-        :param str document_id: (optional) The document ID of the document associated with
-        this event. Only returned with logs of type `event`.
-        :param str event_type: (optional) The type of event that this object respresents.
-        Possible values are
-         -  `query` the log of a query to a collection
-         -  `click` the result of a call to the **events** endpoint.
-        :param str result_type: (optional) The type of result that this **event** is
-        associated with. Only returned with logs of type `event`.
+               **natural_language_query** string used in the original or associated query.
+               All **event** and **query** log entries that have the same original
+               **natural_language_query** string also have them same **query_id**. This
+               field can be used to recall all **event** and **query** log results that
+               have the same original query (**event** logs do not contain the original
+               **natural_language_query** field).
+        :param str session_token: (optional) Unique identifier (within a 24-hour
+               period) that identifies a single `query` log and any `event` logs that were
+               created for it.
+               **Note:** If the exact same query is run at the exact same time on
+               different days, the **session_token** for those queries might be identical.
+               However, the **created_timestamp** differs.
+               **Note:** Session tokens are case sensitive. To avoid matching on session
+               tokens that are identical except for case, use the exact match operator
+               (`::`) when you query for a specific session token.
+        :param str collection_id: (optional) The collection ID of the document
+               associated with this event. Only returned with logs of type `event`.
+        :param int display_rank: (optional) The original display rank of the
+               document associated with this event. Only returned with logs of type
+               `event`.
+        :param str document_id: (optional) The document ID of the document
+               associated with this event. Only returned with logs of type `event`.
+        :param str event_type: (optional) The type of event that this object
+               respresents. Possible values are
+                -  `query` the log of a query to a collection
+                -  `click` the result of a call to the **events** endpoint.
+        :param str result_type: (optional) The type of result that this **event**
+               is associated with. Only returned with logs of type `event`.
         """
         self.environment_id = environment_id
         self.customer_id = customer_id
@@ -7435,17 +7577,17 @@ class LogQueryResponseResult(object):
     def _from_dict(cls, _dict):
         """Initialize a LogQueryResponseResult object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'environment_id', 'customer_id', 'document_type',
             'natural_language_query', 'document_results', 'created_timestamp',
             'client_timestamp', 'query_id', 'session_token', 'collection_id',
             'display_rank', 'document_id', 'event_type', 'result_type'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class LogQueryResponseResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'environment_id' in _dict:
             args['environment_id'] = _dict.get('environment_id')
         if 'customer_id' in _dict:
@@ -7533,26 +7675,52 @@ class LogQueryResponseResult(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class DocumentTypeEnum(Enum):
+        """
+        The type of log entry returned.
+         **query** indicates that the log represents the results of a call to the single
+        collection **query** method.
+         **event** indicates that the log represents  a call to the **events** API.
+        """
+        QUERY = "query"
+        EVENT = "event"
 
-class LogQueryResponseResultDocuments(object):
+    class EventTypeEnum(Enum):
+        """
+        The type of event that this object respresents. Possible values are
+         -  `query` the log of a query to a collection
+         -  `click` the result of a call to the **events** endpoint.
+        """
+        CLICK = "click"
+        QUERY = "query"
+
+    class ResultTypeEnum(Enum):
+        """
+        The type of result that this **event** is associated with. Only returned with logs
+        of type `event`.
+        """
+        DOCUMENT = "document"
+
+
+class LogQueryResponseResultDocuments():
     """
     Object containing result information that was returned by the query used to create
     this log entry. Only returned with logs of type `query`.
 
-    :attr list[LogQueryResponseResultDocumentsResult] results: (optional) Array of log
-    query response results.
-    :attr int count: (optional) The number of results returned in the query associate with
-    this log.
+    :attr list[LogQueryResponseResultDocumentsResult] results: (optional) Array of
+          log query response results.
+    :attr int count: (optional) The number of results returned in the query
+          associate with this log.
     """
 
-    def __init__(self, results=None, count=None):
+    def __init__(self, *, results=None, count=None):
         """
         Initialize a LogQueryResponseResultDocuments object.
 
-        :param list[LogQueryResponseResultDocumentsResult] results: (optional) Array of
-        log query response results.
-        :param int count: (optional) The number of results returned in the query associate
-        with this log.
+        :param list[LogQueryResponseResultDocumentsResult] results: (optional)
+               Array of log query response results.
+        :param int count: (optional) The number of results returned in the query
+               associate with this log.
         """
         self.results = results
         self.count = count
@@ -7561,12 +7729,12 @@ class LogQueryResponseResultDocuments(object):
     def _from_dict(cls, _dict):
         """Initialize a LogQueryResponseResultDocuments object from a json dictionary."""
         args = {}
-        validKeys = ['results', 'count']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['results', 'count']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class LogQueryResponseResultDocuments: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'results' in _dict:
             args['results'] = [
                 LogQueryResponseResultDocumentsResult._from_dict(x)
@@ -7600,24 +7768,25 @@ class LogQueryResponseResultDocuments(object):
         return not self == other
 
 
-class LogQueryResponseResultDocumentsResult(object):
+class LogQueryResponseResultDocumentsResult():
     """
     Each object in the **results** array corresponds to an individual document returned by
     the original query.
 
-    :attr int position: (optional) The result rank of this document. A position of `1`
-    indicates that it was the first returned result.
-    :attr str document_id: (optional) The **document_id** of the document that this result
-    represents.
-    :attr float score: (optional) The raw score of this result. A higher score indicates a
-    greater match to the query parameters.
-    :attr float confidence: (optional) The confidence score of the result's analysis. A
-    higher score indicating greater confidence.
-    :attr str collection_id: (optional) The **collection_id** of the document represented
-    by this result.
+    :attr int position: (optional) The result rank of this document. A position of
+          `1` indicates that it was the first returned result.
+    :attr str document_id: (optional) The **document_id** of the document that this
+          result represents.
+    :attr float score: (optional) The raw score of this result. A higher score
+          indicates a greater match to the query parameters.
+    :attr float confidence: (optional) The confidence score of the result's
+          analysis. A higher score indicating greater confidence.
+    :attr str collection_id: (optional) The **collection_id** of the document
+          represented by this result.
     """
 
     def __init__(self,
+                 *,
                  position=None,
                  document_id=None,
                  score=None,
@@ -7626,16 +7795,16 @@ class LogQueryResponseResultDocumentsResult(object):
         """
         Initialize a LogQueryResponseResultDocumentsResult object.
 
-        :param int position: (optional) The result rank of this document. A position of
-        `1` indicates that it was the first returned result.
-        :param str document_id: (optional) The **document_id** of the document that this
-        result represents.
+        :param int position: (optional) The result rank of this document. A
+               position of `1` indicates that it was the first returned result.
+        :param str document_id: (optional) The **document_id** of the document that
+               this result represents.
         :param float score: (optional) The raw score of this result. A higher score
-        indicates a greater match to the query parameters.
-        :param float confidence: (optional) The confidence score of the result's analysis.
-        A higher score indicating greater confidence.
+               indicates a greater match to the query parameters.
+        :param float confidence: (optional) The confidence score of the result's
+               analysis. A higher score indicating greater confidence.
         :param str collection_id: (optional) The **collection_id** of the document
-        represented by this result.
+               represented by this result.
         """
         self.position = position
         self.document_id = document_id
@@ -7647,14 +7816,14 @@ class LogQueryResponseResultDocumentsResult(object):
     def _from_dict(cls, _dict):
         """Initialize a LogQueryResponseResultDocumentsResult object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'position', 'document_id', 'score', 'confidence', 'collection_id'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class LogQueryResponseResultDocumentsResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'position' in _dict:
             args['position'] = _dict.get('position')
         if 'document_id' in _dict:
@@ -7697,28 +7866,28 @@ class LogQueryResponseResultDocumentsResult(object):
         return not self == other
 
 
-class MetricAggregation(object):
+class MetricAggregation():
     """
     An aggregation analyzing log information for queries and events.
 
     :attr str interval: (optional) The measurement interval for this metric. Metric
-    intervals are always 1 day (`1d`).
-    :attr str event_type: (optional) The event type associated with this metric result.
-    This field, when present, will always be `click`.
-    :attr list[MetricAggregationResult] results: (optional) Array of metric aggregation
-    query results.
+          intervals are always 1 day (`1d`).
+    :attr str event_type: (optional) The event type associated with this metric
+          result. This field, when present, will always be `click`.
+    :attr list[MetricAggregationResult] results: (optional) Array of metric
+          aggregation query results.
     """
 
-    def __init__(self, interval=None, event_type=None, results=None):
+    def __init__(self, *, interval=None, event_type=None, results=None):
         """
         Initialize a MetricAggregation object.
 
-        :param str interval: (optional) The measurement interval for this metric. Metric
-        intervals are always 1 day (`1d`).
-        :param str event_type: (optional) The event type associated with this metric
-        result. This field, when present, will always be `click`.
+        :param str interval: (optional) The measurement interval for this metric.
+               Metric intervals are always 1 day (`1d`).
+        :param str event_type: (optional) The event type associated with this
+               metric result. This field, when present, will always be `click`.
         :param list[MetricAggregationResult] results: (optional) Array of metric
-        aggregation query results.
+               aggregation query results.
         """
         self.interval = interval
         self.event_type = event_type
@@ -7728,12 +7897,12 @@ class MetricAggregation(object):
     def _from_dict(cls, _dict):
         """Initialize a MetricAggregation object from a json dictionary."""
         args = {}
-        validKeys = ['interval', 'event_type', 'results']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['interval', 'event_type', 'results']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class MetricAggregation: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'interval' in _dict:
             args['interval'] = _dict.get('interval')
         if 'event_type' in _dict:
@@ -7771,21 +7940,22 @@ class MetricAggregation(object):
         return not self == other
 
 
-class MetricAggregationResult(object):
+class MetricAggregationResult():
     """
     Aggregation result data for the requested metric.
 
-    :attr datetime key_as_string: (optional) Date in string form representing the start of
-    this interval.
-    :attr int key: (optional) Unix epoch time equivalent of the **key_as_string**, that
-    represents the start of this interval.
+    :attr datetime key_as_string: (optional) Date in string form representing the
+          start of this interval.
+    :attr int key: (optional) Unix epoch time equivalent of the **key_as_string**,
+          that represents the start of this interval.
     :attr int matching_results: (optional) Number of matching results.
     :attr float event_rate: (optional) The number of queries with associated events
-    divided by the total number of queries for the interval. Only returned with
-    **event_rate** metrics.
+          divided by the total number of queries for the interval. Only returned with
+          **event_rate** metrics.
     """
 
     def __init__(self,
+                 *,
                  key_as_string=None,
                  key=None,
                  matching_results=None,
@@ -7793,14 +7963,14 @@ class MetricAggregationResult(object):
         """
         Initialize a MetricAggregationResult object.
 
-        :param datetime key_as_string: (optional) Date in string form representing the
-        start of this interval.
-        :param int key: (optional) Unix epoch time equivalent of the **key_as_string**,
-        that represents the start of this interval.
+        :param datetime key_as_string: (optional) Date in string form representing
+               the start of this interval.
+        :param int key: (optional) Unix epoch time equivalent of the
+               **key_as_string**, that represents the start of this interval.
         :param int matching_results: (optional) Number of matching results.
-        :param float event_rate: (optional) The number of queries with associated events
-        divided by the total number of queries for the interval. Only returned with
-        **event_rate** metrics.
+        :param float event_rate: (optional) The number of queries with associated
+               events divided by the total number of queries for the interval. Only
+               returned with **event_rate** metrics.
         """
         self.key_as_string = key_as_string
         self.key = key
@@ -7811,12 +7981,12 @@ class MetricAggregationResult(object):
     def _from_dict(cls, _dict):
         """Initialize a MetricAggregationResult object from a json dictionary."""
         args = {}
-        validKeys = ['key_as_string', 'key', 'matching_results', 'event_rate']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['key_as_string', 'key', 'matching_results', 'event_rate']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class MetricAggregationResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'key_as_string' in _dict:
             args['key_as_string'] = string_to_datetime(
                 _dict.get('key_as_string'))
@@ -7857,19 +8027,20 @@ class MetricAggregationResult(object):
         return not self == other
 
 
-class MetricResponse(object):
+class MetricResponse():
     """
     The response generated from a call to a **metrics** method.
 
-    :attr list[MetricAggregation] aggregations: (optional) Array of metric aggregations.
+    :attr list[MetricAggregation] aggregations: (optional) Array of metric
+          aggregations.
     """
 
-    def __init__(self, aggregations=None):
+    def __init__(self, *, aggregations=None):
         """
         Initialize a MetricResponse object.
 
         :param list[MetricAggregation] aggregations: (optional) Array of metric
-        aggregations.
+               aggregations.
         """
         self.aggregations = aggregations
 
@@ -7877,12 +8048,12 @@ class MetricResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a MetricResponse object from a json dictionary."""
         args = {}
-        validKeys = ['aggregations']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['aggregations']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class MetricResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'aggregations' in _dict:
             args['aggregations'] = [
                 MetricAggregation._from_dict(x)
@@ -7912,24 +8083,24 @@ class MetricResponse(object):
         return not self == other
 
 
-class MetricTokenAggregation(object):
+class MetricTokenAggregation():
     """
     An aggregation analyzing log information for queries and events.
 
-    :attr str event_type: (optional) The event type associated with this metric result.
-    This field, when present, will always be `click`.
-    :attr list[MetricTokenAggregationResult] results: (optional) Array of results for the
-    metric token aggregation.
+    :attr str event_type: (optional) The event type associated with this metric
+          result. This field, when present, will always be `click`.
+    :attr list[MetricTokenAggregationResult] results: (optional) Array of results
+          for the metric token aggregation.
     """
 
-    def __init__(self, event_type=None, results=None):
+    def __init__(self, *, event_type=None, results=None):
         """
         Initialize a MetricTokenAggregation object.
 
-        :param str event_type: (optional) The event type associated with this metric
-        result. This field, when present, will always be `click`.
-        :param list[MetricTokenAggregationResult] results: (optional) Array of results for
-        the metric token aggregation.
+        :param str event_type: (optional) The event type associated with this
+               metric result. This field, when present, will always be `click`.
+        :param list[MetricTokenAggregationResult] results: (optional) Array of
+               results for the metric token aggregation.
         """
         self.event_type = event_type
         self.results = results
@@ -7938,12 +8109,12 @@ class MetricTokenAggregation(object):
     def _from_dict(cls, _dict):
         """Initialize a MetricTokenAggregation object from a json dictionary."""
         args = {}
-        validKeys = ['event_type', 'results']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['event_type', 'results']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class MetricTokenAggregation: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'event_type' in _dict:
             args['event_type'] = _dict.get('event_type')
         if 'results' in _dict:
@@ -7977,28 +8148,28 @@ class MetricTokenAggregation(object):
         return not self == other
 
 
-class MetricTokenAggregationResult(object):
+class MetricTokenAggregationResult():
     """
     Aggregation result data for the requested metric.
 
-    :attr str key: (optional) The content of the **natural_language_query** parameter used
-    in the query that this result represents.
+    :attr str key: (optional) The content of the **natural_language_query**
+          parameter used in the query that this result represents.
     :attr int matching_results: (optional) Number of matching results.
     :attr float event_rate: (optional) The number of queries with associated events
-    divided by the total number of queries currently stored (queries and events are stored
-    in the log for 30 days).
+          divided by the total number of queries currently stored (queries and events are
+          stored in the log for 30 days).
     """
 
-    def __init__(self, key=None, matching_results=None, event_rate=None):
+    def __init__(self, *, key=None, matching_results=None, event_rate=None):
         """
         Initialize a MetricTokenAggregationResult object.
 
-        :param str key: (optional) The content of the **natural_language_query** parameter
-        used in the query that this result represents.
+        :param str key: (optional) The content of the **natural_language_query**
+               parameter used in the query that this result represents.
         :param int matching_results: (optional) Number of matching results.
-        :param float event_rate: (optional) The number of queries with associated events
-        divided by the total number of queries currently stored (queries and events are
-        stored in the log for 30 days).
+        :param float event_rate: (optional) The number of queries with associated
+               events divided by the total number of queries currently stored (queries and
+               events are stored in the log for 30 days).
         """
         self.key = key
         self.matching_results = matching_results
@@ -8008,12 +8179,12 @@ class MetricTokenAggregationResult(object):
     def _from_dict(cls, _dict):
         """Initialize a MetricTokenAggregationResult object from a json dictionary."""
         args = {}
-        validKeys = ['key', 'matching_results', 'event_rate']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['key', 'matching_results', 'event_rate']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class MetricTokenAggregationResult: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'key' in _dict:
             args['key'] = _dict.get('key')
         if 'matching_results' in _dict:
@@ -8049,20 +8220,20 @@ class MetricTokenAggregationResult(object):
         return not self == other
 
 
-class MetricTokenResponse(object):
+class MetricTokenResponse():
     """
     The response generated from a call to a **metrics** method that evaluates tokens.
 
-    :attr list[MetricTokenAggregation] aggregations: (optional) Array of metric token
-    aggregations.
+    :attr list[MetricTokenAggregation] aggregations: (optional) Array of metric
+          token aggregations.
     """
 
-    def __init__(self, aggregations=None):
+    def __init__(self, *, aggregations=None):
         """
         Initialize a MetricTokenResponse object.
 
-        :param list[MetricTokenAggregation] aggregations: (optional) Array of metric token
-        aggregations.
+        :param list[MetricTokenAggregation] aggregations: (optional) Array of
+               metric token aggregations.
         """
         self.aggregations = aggregations
 
@@ -8070,12 +8241,12 @@ class MetricTokenResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a MetricTokenResponse object from a json dictionary."""
         args = {}
-        validKeys = ['aggregations']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['aggregations']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class MetricTokenResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'aggregations' in _dict:
             args['aggregations'] = [
                 MetricTokenAggregation._from_dict(x)
@@ -8105,14 +8276,16 @@ class MetricTokenResponse(object):
         return not self == other
 
 
-class Nested(object):
+class Nested():
     """
     Nested.
 
-    :attr str path: (optional) The area of the results the aggregation was restricted to.
+    :attr str path: (optional) The area of the results the aggregation was
+          restricted to.
     """
 
     def __init__(self,
+                 *,
                  type=None,
                  results=None,
                  matching_results=None,
@@ -8121,14 +8294,15 @@ class Nested(object):
         """
         Initialize a Nested object.
 
-        :param str type: (optional) The type of aggregation command used. For example:
-        term, filter, max, min, etc.
-        :param list[AggregationResult] results: (optional) Array of aggregation results.
+        :param str type: (optional) The type of aggregation command used. For
+               example: term, filter, max, min, etc.
+        :param list[AggregationResult] results: (optional) Array of aggregation
+               results.
         :param int matching_results: (optional) Number of matching results.
-        :param list[QueryAggregation] aggregations: (optional) Aggregations returned by
-        Discovery.
-        :param str path: (optional) The area of the results the aggregation was restricted
-        to.
+        :param list[QueryAggregation] aggregations: (optional) Aggregations
+               returned by Discovery.
+        :param str path: (optional) The area of the results the aggregation was
+               restricted to.
         """
         self.path = path
 
@@ -8136,12 +8310,12 @@ class Nested(object):
     def _from_dict(cls, _dict):
         """Initialize a Nested object from a json dictionary."""
         args = {}
-        validKeys = ['path']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['path']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Nested: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'path' in _dict:
             args['path'] = _dict.get('path')
         return cls(**args)
@@ -8168,7 +8342,7 @@ class Nested(object):
         return not self == other
 
 
-class NluEnrichmentCategories(object):
+class NluEnrichmentCategories():
     """
     An object that indicates the Categories enrichment will be applied to the specified
     field.
@@ -8205,8 +8379,8 @@ class NluEnrichmentCategories(object):
     def __setattr__(self, name, value):
         properties = {}
         if not hasattr(self, '_additionalProperties'):
-            super(NluEnrichmentCategories, self).__setattr__(
-                '_additionalProperties', set())
+            super(NluEnrichmentCategories,
+                  self).__setattr__('_additionalProperties', set())
         if name not in properties:
             self._additionalProperties.add(name)
         super(NluEnrichmentCategories, self).__setattr__(name, value)
@@ -8226,20 +8400,20 @@ class NluEnrichmentCategories(object):
         return not self == other
 
 
-class NluEnrichmentConcepts(object):
+class NluEnrichmentConcepts():
     """
     An object specifiying the concepts enrichment and related parameters.
 
-    :attr int limit: (optional) The maximum number of concepts enrichments to extact from
-    each instance of the specified field.
+    :attr int limit: (optional) The maximum number of concepts enrichments to extact
+          from each instance of the specified field.
     """
 
-    def __init__(self, limit=None):
+    def __init__(self, *, limit=None):
         """
         Initialize a NluEnrichmentConcepts object.
 
-        :param int limit: (optional) The maximum number of concepts enrichments to extact
-        from each instance of the specified field.
+        :param int limit: (optional) The maximum number of concepts enrichments to
+               extact from each instance of the specified field.
         """
         self.limit = limit
 
@@ -8247,12 +8421,12 @@ class NluEnrichmentConcepts(object):
     def _from_dict(cls, _dict):
         """Initialize a NluEnrichmentConcepts object from a json dictionary."""
         args = {}
-        validKeys = ['limit']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['limit']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class NluEnrichmentConcepts: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'limit' in _dict:
             args['limit'] = _dict.get('limit')
         return cls(**args)
@@ -8279,24 +8453,24 @@ class NluEnrichmentConcepts(object):
         return not self == other
 
 
-class NluEnrichmentEmotion(object):
+class NluEnrichmentEmotion():
     """
     An object specifying the emotion detection enrichment and related parameters.
 
-    :attr bool document: (optional) When `true`, emotion detection is performed on the
-    entire field.
-    :attr list[str] targets: (optional) A comma-separated list of target strings that will
-    have any associated emotions detected.
+    :attr bool document: (optional) When `true`, emotion detection is performed on
+          the entire field.
+    :attr list[str] targets: (optional) A comma-separated list of target strings
+          that will have any associated emotions detected.
     """
 
-    def __init__(self, document=None, targets=None):
+    def __init__(self, *, document=None, targets=None):
         """
         Initialize a NluEnrichmentEmotion object.
 
-        :param bool document: (optional) When `true`, emotion detection is performed on
-        the entire field.
-        :param list[str] targets: (optional) A comma-separated list of target strings that
-        will have any associated emotions detected.
+        :param bool document: (optional) When `true`, emotion detection is
+               performed on the entire field.
+        :param list[str] targets: (optional) A comma-separated list of target
+               strings that will have any associated emotions detected.
         """
         self.document = document
         self.targets = targets
@@ -8305,12 +8479,12 @@ class NluEnrichmentEmotion(object):
     def _from_dict(cls, _dict):
         """Initialize a NluEnrichmentEmotion object from a json dictionary."""
         args = {}
-        validKeys = ['document', 'targets']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['document', 'targets']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class NluEnrichmentEmotion: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document' in _dict:
             args['document'] = _dict.get('document')
         if 'targets' in _dict:
@@ -8341,28 +8515,30 @@ class NluEnrichmentEmotion(object):
         return not self == other
 
 
-class NluEnrichmentEntities(object):
+class NluEnrichmentEntities():
     """
     An object speficying the Entities enrichment and related parameters.
 
-    :attr bool sentiment: (optional) When `true`, sentiment analysis of entities will be
-    performed on the specified field.
-    :attr bool emotion: (optional) When `true`, emotion detection of entities will be
-    performed on the specified field.
+    :attr bool sentiment: (optional) When `true`, sentiment analysis of entities
+          will be performed on the specified field.
+    :attr bool emotion: (optional) When `true`, emotion detection of entities will
+          be performed on the specified field.
     :attr int limit: (optional) The maximum number of entities to extract for each
-    instance of the specified field.
-    :attr bool mentions: (optional) When `true`, the number of mentions of each identified
-    entity is recorded. The default is `false`.
+          instance of the specified field.
+    :attr bool mentions: (optional) When `true`, the number of mentions of each
+          identified entity is recorded. The default is `false`.
     :attr bool mention_types: (optional) When `true`, the types of mentions for each
-    idetifieid entity is recorded. The default is `false`.
-    :attr bool sentence_locations: (optional) When `true`, a list of sentence locations
-    for each instance of each identified entity is recorded. The default is `false`.
-    :attr str model: (optional) The enrichement model to use with entity extraction. May
-    be a custom model provided by Watson Knowledge Studio, the public model for use with
-    Knowledge Graph `en-news`, or the default public model `alchemy`.
+          idetifieid entity is recorded. The default is `false`.
+    :attr bool sentence_locations: (optional) When `true`, a list of sentence
+          locations for each instance of each identified entity is recorded. The default
+          is `false`.
+    :attr str model: (optional) The enrichement model to use with entity extraction.
+          May be a custom model provided by Watson Knowledge Studio, or the default public
+          model `alchemy`.
     """
 
     def __init__(self,
+                 *,
                  sentiment=None,
                  emotion=None,
                  limit=None,
@@ -8373,22 +8549,22 @@ class NluEnrichmentEntities(object):
         """
         Initialize a NluEnrichmentEntities object.
 
-        :param bool sentiment: (optional) When `true`, sentiment analysis of entities will
-        be performed on the specified field.
-        :param bool emotion: (optional) When `true`, emotion detection of entities will be
-        performed on the specified field.
-        :param int limit: (optional) The maximum number of entities to extract for each
-        instance of the specified field.
-        :param bool mentions: (optional) When `true`, the number of mentions of each
-        identified entity is recorded. The default is `false`.
-        :param bool mention_types: (optional) When `true`, the types of mentions for each
-        idetifieid entity is recorded. The default is `false`.
+        :param bool sentiment: (optional) When `true`, sentiment analysis of
+               entities will be performed on the specified field.
+        :param bool emotion: (optional) When `true`, emotion detection of entities
+               will be performed on the specified field.
+        :param int limit: (optional) The maximum number of entities to extract for
+               each instance of the specified field.
+        :param bool mentions: (optional) When `true`, the number of mentions of
+               each identified entity is recorded. The default is `false`.
+        :param bool mention_types: (optional) When `true`, the types of mentions
+               for each idetifieid entity is recorded. The default is `false`.
         :param bool sentence_locations: (optional) When `true`, a list of sentence
-        locations for each instance of each identified entity is recorded. The default is
-        `false`.
-        :param str model: (optional) The enrichement model to use with entity extraction.
-        May be a custom model provided by Watson Knowledge Studio, the public model for
-        use with Knowledge Graph `en-news`, or the default public model `alchemy`.
+               locations for each instance of each identified entity is recorded. The
+               default is `false`.
+        :param str model: (optional) The enrichement model to use with entity
+               extraction. May be a custom model provided by Watson Knowledge Studio, or
+               the default public model `alchemy`.
         """
         self.sentiment = sentiment
         self.emotion = emotion
@@ -8402,15 +8578,15 @@ class NluEnrichmentEntities(object):
     def _from_dict(cls, _dict):
         """Initialize a NluEnrichmentEntities object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'sentiment', 'emotion', 'limit', 'mentions', 'mention_types',
             'sentence_locations', 'model'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class NluEnrichmentEntities: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'sentiment' in _dict:
             args['sentiment'] = _dict.get('sentiment')
         if 'emotion' in _dict:
@@ -8463,29 +8639,30 @@ class NluEnrichmentEntities(object):
         return not self == other
 
 
-class NluEnrichmentFeatures(object):
+class NluEnrichmentFeatures():
     """
-    NluEnrichmentFeatures.
+    Object containing Natural Language Understanding features to be used.
 
-    :attr NluEnrichmentKeywords keywords: (optional) An object specifying the Keyword
-    enrichment and related parameters.
-    :attr NluEnrichmentEntities entities: (optional) An object speficying the Entities
-    enrichment and related parameters.
-    :attr NluEnrichmentSentiment sentiment: (optional) An object specifying the sentiment
-    extraction enrichment and related parameters.
+    :attr NluEnrichmentKeywords keywords: (optional) An object specifying the
+          Keyword enrichment and related parameters.
+    :attr NluEnrichmentEntities entities: (optional) An object speficying the
+          Entities enrichment and related parameters.
+    :attr NluEnrichmentSentiment sentiment: (optional) An object specifying the
+          sentiment extraction enrichment and related parameters.
     :attr NluEnrichmentEmotion emotion: (optional) An object specifying the emotion
-    detection enrichment and related parameters.
-    :attr NluEnrichmentCategories categories: (optional) An object that indicates the
-    Categories enrichment will be applied to the specified field.
-    :attr NluEnrichmentSemanticRoles semantic_roles: (optional) An object specifiying the
-    semantic roles enrichment and related parameters.
-    :attr NluEnrichmentRelations relations: (optional) An object specifying the relations
-    enrichment and related parameters.
-    :attr NluEnrichmentConcepts concepts: (optional) An object specifiying the concepts
-    enrichment and related parameters.
+          detection enrichment and related parameters.
+    :attr NluEnrichmentCategories categories: (optional) An object that indicates
+          the Categories enrichment will be applied to the specified field.
+    :attr NluEnrichmentSemanticRoles semantic_roles: (optional) An object
+          specifiying the semantic roles enrichment and related parameters.
+    :attr NluEnrichmentRelations relations: (optional) An object specifying the
+          relations enrichment and related parameters.
+    :attr NluEnrichmentConcepts concepts: (optional) An object specifiying the
+          concepts enrichment and related parameters.
     """
 
     def __init__(self,
+                 *,
                  keywords=None,
                  entities=None,
                  sentiment=None,
@@ -8497,22 +8674,22 @@ class NluEnrichmentFeatures(object):
         """
         Initialize a NluEnrichmentFeatures object.
 
-        :param NluEnrichmentKeywords keywords: (optional) An object specifying the Keyword
-        enrichment and related parameters.
+        :param NluEnrichmentKeywords keywords: (optional) An object specifying the
+               Keyword enrichment and related parameters.
         :param NluEnrichmentEntities entities: (optional) An object speficying the
-        Entities enrichment and related parameters.
-        :param NluEnrichmentSentiment sentiment: (optional) An object specifying the
-        sentiment extraction enrichment and related parameters.
-        :param NluEnrichmentEmotion emotion: (optional) An object specifying the emotion
-        detection enrichment and related parameters.
-        :param NluEnrichmentCategories categories: (optional) An object that indicates the
-        Categories enrichment will be applied to the specified field.
-        :param NluEnrichmentSemanticRoles semantic_roles: (optional) An object specifiying
-        the semantic roles enrichment and related parameters.
-        :param NluEnrichmentRelations relations: (optional) An object specifying the
-        relations enrichment and related parameters.
+               Entities enrichment and related parameters.
+        :param NluEnrichmentSentiment sentiment: (optional) An object specifying
+               the sentiment extraction enrichment and related parameters.
+        :param NluEnrichmentEmotion emotion: (optional) An object specifying the
+               emotion detection enrichment and related parameters.
+        :param NluEnrichmentCategories categories: (optional) An object that
+               indicates the Categories enrichment will be applied to the specified field.
+        :param NluEnrichmentSemanticRoles semantic_roles: (optional) An object
+               specifiying the semantic roles enrichment and related parameters.
+        :param NluEnrichmentRelations relations: (optional) An object specifying
+               the relations enrichment and related parameters.
         :param NluEnrichmentConcepts concepts: (optional) An object specifiying the
-        concepts enrichment and related parameters.
+               concepts enrichment and related parameters.
         """
         self.keywords = keywords
         self.entities = entities
@@ -8527,15 +8704,15 @@ class NluEnrichmentFeatures(object):
     def _from_dict(cls, _dict):
         """Initialize a NluEnrichmentFeatures object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'keywords', 'entities', 'sentiment', 'emotion', 'categories',
             'semantic_roles', 'relations', 'concepts'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class NluEnrichmentFeatures: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'keywords' in _dict:
             args['keywords'] = NluEnrichmentKeywords._from_dict(
                 _dict.get('keywords'))
@@ -8598,28 +8775,28 @@ class NluEnrichmentFeatures(object):
         return not self == other
 
 
-class NluEnrichmentKeywords(object):
+class NluEnrichmentKeywords():
     """
     An object specifying the Keyword enrichment and related parameters.
 
-    :attr bool sentiment: (optional) When `true`, sentiment analysis of keywords will be
-    performed on the specified field.
-    :attr bool emotion: (optional) When `true`, emotion detection of keywords will be
-    performed on the specified field.
+    :attr bool sentiment: (optional) When `true`, sentiment analysis of keywords
+          will be performed on the specified field.
+    :attr bool emotion: (optional) When `true`, emotion detection of keywords will
+          be performed on the specified field.
     :attr int limit: (optional) The maximum number of keywords to extract for each
-    instance of the specified field.
+          instance of the specified field.
     """
 
-    def __init__(self, sentiment=None, emotion=None, limit=None):
+    def __init__(self, *, sentiment=None, emotion=None, limit=None):
         """
         Initialize a NluEnrichmentKeywords object.
 
-        :param bool sentiment: (optional) When `true`, sentiment analysis of keywords will
-        be performed on the specified field.
-        :param bool emotion: (optional) When `true`, emotion detection of keywords will be
-        performed on the specified field.
-        :param int limit: (optional) The maximum number of keywords to extract for each
-        instance of the specified field.
+        :param bool sentiment: (optional) When `true`, sentiment analysis of
+               keywords will be performed on the specified field.
+        :param bool emotion: (optional) When `true`, emotion detection of keywords
+               will be performed on the specified field.
+        :param int limit: (optional) The maximum number of keywords to extract for
+               each instance of the specified field.
         """
         self.sentiment = sentiment
         self.emotion = emotion
@@ -8629,12 +8806,12 @@ class NluEnrichmentKeywords(object):
     def _from_dict(cls, _dict):
         """Initialize a NluEnrichmentKeywords object from a json dictionary."""
         args = {}
-        validKeys = ['sentiment', 'emotion', 'limit']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['sentiment', 'emotion', 'limit']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class NluEnrichmentKeywords: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'sentiment' in _dict:
             args['sentiment'] = _dict.get('sentiment')
         if 'emotion' in _dict:
@@ -8669,24 +8846,24 @@ class NluEnrichmentKeywords(object):
         return not self == other
 
 
-class NluEnrichmentRelations(object):
+class NluEnrichmentRelations():
     """
     An object specifying the relations enrichment and related parameters.
 
-    :attr str model: (optional) *For use with `natural_language_understanding` enrichments
-    only.* The enrichement model to use with relationship extraction. May be a custom
-    model provided by Watson Knowledge Studio, the public model for use with Knowledge
-    Graph `en-news`, the default is`en-news`.
+    :attr str model: (optional) *For use with `natural_language_understanding`
+          enrichments only.* The enrichement model to use with relationship extraction.
+          May be a custom model provided by Watson Knowledge Studio, the default public
+          model is`en-news`.
     """
 
-    def __init__(self, model=None):
+    def __init__(self, *, model=None):
         """
         Initialize a NluEnrichmentRelations object.
 
         :param str model: (optional) *For use with `natural_language_understanding`
-        enrichments only.* The enrichement model to use with relationship extraction. May
-        be a custom model provided by Watson Knowledge Studio, the public model for use
-        with Knowledge Graph `en-news`, the default is`en-news`.
+               enrichments only.* The enrichement model to use with relationship
+               extraction. May be a custom model provided by Watson Knowledge Studio, the
+               default public model is`en-news`.
         """
         self.model = model
 
@@ -8694,12 +8871,12 @@ class NluEnrichmentRelations(object):
     def _from_dict(cls, _dict):
         """Initialize a NluEnrichmentRelations object from a json dictionary."""
         args = {}
-        validKeys = ['model']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['model']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class NluEnrichmentRelations: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'model' in _dict:
             args['model'] = _dict.get('model')
         return cls(**args)
@@ -8726,28 +8903,28 @@ class NluEnrichmentRelations(object):
         return not self == other
 
 
-class NluEnrichmentSemanticRoles(object):
+class NluEnrichmentSemanticRoles():
     """
     An object specifiying the semantic roles enrichment and related parameters.
 
     :attr bool entities: (optional) When `true`, entities are extracted from the
-    identified sentence parts.
+          identified sentence parts.
     :attr bool keywords: (optional) When `true`, keywords are extracted from the
-    identified sentence parts.
-    :attr int limit: (optional) The maximum number of semantic roles enrichments to extact
-    from each instance of the specified field.
+          identified sentence parts.
+    :attr int limit: (optional) The maximum number of semantic roles enrichments to
+          extact from each instance of the specified field.
     """
 
-    def __init__(self, entities=None, keywords=None, limit=None):
+    def __init__(self, *, entities=None, keywords=None, limit=None):
         """
         Initialize a NluEnrichmentSemanticRoles object.
 
-        :param bool entities: (optional) When `true`, entities are extracted from the
-        identified sentence parts.
-        :param bool keywords: (optional) When `true`, keywords are extracted from the
-        identified sentence parts.
-        :param int limit: (optional) The maximum number of semantic roles enrichments to
-        extact from each instance of the specified field.
+        :param bool entities: (optional) When `true`, entities are extracted from
+               the identified sentence parts.
+        :param bool keywords: (optional) When `true`, keywords are extracted from
+               the identified sentence parts.
+        :param int limit: (optional) The maximum number of semantic roles
+               enrichments to extact from each instance of the specified field.
         """
         self.entities = entities
         self.keywords = keywords
@@ -8757,12 +8934,12 @@ class NluEnrichmentSemanticRoles(object):
     def _from_dict(cls, _dict):
         """Initialize a NluEnrichmentSemanticRoles object from a json dictionary."""
         args = {}
-        validKeys = ['entities', 'keywords', 'limit']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['entities', 'keywords', 'limit']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class NluEnrichmentSemanticRoles: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'entities' in _dict:
             args['entities'] = _dict.get('entities')
         if 'keywords' in _dict:
@@ -8797,24 +8974,24 @@ class NluEnrichmentSemanticRoles(object):
         return not self == other
 
 
-class NluEnrichmentSentiment(object):
+class NluEnrichmentSentiment():
     """
     An object specifying the sentiment extraction enrichment and related parameters.
 
-    :attr bool document: (optional) When `true`, sentiment analysis is performed on the
-    entire field.
-    :attr list[str] targets: (optional) A comma-separated list of target strings that will
-    have any associated sentiment analyzed.
+    :attr bool document: (optional) When `true`, sentiment analysis is performed on
+          the entire field.
+    :attr list[str] targets: (optional) A comma-separated list of target strings
+          that will have any associated sentiment analyzed.
     """
 
-    def __init__(self, document=None, targets=None):
+    def __init__(self, *, document=None, targets=None):
         """
         Initialize a NluEnrichmentSentiment object.
 
-        :param bool document: (optional) When `true`, sentiment analysis is performed on
-        the entire field.
-        :param list[str] targets: (optional) A comma-separated list of target strings that
-        will have any associated sentiment analyzed.
+        :param bool document: (optional) When `true`, sentiment analysis is
+               performed on the entire field.
+        :param list[str] targets: (optional) A comma-separated list of target
+               strings that will have any associated sentiment analyzed.
         """
         self.document = document
         self.targets = targets
@@ -8823,12 +9000,12 @@ class NluEnrichmentSentiment(object):
     def _from_dict(cls, _dict):
         """Initialize a NluEnrichmentSentiment object from a json dictionary."""
         args = {}
-        validKeys = ['document', 'targets']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['document', 'targets']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class NluEnrichmentSentiment: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document' in _dict:
             args['document'] = _dict.get('document')
         if 'targets' in _dict:
@@ -8859,70 +9036,77 @@ class NluEnrichmentSentiment(object):
         return not self == other
 
 
-class NormalizationOperation(object):
+class NormalizationOperation():
     """
-    NormalizationOperation.
+    Object containing normalization operations.
 
     :attr str operation: (optional) Identifies what type of operation to perform.
-    **copy** - Copies the value of the **source_field** to the **destination_field**
-    field. If the **destination_field** already exists, then the value of the
-    **source_field** overwrites the original value of the **destination_field**.
-    **move** - Renames (moves) the **source_field** to the **destination_field**. If the
-    **destination_field** already exists, then the value of the **source_field**
-    overwrites the original value of the **destination_field**. Rename is identical to
-    copy, except that the **source_field** is removed after the value has been copied to
-    the **destination_field** (it is the same as a _copy_ followed by a _remove_).
-    **merge** - Merges the value of the **source_field** with the value of the
-    **destination_field**. The **destination_field** is converted into an array if it is
-    not already an array, and the value of the **source_field** is appended to the array.
-    This operation removes the **source_field** after the merge. If the **source_field**
-    does not exist in the current document, then the **destination_field** is still
-    converted into an array (if it is not an array already). This conversion ensures the
-    type for **destination_field** is consistent across all documents.
-    **remove** - Deletes the **source_field** field. The **destination_field** is ignored
-    for this operation.
-    **remove_nulls** - Removes all nested null (blank) field values from the ingested
-    document. **source_field** and **destination_field** are ignored by this operation
-    because _remove_nulls_ operates on the entire ingested document. Typically,
-    **remove_nulls** is invoked as the last normalization operation (if it is invoked at
-    all, it can be time-expensive).
+          **copy** - Copies the value of the **source_field** to the **destination_field**
+          field. If the **destination_field** already exists, then the value of the
+          **source_field** overwrites the original value of the **destination_field**.
+          **move** - Renames (moves) the **source_field** to the **destination_field**. If
+          the **destination_field** already exists, then the value of the **source_field**
+          overwrites the original value of the **destination_field**. Rename is identical
+          to copy, except that the **source_field** is removed after the value has been
+          copied to the **destination_field** (it is the same as a _copy_ followed by a
+          _remove_).
+          **merge** - Merges the value of the **source_field** with the value of the
+          **destination_field**. The **destination_field** is converted into an array if
+          it is not already an array, and the value of the **source_field** is appended to
+          the array. This operation removes the **source_field** after the merge. If the
+          **source_field** does not exist in the current document, then the
+          **destination_field** is still converted into an array (if it is not an array
+          already). This conversion ensures the type for **destination_field** is
+          consistent across all documents.
+          **remove** - Deletes the **source_field** field. The **destination_field** is
+          ignored for this operation.
+          **remove_nulls** - Removes all nested null (blank) field values from the
+          ingested document. **source_field** and **destination_field** are ignored by
+          this operation because _remove_nulls_ operates on the entire ingested document.
+          Typically, **remove_nulls** is invoked as the last normalization operation (if
+          it is invoked at all, it can be time-expensive).
     :attr str source_field: (optional) The source field for the operation.
     :attr str destination_field: (optional) The destination field for the operation.
     """
 
     def __init__(self,
+                 *,
                  operation=None,
                  source_field=None,
                  destination_field=None):
         """
         Initialize a NormalizationOperation object.
 
-        :param str operation: (optional) Identifies what type of operation to perform.
-        **copy** - Copies the value of the **source_field** to the **destination_field**
-        field. If the **destination_field** already exists, then the value of the
-        **source_field** overwrites the original value of the **destination_field**.
-        **move** - Renames (moves) the **source_field** to the **destination_field**. If
-        the **destination_field** already exists, then the value of the **source_field**
-        overwrites the original value of the **destination_field**. Rename is identical to
-        copy, except that the **source_field** is removed after the value has been copied
-        to the **destination_field** (it is the same as a _copy_ followed by a _remove_).
-        **merge** - Merges the value of the **source_field** with the value of the
-        **destination_field**. The **destination_field** is converted into an array if it
-        is not already an array, and the value of the **source_field** is appended to the
-        array. This operation removes the **source_field** after the merge. If the
-        **source_field** does not exist in the current document, then the
-        **destination_field** is still converted into an array (if it is not an array
-        already). This conversion ensures the type for **destination_field** is consistent
-        across all documents.
-        **remove** - Deletes the **source_field** field. The **destination_field** is
-        ignored for this operation.
-        **remove_nulls** - Removes all nested null (blank) field values from the ingested
-        document. **source_field** and **destination_field** are ignored by this operation
-        because _remove_nulls_ operates on the entire ingested document. Typically,
-        **remove_nulls** is invoked as the last normalization operation (if it is invoked
-        at all, it can be time-expensive).
+        :param str operation: (optional) Identifies what type of operation to
+               perform.
+               **copy** - Copies the value of the **source_field** to the
+               **destination_field** field. If the **destination_field** already exists,
+               then the value of the **source_field** overwrites the original value of the
+               **destination_field**.
+               **move** - Renames (moves) the **source_field** to the
+               **destination_field**. If the **destination_field** already exists, then
+               the value of the **source_field** overwrites the original value of the
+               **destination_field**. Rename is identical to copy, except that the
+               **source_field** is removed after the value has been copied to the
+               **destination_field** (it is the same as a _copy_ followed by a _remove_).
+               **merge** - Merges the value of the **source_field** with the value of the
+               **destination_field**. The **destination_field** is converted into an array
+               if it is not already an array, and the value of the **source_field** is
+               appended to the array. This operation removes the **source_field** after
+               the merge. If the **source_field** does not exist in the current document,
+               then the **destination_field** is still converted into an array (if it is
+               not an array already). This conversion ensures the type for
+               **destination_field** is consistent across all documents.
+               **remove** - Deletes the **source_field** field. The **destination_field**
+               is ignored for this operation.
+               **remove_nulls** - Removes all nested null (blank) field values from the
+               ingested document. **source_field** and **destination_field** are ignored
+               by this operation because _remove_nulls_ operates on the entire ingested
+               document. Typically, **remove_nulls** is invoked as the last normalization
+               operation (if it is invoked at all, it can be time-expensive).
         :param str source_field: (optional) The source field for the operation.
-        :param str destination_field: (optional) The destination field for the operation.
+        :param str destination_field: (optional) The destination field for the
+               operation.
         """
         self.operation = operation
         self.source_field = source_field
@@ -8932,12 +9116,12 @@ class NormalizationOperation(object):
     def _from_dict(cls, _dict):
         """Initialize a NormalizationOperation object from a json dictionary."""
         args = {}
-        validKeys = ['operation', 'source_field', 'destination_field']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['operation', 'source_field', 'destination_field']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class NormalizationOperation: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'operation' in _dict:
             args['operation'] = _dict.get('operation')
         if 'source_field' in _dict:
@@ -8972,38 +9156,73 @@ class NormalizationOperation(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class OperationEnum(Enum):
+        """
+        Identifies what type of operation to perform.
+        **copy** - Copies the value of the **source_field** to the **destination_field**
+        field. If the **destination_field** already exists, then the value of the
+        **source_field** overwrites the original value of the **destination_field**.
+        **move** - Renames (moves) the **source_field** to the **destination_field**. If
+        the **destination_field** already exists, then the value of the **source_field**
+        overwrites the original value of the **destination_field**. Rename is identical to
+        copy, except that the **source_field** is removed after the value has been copied
+        to the **destination_field** (it is the same as a _copy_ followed by a _remove_).
+        **merge** - Merges the value of the **source_field** with the value of the
+        **destination_field**. The **destination_field** is converted into an array if it
+        is not already an array, and the value of the **source_field** is appended to the
+        array. This operation removes the **source_field** after the merge. If the
+        **source_field** does not exist in the current document, then the
+        **destination_field** is still converted into an array (if it is not an array
+        already). This conversion ensures the type for **destination_field** is consistent
+        across all documents.
+        **remove** - Deletes the **source_field** field. The **destination_field** is
+        ignored for this operation.
+        **remove_nulls** - Removes all nested null (blank) field values from the ingested
+        document. **source_field** and **destination_field** are ignored by this operation
+        because _remove_nulls_ operates on the entire ingested document. Typically,
+        **remove_nulls** is invoked as the last normalization operation (if it is invoked
+        at all, it can be time-expensive).
+        """
+        COPY = "copy"
+        MOVE = "move"
+        MERGE = "merge"
+        REMOVE = "remove"
+        REMOVE_NULLS = "remove_nulls"
 
-class Notice(object):
+
+class Notice():
     """
     A notice produced for the collection.
 
-    :attr str notice_id: (optional) Identifies the notice. Many notices might have the
-    same ID. This field exists so that user applications can programmatically identify a
-    notice and take automatic corrective action. Typical notice IDs include:
-    `index_failed`, `index_failed_too_many_requests`, `index_failed_incompatible_field`,
-    `index_failed_cluster_unavailable`, `ingestion_timeout`, `ingestion_error`,
-    `bad_request`, `internal_error`, `missing_model`, `unsupported_model`,
-    `smart_document_understanding_failed_incompatible_field`,
-    `smart_document_understanding_failed_internal_error`,
-    `smart_document_understanding_failed_internal_error`,
-    `smart_document_understanding_failed_warning`,
-    `smart_document_understanding_page_error`,
-    `smart_document_understanding_page_warning`. **Note:** This is not a complete list,
-    other values might be returned.
-    :attr datetime created: (optional) The creation date of the collection in the format
-    yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+    :attr str notice_id: (optional) Identifies the notice. Many notices might have
+          the same ID. This field exists so that user applications can programmatically
+          identify a notice and take automatic corrective action. Typical notice IDs
+          include: `index_failed`, `index_failed_too_many_requests`,
+          `index_failed_incompatible_field`, `index_failed_cluster_unavailable`,
+          `ingestion_timeout`, `ingestion_error`, `bad_request`, `internal_error`,
+          `missing_model`, `unsupported_model`,
+          `smart_document_understanding_failed_incompatible_field`,
+          `smart_document_understanding_failed_internal_error`,
+          `smart_document_understanding_failed_internal_error`,
+          `smart_document_understanding_failed_warning`,
+          `smart_document_understanding_page_error`,
+          `smart_document_understanding_page_warning`. **Note:** This is not a complete
+          list, other values might be returned.
+    :attr datetime created: (optional) The creation date of the collection in the
+          format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
     :attr str document_id: (optional) Unique identifier of the document.
     :attr str query_id: (optional) Unique identifier of the query used for relevance
-    training.
+          training.
     :attr str severity: (optional) Severity level of the notice.
-    :attr str step: (optional) Ingestion or training step in which the notice occurred.
-    Typical step values include: `classify_elements`, `smartDocumentUnderstanding`,
-    `ingestion`, `indexing`, `convert`. **Note:** This is not a complete list, other
-    values might be returned.
+    :attr str step: (optional) Ingestion or training step in which the notice
+          occurred. Typical step values include: `classify_elements`,
+          `smartDocumentUnderstanding`, `ingestion`, `indexing`, `convert`. **Note:** This
+          is not a complete list, other values might be returned.
     :attr str description: (optional) The description of the notice.
     """
 
     def __init__(self,
+                 *,
                  notice_id=None,
                  created=None,
                  document_id=None,
@@ -9014,30 +9233,30 @@ class Notice(object):
         """
         Initialize a Notice object.
 
-        :param str notice_id: (optional) Identifies the notice. Many notices might have
-        the same ID. This field exists so that user applications can programmatically
-        identify a notice and take automatic corrective action. Typical notice IDs
-        include: `index_failed`, `index_failed_too_many_requests`,
-        `index_failed_incompatible_field`, `index_failed_cluster_unavailable`,
-        `ingestion_timeout`, `ingestion_error`, `bad_request`, `internal_error`,
-        `missing_model`, `unsupported_model`,
-        `smart_document_understanding_failed_incompatible_field`,
-        `smart_document_understanding_failed_internal_error`,
-        `smart_document_understanding_failed_internal_error`,
-        `smart_document_understanding_failed_warning`,
-        `smart_document_understanding_page_error`,
-        `smart_document_understanding_page_warning`. **Note:** This is not a complete
-        list, other values might be returned.
-        :param datetime created: (optional) The creation date of the collection in the
-        format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
+        :param str notice_id: (optional) Identifies the notice. Many notices might
+               have the same ID. This field exists so that user applications can
+               programmatically identify a notice and take automatic corrective action.
+               Typical notice IDs include: `index_failed`,
+               `index_failed_too_many_requests`, `index_failed_incompatible_field`,
+               `index_failed_cluster_unavailable`, `ingestion_timeout`, `ingestion_error`,
+               `bad_request`, `internal_error`, `missing_model`, `unsupported_model`,
+               `smart_document_understanding_failed_incompatible_field`,
+               `smart_document_understanding_failed_internal_error`,
+               `smart_document_understanding_failed_internal_error`,
+               `smart_document_understanding_failed_warning`,
+               `smart_document_understanding_page_error`,
+               `smart_document_understanding_page_warning`. **Note:** This is not a
+               complete list, other values might be returned.
+        :param datetime created: (optional) The creation date of the collection in
+               the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
         :param str document_id: (optional) Unique identifier of the document.
-        :param str query_id: (optional) Unique identifier of the query used for relevance
-        training.
+        :param str query_id: (optional) Unique identifier of the query used for
+               relevance training.
         :param str severity: (optional) Severity level of the notice.
         :param str step: (optional) Ingestion or training step in which the notice
-        occurred. Typical step values include: `classify_elements`,
-        `smartDocumentUnderstanding`, `ingestion`, `indexing`, `convert`. **Note:** This
-        is not a complete list, other values might be returned.
+               occurred. Typical step values include: `classify_elements`,
+               `smartDocumentUnderstanding`, `ingestion`, `indexing`, `convert`. **Note:**
+               This is not a complete list, other values might be returned.
         :param str description: (optional) The description of the notice.
         """
         self.notice_id = notice_id
@@ -9052,15 +9271,15 @@ class Notice(object):
     def _from_dict(cls, _dict):
         """Initialize a Notice object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'notice_id', 'created', 'document_id', 'query_id', 'severity',
             'step', 'description'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Notice: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'notice_id' in _dict:
             args['notice_id'] = _dict.get('notice_id')
         if 'created' in _dict:
@@ -9110,19 +9329,27 @@ class Notice(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class SeverityEnum(Enum):
+        """
+        Severity level of the notice.
+        """
+        WARNING = "warning"
+        ERROR = "error"
 
-class PdfHeadingDetection(object):
+
+class PdfHeadingDetection():
     """
-    PdfHeadingDetection.
+    Object containing heading detection conversion settings for PDF documents.
 
-    :attr list[FontSetting] fonts: (optional)
+    :attr list[FontSetting] fonts: (optional) Array of font matching configurations.
     """
 
-    def __init__(self, fonts=None):
+    def __init__(self, *, fonts=None):
         """
         Initialize a PdfHeadingDetection object.
 
-        :param list[FontSetting] fonts: (optional)
+        :param list[FontSetting] fonts: (optional) Array of font matching
+               configurations.
         """
         self.fonts = fonts
 
@@ -9130,12 +9357,12 @@ class PdfHeadingDetection(object):
     def _from_dict(cls, _dict):
         """Initialize a PdfHeadingDetection object from a json dictionary."""
         args = {}
-        validKeys = ['fonts']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['fonts']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class PdfHeadingDetection: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'fonts' in _dict:
             args['fonts'] = [
                 FontSetting._from_dict(x) for x in (_dict.get('fonts'))
@@ -9164,18 +9391,20 @@ class PdfHeadingDetection(object):
         return not self == other
 
 
-class PdfSettings(object):
+class PdfSettings():
     """
     A list of PDF conversion settings.
 
-    :attr PdfHeadingDetection heading: (optional)
+    :attr PdfHeadingDetection heading: (optional) Object containing heading
+          detection conversion settings for PDF documents.
     """
 
-    def __init__(self, heading=None):
+    def __init__(self, *, heading=None):
         """
         Initialize a PdfSettings object.
 
-        :param PdfHeadingDetection heading: (optional)
+        :param PdfHeadingDetection heading: (optional) Object containing heading
+               detection conversion settings for PDF documents.
         """
         self.heading = heading
 
@@ -9183,12 +9412,12 @@ class PdfSettings(object):
     def _from_dict(cls, _dict):
         """Initialize a PdfSettings object from a json dictionary."""
         args = {}
-        validKeys = ['heading']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['heading']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class PdfSettings: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'heading' in _dict:
             args['heading'] = PdfHeadingDetection._from_dict(
                 _dict.get('heading'))
@@ -9216,19 +9445,20 @@ class PdfSettings(object):
         return not self == other
 
 
-class QueryAggregation(object):
+class QueryAggregation():
     """
     An aggregation produced by  Discovery to analyze the input provided.
 
-    :attr str type: (optional) The type of aggregation command used. For example: term,
-    filter, max, min, etc.
+    :attr str type: (optional) The type of aggregation command used. For example:
+          term, filter, max, min, etc.
     :attr list[AggregationResult] results: (optional) Array of aggregation results.
     :attr int matching_results: (optional) Number of matching results.
     :attr list[QueryAggregation] aggregations: (optional) Aggregations returned by
-    Discovery.
+          Discovery.
     """
 
     def __init__(self,
+                 *,
                  type=None,
                  results=None,
                  matching_results=None,
@@ -9236,12 +9466,13 @@ class QueryAggregation(object):
         """
         Initialize a QueryAggregation object.
 
-        :param str type: (optional) The type of aggregation command used. For example:
-        term, filter, max, min, etc.
-        :param list[AggregationResult] results: (optional) Array of aggregation results.
+        :param str type: (optional) The type of aggregation command used. For
+               example: term, filter, max, min, etc.
+        :param list[AggregationResult] results: (optional) Array of aggregation
+               results.
         :param int matching_results: (optional) Number of matching results.
-        :param list[QueryAggregation] aggregations: (optional) Aggregations returned by
-        Discovery.
+        :param list[QueryAggregation] aggregations: (optional) Aggregations
+               returned by Discovery.
         """
         self.type = type
         self.results = results
@@ -9252,12 +9483,12 @@ class QueryAggregation(object):
     def _from_dict(cls, _dict):
         """Initialize a QueryAggregation object from a json dictionary."""
         args = {}
-        validKeys = ['type', 'results', 'matching_results', 'aggregations']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['type', 'results', 'matching_results', 'aggregations']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class QueryAggregation: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'results' in _dict:
@@ -9302,503 +9533,23 @@ class QueryAggregation(object):
         return not self == other
 
 
-class QueryEntitiesContext(object):
+class QueryNoticesResponse():
     """
-    Entity text to provide context for the queried entity and rank based on that
-    association. For example, if you wanted to query the city of London in England your
-    query would look for `London` with the context of `England`.
-
-    :attr str text: (optional) Entity text to provide context for the queried entity and
-    rank based on that association. For example, if you wanted to query the city of London
-    in England your query would look for `London` with the context of `England`.
-    """
-
-    def __init__(self, text=None):
-        """
-        Initialize a QueryEntitiesContext object.
-
-        :param str text: (optional) Entity text to provide context for the queried entity
-        and rank based on that association. For example, if you wanted to query the city
-        of London in England your query would look for `London` with the context of
-        `England`.
-        """
-        self.text = text
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryEntitiesContext object from a json dictionary."""
-        args = {}
-        validKeys = ['text']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryEntitiesContext: '
-                + ', '.join(badKeys))
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryEntitiesContext object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryEntitiesEntity(object):
-    """
-    A text string that appears within the entity text field.
-
-    :attr str text: (optional) Entity text content.
-    :attr str type: (optional) The type of the specified entity.
-    """
-
-    def __init__(self, text=None, type=None):
-        """
-        Initialize a QueryEntitiesEntity object.
-
-        :param str text: (optional) Entity text content.
-        :param str type: (optional) The type of the specified entity.
-        """
-        self.text = text
-        self.type = type
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryEntitiesEntity object from a json dictionary."""
-        args = {}
-        validKeys = ['text', 'type']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryEntitiesEntity: '
-                + ', '.join(badKeys))
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
-        if hasattr(self, 'type') and self.type is not None:
-            _dict['type'] = self.type
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryEntitiesEntity object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryEntitiesResponse(object):
-    """
-    An object that contains an array of entities resulting from the query.
-
-    :attr list[QueryEntitiesResponseItem] entities: (optional) Array of entities that
-    results from the query.
-    """
-
-    def __init__(self, entities=None):
-        """
-        Initialize a QueryEntitiesResponse object.
-
-        :param list[QueryEntitiesResponseItem] entities: (optional) Array of entities that
-        results from the query.
-        """
-        self.entities = entities
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryEntitiesResponse object from a json dictionary."""
-        args = {}
-        validKeys = ['entities']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryEntitiesResponse: '
-                + ', '.join(badKeys))
-        if 'entities' in _dict:
-            args['entities'] = [
-                QueryEntitiesResponseItem._from_dict(x)
-                for x in (_dict.get('entities'))
-            ]
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x._to_dict() for x in self.entities]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryEntitiesResponse object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryEntitiesResponseItem(object):
-    """
-    Object containing Entity query response information.
-
-    :attr str text: (optional) Entity text content.
-    :attr str type: (optional) The type of the result entity.
-    :attr list[QueryEvidence] evidence: (optional) List of different evidentiary items to
-    support the result.
-    """
-
-    def __init__(self, text=None, type=None, evidence=None):
-        """
-        Initialize a QueryEntitiesResponseItem object.
-
-        :param str text: (optional) Entity text content.
-        :param str type: (optional) The type of the result entity.
-        :param list[QueryEvidence] evidence: (optional) List of different evidentiary
-        items to support the result.
-        """
-        self.text = text
-        self.type = type
-        self.evidence = evidence
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryEntitiesResponseItem object from a json dictionary."""
-        args = {}
-        validKeys = ['text', 'type', 'evidence']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryEntitiesResponseItem: '
-                + ', '.join(badKeys))
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
-        if 'evidence' in _dict:
-            args['evidence'] = [
-                QueryEvidence._from_dict(x) for x in (_dict.get('evidence'))
-            ]
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
-        if hasattr(self, 'type') and self.type is not None:
-            _dict['type'] = self.type
-        if hasattr(self, 'evidence') and self.evidence is not None:
-            _dict['evidence'] = [x._to_dict() for x in self.evidence]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryEntitiesResponseItem object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryEvidence(object):
-    """
-    Description of evidence location supporting Knoweldge Graph query result.
-
-    :attr str document_id: (optional) The docuemnt ID (as indexed in Discovery) of the
-    evidence location.
-    :attr str field: (optional) The field of the document where the supporting evidence
-    was identified.
-    :attr int start_offset: (optional) The start location of the evidence in the
-    identified field. This value is inclusive.
-    :attr int end_offset: (optional) The end location of the evidence in the identified
-    field. This value is inclusive.
-    :attr list[QueryEvidenceEntity] entities: (optional) An array of entity objects that
-    show evidence of the result.
-    """
-
-    def __init__(self,
-                 document_id=None,
-                 field=None,
-                 start_offset=None,
-                 end_offset=None,
-                 entities=None):
-        """
-        Initialize a QueryEvidence object.
-
-        :param str document_id: (optional) The docuemnt ID (as indexed in Discovery) of
-        the evidence location.
-        :param str field: (optional) The field of the document where the supporting
-        evidence was identified.
-        :param int start_offset: (optional) The start location of the evidence in the
-        identified field. This value is inclusive.
-        :param int end_offset: (optional) The end location of the evidence in the
-        identified field. This value is inclusive.
-        :param list[QueryEvidenceEntity] entities: (optional) An array of entity objects
-        that show evidence of the result.
-        """
-        self.document_id = document_id
-        self.field = field
-        self.start_offset = start_offset
-        self.end_offset = end_offset
-        self.entities = entities
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryEvidence object from a json dictionary."""
-        args = {}
-        validKeys = [
-            'document_id', 'field', 'start_offset', 'end_offset', 'entities'
-        ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryEvidence: '
-                + ', '.join(badKeys))
-        if 'document_id' in _dict:
-            args['document_id'] = _dict.get('document_id')
-        if 'field' in _dict:
-            args['field'] = _dict.get('field')
-        if 'start_offset' in _dict:
-            args['start_offset'] = _dict.get('start_offset')
-        if 'end_offset' in _dict:
-            args['end_offset'] = _dict.get('end_offset')
-        if 'entities' in _dict:
-            args['entities'] = [
-                QueryEvidenceEntity._from_dict(x)
-                for x in (_dict.get('entities'))
-            ]
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'document_id') and self.document_id is not None:
-            _dict['document_id'] = self.document_id
-        if hasattr(self, 'field') and self.field is not None:
-            _dict['field'] = self.field
-        if hasattr(self, 'start_offset') and self.start_offset is not None:
-            _dict['start_offset'] = self.start_offset
-        if hasattr(self, 'end_offset') and self.end_offset is not None:
-            _dict['end_offset'] = self.end_offset
-        if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x._to_dict() for x in self.entities]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryEvidence object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryEvidenceEntity(object):
-    """
-    Entity description and location within evidence field.
-
-    :attr str type: (optional) The entity type for this entity. Possible types vary based
-    on model used.
-    :attr str text: (optional) The original text of this entity as found in the evidence
-    field.
-    :attr int start_offset: (optional) The start location of the entity text in the
-    identified field. This value is inclusive.
-    :attr int end_offset: (optional) The end location of the entity text in the identified
-    field. This value is exclusive.
-    """
-
-    def __init__(self, type=None, text=None, start_offset=None,
-                 end_offset=None):
-        """
-        Initialize a QueryEvidenceEntity object.
-
-        :param str type: (optional) The entity type for this entity. Possible types vary
-        based on model used.
-        :param str text: (optional) The original text of this entity as found in the
-        evidence field.
-        :param int start_offset: (optional) The start location of the entity text in the
-        identified field. This value is inclusive.
-        :param int end_offset: (optional) The end location of the entity text in the
-        identified field. This value is exclusive.
-        """
-        self.type = type
-        self.text = text
-        self.start_offset = start_offset
-        self.end_offset = end_offset
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryEvidenceEntity object from a json dictionary."""
-        args = {}
-        validKeys = ['type', 'text', 'start_offset', 'end_offset']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryEvidenceEntity: '
-                + ', '.join(badKeys))
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        if 'start_offset' in _dict:
-            args['start_offset'] = _dict.get('start_offset')
-        if 'end_offset' in _dict:
-            args['end_offset'] = _dict.get('end_offset')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'type') and self.type is not None:
-            _dict['type'] = self.type
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
-        if hasattr(self, 'start_offset') and self.start_offset is not None:
-            _dict['start_offset'] = self.start_offset
-        if hasattr(self, 'end_offset') and self.end_offset is not None:
-            _dict['end_offset'] = self.end_offset
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryEvidenceEntity object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryFilterType(object):
-    """
-    QueryFilterType.
-
-    :attr list[str] exclude: (optional) A comma-separated list of types to exclude.
-    :attr list[str] include: (optional) A comma-separated list of types to include. All
-    other types are excluded.
-    """
-
-    def __init__(self, exclude=None, include=None):
-        """
-        Initialize a QueryFilterType object.
-
-        :param list[str] exclude: (optional) A comma-separated list of types to exclude.
-        :param list[str] include: (optional) A comma-separated list of types to include.
-        All other types are excluded.
-        """
-        self.exclude = exclude
-        self.include = include
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryFilterType object from a json dictionary."""
-        args = {}
-        validKeys = ['exclude', 'include']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryFilterType: '
-                + ', '.join(badKeys))
-        if 'exclude' in _dict:
-            args['exclude'] = _dict.get('exclude')
-        if 'include' in _dict:
-            args['include'] = _dict.get('include')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'exclude') and self.exclude is not None:
-            _dict['exclude'] = self.exclude
-        if hasattr(self, 'include') and self.include is not None:
-            _dict['include'] = self.include
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryFilterType object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryNoticesResponse(object):
-    """
-    QueryNoticesResponse.
+    Object containing notice query results.
 
     :attr int matching_results: (optional) The number of matching results.
-    :attr list[QueryNoticesResult] results: (optional) Array of document results that
-    match the query.
-    :attr list[QueryAggregation] aggregations: (optional) Array of aggregation results
-    that match the query.
-    :attr list[QueryPassages] passages: (optional) Array of passage results that match the
-    query.
-    :attr int duplicates_removed: (optional) The number of duplicates removed from this
-    notices query.
+    :attr list[QueryNoticesResult] results: (optional) Array of document results
+          that match the query.
+    :attr list[QueryAggregation] aggregations: (optional) Array of aggregation
+          results that match the query.
+    :attr list[QueryPassages] passages: (optional) Array of passage results that
+          match the query.
+    :attr int duplicates_removed: (optional) The number of duplicates removed from
+          this notices query.
     """
 
     def __init__(self,
+                 *,
                  matching_results=None,
                  results=None,
                  aggregations=None,
@@ -9808,14 +9559,14 @@ class QueryNoticesResponse(object):
         Initialize a QueryNoticesResponse object.
 
         :param int matching_results: (optional) The number of matching results.
-        :param list[QueryNoticesResult] results: (optional) Array of document results that
-        match the query.
+        :param list[QueryNoticesResult] results: (optional) Array of document
+               results that match the query.
         :param list[QueryAggregation] aggregations: (optional) Array of aggregation
-        results that match the query.
-        :param list[QueryPassages] passages: (optional) Array of passage results that
-        match the query.
-        :param int duplicates_removed: (optional) The number of duplicates removed from
-        this notices query.
+               results that match the query.
+        :param list[QueryPassages] passages: (optional) Array of passage results
+               that match the query.
+        :param int duplicates_removed: (optional) The number of duplicates removed
+               from this notices query.
         """
         self.matching_results = matching_results
         self.results = results
@@ -9827,15 +9578,15 @@ class QueryNoticesResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a QueryNoticesResponse object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'matching_results', 'results', 'aggregations', 'passages',
             'duplicates_removed'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class QueryNoticesResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'matching_results' in _dict:
             args['matching_results'] = _dict.get('matching_results')
         if 'results' in _dict:
@@ -9888,26 +9639,28 @@ class QueryNoticesResponse(object):
         return not self == other
 
 
-class QueryNoticesResult(object):
+class QueryNoticesResult():
     """
-    QueryNoticesResult.
+    Query result object.
 
     :attr str id: (optional) The unique identifier of the document.
     :attr dict metadata: (optional) Metadata of the document.
-    :attr str collection_id: (optional) The collection ID of the collection containing the
-    document for this result.
-    :attr QueryResultMetadata result_metadata: (optional) Metadata of a query result.
+    :attr str collection_id: (optional) The collection ID of the collection
+          containing the document for this result.
+    :attr QueryResultMetadata result_metadata: (optional) Metadata of a query
+          result.
     :attr str title: (optional) Automatically extracted result title.
     :attr int code: (optional) The internal status code returned by the ingestion
-    subsystem indicating the overall result of ingesting the source document.
+          subsystem indicating the overall result of ingesting the source document.
     :attr str filename: (optional) Name of the original source file (if available).
     :attr str file_type: (optional) The type of the original source file.
-    :attr str sha1: (optional) The SHA-1 hash of the original source file (formatted as a
-    hexadecimal string).
+    :attr str sha1: (optional) The SHA-1 hash of the original source file (formatted
+          as a hexadecimal string).
     :attr list[Notice] notices: (optional) Array of notices for the document.
     """
 
     def __init__(self,
+                 *,
                  id=None,
                  metadata=None,
                  collection_id=None,
@@ -9925,15 +9678,18 @@ class QueryNoticesResult(object):
         :param str id: (optional) The unique identifier of the document.
         :param dict metadata: (optional) Metadata of the document.
         :param str collection_id: (optional) The collection ID of the collection
-        containing the document for this result.
-        :param QueryResultMetadata result_metadata: (optional) Metadata of a query result.
+               containing the document for this result.
+        :param QueryResultMetadata result_metadata: (optional) Metadata of a query
+               result.
         :param str title: (optional) Automatically extracted result title.
-        :param int code: (optional) The internal status code returned by the ingestion
-        subsystem indicating the overall result of ingesting the source document.
-        :param str filename: (optional) Name of the original source file (if available).
+        :param int code: (optional) The internal status code returned by the
+               ingestion subsystem indicating the overall result of ingesting the source
+               document.
+        :param str filename: (optional) Name of the original source file (if
+               available).
         :param str file_type: (optional) The type of the original source file.
-        :param str sha1: (optional) The SHA-1 hash of the original source file (formatted
-        as a hexadecimal string).
+        :param str sha1: (optional) The SHA-1 hash of the original source file
+               (formatted as a hexadecimal string).
         :param list[Notice] notices: (optional) Array of notices for the document.
         :param **kwargs: (optional) Any additional properties.
         """
@@ -10048,25 +9804,35 @@ class QueryNoticesResult(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class FileTypeEnum(Enum):
+        """
+        The type of the original source file.
+        """
+        PDF = "pdf"
+        HTML = "html"
+        WORD = "word"
+        JSON = "json"
 
-class QueryPassages(object):
+
+class QueryPassages():
     """
-    QueryPassages.
+    A passage query result.
 
-    :attr str document_id: (optional) The unique identifier of the document from which the
-    passage has been extracted.
-    :attr float passage_score: (optional) The confidence score of the passages's analysis.
-    A higher score indicates greater confidence.
+    :attr str document_id: (optional) The unique identifier of the document from
+          which the passage has been extracted.
+    :attr float passage_score: (optional) The confidence score of the passages's
+          analysis. A higher score indicates greater confidence.
     :attr str passage_text: (optional) The content of the extracted passage.
     :attr int start_offset: (optional) The position of the first character of the
-    extracted passage in the originating field.
-    :attr int end_offset: (optional) The position of the last character of the extracted
-    passage in the originating field.
-    :attr str field: (optional) The label of the field from which the passage has been
-    extracted.
+          extracted passage in the originating field.
+    :attr int end_offset: (optional) The position of the last character of the
+          extracted passage in the originating field.
+    :attr str field: (optional) The label of the field from which the passage has
+          been extracted.
     """
 
     def __init__(self,
+                 *,
                  document_id=None,
                  passage_score=None,
                  passage_text=None,
@@ -10076,17 +9842,17 @@ class QueryPassages(object):
         """
         Initialize a QueryPassages object.
 
-        :param str document_id: (optional) The unique identifier of the document from
-        which the passage has been extracted.
-        :param float passage_score: (optional) The confidence score of the passages's
-        analysis. A higher score indicates greater confidence.
+        :param str document_id: (optional) The unique identifier of the document
+               from which the passage has been extracted.
+        :param float passage_score: (optional) The confidence score of the
+               passages's analysis. A higher score indicates greater confidence.
         :param str passage_text: (optional) The content of the extracted passage.
-        :param int start_offset: (optional) The position of the first character of the
-        extracted passage in the originating field.
+        :param int start_offset: (optional) The position of the first character of
+               the extracted passage in the originating field.
         :param int end_offset: (optional) The position of the last character of the
-        extracted passage in the originating field.
-        :param str field: (optional) The label of the field from which the passage has
-        been extracted.
+               extracted passage in the originating field.
+        :param str field: (optional) The label of the field from which the passage
+               has been extracted.
         """
         self.document_id = document_id
         self.passage_score = passage_score
@@ -10099,15 +9865,15 @@ class QueryPassages(object):
     def _from_dict(cls, _dict):
         """Initialize a QueryPassages object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'document_id', 'passage_score', 'passage_text', 'start_offset',
             'end_offset', 'field'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class QueryPassages: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document_id' in _dict:
             args['document_id'] = _dict.get('document_id')
         if 'passage_score' in _dict:
@@ -10154,381 +9920,61 @@ class QueryPassages(object):
         return not self == other
 
 
-class QueryRelationsArgument(object):
-    """
-    QueryRelationsArgument.
-
-    :attr list[QueryEntitiesEntity] entities: (optional) Array of query entities.
-    """
-
-    def __init__(self, entities=None):
-        """
-        Initialize a QueryRelationsArgument object.
-
-        :param list[QueryEntitiesEntity] entities: (optional) Array of query entities.
-        """
-        self.entities = entities
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryRelationsArgument object from a json dictionary."""
-        args = {}
-        validKeys = ['entities']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryRelationsArgument: '
-                + ', '.join(badKeys))
-        if 'entities' in _dict:
-            args['entities'] = [
-                QueryEntitiesEntity._from_dict(x)
-                for x in (_dict.get('entities'))
-            ]
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x._to_dict() for x in self.entities]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryRelationsArgument object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryRelationsEntity(object):
-    """
-    QueryRelationsEntity.
-
-    :attr str text: (optional) Entity text content.
-    :attr str type: (optional) The type of the specified entity.
-    :attr bool exact: (optional) If false, implicit querying is performed. The default is
-    `false`.
-    """
-
-    def __init__(self, text=None, type=None, exact=None):
-        """
-        Initialize a QueryRelationsEntity object.
-
-        :param str text: (optional) Entity text content.
-        :param str type: (optional) The type of the specified entity.
-        :param bool exact: (optional) If false, implicit querying is performed. The
-        default is `false`.
-        """
-        self.text = text
-        self.type = type
-        self.exact = exact
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryRelationsEntity object from a json dictionary."""
-        args = {}
-        validKeys = ['text', 'type', 'exact']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryRelationsEntity: '
-                + ', '.join(badKeys))
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
-        if 'exact' in _dict:
-            args['exact'] = _dict.get('exact')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
-        if hasattr(self, 'type') and self.type is not None:
-            _dict['type'] = self.type
-        if hasattr(self, 'exact') and self.exact is not None:
-            _dict['exact'] = self.exact
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryRelationsEntity object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryRelationsFilter(object):
-    """
-    QueryRelationsFilter.
-
-    :attr QueryFilterType relation_types: (optional)
-    :attr QueryFilterType entity_types: (optional)
-    :attr list[str] document_ids: (optional) A comma-separated list of document IDs to
-    include in the query.
-    """
-
-    def __init__(self,
-                 relation_types=None,
-                 entity_types=None,
-                 document_ids=None):
-        """
-        Initialize a QueryRelationsFilter object.
-
-        :param QueryFilterType relation_types: (optional)
-        :param QueryFilterType entity_types: (optional)
-        :param list[str] document_ids: (optional) A comma-separated list of document IDs
-        to include in the query.
-        """
-        self.relation_types = relation_types
-        self.entity_types = entity_types
-        self.document_ids = document_ids
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryRelationsFilter object from a json dictionary."""
-        args = {}
-        validKeys = ['relation_types', 'entity_types', 'document_ids']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryRelationsFilter: '
-                + ', '.join(badKeys))
-        if 'relation_types' in _dict:
-            args['relation_types'] = QueryFilterType._from_dict(
-                _dict.get('relation_types'))
-        if 'entity_types' in _dict:
-            args['entity_types'] = QueryFilterType._from_dict(
-                _dict.get('entity_types'))
-        if 'document_ids' in _dict:
-            args['document_ids'] = _dict.get('document_ids')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'relation_types') and self.relation_types is not None:
-            _dict['relation_types'] = self.relation_types._to_dict()
-        if hasattr(self, 'entity_types') and self.entity_types is not None:
-            _dict['entity_types'] = self.entity_types._to_dict()
-        if hasattr(self, 'document_ids') and self.document_ids is not None:
-            _dict['document_ids'] = self.document_ids
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryRelationsFilter object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryRelationsRelationship(object):
-    """
-    QueryRelationsRelationship.
-
-    :attr str type: (optional) The identified relationship type.
-    :attr int frequency: (optional) The number of times the relationship is mentioned.
-    :attr list[QueryRelationsArgument] arguments: (optional) Information about the
-    relationship.
-    :attr list[QueryEvidence] evidence: (optional) List of different evidentiary items to
-    support the result.
-    """
-
-    def __init__(self, type=None, frequency=None, arguments=None,
-                 evidence=None):
-        """
-        Initialize a QueryRelationsRelationship object.
-
-        :param str type: (optional) The identified relationship type.
-        :param int frequency: (optional) The number of times the relationship is
-        mentioned.
-        :param list[QueryRelationsArgument] arguments: (optional) Information about the
-        relationship.
-        :param list[QueryEvidence] evidence: (optional) List of different evidentiary
-        items to support the result.
-        """
-        self.type = type
-        self.frequency = frequency
-        self.arguments = arguments
-        self.evidence = evidence
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryRelationsRelationship object from a json dictionary."""
-        args = {}
-        validKeys = ['type', 'frequency', 'arguments', 'evidence']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryRelationsRelationship: '
-                + ', '.join(badKeys))
-        if 'type' in _dict:
-            args['type'] = _dict.get('type')
-        if 'frequency' in _dict:
-            args['frequency'] = _dict.get('frequency')
-        if 'arguments' in _dict:
-            args['arguments'] = [
-                QueryRelationsArgument._from_dict(x)
-                for x in (_dict.get('arguments'))
-            ]
-        if 'evidence' in _dict:
-            args['evidence'] = [
-                QueryEvidence._from_dict(x) for x in (_dict.get('evidence'))
-            ]
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'type') and self.type is not None:
-            _dict['type'] = self.type
-        if hasattr(self, 'frequency') and self.frequency is not None:
-            _dict['frequency'] = self.frequency
-        if hasattr(self, 'arguments') and self.arguments is not None:
-            _dict['arguments'] = [x._to_dict() for x in self.arguments]
-        if hasattr(self, 'evidence') and self.evidence is not None:
-            _dict['evidence'] = [x._to_dict() for x in self.evidence]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryRelationsRelationship object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryRelationsResponse(object):
-    """
-    QueryRelationsResponse.
-
-    :attr list[QueryRelationsRelationship] relations: (optional) Array of relationships
-    for the relations query.
-    """
-
-    def __init__(self, relations=None):
-        """
-        Initialize a QueryRelationsResponse object.
-
-        :param list[QueryRelationsRelationship] relations: (optional) Array of
-        relationships for the relations query.
-        """
-        self.relations = relations
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryRelationsResponse object from a json dictionary."""
-        args = {}
-        validKeys = ['relations']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryRelationsResponse: '
-                + ', '.join(badKeys))
-        if 'relations' in _dict:
-            args['relations'] = [
-                QueryRelationsRelationship._from_dict(x)
-                for x in (_dict.get('relations'))
-            ]
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'relations') and self.relations is not None:
-            _dict['relations'] = [x._to_dict() for x in self.relations]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryRelationsResponse object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryResponse(object):
+class QueryResponse():
     """
     A response containing the documents and aggregations for the query.
 
-    :attr int matching_results: (optional) The number of matching results for the query.
-    :attr list[QueryResult] results: (optional) Array of document results for the query.
-    :attr list[QueryAggregation] aggregations: (optional) Array of aggregation results for
-    the query.
-    :attr list[QueryPassages] passages: (optional) Array of passage results for the query.
-    :attr int duplicates_removed: (optional) The number of duplicate results removed.
-    :attr str session_token: (optional) The session token for this query. The session
-    token can be used to add events associated with this query to the query and event log.
-    **Important:** Session tokens are case sensitive.
-    :attr RetrievalDetails retrieval_details: (optional) An object contain retrieval type
-    information.
+    :attr int matching_results: (optional) The number of matching results for the
+          query.
+    :attr list[QueryResult] results: (optional) Array of document results for the
+          query.
+    :attr list[QueryAggregation] aggregations: (optional) Array of aggregation
+          results for the query.
+    :attr list[QueryPassages] passages: (optional) Array of passage results for the
+          query.
+    :attr int duplicates_removed: (optional) The number of duplicate results
+          removed.
+    :attr str session_token: (optional) The session token for this query. The
+          session token can be used to add events associated with this query to the query
+          and event log.
+          **Important:** Session tokens are case sensitive.
+    :attr RetrievalDetails retrieval_details: (optional) An object contain retrieval
+          type information.
+    :attr str suggested_query: (optional) The suggestions for a misspelled natural
+          language query.
     """
 
     def __init__(self,
+                 *,
                  matching_results=None,
                  results=None,
                  aggregations=None,
                  passages=None,
                  duplicates_removed=None,
                  session_token=None,
-                 retrieval_details=None):
+                 retrieval_details=None,
+                 suggested_query=None):
         """
         Initialize a QueryResponse object.
 
-        :param int matching_results: (optional) The number of matching results for the
-        query.
-        :param list[QueryResult] results: (optional) Array of document results for the
-        query.
+        :param int matching_results: (optional) The number of matching results for
+               the query.
+        :param list[QueryResult] results: (optional) Array of document results for
+               the query.
         :param list[QueryAggregation] aggregations: (optional) Array of aggregation
-        results for the query.
-        :param list[QueryPassages] passages: (optional) Array of passage results for the
-        query.
-        :param int duplicates_removed: (optional) The number of duplicate results removed.
-        :param str session_token: (optional) The session token for this query. The session
-        token can be used to add events associated with this query to the query and event
-        log.
-        **Important:** Session tokens are case sensitive.
-        :param RetrievalDetails retrieval_details: (optional) An object contain retrieval
-        type information.
+               results for the query.
+        :param list[QueryPassages] passages: (optional) Array of passage results
+               for the query.
+        :param int duplicates_removed: (optional) The number of duplicate results
+               removed.
+        :param str session_token: (optional) The session token for this query. The
+               session token can be used to add events associated with this query to the
+               query and event log.
+               **Important:** Session tokens are case sensitive.
+        :param RetrievalDetails retrieval_details: (optional) An object contain
+               retrieval type information.
+        :param str suggested_query: (optional) The suggestions for a misspelled
+               natural language query.
         """
         self.matching_results = matching_results
         self.results = results
@@ -10537,20 +9983,22 @@ class QueryResponse(object):
         self.duplicates_removed = duplicates_removed
         self.session_token = session_token
         self.retrieval_details = retrieval_details
+        self.suggested_query = suggested_query
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a QueryResponse object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'matching_results', 'results', 'aggregations', 'passages',
-            'duplicates_removed', 'session_token', 'retrieval_details'
+            'duplicates_removed', 'session_token', 'retrieval_details',
+            'suggested_query'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class QueryResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'matching_results' in _dict:
             args['matching_results'] = _dict.get('matching_results')
         if 'results' in _dict:
@@ -10573,6 +10021,8 @@ class QueryResponse(object):
         if 'retrieval_details' in _dict:
             args['retrieval_details'] = RetrievalDetails._from_dict(
                 _dict.get('retrieval_details'))
+        if 'suggested_query' in _dict:
+            args['suggested_query'] = _dict.get('suggested_query')
         return cls(**args)
 
     def _to_dict(self):
@@ -10596,6 +10046,9 @@ class QueryResponse(object):
         if hasattr(self,
                    'retrieval_details') and self.retrieval_details is not None:
             _dict['retrieval_details'] = self.retrieval_details._to_dict()
+        if hasattr(self,
+                   'suggested_query') and self.suggested_query is not None:
+            _dict['suggested_query'] = self.suggested_query
         return _dict
 
     def __str__(self):
@@ -10613,19 +10066,21 @@ class QueryResponse(object):
         return not self == other
 
 
-class QueryResult(object):
+class QueryResult():
     """
-    QueryResult.
+    Query result object.
 
     :attr str id: (optional) The unique identifier of the document.
     :attr dict metadata: (optional) Metadata of the document.
-    :attr str collection_id: (optional) The collection ID of the collection containing the
-    document for this result.
-    :attr QueryResultMetadata result_metadata: (optional) Metadata of a query result.
+    :attr str collection_id: (optional) The collection ID of the collection
+          containing the document for this result.
+    :attr QueryResultMetadata result_metadata: (optional) Metadata of a query
+          result.
     :attr str title: (optional) Automatically extracted result title.
     """
 
     def __init__(self,
+                 *,
                  id=None,
                  metadata=None,
                  collection_id=None,
@@ -10638,8 +10093,9 @@ class QueryResult(object):
         :param str id: (optional) The unique identifier of the document.
         :param dict metadata: (optional) Metadata of the document.
         :param str collection_id: (optional) The collection ID of the collection
-        containing the document for this result.
-        :param QueryResultMetadata result_metadata: (optional) Metadata of a query result.
+               containing the document for this result.
+        :param QueryResultMetadata result_metadata: (optional) Metadata of a query
+               result.
         :param str title: (optional) Automatically extracted result title.
         :param **kwargs: (optional) Any additional properties.
         """
@@ -10721,32 +10177,33 @@ class QueryResult(object):
         return not self == other
 
 
-class QueryResultMetadata(object):
+class QueryResultMetadata():
     """
     Metadata of a query result.
 
     :attr float score: An unbounded measure of the relevance of a particular result,
-    dependent on the query and matching document. A higher score indicates a greater match
-    to the query parameters.
+          dependent on the query and matching document. A higher score indicates a greater
+          match to the query parameters.
     :attr float confidence: (optional) The confidence score for the given result.
-    Calculated based on how relevant the result is estimated to be. confidence can range
-    from `0.0` to `1.0`. The higher the number, the more relevant the document. The
-    `confidence` value for a result was calculated using the model specified in the
-    `document_retrieval_strategy` field of the result set.
+          Calculated based on how relevant the result is estimated to be. confidence can
+          range from `0.0` to `1.0`. The higher the number, the more relevant the
+          document. The `confidence` value for a result was calculated using the model
+          specified in the `document_retrieval_strategy` field of the result set.
     """
 
-    def __init__(self, score, confidence=None):
+    def __init__(self, score, *, confidence=None):
         """
         Initialize a QueryResultMetadata object.
 
-        :param float score: An unbounded measure of the relevance of a particular result,
-        dependent on the query and matching document. A higher score indicates a greater
-        match to the query parameters.
-        :param float confidence: (optional) The confidence score for the given result.
-        Calculated based on how relevant the result is estimated to be. confidence can
-        range from `0.0` to `1.0`. The higher the number, the more relevant the document.
-        The `confidence` value for a result was calculated using the model specified in
-        the `document_retrieval_strategy` field of the result set.
+        :param float score: An unbounded measure of the relevance of a particular
+               result, dependent on the query and matching document. A higher score
+               indicates a greater match to the query parameters.
+        :param float confidence: (optional) The confidence score for the given
+               result. Calculated based on how relevant the result is estimated to be.
+               confidence can range from `0.0` to `1.0`. The higher the number, the more
+               relevant the document. The `confidence` value for a result was calculated
+               using the model specified in the `document_retrieval_strategy` field of the
+               result set.
         """
         self.score = score
         self.confidence = confidence
@@ -10755,12 +10212,12 @@ class QueryResultMetadata(object):
     def _from_dict(cls, _dict):
         """Initialize a QueryResultMetadata object from a json dictionary."""
         args = {}
-        validKeys = ['score', 'confidence']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['score', 'confidence']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class QueryResultMetadata: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'score' in _dict:
             args['score'] = _dict.get('score')
         else:
@@ -10795,34 +10252,35 @@ class QueryResultMetadata(object):
         return not self == other
 
 
-class RetrievalDetails(object):
+class RetrievalDetails():
     """
     An object contain retrieval type information.
 
-    :attr str document_retrieval_strategy: (optional) Indentifies the document retrieval
-    strategy used for this query. `relevancy_training` indicates that the results were
-    returned using a relevancy trained model. `continuous_relevancy_training` indicates
-    that the results were returned using the continuous relevancy training model created
-    by result feedback analysis. `untrained` means the results were returned using the
-    standard untrained model.
-     **Note**: In the event of trained collections being queried, but the trained model is
-    not used to return results, the **document_retrieval_strategy** will be listed as
-    `untrained`.
+    :attr str document_retrieval_strategy: (optional) Indentifies the document
+          retrieval strategy used for this query. `relevancy_training` indicates that the
+          results were returned using a relevancy trained model.
+          `continuous_relevancy_training` indicates that the results were returned using
+          the continuous relevancy training model created by result feedback analysis.
+          `untrained` means the results were returned using the standard untrained model.
+           **Note**: In the event of trained collections being queried, but the trained
+          model is not used to return results, the **document_retrieval_strategy** will be
+          listed as `untrained`.
     """
 
-    def __init__(self, document_retrieval_strategy=None):
+    def __init__(self, *, document_retrieval_strategy=None):
         """
         Initialize a RetrievalDetails object.
 
         :param str document_retrieval_strategy: (optional) Indentifies the document
-        retrieval strategy used for this query. `relevancy_training` indicates that the
-        results were returned using a relevancy trained model.
-        `continuous_relevancy_training` indicates that the results were returned using the
-        continuous relevancy training model created by result feedback analysis.
-        `untrained` means the results were returned using the standard untrained model.
-         **Note**: In the event of trained collections being queried, but the trained
-        model is not used to return results, the **document_retrieval_strategy** will be
-        listed as `untrained`.
+               retrieval strategy used for this query. `relevancy_training` indicates that
+               the results were returned using a relevancy trained model.
+               `continuous_relevancy_training` indicates that the results were returned
+               using the continuous relevancy training model created by result feedback
+               analysis. `untrained` means the results were returned using the standard
+               untrained model.
+                **Note**: In the event of trained collections being queried, but the
+               trained model is not used to return results, the
+               **document_retrieval_strategy** will be listed as `untrained`.
         """
         self.document_retrieval_strategy = document_retrieval_strategy
 
@@ -10830,12 +10288,12 @@ class RetrievalDetails(object):
     def _from_dict(cls, _dict):
         """Initialize a RetrievalDetails object from a json dictionary."""
         args = {}
-        validKeys = ['document_retrieval_strategy']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['document_retrieval_strategy']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class RetrievalDetails: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document_retrieval_strategy' in _dict:
             args['document_retrieval_strategy'] = _dict.get(
                 'document_retrieval_strategy')
@@ -10864,33 +10322,52 @@ class RetrievalDetails(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class DocumentRetrievalStrategyEnum(Enum):
+        """
+        Indentifies the document retrieval strategy used for this query.
+        `relevancy_training` indicates that the results were returned using a relevancy
+        trained model. `continuous_relevancy_training` indicates that the results were
+        returned using the continuous relevancy training model created by result feedback
+        analysis. `untrained` means the results were returned using the standard untrained
+        model.
+         **Note**: In the event of trained collections being queried, but the trained
+        model is not used to return results, the **document_retrieval_strategy** will be
+        listed as `untrained`.
+        """
+        UNTRAINED = "untrained"
+        RELEVANCY_TRAINING = "relevancy_training"
+        CONTINUOUS_RELEVANCY_TRAINING = "continuous_relevancy_training"
 
-class SduStatus(object):
+
+class SduStatus():
     """
     Object containing smart document understanding information for this collection.
 
-    :attr bool enabled: (optional) When `true`, smart document understanding conversion is
-    enabled for this collection. All collections created with a version date after
-    `2019-04-30` have smart document understanding enabled. If `false`, documents added to
-    the collection are converted using the **conversion** settings specified in the
-    configuration associated with the collection.
-    :attr int total_annotated_pages: (optional) The total number of pages annotated using
-    smart document understanding in this collection.
-    :attr int total_pages: (optional) The current number of pages that can be used for
-    training smart document understanding. The `total_pages` number is calculated as the
-    total number of pages identified from the documents listed in the **total_documents**
-    field.
-    :attr int total_documents: (optional) The total number of documents in this collection
-    that can be used to train smart document understanding. For **lite** plan collections,
-    the maximum is the first 20 uploaded documents (not including HTML or JSON documents).
-    For other plans, the maximum is the first 40 uploaded documents (not including HTML or
-    JSON documents). When the maximum is reached, additional documents uploaded to the
-    collection are not considered for training smart document understanding.
-    :attr SduStatusCustomFields custom_fields: (optional) Information about custom smart
-    document understanding fields that exist in this collection.
+    :attr bool enabled: (optional) When `true`, smart document understanding
+          conversion is enabled for this collection. All collections created with a
+          version date after `2019-04-30` have smart document understanding enabled. If
+          `false`, documents added to the collection are converted using the
+          **conversion** settings specified in the configuration associated with the
+          collection.
+    :attr int total_annotated_pages: (optional) The total number of pages annotated
+          using smart document understanding in this collection.
+    :attr int total_pages: (optional) The current number of pages that can be used
+          for training smart document understanding. The `total_pages` number is
+          calculated as the total number of pages identified from the documents listed in
+          the **total_documents** field.
+    :attr int total_documents: (optional) The total number of documents in this
+          collection that can be used to train smart document understanding. For **lite**
+          plan collections, the maximum is the first 20 uploaded documents (not including
+          HTML or JSON documents). For other plans, the maximum is the first 40 uploaded
+          documents (not including HTML or JSON documents). When the maximum is reached,
+          additional documents uploaded to the collection are not considered for training
+          smart document understanding.
+    :attr SduStatusCustomFields custom_fields: (optional) Information about custom
+          smart document understanding fields that exist in this collection.
     """
 
     def __init__(self,
+                 *,
                  enabled=None,
                  total_annotated_pages=None,
                  total_pages=None,
@@ -10900,25 +10377,26 @@ class SduStatus(object):
         Initialize a SduStatus object.
 
         :param bool enabled: (optional) When `true`, smart document understanding
-        conversion is enabled for this collection. All collections created with a version
-        date after `2019-04-30` have smart document understanding enabled. If `false`,
-        documents added to the collection are converted using the **conversion** settings
-        specified in the configuration associated with the collection.
-        :param int total_annotated_pages: (optional) The total number of pages annotated
-        using smart document understanding in this collection.
-        :param int total_pages: (optional) The current number of pages that can be used
-        for training smart document understanding. The `total_pages` number is calculated
-        as the total number of pages identified from the documents listed in the
-        **total_documents** field.
-        :param int total_documents: (optional) The total number of documents in this
-        collection that can be used to train smart document understanding. For **lite**
-        plan collections, the maximum is the first 20 uploaded documents (not including
-        HTML or JSON documents). For other plans, the maximum is the first 40 uploaded
-        documents (not including HTML or JSON documents). When the maximum is reached,
-        additional documents uploaded to the collection are not considered for training
-        smart document understanding.
-        :param SduStatusCustomFields custom_fields: (optional) Information about custom
-        smart document understanding fields that exist in this collection.
+               conversion is enabled for this collection. All collections created with a
+               version date after `2019-04-30` have smart document understanding enabled.
+               If `false`, documents added to the collection are converted using the
+               **conversion** settings specified in the configuration associated with the
+               collection.
+        :param int total_annotated_pages: (optional) The total number of pages
+               annotated using smart document understanding in this collection.
+        :param int total_pages: (optional) The current number of pages that can be
+               used for training smart document understanding. The `total_pages` number is
+               calculated as the total number of pages identified from the documents
+               listed in the **total_documents** field.
+        :param int total_documents: (optional) The total number of documents in
+               this collection that can be used to train smart document understanding. For
+               **lite** plan collections, the maximum is the first 20 uploaded documents
+               (not including HTML or JSON documents). For other plans, the maximum is the
+               first 40 uploaded documents (not including HTML or JSON documents). When
+               the maximum is reached, additional documents uploaded to the collection are
+               not considered for training smart document understanding.
+        :param SduStatusCustomFields custom_fields: (optional) Information about
+               custom smart document understanding fields that exist in this collection.
         """
         self.enabled = enabled
         self.total_annotated_pages = total_annotated_pages
@@ -10930,15 +10408,15 @@ class SduStatus(object):
     def _from_dict(cls, _dict):
         """Initialize a SduStatus object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'enabled', 'total_annotated_pages', 'total_pages',
             'total_documents', 'custom_fields'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SduStatus: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'enabled' in _dict:
             args['enabled'] = _dict.get('enabled')
         if 'total_annotated_pages' in _dict:
@@ -10984,24 +10462,25 @@ class SduStatus(object):
         return not self == other
 
 
-class SduStatusCustomFields(object):
+class SduStatusCustomFields():
     """
     Information about custom smart document understanding fields that exist in this
     collection.
 
-    :attr int defined: (optional) The number of custom fields defined for this collection.
-    :attr int maximum_allowed: (optional) The maximum number of custom fields that are
-    allowed in this collection.
+    :attr int defined: (optional) The number of custom fields defined for this
+          collection.
+    :attr int maximum_allowed: (optional) The maximum number of custom fields that
+          are allowed in this collection.
     """
 
-    def __init__(self, defined=None, maximum_allowed=None):
+    def __init__(self, *, defined=None, maximum_allowed=None):
         """
         Initialize a SduStatusCustomFields object.
 
         :param int defined: (optional) The number of custom fields defined for this
-        collection.
-        :param int maximum_allowed: (optional) The maximum number of custom fields that
-        are allowed in this collection.
+               collection.
+        :param int maximum_allowed: (optional) The maximum number of custom fields
+               that are allowed in this collection.
         """
         self.defined = defined
         self.maximum_allowed = maximum_allowed
@@ -11010,12 +10489,12 @@ class SduStatusCustomFields(object):
     def _from_dict(cls, _dict):
         """Initialize a SduStatusCustomFields object from a json dictionary."""
         args = {}
-        validKeys = ['defined', 'maximum_allowed']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['defined', 'maximum_allowed']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SduStatusCustomFields: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'defined' in _dict:
             args['defined'] = _dict.get('defined')
         if 'maximum_allowed' in _dict:
@@ -11047,21 +10526,22 @@ class SduStatusCustomFields(object):
         return not self == other
 
 
-class SearchStatus(object):
+class SearchStatus():
     """
     Information about the Continuous Relevancy Training for this environment.
 
     :attr str scope: (optional) Current scope of the training. Always returned as
-    `environment`.
-    :attr str status: (optional) The current status of Continuous Relevancy Training for
-    this environment.
-    :attr str status_description: (optional) Long description of the current Continuous
-    Relevancy Training status.
+          `environment`.
+    :attr str status: (optional) The current status of Continuous Relevancy Training
+          for this environment.
+    :attr str status_description: (optional) Long description of the current
+          Continuous Relevancy Training status.
     :attr date last_trained: (optional) The date stamp of the most recent completed
-    training for this environment.
+          training for this environment.
     """
 
     def __init__(self,
+                 *,
                  scope=None,
                  status=None,
                  status_description=None,
@@ -11069,14 +10549,14 @@ class SearchStatus(object):
         """
         Initialize a SearchStatus object.
 
-        :param str scope: (optional) Current scope of the training. Always returned as
-        `environment`.
-        :param str status: (optional) The current status of Continuous Relevancy Training
-        for this environment.
+        :param str scope: (optional) Current scope of the training. Always returned
+               as `environment`.
+        :param str status: (optional) The current status of Continuous Relevancy
+               Training for this environment.
         :param str status_description: (optional) Long description of the current
-        Continuous Relevancy Training status.
-        :param date last_trained: (optional) The date stamp of the most recent completed
-        training for this environment.
+               Continuous Relevancy Training status.
+        :param date last_trained: (optional) The date stamp of the most recent
+               completed training for this environment.
         """
         self.scope = scope
         self.status = status
@@ -11087,12 +10567,12 @@ class SearchStatus(object):
     def _from_dict(cls, _dict):
         """Initialize a SearchStatus object from a json dictionary."""
         args = {}
-        validKeys = ['scope', 'status', 'status_description', 'last_trained']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['scope', 'status', 'status_description', 'last_trained']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SearchStatus: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'scope' in _dict:
             args['scope'] = _dict.get('scope')
         if 'status' in _dict:
@@ -11132,49 +10612,67 @@ class SearchStatus(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class StatusEnum(Enum):
+        """
+        The current status of Continuous Relevancy Training for this environment.
+        """
+        NO_DATA = "NO_DATA"
+        INSUFFICENT_DATA = "INSUFFICENT_DATA"
+        TRAINING = "TRAINING"
+        TRAINED = "TRAINED"
+        NOT_APPLICABLE = "NOT_APPLICABLE"
 
-class SegmentSettings(object):
+
+class SegmentSettings():
     """
     A list of Document Segmentation settings.
 
-    :attr bool enabled: (optional) Enables/disables the Document Segmentation feature.
-    :attr list[str] selector_tags: (optional) Defines the heading level that splits into
-    document segments. Valid values are h1, h2, h3, h4, h5, h6. The content of the header
-    field that the segmentation splits at is used as the **title** field for that
-    segmented result. Only valid if used with a collection that has **enabled** set to
-    `false` in the **smart_document_understanding** object.
-    :attr list[str] annotated_fields: (optional) Defines the annotated smart document
-    understanding fields that the document is split on. The content of the annotated field
-    that the segmentation splits at is used as the **title** field for that segmented
-    result. For example, if the field `sub-title` is specified, when a document is
-    uploaded each time the smart documement understanding conversion encounters a field of
-    type `sub-title` the document is split at that point and the content of the field used
-    as the title of the remaining content. Thnis split is performed for all instances of
-    the listed fields in the uploaded document. Only valid if used with a collection that
-    has **enabled** set to `true` in the **smart_document_understanding** object.
+    :attr bool enabled: (optional) Enables/disables the Document Segmentation
+          feature.
+    :attr list[str] selector_tags: (optional) Defines the heading level that splits
+          into document segments. Valid values are h1, h2, h3, h4, h5, h6. The content of
+          the header field that the segmentation splits at is used as the **title** field
+          for that segmented result. Only valid if used with a collection that has
+          **enabled** set to `false` in the **smart_document_understanding** object.
+    :attr list[str] annotated_fields: (optional) Defines the annotated smart
+          document understanding fields that the document is split on. The content of the
+          annotated field that the segmentation splits at is used as the **title** field
+          for that segmented result. For example, if the field `sub-title` is specified,
+          when a document is uploaded each time the smart documement understanding
+          conversion encounters a field of type `sub-title` the document is split at that
+          point and the content of the field used as the title of the remaining content.
+          Thnis split is performed for all instances of the listed fields in the uploaded
+          document. Only valid if used with a collection that has **enabled** set to
+          `true` in the **smart_document_understanding** object.
     """
 
-    def __init__(self, enabled=None, selector_tags=None, annotated_fields=None):
+    def __init__(self,
+                 *,
+                 enabled=None,
+                 selector_tags=None,
+                 annotated_fields=None):
         """
         Initialize a SegmentSettings object.
 
         :param bool enabled: (optional) Enables/disables the Document Segmentation
-        feature.
-        :param list[str] selector_tags: (optional) Defines the heading level that splits
-        into document segments. Valid values are h1, h2, h3, h4, h5, h6. The content of
-        the header field that the segmentation splits at is used as the **title** field
-        for that segmented result. Only valid if used with a collection that has
-        **enabled** set to `false` in the **smart_document_understanding** object.
-        :param list[str] annotated_fields: (optional) Defines the annotated smart document
-        understanding fields that the document is split on. The content of the annotated
-        field that the segmentation splits at is used as the **title** field for that
-        segmented result. For example, if the field `sub-title` is specified, when a
-        document is uploaded each time the smart documement understanding conversion
-        encounters a field of type `sub-title` the document is split at that point and the
-        content of the field used as the title of the remaining content. Thnis split is
-        performed for all instances of the listed fields in the uploaded document. Only
-        valid if used with a collection that has **enabled** set to `true` in the
-        **smart_document_understanding** object.
+               feature.
+        :param list[str] selector_tags: (optional) Defines the heading level that
+               splits into document segments. Valid values are h1, h2, h3, h4, h5, h6. The
+               content of the header field that the segmentation splits at is used as the
+               **title** field for that segmented result. Only valid if used with a
+               collection that has **enabled** set to `false` in the
+               **smart_document_understanding** object.
+        :param list[str] annotated_fields: (optional) Defines the annotated smart
+               document understanding fields that the document is split on. The content of
+               the annotated field that the segmentation splits at is used as the
+               **title** field for that segmented result. For example, if the field
+               `sub-title` is specified, when a document is uploaded each time the smart
+               documement understanding conversion encounters a field of type `sub-title`
+               the document is split at that point and the content of the field used as
+               the title of the remaining content. Thnis split is performed for all
+               instances of the listed fields in the uploaded document. Only valid if used
+               with a collection that has **enabled** set to `true` in the
+               **smart_document_understanding** object.
         """
         self.enabled = enabled
         self.selector_tags = selector_tags
@@ -11184,12 +10682,12 @@ class SegmentSettings(object):
     def _from_dict(cls, _dict):
         """Initialize a SegmentSettings object from a json dictionary."""
         args = {}
-        validKeys = ['enabled', 'selector_tags', 'annotated_fields']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['enabled', 'selector_tags', 'annotated_fields']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SegmentSettings: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'enabled' in _dict:
             args['enabled'] = _dict.get('enabled')
         if 'selector_tags' in _dict:
@@ -11225,29 +10723,31 @@ class SegmentSettings(object):
         return not self == other
 
 
-class Source(object):
+class Source():
     """
     Object containing source parameters for the configuration.
 
     :attr str type: (optional) The type of source to connect to.
-    -  `box` indicates the configuration is to connect an instance of Enterprise Box.
-    -  `salesforce` indicates the configuration is to connect to Salesforce.
-    -  `sharepoint` indicates the configuration is to connect to Microsoft SharePoint
-    Online.
-    -  `web_crawl` indicates the configuration is to perform a web page crawl.
-    -  `cloud_object_storage` indicates the configuration is to connect to a cloud object
-    store.
-    :attr str credential_id: (optional) The **credential_id** of the credentials to use to
-    connect to the source. Credentials are defined using the **credentials** method. The
-    **source_type** of the credentials used must match the **type** field specified in
-    this object.
-    :attr SourceSchedule schedule: (optional) Object containing the schedule information
-    for the source.
-    :attr SourceOptions options: (optional) The **options** object defines which items to
-    crawl from the source system.
+          -  `box` indicates the configuration is to connect an instance of Enterprise
+          Box.
+          -  `salesforce` indicates the configuration is to connect to Salesforce.
+          -  `sharepoint` indicates the configuration is to connect to Microsoft
+          SharePoint Online.
+          -  `web_crawl` indicates the configuration is to perform a web page crawl.
+          -  `cloud_object_storage` indicates the configuration is to connect to a cloud
+          object store.
+    :attr str credential_id: (optional) The **credential_id** of the credentials to
+          use to connect to the source. Credentials are defined using the **credentials**
+          method. The **source_type** of the credentials used must match the **type**
+          field specified in this object.
+    :attr SourceSchedule schedule: (optional) Object containing the schedule
+          information for the source.
+    :attr SourceOptions options: (optional) The **options** object defines which
+          items to crawl from the source system.
     """
 
     def __init__(self,
+                 *,
                  type=None,
                  credential_id=None,
                  schedule=None,
@@ -11256,21 +10756,22 @@ class Source(object):
         Initialize a Source object.
 
         :param str type: (optional) The type of source to connect to.
-        -  `box` indicates the configuration is to connect an instance of Enterprise Box.
-        -  `salesforce` indicates the configuration is to connect to Salesforce.
-        -  `sharepoint` indicates the configuration is to connect to Microsoft SharePoint
-        Online.
-        -  `web_crawl` indicates the configuration is to perform a web page crawl.
-        -  `cloud_object_storage` indicates the configuration is to connect to a cloud
-        object store.
-        :param str credential_id: (optional) The **credential_id** of the credentials to
-        use to connect to the source. Credentials are defined using the **credentials**
-        method. The **source_type** of the credentials used must match the **type** field
-        specified in this object.
+               -  `box` indicates the configuration is to connect an instance of
+               Enterprise Box.
+               -  `salesforce` indicates the configuration is to connect to Salesforce.
+               -  `sharepoint` indicates the configuration is to connect to Microsoft
+               SharePoint Online.
+               -  `web_crawl` indicates the configuration is to perform a web page crawl.
+               -  `cloud_object_storage` indicates the configuration is to connect to a
+               cloud object store.
+        :param str credential_id: (optional) The **credential_id** of the
+               credentials to use to connect to the source. Credentials are defined using
+               the **credentials** method. The **source_type** of the credentials used
+               must match the **type** field specified in this object.
         :param SourceSchedule schedule: (optional) Object containing the schedule
-        information for the source.
-        :param SourceOptions options: (optional) The **options** object defines which
-        items to crawl from the source system.
+               information for the source.
+        :param SourceOptions options: (optional) The **options** object defines
+               which items to crawl from the source system.
         """
         self.type = type
         self.credential_id = credential_id
@@ -11281,12 +10782,12 @@ class Source(object):
     def _from_dict(cls, _dict):
         """Initialize a Source object from a json dictionary."""
         args = {}
-        validKeys = ['type', 'credential_id', 'schedule', 'options']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['type', 'credential_id', 'schedule', 'options']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Source: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'credential_id' in _dict:
@@ -11324,33 +10825,52 @@ class Source(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class TypeEnum(Enum):
+        """
+        The type of source to connect to.
+        -  `box` indicates the configuration is to connect an instance of Enterprise Box.
+        -  `salesforce` indicates the configuration is to connect to Salesforce.
+        -  `sharepoint` indicates the configuration is to connect to Microsoft SharePoint
+        Online.
+        -  `web_crawl` indicates the configuration is to perform a web page crawl.
+        -  `cloud_object_storage` indicates the configuration is to connect to a cloud
+        object store.
+        """
+        BOX = "box"
+        SALESFORCE = "salesforce"
+        SHAREPOINT = "sharepoint"
+        WEB_CRAWL = "web_crawl"
+        CLOUD_OBJECT_STORAGE = "cloud_object_storage"
 
-class SourceOptions(object):
+
+class SourceOptions():
     """
     The **options** object defines which items to crawl from the source system.
 
-    :attr list[SourceOptionsFolder] folders: (optional) Array of folders to crawl from the
-    Box source. Only valid, and required, when the **type** field of the **source** object
-    is set to `box`.
+    :attr list[SourceOptionsFolder] folders: (optional) Array of folders to crawl
+          from the Box source. Only valid, and required, when the **type** field of the
+          **source** object is set to `box`.
     :attr list[SourceOptionsObject] objects: (optional) Array of Salesforce document
-    object types to crawl from the Salesforce source. Only valid, and required, when the
-    **type** field of the **source** object is set to `salesforce`.
-    :attr list[SourceOptionsSiteColl] site_collections: (optional) Array of Microsoft
-    SharePointoint Online site collections to crawl from the SharePoint source. Only valid
-    and required when the **type** field of the **source** object is set to `sharepoint`.
-    :attr list[SourceOptionsWebCrawl] urls: (optional) Array of Web page URLs to begin
-    crawling the web from. Only valid and required when the **type** field of the
-    **source** object is set to `web_crawl`.
+          object types to crawl from the Salesforce source. Only valid, and required, when
+          the **type** field of the **source** object is set to `salesforce`.
+    :attr list[SourceOptionsSiteColl] site_collections: (optional) Array of
+          Microsoft SharePointoint Online site collections to crawl from the SharePoint
+          source. Only valid and required when the **type** field of the **source** object
+          is set to `sharepoint`.
+    :attr list[SourceOptionsWebCrawl] urls: (optional) Array of Web page URLs to
+          begin crawling the web from. Only valid and required when the **type** field of
+          the **source** object is set to `web_crawl`.
     :attr list[SourceOptionsBuckets] buckets: (optional) Array of cloud object store
-    buckets to begin crawling. Only valid and required when the **type** field of the
-    **source** object is set to `cloud_object_store`, and the **crawl_all_buckets** field
-    is `false` or not specified.
-    :attr bool crawl_all_buckets: (optional) When `true`, all buckets in the specified
-    cloud object store are crawled. If set to `true`, the **buckets** array must not be
-    specified.
+          buckets to begin crawling. Only valid and required when the **type** field of
+          the **source** object is set to `cloud_object_store`, and the
+          **crawl_all_buckets** field is `false` or not specified.
+    :attr bool crawl_all_buckets: (optional) When `true`, all buckets in the
+          specified cloud object store are crawled. If set to `true`, the **buckets**
+          array must not be specified.
     """
 
     def __init__(self,
+                 *,
                  folders=None,
                  objects=None,
                  site_collections=None,
@@ -11360,26 +10880,27 @@ class SourceOptions(object):
         """
         Initialize a SourceOptions object.
 
-        :param list[SourceOptionsFolder] folders: (optional) Array of folders to crawl
-        from the Box source. Only valid, and required, when the **type** field of the
-        **source** object is set to `box`.
-        :param list[SourceOptionsObject] objects: (optional) Array of Salesforce document
-        object types to crawl from the Salesforce source. Only valid, and required, when
-        the **type** field of the **source** object is set to `salesforce`.
-        :param list[SourceOptionsSiteColl] site_collections: (optional) Array of Microsoft
-        SharePointoint Online site collections to crawl from the SharePoint source. Only
-        valid and required when the **type** field of the **source** object is set to
-        `sharepoint`.
-        :param list[SourceOptionsWebCrawl] urls: (optional) Array of Web page URLs to
-        begin crawling the web from. Only valid and required when the **type** field of
-        the **source** object is set to `web_crawl`.
-        :param list[SourceOptionsBuckets] buckets: (optional) Array of cloud object store
-        buckets to begin crawling. Only valid and required when the **type** field of the
-        **source** object is set to `cloud_object_store`, and the **crawl_all_buckets**
-        field is `false` or not specified.
+        :param list[SourceOptionsFolder] folders: (optional) Array of folders to
+               crawl from the Box source. Only valid, and required, when the **type**
+               field of the **source** object is set to `box`.
+        :param list[SourceOptionsObject] objects: (optional) Array of Salesforce
+               document object types to crawl from the Salesforce source. Only valid, and
+               required, when the **type** field of the **source** object is set to
+               `salesforce`.
+        :param list[SourceOptionsSiteColl] site_collections: (optional) Array of
+               Microsoft SharePointoint Online site collections to crawl from the
+               SharePoint source. Only valid and required when the **type** field of the
+               **source** object is set to `sharepoint`.
+        :param list[SourceOptionsWebCrawl] urls: (optional) Array of Web page URLs
+               to begin crawling the web from. Only valid and required when the **type**
+               field of the **source** object is set to `web_crawl`.
+        :param list[SourceOptionsBuckets] buckets: (optional) Array of cloud object
+               store buckets to begin crawling. Only valid and required when the **type**
+               field of the **source** object is set to `cloud_object_store`, and the
+               **crawl_all_buckets** field is `false` or not specified.
         :param bool crawl_all_buckets: (optional) When `true`, all buckets in the
-        specified cloud object store are crawled. If set to `true`, the **buckets** array
-        must not be specified.
+               specified cloud object store are crawled. If set to `true`, the **buckets**
+               array must not be specified.
         """
         self.folders = folders
         self.objects = objects
@@ -11392,15 +10913,15 @@ class SourceOptions(object):
     def _from_dict(cls, _dict):
         """Initialize a SourceOptions object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'folders', 'objects', 'site_collections', 'urls', 'buckets',
             'crawl_all_buckets'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SourceOptions: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'folders' in _dict:
             args['folders'] = [
                 SourceOptionsFolder._from_dict(x)
@@ -11465,22 +10986,23 @@ class SourceOptions(object):
         return not self == other
 
 
-class SourceOptionsBuckets(object):
+class SourceOptionsBuckets():
     """
     Object defining a cloud object store bucket to crawl.
 
     :attr str name: The name of the cloud object store bucket to crawl.
-    :attr int limit: (optional) The number of documents to crawl from this cloud object
-    store bucket. If not specified, all documents in the bucket are crawled.
+    :attr int limit: (optional) The number of documents to crawl from this cloud
+          object store bucket. If not specified, all documents in the bucket are crawled.
     """
 
-    def __init__(self, name, limit=None):
+    def __init__(self, name, *, limit=None):
         """
         Initialize a SourceOptionsBuckets object.
 
         :param str name: The name of the cloud object store bucket to crawl.
-        :param int limit: (optional) The number of documents to crawl from this cloud
-        object store bucket. If not specified, all documents in the bucket are crawled.
+        :param int limit: (optional) The number of documents to crawl from this
+               cloud object store bucket. If not specified, all documents in the bucket
+               are crawled.
         """
         self.name = name
         self.limit = limit
@@ -11489,12 +11011,12 @@ class SourceOptionsBuckets(object):
     def _from_dict(cls, _dict):
         """Initialize a SourceOptionsBuckets object from a json dictionary."""
         args = {}
-        validKeys = ['name', 'limit']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['name', 'limit']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SourceOptionsBuckets: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         else:
@@ -11529,25 +11051,26 @@ class SourceOptionsBuckets(object):
         return not self == other
 
 
-class SourceOptionsFolder(object):
+class SourceOptionsFolder():
     """
     Object that defines a box folder to crawl with this configuration.
 
-    :attr str owner_user_id: The Box user ID of the user who owns the folder to crawl.
+    :attr str owner_user_id: The Box user ID of the user who owns the folder to
+          crawl.
     :attr str folder_id: The Box folder ID of the folder to crawl.
-    :attr int limit: (optional) The maximum number of documents to crawl for this folder.
-    By default, all documents in the folder are crawled.
+    :attr int limit: (optional) The maximum number of documents to crawl for this
+          folder. By default, all documents in the folder are crawled.
     """
 
-    def __init__(self, owner_user_id, folder_id, limit=None):
+    def __init__(self, owner_user_id, folder_id, *, limit=None):
         """
         Initialize a SourceOptionsFolder object.
 
-        :param str owner_user_id: The Box user ID of the user who owns the folder to
-        crawl.
+        :param str owner_user_id: The Box user ID of the user who owns the folder
+               to crawl.
         :param str folder_id: The Box folder ID of the folder to crawl.
-        :param int limit: (optional) The maximum number of documents to crawl for this
-        folder. By default, all documents in the folder are crawled.
+        :param int limit: (optional) The maximum number of documents to crawl for
+               this folder. By default, all documents in the folder are crawled.
         """
         self.owner_user_id = owner_user_id
         self.folder_id = folder_id
@@ -11557,12 +11080,12 @@ class SourceOptionsFolder(object):
     def _from_dict(cls, _dict):
         """Initialize a SourceOptionsFolder object from a json dictionary."""
         args = {}
-        validKeys = ['owner_user_id', 'folder_id', 'limit']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['owner_user_id', 'folder_id', 'limit']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SourceOptionsFolder: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'owner_user_id' in _dict:
             args['owner_user_id'] = _dict.get('owner_user_id')
         else:
@@ -11605,24 +11128,25 @@ class SourceOptionsFolder(object):
         return not self == other
 
 
-class SourceOptionsObject(object):
+class SourceOptionsObject():
     """
     Object that defines a Salesforce document object type crawl with this configuration.
 
-    :attr str name: The name of the Salesforce document object to crawl. For example,
-    `case`.
-    :attr int limit: (optional) The maximum number of documents to crawl for this document
-    object. By default, all documents in the document object are crawled.
+    :attr str name: The name of the Salesforce document object to crawl. For
+          example, `case`.
+    :attr int limit: (optional) The maximum number of documents to crawl for this
+          document object. By default, all documents in the document object are crawled.
     """
 
-    def __init__(self, name, limit=None):
+    def __init__(self, name, *, limit=None):
         """
         Initialize a SourceOptionsObject object.
 
-        :param str name: The name of the Salesforce document object to crawl. For example,
-        `case`.
-        :param int limit: (optional) The maximum number of documents to crawl for this
-        document object. By default, all documents in the document object are crawled.
+        :param str name: The name of the Salesforce document object to crawl. For
+               example, `case`.
+        :param int limit: (optional) The maximum number of documents to crawl for
+               this document object. By default, all documents in the document object are
+               crawled.
         """
         self.name = name
         self.limit = limit
@@ -11631,12 +11155,12 @@ class SourceOptionsObject(object):
     def _from_dict(cls, _dict):
         """Initialize a SourceOptionsObject object from a json dictionary."""
         args = {}
-        validKeys = ['name', 'limit']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['name', 'limit']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SourceOptionsObject: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         else:
@@ -11671,27 +11195,29 @@ class SourceOptionsObject(object):
         return not self == other
 
 
-class SourceOptionsSiteColl(object):
+class SourceOptionsSiteColl():
     """
     Object that defines a Microsoft SharePoint site collection to crawl with this
     configuration.
 
-    :attr str site_collection_path: The Microsoft SharePoint Online site collection path
-    to crawl. The path must be be relative to the **organization_url** that was specified
-    in the credentials associated with this source configuration.
-    :attr int limit: (optional) The maximum number of documents to crawl for this site
-    collection. By default, all documents in the site collection are crawled.
+    :attr str site_collection_path: The Microsoft SharePoint Online site collection
+          path to crawl. The path must be be relative to the **organization_url** that was
+          specified in the credentials associated with this source configuration.
+    :attr int limit: (optional) The maximum number of documents to crawl for this
+          site collection. By default, all documents in the site collection are crawled.
     """
 
-    def __init__(self, site_collection_path, limit=None):
+    def __init__(self, site_collection_path, *, limit=None):
         """
         Initialize a SourceOptionsSiteColl object.
 
-        :param str site_collection_path: The Microsoft SharePoint Online site collection
-        path to crawl. The path must be be relative to the **organization_url** that was
-        specified in the credentials associated with this source configuration.
-        :param int limit: (optional) The maximum number of documents to crawl for this
-        site collection. By default, all documents in the site collection are crawled.
+        :param str site_collection_path: The Microsoft SharePoint Online site
+               collection path to crawl. The path must be be relative to the
+               **organization_url** that was specified in the credentials associated with
+               this source configuration.
+        :param int limit: (optional) The maximum number of documents to crawl for
+               this site collection. By default, all documents in the site collection are
+               crawled.
         """
         self.site_collection_path = site_collection_path
         self.limit = limit
@@ -11700,12 +11226,12 @@ class SourceOptionsSiteColl(object):
     def _from_dict(cls, _dict):
         """Initialize a SourceOptionsSiteColl object from a json dictionary."""
         args = {}
-        validKeys = ['site_collection_path', 'limit']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['site_collection_path', 'limit']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SourceOptionsSiteColl: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'site_collection_path' in _dict:
             args['site_collection_path'] = _dict.get('site_collection_path')
         else:
@@ -11741,38 +11267,40 @@ class SourceOptionsSiteColl(object):
         return not self == other
 
 
-class SourceOptionsWebCrawl(object):
+class SourceOptionsWebCrawl():
     """
     Object defining which URL to crawl and how to crawl it.
 
     :attr str url: The starting URL to crawl.
-    :attr bool limit_to_starting_hosts: (optional) When `true`, crawls of the specified
-    URL are limited to the host part of the **url** field.
-    :attr str crawl_speed: (optional) The number of concurrent URLs to fetch. `gentle`
-    means one URL is fetched at a time with a delay between each call. `normal` means as
-    many as two URLs are fectched concurrently with a short delay between fetch calls.
-    `aggressive` means that up to ten URLs are fetched concurrently with a short delay
-    between fetch calls.
-    :attr bool allow_untrusted_certificate: (optional) When `true`, allows the crawl to
-    interact with HTTPS sites with SSL certificates with untrusted signers.
-    :attr int maximum_hops: (optional) The maximum number of hops to make from the initial
-    URL. When a page is crawled each link on that page will also be crawled if it is
-    within the **maximum_hops** from the initial URL. The first page crawled is 0 hops,
-    each link crawled from the first page is 1 hop, each link crawled from those pages is
-    2 hops, and so on.
-    :attr int request_timeout: (optional) The maximum milliseconds to wait for a response
-    from the web server.
-    :attr bool override_robots_txt: (optional) When `true`, the crawler will ignore any
-    `robots.txt` encountered by the crawler. This should only ever be done when crawling a
-    web site the user owns. This must be be set to `true` when a **gateway_id** is specied
-    in the **credentials**.
-    :attr list[str] blacklist: (optional) Array of URL's to be excluded while crawling.
-    The crawler will not follow links which contains this string. For example, listing
-    `https://ibm.com/watson` also excludes `https://ibm.com/watson/discovery`.
+    :attr bool limit_to_starting_hosts: (optional) When `true`, crawls of the
+          specified URL are limited to the host part of the **url** field.
+    :attr str crawl_speed: (optional) The number of concurrent URLs to fetch.
+          `gentle` means one URL is fetched at a time with a delay between each call.
+          `normal` means as many as two URLs are fectched concurrently with a short delay
+          between fetch calls. `aggressive` means that up to ten URLs are fetched
+          concurrently with a short delay between fetch calls.
+    :attr bool allow_untrusted_certificate: (optional) When `true`, allows the crawl
+          to interact with HTTPS sites with SSL certificates with untrusted signers.
+    :attr int maximum_hops: (optional) The maximum number of hops to make from the
+          initial URL. When a page is crawled each link on that page will also be crawled
+          if it is within the **maximum_hops** from the initial URL. The first page
+          crawled is 0 hops, each link crawled from the first page is 1 hop, each link
+          crawled from those pages is 2 hops, and so on.
+    :attr int request_timeout: (optional) The maximum milliseconds to wait for a
+          response from the web server.
+    :attr bool override_robots_txt: (optional) When `true`, the crawler will ignore
+          any `robots.txt` encountered by the crawler. This should only ever be done when
+          crawling a web site the user owns. This must be be set to `true` when a
+          **gateway_id** is specied in the **credentials**.
+    :attr list[str] blacklist: (optional) Array of URL's to be excluded while
+          crawling. The crawler will not follow links which contains this string. For
+          example, listing `https://ibm.com/watson` also excludes
+          `https://ibm.com/watson/discovery`.
     """
 
     def __init__(self,
                  url,
+                 *,
                  limit_to_starting_hosts=None,
                  crawl_speed=None,
                  allow_untrusted_certificate=None,
@@ -11785,29 +11313,30 @@ class SourceOptionsWebCrawl(object):
 
         :param str url: The starting URL to crawl.
         :param bool limit_to_starting_hosts: (optional) When `true`, crawls of the
-        specified URL are limited to the host part of the **url** field.
+               specified URL are limited to the host part of the **url** field.
         :param str crawl_speed: (optional) The number of concurrent URLs to fetch.
-        `gentle` means one URL is fetched at a time with a delay between each call.
-        `normal` means as many as two URLs are fectched concurrently with a short delay
-        between fetch calls. `aggressive` means that up to ten URLs are fetched
-        concurrently with a short delay between fetch calls.
-        :param bool allow_untrusted_certificate: (optional) When `true`, allows the crawl
-        to interact with HTTPS sites with SSL certificates with untrusted signers.
-        :param int maximum_hops: (optional) The maximum number of hops to make from the
-        initial URL. When a page is crawled each link on that page will also be crawled if
-        it is within the **maximum_hops** from the initial URL. The first page crawled is
-        0 hops, each link crawled from the first page is 1 hop, each link crawled from
-        those pages is 2 hops, and so on.
-        :param int request_timeout: (optional) The maximum milliseconds to wait for a
-        response from the web server.
-        :param bool override_robots_txt: (optional) When `true`, the crawler will ignore
-        any `robots.txt` encountered by the crawler. This should only ever be done when
-        crawling a web site the user owns. This must be be set to `true` when a
-        **gateway_id** is specied in the **credentials**.
+               `gentle` means one URL is fetched at a time with a delay between each call.
+               `normal` means as many as two URLs are fectched concurrently with a short
+               delay between fetch calls. `aggressive` means that up to ten URLs are
+               fetched concurrently with a short delay between fetch calls.
+        :param bool allow_untrusted_certificate: (optional) When `true`, allows the
+               crawl to interact with HTTPS sites with SSL certificates with untrusted
+               signers.
+        :param int maximum_hops: (optional) The maximum number of hops to make from
+               the initial URL. When a page is crawled each link on that page will also be
+               crawled if it is within the **maximum_hops** from the initial URL. The
+               first page crawled is 0 hops, each link crawled from the first page is 1
+               hop, each link crawled from those pages is 2 hops, and so on.
+        :param int request_timeout: (optional) The maximum milliseconds to wait for
+               a response from the web server.
+        :param bool override_robots_txt: (optional) When `true`, the crawler will
+               ignore any `robots.txt` encountered by the crawler. This should only ever
+               be done when crawling a web site the user owns. This must be be set to
+               `true` when a **gateway_id** is specied in the **credentials**.
         :param list[str] blacklist: (optional) Array of URL's to be excluded while
-        crawling. The crawler will not follow links which contains this string. For
-        example, listing `https://ibm.com/watson` also excludes
-        `https://ibm.com/watson/discovery`.
+               crawling. The crawler will not follow links which contains this string. For
+               example, listing `https://ibm.com/watson` also excludes
+               `https://ibm.com/watson/discovery`.
         """
         self.url = url
         self.limit_to_starting_hosts = limit_to_starting_hosts
@@ -11822,16 +11351,16 @@ class SourceOptionsWebCrawl(object):
     def _from_dict(cls, _dict):
         """Initialize a SourceOptionsWebCrawl object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'url', 'limit_to_starting_hosts', 'crawl_speed',
             'allow_untrusted_certificate', 'maximum_hops', 'request_timeout',
             'override_robots_txt', 'blacklist'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SourceOptionsWebCrawl: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'url' in _dict:
             args['url'] = _dict.get('url')
         else:
@@ -11897,41 +11426,59 @@ class SourceOptionsWebCrawl(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class CrawlSpeedEnum(Enum):
+        """
+        The number of concurrent URLs to fetch. `gentle` means one URL is fetched at a
+        time with a delay between each call. `normal` means as many as two URLs are
+        fectched concurrently with a short delay between fetch calls. `aggressive` means
+        that up to ten URLs are fetched concurrently with a short delay between fetch
+        calls.
+        """
+        GENTLE = "gentle"
+        NORMAL = "normal"
+        AGGRESSIVE = "aggressive"
 
-class SourceSchedule(object):
+
+class SourceSchedule():
     """
     Object containing the schedule information for the source.
 
-    :attr bool enabled: (optional) When `true`, the source is re-crawled based on the
-    **frequency** field in this object. When `false` the source is not re-crawled; When
-    `false` and connecting to Salesforce the source is crawled annually.
-    :attr str time_zone: (optional) The time zone to base source crawl times on. Possible
-    values correspond to the IANA (Internet Assigned Numbers Authority) time zones list.
-    :attr str frequency: (optional) The crawl schedule in the specified **time_zone**.
-    -  `five_minutes`: Runs every five minutes.
-    -  `hourly`: Runs every hour.
-    -  `daily`: Runs every day between 00:00 and 06:00.
-    -  `weekly`: Runs every week on Sunday between 00:00 and 06:00.
-    -  `monthly`: Runs the on the first Sunday of every month between 00:00 and 06:00.
+    :attr bool enabled: (optional) When `true`, the source is re-crawled based on
+          the **frequency** field in this object. When `false` the source is not
+          re-crawled; When `false` and connecting to Salesforce the source is crawled
+          annually.
+    :attr str time_zone: (optional) The time zone to base source crawl times on.
+          Possible values correspond to the IANA (Internet Assigned Numbers Authority)
+          time zones list.
+    :attr str frequency: (optional) The crawl schedule in the specified
+          **time_zone**.
+          -  `five_minutes`: Runs every five minutes.
+          -  `hourly`: Runs every hour.
+          -  `daily`: Runs every day between 00:00 and 06:00.
+          -  `weekly`: Runs every week on Sunday between 00:00 and 06:00.
+          -  `monthly`: Runs the on the first Sunday of every month between 00:00 and
+          06:00.
     """
 
-    def __init__(self, enabled=None, time_zone=None, frequency=None):
+    def __init__(self, *, enabled=None, time_zone=None, frequency=None):
         """
         Initialize a SourceSchedule object.
 
-        :param bool enabled: (optional) When `true`, the source is re-crawled based on the
-        **frequency** field in this object. When `false` the source is not re-crawled;
-        When `false` and connecting to Salesforce the source is crawled annually.
-        :param str time_zone: (optional) The time zone to base source crawl times on.
-        Possible values correspond to the IANA (Internet Assigned Numbers Authority) time
-        zones list.
+        :param bool enabled: (optional) When `true`, the source is re-crawled based
+               on the **frequency** field in this object. When `false` the source is not
+               re-crawled; When `false` and connecting to Salesforce the source is crawled
+               annually.
+        :param str time_zone: (optional) The time zone to base source crawl times
+               on. Possible values correspond to the IANA (Internet Assigned Numbers
+               Authority) time zones list.
         :param str frequency: (optional) The crawl schedule in the specified
-        **time_zone**.
-        -  `five_minutes`: Runs every five minutes.
-        -  `hourly`: Runs every hour.
-        -  `daily`: Runs every day between 00:00 and 06:00.
-        -  `weekly`: Runs every week on Sunday between 00:00 and 06:00.
-        -  `monthly`: Runs the on the first Sunday of every month between 00:00 and 06:00.
+               **time_zone**.
+               -  `five_minutes`: Runs every five minutes.
+               -  `hourly`: Runs every hour.
+               -  `daily`: Runs every day between 00:00 and 06:00.
+               -  `weekly`: Runs every week on Sunday between 00:00 and 06:00.
+               -  `monthly`: Runs the on the first Sunday of every month between 00:00 and
+               06:00.
         """
         self.enabled = enabled
         self.time_zone = time_zone
@@ -11941,12 +11488,12 @@ class SourceSchedule(object):
     def _from_dict(cls, _dict):
         """Initialize a SourceSchedule object from a json dictionary."""
         args = {}
-        validKeys = ['enabled', 'time_zone', 'frequency']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['enabled', 'time_zone', 'frequency']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SourceSchedule: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'enabled' in _dict:
             args['enabled'] = _dict.get('enabled')
         if 'time_zone' in _dict:
@@ -11980,37 +11527,53 @@ class SourceSchedule(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class FrequencyEnum(Enum):
+        """
+        The crawl schedule in the specified **time_zone**.
+        -  `five_minutes`: Runs every five minutes.
+        -  `hourly`: Runs every hour.
+        -  `daily`: Runs every day between 00:00 and 06:00.
+        -  `weekly`: Runs every week on Sunday between 00:00 and 06:00.
+        -  `monthly`: Runs the on the first Sunday of every month between 00:00 and 06:00.
+        """
+        DAILY = "daily"
+        WEEKLY = "weekly"
+        MONTHLY = "monthly"
+        FIVE_MINUTES = "five_minutes"
+        HOURLY = "hourly"
 
-class SourceStatus(object):
+
+class SourceStatus():
     """
     Object containing source crawl status information.
 
     :attr str status: (optional) The current status of the source crawl for this
-    collection. This field returns `not_configured` if the default configuration for this
-    source does not have a **source** object defined.
-    -  `running` indicates that a crawl to fetch more documents is in progress.
-    -  `complete` indicates that the crawl has completed with no errors.
-    -  `queued` indicates that the crawl has been paused by the system and will
-    automatically restart when possible.
-    -  `unknown` indicates that an unidentified error has occured in the service.
-    :attr datetime next_crawl: (optional) Date in `RFC 3339` format indicating the time of
-    the next crawl attempt.
+          collection. This field returns `not_configured` if the default configuration for
+          this source does not have a **source** object defined.
+          -  `running` indicates that a crawl to fetch more documents is in progress.
+          -  `complete` indicates that the crawl has completed with no errors.
+          -  `queued` indicates that the crawl has been paused by the system and will
+          automatically restart when possible.
+          -  `unknown` indicates that an unidentified error has occured in the service.
+    :attr datetime next_crawl: (optional) Date in `RFC 3339` format indicating the
+          time of the next crawl attempt.
     """
 
-    def __init__(self, status=None, next_crawl=None):
+    def __init__(self, *, status=None, next_crawl=None):
         """
         Initialize a SourceStatus object.
 
-        :param str status: (optional) The current status of the source crawl for this
-        collection. This field returns `not_configured` if the default configuration for
-        this source does not have a **source** object defined.
-        -  `running` indicates that a crawl to fetch more documents is in progress.
-        -  `complete` indicates that the crawl has completed with no errors.
-        -  `queued` indicates that the crawl has been paused by the system and will
-        automatically restart when possible.
-        -  `unknown` indicates that an unidentified error has occured in the service.
-        :param datetime next_crawl: (optional) Date in `RFC 3339` format indicating the
-        time of the next crawl attempt.
+        :param str status: (optional) The current status of the source crawl for
+               this collection. This field returns `not_configured` if the default
+               configuration for this source does not have a **source** object defined.
+               -  `running` indicates that a crawl to fetch more documents is in progress.
+               -  `complete` indicates that the crawl has completed with no errors.
+               -  `queued` indicates that the crawl has been paused by the system and will
+               automatically restart when possible.
+               -  `unknown` indicates that an unidentified error has occured in the
+               service.
+        :param datetime next_crawl: (optional) Date in `RFC 3339` format indicating
+               the time of the next crawl attempt.
         """
         self.status = status
         self.next_crawl = next_crawl
@@ -12019,12 +11582,12 @@ class SourceStatus(object):
     def _from_dict(cls, _dict):
         """Initialize a SourceStatus object from a json dictionary."""
         args = {}
-        validKeys = ['status', 'next_crawl']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['status', 'next_crawl']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class SourceStatus: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'status' in _dict:
             args['status'] = _dict.get('status')
         if 'next_crawl' in _dict:
@@ -12054,17 +11617,35 @@ class SourceStatus(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class StatusEnum(Enum):
+        """
+        The current status of the source crawl for this collection. This field returns
+        `not_configured` if the default configuration for this source does not have a
+        **source** object defined.
+        -  `running` indicates that a crawl to fetch more documents is in progress.
+        -  `complete` indicates that the crawl has completed with no errors.
+        -  `queued` indicates that the crawl has been paused by the system and will
+        automatically restart when possible.
+        -  `unknown` indicates that an unidentified error has occured in the service.
+        """
+        RUNNING = "running"
+        COMPLETE = "complete"
+        NOT_CONFIGURED = "not_configured"
+        QUEUED = "queued"
+        UNKNOWN = "unknown"
 
-class Term(object):
+
+class Term():
     """
     Term.
 
     :attr str field: (optional) The field where the aggregation is located in the
-    document.
-    :attr int count: (optional)
+          document.
+    :attr int count: (optional) The number of terms identified.
     """
 
     def __init__(self,
+                 *,
                  type=None,
                  results=None,
                  matching_results=None,
@@ -12074,15 +11655,16 @@ class Term(object):
         """
         Initialize a Term object.
 
-        :param str type: (optional) The type of aggregation command used. For example:
-        term, filter, max, min, etc.
-        :param list[AggregationResult] results: (optional) Array of aggregation results.
+        :param str type: (optional) The type of aggregation command used. For
+               example: term, filter, max, min, etc.
+        :param list[AggregationResult] results: (optional) Array of aggregation
+               results.
         :param int matching_results: (optional) Number of matching results.
-        :param list[QueryAggregation] aggregations: (optional) Aggregations returned by
-        Discovery.
-        :param str field: (optional) The field where the aggregation is located in the
-        document.
-        :param int count: (optional)
+        :param list[QueryAggregation] aggregations: (optional) Aggregations
+               returned by Discovery.
+        :param str field: (optional) The field where the aggregation is located in
+               the document.
+        :param int count: (optional) The number of terms identified.
         """
         self.field = field
         self.count = count
@@ -12091,12 +11673,12 @@ class Term(object):
     def _from_dict(cls, _dict):
         """Initialize a Term object from a json dictionary."""
         args = {}
-        validKeys = ['field', 'count']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['field', 'count']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Term: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'field' in _dict:
             args['field'] = _dict.get('field')
         if 'count' in _dict:
@@ -12127,132 +11709,22 @@ class Term(object):
         return not self == other
 
 
-class TestDocument(object):
-    """
-    TestDocument.
-
-    :attr str configuration_id: (optional) The unique identifier for the configuration.
-    :attr str status: (optional) Status of the preview operation.
-    :attr int enriched_field_units: (optional) The number of 10-kB chunks of field data
-    that were enriched. This can be used to estimate the cost of running a real ingestion.
-    :attr str original_media_type: (optional) Format of the test document.
-    :attr list[DocumentSnapshot] snapshots: (optional) An array of objects that describe
-    each step in the preview process.
-    :attr list[Notice] notices: (optional) An array of notice messages about the preview
-    operation.
-    """
-
-    def __init__(self,
-                 configuration_id=None,
-                 status=None,
-                 enriched_field_units=None,
-                 original_media_type=None,
-                 snapshots=None,
-                 notices=None):
-        """
-        Initialize a TestDocument object.
-
-        :param str configuration_id: (optional) The unique identifier for the
-        configuration.
-        :param str status: (optional) Status of the preview operation.
-        :param int enriched_field_units: (optional) The number of 10-kB chunks of field
-        data that were enriched. This can be used to estimate the cost of running a real
-        ingestion.
-        :param str original_media_type: (optional) Format of the test document.
-        :param list[DocumentSnapshot] snapshots: (optional) An array of objects that
-        describe each step in the preview process.
-        :param list[Notice] notices: (optional) An array of notice messages about the
-        preview operation.
-        """
-        self.configuration_id = configuration_id
-        self.status = status
-        self.enriched_field_units = enriched_field_units
-        self.original_media_type = original_media_type
-        self.snapshots = snapshots
-        self.notices = notices
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a TestDocument object from a json dictionary."""
-        args = {}
-        validKeys = [
-            'configuration_id', 'status', 'enriched_field_units',
-            'original_media_type', 'snapshots', 'notices'
-        ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class TestDocument: '
-                + ', '.join(badKeys))
-        if 'configuration_id' in _dict:
-            args['configuration_id'] = _dict.get('configuration_id')
-        if 'status' in _dict:
-            args['status'] = _dict.get('status')
-        if 'enriched_field_units' in _dict:
-            args['enriched_field_units'] = _dict.get('enriched_field_units')
-        if 'original_media_type' in _dict:
-            args['original_media_type'] = _dict.get('original_media_type')
-        if 'snapshots' in _dict:
-            args['snapshots'] = [
-                DocumentSnapshot._from_dict(x) for x in (_dict.get('snapshots'))
-            ]
-        if 'notices' in _dict:
-            args['notices'] = [
-                Notice._from_dict(x) for x in (_dict.get('notices'))
-            ]
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self,
-                   'configuration_id') and self.configuration_id is not None:
-            _dict['configuration_id'] = self.configuration_id
-        if hasattr(self, 'status') and self.status is not None:
-            _dict['status'] = self.status
-        if hasattr(self, 'enriched_field_units'
-                  ) and self.enriched_field_units is not None:
-            _dict['enriched_field_units'] = self.enriched_field_units
-        if hasattr(
-                self,
-                'original_media_type') and self.original_media_type is not None:
-            _dict['original_media_type'] = self.original_media_type
-        if hasattr(self, 'snapshots') and self.snapshots is not None:
-            _dict['snapshots'] = [x._to_dict() for x in self.snapshots]
-        if hasattr(self, 'notices') and self.notices is not None:
-            _dict['notices'] = [x._to_dict() for x in self.notices]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this TestDocument object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class Timeslice(object):
+class Timeslice():
     """
     Timeslice.
 
     :attr str field: (optional) The field where the aggregation is located in the
-    document.
-    :attr str interval: (optional) Interval of the aggregation. Valid date interval values
-    are second/seconds minute/minutes, hour/hours, day/days, week/weeks, month/months, and
-    year/years.
+          document.
+    :attr str interval: (optional) Interval of the aggregation. Valid date interval
+          values are second/seconds minute/minutes, hour/hours, day/days, week/weeks,
+          month/months, and year/years.
     :attr bool anomaly: (optional) Used to indicate that anomaly detection should be
-    performed. Anomaly detection is used to locate unusual datapoints within a time
-    series.
+          performed. Anomaly detection is used to locate unusual datapoints within a time
+          series.
     """
 
     def __init__(self,
+                 *,
                  type=None,
                  results=None,
                  matching_results=None,
@@ -12263,20 +11735,21 @@ class Timeslice(object):
         """
         Initialize a Timeslice object.
 
-        :param str type: (optional) The type of aggregation command used. For example:
-        term, filter, max, min, etc.
-        :param list[AggregationResult] results: (optional) Array of aggregation results.
+        :param str type: (optional) The type of aggregation command used. For
+               example: term, filter, max, min, etc.
+        :param list[AggregationResult] results: (optional) Array of aggregation
+               results.
         :param int matching_results: (optional) Number of matching results.
-        :param list[QueryAggregation] aggregations: (optional) Aggregations returned by
-        Discovery.
-        :param str field: (optional) The field where the aggregation is located in the
-        document.
-        :param str interval: (optional) Interval of the aggregation. Valid date interval
-        values are second/seconds minute/minutes, hour/hours, day/days, week/weeks,
-        month/months, and year/years.
-        :param bool anomaly: (optional) Used to indicate that anomaly detection should be
-        performed. Anomaly detection is used to locate unusual datapoints within a time
-        series.
+        :param list[QueryAggregation] aggregations: (optional) Aggregations
+               returned by Discovery.
+        :param str field: (optional) The field where the aggregation is located in
+               the document.
+        :param str interval: (optional) Interval of the aggregation. Valid date
+               interval values are second/seconds minute/minutes, hour/hours, day/days,
+               week/weeks, month/months, and year/years.
+        :param bool anomaly: (optional) Used to indicate that anomaly detection
+               should be performed. Anomaly detection is used to locate unusual datapoints
+               within a time series.
         """
         self.field = field
         self.interval = interval
@@ -12286,12 +11759,12 @@ class Timeslice(object):
     def _from_dict(cls, _dict):
         """Initialize a Timeslice object from a json dictionary."""
         args = {}
-        validKeys = ['field', 'interval', 'anomaly']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['field', 'interval', 'anomaly']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class Timeslice: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'field' in _dict:
             args['field'] = _dict.get('field')
         if 'interval' in _dict:
@@ -12326,30 +11799,30 @@ class Timeslice(object):
         return not self == other
 
 
-class TokenDictRule(object):
+class TokenDictRule():
     """
     An object defining a single tokenizaion rule.
 
     :attr str text: The string to tokenize.
     :attr list[str] tokens: Array of tokens that the `text` field is split into when
-    found.
-    :attr list[str] readings: (optional) Array of tokens that represent the content of the
-    `text` field in an alternate character set.
-    :attr str part_of_speech: The part of speech that the `text` string belongs to. For
-    example `noun`. Custom parts of speech can be specified.
+          found.
+    :attr list[str] readings: (optional) Array of tokens that represent the content
+          of the `text` field in an alternate character set.
+    :attr str part_of_speech: The part of speech that the `text` string belongs to.
+          For example `noun`. Custom parts of speech can be specified.
     """
 
-    def __init__(self, text, tokens, part_of_speech, readings=None):
+    def __init__(self, text, tokens, part_of_speech, *, readings=None):
         """
         Initialize a TokenDictRule object.
 
         :param str text: The string to tokenize.
-        :param list[str] tokens: Array of tokens that the `text` field is split into when
-        found.
-        :param str part_of_speech: The part of speech that the `text` string belongs to.
-        For example `noun`. Custom parts of speech can be specified.
-        :param list[str] readings: (optional) Array of tokens that represent the content
-        of the `text` field in an alternate character set.
+        :param list[str] tokens: Array of tokens that the `text` field is split
+               into when found.
+        :param str part_of_speech: The part of speech that the `text` string
+               belongs to. For example `noun`. Custom parts of speech can be specified.
+        :param list[str] readings: (optional) Array of tokens that represent the
+               content of the `text` field in an alternate character set.
         """
         self.text = text
         self.tokens = tokens
@@ -12360,12 +11833,12 @@ class TokenDictRule(object):
     def _from_dict(cls, _dict):
         """Initialize a TokenDictRule object from a json dictionary."""
         args = {}
-        validKeys = ['text', 'tokens', 'readings', 'part_of_speech']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['text', 'tokens', 'readings', 'part_of_speech']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TokenDictRule: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         else:
@@ -12415,23 +11888,24 @@ class TokenDictRule(object):
         return not self == other
 
 
-class TokenDictStatusResponse(object):
+class TokenDictStatusResponse():
     """
     Object describing the current status of the wordlist.
 
-    :attr str status: (optional) Current wordlist status for the specified collection.
+    :attr str status: (optional) Current wordlist status for the specified
+          collection.
     :attr str type: (optional) The type for this wordlist. Can be
-    `tokenization_dictionary` or `stopwords`.
+          `tokenization_dictionary` or `stopwords`.
     """
 
-    def __init__(self, status=None, type=None):
+    def __init__(self, *, status=None, type=None):
         """
         Initialize a TokenDictStatusResponse object.
 
         :param str status: (optional) Current wordlist status for the specified
-        collection.
+               collection.
         :param str type: (optional) The type for this wordlist. Can be
-        `tokenization_dictionary` or `stopwords`.
+               `tokenization_dictionary` or `stopwords`.
         """
         self.status = status
         self.type = type
@@ -12440,12 +11914,12 @@ class TokenDictStatusResponse(object):
     def _from_dict(cls, _dict):
         """Initialize a TokenDictStatusResponse object from a json dictionary."""
         args = {}
-        validKeys = ['status', 'type']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['status', 'type']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TokenDictStatusResponse: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'status' in _dict:
             args['status'] = _dict.get('status')
         if 'type' in _dict:
@@ -12475,8 +11949,16 @@ class TokenDictStatusResponse(object):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
+    class StatusEnum(Enum):
+        """
+        Current wordlist status for the specified collection.
+        """
+        ACTIVE = "active"
+        PENDING = "pending"
+        NOT_FOUND = "not found"
 
-class TopHits(object):
+
+class TopHits():
     """
     TopHits.
 
@@ -12485,6 +11967,7 @@ class TopHits(object):
     """
 
     def __init__(self,
+                 *,
                  type=None,
                  results=None,
                  matching_results=None,
@@ -12494,12 +11977,13 @@ class TopHits(object):
         """
         Initialize a TopHits object.
 
-        :param str type: (optional) The type of aggregation command used. For example:
-        term, filter, max, min, etc.
-        :param list[AggregationResult] results: (optional) Array of aggregation results.
+        :param str type: (optional) The type of aggregation command used. For
+               example: term, filter, max, min, etc.
+        :param list[AggregationResult] results: (optional) Array of aggregation
+               results.
         :param int matching_results: (optional) Number of matching results.
-        :param list[QueryAggregation] aggregations: (optional) Aggregations returned by
-        Discovery.
+        :param list[QueryAggregation] aggregations: (optional) Aggregations
+               returned by Discovery.
         :param int size: (optional) Number of top hits returned by the aggregation.
         :param TopHitsResults hits: (optional)
         """
@@ -12510,12 +11994,12 @@ class TopHits(object):
     def _from_dict(cls, _dict):
         """Initialize a TopHits object from a json dictionary."""
         args = {}
-        validKeys = ['size', 'hits']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['size', 'hits']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TopHits: ' +
-                ', '.join(badKeys))
+                ', '.join(bad_keys))
         if 'size' in _dict:
             args['size'] = _dict.get('size')
         if 'hits' in _dict:
@@ -12546,20 +12030,22 @@ class TopHits(object):
         return not self == other
 
 
-class TopHitsResults(object):
+class TopHitsResults():
     """
-    TopHitsResults.
+    Top hit information for this query.
 
     :attr int matching_results: (optional) Number of matching results.
-    :attr list[QueryResult] hits: (optional) Top results returned by the aggregation.
+    :attr list[QueryResult] hits: (optional) Top results returned by the
+          aggregation.
     """
 
-    def __init__(self, matching_results=None, hits=None):
+    def __init__(self, *, matching_results=None, hits=None):
         """
         Initialize a TopHitsResults object.
 
         :param int matching_results: (optional) Number of matching results.
-        :param list[QueryResult] hits: (optional) Top results returned by the aggregation.
+        :param list[QueryResult] hits: (optional) Top results returned by the
+               aggregation.
         """
         self.matching_results = matching_results
         self.hits = hits
@@ -12568,12 +12054,12 @@ class TopHitsResults(object):
     def _from_dict(cls, _dict):
         """Initialize a TopHitsResults object from a json dictionary."""
         args = {}
-        validKeys = ['matching_results', 'hits']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['matching_results', 'hits']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TopHitsResults: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'matching_results' in _dict:
             args['matching_results'] = _dict.get('matching_results')
         if 'hits' in _dict:
@@ -12607,25 +12093,26 @@ class TopHitsResults(object):
         return not self == other
 
 
-class TrainingDataSet(object):
+class TrainingDataSet():
     """
-    TrainingDataSet.
+    Training information for a specific collection.
 
-    :attr str environment_id: (optional) The environment id associated with this training
-    data set.
-    :attr str collection_id: (optional) The collection id associated with this training
-    data set.
+    :attr str environment_id: (optional) The environment id associated with this
+          training data set.
+    :attr str collection_id: (optional) The collection id associated with this
+          training data set.
     :attr list[TrainingQuery] queries: (optional) Array of training queries.
     """
 
-    def __init__(self, environment_id=None, collection_id=None, queries=None):
+    def __init__(self, *, environment_id=None, collection_id=None,
+                 queries=None):
         """
         Initialize a TrainingDataSet object.
 
-        :param str environment_id: (optional) The environment id associated with this
-        training data set.
+        :param str environment_id: (optional) The environment id associated with
+               this training data set.
         :param str collection_id: (optional) The collection id associated with this
-        training data set.
+               training data set.
         :param list[TrainingQuery] queries: (optional) Array of training queries.
         """
         self.environment_id = environment_id
@@ -12636,12 +12123,12 @@ class TrainingDataSet(object):
     def _from_dict(cls, _dict):
         """Initialize a TrainingDataSet object from a json dictionary."""
         args = {}
-        validKeys = ['environment_id', 'collection_id', 'queries']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['environment_id', 'collection_id', 'queries']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TrainingDataSet: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'environment_id' in _dict:
             args['environment_id'] = _dict.get('environment_id')
         if 'collection_id' in _dict:
@@ -12678,25 +12165,29 @@ class TrainingDataSet(object):
         return not self == other
 
 
-class TrainingExample(object):
+class TrainingExample():
     """
-    TrainingExample.
+    Training example details.
 
     :attr str document_id: (optional) The document ID associated with this training
-    example.
+          example.
     :attr str cross_reference: (optional) The cross reference associated with this
-    training example.
+          training example.
     :attr int relevance: (optional) The relevance of the training example.
     """
 
-    def __init__(self, document_id=None, cross_reference=None, relevance=None):
+    def __init__(self,
+                 *,
+                 document_id=None,
+                 cross_reference=None,
+                 relevance=None):
         """
         Initialize a TrainingExample object.
 
-        :param str document_id: (optional) The document ID associated with this training
-        example.
-        :param str cross_reference: (optional) The cross reference associated with this
-        training example.
+        :param str document_id: (optional) The document ID associated with this
+               training example.
+        :param str cross_reference: (optional) The cross reference associated with
+               this training example.
         :param int relevance: (optional) The relevance of the training example.
         """
         self.document_id = document_id
@@ -12707,12 +12198,12 @@ class TrainingExample(object):
     def _from_dict(cls, _dict):
         """Initialize a TrainingExample object from a json dictionary."""
         args = {}
-        validKeys = ['document_id', 'cross_reference', 'relevance']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['document_id', 'cross_reference', 'relevance']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TrainingExample: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'document_id' in _dict:
             args['document_id'] = _dict.get('document_id')
         if 'cross_reference' in _dict:
@@ -12748,18 +12239,19 @@ class TrainingExample(object):
         return not self == other
 
 
-class TrainingExampleList(object):
+class TrainingExampleList():
     """
-    TrainingExampleList.
+    Object containing an array of training examples.
 
     :attr list[TrainingExample] examples: (optional) Array of training examples.
     """
 
-    def __init__(self, examples=None):
+    def __init__(self, *, examples=None):
         """
         Initialize a TrainingExampleList object.
 
-        :param list[TrainingExample] examples: (optional) Array of training examples.
+        :param list[TrainingExample] examples: (optional) Array of training
+               examples.
         """
         self.examples = examples
 
@@ -12767,12 +12259,12 @@ class TrainingExampleList(object):
     def _from_dict(cls, _dict):
         """Initialize a TrainingExampleList object from a json dictionary."""
         args = {}
-        validKeys = ['examples']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['examples']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TrainingExampleList: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'examples' in _dict:
             args['examples'] = [
                 TrainingExample._from_dict(x) for x in (_dict.get('examples'))
@@ -12801,19 +12293,20 @@ class TrainingExampleList(object):
         return not self == other
 
 
-class TrainingQuery(object):
+class TrainingQuery():
     """
-    TrainingQuery.
+    Training query details.
 
     :attr str query_id: (optional) The query ID associated with the training query.
-    :attr str natural_language_query: (optional) The natural text query for the training
-    query.
+    :attr str natural_language_query: (optional) The natural text query for the
+          training query.
     :attr str filter: (optional) The filter used on the collection before the
-    **natural_language_query** is applied.
+          **natural_language_query** is applied.
     :attr list[TrainingExample] examples: (optional) Array of training examples.
     """
 
     def __init__(self,
+                 *,
                  query_id=None,
                  natural_language_query=None,
                  filter=None,
@@ -12821,12 +12314,14 @@ class TrainingQuery(object):
         """
         Initialize a TrainingQuery object.
 
-        :param str query_id: (optional) The query ID associated with the training query.
-        :param str natural_language_query: (optional) The natural text query for the
-        training query.
+        :param str query_id: (optional) The query ID associated with the training
+               query.
+        :param str natural_language_query: (optional) The natural text query for
+               the training query.
         :param str filter: (optional) The filter used on the collection before the
-        **natural_language_query** is applied.
-        :param list[TrainingExample] examples: (optional) Array of training examples.
+               **natural_language_query** is applied.
+        :param list[TrainingExample] examples: (optional) Array of training
+               examples.
         """
         self.query_id = query_id
         self.natural_language_query = natural_language_query
@@ -12837,12 +12332,14 @@ class TrainingQuery(object):
     def _from_dict(cls, _dict):
         """Initialize a TrainingQuery object from a json dictionary."""
         args = {}
-        validKeys = ['query_id', 'natural_language_query', 'filter', 'examples']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = [
+            'query_id', 'natural_language_query', 'filter', 'examples'
+        ]
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TrainingQuery: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'query_id' in _dict:
             args['query_id'] = _dict.get('query_id')
         if 'natural_language_query' in _dict:
@@ -12884,29 +12381,32 @@ class TrainingQuery(object):
         return not self == other
 
 
-class TrainingStatus(object):
+class TrainingStatus():
     """
-    TrainingStatus.
+    Training status details.
 
-    :attr int total_examples: (optional) The total number of training examples uploaded to
-    this collection.
-    :attr bool available: (optional) When `true`, the collection has been successfully
-    trained.
-    :attr bool processing: (optional) When `true`, the collection is currently processing
-    training.
+    :attr int total_examples: (optional) The total number of training examples
+          uploaded to this collection.
+    :attr bool available: (optional) When `true`, the collection has been
+          successfully trained.
+    :attr bool processing: (optional) When `true`, the collection is currently
+          processing training.
     :attr bool minimum_queries_added: (optional) When `true`, the collection has a
-    sufficent amount of queries added for training to occur.
+          sufficent amount of queries added for training to occur.
     :attr bool minimum_examples_added: (optional) When `true`, the collection has a
-    sufficent amount of examples added for training to occur.
-    :attr bool sufficient_label_diversity: (optional) When `true`, the collection has a
-    sufficent amount of diversity in labeled results for training to occur.
-    :attr int notices: (optional) The number of notices associated with this data set.
-    :attr datetime successfully_trained: (optional) The timestamp of when the collection
-    was successfully trained.
-    :attr datetime data_updated: (optional) The timestamp of when the data was uploaded.
+          sufficent amount of examples added for training to occur.
+    :attr bool sufficient_label_diversity: (optional) When `true`, the collection
+          has a sufficent amount of diversity in labeled results for training to occur.
+    :attr int notices: (optional) The number of notices associated with this data
+          set.
+    :attr datetime successfully_trained: (optional) The timestamp of when the
+          collection was successfully trained.
+    :attr datetime data_updated: (optional) The timestamp of when the data was
+          uploaded.
     """
 
     def __init__(self,
+                 *,
                  total_examples=None,
                  available=None,
                  processing=None,
@@ -12920,23 +12420,24 @@ class TrainingStatus(object):
         Initialize a TrainingStatus object.
 
         :param int total_examples: (optional) The total number of training examples
-        uploaded to this collection.
+               uploaded to this collection.
         :param bool available: (optional) When `true`, the collection has been
-        successfully trained.
+               successfully trained.
         :param bool processing: (optional) When `true`, the collection is currently
-        processing training.
-        :param bool minimum_queries_added: (optional) When `true`, the collection has a
-        sufficent amount of queries added for training to occur.
-        :param bool minimum_examples_added: (optional) When `true`, the collection has a
-        sufficent amount of examples added for training to occur.
-        :param bool sufficient_label_diversity: (optional) When `true`, the collection has
-        a sufficent amount of diversity in labeled results for training to occur.
-        :param int notices: (optional) The number of notices associated with this data
-        set.
+               processing training.
+        :param bool minimum_queries_added: (optional) When `true`, the collection
+               has a sufficent amount of queries added for training to occur.
+        :param bool minimum_examples_added: (optional) When `true`, the collection
+               has a sufficent amount of examples added for training to occur.
+        :param bool sufficient_label_diversity: (optional) When `true`, the
+               collection has a sufficent amount of diversity in labeled results for
+               training to occur.
+        :param int notices: (optional) The number of notices associated with this
+               data set.
         :param datetime successfully_trained: (optional) The timestamp of when the
-        collection was successfully trained.
+               collection was successfully trained.
         :param datetime data_updated: (optional) The timestamp of when the data was
-        uploaded.
+               uploaded.
         """
         self.total_examples = total_examples
         self.available = available
@@ -12952,17 +12453,17 @@ class TrainingStatus(object):
     def _from_dict(cls, _dict):
         """Initialize a TrainingStatus object from a json dictionary."""
         args = {}
-        validKeys = [
+        valid_keys = [
             'total_examples', 'available', 'processing',
             'minimum_queries_added', 'minimum_examples_added',
             'sufficient_label_diversity', 'notices', 'successfully_trained',
             'data_updated'
         ]
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class TrainingStatus: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'total_examples' in _dict:
             args['total_examples'] = _dict.get('total_examples')
         if 'available' in _dict:
@@ -13029,20 +12530,23 @@ class TrainingStatus(object):
         return not self == other
 
 
-class WordHeadingDetection(object):
+class WordHeadingDetection():
     """
-    WordHeadingDetection.
+    Object containing heading detection conversion settings for Microsoft Word documents.
 
-    :attr list[FontSetting] fonts: (optional)
-    :attr list[WordStyle] styles: (optional)
+    :attr list[FontSetting] fonts: (optional) Array of font matching configurations.
+    :attr list[WordStyle] styles: (optional) Array of Microsoft Word styles to
+          convert.
     """
 
-    def __init__(self, fonts=None, styles=None):
+    def __init__(self, *, fonts=None, styles=None):
         """
         Initialize a WordHeadingDetection object.
 
-        :param list[FontSetting] fonts: (optional)
-        :param list[WordStyle] styles: (optional)
+        :param list[FontSetting] fonts: (optional) Array of font matching
+               configurations.
+        :param list[WordStyle] styles: (optional) Array of Microsoft Word styles to
+               convert.
         """
         self.fonts = fonts
         self.styles = styles
@@ -13051,12 +12555,12 @@ class WordHeadingDetection(object):
     def _from_dict(cls, _dict):
         """Initialize a WordHeadingDetection object from a json dictionary."""
         args = {}
-        validKeys = ['fonts', 'styles']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['fonts', 'styles']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class WordHeadingDetection: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'fonts' in _dict:
             args['fonts'] = [
                 FontSetting._from_dict(x) for x in (_dict.get('fonts'))
@@ -13091,18 +12595,20 @@ class WordHeadingDetection(object):
         return not self == other
 
 
-class WordSettings(object):
+class WordSettings():
     """
     A list of Word conversion settings.
 
-    :attr WordHeadingDetection heading: (optional)
+    :attr WordHeadingDetection heading: (optional) Object containing heading
+          detection conversion settings for Microsoft Word documents.
     """
 
-    def __init__(self, heading=None):
+    def __init__(self, *, heading=None):
         """
         Initialize a WordSettings object.
 
-        :param WordHeadingDetection heading: (optional)
+        :param WordHeadingDetection heading: (optional) Object containing heading
+               detection conversion settings for Microsoft Word documents.
         """
         self.heading = heading
 
@@ -13110,12 +12616,12 @@ class WordSettings(object):
     def _from_dict(cls, _dict):
         """Initialize a WordSettings object from a json dictionary."""
         args = {}
-        validKeys = ['heading']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['heading']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class WordSettings: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'heading' in _dict:
             args['heading'] = WordHeadingDetection._from_dict(
                 _dict.get('heading'))
@@ -13143,21 +12649,21 @@ class WordSettings(object):
         return not self == other
 
 
-class WordStyle(object):
+class WordStyle():
     """
-    WordStyle.
+    Microsoft Word styles to convert into a specified HTML head level.
 
-    :attr int level: (optional) HTML head level that content matching this style is tagged
-    with.
+    :attr int level: (optional) HTML head level that content matching this style is
+          tagged with.
     :attr list[str] names: (optional) Array of word style names to convert.
     """
 
-    def __init__(self, level=None, names=None):
+    def __init__(self, *, level=None, names=None):
         """
         Initialize a WordStyle object.
 
-        :param int level: (optional) HTML head level that content matching this style is
-        tagged with.
+        :param int level: (optional) HTML head level that content matching this
+               style is tagged with.
         :param list[str] names: (optional) Array of word style names to convert.
         """
         self.level = level
@@ -13167,12 +12673,12 @@ class WordStyle(object):
     def _from_dict(cls, _dict):
         """Initialize a WordStyle object from a json dictionary."""
         args = {}
-        validKeys = ['level', 'names']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['level', 'names']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class WordStyle: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'level' in _dict:
             args['level'] = _dict.get('level')
         if 'names' in _dict:
@@ -13203,14 +12709,14 @@ class WordStyle(object):
         return not self == other
 
 
-class XPathPatterns(object):
+class XPathPatterns():
     """
-    XPathPatterns.
+    Object containing an array of XPaths.
 
     :attr list[str] xpaths: (optional) An array to XPaths.
     """
 
-    def __init__(self, xpaths=None):
+    def __init__(self, *, xpaths=None):
         """
         Initialize a XPathPatterns object.
 
@@ -13222,12 +12728,12 @@ class XPathPatterns(object):
     def _from_dict(cls, _dict):
         """Initialize a XPathPatterns object from a json dictionary."""
         args = {}
-        validKeys = ['xpaths']
-        badKeys = set(_dict.keys()) - set(validKeys)
-        if badKeys:
+        valid_keys = ['xpaths']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
             raise ValueError(
                 'Unrecognized keys detected in dictionary for class XPathPatterns: '
-                + ', '.join(badKeys))
+                + ', '.join(bad_keys))
         if 'xpaths' in _dict:
             args['xpaths'] = _dict.get('xpaths')
         return cls(**args)

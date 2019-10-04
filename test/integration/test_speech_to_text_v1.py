@@ -1,4 +1,3 @@
-from __future__ import print_function
 from unittest import TestCase
 import os
 from ibm_watson.websocket import RecognizeCallback, AudioSource
@@ -27,12 +26,12 @@ class TestSpeechToTextV1(TestCase):
         cls.create_custom_model = cls.speech_to_text.create_language_model(
             name="integration_test_model",
             base_model_name="en-US_BroadbandModel").get_result()
-        cls.customization_id = cls.create_custom_model['customization_id']
+        cls.customization_id = cls.create_custom_model.get('customization_id')
 
     @classmethod
     def teardown_class(cls):
         cls.speech_to_text.delete_language_model(
-            customization_id=cls.create_custom_model['customization_id'])
+            customization_id=cls.create_custom_model.get('customization_id'))
 
     def test_models(self):
         output = self.speech_to_text.list_models().get_result()
@@ -47,7 +46,7 @@ class TestSpeechToTextV1(TestCase):
     def test_create_custom_model(self):
         current_custom_models = self.speech_to_text.list_language_models().get_result()
         assert len(current_custom_models['customizations']) - len(
-            self.custom_models['customizations']) >= 1
+            self.custom_models.get('customizations')) >= 1
 
     def test_recognize(self):
         with open(os.path.join(os.path.dirname(__file__), '../../resources/speech.wav'), 'rb') as audio_file:
@@ -62,7 +61,7 @@ class TestSpeechToTextV1(TestCase):
 
     def test_custom_corpora(self):
         output = self.speech_to_text.list_corpora(self.customization_id).get_result()
-        assert len(output['corpora']) == 0 # pylint: disable=len-as-condition
+        assert not output['corpora']
 
     def test_acoustic_model(self):
         list_models = self.speech_to_text.list_acoustic_models().get_result()
@@ -108,7 +107,7 @@ class TestSpeechToTextV1(TestCase):
 
     def test_custom_grammars(self):
         customization_id = None
-        for custom_model in self.custom_models['customizations']:
+        for custom_model in self.custom_models.get('customizations'):
             if custom_model['name'] == 'integration_test_model_for_grammar':
                 customization_id = custom_model['customization_id']
                 break
