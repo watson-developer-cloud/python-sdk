@@ -43,6 +43,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
                                   speaker_labels=None,
                                   http_proxy_host=None,
                                   http_proxy_port=None,
+                                  customization_id=None,
                                   grammar_name=None,
                                   redaction=None,
                                   processing_metrics=None,
@@ -144,6 +145,10 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
         labels](https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-output#speaker_labels).
         :param str http_proxy_host: http proxy host name.
         :param str http_proxy_port: http proxy port. If not set, set to 80.
+        :param str customization_id: **Deprecated.** Use the `language_customization_id`
+        parameter to specify the customization ID (GUID) of a custom language model that
+        is to be used with the recognition request. Do not specify both parameters with a
+        request.
         :param str grammar_name: The name of a grammar that is to be used with the
         recognition request. If you specify a grammar, you must also use the
         `language_customization_id` parameter to specify the name of the custom language
@@ -214,6 +219,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
 
         params = {
             'model': model,
+            'customization_id': customization_id,
             'acoustic_customization_id': acoustic_customization_id,
             'base_model_version': base_model_version,
             'language_customization_id': language_customization_id

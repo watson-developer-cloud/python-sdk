@@ -203,7 +203,6 @@ The SDK no longer supports Pyhton versions 2.7 and <=3.4.
 #### Speech to Text V1
 * `final_results` was renamed to `final` in the SpeakerLabelsResult model
 * `final_results` was renamed to `final` in the SpeechRecognitionResult model
-* `customization_id` no longer a param in `recognize_using_websocket()` method
 
 #### Visual Recognition V3
 * `detect_faces()` method was removed
