@@ -259,10 +259,10 @@ assistant = AssistantV1(
     authenticator=authenticator)
 assistant.set_service_url('<url as per region>')
 ```
-For more information, follow the [MIGRATION-V4](https://github.com/watson-developer-cloud/python-sdk/MIGRATION-V4.md)
+For more information, follow the [MIGRATION-V4](https://github.com/watson-developer-cloud/python-sdk/blob/master/MIGRATION-V4.md)
 
 ## Migration
-To move from v3.x to v4.0, refer to the [MIGRATION-V4](https://github.com/watson-developer-cloud/python-sdk/MIGRATION-V4.md).
+To move from v3.x to v4.0, refer to the [MIGRATION-V4](https://github.com/watson-developer-cloud/python-sdk/blob/master/MIGRATION-V4.md).
 
 ## Configuring the http client (Supported from v1.1.0)
 To set client configs like timeout use the `with_http_config()` function and pass it a dictionary of configs. For example for a Assistant service instance
