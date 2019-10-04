@@ -2058,9 +2058,9 @@ class DiscoveryV1(BaseService):
     def get_autocompletion(self,
                            environment_id,
                            collection_id,
+                           prefix,
                            *,
                            field=None,
-                           prefix=None,
                            count=None,
                            **kwargs):
         """
@@ -2072,11 +2072,11 @@ class DiscoveryV1(BaseService):
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
+        :param str prefix: The prefix to use for autocompletion. For example, the
+               prefix `Ho` could autocomplete to `Hot`, `Housing`, or `How do I upgrade`.
+               Possible completions are.
         :param str field: (optional) The field in the result documents that
                autocompletion suggestions are identified from.
-        :param str prefix: (optional) The prefix to use for autocompletion. For
-               example, the prefix `Ho` could autocomplete to `Hot`, `Housing`, or `How do
-               I upgrade`. Possible completions are.
         :param int count: (optional) The number of autocompletion suggestions to
                return.
         :param dict headers: A `dict` containing the request headers
@@ -2088,6 +2088,8 @@ class DiscoveryV1(BaseService):
             raise ValueError('environment_id must be provided')
         if collection_id is None:
             raise ValueError('collection_id must be provided')
+        if prefix is None:
+            raise ValueError('prefix must be provided')
 
         headers = {}
         if 'headers' in kwargs:
@@ -2097,8 +2099,8 @@ class DiscoveryV1(BaseService):
 
         params = {
             'version': self.version,
-            'field': field,
             'prefix': prefix,
+            'field': field,
             'count': count
         }
 
@@ -9938,6 +9940,8 @@ class QueryResponse():
           **Important:** Session tokens are case sensitive.
     :attr RetrievalDetails retrieval_details: (optional) An object contain retrieval
           type information.
+    :attr str suggested_query: (optional) The suggestions for a misspelled natural
+          language query.
     """
 
     def __init__(self,
@@ -9948,7 +9952,8 @@ class QueryResponse():
                  passages=None,
                  duplicates_removed=None,
                  session_token=None,
-                 retrieval_details=None):
+                 retrieval_details=None,
+                 suggested_query=None):
         """
         Initialize a QueryResponse object.
 
@@ -9968,6 +9973,8 @@ class QueryResponse():
                **Important:** Session tokens are case sensitive.
         :param RetrievalDetails retrieval_details: (optional) An object contain
                retrieval type information.
+        :param str suggested_query: (optional) The suggestions for a misspelled
+               natural language query.
         """
         self.matching_results = matching_results
         self.results = results
@@ -9976,6 +9983,7 @@ class QueryResponse():
         self.duplicates_removed = duplicates_removed
         self.session_token = session_token
         self.retrieval_details = retrieval_details
+        self.suggested_query = suggested_query
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -9983,7 +9991,8 @@ class QueryResponse():
         args = {}
         valid_keys = [
             'matching_results', 'results', 'aggregations', 'passages',
-            'duplicates_removed', 'session_token', 'retrieval_details'
+            'duplicates_removed', 'session_token', 'retrieval_details',
+            'suggested_query'
         ]
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
@@ -10012,6 +10021,8 @@ class QueryResponse():
         if 'retrieval_details' in _dict:
             args['retrieval_details'] = RetrievalDetails._from_dict(
                 _dict.get('retrieval_details'))
+        if 'suggested_query' in _dict:
+            args['suggested_query'] = _dict.get('suggested_query')
         return cls(**args)
 
     def _to_dict(self):
@@ -10035,6 +10046,9 @@ class QueryResponse():
         if hasattr(self,
                    'retrieval_details') and self.retrieval_details is not None:
             _dict['retrieval_details'] = self.retrieval_details._to_dict()
+        if hasattr(self,
+                   'suggested_query') and self.suggested_query is not None:
+            _dict['suggested_query'] = self.suggested_query
         return _dict
 
     def __str__(self):
