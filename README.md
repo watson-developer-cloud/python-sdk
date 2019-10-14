@@ -187,10 +187,10 @@ token = iam_token_manager.get_token()
 ##### Supplying the bearer token
 ```python
 from ibm_watson import DiscoveryV1
-from ibm_cloud_sdk_core.authenticators import BearerAuthenticator
+from ibm_cloud_sdk_core.authenticators import BearerTokenAuthenticator
 
 # in the constructor, assuming control of managing the token
-authenticator = BearerAuthenticator('your bearer token')
+authenticator = BearerTokenAuthenticator('your bearer token')
 discovery = DiscoveryV1(version='2018-08-01',
                         authenticator=authenticator)
 discovery.set_service_url('<url_as_per_region>')
@@ -247,7 +247,7 @@ The SDK is generated using OpenAPI Specification(OAS3). Changes are basic reorde
 The package is renamed to ibm_watson. See the [changelog](https://github.com/watson-developer-cloud/python-sdk/wiki/Changelog) for the details.
 
 ## Changes for v4.0
-Authenticator variable indicates the type of authentication to be used. 
+Authenticator variable indicates the type of authentication to be used.
 
 ```python
 from ibm_watson import AssistantV1
@@ -406,9 +406,9 @@ assistant.set_disable_ssl_verification(True) # MAKE SURE SSL VERIFICATION IS DIS
 ### 2) Supplying the access token
 ```python
 from ibm_watson import AssistantV1
-from ibm_cloud_sdk_core.authenticators import BearerAuthenticator
+from ibm_cloud_sdk_core.authenticators import BearerTokenAuthenticator
 
-authenticator = BearerAuthenticator('your managed access token')
+authenticator = BearerTokenAuthenticator('your managed access token')
 assistant = AssistantV1(version='<version>',
                         authenticator=authenticator)
 assistant.set_service_url('<service url>') # should be of the form https://{icp_cluster_host}/{deployment}/assistant/{instance-id}/api
