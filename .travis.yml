@@ -4,7 +4,7 @@ matrix:
   - python: 3.5
   - python: 3.6
   - python: 3.7
-    dist: xenial
+  - python: 3.8
 cache: pip
 before_install:
 - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && openssl aes-256-cbc -K $encrypted_cebf25e6c525_key
