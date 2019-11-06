@@ -37,6 +37,7 @@ audio_source = AudioSource(q, True, True)
 # initialize speech to text service
 authenticator = IAMAuthenticator('your_api_key')
 speech_to_text = SpeechToTextV1(authenticator=authenticator)
+speech_to_text.set_service_url('https://gateway.watsonplatform.net/speech-to-text/api')
 
 # define callback for the speech to text service
 class MyRecognizeCallback(RecognizeCallback):
