@@ -8,10 +8,15 @@ from ibm_watson import PersonalityInsightsV3
 import csv
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
-authenticator = IAMAuthenticator('your_api_key')
-service = PersonalityInsightsV3(
-    version='2017-10-13',
-    authenticator=authenticator)
+# Authentication via IAM
+# authenticator = IAMAuthenticator('your_api_key')
+# service = PersonalityInsightsV3(
+#     version='2017-10-13',
+#     authenticator=authenticator)
+# service.set_service_url('https://gateway.watsonplatform.net/personality-insights/api')
+
+# Authentication via external config like VCAP_SERVICES
+service = PersonalityInsightsV3(version='2017-10-13')
 service.set_service_url('https://gateway.watsonplatform.net/personality-insights/api')
 
 ############################
