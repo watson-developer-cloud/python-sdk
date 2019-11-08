@@ -1,7 +1,10 @@
 {
   "branch": "master",
-  "verifyConditions": [],
+  "verifyConditions": ["@semantic-release/changelog", "@semantic-release/github"],
+  "debug": true,
   "prepare": [
+    "@semantic-release/changelog",
+    "@semantic-release/git",
     {
       "path": "@semantic-release/exec",
       "cmd": "bumpversion --current-version ${lastRelease.version} --new-version ${nextRelease.version} patch"
@@ -9,7 +12,7 @@
   ],
   "publish": [
     {
-      "path": "@semantic-release/github",
+      "path": "@semantic-release/github"
     }
   ]
 }
