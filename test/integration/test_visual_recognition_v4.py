@@ -73,9 +73,10 @@ class IntegrationTestVisualRecognitionV3(TestCase):
         dog_path = os.path.join(os.path.dirname(__file__), '../../resources/dog.jpg')
         giraffe_path = os.path.join(os.path.dirname(__file__),
                                     '../../resources/my-giraffe.jpeg')
+
         with open(dog_path, 'rb') as dog_file, open(giraffe_path, 'rb') as giraffe_files:
             analyze_images = self.visual_recognition.analyze(
-                collection_ids=['d31d6534-3458-40c4-b6de-2185a5f3cbe4'],
+                collection_ids=['684777e5-1f2d-40e3-987f-72d36557ef46'],
                 features=[AnalyzeEnums.Features.OBJECTS.value],
                 images_file=[
                     FileWithMetadata(dog_file),
