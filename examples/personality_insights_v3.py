@@ -37,7 +37,7 @@ with open(join(os.getcwd(), 'resources/personality-v3.json')) as \
 # Profile with CSV output #
 ###########################
 
-with open(jjoin(os.getcwd(), 'resources/personality-v3.json'), 'r') as \
+with open(join(os.getcwd(), 'resources/personality-v3.json'), 'r') as \
         profile_json:
     response = service.profile(
         profile_json.read(),
