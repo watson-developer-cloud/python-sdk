@@ -1,8 +1,9 @@
 import json
-from os.path import join, dirname
+import os
+from os.path import join
 from ibm_watson import ToneAnalyzerV3
 from ibm_watson.tone_analyzer_v3 import ToneInput
-from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+# from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 # Authentication via IAM
 # authenticator = IAMAuthenticator('your_api_key')

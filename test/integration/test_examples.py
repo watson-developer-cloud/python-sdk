@@ -22,7 +22,7 @@ def test_examples():
     for example in examples:
         name = example.split('/')[-1]
 
-        if not name in includes:
+        if name not in includes:
             continue
 
         service_name = name[:-6]
