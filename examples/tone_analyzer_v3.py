@@ -35,14 +35,14 @@ print(
         indent=2))
 
 print("\ntone() example 2:\n")
-with open(join(dirname(__file__),
-               '../../resources/tone-example.json')) as tone_json:
+with open(join(os.getcwd(),
+               'resources/tone-example.json')) as tone_json:
     tone = service.tone(json.load(tone_json)['text'], content_type="text/plain").get_result()
 print(json.dumps(tone, indent=2))
 
 print("\ntone() example 3:\n")
-with open(join(dirname(__file__),
-               '../../resources/tone-example.json')) as tone_json:
+with open(join(os.getcwd(),
+               'resources/tone-example.json')) as tone_json:
     tone = service.tone(
         tone_input=json.load(tone_json)['text'],
         content_type='text/plain',
@@ -50,24 +50,24 @@ with open(join(dirname(__file__),
 print(json.dumps(tone, indent=2))
 
 print("\ntone() example 4:\n")
-with open(join(dirname(__file__),
-               '../../resources/tone-example.json')) as tone_json:
+with open(join(os.getcwd(),
+               'resources/tone-example.json')) as tone_json:
     tone = service.tone(
         tone_input=json.load(tone_json),
         content_type='application/json').get_result()
 print(json.dumps(tone, indent=2))
 
 print("\ntone() example 5:\n")
-with open(join(dirname(__file__),
-               '../../resources/tone-example-html.json')) as tone_html:
+with open(join(os.getcwd(),
+               'resources/tone-example-html.json')) as tone_html:
     tone = service.tone(
         json.load(tone_html)['text'],
         content_type='text/html').get_result()
 print(json.dumps(tone, indent=2))
 
 print("\ntone() example 6 with GDPR support:\n")
-with open(join(dirname(__file__),
-               '../../resources/tone-example-html.json')) as tone_html:
+with open(join(os.getcwd(),
+               'resources/tone-example-html.json')) as tone_html:
     tone = service.tone(
         json.load(tone_html)['text'],
         content_type='text/html',

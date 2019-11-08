@@ -23,7 +23,7 @@ service.set_service_url('https://gateway.watsonplatform.net/personality-insights
 # Profile with JSON output #
 ############################
 
-with open(join(dirname(__file__), '../resources/personality-v3.json')) as \
+with open(join(os.getcwd(), 'resources/personality-v3.json')) as \
         profile_json:
     profile = service.profile(
         profile_json.read(),
@@ -37,7 +37,7 @@ with open(join(dirname(__file__), '../resources/personality-v3.json')) as \
 # Profile with CSV output #
 ###########################
 
-with open(join(dirname(__file__), '../resources/personality-v3.json'), 'r') as \
+with open(jjoin(os.getcwd(), 'resources/personality-v3.json'), 'r') as \
         profile_json:
     response = service.profile(
         profile_json.read(),
