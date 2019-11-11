@@ -14,7 +14,7 @@ service.set_service_url('https://gateway.watsonplatform.net/visual-recognition/a
 # create a classifier
 my_collection = service.create_collection(
     name='',
-    description='tetsing for python'
+    description='testing for python'
 ).get_result()
 collection_id = my_collection.get('collection_id')
 

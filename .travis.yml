@@ -12,18 +12,23 @@ before_install:
 - npm install npm@latest -g
 install:
 - pip install tox-travis
-- pip install bumpversion
-- npm install @semantic-release/exec
+before_script:
+- sudo apt-get update
+- pip install pypandoc
+- sudo apt-get install pandoc
+- pip install -r requirements.txt
+- pip install -r requirements-dev.txt
+- pip install --editable .
 script:
 - pip install -U python-dotenv
 - tox
 before_deploy:
-- sudo apt-get update
-- pip install -r requirements.txt
-- pip install -r requirements-dev.txt
-- pip install pypandoc
-- sudo apt-get install pandoc
-- pip install --editable .
+- pip install bumpversion
+- nvm install 12
+- npm install @semantic-release/changelog
+- npm install @semantic-release/exec
+- npm install @semantic-release/git
+- npm install @semantic-release/github
 deploy:
 - provider: script
   script: docs/publish.sh

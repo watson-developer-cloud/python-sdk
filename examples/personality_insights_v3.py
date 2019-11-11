@@ -8,17 +8,22 @@ from ibm_watson import PersonalityInsightsV3
 import csv
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
-authenticator = IAMAuthenticator('your_api_key')
-service = PersonalityInsightsV3(
-    version='2017-10-13',
-    authenticator=authenticator)
+# Authentication via IAM
+# authenticator = IAMAuthenticator('your_api_key')
+# service = PersonalityInsightsV3(
+#     version='2017-10-13',
+#     authenticator=authenticator)
+# service.set_service_url('https://gateway.watsonplatform.net/personality-insights/api')
+
+# Authentication via external config like VCAP_SERVICES
+service = PersonalityInsightsV3(version='2017-10-13')
 service.set_service_url('https://gateway.watsonplatform.net/personality-insights/api')
 
 ############################
 # Profile with JSON output #
 ############################
 
-with open(join(dirname(__file__), '../resources/personality-v3.json')) as \
+with open(join(os.getcwd(), 'resources/personality-v3.json')) as \
         profile_json:
     profile = service.profile(
         profile_json.read(),
@@ -32,7 +37,7 @@ with open(join(dirname(__file__), '../resources/personality-v3.json')) as \
 # Profile with CSV output #
 ###########################
 
-with open(join(dirname(__file__), '../resources/personality-v3.json'), 'r') as \
+with open(join(os.getcwd(), 'resources/personality-v3.json'), 'r') as \
         profile_json:
     response = service.profile(
         profile_json.read(),

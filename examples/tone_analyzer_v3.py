@@ -1,13 +1,19 @@
 import json
-from os.path import join, dirname
+import os
+from os.path import join
 from ibm_watson import ToneAnalyzerV3
 from ibm_watson.tone_analyzer_v3 import ToneInput
-from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+# from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
-authenticator = IAMAuthenticator('your_api_key')
-service = ToneAnalyzerV3(
-    version='2017-09-21',
-    authenticator=authenticator)
+# Authentication via IAM
+# authenticator = IAMAuthenticator('your_api_key')
+# service = ToneAnalyzerV3(
+#     version='2017-09-21',
+#     authenticator=authenticator)
+# service.set_service_url('https://gateway.watsonplatform.net/tone-analyzer/api')
+
+# Authentication via external config like VCAP_SERVICES
+service = ToneAnalyzerV3(version='2017-09-21')
 service.set_service_url('https://gateway.watsonplatform.net/tone-analyzer/api')
 
 print("\ntone_chat() example 1:\n")
@@ -30,14 +36,14 @@ print(
         indent=2))
 
 print("\ntone() example 2:\n")
-with open(join(dirname(__file__),
-               '../resources/tone-example.json')) as tone_json:
+with open(join(os.getcwd(),
+               'resources/tone-example.json')) as tone_json:
     tone = service.tone(json.load(tone_json)['text'], content_type="text/plain").get_result()
 print(json.dumps(tone, indent=2))
 
 print("\ntone() example 3:\n")
-with open(join(dirname(__file__),
-               '../resources/tone-example.json')) as tone_json:
+with open(join(os.getcwd(),
+               'resources/tone-example.json')) as tone_json:
     tone = service.tone(
         tone_input=json.load(tone_json)['text'],
         content_type='text/plain',
@@ -45,24 +51,24 @@ with open(join(dirname(__file__),
 print(json.dumps(tone, indent=2))
 
 print("\ntone() example 4:\n")
-with open(join(dirname(__file__),
-               '../resources/tone-example.json')) as tone_json:
+with open(join(os.getcwd(),
+               'resources/tone-example.json')) as tone_json:
     tone = service.tone(
         tone_input=json.load(tone_json),
         content_type='application/json').get_result()
 print(json.dumps(tone, indent=2))
 
 print("\ntone() example 5:\n")
-with open(join(dirname(__file__),
-               '../resources/tone-example-html.json')) as tone_html:
+with open(join(os.getcwd(),
+               'resources/tone-example-html.json')) as tone_html:
     tone = service.tone(
         json.load(tone_html)['text'],
         content_type='text/html').get_result()
 print(json.dumps(tone, indent=2))
 
 print("\ntone() example 6 with GDPR support:\n")
-with open(join(dirname(__file__),
-               '../resources/tone-example-html.json')) as tone_html:
+with open(join(os.getcwd(),
+               'resources/tone-example-html.json')) as tone_html:
     tone = service.tone(
         json.load(tone_html)['text'],
         content_type='text/html',

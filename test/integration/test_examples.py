@@ -8,11 +8,11 @@ import os
 from os.path import join, dirname
 from glob import glob
 
-# tests to exclude
-excludes = ['discovery_v1.ipynb', '__init__.py', 'microphone-speech-to-text.py']
+# tests to include
+includes = ['assistant_v1.py', 'natural_language_understanding_v1.py', 'personality_insights_v3.py', 'tone_analyzer_v3.py']
 
 # examples path. /examples
-examples_path = join(dirname(__file__), '../', 'examples', '*.py')
+examples_path = join(dirname(__file__), '../../', 'examples', '*.py')
 
 @pytest.mark.skipif(os.getenv('VCAP_SERVICES') is None,
                     reason='requires VCAP_SERVICES')
@@ -22,13 +22,10 @@ def test_examples():
     for example in examples:
         name = example.split('/')[-1]
 
-        # exclude some tests cases like authorization
-        if name in excludes:
+        if name not in includes:
             continue
 
-        # exclude tests if there are no credentials for that service
-        service_name = name[:-6] if not name.startswith('visual_recognition')\
-            else 'watson_vision_combined'
+        service_name = name[:-6]
 
         if service_name not in vcap_services:
             print('%s does not have credentials in VCAP_SERVICES',

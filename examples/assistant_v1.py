@@ -1,11 +1,18 @@
 import json
 from ibm_watson import AssistantV1
-from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+# from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
-authenticator = IAMAuthenticator('your apikey')
-assistant = AssistantV1(
-    version='2018-07-10',
-    authenticator=authenticator)
+
+# Authentication via IAM
+# authenticator = IAMAuthenticator('your apikey')
+# assistant = AssistantV1(
+#     version='2018-07-10',
+#     authenticator=authenticator)
+# assistant.set_service_url('https://gateway.watsonplatform.net/assistant/api')
+
+
+# Authentication via external config like VCAP_SERVICES
+assistant = AssistantV1(version='2018-07-10')
 assistant.set_service_url('https://gateway.watsonplatform.net/assistant/api')
 
 #########################
