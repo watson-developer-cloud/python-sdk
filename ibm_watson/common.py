@@ -21,21 +21,30 @@ SDK_ANALYTICS_HEADER = 'X-IBMCloud-SDK-Analytics'
 USER_AGENT_HEADER = 'User-Agent'
 SDK_NAME = 'watson-apis-python-sdk'
 
+
 def get_system_info():
-    return '{0} {1} {2}'.format(platform.system(), # OS
-                                platform.release(), # OS version
-                                platform.python_version()) # Python version
+    return '{0} {1} {2}'.format(
+        platform.system(),  # OS
+        platform.release(),  # OS version
+        platform.python_version())  # Python version
+
+
 def get_user_agent():
     return user_agent
+
 
 def get_sdk_analytics(service_name, service_version, operation_id):
     return 'service_name={0};service_version={1};operation_id={2}'.format(
         service_name, service_version, operation_id)
 
+
 user_agent = '{0}-{1} {2}'.format(SDK_NAME, __version__, get_system_info())
+
 
 def get_sdk_headers(service_name, service_version, operation_id):
     headers = {}
-    headers[SDK_ANALYTICS_HEADER] = get_sdk_analytics(service_name, service_version, operation_id)
+    headers[SDK_ANALYTICS_HEADER] = get_sdk_analytics(service_name,
+                                                      service_version,
+                                                      operation_id)
     headers[USER_AGENT_HEADER] = get_user_agent()
     return headers

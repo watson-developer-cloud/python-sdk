@@ -20,7 +20,9 @@ from urllib.parse import urlencode
 
 BEARER = 'Bearer'
 
+
 class SpeechToTextV1Adapter(SpeechToTextV1):
+
     def recognize_using_websocket(self,
                                   audio,
                                   content_type,
@@ -194,7 +196,8 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
             raise ValueError('audio must be provided')
         if not isinstance(audio, AudioSource):
             raise Exception(
-                'audio is not of type AudioSource. Import the class from ibm_watson.websocket')
+                'audio is not of type AudioSource. Import the class from ibm_watson.websocket'
+            )
         if content_type is None:
             raise ValueError('content_type must be provided')
         if recognize_callback is None:
@@ -251,11 +254,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
         options = {k: v for k, v in options.items() if v is not None}
         request['options'] = options
 
-        RecognizeListener(audio,
-                          request.get('options'),
-                          recognize_callback,
-                          request.get('url'),
-                          request.get('headers'),
-                          http_proxy_host,
-                          http_proxy_port,
+        RecognizeListener(audio, request.get('options'), recognize_callback,
+                          request.get('url'), request.get('headers'),
+                          http_proxy_host, http_proxy_port,
                           self.disable_ssl_verification)
