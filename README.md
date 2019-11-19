@@ -394,7 +394,8 @@ from ibm_cloud_sdk_core.authenticators import CloudPakForDataAuthenticator
 authenticator = CloudPakForDataAuthenticator(
     '<your username>',
     '<your password>',
-    '<authentication url>') # should be of the form https://{icp_cluster_host}{instance-id}/api
+    '<authentication url>', # should be of the form https://{icp_cluster_host}{instance-id}/api
+    disable_ssl_verification=True) # Disable ssl verification for authenticator
 
 assistant = AssistantV1(
     version='<version>',
