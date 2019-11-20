@@ -1492,6 +1492,13 @@ def test_dialog_nodes():
 
     responses.add(
         responses.POST,
+        "{0}/location-done?version=2017-02-03".format(url),
+        body='{ "application/json": { "dialog_node": "location-done" }}',
+        status=200,
+        content_type='application/json')
+
+    responses.add(
+        responses.POST,
         "{0}?version=2017-02-03".format(url),
         body='{ "application/json": { "dialog_node": "location-done" }}',
         status=200,
@@ -1518,16 +1525,19 @@ def test_dialog_nodes():
     assistant.create_dialog_node('id', 'location-done', user_label='xxx', disambiguation_opt_out=False)
     assert responses.calls[0].response.json()['application/json']['dialog_node'] == 'location-done'
 
+    assistant.update_dialog_node('id', 'location-done', user_label='xxx', new_disambiguation_opt_out=False)
+    assert responses.calls[1].response.json()['application/json']['dialog_node'] == 'location-done'
+
     assistant.delete_dialog_node('id', 'location-done')
-    assert responses.calls[1].response.json() == {"description": "deleted successfully"}
+    assert responses.calls[2].response.json() == {"description": "deleted successfully"}
 
     assistant.get_dialog_node('id', 'location-done')
-    assert responses.calls[2].response.json() == {"application/json": {"dialog_node": "location-atm"}}
-
-    assistant.list_dialog_nodes('id')
     assert responses.calls[3].response.json() == {"application/json": {"dialog_node": "location-atm"}}
 
-    assert len(responses.calls) == 4
+    assistant.list_dialog_nodes('id')
+    assert responses.calls[4].response.json() == {"application/json": {"dialog_node": "location-atm"}}
+
+    assert len(responses.calls) == 5
 
 @responses.activate
 def test_delete_user_data():

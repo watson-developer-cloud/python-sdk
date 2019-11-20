@@ -2575,6 +2575,7 @@ class AssistantV1(BaseService):
                            new_digress_out=None,
                            new_digress_out_slots=None,
                            new_user_label=None,
+                           new_disambiguation_opt_out=None,
                            **kwargs):
         """
         Update dialog node.
@@ -2627,6 +2628,8 @@ class AssistantV1(BaseService):
                to top-level nodes while filling out slots.
         :param str new_user_label: (optional) A label that can be displayed
                externally to describe the purpose of the node to users.
+        :param bool new_disambiguation_opt_out: (optional) Whether the dialog node
+               should be excluded from disambiguation suggestions.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2670,7 +2673,8 @@ class AssistantV1(BaseService):
             'digress_in': new_digress_in,
             'digress_out': new_digress_out,
             'digress_out_slots': new_digress_out_slots,
-            'user_label': new_user_label
+            'user_label': new_user_label,
+            'disambiguation_opt_out': new_disambiguation_opt_out
         }
 
         url = '/v1/workspaces/{0}/dialog_nodes/{1}'.format(
@@ -3710,6 +3714,8 @@ class DialogNode():
           top-level nodes while filling out slots.
     :attr str user_label: (optional) A label that can be displayed externally to
           describe the purpose of the node to users.
+    :attr bool disambiguation_opt_out: (optional) Whether the dialog node should be
+          excluded from disambiguation suggestions.
     :attr bool disabled: (optional) For internal use only.
     :attr datetime created: (optional) The timestamp for creation of the object.
     :attr datetime updated: (optional) The timestamp for the most recent update to
@@ -3736,6 +3742,7 @@ class DialogNode():
                  digress_out=None,
                  digress_out_slots=None,
                  user_label=None,
+                 disambiguation_opt_out=None,
                  disabled=None,
                  created=None,
                  updated=None):
@@ -3781,6 +3788,8 @@ class DialogNode():
                top-level nodes while filling out slots.
         :param str user_label: (optional) A label that can be displayed externally
                to describe the purpose of the node to users.
+        :param bool disambiguation_opt_out: (optional) Whether the dialog node
+               should be excluded from disambiguation suggestions.
         :param bool disabled: (optional) For internal use only.
         :param datetime created: (optional) The timestamp for creation of the
                object.
@@ -3805,6 +3814,7 @@ class DialogNode():
         self.digress_out = digress_out
         self.digress_out_slots = digress_out_slots
         self.user_label = user_label
+        self.disambiguation_opt_out = disambiguation_opt_out
         self.disabled = disabled
         self.created = created
         self.updated = updated
@@ -3817,8 +3827,8 @@ class DialogNode():
             'dialog_node', 'description', 'conditions', 'parent',
             'previous_sibling', 'output', 'context', 'metadata', 'next_step',
             'title', 'type', 'event_name', 'variable', 'actions', 'digress_in',
-            'digress_out', 'digress_out_slots', 'user_label', 'disabled',
-            'created', 'updated'
+            'digress_out', 'digress_out_slots', 'user_label',
+            'disambiguation_opt_out', 'disabled', 'created', 'updated'
         ]
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
@@ -3868,6 +3878,8 @@ class DialogNode():
             args['digress_out_slots'] = _dict.get('digress_out_slots')
         if 'user_label' in _dict:
             args['user_label'] = _dict.get('user_label')
+        if 'disambiguation_opt_out' in _dict:
+            args['disambiguation_opt_out'] = _dict.get('disambiguation_opt_out')
         if 'disabled' in _dict:
             args['disabled'] = _dict.get('disabled')
         if 'created' in _dict:
@@ -3917,6 +3929,9 @@ class DialogNode():
             _dict['digress_out_slots'] = self.digress_out_slots
         if hasattr(self, 'user_label') and self.user_label is not None:
             _dict['user_label'] = self.user_label
+        if hasattr(self, 'disambiguation_opt_out'
+                  ) and self.disambiguation_opt_out is not None:
+            _dict['disambiguation_opt_out'] = self.disambiguation_opt_out
         if hasattr(self, 'disabled') and self.disabled is not None:
             _dict['disabled'] = self.disabled
         if hasattr(self, 'created') and self.created is not None:
