@@ -243,6 +243,7 @@ class AssistantV1(BaseService):
                          entities=None,
                          dialog_nodes=None,
                          counterexamples=None,
+                         webhooks=None,
                          **kwargs):
         """
         Create workspace.
@@ -272,6 +273,7 @@ class AssistantV1(BaseService):
                describing the dialog nodes in the workspace.
         :param list[Counterexample] counterexamples: (optional) An array of objects
                defining input examples that have been marked as irrelevant input.
+        :param list[Webhook] webhooks: (optional)
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -287,6 +289,8 @@ class AssistantV1(BaseService):
             dialog_nodes = [self._convert_model(x) for x in dialog_nodes]
         if counterexamples is not None:
             counterexamples = [self._convert_model(x) for x in counterexamples]
+        if webhooks is not None:
+            webhooks = [self._convert_model(x) for x in webhooks]
 
         headers = {}
         if 'headers' in kwargs:
@@ -306,7 +310,8 @@ class AssistantV1(BaseService):
             'intents': intents,
             'entities': entities,
             'dialog_nodes': dialog_nodes,
-            'counterexamples': counterexamples
+            'counterexamples': counterexamples,
+            'webhooks': webhooks
         }
 
         url = '/v1/workspaces'
@@ -388,6 +393,7 @@ class AssistantV1(BaseService):
                          entities=None,
                          dialog_nodes=None,
                          counterexamples=None,
+                         webhooks=None,
                          append=None,
                          **kwargs):
         """
@@ -419,6 +425,7 @@ class AssistantV1(BaseService):
                describing the dialog nodes in the workspace.
         :param list[Counterexample] counterexamples: (optional) An array of objects
                defining input examples that have been marked as irrelevant input.
+        :param list[Webhook] webhooks: (optional)
         :param bool append: (optional) Whether the new data is to be appended to
                the existing data in the workspace. If **append**=`false`, elements
                included in the new data completely replace the corresponding existing
@@ -445,6 +452,8 @@ class AssistantV1(BaseService):
             dialog_nodes = [self._convert_model(x) for x in dialog_nodes]
         if counterexamples is not None:
             counterexamples = [self._convert_model(x) for x in counterexamples]
+        if webhooks is not None:
+            webhooks = [self._convert_model(x) for x in webhooks]
 
         headers = {}
         if 'headers' in kwargs:
@@ -464,7 +473,8 @@ class AssistantV1(BaseService):
             'intents': intents,
             'entities': entities,
             'dialog_nodes': dialog_nodes,
-            'counterexamples': counterexamples
+            'counterexamples': counterexamples,
+            'webhooks': webhooks
         }
 
         url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
@@ -4084,6 +4094,7 @@ class DialogNodeAction():
         SERVER = "server"
         CLOUD_FUNCTION = "cloud_function"
         WEB_ACTION = "web_action"
+        WEBHOOK = "webhook"
 
 
 class DialogNodeCollection():
@@ -8071,6 +8082,151 @@ class ValueCollection():
         return not self == other
 
 
+class Webhook():
+    """
+    A webhook that can be used by dialog nodes to make programmatic calls to an external
+    function.
+    **Note:** Currently, only a single webhook named `main_webhook` is supported.
+
+    :attr str url: The URL for the external service or application to which you want
+          to send HTTP POST requests.
+    :attr str name: The name of the webhook. Currently, `main_webhook` is the only
+          supported value.
+    :attr list[WebhookHeader] headers: (optional) An optional array of HTTP headers
+          to pass with the HTTP request.
+    """
+
+    def __init__(self, url, name, *, headers=None):
+        """
+        Initialize a Webhook object.
+
+        :param str url: The URL for the external service or application to which
+               you want to send HTTP POST requests.
+        :param str name: The name of the webhook. Currently, `main_webhook` is the
+               only supported value.
+        :param list[WebhookHeader] headers: (optional) An optional array of HTTP
+               headers to pass with the HTTP request.
+        """
+        self.url = url
+        self.name = name
+        self.headers = headers
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Webhook object from a json dictionary."""
+        args = {}
+        valid_keys = ['url', 'name', 'headers']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Webhook: ' +
+                ', '.join(bad_keys))
+        if 'url' in _dict:
+            args['url'] = _dict.get('url')
+        else:
+            raise ValueError(
+                'Required property \'url\' not present in Webhook JSON')
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        else:
+            raise ValueError(
+                'Required property \'name\' not present in Webhook JSON')
+        if 'headers' in _dict:
+            args['headers'] = [
+                WebhookHeader._from_dict(x) for x in (_dict.get('headers'))
+            ]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'url') and self.url is not None:
+            _dict['url'] = self.url
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'headers') and self.headers is not None:
+            _dict['headers'] = [x._to_dict() for x in self.headers]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this Webhook object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class WebhookHeader():
+    """
+    A key/value pair defining an HTTP header and a value.
+
+    :attr str name: The name of an HTTP header (for example, `Authorization`).
+    :attr str value: The value of an HTTP header.
+    """
+
+    def __init__(self, name, value):
+        """
+        Initialize a WebhookHeader object.
+
+        :param str name: The name of an HTTP header (for example, `Authorization`).
+        :param str value: The value of an HTTP header.
+        """
+        self.name = name
+        self.value = value
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a WebhookHeader object from a json dictionary."""
+        args = {}
+        valid_keys = ['name', 'value']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class WebhookHeader: '
+                + ', '.join(bad_keys))
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        else:
+            raise ValueError(
+                'Required property \'name\' not present in WebhookHeader JSON')
+        if 'value' in _dict:
+            args['value'] = _dict.get('value')
+        else:
+            raise ValueError(
+                'Required property \'value\' not present in WebhookHeader JSON')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'value') and self.value is not None:
+            _dict['value'] = self.value
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this WebhookHeader object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class Workspace():
     """
     Workspace.
@@ -8098,6 +8254,7 @@ class Workspace():
           the dialog nodes in the workspace.
     :attr list[Counterexample] counterexamples: (optional) An array of
           counterexamples.
+    :attr list[Webhook] webhooks: (optional)
     """
 
     def __init__(self,
@@ -8115,7 +8272,8 @@ class Workspace():
                  intents=None,
                  entities=None,
                  dialog_nodes=None,
-                 counterexamples=None):
+                 counterexamples=None,
+                 webhooks=None):
         """
         Initialize a Workspace object.
 
@@ -8144,6 +8302,7 @@ class Workspace():
                describing the dialog nodes in the workspace.
         :param list[Counterexample] counterexamples: (optional) An array of
                counterexamples.
+        :param list[Webhook] webhooks: (optional)
         """
         self.name = name
         self.description = description
@@ -8159,6 +8318,7 @@ class Workspace():
         self.entities = entities
         self.dialog_nodes = dialog_nodes
         self.counterexamples = counterexamples
+        self.webhooks = webhooks
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -8167,7 +8327,7 @@ class Workspace():
         valid_keys = [
             'name', 'description', 'language', 'metadata', 'learning_opt_out',
             'system_settings', 'workspace_id', 'status', 'created', 'updated',
-            'intents', 'entities', 'dialog_nodes', 'counterexamples'
+            'intents', 'entities', 'dialog_nodes', 'counterexamples', 'webhooks'
         ]
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
@@ -8226,6 +8386,10 @@ class Workspace():
                 Counterexample._from_dict(x)
                 for x in (_dict.get('counterexamples'))
             ]
+        if 'webhooks' in _dict:
+            args['webhooks'] = [
+                Webhook._from_dict(x) for x in (_dict.get('webhooks'))
+            ]
         return cls(**args)
 
     def _to_dict(self):
@@ -8264,6 +8428,8 @@ class Workspace():
             _dict['counterexamples'] = [
                 x._to_dict() for x in self.counterexamples
             ]
+        if hasattr(self, 'webhooks') and self.webhooks is not None:
+            _dict['webhooks'] = [x._to_dict() for x in self.webhooks]
         return _dict
 
     def __str__(self):

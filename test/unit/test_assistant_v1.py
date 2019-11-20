@@ -8,7 +8,7 @@ from ibm_watson import ApiException
 from ibm_watson.assistant_v1 import Context, Counterexample, \
     CounterexampleCollection, Entity, EntityCollection, Example, \
     ExampleCollection, MessageInput, Intent, IntentCollection, Synonym, \
-    SynonymCollection, Value, ValueCollection, Workspace, WorkspaceCollection
+    SynonymCollection, Value, ValueCollection, Workspace, WorkspaceCollection, Webhook, WebhookHeader
 from ibm_cloud_sdk_core.authenticators import BasicAuthenticator
 
 platform_url = 'https://gateway.watsonplatform.net'
@@ -1344,7 +1344,8 @@ def test_create_workspace():
         version='2017-02-03', authenticator=authenticator)
     workspace = service.create_workspace(
         name='Pizza app', description='Pizza app', language='en', metadata={},
-        system_settings={'tooling': {'store_generic_responses' : True}}).get_result()
+        system_settings={'tooling': {'store_generic_responses' : True}},
+        webhooks=[Webhook(url='fake-jenkins-url', name='jenkins', headers=[WebhookHeader('fake', 'header')])]).get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert workspace == response
@@ -1471,7 +1472,8 @@ def test_update_workspace():
         description='Pizza app',
         language='en',
         metadata={},
-        system_settings={'tooling': {'store_generic_responses' : True}}).get_result()
+        system_settings={'tooling': {'store_generic_responses' : True}},
+        webhooks=[Webhook(url='fake-jenkins-url', name='jenkins', headers=[WebhookHeader('fake', 'header')])]).get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert workspace == response
