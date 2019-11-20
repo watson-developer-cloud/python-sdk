@@ -1515,7 +1515,7 @@ def test_dialog_nodes():
     assistant = ibm_watson.AssistantV1(
         version='2017-02-03', authenticator=authenticator)
 
-    assistant.create_dialog_node('id', 'location-done', user_label='xxx')
+    assistant.create_dialog_node('id', 'location-done', user_label='xxx', disambiguation_opt_out=False)
     assert responses.calls[0].response.json()['application/json']['dialog_node'] == 'location-done'
 
     assistant.delete_dialog_node('id', 'location-done')
