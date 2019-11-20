@@ -2397,6 +2397,7 @@ class AssistantV1(BaseService):
                            digress_out=None,
                            digress_out_slots=None,
                            user_label=None,
+                           disambiguation_opt_out=None,
                            **kwargs):
         """
         Create dialog node.
@@ -2447,6 +2448,8 @@ class AssistantV1(BaseService):
                top-level nodes while filling out slots.
         :param str user_label: (optional) A label that can be displayed externally
                to describe the purpose of the node to users.
+        :param bool disambiguation_opt_out: (optional) Whether the dialog node
+               should be excluded from disambiguation suggestions.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2490,7 +2493,8 @@ class AssistantV1(BaseService):
             'digress_in': digress_in,
             'digress_out': digress_out,
             'digress_out_slots': digress_out_slots,
-            'user_label': user_label
+            'user_label': user_label,
+            'disambiguation_opt_out': disambiguation_opt_out
         }
 
         url = '/v1/workspaces/{0}/dialog_nodes'.format(
