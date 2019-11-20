@@ -8554,15 +8554,18 @@ class WorkspaceSystemSettings():
           related to the Watson Assistant user interface.
     :attr WorkspaceSystemSettingsDisambiguation disambiguation: (optional) Workspace
           settings related to the disambiguation feature.
-          **Note:** This feature is available only to Premium users.
+          **Note:** This feature is available only to Plus and Premium users.
     :attr dict human_agent_assist: (optional) For internal use only.
+    :attr WorkspaceSystemSettingsOffTopic off_topic: (optional) Workspace settings
+          related to detection of irrelevant input.
     """
 
     def __init__(self,
                  *,
                  tooling=None,
                  disambiguation=None,
-                 human_agent_assist=None):
+                 human_agent_assist=None,
+                 off_topic=None):
         """
         Initialize a WorkspaceSystemSettings object.
 
@@ -8570,18 +8573,23 @@ class WorkspaceSystemSettings():
                settings related to the Watson Assistant user interface.
         :param WorkspaceSystemSettingsDisambiguation disambiguation: (optional)
                Workspace settings related to the disambiguation feature.
-               **Note:** This feature is available only to Premium users.
+               **Note:** This feature is available only to Plus and Premium users.
         :param dict human_agent_assist: (optional) For internal use only.
+        :param WorkspaceSystemSettingsOffTopic off_topic: (optional) Workspace
+               settings related to detection of irrelevant input.
         """
         self.tooling = tooling
         self.disambiguation = disambiguation
         self.human_agent_assist = human_agent_assist
+        self.off_topic = off_topic
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a WorkspaceSystemSettings object from a json dictionary."""
         args = {}
-        valid_keys = ['tooling', 'disambiguation', 'human_agent_assist']
+        valid_keys = [
+            'tooling', 'disambiguation', 'human_agent_assist', 'off_topic'
+        ]
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
             raise ValueError(
@@ -8596,6 +8604,9 @@ class WorkspaceSystemSettings():
                     _dict.get('disambiguation'))
         if 'human_agent_assist' in _dict:
             args['human_agent_assist'] = _dict.get('human_agent_assist')
+        if 'off_topic' in _dict:
+            args['off_topic'] = WorkspaceSystemSettingsOffTopic._from_dict(
+                _dict.get('off_topic'))
         return cls(**args)
 
     def _to_dict(self):
@@ -8609,6 +8620,8 @@ class WorkspaceSystemSettings():
                 self,
                 'human_agent_assist') and self.human_agent_assist is not None:
             _dict['human_agent_assist'] = self.human_agent_assist
+        if hasattr(self, 'off_topic') and self.off_topic is not None:
+            _dict['off_topic'] = self.off_topic._to_dict()
         return _dict
 
     def __str__(self):
