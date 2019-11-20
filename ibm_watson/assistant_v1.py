@@ -2807,7 +2807,8 @@ class AssistantV1(BaseService):
 
         :param str filter: A cacheable parameter that limits the results to those
                matching the specified filter. You must specify a filter query that
-               includes a value for `language`, as well as a value for `workspace_id` or
+               includes a value for `language`, as well as a value for
+               `request.context.system.assistant_id`, `workspace_id`, or
                `request.context.metadata.deployment`. For more information, see the
                [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-filter-reference#filter-reference).
         :param str sort: (optional) How to sort the returned log events. You can
@@ -5048,7 +5049,8 @@ class DialogSuggestion():
     DialogSuggestion.
 
     :attr str label: The user-facing label for the disambiguation option. This label
-          is taken from the **user_label** property of the corresponding dialog node.
+          is taken from the **title** or **user_label** property of the corresponding
+          dialog node, depending on the disambiguation options.
     :attr DialogSuggestionValue value: An object defining the message input,
           intents, and entities to be sent to the Watson Assistant service if the user
           selects the corresponding disambiguation option.
@@ -5065,8 +5067,8 @@ class DialogSuggestion():
         Initialize a DialogSuggestion object.
 
         :param str label: The user-facing label for the disambiguation option. This
-               label is taken from the **user_label** property of the corresponding dialog
-               node.
+               label is taken from the **title** or **user_label** property of the
+               corresponding dialog node, depending on the disambiguation options.
         :param DialogSuggestionValue value: An object defining the message input,
                intents, and entities to be sent to the Watson Assistant service if the
                user selects the corresponding disambiguation option.
@@ -7502,7 +7504,7 @@ class RuntimeResponseGeneric():
     :attr list[DialogSuggestion] suggestions: (optional) An array of objects
           describing the possible matching dialog nodes from which the user can choose.
           **Note:** The **suggestions** property is part of the disambiguation feature,
-          which is only available for Premium users.
+          which is only available for Plus and Premium users.
     """
 
     def __init__(self,
@@ -7552,7 +7554,7 @@ class RuntimeResponseGeneric():
                describing the possible matching dialog nodes from which the user can
                choose.
                **Note:** The **suggestions** property is part of the disambiguation
-               feature, which is only available for Premium users.
+               feature, which is only available for Plus and Premium users.
         """
         self.response_type = response_type
         self.text = text
@@ -8642,7 +8644,7 @@ class WorkspaceSystemSettings():
 class WorkspaceSystemSettingsDisambiguation():
     """
     Workspace settings related to the disambiguation feature.
-    **Note:** This feature is available only to Premium users.
+    **Note:** This feature is available only to Plus and Premium users.
 
     :attr str prompt: (optional) The text of the introductory prompt that
           accompanies disambiguation options presented to the user.
@@ -8775,6 +8777,59 @@ class WorkspaceSystemSettingsDisambiguation():
         """
         AUTO = "auto"
         HIGH = "high"
+
+
+class WorkspaceSystemSettingsOffTopic():
+    """
+    Workspace settings related to detection of irrelevant input.
+
+    :attr bool enabled: (optional) Whether enhanced irrelevance detection is enabled
+          for the workspace.
+    """
+
+    def __init__(self, *, enabled=None):
+        """
+        Initialize a WorkspaceSystemSettingsOffTopic object.
+
+        :param bool enabled: (optional) Whether enhanced irrelevance detection is
+               enabled for the workspace.
+        """
+        self.enabled = enabled
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a WorkspaceSystemSettingsOffTopic object from a json dictionary."""
+        args = {}
+        valid_keys = ['enabled']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class WorkspaceSystemSettingsOffTopic: '
+                + ', '.join(bad_keys))
+        if 'enabled' in _dict:
+            args['enabled'] = _dict.get('enabled')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'enabled') and self.enabled is not None:
+            _dict['enabled'] = self.enabled
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this WorkspaceSystemSettingsOffTopic object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
 
 
 class WorkspaceSystemSettingsTooling():
