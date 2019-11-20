@@ -8655,6 +8655,12 @@ class WorkspaceSystemSettingsDisambiguation():
           to intent detection conflicts. Set to **high** if you want the disambiguation
           feature to be triggered more often. This can be useful for testing or
           demonstration purposes.
+    :attr bool randomize: (optional) Whether the order in which disambiguation
+          suggestions are presented should be randomized (but still influenced by relative
+          confidence).
+    :attr int max_suggestions: (optional) The maximum number of disambigation
+          suggestions that can be included in a `suggestion` response.
+    :attr str suggestion_text_policy: (optional) For internal use only.
     """
 
     def __init__(self,
@@ -8662,7 +8668,10 @@ class WorkspaceSystemSettingsDisambiguation():
                  prompt=None,
                  none_of_the_above_prompt=None,
                  enabled=None,
-                 sensitivity=None):
+                 sensitivity=None,
+                 randomize=None,
+                 max_suggestions=None,
+                 suggestion_text_policy=None):
         """
         Initialize a WorkspaceSystemSettingsDisambiguation object.
 
@@ -8677,18 +8686,28 @@ class WorkspaceSystemSettingsDisambiguation():
                feature to intent detection conflicts. Set to **high** if you want the
                disambiguation feature to be triggered more often. This can be useful for
                testing or demonstration purposes.
+        :param bool randomize: (optional) Whether the order in which disambiguation
+               suggestions are presented should be randomized (but still influenced by
+               relative confidence).
+        :param int max_suggestions: (optional) The maximum number of disambigation
+               suggestions that can be included in a `suggestion` response.
+        :param str suggestion_text_policy: (optional) For internal use only.
         """
         self.prompt = prompt
         self.none_of_the_above_prompt = none_of_the_above_prompt
         self.enabled = enabled
         self.sensitivity = sensitivity
+        self.randomize = randomize
+        self.max_suggestions = max_suggestions
+        self.suggestion_text_policy = suggestion_text_policy
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a WorkspaceSystemSettingsDisambiguation object from a json dictionary."""
         args = {}
         valid_keys = [
-            'prompt', 'none_of_the_above_prompt', 'enabled', 'sensitivity'
+            'prompt', 'none_of_the_above_prompt', 'enabled', 'sensitivity',
+            'randomize', 'max_suggestions', 'suggestion_text_policy'
         ]
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
@@ -8704,6 +8723,12 @@ class WorkspaceSystemSettingsDisambiguation():
             args['enabled'] = _dict.get('enabled')
         if 'sensitivity' in _dict:
             args['sensitivity'] = _dict.get('sensitivity')
+        if 'randomize' in _dict:
+            args['randomize'] = _dict.get('randomize')
+        if 'max_suggestions' in _dict:
+            args['max_suggestions'] = _dict.get('max_suggestions')
+        if 'suggestion_text_policy' in _dict:
+            args['suggestion_text_policy'] = _dict.get('suggestion_text_policy')
         return cls(**args)
 
     def _to_dict(self):
@@ -8718,6 +8743,14 @@ class WorkspaceSystemSettingsDisambiguation():
             _dict['enabled'] = self.enabled
         if hasattr(self, 'sensitivity') and self.sensitivity is not None:
             _dict['sensitivity'] = self.sensitivity
+        if hasattr(self, 'randomize') and self.randomize is not None:
+            _dict['randomize'] = self.randomize
+        if hasattr(self,
+                   'max_suggestions') and self.max_suggestions is not None:
+            _dict['max_suggestions'] = self.max_suggestions
+        if hasattr(self, 'suggestion_text_policy'
+                  ) and self.suggestion_text_policy is not None:
+            _dict['suggestion_text_policy'] = self.suggestion_text_policy
         return _dict
 
     def __str__(self):
