@@ -120,5 +120,9 @@ class IntegrationTestVisualRecognitionV3(TestCase):
         assert train_result is not None
         assert train_result.get('training_status') is not None
 
+        # training usage
+        training_usage = self.visual_recognition.get_training_usage(start_time='2019-11-01').get_result()
+        assert training_usage is not None
+
         # delete collection
         self.visual_recognition.delete_collection(collection_id)

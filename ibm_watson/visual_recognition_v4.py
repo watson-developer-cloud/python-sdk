@@ -16,10 +16,6 @@
 """
 Provide images to the IBM Watson&trade; Visual Recognition service for analysis. The
 service detects objects based on a set of images with training data.
-**Beta:** The Visual Recognition v4 API and Object Detection model are beta features. For
-more information about beta features, see the [Release
-notes](https://cloud.ibm.com/docs/services/visual-recognition?topic=visual-recognition-release-notes#beta).
-{: important}
 """
 
 import json
@@ -555,7 +551,10 @@ class VisualRecognitionV4(BaseService):
 
         :param str collection_id: The identifier of the collection.
         :param str image_id: The identifier of the image.
-        :param str size: (optional) Specify the image size.
+        :param str size: (optional) The image size. Specify `thumbnail` to return a
+               version that maintains the original aspect ratio but is no larger than 200
+               pixels in the larger dimension. For example, an original 800 x 1000 image
+               is resized to 160 x 200 pixels.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -679,6 +678,47 @@ class VisualRecognitionV4(BaseService):
         response = self.send(request)
         return response
 
+    def get_training_usage(self, *, start_time=None, end_time=None, **kwargs):
+        """
+        Get training usage.
+
+        Information about the completed training events. You can use this information to
+        determine how close you are to the training limits for the month.
+
+        :param str start_time: (optional) The earliest day to include training
+               events. Specify dates in YYYY-MM-DD format. If empty or not specified, the
+               earliest training event is included.
+        :param str end_time: (optional) The most recent day to include training
+               events. Specify dates in YYYY-MM-DD format. All events for the day are
+               included. If empty or not specified, the current day is used. Specify the
+               same value as `start_time` to request events for a single day.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers('watson_vision_combined', 'V4',
+                                      'get_training_usage')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+            'start_time': start_time,
+            'end_time': end_time
+        }
+
+        url = '/v4/training_usage'
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       accept_json=True)
+        response = self.send(request)
+        return response
+
     #########################
     # User data
     #########################
@@ -736,9 +776,12 @@ class GetJpegImageEnums(object):
 
     class Size(Enum):
         """
-        Specify the image size.
+        The image size. Specify `thumbnail` to return a version that maintains the
+        original aspect ratio but is no larger than 200 pixels in the larger dimension.
+        For example, an original 800 x 1000 image is resized to 160 x 200 pixels.
         """
         FULL = 'full'
+        THUMBNAIL = 'thumbnail'
 
 
 ##############################################################################
@@ -1307,7 +1350,8 @@ class Image():
     :attr ImageDimensions dimensions: Height and width of an image.
     :attr DetectedObjects objects: Container for the list of collections that have
           objects detected in an image.
-    :attr Error errors: (optional) Details about an error.
+    :attr list[Error] errors: (optional) A container for the problems in the
+          request.
     """
 
     def __init__(self, source, dimensions, objects, *, errors=None):
@@ -1318,7 +1362,8 @@ class Image():
         :param ImageDimensions dimensions: Height and width of an image.
         :param DetectedObjects objects: Container for the list of collections that
                have objects detected in an image.
-        :param Error errors: (optional) Details about an error.
+        :param list[Error] errors: (optional) A container for the problems in the
+               request.
         """
         self.source = source
         self.dimensions = dimensions
@@ -1352,7 +1397,9 @@ class Image():
             raise ValueError(
                 'Required property \'objects\' not present in Image JSON')
         if 'errors' in _dict:
-            args['errors'] = Error._from_dict(_dict.get('errors'))
+            args['errors'] = [
+                Error._from_dict(x) for x in (_dict.get('errors'))
+            ]
         return cls(**args)
 
     def _to_dict(self):
@@ -1365,7 +1412,7 @@ class Image():
         if hasattr(self, 'objects') and self.objects is not None:
             _dict['objects'] = self.objects._to_dict()
         if hasattr(self, 'errors') and self.errors is not None:
-            _dict['errors'] = self.errors._to_dict()
+            _dict['errors'] = [x._to_dict() for x in self.errors]
         return _dict
 
     def __str__(self):
@@ -1387,38 +1434,40 @@ class ImageDetails():
     """
     Details about an image.
 
-    :attr str image_id: The identifier of the image.
-    :attr datetime updated: Date and time in Coordinated Universal Time (UTC) that
-          the image was most recently updated.
-    :attr datetime created: Date and time in Coordinated Universal Time (UTC) that
-          the image was created.
+    :attr str image_id: (optional) The identifier of the image.
+    :attr datetime updated: (optional) Date and time in Coordinated Universal Time
+          (UTC) that the image was most recently updated.
+    :attr datetime created: (optional) Date and time in Coordinated Universal Time
+          (UTC) that the image was created.
     :attr ImageSource source: The source type of the image.
-    :attr ImageDimensions dimensions: Height and width of an image.
-    :attr Error errors: (optional) Details about an error.
-    :attr TrainingDataObjects training_data: Training data for all objects.
+    :attr ImageDimensions dimensions: (optional) Height and width of an image.
+    :attr list[Error] errors: (optional)
+    :attr TrainingDataObjects training_data: (optional) Training data for all
+          objects.
     """
 
     def __init__(self,
-                 image_id,
-                 updated,
-                 created,
                  source,
-                 dimensions,
-                 training_data,
                  *,
-                 errors=None):
+                 image_id=None,
+                 updated=None,
+                 created=None,
+                 dimensions=None,
+                 errors=None,
+                 training_data=None):
         """
         Initialize a ImageDetails object.
 
-        :param str image_id: The identifier of the image.
-        :param datetime updated: Date and time in Coordinated Universal Time (UTC)
-               that the image was most recently updated.
-        :param datetime created: Date and time in Coordinated Universal Time (UTC)
-               that the image was created.
         :param ImageSource source: The source type of the image.
-        :param ImageDimensions dimensions: Height and width of an image.
-        :param TrainingDataObjects training_data: Training data for all objects.
-        :param Error errors: (optional) Details about an error.
+        :param str image_id: (optional) The identifier of the image.
+        :param datetime updated: (optional) Date and time in Coordinated Universal
+               Time (UTC) that the image was most recently updated.
+        :param datetime created: (optional) Date and time in Coordinated Universal
+               Time (UTC) that the image was created.
+        :param ImageDimensions dimensions: (optional) Height and width of an image.
+        :param list[Error] errors: (optional)
+        :param TrainingDataObjects training_data: (optional) Training data for all
+               objects.
         """
         self.image_id = image_id
         self.updated = updated
@@ -1443,22 +1492,10 @@ class ImageDetails():
                 + ', '.join(bad_keys))
         if 'image_id' in _dict:
             args['image_id'] = _dict.get('image_id')
-        else:
-            raise ValueError(
-                'Required property \'image_id\' not present in ImageDetails JSON'
-            )
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict.get('updated'))
-        else:
-            raise ValueError(
-                'Required property \'updated\' not present in ImageDetails JSON'
-            )
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict.get('created'))
-        else:
-            raise ValueError(
-                'Required property \'created\' not present in ImageDetails JSON'
-            )
         if 'source' in _dict:
             args['source'] = ImageSource._from_dict(_dict.get('source'))
         else:
@@ -1467,19 +1504,13 @@ class ImageDetails():
         if 'dimensions' in _dict:
             args['dimensions'] = ImageDimensions._from_dict(
                 _dict.get('dimensions'))
-        else:
-            raise ValueError(
-                'Required property \'dimensions\' not present in ImageDetails JSON'
-            )
         if 'errors' in _dict:
-            args['errors'] = Error._from_dict(_dict.get('errors'))
+            args['errors'] = [
+                Error._from_dict(x) for x in (_dict.get('errors'))
+            ]
         if 'training_data' in _dict:
             args['training_data'] = TrainingDataObjects._from_dict(
                 _dict.get('training_data'))
-        else:
-            raise ValueError(
-                'Required property \'training_data\' not present in ImageDetails JSON'
-            )
         return cls(**args)
 
     def _to_dict(self):
@@ -1496,7 +1527,7 @@ class ImageDetails():
         if hasattr(self, 'dimensions') and self.dimensions is not None:
             _dict['dimensions'] = self.dimensions._to_dict()
         if hasattr(self, 'errors') and self.errors is not None:
-            _dict['errors'] = self.errors._to_dict()
+            _dict['errors'] = [x._to_dict() for x in self.errors]
         if hasattr(self, 'training_data') and self.training_data is not None:
             _dict['training_data'] = self.training_data._to_dict()
         return _dict
@@ -1593,16 +1624,16 @@ class ImageDimensions():
     """
     Height and width of an image.
 
-    :attr int height: Height in pixels of the image.
-    :attr int width: Width in pixels of the image.
+    :attr int height: (optional) Height in pixels of the image.
+    :attr int width: (optional) Width in pixels of the image.
     """
 
-    def __init__(self, height, width):
+    def __init__(self, *, height=None, width=None):
         """
         Initialize a ImageDimensions object.
 
-        :param int height: Height in pixels of the image.
-        :param int width: Width in pixels of the image.
+        :param int height: (optional) Height in pixels of the image.
+        :param int width: (optional) Width in pixels of the image.
         """
         self.height = height
         self.width = width
@@ -1619,16 +1650,8 @@ class ImageDimensions():
                 + ', '.join(bad_keys))
         if 'height' in _dict:
             args['height'] = _dict.get('height')
-        else:
-            raise ValueError(
-                'Required property \'height\' not present in ImageDimensions JSON'
-            )
         if 'width' in _dict:
             args['width'] = _dict.get('width')
-        else:
-            raise ValueError(
-                'Required property \'width\' not present in ImageDimensions JSON'
-            )
         return cls(**args)
 
     def _to_dict(self):
@@ -2270,6 +2293,219 @@ class TrainingDataObjects():
         return not self == other
 
 
+class TrainingEvent():
+    """
+    Details about the training event.
+
+    :attr str type: (optional) Trained object type. Only `objects` is currently
+          supported.
+    :attr str collection_id: (optional) Identifier of the trained collection.
+    :attr datetime completion_time: (optional) Date and time in Coordinated
+          Universal Time (UTC) that training on the collection finished.
+    :attr str status: (optional) Training status of the training event.
+    :attr int image_count: (optional) The total number of images that were used in
+          training for this training event.
+    """
+
+    def __init__(self,
+                 *,
+                 type=None,
+                 collection_id=None,
+                 completion_time=None,
+                 status=None,
+                 image_count=None):
+        """
+        Initialize a TrainingEvent object.
+
+        :param str type: (optional) Trained object type. Only `objects` is
+               currently supported.
+        :param str collection_id: (optional) Identifier of the trained collection.
+        :param datetime completion_time: (optional) Date and time in Coordinated
+               Universal Time (UTC) that training on the collection finished.
+        :param str status: (optional) Training status of the training event.
+        :param int image_count: (optional) The total number of images that were
+               used in training for this training event.
+        """
+        self.type = type
+        self.collection_id = collection_id
+        self.completion_time = completion_time
+        self.status = status
+        self.image_count = image_count
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TrainingEvent object from a json dictionary."""
+        args = {}
+        valid_keys = [
+            'type', 'collection_id', 'completion_time', 'status', 'image_count'
+        ]
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class TrainingEvent: '
+                + ', '.join(bad_keys))
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        if 'collection_id' in _dict:
+            args['collection_id'] = _dict.get('collection_id')
+        if 'completion_time' in _dict:
+            args['completion_time'] = string_to_datetime(
+                _dict.get('completion_time'))
+        if 'status' in _dict:
+            args['status'] = _dict.get('status')
+        if 'image_count' in _dict:
+            args['image_count'] = _dict.get('image_count')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'collection_id') and self.collection_id is not None:
+            _dict['collection_id'] = self.collection_id
+        if hasattr(self,
+                   'completion_time') and self.completion_time is not None:
+            _dict['completion_time'] = datetime_to_string(self.completion_time)
+        if hasattr(self, 'status') and self.status is not None:
+            _dict['status'] = self.status
+        if hasattr(self, 'image_count') and self.image_count is not None:
+            _dict['image_count'] = self.image_count
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this TrainingEvent object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class TypeEnum(Enum):
+        """
+        Trained object type. Only `objects` is currently supported.
+        """
+        OBJECTS = "objects"
+
+    class StatusEnum(Enum):
+        """
+        Training status of the training event.
+        """
+        FAILED = "failed"
+        SUCCEEDED = "succeeded"
+
+
+class TrainingEvents():
+    """
+    Details about the training events.
+
+    :attr datetime start_time: (optional) The starting day for the returned training
+          events in Coordinated Universal Time (UTC). If not specified in the request, it
+          identifies the earliest training event.
+    :attr datetime end_time: (optional) The ending day for the returned training
+          events in Coordinated Universal Time (UTC). If not specified in the request, it
+          lists the current time.
+    :attr int completed_events: (optional) The total number of training events in
+          the response for the start and end times.
+    :attr int trained_images: (optional) The total number of images that were used
+          in training for the start and end times.
+    :attr list[TrainingEvent] events: (optional) The completed training events for
+          the start and end time.
+    """
+
+    def __init__(self,
+                 *,
+                 start_time=None,
+                 end_time=None,
+                 completed_events=None,
+                 trained_images=None,
+                 events=None):
+        """
+        Initialize a TrainingEvents object.
+
+        :param datetime start_time: (optional) The starting day for the returned
+               training events in Coordinated Universal Time (UTC). If not specified in
+               the request, it identifies the earliest training event.
+        :param datetime end_time: (optional) The ending day for the returned
+               training events in Coordinated Universal Time (UTC). If not specified in
+               the request, it lists the current time.
+        :param int completed_events: (optional) The total number of training events
+               in the response for the start and end times.
+        :param int trained_images: (optional) The total number of images that were
+               used in training for the start and end times.
+        :param list[TrainingEvent] events: (optional) The completed training events
+               for the start and end time.
+        """
+        self.start_time = start_time
+        self.end_time = end_time
+        self.completed_events = completed_events
+        self.trained_images = trained_images
+        self.events = events
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TrainingEvents object from a json dictionary."""
+        args = {}
+        valid_keys = [
+            'start_time', 'end_time', 'completed_events', 'trained_images',
+            'events'
+        ]
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class TrainingEvents: '
+                + ', '.join(bad_keys))
+        if 'start_time' in _dict:
+            args['start_time'] = string_to_datetime(_dict.get('start_time'))
+        if 'end_time' in _dict:
+            args['end_time'] = string_to_datetime(_dict.get('end_time'))
+        if 'completed_events' in _dict:
+            args['completed_events'] = _dict.get('completed_events')
+        if 'trained_images' in _dict:
+            args['trained_images'] = _dict.get('trained_images')
+        if 'events' in _dict:
+            args['events'] = [
+                TrainingEvent._from_dict(x) for x in (_dict.get('events'))
+            ]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'start_time') and self.start_time is not None:
+            _dict['start_time'] = datetime_to_string(self.start_time)
+        if hasattr(self, 'end_time') and self.end_time is not None:
+            _dict['end_time'] = datetime_to_string(self.end_time)
+        if hasattr(self,
+                   'completed_events') and self.completed_events is not None:
+            _dict['completed_events'] = self.completed_events
+        if hasattr(self, 'trained_images') and self.trained_images is not None:
+            _dict['trained_images'] = self.trained_images
+        if hasattr(self, 'events') and self.events is not None:
+            _dict['events'] = [x._to_dict() for x in self.events]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this TrainingEvents object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class TrainingStatus():
     """
     Training status information for the collection.
@@ -2442,7 +2678,7 @@ class FileWithMetadata():
                 'Unrecognized keys detected in dictionary for class FileWithMetadata: '
                 + ', '.join(bad_keys))
         if 'data' in _dict:
-            args['data'] = _dict.get('data')
+            args['data'] = file._from_dict(_dict.get('data'))
         else:
             raise ValueError(
                 'Required property \'data\' not present in FileWithMetadata JSON'
@@ -2457,7 +2693,7 @@ class FileWithMetadata():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'data') and self.data is not None:
-            _dict['data'] = self.data.__str__()
+            _dict['data'] = self.data._to_dict()
         if hasattr(self, 'filename') and self.filename is not None:
             _dict['filename'] = self.filename
         if hasattr(self, 'content_type') and self.content_type is not None:
