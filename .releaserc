@@ -4,7 +4,6 @@
   "debug": true,
   "prepare": [
     "@semantic-release/changelog",
-    "@semantic-release/git",
     {
       "path": "@semantic-release/exec",
       "cmd": "bumpversion --current-version ${lastRelease.version} --new-version ${nextRelease.version} patch"
