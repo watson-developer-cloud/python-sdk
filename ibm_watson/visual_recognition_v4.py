@@ -154,7 +154,7 @@ class VisualRecognitionV4(BaseService):
                 form_data.append(('image_url', (None, item, 'text/plain')))
         if threshold:
             form_data.append(
-                ('threshold', (None, threshold, 'application/json')))
+                ('threshold', (None, str(threshold), 'application/json')))
 
         url = '/v4/analyze'
         request = self.prepare_request(method='POST',
