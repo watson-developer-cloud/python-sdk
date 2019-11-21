@@ -4,6 +4,7 @@ from ibm_watson import DiscoveryV2
 from ibm_watson.discovery_v2 import TrainingExample
 from ibm_cloud_sdk_core.authenticators import CloudPakForDataAuthenticator, BearerTokenAuthenticator
 
+## Important: Discovery v2 is only available on Cloud Pak for Data. ##
 
 ## Authentication ##
 ## Option 1: username/password
