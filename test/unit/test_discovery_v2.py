@@ -13,10 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from ibm_cloud_sdk_core.authenticators.bearer_token_authenticator import BearerTokenAuthenticator
+from ibm_cloud_sdk_core.authenticators.no_auth_authenticator import NoAuthAuthenticator
 import json
 import responses
 import tempfile
+import ibm_watson.discovery_v2
 from ibm_watson.discovery_v2 import *
 
 base_url = 'https://fake'
@@ -79,9 +80,9 @@ class TestListCollections():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = DiscoveryV2(authenticator=BearerTokenAuthenticator('token'),
+        service = DiscoveryV2(authenticator=NoAuthAuthenticator(),
                               version='2019-11-22')
-        service.set_service_url('https://fake')
+        service.set_service_url(base_url)
         output = service.list_collections(**body)
         return output
 
@@ -158,9 +159,9 @@ class TestQuery():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = DiscoveryV2(authenticator=BearerTokenAuthenticator('token'),
+        service = DiscoveryV2(authenticator=NoAuthAuthenticator(),
                               version='2019-11-22')
-        service.set_service_url('https://fake')
+        service.set_service_url(base_url)
         output = service.query(**body)
         return output
 
@@ -179,7 +180,7 @@ class TestQuery():
                 "string1",
             "count":
                 12345,
-            "return_": {},
+            "return_": [],
             "offset":
                 12345,
             "sort":
@@ -197,7 +198,7 @@ class TestQuery():
             "passages":
                 QueryLargePassages._from_dict(
                     json.loads(
-                        """{"enabled": false, "per_document": true, "fields": [], "count": 5, "characters": 10}"""
+                        """{"enabled": false, "per_document": true, "max_per_document": 16, "fields": [], "count": 5, "characters": 10}"""
                     )),
         })
         return body
@@ -259,18 +260,18 @@ class TestGetAutocompletion():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = DiscoveryV2(authenticator=BearerTokenAuthenticator('token'),
+        service = DiscoveryV2(authenticator=NoAuthAuthenticator(),
                               version='2019-11-22')
-        service.set_service_url('https://fake')
+        service.set_service_url(base_url)
         output = service.get_autocompletion(**body)
         return output
 
     def construct_full_body(self):
         body = dict()
         body['project_id'] = "string1"
-        body['collection_ids'] = {"collection_ids": {"mock": "data"}}
-        body['field'] = "string1"
         body['prefix'] = "string1"
+        body['collection_ids'] = []
+        body['field'] = "string1"
         body['count'] = 12345
         return body
 
@@ -333,9 +334,9 @@ class TestQueryNotices():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = DiscoveryV2(authenticator=BearerTokenAuthenticator('token'),
+        service = DiscoveryV2(authenticator=NoAuthAuthenticator(),
                               version='2019-11-22')
-        service.set_service_url('https://fake')
+        service.set_service_url(base_url)
         output = service.query_notices(**body)
         return output
 
@@ -345,13 +346,8 @@ class TestQueryNotices():
         body['filter'] = "string1"
         body['query'] = "string1"
         body['natural_language_query'] = "string1"
-        body['aggregation'] = "string1"
         body['count'] = 12345
-        body['return_'] = {"return_": {"mock": "data"}}
         body['offset'] = 12345
-        body['sort'] = {"sort": {"mock": "data"}}
-        body['highlight'] = True
-        body['spelling_suggestions'] = True
         return body
 
     def construct_required_body(self):
@@ -411,16 +407,16 @@ class TestListFields():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = DiscoveryV2(authenticator=BearerTokenAuthenticator('token'),
+        service = DiscoveryV2(authenticator=NoAuthAuthenticator(),
                               version='2019-11-22')
-        service.set_service_url('https://fake')
+        service.set_service_url(base_url)
         output = service.list_fields(**body)
         return output
 
     def construct_full_body(self):
         body = dict()
         body['project_id'] = "string1"
-        body['collection_ids'] = {"collection_ids": {"mock": "data"}}
+        body['collection_ids'] = []
         return body
 
     def construct_required_body(self):
@@ -493,9 +489,9 @@ class TestGetComponentSettings():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = DiscoveryV2(authenticator=BearerTokenAuthenticator('token'),
+        service = DiscoveryV2(authenticator=NoAuthAuthenticator(),
                               version='2019-11-22')
-        service.set_service_url('https://fake')
+        service.set_service_url(base_url)
         output = service.get_component_settings(**body)
         return output
 
@@ -573,9 +569,9 @@ class TestAddDocument():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = DiscoveryV2(authenticator=BearerTokenAuthenticator('token'),
+        service = DiscoveryV2(authenticator=NoAuthAuthenticator(),
                               version='2019-11-22')
-        service.set_service_url('https://fake')
+        service.set_service_url(base_url)
         output = service.add_document(**body)
         return output
 
@@ -649,9 +645,9 @@ class TestUpdateDocument():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = DiscoveryV2(authenticator=BearerTokenAuthenticator('token'),
+        service = DiscoveryV2(authenticator=NoAuthAuthenticator(),
                               version='2019-11-22')
-        service.set_service_url('https://fake')
+        service.set_service_url(base_url)
         output = service.update_document(**body)
         return output
 
@@ -728,9 +724,9 @@ class TestDeleteDocument():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = DiscoveryV2(authenticator=BearerTokenAuthenticator('token'),
+        service = DiscoveryV2(authenticator=NoAuthAuthenticator(),
                               version='2019-11-22')
-        service.set_service_url('https://fake')
+        service.set_service_url(base_url)
         output = service.delete_document(**body)
         return output
 
@@ -813,9 +809,9 @@ class TestListTrainingQueries():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = DiscoveryV2(authenticator=BearerTokenAuthenticator('token'),
+        service = DiscoveryV2(authenticator=NoAuthAuthenticator(),
                               version='2019-11-22')
-        service.set_service_url('https://fake')
+        service.set_service_url(base_url)
         output = service.list_training_queries(**body)
         return output
 
@@ -882,9 +878,9 @@ class TestDeleteTrainingQueries():
                       content_type='')
 
     def call_service(self, body):
-        service = DiscoveryV2(authenticator=BearerTokenAuthenticator('token'),
+        service = DiscoveryV2(authenticator=NoAuthAuthenticator(),
                               version='2019-11-22')
-        service.set_service_url('https://fake')
+        service.set_service_url(base_url)
         output = service.delete_training_queries(**body)
         return output
 
@@ -951,9 +947,9 @@ class TestCreateTrainingQuery():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = DiscoveryV2(authenticator=BearerTokenAuthenticator('token'),
+        service = DiscoveryV2(authenticator=NoAuthAuthenticator(),
                               version='2019-11-22')
-        service.set_service_url('https://fake')
+        service.set_service_url(base_url)
         output = service.create_training_query(**body)
         return output
 
@@ -962,14 +958,18 @@ class TestCreateTrainingQuery():
         body['project_id'] = "string1"
         body.update({
             "natural_language_query": "string1",
+            "examples": [],
             "filter": "string1",
-            "examples": []
         })
         return body
 
     def construct_required_body(self):
         body = dict()
         body['project_id'] = "string1"
+        body.update({
+            "natural_language_query": "string1",
+            "examples": [],
+        })
         return body
 
 
@@ -1025,9 +1025,9 @@ class TestGetTrainingQuery():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = DiscoveryV2(authenticator=BearerTokenAuthenticator('token'),
+        service = DiscoveryV2(authenticator=NoAuthAuthenticator(),
                               version='2019-11-22')
-        service.set_service_url('https://fake')
+        service.set_service_url(base_url)
         output = service.get_training_query(**body)
         return output
 
@@ -1055,7 +1055,7 @@ class TestUpdateTrainingQuery():
     @responses.activate
     def test_update_training_query_response(self):
         body = self.construct_full_body()
-        response = fake_response_TrainingExample_json
+        response = fake_response_TrainingQuery_json
         send_request(self, body, response)
         assert len(responses.calls) == 1
 
@@ -1066,7 +1066,7 @@ class TestUpdateTrainingQuery():
     def test_update_training_query_required_response(self):
         # Check response with required params
         body = self.construct_required_body()
-        response = fake_response_TrainingExample_json
+        response = fake_response_TrainingQuery_json
         send_request(self, body, response)
         assert len(responses.calls) == 1
 
@@ -1075,7 +1075,7 @@ class TestUpdateTrainingQuery():
     #--------------------------------------------------------
     @responses.activate
     def test_update_training_query_empty(self):
-        check_empty_required_params(self, fake_response_TrainingExample_json)
+        check_empty_required_params(self, fake_response_TrainingQuery_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -1096,9 +1096,9 @@ class TestUpdateTrainingQuery():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = DiscoveryV2(authenticator=BearerTokenAuthenticator('token'),
+        service = DiscoveryV2(authenticator=NoAuthAuthenticator(),
                               version='2019-11-22')
-        service.set_service_url('https://fake')
+        service.set_service_url(base_url)
         output = service.update_training_query(**body)
         return output
 
@@ -1108,8 +1108,8 @@ class TestUpdateTrainingQuery():
         body['query_id'] = "string1"
         body.update({
             "natural_language_query": "string1",
+            "examples": [],
             "filter": "string1",
-            "examples": []
         })
         return body
 
@@ -1119,8 +1119,8 @@ class TestUpdateTrainingQuery():
         body['query_id'] = "string1"
         body.update({
             "natural_language_query": "string1",
+            "examples": [],
             "filter": "string1",
-            "examples": []
         })
         return body
 
@@ -1202,7 +1202,7 @@ fake_response__json = None
 fake_response_ListCollectionsResponse_json = """{"collections": []}"""
 fake_response_QueryResponse_json = """{"matching_results": 16, "results": [], "aggregations": [], "retrieval_details": {"document_retrieval_strategy": "fake_document_retrieval_strategy"}, "suggested_query": "fake_suggested_query", "suggested_refinements": [], "table_results": []}"""
 fake_response_Completions_json = """{"completions": []}"""
-fake_response_QueryNoticesResponse_json = """{"matching_results": 16, "results": [], "aggregations": []}"""
+fake_response_QueryNoticesResponse_json = """{"matching_results": 16, "notices": []}"""
 fake_response_ListFieldsResponse_json = """{"fields": []}"""
 fake_response_ComponentSettingsResponse_json = """{"fields_shown": {"body": {"use_passage": false, "field": "fake_field"}, "title": {"field": "fake_field"}}, "autocomplete": true, "structured_search": false, "results_per_page": 16, "aggregations": []}"""
 fake_response_DocumentAccepted_json = """{"document_id": "fake_document_id", "status": "fake_status"}"""
@@ -1211,4 +1211,4 @@ fake_response_DeleteDocumentResponse_json = """{"document_id": "fake_document_id
 fake_response_TrainingQuerySet_json = """{"queries": []}"""
 fake_response_TrainingQuery_json = """{"query_id": "fake_query_id", "natural_language_query": "fake_natural_language_query", "filter": "fake_filter", "examples": []}"""
 fake_response_TrainingQuery_json = """{"query_id": "fake_query_id", "natural_language_query": "fake_natural_language_query", "filter": "fake_filter", "examples": []}"""
-fake_response_TrainingExample_json = """{"document_id": "fake_document_id", "cross_reference": "fake_cross_reference", "relevance": 9}"""
+fake_response_TrainingQuery_json = """{"query_id": "fake_query_id", "natural_language_query": "fake_natural_language_query", "filter": "fake_filter", "examples": []}"""

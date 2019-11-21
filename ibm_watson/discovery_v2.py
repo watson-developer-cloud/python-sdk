@@ -759,10 +759,10 @@ class DiscoveryV2(BaseService):
 
     def create_training_query(self,
                               project_id,
+                              natural_language_query,
+                              examples,
                               *,
-                              natural_language_query=None,
                               filter=None,
-                              examples=None,
                               **kwargs):
         """
         Create training query.
@@ -772,12 +772,11 @@ class DiscoveryV2(BaseService):
 
         :param str project_id: The ID of the project. This information can be found
                from the deploy page of the Discovery administrative tooling.
-        :param str natural_language_query: (optional) The natural text query for
-               the training query.
+        :param str natural_language_query: The natural text query for the training
+               query.
+        :param list[TrainingExample] examples: Array of training examples.
         :param str filter: (optional) The filter used on the collection before the
                **natural_language_query** is applied.
-        :param list[TrainingExample] examples: (optional) Array of training
-               examples.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -785,8 +784,7 @@ class DiscoveryV2(BaseService):
 
         if project_id is None:
             raise ValueError('project_id must be provided')
-        if examples is not None:
-            examples = [self._convert_model(x) for x in examples]
+        examples = [self._convert_model(x) for x in examples]
 
         headers = {}
         if 'headers' in kwargs:
@@ -799,8 +797,8 @@ class DiscoveryV2(BaseService):
 
         data = {
             'natural_language_query': natural_language_query,
-            'filter': filter,
-            'examples': examples
+            'examples': examples,
+            'filter': filter
         }
 
         url = '/v2/projects/{0}/training_data/queries'.format(
@@ -855,10 +853,10 @@ class DiscoveryV2(BaseService):
     def update_training_query(self,
                               project_id,
                               query_id,
+                              natural_language_query,
+                              examples,
                               *,
-                              natural_language_query=None,
                               filter=None,
-                              examples=None,
                               **kwargs):
         """
         Update a training query.
@@ -868,12 +866,11 @@ class DiscoveryV2(BaseService):
         :param str project_id: The ID of the project. This information can be found
                from the deploy page of the Discovery administrative tooling.
         :param str query_id: The ID of the query used for training.
-        :param str natural_language_query: (optional) The natural text query for
-               the training query.
+        :param str natural_language_query: The natural text query for the training
+               query.
+        :param list[TrainingExample] examples: Array of training examples.
         :param str filter: (optional) The filter used on the collection before the
                **natural_language_query** is applied.
-        :param list[TrainingExample] examples: (optional) Array of training
-               examples.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -883,8 +880,11 @@ class DiscoveryV2(BaseService):
             raise ValueError('project_id must be provided')
         if query_id is None:
             raise ValueError('query_id must be provided')
-        if examples is not None:
-            examples = [self._convert_model(x) for x in examples]
+        if natural_language_query is None:
+            raise ValueError('natural_language_query must be provided')
+        if examples is None:
+            raise ValueError('examples must be provided')
+        examples = [self._convert_model(x) for x in examples]
 
         headers = {}
         if 'headers' in kwargs:
@@ -897,8 +897,8 @@ class DiscoveryV2(BaseService):
 
         data = {
             'natural_language_query': natural_language_query,
-            'filter': filter,
-            'examples': examples
+            'examples': examples,
+            'filter': filter
         }
 
         url = '/v2/projects/{0}/training_data/queries/{1}'.format(
@@ -5354,7 +5354,7 @@ class TrainingExample():
     :attr str document_id: The document ID associated with this training example.
     :attr str collection_id: The collection ID associated with this training
           example.
-    :attr int relevance: (optional) The relevance of the training example.
+    :attr int relevance: The relevance of the training example.
     :attr date created: (optional) The date and time the example was created.
     :attr date updated: (optional) The date and time the example was updated.
     """
@@ -5362,8 +5362,8 @@ class TrainingExample():
     def __init__(self,
                  document_id,
                  collection_id,
+                 relevance,
                  *,
-                 relevance=None,
                  created=None,
                  updated=None):
         """
@@ -5373,7 +5373,7 @@ class TrainingExample():
                example.
         :param str collection_id: The collection ID associated with this training
                example.
-        :param int relevance: (optional) The relevance of the training example.
+        :param int relevance: The relevance of the training example.
         :param date created: (optional) The date and time the example was created.
         :param date updated: (optional) The date and time the example was updated.
         """
@@ -5409,6 +5409,10 @@ class TrainingExample():
             )
         if 'relevance' in _dict:
             args['relevance'] = _dict.get('relevance')
+        else:
+            raise ValueError(
+                'Required property \'relevance\' not present in TrainingExample JSON'
+            )
         if 'created' in _dict:
             args['created'] = _dict.get('created')
         if 'updated' in _dict:
@@ -5450,36 +5454,34 @@ class TrainingQuery():
     Object containing training query details.
 
     :attr str query_id: (optional) The query ID associated with the training query.
-    :attr str natural_language_query: (optional) The natural text query for the
-          training query.
+    :attr str natural_language_query: The natural text query for the training query.
     :attr str filter: (optional) The filter used on the collection before the
           **natural_language_query** is applied.
     :attr date created: (optional) The date and time the query was created.
     :attr date updated: (optional) The date and time the query was updated.
-    :attr list[TrainingExample] examples: (optional) Array of training examples.
+    :attr list[TrainingExample] examples: Array of training examples.
     """
 
     def __init__(self,
+                 natural_language_query,
+                 examples,
                  *,
                  query_id=None,
-                 natural_language_query=None,
                  filter=None,
                  created=None,
-                 updated=None,
-                 examples=None):
+                 updated=None):
         """
         Initialize a TrainingQuery object.
 
+        :param str natural_language_query: The natural text query for the training
+               query.
+        :param list[TrainingExample] examples: Array of training examples.
         :param str query_id: (optional) The query ID associated with the training
                query.
-        :param str natural_language_query: (optional) The natural text query for
-               the training query.
         :param str filter: (optional) The filter used on the collection before the
                **natural_language_query** is applied.
         :param date created: (optional) The date and time the query was created.
         :param date updated: (optional) The date and time the query was updated.
-        :param list[TrainingExample] examples: (optional) Array of training
-               examples.
         """
         self.query_id = query_id
         self.natural_language_query = natural_language_query
@@ -5505,6 +5507,10 @@ class TrainingQuery():
             args['query_id'] = _dict.get('query_id')
         if 'natural_language_query' in _dict:
             args['natural_language_query'] = _dict.get('natural_language_query')
+        else:
+            raise ValueError(
+                'Required property \'natural_language_query\' not present in TrainingQuery JSON'
+            )
         if 'filter' in _dict:
             args['filter'] = _dict.get('filter')
         if 'created' in _dict:
@@ -5515,6 +5521,10 @@ class TrainingQuery():
             args['examples'] = [
                 TrainingExample._from_dict(x) for x in (_dict.get('examples'))
             ]
+        else:
+            raise ValueError(
+                'Required property \'examples\' not present in TrainingQuery JSON'
+            )
         return cls(**args)
 
     def _to_dict(self):
