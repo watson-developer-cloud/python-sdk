@@ -3,11 +3,11 @@
   "verifyConditions": ["@semantic-release/changelog", "@semantic-release/github"],
   "debug": true,
   "prepare": [
-    "@semantic-release/changelog",
     {
       "path": "@semantic-release/exec",
       "cmd": "bumpversion --current-version ${lastRelease.version} --new-version ${nextRelease.version} patch"
-    }
+    },
+    "@semantic-release/git",
   ],
   "publish": [
     {
