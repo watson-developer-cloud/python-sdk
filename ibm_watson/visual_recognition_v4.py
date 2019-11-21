@@ -2693,7 +2693,7 @@ class FileWithMetadata():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'data') and self.data is not None:
-            _dict['data'] = self.data._to_dict()
+            _dict['data'] = self.data
         if hasattr(self, 'filename') and self.filename is not None:
             _dict['filename'] = self.filename
         if hasattr(self, 'content_type') and self.content_type is not None:
