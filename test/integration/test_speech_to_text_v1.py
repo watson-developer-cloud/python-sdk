@@ -142,11 +142,13 @@ class TestSpeechToTextV1(TestCase):
             assert get_grammar_result is not None
         else:
             print('Deleting grammar')
-            delete_grammar_result = self.speech_to_text.delete_grammar(
-                customization_id,
-                'test-add-grammar-python'
-                ).get_result()
-            assert delete_grammar_result is not None
+            try:
+                delete_grammar_result = self.speech_to_text.delete_grammar(
+                    customization_id,
+                    'test-add-grammar-python'
+                    ).get_result()
+            except ibm_watson.ApiException as ex:
+                print('Could not delete grammar: {0}'.format(ex.message))
 
         try:
             self.speech_to_text.delete_language_model(customization_id)
