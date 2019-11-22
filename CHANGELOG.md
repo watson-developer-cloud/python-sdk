@@ -1,3 +1,10 @@
+## [4.0.4](https://github.com/watson-developer-cloud/python-sdk/compare/v4.0.3...v4.0.4) (2019-11-22)
+
+
+### Bug Fixes
+
+* **semrelease:** Provide proper git message for semantic release ([88e2c08](https://github.com/watson-developer-cloud/python-sdk/commit/88e2c0806882693d175c5b8aedb1bf187223db79))
+
 ## [4.0.3](https://github.com/watson-developer-cloud/python-sdk/compare/v4.0.2...v4.0.3) (2019-11-20)
 
 
