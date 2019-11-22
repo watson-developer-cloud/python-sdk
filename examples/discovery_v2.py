@@ -19,7 +19,7 @@ authenticator = BearerTokenAuthenticator('your bearer token')
 ## Initialize discovery instance ##
 discovery = DiscoveryV2(version='2019-11-22', authenticator=authenticator)
 discovery.set_service_url(
-    'https://zen-gm-cpd-zen-gm.apps.big-smoke-lb-1.fyre.ibm.com/discovery/deweyan-poet/instances/1574286017227/api'
+    '<service url>'
 )
 discovery.set_disable_ssl_verification(True)
 
