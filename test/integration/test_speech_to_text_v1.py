@@ -5,8 +5,9 @@ import ibm_watson
 import pytest
 import threading
 
-@pytest.mark.skipif(
-    os.getenv('VCAP_SERVICES') is None, reason='requires VCAP_SERVICES')
+
+@pytest.mark.skipif(os.getenv('VCAP_SERVICES') is None,
+                    reason='requires VCAP_SERVICES')
 class TestSpeechToTextV1(TestCase):
     text_to_speech = None
     custom_models = None
@@ -17,12 +18,11 @@ class TestSpeechToTextV1(TestCase):
     def setup_class(cls):
         cls.speech_to_text = ibm_watson.SpeechToTextV1()
         cls.speech_to_text.set_default_headers({
-            'X-Watson-Learning-Opt-Out':
-            '1',
-            'X-Watson-Test':
-            '1'
+            'X-Watson-Learning-Opt-Out': '1',
+            'X-Watson-Test': '1'
         })
-        cls.custom_models = cls.speech_to_text.list_language_models().get_result()
+        cls.custom_models = cls.speech_to_text.list_language_models(
+        ).get_result()
         cls.create_custom_model = cls.speech_to_text.create_language_model(
             name="integration_test_model",
             base_model_name="en-US_BroadbandModel").get_result()
@@ -36,7 +36,8 @@ class TestSpeechToTextV1(TestCase):
     def test_models(self):
         output = self.speech_to_text.list_models().get_result()
         assert output is not None
-        model = self.speech_to_text.get_model('ko-KR_BroadbandModel').get_result()
+        model = self.speech_to_text.get_model(
+            'ko-KR_BroadbandModel').get_result()
         assert model is not None
         try:
             self.speech_to_text.get_model('bogus')
@@ -44,14 +45,18 @@ class TestSpeechToTextV1(TestCase):
             assert 'X-global-transaction-id:' in str(e)
 
     def test_create_custom_model(self):
-        current_custom_models = self.speech_to_text.list_language_models().get_result()
+        current_custom_models = self.speech_to_text.list_language_models(
+        ).get_result()
         assert len(current_custom_models['customizations']) - len(
             self.custom_models.get('customizations')) >= 1
 
     def test_recognize(self):
-        with open(os.path.join(os.path.dirname(__file__), '../../resources/speech.wav'), 'rb') as audio_file:
+        with open(
+                os.path.join(os.path.dirname(__file__),
+                             '../../resources/speech.wav'), 'rb') as audio_file:
             output = self.speech_to_text.recognize(
-                audio=audio_file, content_type='audio/l16; rate=44100').get_result()
+                audio=audio_file,
+                content_type='audio/l16; rate=44100').get_result()
         assert output['results'][0]['alternatives'][0][
             'transcript'] == 'thunderstorms could produce large hail isolated tornadoes and heavy rain '
 
@@ -60,7 +65,8 @@ class TestSpeechToTextV1(TestCase):
         assert output is not None
 
     def test_custom_corpora(self):
-        output = self.speech_to_text.list_corpora(self.customization_id).get_result()
+        output = self.speech_to_text.list_corpora(
+            self.customization_id).get_result()
         assert not output['corpora']
 
     def test_acoustic_model(self):
@@ -83,7 +89,9 @@ class TestSpeechToTextV1(TestCase):
             get_acoustic_model['customization_id']).get_result()
 
     def test_recognize_using_websocket(self):
+
         class MyRecognizeCallback(RecognizeCallback):
+
             def __init__(self):
                 RecognizeCallback.__init__(self)
                 self.error = None
@@ -96,14 +104,19 @@ class TestSpeechToTextV1(TestCase):
                 self.transcript = transcript
 
         test_callback = MyRecognizeCallback()
-        with open(os.path.join(os.path.dirname(__file__), '../../resources/speech.wav'), 'rb') as audio_file:
+        with open(
+                os.path.join(os.path.dirname(__file__),
+                             '../../resources/speech.wav'), 'rb') as audio_file:
             audio_source = AudioSource(audio_file, False)
-            t = threading.Thread(target=self.speech_to_text.recognize_using_websocket, args=(audio_source, "audio/l16; rate=44100", test_callback))
+            t = threading.Thread(
+                target=self.speech_to_text.recognize_using_websocket,
+                args=(audio_source, "audio/l16; rate=44100", test_callback))
             t.start()
             t.join()
         assert test_callback.error is None
         assert test_callback.transcript is not None
-        assert test_callback.transcript[0]['transcript'] == 'thunderstorms could produce large hail isolated tornadoes and heavy rain '
+        assert test_callback.transcript[0][
+            'transcript'] == 'thunderstorms could produce large hail isolated tornadoes and heavy rain '
 
     def test_custom_grammars(self):
         customization_id = None
@@ -116,37 +129,37 @@ class TestSpeechToTextV1(TestCase):
             print('Creating a new custom model')
             create_custom_model_for_grammar = self.speech_to_text.create_language_model(
                 name="integration_test_model_for_grammar",
-                base_model_name="en-US_BroadbandModel"
-                ).get_result()
-            customization_id = create_custom_model_for_grammar['customization_id']
+                base_model_name="en-US_BroadbandModel").get_result()
+            customization_id = create_custom_model_for_grammar[
+                'customization_id']
 
         grammars = self.speech_to_text.list_grammars(
-            customization_id
-            ).get_result()['grammars']
+            customization_id).get_result()['grammars']
 
         if not grammars:
-            with open(os.path.join(os.path.dirname(__file__), '../../resources/confirm-grammar.xml'), 'rb') as grammar_file:
+            with open(
+                    os.path.join(os.path.dirname(__file__),
+                                 '../../resources/confirm-grammar.xml'),
+                    'rb') as grammar_file:
                 add_grammar_result = self.speech_to_text.add_grammar(
                     customization_id,
                     grammar_name='test-add-grammar-python',
                     grammar_file=grammar_file,
                     content_type='application/srgs+xml',
-                    allow_overwrite=True
-                ).get_result()
+                    allow_overwrite=True).get_result()
                 assert add_grammar_result is not None
 
             get_grammar_result = self.speech_to_text.get_grammar(
                 customization_id,
-                grammar_name='test-add-grammar-python'
-            ).get_result()
+                grammar_name='test-add-grammar-python').get_result()
             assert get_grammar_result is not None
         else:
             print('Deleting grammar')
-            delete_grammar_result = self.speech_to_text.delete_grammar(
-                customization_id,
-                'test-add-grammar-python'
-                ).get_result()
-            assert delete_grammar_result is not None
+            try:
+                self.speech_to_text.delete_grammar(
+                    customization_id, 'test-add-grammar-python').get_result()
+            except ibm_watson.ApiException as ex:
+                print('Could not delete grammar: {0}'.format(ex.message))
 
         try:
             self.speech_to_text.delete_language_model(customization_id)

@@ -1,34 +1,42 @@
 language: python
+
 matrix:
   include:
   - python: 3.5
   - python: 3.6
   - python: 3.7
   - python: 3.8
-cache: pip
+
+cache: pip3
+
 before_install:
 - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && openssl aes-256-cbc -K $encrypted_cebf25e6c525_key
   -iv $encrypted_cebf25e6c525_iv -in .env.enc -out .env -d || true'
 - npm install npm@latest -g
+
 install:
-- pip install tox-travis
+- pip3 install tox-travis
+
 before_script:
-- sudo apt-get update
-- pip install pypandoc
-- sudo apt-get install pandoc
-- pip install -r requirements.txt
-- pip install -r requirements-dev.txt
-- pip install --editable .
+- pip3 install -r requirements.txt
+- pip3 install -r requirements-dev.txt
+- pip3 install --editable .
+
 script:
-- pip install -U python-dotenv
+- pip3 install -U python-dotenv
 - tox
+
 before_deploy:
-- pip install bumpversion
+- sudo apt-get update
+- pip3 install pypandoc
+- sudo apt-get install pandoc
+- pip3 install bumpversion
 - nvm install 12
 - npm install @semantic-release/changelog
 - npm install @semantic-release/exec
 - npm install @semantic-release/git
 - npm install @semantic-release/github
+
 deploy:
 - provider: script
   script: docs/publish.sh
