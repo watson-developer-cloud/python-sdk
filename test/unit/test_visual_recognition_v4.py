@@ -16,7 +16,6 @@
 from ibm_cloud_sdk_core.authenticators.no_auth_authenticator import NoAuthAuthenticator
 import responses
 import tempfile
-import ibm_watson.visual_recognition_v4
 from ibm_watson.visual_recognition_v4 import *
 
 base_url = 'https://gateway.watsonplatform.net/visual-recognition/api'

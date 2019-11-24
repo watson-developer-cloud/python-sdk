@@ -17,7 +17,6 @@ from ibm_cloud_sdk_core.authenticators.no_auth_authenticator import NoAuthAuthen
 import json
 import responses
 import tempfile
-import ibm_watson.discovery_v2
 from ibm_watson.discovery_v2 import *
 
 base_url = 'https://fake'
