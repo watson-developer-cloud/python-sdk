@@ -269,7 +269,7 @@ For more information, follow the [MIGRATION-V4](https://github.com/watson-develo
 To move from v3.x to v4.0, refer to the [MIGRATION-V4](https://github.com/watson-developer-cloud/python-sdk/blob/master/MIGRATION-V4.md).
 
 ## Configuring the http client (Supported from v1.1.0)
-To set client configs like timeout use the `with_http_config()` function and pass it a dictionary of configs. For example for a Assistant service instance
+To set client configs like timeout use the `set_http_config()` function and pass it a dictionary of configs. For example for a Assistant service instance
 
 ```python
 from ibm_watson import AssistantV1
@@ -398,7 +398,8 @@ from ibm_cloud_sdk_core.authenticators import CloudPakForDataAuthenticator
 authenticator = CloudPakForDataAuthenticator(
     '<your username>',
     '<your password>',
-    '<authentication url>') # should be of the form https://{icp_cluster_host}{instance-id}/api
+    '<authentication url>', # should be of the form https://{icp_cluster_host}{instance-id}/api
+    disable_ssl_verification=True) # Disable ssl verification for authenticator
 
 assistant = AssistantV1(
     version='<version>',
