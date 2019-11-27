@@ -1,4 +1,3 @@
-
 # coding: utf-8
 
 # Copyright 2018 IBM All Rights Reserved.
@@ -21,7 +20,9 @@ from urllib.parse import urlencode
 
 BEARER = 'Bearer'
 
+
 class TextToSpeechV1Adapter(TextToSpeechV1):
+
     def synthesize_using_websocket(self,
                                    text,
                                    synthesize_callback,
@@ -94,18 +95,11 @@ class TextToSpeechV1Adapter(TextToSpeechV1):
         url += '/v1/synthesize?{0}'.format(urlencode(params))
         request['url'] = url
 
-        options = {
-            'text': text,
-            'accept': accept,
-            'timings': timings
-        }
+        options = {'text': text, 'accept': accept, 'timings': timings}
         options = {k: v for k, v in options.items() if v is not None}
         request['options'] = options
 
-        SynthesizeListener(request.get('options'),
-                           synthesize_callback,
-                           request.get('url'),
-                           request.get('headers'),
-                           http_proxy_host,
-                           http_proxy_port,
+        SynthesizeListener(request.get('options'), synthesize_callback,
+                           request.get('url'), request.get('headers'),
+                           http_proxy_host, http_proxy_port,
                            self.disable_ssl_verification)

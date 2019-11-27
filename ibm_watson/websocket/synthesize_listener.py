@@ -23,10 +23,11 @@ try:
 except ImportError:
     import _thread as thread
 
-
 TEN_MILLISECONDS = 0.01
 
+
 class SynthesizeListener(object):
+
     def __init__(self,
                  options,
                  callback,
@@ -56,13 +57,15 @@ class SynthesizeListener(object):
 
         self.ws_client.run_forever(http_proxy_host=self.http_proxy_host,
                                    http_proxy_port=self.http_proxy_port,
-                                   sslopt={'cert_reqs': ssl.CERT_NONE} if self.verify is not None else None)
+                                   sslopt={'cert_reqs': ssl.CERT_NONE}
+                                   if self.verify is not None else None)
 
     def send_text(self):
         """
         Sends the text message
         Note: The service handles one request per connection
         """
+
         def run(*args):
             """Background process to send the text"""
             self.ws_client.send(json.dumps(self.options).encode('utf8'))
@@ -94,7 +97,8 @@ class SynthesizeListener(object):
             if message_type == websocket.ABNF.OPCODE_TEXT:
                 json_object = json.loads(message)
                 if 'binary_streams' in json_object:
-                    self.callback.on_content_type(json_object['binary_streams'][0]['content_type'])
+                    self.callback.on_content_type(
+                        json_object['binary_streams'][0]['content_type'])
                 elif 'error' in json_object:
                     self.on_error(ws, json_object.get('error'))
                     return

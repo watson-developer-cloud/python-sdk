@@ -8,7 +8,7 @@ from ibm_watson import ApiException
 from ibm_watson.assistant_v1 import Context, Counterexample, \
     CounterexampleCollection, Entity, EntityCollection, Example, \
     ExampleCollection, MessageInput, Intent, IntentCollection, Synonym, \
-    SynonymCollection, Value, ValueCollection, Workspace, WorkspaceCollection
+    SynonymCollection, Value, ValueCollection, Workspace, WorkspaceCollection, Webhook, WebhookHeader
 from ibm_cloud_sdk_core.authenticators import BasicAuthenticator
 
 platform_url = 'https://gateway.watsonplatform.net'
@@ -1344,7 +1344,8 @@ def test_create_workspace():
         version='2017-02-03', authenticator=authenticator)
     workspace = service.create_workspace(
         name='Pizza app', description='Pizza app', language='en', metadata={},
-        system_settings={'tooling': {'store_generic_responses' : True}}).get_result()
+        system_settings={'tooling': {'store_generic_responses' : True}},
+        webhooks=[Webhook(url='fake-jenkins-url', name='jenkins', headers=[WebhookHeader('fake', 'header')])]).get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert workspace == response
@@ -1471,7 +1472,8 @@ def test_update_workspace():
         description='Pizza app',
         language='en',
         metadata={},
-        system_settings={'tooling': {'store_generic_responses' : True}}).get_result()
+        system_settings={'tooling': {'store_generic_responses' : True}},
+        webhooks=[Webhook(url='fake-jenkins-url', name='jenkins', headers=[WebhookHeader('fake', 'header')])]).get_result()
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url.startswith(url)
     assert workspace == response
@@ -1485,6 +1487,13 @@ def test_dialog_nodes():
         responses.GET,
         url,
         body='{ "application/json": { "dialog_node": "location-atm" }}',
+        status=200,
+        content_type='application/json')
+
+    responses.add(
+        responses.POST,
+        "{0}/location-done?version=2017-02-03".format(url),
+        body='{ "application/json": { "dialog_node": "location-done" }}',
         status=200,
         content_type='application/json')
 
@@ -1513,19 +1522,22 @@ def test_dialog_nodes():
     assistant = ibm_watson.AssistantV1(
         version='2017-02-03', authenticator=authenticator)
 
-    assistant.create_dialog_node('id', 'location-done', user_label='xxx')
+    assistant.create_dialog_node('id', 'location-done', user_label='xxx', disambiguation_opt_out=False)
     assert responses.calls[0].response.json()['application/json']['dialog_node'] == 'location-done'
 
+    assistant.update_dialog_node('id', 'location-done', user_label='xxx', new_disambiguation_opt_out=False)
+    assert responses.calls[1].response.json()['application/json']['dialog_node'] == 'location-done'
+
     assistant.delete_dialog_node('id', 'location-done')
-    assert responses.calls[1].response.json() == {"description": "deleted successfully"}
+    assert responses.calls[2].response.json() == {"description": "deleted successfully"}
 
     assistant.get_dialog_node('id', 'location-done')
-    assert responses.calls[2].response.json() == {"application/json": {"dialog_node": "location-atm"}}
-
-    assistant.list_dialog_nodes('id')
     assert responses.calls[3].response.json() == {"application/json": {"dialog_node": "location-atm"}}
 
-    assert len(responses.calls) == 4
+    assistant.list_dialog_nodes('id')
+    assert responses.calls[4].response.json() == {"application/json": {"dialog_node": "location-atm"}}
+
+    assert len(responses.calls) == 5
 
 @responses.activate
 def test_delete_user_data():

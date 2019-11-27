@@ -31,7 +31,9 @@ ACTION = "action"
 START = "start"
 STOP = "stop"
 
+
 class RecognizeListener(object):
+
     def __init__(self,
                  audio_source,
                  options,
@@ -64,7 +66,8 @@ class RecognizeListener(object):
 
         self.ws_client.run_forever(http_proxy_host=self.http_proxy_host,
                                    http_proxy_port=self.http_proxy_port,
-                                   sslopt={"cert_reqs": ssl.CERT_NONE} if self.verify is not None else None)
+                                   sslopt={"cert_reqs": ssl.CERT_NONE}
+                                   if self.verify is not None else None)
 
     @classmethod
     def build_start_message(cls, options):
@@ -102,6 +105,7 @@ class RecognizeListener(object):
 
         :param ws: Websocket client
         """
+
         def run(*args):
             """Background process to stream the data"""
             if not self.audio_source.is_buffer:
@@ -118,7 +122,8 @@ class RecognizeListener(object):
                     try:
                         if not self.audio_source.input.empty():
                             chunk = self.audio_source.input.get()
-                            self.ws_client.send(chunk, websocket.ABNF.OPCODE_BINARY)
+                            self.ws_client.send(chunk,
+                                                websocket.ABNF.OPCODE_BINARY)
                             time.sleep(TEN_MILLISECONDS)
                         if self.audio_source.input.empty():
                             if self.audio_source.is_recording:
@@ -132,7 +137,8 @@ class RecognizeListener(object):
                             break
 
             time.sleep(TEN_MILLISECONDS)
-            self.ws_client.send(self.build_closing_message(), websocket.ABNF.OPCODE_TEXT)
+            self.ws_client.send(self.build_closing_message(),
+                                websocket.ABNF.OPCODE_TEXT)
 
         thread.start_new_thread(run, ())
 
@@ -147,7 +153,8 @@ class RecognizeListener(object):
 
         # Send initialization message
         init_data = self.build_start_message(self.options)
-        self.ws_client.send(json.dumps(init_data).encode('utf8'), websocket.ABNF.OPCODE_TEXT)
+        self.ws_client.send(
+            json.dumps(init_data).encode('utf8'), websocket.ABNF.OPCODE_TEXT)
 
     def on_data(self, ws, message, message_type, fin):
         """

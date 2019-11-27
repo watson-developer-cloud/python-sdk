@@ -243,6 +243,7 @@ class AssistantV1(BaseService):
                          entities=None,
                          dialog_nodes=None,
                          counterexamples=None,
+                         webhooks=None,
                          **kwargs):
         """
         Create workspace.
@@ -272,6 +273,7 @@ class AssistantV1(BaseService):
                describing the dialog nodes in the workspace.
         :param list[Counterexample] counterexamples: (optional) An array of objects
                defining input examples that have been marked as irrelevant input.
+        :param list[Webhook] webhooks: (optional)
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -287,6 +289,8 @@ class AssistantV1(BaseService):
             dialog_nodes = [self._convert_model(x) for x in dialog_nodes]
         if counterexamples is not None:
             counterexamples = [self._convert_model(x) for x in counterexamples]
+        if webhooks is not None:
+            webhooks = [self._convert_model(x) for x in webhooks]
 
         headers = {}
         if 'headers' in kwargs:
@@ -306,7 +310,8 @@ class AssistantV1(BaseService):
             'intents': intents,
             'entities': entities,
             'dialog_nodes': dialog_nodes,
-            'counterexamples': counterexamples
+            'counterexamples': counterexamples,
+            'webhooks': webhooks
         }
 
         url = '/v1/workspaces'
@@ -388,6 +393,7 @@ class AssistantV1(BaseService):
                          entities=None,
                          dialog_nodes=None,
                          counterexamples=None,
+                         webhooks=None,
                          append=None,
                          **kwargs):
         """
@@ -419,6 +425,7 @@ class AssistantV1(BaseService):
                describing the dialog nodes in the workspace.
         :param list[Counterexample] counterexamples: (optional) An array of objects
                defining input examples that have been marked as irrelevant input.
+        :param list[Webhook] webhooks: (optional)
         :param bool append: (optional) Whether the new data is to be appended to
                the existing data in the workspace. If **append**=`false`, elements
                included in the new data completely replace the corresponding existing
@@ -445,6 +452,8 @@ class AssistantV1(BaseService):
             dialog_nodes = [self._convert_model(x) for x in dialog_nodes]
         if counterexamples is not None:
             counterexamples = [self._convert_model(x) for x in counterexamples]
+        if webhooks is not None:
+            webhooks = [self._convert_model(x) for x in webhooks]
 
         headers = {}
         if 'headers' in kwargs:
@@ -464,7 +473,8 @@ class AssistantV1(BaseService):
             'intents': intents,
             'entities': entities,
             'dialog_nodes': dialog_nodes,
-            'counterexamples': counterexamples
+            'counterexamples': counterexamples,
+            'webhooks': webhooks
         }
 
         url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
@@ -2387,6 +2397,7 @@ class AssistantV1(BaseService):
                            digress_out=None,
                            digress_out_slots=None,
                            user_label=None,
+                           disambiguation_opt_out=None,
                            **kwargs):
         """
         Create dialog node.
@@ -2437,6 +2448,8 @@ class AssistantV1(BaseService):
                top-level nodes while filling out slots.
         :param str user_label: (optional) A label that can be displayed externally
                to describe the purpose of the node to users.
+        :param bool disambiguation_opt_out: (optional) Whether the dialog node
+               should be excluded from disambiguation suggestions.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2480,7 +2493,8 @@ class AssistantV1(BaseService):
             'digress_in': digress_in,
             'digress_out': digress_out,
             'digress_out_slots': digress_out_slots,
-            'user_label': user_label
+            'user_label': user_label,
+            'disambiguation_opt_out': disambiguation_opt_out
         }
 
         url = '/v1/workspaces/{0}/dialog_nodes'.format(
@@ -2561,6 +2575,7 @@ class AssistantV1(BaseService):
                            new_digress_out=None,
                            new_digress_out_slots=None,
                            new_user_label=None,
+                           new_disambiguation_opt_out=None,
                            **kwargs):
         """
         Update dialog node.
@@ -2613,6 +2628,8 @@ class AssistantV1(BaseService):
                to top-level nodes while filling out slots.
         :param str new_user_label: (optional) A label that can be displayed
                externally to describe the purpose of the node to users.
+        :param bool new_disambiguation_opt_out: (optional) Whether the dialog node
+               should be excluded from disambiguation suggestions.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2656,7 +2673,8 @@ class AssistantV1(BaseService):
             'digress_in': new_digress_in,
             'digress_out': new_digress_out,
             'digress_out_slots': new_digress_out_slots,
-            'user_label': new_user_label
+            'user_label': new_user_label,
+            'disambiguation_opt_out': new_disambiguation_opt_out
         }
 
         url = '/v1/workspaces/{0}/dialog_nodes/{1}'.format(
@@ -2789,7 +2807,8 @@ class AssistantV1(BaseService):
 
         :param str filter: A cacheable parameter that limits the results to those
                matching the specified filter. You must specify a filter query that
-               includes a value for `language`, as well as a value for `workspace_id` or
+               includes a value for `language`, as well as a value for
+               `request.context.system.assistant_id`, `workspace_id`, or
                `request.context.metadata.deployment`. For more information, see the
                [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-filter-reference#filter-reference).
         :param str sort: (optional) How to sort the returned log events. You can
@@ -3696,6 +3715,8 @@ class DialogNode():
           top-level nodes while filling out slots.
     :attr str user_label: (optional) A label that can be displayed externally to
           describe the purpose of the node to users.
+    :attr bool disambiguation_opt_out: (optional) Whether the dialog node should be
+          excluded from disambiguation suggestions.
     :attr bool disabled: (optional) For internal use only.
     :attr datetime created: (optional) The timestamp for creation of the object.
     :attr datetime updated: (optional) The timestamp for the most recent update to
@@ -3722,6 +3743,7 @@ class DialogNode():
                  digress_out=None,
                  digress_out_slots=None,
                  user_label=None,
+                 disambiguation_opt_out=None,
                  disabled=None,
                  created=None,
                  updated=None):
@@ -3767,6 +3789,8 @@ class DialogNode():
                top-level nodes while filling out slots.
         :param str user_label: (optional) A label that can be displayed externally
                to describe the purpose of the node to users.
+        :param bool disambiguation_opt_out: (optional) Whether the dialog node
+               should be excluded from disambiguation suggestions.
         :param bool disabled: (optional) For internal use only.
         :param datetime created: (optional) The timestamp for creation of the
                object.
@@ -3791,6 +3815,7 @@ class DialogNode():
         self.digress_out = digress_out
         self.digress_out_slots = digress_out_slots
         self.user_label = user_label
+        self.disambiguation_opt_out = disambiguation_opt_out
         self.disabled = disabled
         self.created = created
         self.updated = updated
@@ -3803,8 +3828,8 @@ class DialogNode():
             'dialog_node', 'description', 'conditions', 'parent',
             'previous_sibling', 'output', 'context', 'metadata', 'next_step',
             'title', 'type', 'event_name', 'variable', 'actions', 'digress_in',
-            'digress_out', 'digress_out_slots', 'user_label', 'disabled',
-            'created', 'updated'
+            'digress_out', 'digress_out_slots', 'user_label',
+            'disambiguation_opt_out', 'disabled', 'created', 'updated'
         ]
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
@@ -3854,6 +3879,8 @@ class DialogNode():
             args['digress_out_slots'] = _dict.get('digress_out_slots')
         if 'user_label' in _dict:
             args['user_label'] = _dict.get('user_label')
+        if 'disambiguation_opt_out' in _dict:
+            args['disambiguation_opt_out'] = _dict.get('disambiguation_opt_out')
         if 'disabled' in _dict:
             args['disabled'] = _dict.get('disabled')
         if 'created' in _dict:
@@ -3903,6 +3930,9 @@ class DialogNode():
             _dict['digress_out_slots'] = self.digress_out_slots
         if hasattr(self, 'user_label') and self.user_label is not None:
             _dict['user_label'] = self.user_label
+        if hasattr(self, 'disambiguation_opt_out'
+                  ) and self.disambiguation_opt_out is not None:
+            _dict['disambiguation_opt_out'] = self.disambiguation_opt_out
         if hasattr(self, 'disabled') and self.disabled is not None:
             _dict['disabled'] = self.disabled
         if hasattr(self, 'created') and self.created is not None:
@@ -4084,6 +4114,7 @@ class DialogNodeAction():
         SERVER = "server"
         CLOUD_FUNCTION = "cloud_function"
         WEB_ACTION = "web_action"
+        WEBHOOK = "webhook"
 
 
 class DialogNodeCollection():
@@ -5018,7 +5049,8 @@ class DialogSuggestion():
     DialogSuggestion.
 
     :attr str label: The user-facing label for the disambiguation option. This label
-          is taken from the **user_label** property of the corresponding dialog node.
+          is taken from the **title** or **user_label** property of the corresponding
+          dialog node, depending on the disambiguation options.
     :attr DialogSuggestionValue value: An object defining the message input,
           intents, and entities to be sent to the Watson Assistant service if the user
           selects the corresponding disambiguation option.
@@ -5035,8 +5067,8 @@ class DialogSuggestion():
         Initialize a DialogSuggestion object.
 
         :param str label: The user-facing label for the disambiguation option. This
-               label is taken from the **user_label** property of the corresponding dialog
-               node.
+               label is taken from the **title** or **user_label** property of the
+               corresponding dialog node, depending on the disambiguation options.
         :param DialogSuggestionValue value: An object defining the message input,
                intents, and entities to be sent to the Watson Assistant service if the
                user selects the corresponding disambiguation option.
@@ -7472,7 +7504,7 @@ class RuntimeResponseGeneric():
     :attr list[DialogSuggestion] suggestions: (optional) An array of objects
           describing the possible matching dialog nodes from which the user can choose.
           **Note:** The **suggestions** property is part of the disambiguation feature,
-          which is only available for Premium users.
+          which is only available for Plus and Premium users.
     """
 
     def __init__(self,
@@ -7522,7 +7554,7 @@ class RuntimeResponseGeneric():
                describing the possible matching dialog nodes from which the user can
                choose.
                **Note:** The **suggestions** property is part of the disambiguation
-               feature, which is only available for Premium users.
+               feature, which is only available for Plus and Premium users.
         """
         self.response_type = response_type
         self.text = text
@@ -8071,6 +8103,151 @@ class ValueCollection():
         return not self == other
 
 
+class Webhook():
+    """
+    A webhook that can be used by dialog nodes to make programmatic calls to an external
+    function.
+    **Note:** Currently, only a single webhook named `main_webhook` is supported.
+
+    :attr str url: The URL for the external service or application to which you want
+          to send HTTP POST requests.
+    :attr str name: The name of the webhook. Currently, `main_webhook` is the only
+          supported value.
+    :attr list[WebhookHeader] headers: (optional) An optional array of HTTP headers
+          to pass with the HTTP request.
+    """
+
+    def __init__(self, url, name, *, headers=None):
+        """
+        Initialize a Webhook object.
+
+        :param str url: The URL for the external service or application to which
+               you want to send HTTP POST requests.
+        :param str name: The name of the webhook. Currently, `main_webhook` is the
+               only supported value.
+        :param list[WebhookHeader] headers: (optional) An optional array of HTTP
+               headers to pass with the HTTP request.
+        """
+        self.url = url
+        self.name = name
+        self.headers = headers
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Webhook object from a json dictionary."""
+        args = {}
+        valid_keys = ['url', 'name', 'headers']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Webhook: ' +
+                ', '.join(bad_keys))
+        if 'url' in _dict:
+            args['url'] = _dict.get('url')
+        else:
+            raise ValueError(
+                'Required property \'url\' not present in Webhook JSON')
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        else:
+            raise ValueError(
+                'Required property \'name\' not present in Webhook JSON')
+        if 'headers' in _dict:
+            args['headers'] = [
+                WebhookHeader._from_dict(x) for x in (_dict.get('headers'))
+            ]
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'url') and self.url is not None:
+            _dict['url'] = self.url
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'headers') and self.headers is not None:
+            _dict['headers'] = [x._to_dict() for x in self.headers]
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this Webhook object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class WebhookHeader():
+    """
+    A key/value pair defining an HTTP header and a value.
+
+    :attr str name: The name of an HTTP header (for example, `Authorization`).
+    :attr str value: The value of an HTTP header.
+    """
+
+    def __init__(self, name, value):
+        """
+        Initialize a WebhookHeader object.
+
+        :param str name: The name of an HTTP header (for example, `Authorization`).
+        :param str value: The value of an HTTP header.
+        """
+        self.name = name
+        self.value = value
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a WebhookHeader object from a json dictionary."""
+        args = {}
+        valid_keys = ['name', 'value']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class WebhookHeader: '
+                + ', '.join(bad_keys))
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        else:
+            raise ValueError(
+                'Required property \'name\' not present in WebhookHeader JSON')
+        if 'value' in _dict:
+            args['value'] = _dict.get('value')
+        else:
+            raise ValueError(
+                'Required property \'value\' not present in WebhookHeader JSON')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'value') and self.value is not None:
+            _dict['value'] = self.value
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this WebhookHeader object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class Workspace():
     """
     Workspace.
@@ -8098,6 +8275,7 @@ class Workspace():
           the dialog nodes in the workspace.
     :attr list[Counterexample] counterexamples: (optional) An array of
           counterexamples.
+    :attr list[Webhook] webhooks: (optional)
     """
 
     def __init__(self,
@@ -8115,7 +8293,8 @@ class Workspace():
                  intents=None,
                  entities=None,
                  dialog_nodes=None,
-                 counterexamples=None):
+                 counterexamples=None,
+                 webhooks=None):
         """
         Initialize a Workspace object.
 
@@ -8144,6 +8323,7 @@ class Workspace():
                describing the dialog nodes in the workspace.
         :param list[Counterexample] counterexamples: (optional) An array of
                counterexamples.
+        :param list[Webhook] webhooks: (optional)
         """
         self.name = name
         self.description = description
@@ -8159,6 +8339,7 @@ class Workspace():
         self.entities = entities
         self.dialog_nodes = dialog_nodes
         self.counterexamples = counterexamples
+        self.webhooks = webhooks
 
     @classmethod
     def _from_dict(cls, _dict):
@@ -8167,7 +8348,7 @@ class Workspace():
         valid_keys = [
             'name', 'description', 'language', 'metadata', 'learning_opt_out',
             'system_settings', 'workspace_id', 'status', 'created', 'updated',
-            'intents', 'entities', 'dialog_nodes', 'counterexamples'
+            'intents', 'entities', 'dialog_nodes', 'counterexamples', 'webhooks'
         ]
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
@@ -8226,6 +8407,10 @@ class Workspace():
                 Counterexample._from_dict(x)
                 for x in (_dict.get('counterexamples'))
             ]
+        if 'webhooks' in _dict:
+            args['webhooks'] = [
+                Webhook._from_dict(x) for x in (_dict.get('webhooks'))
+            ]
         return cls(**args)
 
     def _to_dict(self):
@@ -8264,6 +8449,8 @@ class Workspace():
             _dict['counterexamples'] = [
                 x._to_dict() for x in self.counterexamples
             ]
+        if hasattr(self, 'webhooks') and self.webhooks is not None:
+            _dict['webhooks'] = [x._to_dict() for x in self.webhooks]
         return _dict
 
     def __str__(self):
@@ -8369,15 +8556,18 @@ class WorkspaceSystemSettings():
           related to the Watson Assistant user interface.
     :attr WorkspaceSystemSettingsDisambiguation disambiguation: (optional) Workspace
           settings related to the disambiguation feature.
-          **Note:** This feature is available only to Premium users.
+          **Note:** This feature is available only to Plus and Premium users.
     :attr dict human_agent_assist: (optional) For internal use only.
+    :attr WorkspaceSystemSettingsOffTopic off_topic: (optional) Workspace settings
+          related to detection of irrelevant input.
     """
 
     def __init__(self,
                  *,
                  tooling=None,
                  disambiguation=None,
-                 human_agent_assist=None):
+                 human_agent_assist=None,
+                 off_topic=None):
         """
         Initialize a WorkspaceSystemSettings object.
 
@@ -8385,18 +8575,23 @@ class WorkspaceSystemSettings():
                settings related to the Watson Assistant user interface.
         :param WorkspaceSystemSettingsDisambiguation disambiguation: (optional)
                Workspace settings related to the disambiguation feature.
-               **Note:** This feature is available only to Premium users.
+               **Note:** This feature is available only to Plus and Premium users.
         :param dict human_agent_assist: (optional) For internal use only.
+        :param WorkspaceSystemSettingsOffTopic off_topic: (optional) Workspace
+               settings related to detection of irrelevant input.
         """
         self.tooling = tooling
         self.disambiguation = disambiguation
         self.human_agent_assist = human_agent_assist
+        self.off_topic = off_topic
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a WorkspaceSystemSettings object from a json dictionary."""
         args = {}
-        valid_keys = ['tooling', 'disambiguation', 'human_agent_assist']
+        valid_keys = [
+            'tooling', 'disambiguation', 'human_agent_assist', 'off_topic'
+        ]
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
             raise ValueError(
@@ -8411,6 +8606,9 @@ class WorkspaceSystemSettings():
                     _dict.get('disambiguation'))
         if 'human_agent_assist' in _dict:
             args['human_agent_assist'] = _dict.get('human_agent_assist')
+        if 'off_topic' in _dict:
+            args['off_topic'] = WorkspaceSystemSettingsOffTopic._from_dict(
+                _dict.get('off_topic'))
         return cls(**args)
 
     def _to_dict(self):
@@ -8424,6 +8622,8 @@ class WorkspaceSystemSettings():
                 self,
                 'human_agent_assist') and self.human_agent_assist is not None:
             _dict['human_agent_assist'] = self.human_agent_assist
+        if hasattr(self, 'off_topic') and self.off_topic is not None:
+            _dict['off_topic'] = self.off_topic._to_dict()
         return _dict
 
     def __str__(self):
@@ -8444,7 +8644,7 @@ class WorkspaceSystemSettings():
 class WorkspaceSystemSettingsDisambiguation():
     """
     Workspace settings related to the disambiguation feature.
-    **Note:** This feature is available only to Premium users.
+    **Note:** This feature is available only to Plus and Premium users.
 
     :attr str prompt: (optional) The text of the introductory prompt that
           accompanies disambiguation options presented to the user.
@@ -8457,6 +8657,12 @@ class WorkspaceSystemSettingsDisambiguation():
           to intent detection conflicts. Set to **high** if you want the disambiguation
           feature to be triggered more often. This can be useful for testing or
           demonstration purposes.
+    :attr bool randomize: (optional) Whether the order in which disambiguation
+          suggestions are presented should be randomized (but still influenced by relative
+          confidence).
+    :attr int max_suggestions: (optional) The maximum number of disambigation
+          suggestions that can be included in a `suggestion` response.
+    :attr str suggestion_text_policy: (optional) For internal use only.
     """
 
     def __init__(self,
@@ -8464,7 +8670,10 @@ class WorkspaceSystemSettingsDisambiguation():
                  prompt=None,
                  none_of_the_above_prompt=None,
                  enabled=None,
-                 sensitivity=None):
+                 sensitivity=None,
+                 randomize=None,
+                 max_suggestions=None,
+                 suggestion_text_policy=None):
         """
         Initialize a WorkspaceSystemSettingsDisambiguation object.
 
@@ -8479,18 +8688,28 @@ class WorkspaceSystemSettingsDisambiguation():
                feature to intent detection conflicts. Set to **high** if you want the
                disambiguation feature to be triggered more often. This can be useful for
                testing or demonstration purposes.
+        :param bool randomize: (optional) Whether the order in which disambiguation
+               suggestions are presented should be randomized (but still influenced by
+               relative confidence).
+        :param int max_suggestions: (optional) The maximum number of disambigation
+               suggestions that can be included in a `suggestion` response.
+        :param str suggestion_text_policy: (optional) For internal use only.
         """
         self.prompt = prompt
         self.none_of_the_above_prompt = none_of_the_above_prompt
         self.enabled = enabled
         self.sensitivity = sensitivity
+        self.randomize = randomize
+        self.max_suggestions = max_suggestions
+        self.suggestion_text_policy = suggestion_text_policy
 
     @classmethod
     def _from_dict(cls, _dict):
         """Initialize a WorkspaceSystemSettingsDisambiguation object from a json dictionary."""
         args = {}
         valid_keys = [
-            'prompt', 'none_of_the_above_prompt', 'enabled', 'sensitivity'
+            'prompt', 'none_of_the_above_prompt', 'enabled', 'sensitivity',
+            'randomize', 'max_suggestions', 'suggestion_text_policy'
         ]
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
@@ -8506,6 +8725,12 @@ class WorkspaceSystemSettingsDisambiguation():
             args['enabled'] = _dict.get('enabled')
         if 'sensitivity' in _dict:
             args['sensitivity'] = _dict.get('sensitivity')
+        if 'randomize' in _dict:
+            args['randomize'] = _dict.get('randomize')
+        if 'max_suggestions' in _dict:
+            args['max_suggestions'] = _dict.get('max_suggestions')
+        if 'suggestion_text_policy' in _dict:
+            args['suggestion_text_policy'] = _dict.get('suggestion_text_policy')
         return cls(**args)
 
     def _to_dict(self):
@@ -8520,6 +8745,14 @@ class WorkspaceSystemSettingsDisambiguation():
             _dict['enabled'] = self.enabled
         if hasattr(self, 'sensitivity') and self.sensitivity is not None:
             _dict['sensitivity'] = self.sensitivity
+        if hasattr(self, 'randomize') and self.randomize is not None:
+            _dict['randomize'] = self.randomize
+        if hasattr(self,
+                   'max_suggestions') and self.max_suggestions is not None:
+            _dict['max_suggestions'] = self.max_suggestions
+        if hasattr(self, 'suggestion_text_policy'
+                  ) and self.suggestion_text_policy is not None:
+            _dict['suggestion_text_policy'] = self.suggestion_text_policy
         return _dict
 
     def __str__(self):
@@ -8544,6 +8777,59 @@ class WorkspaceSystemSettingsDisambiguation():
         """
         AUTO = "auto"
         HIGH = "high"
+
+
+class WorkspaceSystemSettingsOffTopic():
+    """
+    Workspace settings related to detection of irrelevant input.
+
+    :attr bool enabled: (optional) Whether enhanced irrelevance detection is enabled
+          for the workspace.
+    """
+
+    def __init__(self, *, enabled=None):
+        """
+        Initialize a WorkspaceSystemSettingsOffTopic object.
+
+        :param bool enabled: (optional) Whether enhanced irrelevance detection is
+               enabled for the workspace.
+        """
+        self.enabled = enabled
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a WorkspaceSystemSettingsOffTopic object from a json dictionary."""
+        args = {}
+        valid_keys = ['enabled']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class WorkspaceSystemSettingsOffTopic: '
+                + ', '.join(bad_keys))
+        if 'enabled' in _dict:
+            args['enabled'] = _dict.get('enabled')
+        return cls(**args)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'enabled') and self.enabled is not None:
+            _dict['enabled'] = self.enabled
+        return _dict
+
+    def __str__(self):
+        """Return a `str` version of this WorkspaceSystemSettingsOffTopic object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other):
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
 
 
 class WorkspaceSystemSettingsTooling():
