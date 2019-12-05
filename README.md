@@ -13,6 +13,7 @@ Python client library to quickly get started with the various [Watson APIs][wdc]
   * [Before you begin](#before-you-begin)
   * [Installation](#installation)
   * [Examples](#examples)
+  * [Discovery v2 only on CP4D](#discovery-v2-only-on-cp4d)
   * [Running in IBM Cloud](#running-in-ibm-cloud)
   * [Authentication](#authentication)
     * [Getting credentials](#getting-credentials)
@@ -82,6 +83,9 @@ For more details see [#405](https://github.com/watson-developer-cloud/python-sdk
 ## Examples
 
 The [examples][examples] folder has basic and advanced examples. The examples within each service assume that you already have [service credentials](#getting-credentials).
+
+## Discovery v2 only on CP4D
+Discovery v2 is only available on Cloud Pak for Data.
 
 ## Running in IBM Cloud
 

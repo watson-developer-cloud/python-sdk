@@ -89,7 +89,10 @@ class AssistantV2(BaseService):
         Create a session.
 
         Create a new session. A session is used to send user input to a skill and receive
-        responses. It also maintains the state of the conversation.
+        responses. It also maintains the state of the conversation. A session persists
+        until it is deleted, or until it times out because of inactivity. (For more
+        information, see the
+        [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-assistant-settings).
 
         :param str assistant_id: Unique identifier of the assistant. To find the
                assistant ID in the Watson Assistant user interface, open the assistant
@@ -127,7 +130,9 @@ class AssistantV2(BaseService):
         """
         Delete session.
 
-        Deletes a session explicitly before it times out.
+        Deletes a session explicitly before it times out. (For more information about the
+        session inactivity timeout, see the
+        [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-assistant-settings)).
 
         :param str assistant_id: Unique identifier of the assistant. To find the
                assistant ID in the Watson Assistant user interface, open the assistant
@@ -680,7 +685,8 @@ class DialogSuggestion():
     DialogSuggestion.
 
     :attr str label: The user-facing label for the disambiguation option. This label
-          is taken from the **user_label** property of the corresponding dialog node.
+          is taken from the **title** or **user_label** property of the corresponding
+          dialog node, depending on the disambiguation options.
     :attr DialogSuggestionValue value: An object defining the message input to be
           sent to the assistant if the user selects the corresponding disambiguation
           option.
@@ -693,8 +699,8 @@ class DialogSuggestion():
         Initialize a DialogSuggestion object.
 
         :param str label: The user-facing label for the disambiguation option. This
-               label is taken from the **user_label** property of the corresponding dialog
-               node.
+               label is taken from the **title** or **user_label** property of the
+               corresponding dialog node, depending on the disambiguation options.
         :param DialogSuggestionValue value: An object defining the message input to
                be sent to the assistant if the user selects the corresponding
                disambiguation option.

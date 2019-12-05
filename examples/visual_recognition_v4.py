@@ -35,9 +35,15 @@ training_data = service.add_image_training_data(
         TrainingDataObject(object='giraffe training data',
                            location=Location(64, 270, 755, 784))
     ]).get_result()
+print(json.dumps(training_data, indent=2))
 
 # train collection
 train_result = service.train(collection_id).get_result()
+print(json.dumps(train_result, indent=2))
+
+# training usage
+training_usage = service.get_training_usage()
+print(json.dumps(training_usage, indent=2))
 
 # analyze
 dog_path = os.path.join(os.path.dirname(__file__), '../resources/dog.jpg')
@@ -51,7 +57,7 @@ with open(dog_path, 'rb') as dog_file, open(giraffe_path, 'rb') as giraffe_files
             FileWithMetadata(giraffe_files)
         ],
         image_url=['https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/American_Eskimo_Dog.jpg/1280px-American_Eskimo_Dog.jpg']).get_result()
-    assert analyze_images is not None
+    print(json.dumps(analyze_images, indent=2))
 
 # delete collection
 service.delete_collection(collection_id)

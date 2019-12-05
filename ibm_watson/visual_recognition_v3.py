@@ -166,7 +166,7 @@ class VisualRecognitionV3(BaseService):
             form_data.append(('url', (None, url, 'text/plain')))
         if threshold:
             form_data.append(
-                ('threshold', (None, threshold, 'application/json')))
+                ('threshold', (None, str(threshold), 'application/json')))
         if owners:
             owners = self._convert_list(owners)
             form_data.append(('owners', (None, owners, 'text/plain')))
