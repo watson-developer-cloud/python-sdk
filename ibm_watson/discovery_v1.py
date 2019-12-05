@@ -1276,7 +1276,7 @@ class DiscoveryV1(BaseService):
         :param str collection_id: The ID of the collection.
         :param file file: (optional) The content of the document to ingest. The
                maximum supported file size when adding a file to a collection is 50
-               megabytes, the maximum supported file size when testing a confiruration is
+               megabytes, the maximum supported file size when testing a configuration is
                1 megabyte. Files larger than the supported size are rejected.
         :param str filename: (optional) The filename for file.
         :param str file_content_type: (optional) The content type of file.
@@ -1391,7 +1391,7 @@ class DiscoveryV1(BaseService):
         :param str document_id: The ID of the document.
         :param file file: (optional) The content of the document to ingest. The
                maximum supported file size when adding a file to a collection is 50
-               megabytes, the maximum supported file size when testing a confiruration is
+               megabytes, the maximum supported file size when testing a configuration is
                1 megabyte. Files larger than the supported size are rejected.
         :param str filename: (optional) The filename for file.
         :param str file_content_type: (optional) The content type of file.
@@ -9649,7 +9649,6 @@ class QueryNoticesResult():
           containing the document for this result.
     :attr QueryResultMetadata result_metadata: (optional) Metadata of a query
           result.
-    :attr str title: (optional) Automatically extracted result title.
     :attr int code: (optional) The internal status code returned by the ingestion
           subsystem indicating the overall result of ingesting the source document.
     :attr str filename: (optional) Name of the original source file (if available).
@@ -9665,7 +9664,6 @@ class QueryNoticesResult():
                  metadata=None,
                  collection_id=None,
                  result_metadata=None,
-                 title=None,
                  code=None,
                  filename=None,
                  file_type=None,
@@ -9681,7 +9679,6 @@ class QueryNoticesResult():
                containing the document for this result.
         :param QueryResultMetadata result_metadata: (optional) Metadata of a query
                result.
-        :param str title: (optional) Automatically extracted result title.
         :param int code: (optional) The internal status code returned by the
                ingestion subsystem indicating the overall result of ingesting the source
                document.
@@ -9697,7 +9694,6 @@ class QueryNoticesResult():
         self.metadata = metadata
         self.collection_id = collection_id
         self.result_metadata = result_metadata
-        self.title = title
         self.code = code
         self.filename = filename
         self.file_type = file_type
@@ -9724,9 +9720,6 @@ class QueryNoticesResult():
             args['result_metadata'] = QueryResultMetadata._from_dict(
                 _dict.get('result_metadata'))
             del xtra['result_metadata']
-        if 'title' in _dict:
-            args['title'] = _dict.get('title')
-            del xtra['title']
         if 'code' in _dict:
             args['code'] = _dict.get('code')
             del xtra['code']
@@ -9759,8 +9752,6 @@ class QueryNoticesResult():
         if hasattr(self,
                    'result_metadata') and self.result_metadata is not None:
             _dict['result_metadata'] = self.result_metadata._to_dict()
-        if hasattr(self, 'title') and self.title is not None:
-            _dict['title'] = self.title
         if hasattr(self, 'code') and self.code is not None:
             _dict['code'] = self.code
         if hasattr(self, 'filename') and self.filename is not None:
@@ -9780,8 +9771,8 @@ class QueryNoticesResult():
 
     def __setattr__(self, name, value):
         properties = {
-            'id', 'metadata', 'collection_id', 'result_metadata', 'title',
-            'code', 'filename', 'file_type', 'sha1', 'notices'
+            'id', 'metadata', 'collection_id', 'result_metadata', 'code',
+            'filename', 'file_type', 'sha1', 'notices'
         }
         if not hasattr(self, '_additionalProperties'):
             super(QueryNoticesResult, self).__setattr__('_additionalProperties',
@@ -10076,7 +10067,6 @@ class QueryResult():
           containing the document for this result.
     :attr QueryResultMetadata result_metadata: (optional) Metadata of a query
           result.
-    :attr str title: (optional) Automatically extracted result title.
     """
 
     def __init__(self,
@@ -10085,7 +10075,6 @@ class QueryResult():
                  metadata=None,
                  collection_id=None,
                  result_metadata=None,
-                 title=None,
                  **kwargs):
         """
         Initialize a QueryResult object.
@@ -10096,14 +10085,12 @@ class QueryResult():
                containing the document for this result.
         :param QueryResultMetadata result_metadata: (optional) Metadata of a query
                result.
-        :param str title: (optional) Automatically extracted result title.
         :param **kwargs: (optional) Any additional properties.
         """
         self.id = id
         self.metadata = metadata
         self.collection_id = collection_id
         self.result_metadata = result_metadata
-        self.title = title
         for _key, _value in kwargs.items():
             setattr(self, _key, _value)
 
@@ -10125,9 +10112,6 @@ class QueryResult():
             args['result_metadata'] = QueryResultMetadata._from_dict(
                 _dict.get('result_metadata'))
             del xtra['result_metadata']
-        if 'title' in _dict:
-            args['title'] = _dict.get('title')
-            del xtra['title']
         args.update(xtra)
         return cls(**args)
 
@@ -10143,8 +10127,6 @@ class QueryResult():
         if hasattr(self,
                    'result_metadata') and self.result_metadata is not None:
             _dict['result_metadata'] = self.result_metadata._to_dict()
-        if hasattr(self, 'title') and self.title is not None:
-            _dict['title'] = self.title
         if hasattr(self, '_additionalProperties'):
             for _key in self._additionalProperties:
                 _value = getattr(self, _key, None)
@@ -10153,9 +10135,7 @@ class QueryResult():
         return _dict
 
     def __setattr__(self, name, value):
-        properties = {
-            'id', 'metadata', 'collection_id', 'result_metadata', 'title'
-        }
+        properties = {'id', 'metadata', 'collection_id', 'result_metadata'}
         if not hasattr(self, '_additionalProperties'):
             super(QueryResult, self).__setattr__('_additionalProperties', set())
         if name not in properties:
