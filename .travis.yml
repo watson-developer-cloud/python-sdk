@@ -1,13 +1,12 @@
 language: python
 
-matrix:
-  include:
-  - python: 3.5
-  - python: 3.6
-  - python: 3.7
-  - python: 3.8
+python:
+  - 3.5
+  - 3.6
+  - 3.7
+  - 3.8
 
-cache: pip3
+cache: pip
 
 before_install:
 - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && openssl aes-256-cbc -K $encrypted_cebf25e6c525_key
@@ -27,10 +26,9 @@ script:
 - tox
 
 before_deploy:
+- pip3 install bumpversion pypandoc
 - sudo apt-get update
-- pip3 install pypandoc
 - sudo apt-get install pandoc
-- pip3 install bumpversion
 - nvm install 12
 - npm install @semantic-release/changelog
 - npm install @semantic-release/exec
@@ -42,13 +40,13 @@ deploy:
   script: docs/publish.sh
   skip_cleanup: true
   on:
-    python: '3.5'
+    python: 3.8
     tags: true
 - provider: script
   script: npx semantic-release
   skip_cleanup: true
   on:
-    python: '3.5'
+    python: 3.8
     branch: master
 - provider: pypi
   user: watson-devex
@@ -56,5 +54,5 @@ deploy:
   repository: https://upload.pypi.org/legacy
   skip_cleanup: true
   on:
-    python: '3.5'
+    python: 3.8
     tags: true
