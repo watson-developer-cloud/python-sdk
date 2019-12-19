@@ -43,3 +43,32 @@ print(json.dumps(translation, indent=2, ensure_ascii=False))
 # # Get model details
 # model = language_translator.get_model(model_id='<YOUR MODEL ID>').get_result()
 # print(json.dumps(model, indent=2))
+
+#### Document Translation ####
+# List Documents
+result = language_translator.list_documents().get_result()
+print(json.dumps(result, indent=2))
+
+# Translate Document
+with open('en.pdf', 'rb') as file:
+    result = language_translator.translate_document(
+        file=file,
+        file_content_type='application/pdf',
+        filename='en.pdf',
+        model_id='en-fr').get_result()
+    print(json.dumps(result, indent=2))
+
+# Document Status
+result = language_translator.get_document_status(
+    document_id='{document id}').get_result()
+print(json.dumps(result, indent=2))
+
+# Translated Document
+with open('translated.pdf', 'wb') as f:
+    result = language_translator.get_translated_document(
+        document_id='{document id}',
+        accept='application/pdf').get_result()
+    f.write(result.content)
+
+# Delete Document
+language_translator.delete_document(document_id='{document id}')
