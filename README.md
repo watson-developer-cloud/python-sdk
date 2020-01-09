@@ -486,3 +486,5 @@ This library is licensed under the [Apache 2.0 license][license].
 [license]: http://www.apache.org/licenses/LICENSE-2.0
 [vcap_services]: https://cloud.ibm.com/docs/services/watson?topic=watson-vcapServices
 [ibm-cloud-onboarding]: https://cloud.ibm.com/registration?target=/developer/watson&cm_sp=WatsonPlatform-WatsonServices-_-OnPageNavLink-IBMWatson_SDKs-_-Python
+
+[![Run on Repl.it](https://repl.it/badge/github/watson-developer-cloud/python-sdk)](https://repl.it/github/watson-developer-cloud/python-sdk)
