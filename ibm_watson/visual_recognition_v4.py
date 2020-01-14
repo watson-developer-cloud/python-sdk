@@ -139,11 +139,10 @@ class VisualRecognitionV4(BaseService):
         params = {'version': self.version}
 
         form_data = []
-        for item in collection_ids:
-            form_data.append(
-                ('collection_ids', (None, item, 'application/json')))
-        for item in features:
-            form_data.append(('features', (None, item, 'application/json')))
+        collection_ids = self._convert_list(collection_ids)
+        form_data.append(('collection_ids', (None, collection_ids, 'text/plain')))
+        features = self._convert_list(features)
+        form_data.append(('features', (None, features, 'text/plain')))
         if images_file:
             for item in images_file:
                 form_data.append(('images_file', (item.filename, item.data,
@@ -151,8 +150,7 @@ class VisualRecognitionV4(BaseService):
                                                   'application/octet-stream')))
         if image_url:
             for item in image_url:
-                form_data.append(
-                    ('image_url', (None, item, 'application/json')))
+                form_data.append(('image_url', (None, item, 'text/plain')))
         if threshold:
             threshold = str(threshold)
             form_data.append(('threshold', (None, threshold, 'text/plain')))
