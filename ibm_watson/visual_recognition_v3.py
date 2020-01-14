@@ -168,12 +168,11 @@ class VisualRecognitionV3(BaseService):
             threshold = str(threshold)
             form_data.append(('threshold', (None, threshold, 'text/plain')))
         if owners:
-            for item in owners:
-                form_data.append(('owners', (None, item, 'application/json')))
+            owners = self._convert_list(owners)
+            form_data.append(('owners', (None, owners, 'text/plain')))
         if classifier_ids:
-            for item in classifier_ids:
-                form_data.append(
-                    ('classifier_ids', (None, item, 'application/json')))
+            classifier_ids = self._convert_list(classifier_ids)
+            form_data.append(('classifier_ids', (None, classifier_ids, 'text/plain')))
 
         url = '/v3/classify'
         request = self.prepare_request(method='POST',
