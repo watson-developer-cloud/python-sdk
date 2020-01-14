@@ -30,6 +30,7 @@ base_url = 'https://gateway.watsonplatform.net/language-translator/api'
 ##############################################################################
 # region
 
+
 #-----------------------------------------------------------------------------
 # Test Class for translate
 #-----------------------------------------------------------------------------
@@ -75,28 +76,38 @@ class TestTranslate():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = LanguageTranslatorV3(
             authenticator=NoAuthAuthenticator(),
             version='2018-05-01',
-            )
+        )
         service.set_service_url(base_url)
         output = service.translate(**body)
         return output
 
     def construct_full_body(self):
         body = dict()
-        body.update({"text": [], "model_id": "string1", "source": "string1", "target": "string1", })
+        body.update({
+            "text": [],
+            "model_id": "string1",
+            "source": "string1",
+            "target": "string1",
+        })
         return body
 
     def construct_required_body(self):
         body = dict()
-        body.update({"text": [], "model_id": "string1", "source": "string1", "target": "string1", })
+        body.update({
+            "text": [],
+            "model_id": "string1",
+            "source": "string1",
+            "target": "string1",
+        })
         return body
 
 
@@ -109,6 +120,7 @@ class TestTranslate():
 # Start of Service: Identification
 ##############################################################################
 # region
+
 
 #-----------------------------------------------------------------------------
 # Test Class for list_identifiable_languages
@@ -154,16 +166,16 @@ class TestListIdentifiableLanguages():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = LanguageTranslatorV3(
             authenticator=NoAuthAuthenticator(),
             version='2018-05-01',
-            )
+        )
         service.set_service_url(base_url)
         output = service.list_identifiable_languages(**body)
         return output
@@ -208,7 +220,8 @@ class TestIdentify():
     #--------------------------------------------------------
     @responses.activate
     def test_identify_empty(self):
-        check_empty_required_params(self, fake_response_IdentifiedLanguages_json)
+        check_empty_required_params(self,
+                                    fake_response_IdentifiedLanguages_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -222,16 +235,16 @@ class TestIdentify():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = LanguageTranslatorV3(
             authenticator=NoAuthAuthenticator(),
             version='2018-05-01',
-            )
+        )
         service.set_service_url(base_url)
         output = service.identify(**body)
         return output
@@ -256,6 +269,7 @@ class TestIdentify():
 # Start of Service: Models
 ##############################################################################
 # region
+
 
 #-----------------------------------------------------------------------------
 # Test Class for list_models
@@ -301,16 +315,16 @@ class TestListModels():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = LanguageTranslatorV3(
             authenticator=NoAuthAuthenticator(),
             version='2018-05-01',
-            )
+        )
         service.set_service_url(base_url)
         output = service.list_models(**body)
         return output
@@ -372,16 +386,16 @@ class TestCreateModel():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = LanguageTranslatorV3(
             authenticator=NoAuthAuthenticator(),
             version='2018-05-01',
-            )
+        )
         service.set_service_url(base_url)
         output = service.create_model(**body)
         return output
@@ -445,16 +459,16 @@ class TestDeleteModel():
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = LanguageTranslatorV3(
             authenticator=NoAuthAuthenticator(),
             version='2018-05-01',
-            )
+        )
         service.set_service_url(base_url)
         output = service.delete_model(**body)
         return output
@@ -515,16 +529,16 @@ class TestGetModel():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = LanguageTranslatorV3(
             authenticator=NoAuthAuthenticator(),
             version='2018-05-01',
-            )
+        )
         service.set_service_url(base_url)
         output = service.get_model(**body)
         return output
@@ -549,6 +563,7 @@ class TestGetModel():
 # Start of Service: DocumentTranslation
 ##############################################################################
 # region
+
 
 #-----------------------------------------------------------------------------
 # Test Class for list_documents
@@ -594,16 +609,16 @@ class TestListDocuments():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = LanguageTranslatorV3(
             authenticator=NoAuthAuthenticator(),
             version='2018-05-01',
-            )
+        )
         service.set_service_url(base_url)
         output = service.list_documents(**body)
         return output
@@ -662,16 +677,16 @@ class TestTranslateDocument():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=202,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=202,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = LanguageTranslatorV3(
             authenticator=NoAuthAuthenticator(),
             version='2018-05-01',
-            )
+        )
         service.set_service_url(base_url)
         output = service.translate_document(**body)
         return output
@@ -738,16 +753,16 @@ class TestGetDocumentStatus():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = LanguageTranslatorV3(
             authenticator=NoAuthAuthenticator(),
             version='2018-05-01',
-            )
+        )
         service.set_service_url(base_url)
         output = service.get_document_status(**body)
         return output
@@ -808,16 +823,16 @@ class TestDeleteDocument():
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                    url,
-                    body=json.dumps(response),
-                    status=204,
-                    content_type='')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=204,
+                      content_type='')
+
     def call_service(self, body):
         service = LanguageTranslatorV3(
             authenticator=NoAuthAuthenticator(),
             version='2018-05-01',
-            )
+        )
         service.set_service_url(base_url)
         output = service.delete_document(**body)
         return output
@@ -872,22 +887,23 @@ class TestGetTranslatedDocument():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v3/documents/{0}/translated_document'.format(body['document_id'])
+        endpoint = '/v3/documents/{0}/translated_document'.format(
+            body['document_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='')
+
     def call_service(self, body):
         service = LanguageTranslatorV3(
             authenticator=NoAuthAuthenticator(),
             version='2018-05-01',
-            )
+        )
         service.set_service_url(base_url)
         output = service.get_translated_document(**body)
         return output
@@ -926,6 +942,7 @@ def check_empty_required_params(obj, response):
         error = True
     assert error
 
+
 def check_missing_required_params(obj):
     """Test function to assert that the operation will throw an error when missing required data
 
@@ -942,6 +959,7 @@ def check_missing_required_params(obj):
         error = True
     assert error
 
+
 def check_empty_response(obj):
     """Test function to assert that the operation will return an empty response when given an empty request
 
@@ -952,6 +970,7 @@ def check_empty_response(obj):
     body = obj.construct_full_body()
     url = obj.make_url(body)
     send_request(obj, {}, {}, url=url)
+
 
 def send_request(obj, body, response, url=None):
     """Test function to create a request, send it, and assert its accuracy to the mock response
@@ -968,6 +987,7 @@ def send_request(obj, body, response, url=None):
     output = obj.call_service(body)
     assert responses.calls[0].request.url.startswith(url)
     assert output.get_result() == response
+
 
 ####################
 ## Mock Responses ##

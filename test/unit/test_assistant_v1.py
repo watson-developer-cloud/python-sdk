@@ -29,6 +29,7 @@ base_url = 'https://gateway.watsonplatform.net/assistant/api'
 ##############################################################################
 # region
 
+
 #-----------------------------------------------------------------------------
 # Test Class for message
 #-----------------------------------------------------------------------------
@@ -74,16 +75,16 @@ class TestMessage():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.message(**body)
         return output
@@ -91,7 +92,25 @@ class TestMessage():
     def construct_full_body(self):
         body = dict()
         body['workspace_id'] = "string1"
-        body.update({"input": MessageInput._from_dict(json.loads("""{"text": "fake_text"}""")), "intents": [], "entities": [], "alternate_intents": True, "context": Context._from_dict(json.loads("""{"conversation_id": "fake_conversation_id", "system": {}, "metadata": {"deployment": "fake_deployment", "user_id": "fake_user_id"}}""")), "output": OutputData._from_dict(json.loads("""{"nodes_visited": [], "nodes_visited_details": [], "log_messages": [], "text": [], "generic": []}""")), })
+        body.update({
+            "input":
+                MessageInput._from_dict(json.loads("""{"text": "fake_text"}""")
+                                       ),
+            "intents": [],
+            "entities": [],
+            "alternate_intents":
+                True,
+            "context":
+                Context._from_dict(
+                    json.loads(
+                        """{"conversation_id": "fake_conversation_id", "system": {}, "metadata": {"deployment": "fake_deployment", "user_id": "fake_user_id"}}"""
+                    )),
+            "output":
+                OutputData._from_dict(
+                    json.loads(
+                        """{"nodes_visited": [], "nodes_visited_details": [], "log_messages": [], "text": [], "generic": []}"""
+                    )),
+        })
         body['nodes_visited_details'] = True
         return body
 
@@ -110,6 +129,7 @@ class TestMessage():
 # Start of Service: Workspaces
 ##############################################################################
 # region
+
 
 #-----------------------------------------------------------------------------
 # Test Class for list_workspaces
@@ -155,16 +175,16 @@ class TestListWorkspaces():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.list_workspaces(**body)
         return output
@@ -226,23 +246,45 @@ class TestCreateWorkspace():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=201,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=201,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.create_workspace(**body)
         return output
 
     def construct_full_body(self):
         body = dict()
-        body.update({"name": "string1", "description": "string1", "language": "string1", "metadata": {"mock": "data"}, "learning_opt_out": True, "system_settings": WorkspaceSystemSettings._from_dict(json.loads("""{"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "fake_prompt", "none_of_the_above_prompt": "fake_none_of_the_above_prompt", "enabled": false, "sensitivity": "fake_sensitivity", "randomize": false, "max_suggestions": 15, "suggestion_text_policy": "fake_suggestion_text_policy"}, "off_topic": {"enabled": false}}""")), "intents": [], "entities": [], "dialog_nodes": [], "counterexamples": [], "webhooks": [], })
+        body.update({
+            "name":
+                "string1",
+            "description":
+                "string1",
+            "language":
+                "string1",
+            "metadata": {
+                "mock": "data"
+            },
+            "learning_opt_out":
+                True,
+            "system_settings":
+                WorkspaceSystemSettings._from_dict(
+                    json.loads(
+                        """{"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "fake_prompt", "none_of_the_above_prompt": "fake_none_of_the_above_prompt", "enabled": false, "sensitivity": "fake_sensitivity", "randomize": false, "max_suggestions": 15, "suggestion_text_policy": "fake_suggestion_text_policy"}, "off_topic": {"enabled": false}}"""
+                    )),
+            "intents": [],
+            "entities": [],
+            "dialog_nodes": [],
+            "counterexamples": [],
+            "webhooks": [],
+        })
         return body
 
     def construct_required_body(self):
@@ -295,16 +337,16 @@ class TestGetWorkspace():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.get_workspace(**body)
         return output
@@ -368,16 +410,16 @@ class TestUpdateWorkspace():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.update_workspace(**body)
         return output
@@ -385,7 +427,29 @@ class TestUpdateWorkspace():
     def construct_full_body(self):
         body = dict()
         body['workspace_id'] = "string1"
-        body.update({"name": "string1", "description": "string1", "language": "string1", "metadata": {"mock": "data"}, "learning_opt_out": True, "system_settings": WorkspaceSystemSettings._from_dict(json.loads("""{"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "fake_prompt", "none_of_the_above_prompt": "fake_none_of_the_above_prompt", "enabled": false, "sensitivity": "fake_sensitivity", "randomize": false, "max_suggestions": 15, "suggestion_text_policy": "fake_suggestion_text_policy"}, "off_topic": {"enabled": false}}""")), "intents": [], "entities": [], "dialog_nodes": [], "counterexamples": [], "webhooks": [], })
+        body.update({
+            "name":
+                "string1",
+            "description":
+                "string1",
+            "language":
+                "string1",
+            "metadata": {
+                "mock": "data"
+            },
+            "learning_opt_out":
+                True,
+            "system_settings":
+                WorkspaceSystemSettings._from_dict(
+                    json.loads(
+                        """{"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "fake_prompt", "none_of_the_above_prompt": "fake_none_of_the_above_prompt", "enabled": false, "sensitivity": "fake_sensitivity", "randomize": false, "max_suggestions": 15, "suggestion_text_policy": "fake_suggestion_text_policy"}, "off_topic": {"enabled": false}}"""
+                    )),
+            "intents": [],
+            "entities": [],
+            "dialog_nodes": [],
+            "counterexamples": [],
+            "webhooks": [],
+        })
         body['append'] = True
         return body
 
@@ -440,16 +504,16 @@ class TestDeleteWorkspace():
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.delete_workspace(**body)
         return output
@@ -474,6 +538,7 @@ class TestDeleteWorkspace():
 # Start of Service: Intents
 ##############################################################################
 # region
+
 
 #-----------------------------------------------------------------------------
 # Test Class for list_intents
@@ -520,16 +585,16 @@ class TestListIntents():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.list_intents(**body)
         return output
@@ -595,16 +660,16 @@ class TestCreateIntent():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=201,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=201,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.create_intent(**body)
         return output
@@ -612,13 +677,21 @@ class TestCreateIntent():
     def construct_full_body(self):
         body = dict()
         body['workspace_id'] = "string1"
-        body.update({"intent": "string1", "description": "string1", "examples": [], })
+        body.update({
+            "intent": "string1",
+            "description": "string1",
+            "examples": [],
+        })
         return body
 
     def construct_required_body(self):
         body = dict()
         body['workspace_id'] = "string1"
-        body.update({"intent": "string1", "description": "string1", "examples": [], })
+        body.update({
+            "intent": "string1",
+            "description": "string1",
+            "examples": [],
+        })
         return body
 
 
@@ -661,22 +734,23 @@ class TestGetIntent():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/intents/{1}'.format(body['workspace_id'], body['intent'])
+        endpoint = '/v1/workspaces/{0}/intents/{1}'.format(
+            body['workspace_id'], body['intent'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.get_intent(**body)
         return output
@@ -735,22 +809,23 @@ class TestUpdateIntent():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/intents/{1}'.format(body['workspace_id'], body['intent'])
+        endpoint = '/v1/workspaces/{0}/intents/{1}'.format(
+            body['workspace_id'], body['intent'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.update_intent(**body)
         return output
@@ -759,14 +834,22 @@ class TestUpdateIntent():
         body = dict()
         body['workspace_id'] = "string1"
         body['intent'] = "string1"
-        body.update({"new_intent": "string1", "new_description": "string1", "new_examples": [], })
+        body.update({
+            "new_intent": "string1",
+            "new_description": "string1",
+            "new_examples": [],
+        })
         return body
 
     def construct_required_body(self):
         body = dict()
         body['workspace_id'] = "string1"
         body['intent'] = "string1"
-        body.update({"new_intent": "string1", "new_description": "string1", "new_examples": [], })
+        body.update({
+            "new_intent": "string1",
+            "new_description": "string1",
+            "new_examples": [],
+        })
         return body
 
 
@@ -809,22 +892,23 @@ class TestDeleteIntent():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/intents/{1}'.format(body['workspace_id'], body['intent'])
+        endpoint = '/v1/workspaces/{0}/intents/{1}'.format(
+            body['workspace_id'], body['intent'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.delete_intent(**body)
         return output
@@ -851,6 +935,7 @@ class TestDeleteIntent():
 # Start of Service: Examples
 ##############################################################################
 # region
+
 
 #-----------------------------------------------------------------------------
 # Test Class for list_examples
@@ -891,22 +976,23 @@ class TestListExamples():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/intents/{1}/examples'.format(body['workspace_id'], body['intent'])
+        endpoint = '/v1/workspaces/{0}/intents/{1}/examples'.format(
+            body['workspace_id'], body['intent'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.list_examples(**body)
         return output
@@ -967,22 +1053,23 @@ class TestCreateExample():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/intents/{1}/examples'.format(body['workspace_id'], body['intent'])
+        endpoint = '/v1/workspaces/{0}/intents/{1}/examples'.format(
+            body['workspace_id'], body['intent'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=201,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=201,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.create_example(**body)
         return output
@@ -991,14 +1078,20 @@ class TestCreateExample():
         body = dict()
         body['workspace_id'] = "string1"
         body['intent'] = "string1"
-        body.update({"text": "string1", "mentions": [], })
+        body.update({
+            "text": "string1",
+            "mentions": [],
+        })
         return body
 
     def construct_required_body(self):
         body = dict()
         body['workspace_id'] = "string1"
         body['intent'] = "string1"
-        body.update({"text": "string1", "mentions": [], })
+        body.update({
+            "text": "string1",
+            "mentions": [],
+        })
         return body
 
 
@@ -1041,22 +1134,23 @@ class TestGetExample():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(body['workspace_id'], body['intent'], body['text'])
+        endpoint = '/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
+            body['workspace_id'], body['intent'], body['text'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.get_example(**body)
         return output
@@ -1116,22 +1210,23 @@ class TestUpdateExample():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(body['workspace_id'], body['intent'], body['text'])
+        endpoint = '/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
+            body['workspace_id'], body['intent'], body['text'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.update_example(**body)
         return output
@@ -1141,7 +1236,10 @@ class TestUpdateExample():
         body['workspace_id'] = "string1"
         body['intent'] = "string1"
         body['text'] = "string1"
-        body.update({"new_text": "string1", "new_mentions": [], })
+        body.update({
+            "new_text": "string1",
+            "new_mentions": [],
+        })
         return body
 
     def construct_required_body(self):
@@ -1149,7 +1247,10 @@ class TestUpdateExample():
         body['workspace_id'] = "string1"
         body['intent'] = "string1"
         body['text'] = "string1"
-        body.update({"new_text": "string1", "new_mentions": [], })
+        body.update({
+            "new_text": "string1",
+            "new_mentions": [],
+        })
         return body
 
 
@@ -1192,22 +1293,23 @@ class TestDeleteExample():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(body['workspace_id'], body['intent'], body['text'])
+        endpoint = '/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
+            body['workspace_id'], body['intent'], body['text'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.delete_example(**body)
         return output
@@ -1236,6 +1338,7 @@ class TestDeleteExample():
 # Start of Service: Counterexamples
 ##############################################################################
 # region
+
 
 #-----------------------------------------------------------------------------
 # Test Class for list_counterexamples
@@ -1268,7 +1371,8 @@ class TestListCounterexamples():
     #--------------------------------------------------------
     @responses.activate
     def test_list_counterexamples_empty(self):
-        check_empty_required_params(self, fake_response_CounterexampleCollection_json)
+        check_empty_required_params(
+            self, fake_response_CounterexampleCollection_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -1276,22 +1380,23 @@ class TestListCounterexamples():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/counterexamples'.format(body['workspace_id'])
+        endpoint = '/v1/workspaces/{0}/counterexamples'.format(
+            body['workspace_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.list_counterexamples(**body)
         return output
@@ -1350,22 +1455,23 @@ class TestCreateCounterexample():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/counterexamples'.format(body['workspace_id'])
+        endpoint = '/v1/workspaces/{0}/counterexamples'.format(
+            body['workspace_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=201,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=201,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.create_counterexample(**body)
         return output
@@ -1373,13 +1479,17 @@ class TestCreateCounterexample():
     def construct_full_body(self):
         body = dict()
         body['workspace_id'] = "string1"
-        body.update({"text": "string1", })
+        body.update({
+            "text": "string1",
+        })
         return body
 
     def construct_required_body(self):
         body = dict()
         body['workspace_id'] = "string1"
-        body.update({"text": "string1", })
+        body.update({
+            "text": "string1",
+        })
         return body
 
 
@@ -1422,22 +1532,23 @@ class TestGetCounterexample():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/counterexamples/{1}'.format(body['workspace_id'], body['text'])
+        endpoint = '/v1/workspaces/{0}/counterexamples/{1}'.format(
+            body['workspace_id'], body['text'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.get_counterexample(**body)
         return output
@@ -1495,22 +1606,23 @@ class TestUpdateCounterexample():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/counterexamples/{1}'.format(body['workspace_id'], body['text'])
+        endpoint = '/v1/workspaces/{0}/counterexamples/{1}'.format(
+            body['workspace_id'], body['text'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.update_counterexample(**body)
         return output
@@ -1519,14 +1631,18 @@ class TestUpdateCounterexample():
         body = dict()
         body['workspace_id'] = "string1"
         body['text'] = "string1"
-        body.update({"new_text": "string1", })
+        body.update({
+            "new_text": "string1",
+        })
         return body
 
     def construct_required_body(self):
         body = dict()
         body['workspace_id'] = "string1"
         body['text'] = "string1"
-        body.update({"new_text": "string1", })
+        body.update({
+            "new_text": "string1",
+        })
         return body
 
 
@@ -1569,22 +1685,23 @@ class TestDeleteCounterexample():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/counterexamples/{1}'.format(body['workspace_id'], body['text'])
+        endpoint = '/v1/workspaces/{0}/counterexamples/{1}'.format(
+            body['workspace_id'], body['text'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.delete_counterexample(**body)
         return output
@@ -1611,6 +1728,7 @@ class TestDeleteCounterexample():
 # Start of Service: Entities
 ##############################################################################
 # region
+
 
 #-----------------------------------------------------------------------------
 # Test Class for list_entities
@@ -1657,16 +1775,16 @@ class TestListEntities():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.list_entities(**body)
         return output
@@ -1732,16 +1850,16 @@ class TestCreateEntity():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=201,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=201,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.create_entity(**body)
         return output
@@ -1749,13 +1867,29 @@ class TestCreateEntity():
     def construct_full_body(self):
         body = dict()
         body['workspace_id'] = "string1"
-        body.update({"entity": "string1", "description": "string1", "metadata": {"mock": "data"}, "fuzzy_match": True, "values": [], })
+        body.update({
+            "entity": "string1",
+            "description": "string1",
+            "metadata": {
+                "mock": "data"
+            },
+            "fuzzy_match": True,
+            "values": [],
+        })
         return body
 
     def construct_required_body(self):
         body = dict()
         body['workspace_id'] = "string1"
-        body.update({"entity": "string1", "description": "string1", "metadata": {"mock": "data"}, "fuzzy_match": True, "values": [], })
+        body.update({
+            "entity": "string1",
+            "description": "string1",
+            "metadata": {
+                "mock": "data"
+            },
+            "fuzzy_match": True,
+            "values": [],
+        })
         return body
 
 
@@ -1798,22 +1932,23 @@ class TestGetEntity():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/entities/{1}'.format(body['workspace_id'], body['entity'])
+        endpoint = '/v1/workspaces/{0}/entities/{1}'.format(
+            body['workspace_id'], body['entity'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.get_entity(**body)
         return output
@@ -1872,22 +2007,23 @@ class TestUpdateEntity():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/entities/{1}'.format(body['workspace_id'], body['entity'])
+        endpoint = '/v1/workspaces/{0}/entities/{1}'.format(
+            body['workspace_id'], body['entity'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.update_entity(**body)
         return output
@@ -1896,14 +2032,30 @@ class TestUpdateEntity():
         body = dict()
         body['workspace_id'] = "string1"
         body['entity'] = "string1"
-        body.update({"new_entity": "string1", "new_description": "string1", "new_metadata": {"mock": "data"}, "new_fuzzy_match": True, "new_values": [], })
+        body.update({
+            "new_entity": "string1",
+            "new_description": "string1",
+            "new_metadata": {
+                "mock": "data"
+            },
+            "new_fuzzy_match": True,
+            "new_values": [],
+        })
         return body
 
     def construct_required_body(self):
         body = dict()
         body['workspace_id'] = "string1"
         body['entity'] = "string1"
-        body.update({"new_entity": "string1", "new_description": "string1", "new_metadata": {"mock": "data"}, "new_fuzzy_match": True, "new_values": [], })
+        body.update({
+            "new_entity": "string1",
+            "new_description": "string1",
+            "new_metadata": {
+                "mock": "data"
+            },
+            "new_fuzzy_match": True,
+            "new_values": [],
+        })
         return body
 
 
@@ -1946,22 +2098,23 @@ class TestDeleteEntity():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/entities/{1}'.format(body['workspace_id'], body['entity'])
+        endpoint = '/v1/workspaces/{0}/entities/{1}'.format(
+            body['workspace_id'], body['entity'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.delete_entity(**body)
         return output
@@ -1988,6 +2141,7 @@ class TestDeleteEntity():
 # Start of Service: Mentions
 ##############################################################################
 # region
+
 
 #-----------------------------------------------------------------------------
 # Test Class for list_mentions
@@ -2020,7 +2174,8 @@ class TestListMentions():
     #--------------------------------------------------------
     @responses.activate
     def test_list_mentions_empty(self):
-        check_empty_required_params(self, fake_response_EntityMentionCollection_json)
+        check_empty_required_params(self,
+                                    fake_response_EntityMentionCollection_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -2028,22 +2183,23 @@ class TestListMentions():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/entities/{1}/mentions'.format(body['workspace_id'], body['entity'])
+        endpoint = '/v1/workspaces/{0}/entities/{1}/mentions'.format(
+            body['workspace_id'], body['entity'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.list_mentions(**body)
         return output
@@ -2072,6 +2228,7 @@ class TestListMentions():
 # Start of Service: Values
 ##############################################################################
 # region
+
 
 #-----------------------------------------------------------------------------
 # Test Class for list_values
@@ -2112,22 +2269,23 @@ class TestListValues():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/entities/{1}/values'.format(body['workspace_id'], body['entity'])
+        endpoint = '/v1/workspaces/{0}/entities/{1}/values'.format(
+            body['workspace_id'], body['entity'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.list_values(**body)
         return output
@@ -2189,22 +2347,23 @@ class TestCreateValue():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/entities/{1}/values'.format(body['workspace_id'], body['entity'])
+        endpoint = '/v1/workspaces/{0}/entities/{1}/values'.format(
+            body['workspace_id'], body['entity'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=201,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=201,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.create_value(**body)
         return output
@@ -2213,14 +2372,30 @@ class TestCreateValue():
         body = dict()
         body['workspace_id'] = "string1"
         body['entity'] = "string1"
-        body.update({"value": "string1", "metadata": {"mock": "data"}, "type": "string1", "synonyms": [], "patterns": [], })
+        body.update({
+            "value": "string1",
+            "metadata": {
+                "mock": "data"
+            },
+            "type": "string1",
+            "synonyms": [],
+            "patterns": [],
+        })
         return body
 
     def construct_required_body(self):
         body = dict()
         body['workspace_id'] = "string1"
         body['entity'] = "string1"
-        body.update({"value": "string1", "metadata": {"mock": "data"}, "type": "string1", "synonyms": [], "patterns": [], })
+        body.update({
+            "value": "string1",
+            "metadata": {
+                "mock": "data"
+            },
+            "type": "string1",
+            "synonyms": [],
+            "patterns": [],
+        })
         return body
 
 
@@ -2263,22 +2438,23 @@ class TestGetValue():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/entities/{1}/values/{2}'.format(body['workspace_id'], body['entity'], body['value'])
+        endpoint = '/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
+            body['workspace_id'], body['entity'], body['value'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.get_value(**body)
         return output
@@ -2339,22 +2515,23 @@ class TestUpdateValue():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/entities/{1}/values/{2}'.format(body['workspace_id'], body['entity'], body['value'])
+        endpoint = '/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
+            body['workspace_id'], body['entity'], body['value'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.update_value(**body)
         return output
@@ -2364,7 +2541,15 @@ class TestUpdateValue():
         body['workspace_id'] = "string1"
         body['entity'] = "string1"
         body['value'] = "string1"
-        body.update({"new_value": "string1", "new_metadata": {"mock": "data"}, "new_type": "string1", "new_synonyms": [], "new_patterns": [], })
+        body.update({
+            "new_value": "string1",
+            "new_metadata": {
+                "mock": "data"
+            },
+            "new_type": "string1",
+            "new_synonyms": [],
+            "new_patterns": [],
+        })
         return body
 
     def construct_required_body(self):
@@ -2372,7 +2557,15 @@ class TestUpdateValue():
         body['workspace_id'] = "string1"
         body['entity'] = "string1"
         body['value'] = "string1"
-        body.update({"new_value": "string1", "new_metadata": {"mock": "data"}, "new_type": "string1", "new_synonyms": [], "new_patterns": [], })
+        body.update({
+            "new_value": "string1",
+            "new_metadata": {
+                "mock": "data"
+            },
+            "new_type": "string1",
+            "new_synonyms": [],
+            "new_patterns": [],
+        })
         return body
 
 
@@ -2415,22 +2608,23 @@ class TestDeleteValue():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/entities/{1}/values/{2}'.format(body['workspace_id'], body['entity'], body['value'])
+        endpoint = '/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
+            body['workspace_id'], body['entity'], body['value'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.delete_value(**body)
         return output
@@ -2459,6 +2653,7 @@ class TestDeleteValue():
 # Start of Service: Synonyms
 ##############################################################################
 # region
+
 
 #-----------------------------------------------------------------------------
 # Test Class for list_synonyms
@@ -2499,22 +2694,23 @@ class TestListSynonyms():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms'.format(body['workspace_id'], body['entity'], body['value'])
+        endpoint = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms'.format(
+            body['workspace_id'], body['entity'], body['value'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.list_synonyms(**body)
         return output
@@ -2577,22 +2773,23 @@ class TestCreateSynonym():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms'.format(body['workspace_id'], body['entity'], body['value'])
+        endpoint = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms'.format(
+            body['workspace_id'], body['entity'], body['value'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=201,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=201,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.create_synonym(**body)
         return output
@@ -2602,7 +2799,9 @@ class TestCreateSynonym():
         body['workspace_id'] = "string1"
         body['entity'] = "string1"
         body['value'] = "string1"
-        body.update({"synonym": "string1", })
+        body.update({
+            "synonym": "string1",
+        })
         return body
 
     def construct_required_body(self):
@@ -2610,7 +2809,9 @@ class TestCreateSynonym():
         body['workspace_id'] = "string1"
         body['entity'] = "string1"
         body['value'] = "string1"
-        body.update({"synonym": "string1", })
+        body.update({
+            "synonym": "string1",
+        })
         return body
 
 
@@ -2653,22 +2854,24 @@ class TestGetSynonym():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(body['workspace_id'], body['entity'], body['value'], body['synonym'])
+        endpoint = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(
+            body['workspace_id'], body['entity'], body['value'],
+            body['synonym'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.get_synonym(**body)
         return output
@@ -2730,22 +2933,24 @@ class TestUpdateSynonym():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(body['workspace_id'], body['entity'], body['value'], body['synonym'])
+        endpoint = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(
+            body['workspace_id'], body['entity'], body['value'],
+            body['synonym'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.update_synonym(**body)
         return output
@@ -2756,7 +2961,9 @@ class TestUpdateSynonym():
         body['entity'] = "string1"
         body['value'] = "string1"
         body['synonym'] = "string1"
-        body.update({"new_synonym": "string1", })
+        body.update({
+            "new_synonym": "string1",
+        })
         return body
 
     def construct_required_body(self):
@@ -2765,7 +2972,9 @@ class TestUpdateSynonym():
         body['entity'] = "string1"
         body['value'] = "string1"
         body['synonym'] = "string1"
-        body.update({"new_synonym": "string1", })
+        body.update({
+            "new_synonym": "string1",
+        })
         return body
 
 
@@ -2808,22 +3017,24 @@ class TestDeleteSynonym():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(body['workspace_id'], body['entity'], body['value'], body['synonym'])
+        endpoint = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(
+            body['workspace_id'], body['entity'], body['value'],
+            body['synonym'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.delete_synonym(**body)
         return output
@@ -2854,6 +3065,7 @@ class TestDeleteSynonym():
 # Start of Service: DialogNodes
 ##############################################################################
 # region
+
 
 #-----------------------------------------------------------------------------
 # Test Class for list_dialog_nodes
@@ -2886,7 +3098,8 @@ class TestListDialogNodes():
     #--------------------------------------------------------
     @responses.activate
     def test_list_dialog_nodes_empty(self):
-        check_empty_required_params(self, fake_response_DialogNodeCollection_json)
+        check_empty_required_params(self,
+                                    fake_response_DialogNodeCollection_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -2894,22 +3107,23 @@ class TestListDialogNodes():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/dialog_nodes'.format(body['workspace_id'])
+        endpoint = '/v1/workspaces/{0}/dialog_nodes'.format(
+            body['workspace_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.list_dialog_nodes(**body)
         return output
@@ -2968,22 +3182,23 @@ class TestCreateDialogNode():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/dialog_nodes'.format(body['workspace_id'])
+        endpoint = '/v1/workspaces/{0}/dialog_nodes'.format(
+            body['workspace_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=201,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=201,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.create_dialog_node(**body)
         return output
@@ -2991,13 +3206,105 @@ class TestCreateDialogNode():
     def construct_full_body(self):
         body = dict()
         body['workspace_id'] = "string1"
-        body.update({"dialog_node": "string1", "description": "string1", "conditions": "string1", "parent": "string1", "previous_sibling": "string1", "output": DialogNodeOutput._from_dict(json.loads("""{"generic": [], "modifiers": {"overwrite": false}}""")), "context": {"mock": "data"}, "metadata": {"mock": "data"}, "next_step": DialogNodeNextStep._from_dict(json.loads("""{"behavior": "fake_behavior", "dialog_node": "fake_dialog_node", "selector": "fake_selector"}""")), "title": "string1", "type": "string1", "event_name": "string1", "variable": "string1", "actions": [], "digress_in": "string1", "digress_out": "string1", "digress_out_slots": "string1", "user_label": "string1", "disambiguation_opt_out": True, })
+        body.update({
+            "dialog_node":
+                "string1",
+            "description":
+                "string1",
+            "conditions":
+                "string1",
+            "parent":
+                "string1",
+            "previous_sibling":
+                "string1",
+            "output":
+                DialogNodeOutput._from_dict(
+                    json.loads(
+                        """{"generic": [], "modifiers": {"overwrite": false}}"""
+                    )),
+            "context": {
+                "mock": "data"
+            },
+            "metadata": {
+                "mock": "data"
+            },
+            "next_step":
+                DialogNodeNextStep._from_dict(
+                    json.loads(
+                        """{"behavior": "fake_behavior", "dialog_node": "fake_dialog_node", "selector": "fake_selector"}"""
+                    )),
+            "title":
+                "string1",
+            "type":
+                "string1",
+            "event_name":
+                "string1",
+            "variable":
+                "string1",
+            "actions": [],
+            "digress_in":
+                "string1",
+            "digress_out":
+                "string1",
+            "digress_out_slots":
+                "string1",
+            "user_label":
+                "string1",
+            "disambiguation_opt_out":
+                True,
+        })
         return body
 
     def construct_required_body(self):
         body = dict()
         body['workspace_id'] = "string1"
-        body.update({"dialog_node": "string1", "description": "string1", "conditions": "string1", "parent": "string1", "previous_sibling": "string1", "output": DialogNodeOutput._from_dict(json.loads("""{"generic": [], "modifiers": {"overwrite": false}}""")), "context": {"mock": "data"}, "metadata": {"mock": "data"}, "next_step": DialogNodeNextStep._from_dict(json.loads("""{"behavior": "fake_behavior", "dialog_node": "fake_dialog_node", "selector": "fake_selector"}""")), "title": "string1", "type": "string1", "event_name": "string1", "variable": "string1", "actions": [], "digress_in": "string1", "digress_out": "string1", "digress_out_slots": "string1", "user_label": "string1", "disambiguation_opt_out": True, })
+        body.update({
+            "dialog_node":
+                "string1",
+            "description":
+                "string1",
+            "conditions":
+                "string1",
+            "parent":
+                "string1",
+            "previous_sibling":
+                "string1",
+            "output":
+                DialogNodeOutput._from_dict(
+                    json.loads(
+                        """{"generic": [], "modifiers": {"overwrite": false}}"""
+                    )),
+            "context": {
+                "mock": "data"
+            },
+            "metadata": {
+                "mock": "data"
+            },
+            "next_step":
+                DialogNodeNextStep._from_dict(
+                    json.loads(
+                        """{"behavior": "fake_behavior", "dialog_node": "fake_dialog_node", "selector": "fake_selector"}"""
+                    )),
+            "title":
+                "string1",
+            "type":
+                "string1",
+            "event_name":
+                "string1",
+            "variable":
+                "string1",
+            "actions": [],
+            "digress_in":
+                "string1",
+            "digress_out":
+                "string1",
+            "digress_out_slots":
+                "string1",
+            "user_label":
+                "string1",
+            "disambiguation_opt_out":
+                True,
+        })
         return body
 
 
@@ -3040,22 +3347,23 @@ class TestGetDialogNode():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/dialog_nodes/{1}'.format(body['workspace_id'], body['dialog_node'])
+        endpoint = '/v1/workspaces/{0}/dialog_nodes/{1}'.format(
+            body['workspace_id'], body['dialog_node'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.get_dialog_node(**body)
         return output
@@ -3113,22 +3421,23 @@ class TestUpdateDialogNode():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/dialog_nodes/{1}'.format(body['workspace_id'], body['dialog_node'])
+        endpoint = '/v1/workspaces/{0}/dialog_nodes/{1}'.format(
+            body['workspace_id'], body['dialog_node'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.update_dialog_node(**body)
         return output
@@ -3137,14 +3446,106 @@ class TestUpdateDialogNode():
         body = dict()
         body['workspace_id'] = "string1"
         body['dialog_node'] = "string1"
-        body.update({"new_dialog_node": "string1", "new_description": "string1", "new_conditions": "string1", "new_parent": "string1", "new_previous_sibling": "string1", "new_output": DialogNodeOutput._from_dict(json.loads("""{"generic": [], "modifiers": {"overwrite": false}}""")), "new_context": {"mock": "data"}, "new_metadata": {"mock": "data"}, "new_next_step": DialogNodeNextStep._from_dict(json.loads("""{"behavior": "fake_behavior", "dialog_node": "fake_dialog_node", "selector": "fake_selector"}""")), "new_title": "string1", "new_type": "string1", "new_event_name": "string1", "new_variable": "string1", "new_actions": [], "new_digress_in": "string1", "new_digress_out": "string1", "new_digress_out_slots": "string1", "new_user_label": "string1", "new_disambiguation_opt_out": True, })
+        body.update({
+            "new_dialog_node":
+                "string1",
+            "new_description":
+                "string1",
+            "new_conditions":
+                "string1",
+            "new_parent":
+                "string1",
+            "new_previous_sibling":
+                "string1",
+            "new_output":
+                DialogNodeOutput._from_dict(
+                    json.loads(
+                        """{"generic": [], "modifiers": {"overwrite": false}}"""
+                    )),
+            "new_context": {
+                "mock": "data"
+            },
+            "new_metadata": {
+                "mock": "data"
+            },
+            "new_next_step":
+                DialogNodeNextStep._from_dict(
+                    json.loads(
+                        """{"behavior": "fake_behavior", "dialog_node": "fake_dialog_node", "selector": "fake_selector"}"""
+                    )),
+            "new_title":
+                "string1",
+            "new_type":
+                "string1",
+            "new_event_name":
+                "string1",
+            "new_variable":
+                "string1",
+            "new_actions": [],
+            "new_digress_in":
+                "string1",
+            "new_digress_out":
+                "string1",
+            "new_digress_out_slots":
+                "string1",
+            "new_user_label":
+                "string1",
+            "new_disambiguation_opt_out":
+                True,
+        })
         return body
 
     def construct_required_body(self):
         body = dict()
         body['workspace_id'] = "string1"
         body['dialog_node'] = "string1"
-        body.update({"new_dialog_node": "string1", "new_description": "string1", "new_conditions": "string1", "new_parent": "string1", "new_previous_sibling": "string1", "new_output": DialogNodeOutput._from_dict(json.loads("""{"generic": [], "modifiers": {"overwrite": false}}""")), "new_context": {"mock": "data"}, "new_metadata": {"mock": "data"}, "new_next_step": DialogNodeNextStep._from_dict(json.loads("""{"behavior": "fake_behavior", "dialog_node": "fake_dialog_node", "selector": "fake_selector"}""")), "new_title": "string1", "new_type": "string1", "new_event_name": "string1", "new_variable": "string1", "new_actions": [], "new_digress_in": "string1", "new_digress_out": "string1", "new_digress_out_slots": "string1", "new_user_label": "string1", "new_disambiguation_opt_out": True, })
+        body.update({
+            "new_dialog_node":
+                "string1",
+            "new_description":
+                "string1",
+            "new_conditions":
+                "string1",
+            "new_parent":
+                "string1",
+            "new_previous_sibling":
+                "string1",
+            "new_output":
+                DialogNodeOutput._from_dict(
+                    json.loads(
+                        """{"generic": [], "modifiers": {"overwrite": false}}"""
+                    )),
+            "new_context": {
+                "mock": "data"
+            },
+            "new_metadata": {
+                "mock": "data"
+            },
+            "new_next_step":
+                DialogNodeNextStep._from_dict(
+                    json.loads(
+                        """{"behavior": "fake_behavior", "dialog_node": "fake_dialog_node", "selector": "fake_selector"}"""
+                    )),
+            "new_title":
+                "string1",
+            "new_type":
+                "string1",
+            "new_event_name":
+                "string1",
+            "new_variable":
+                "string1",
+            "new_actions": [],
+            "new_digress_in":
+                "string1",
+            "new_digress_out":
+                "string1",
+            "new_digress_out_slots":
+                "string1",
+            "new_user_label":
+                "string1",
+            "new_disambiguation_opt_out":
+                True,
+        })
         return body
 
 
@@ -3187,22 +3588,23 @@ class TestDeleteDialogNode():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/workspaces/{0}/dialog_nodes/{1}'.format(body['workspace_id'], body['dialog_node'])
+        endpoint = '/v1/workspaces/{0}/dialog_nodes/{1}'.format(
+            body['workspace_id'], body['dialog_node'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.delete_dialog_node(**body)
         return output
@@ -3229,6 +3631,7 @@ class TestDeleteDialogNode():
 # Start of Service: Logs
 ##############################################################################
 # region
+
 
 #-----------------------------------------------------------------------------
 # Test Class for list_logs
@@ -3275,16 +3678,16 @@ class TestListLogs():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.list_logs(**body)
         return output
@@ -3349,16 +3752,16 @@ class TestListAllLogs():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.list_all_logs(**body)
         return output
@@ -3386,6 +3789,7 @@ class TestListAllLogs():
 # Start of Service: UserData
 ##############################################################################
 # region
+
 
 #-----------------------------------------------------------------------------
 # Test Class for delete_user_data
@@ -3432,16 +3836,16 @@ class TestDeleteUserData():
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                    url,
-                    body=json.dumps(response),
-                    status=202,
-                    content_type='')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=202,
+                      content_type='')
+
     def call_service(self, body):
         service = AssistantV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-02-28',
-            )
+        )
         service.set_service_url(base_url)
         output = service.delete_user_data(**body)
         return output
@@ -3479,6 +3883,7 @@ def check_empty_required_params(obj, response):
         error = True
     assert error
 
+
 def check_missing_required_params(obj):
     """Test function to assert that the operation will throw an error when missing required data
 
@@ -3495,6 +3900,7 @@ def check_missing_required_params(obj):
         error = True
     assert error
 
+
 def check_empty_response(obj):
     """Test function to assert that the operation will return an empty response when given an empty request
 
@@ -3505,6 +3911,7 @@ def check_empty_response(obj):
     body = obj.construct_full_body()
     url = obj.make_url(body)
     send_request(obj, {}, {}, url=url)
+
 
 def send_request(obj, body, response, url=None):
     """Test function to create a request, send it, and assert its accuracy to the mock response
@@ -3521,6 +3928,7 @@ def send_request(obj, body, response, url=None):
     output = obj.call_service(body)
     assert responses.calls[0].request.url.startswith(url)
     assert output.get_result() == response
+
 
 ####################
 ## Mock Responses ##

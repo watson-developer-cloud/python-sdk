@@ -30,6 +30,7 @@ base_url = 'https://fake'
 ##############################################################################
 # region
 
+
 #-----------------------------------------------------------------------------
 # Test Class for list_collections
 #-----------------------------------------------------------------------------
@@ -61,7 +62,8 @@ class TestListCollections():
     #--------------------------------------------------------
     @responses.activate
     def test_list_collections_empty(self):
-        check_empty_required_params(self, fake_response_ListCollectionsResponse_json)
+        check_empty_required_params(self,
+                                    fake_response_ListCollectionsResponse_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -75,16 +77,16 @@ class TestListCollections():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV2(
             authenticator=NoAuthAuthenticator(),
             version='2019-11-22',
-            )
+        )
         service.set_service_url(base_url)
         output = service.list_collections(**body)
         return output
@@ -109,6 +111,7 @@ class TestListCollections():
 # Start of Service: Queries
 ##############################################################################
 # region
+
 
 #-----------------------------------------------------------------------------
 # Test Class for query
@@ -155,16 +158,16 @@ class TestQuery():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV2(
             authenticator=NoAuthAuthenticator(),
             version='2019-11-22',
-            )
+        )
         service.set_service_url(base_url)
         output = service.query(**body)
         return output
@@ -172,7 +175,39 @@ class TestQuery():
     def construct_full_body(self):
         body = dict()
         body['project_id'] = "string1"
-        body.update({"collection_ids": [], "filter": "string1", "query": "string1", "natural_language_query": "string1", "aggregation": "string1", "count": 12345, "return_": [], "offset": 12345, "sort": "string1", "highlight": True, "spelling_suggestions": True, "table_results": QueryLargeTableResults._from_dict(json.loads("""{"enabled": false, "count": 5}""")), "suggested_refinements": QueryLargeSuggestedRefinements._from_dict(json.loads("""{"enabled": false, "count": 5}""")), "passages": QueryLargePassages._from_dict(json.loads("""{"enabled": false, "per_document": true, "max_per_document": 16, "fields": [], "count": 5, "characters": 10}""")), })
+        body.update({
+            "collection_ids": [],
+            "filter":
+                "string1",
+            "query":
+                "string1",
+            "natural_language_query":
+                "string1",
+            "aggregation":
+                "string1",
+            "count":
+                12345,
+            "return_": [],
+            "offset":
+                12345,
+            "sort":
+                "string1",
+            "highlight":
+                True,
+            "spelling_suggestions":
+                True,
+            "table_results":
+                QueryLargeTableResults._from_dict(
+                    json.loads("""{"enabled": false, "count": 5}""")),
+            "suggested_refinements":
+                QueryLargeSuggestedRefinements._from_dict(
+                    json.loads("""{"enabled": false, "count": 5}""")),
+            "passages":
+                QueryLargePassages._from_dict(
+                    json.loads(
+                        """{"enabled": false, "per_document": true, "max_per_document": 16, "fields": [], "count": 5, "characters": 10}"""
+                    )),
+        })
         return body
 
     def construct_required_body(self):
@@ -226,16 +261,16 @@ class TestGetAutocompletion():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV2(
             authenticator=NoAuthAuthenticator(),
             version='2019-11-22',
-            )
+        )
         service.set_service_url(base_url)
         output = service.get_autocompletion(**body)
         return output
@@ -287,7 +322,8 @@ class TestQueryNotices():
     #--------------------------------------------------------
     @responses.activate
     def test_query_notices_empty(self):
-        check_empty_required_params(self, fake_response_QueryNoticesResponse_json)
+        check_empty_required_params(self,
+                                    fake_response_QueryNoticesResponse_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -301,16 +337,16 @@ class TestQueryNotices():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV2(
             authenticator=NoAuthAuthenticator(),
             version='2019-11-22',
-            )
+        )
         service.set_service_url(base_url)
         output = service.query_notices(**body)
         return output
@@ -376,16 +412,16 @@ class TestListFields():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV2(
             authenticator=NoAuthAuthenticator(),
             version='2019-11-22',
-            )
+        )
         service.set_service_url(base_url)
         output = service.list_fields(**body)
         return output
@@ -411,6 +447,7 @@ class TestListFields():
 # Start of Service: ComponentSettings
 ##############################################################################
 # region
+
 
 #-----------------------------------------------------------------------------
 # Test Class for get_component_settings
@@ -443,7 +480,8 @@ class TestGetComponentSettings():
     #--------------------------------------------------------
     @responses.activate
     def test_get_component_settings_empty(self):
-        check_empty_required_params(self, fake_response_ComponentSettingsResponse_json)
+        check_empty_required_params(
+            self, fake_response_ComponentSettingsResponse_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -451,22 +489,23 @@ class TestGetComponentSettings():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v2/projects/{0}/component_settings'.format(body['project_id'])
+        endpoint = '/v2/projects/{0}/component_settings'.format(
+            body['project_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV2(
             authenticator=NoAuthAuthenticator(),
             version='2019-11-22',
-            )
+        )
         service.set_service_url(base_url)
         output = service.get_component_settings(**body)
         return output
@@ -491,6 +530,7 @@ class TestGetComponentSettings():
 # Start of Service: Documents
 ##############################################################################
 # region
+
 
 #-----------------------------------------------------------------------------
 # Test Class for add_document
@@ -531,22 +571,23 @@ class TestAddDocument():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v2/projects/{0}/collections/{1}/documents'.format(body['project_id'], body['collection_id'])
+        endpoint = '/v2/projects/{0}/collections/{1}/documents'.format(
+            body['project_id'], body['collection_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=202,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=202,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV2(
             authenticator=NoAuthAuthenticator(),
             version='2019-11-22',
-            )
+        )
         service.set_service_url(base_url)
         output = service.add_document(**body)
         return output
@@ -608,22 +649,23 @@ class TestUpdateDocument():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v2/projects/{0}/collections/{1}/documents/{2}'.format(body['project_id'], body['collection_id'], body['document_id'])
+        endpoint = '/v2/projects/{0}/collections/{1}/documents/{2}'.format(
+            body['project_id'], body['collection_id'], body['document_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=202,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=202,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV2(
             authenticator=NoAuthAuthenticator(),
             version='2019-11-22',
-            )
+        )
         service.set_service_url(base_url)
         output = service.update_document(**body)
         return output
@@ -679,7 +721,8 @@ class TestDeleteDocument():
     #--------------------------------------------------------
     @responses.activate
     def test_delete_document_empty(self):
-        check_empty_required_params(self, fake_response_DeleteDocumentResponse_json)
+        check_empty_required_params(self,
+                                    fake_response_DeleteDocumentResponse_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -687,22 +730,23 @@ class TestDeleteDocument():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v2/projects/{0}/collections/{1}/documents/{2}'.format(body['project_id'], body['collection_id'], body['document_id'])
+        endpoint = '/v2/projects/{0}/collections/{1}/documents/{2}'.format(
+            body['project_id'], body['collection_id'], body['document_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV2(
             authenticator=NoAuthAuthenticator(),
             version='2019-11-22',
-            )
+        )
         service.set_service_url(base_url)
         output = service.delete_document(**body)
         return output
@@ -732,6 +776,7 @@ class TestDeleteDocument():
 # Start of Service: TrainingData
 ##############################################################################
 # region
+
 
 #-----------------------------------------------------------------------------
 # Test Class for list_training_queries
@@ -772,22 +817,23 @@ class TestListTrainingQueries():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v2/projects/{0}/training_data/queries'.format(body['project_id'])
+        endpoint = '/v2/projects/{0}/training_data/queries'.format(
+            body['project_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV2(
             authenticator=NoAuthAuthenticator(),
             version='2019-11-22',
-            )
+        )
         service.set_service_url(base_url)
         output = service.list_training_queries(**body)
         return output
@@ -842,22 +888,23 @@ class TestDeleteTrainingQueries():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v2/projects/{0}/training_data/queries'.format(body['project_id'])
+        endpoint = '/v2/projects/{0}/training_data/queries'.format(
+            body['project_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                    url,
-                    body=json.dumps(response),
-                    status=204,
-                    content_type='')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=204,
+                      content_type='')
+
     def call_service(self, body):
         service = DiscoveryV2(
             authenticator=NoAuthAuthenticator(),
             version='2019-11-22',
-            )
+        )
         service.set_service_url(base_url)
         output = service.delete_training_queries(**body)
         return output
@@ -912,22 +959,23 @@ class TestCreateTrainingQuery():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v2/projects/{0}/training_data/queries'.format(body['project_id'])
+        endpoint = '/v2/projects/{0}/training_data/queries'.format(
+            body['project_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=201,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=201,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV2(
             authenticator=NoAuthAuthenticator(),
             version='2019-11-22',
-            )
+        )
         service.set_service_url(base_url)
         output = service.create_training_query(**body)
         return output
@@ -935,13 +983,21 @@ class TestCreateTrainingQuery():
     def construct_full_body(self):
         body = dict()
         body['project_id'] = "string1"
-        body.update({"natural_language_query": "string1", "examples": [], "filter": "string1", })
+        body.update({
+            "natural_language_query": "string1",
+            "examples": [],
+            "filter": "string1",
+        })
         return body
 
     def construct_required_body(self):
         body = dict()
         body['project_id'] = "string1"
-        body.update({"natural_language_query": "string1", "examples": [], "filter": "string1", })
+        body.update({
+            "natural_language_query": "string1",
+            "examples": [],
+            "filter": "string1",
+        })
         return body
 
 
@@ -984,22 +1040,23 @@ class TestGetTrainingQuery():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v2/projects/{0}/training_data/queries/{1}'.format(body['project_id'], body['query_id'])
+        endpoint = '/v2/projects/{0}/training_data/queries/{1}'.format(
+            body['project_id'], body['query_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV2(
             authenticator=NoAuthAuthenticator(),
             version='2019-11-22',
-            )
+        )
         service.set_service_url(base_url)
         output = service.get_training_query(**body)
         return output
@@ -1056,22 +1113,23 @@ class TestUpdateTrainingQuery():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v2/projects/{0}/training_data/queries/{1}'.format(body['project_id'], body['query_id'])
+        endpoint = '/v2/projects/{0}/training_data/queries/{1}'.format(
+            body['project_id'], body['query_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=201,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=201,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV2(
             authenticator=NoAuthAuthenticator(),
             version='2019-11-22',
-            )
+        )
         service.set_service_url(base_url)
         output = service.update_training_query(**body)
         return output
@@ -1080,14 +1138,22 @@ class TestUpdateTrainingQuery():
         body = dict()
         body['project_id'] = "string1"
         body['query_id'] = "string1"
-        body.update({"natural_language_query": "string1", "examples": [], "filter": "string1", })
+        body.update({
+            "natural_language_query": "string1",
+            "examples": [],
+            "filter": "string1",
+        })
         return body
 
     def construct_required_body(self):
         body = dict()
         body['project_id'] = "string1"
         body['query_id'] = "string1"
-        body.update({"natural_language_query": "string1", "examples": [], "filter": "string1", })
+        body.update({
+            "natural_language_query": "string1",
+            "examples": [],
+            "filter": "string1",
+        })
         return body
 
 
@@ -1113,6 +1179,7 @@ def check_empty_required_params(obj, response):
         error = True
     assert error
 
+
 def check_missing_required_params(obj):
     """Test function to assert that the operation will throw an error when missing required data
 
@@ -1129,6 +1196,7 @@ def check_missing_required_params(obj):
         error = True
     assert error
 
+
 def check_empty_response(obj):
     """Test function to assert that the operation will return an empty response when given an empty request
 
@@ -1139,6 +1207,7 @@ def check_empty_response(obj):
     body = obj.construct_full_body()
     url = obj.make_url(body)
     send_request(obj, {}, {}, url=url)
+
 
 def send_request(obj, body, response, url=None):
     """Test function to create a request, send it, and assert its accuracy to the mock response
@@ -1155,6 +1224,7 @@ def send_request(obj, body, response, url=None):
     output = obj.call_service(body)
     assert responses.calls[0].request.url.startswith(url)
     assert output.get_result() == response
+
 
 ####################
 ## Mock Responses ##

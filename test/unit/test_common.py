@@ -17,11 +17,16 @@
 from ibm_watson import get_sdk_headers
 import unittest
 
+
 class TestCommon(unittest.TestCase):
+
     def test_get_sdk_headers(self):
         headers = get_sdk_headers('my_service', 'v1', 'my_operation')
         self.assertIsNotNone(headers)
         self.assertIsNotNone(headers.get('X-IBMCloud-SDK-Analytics'))
         self.assertIsNotNone(headers.get('User-Agent'))
         self.assertIn('watson-apis-python-sdk', headers.get('User-Agent'))
-        self.assertEqual(headers.get('X-IBMCloud-SDK-Analytics'), 'service_name=my_service;service_version=v1;operation_id=my_operation')
+        self.assertEqual(
+            headers.get('X-IBMCloud-SDK-Analytics'),
+            'service_name=my_service;service_version=v1;operation_id=my_operation'
+        )

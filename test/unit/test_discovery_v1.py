@@ -30,6 +30,7 @@ base_url = 'https://gateway.watsonplatform.net/discovery/api'
 ##############################################################################
 # region
 
+
 #-----------------------------------------------------------------------------
 # Test Class for create_environment
 #-----------------------------------------------------------------------------
@@ -75,28 +76,36 @@ class TestCreateEnvironment():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=201,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=201,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.create_environment(**body)
         return output
 
     def construct_full_body(self):
         body = dict()
-        body.update({"name": "string1", "description": "string1", "size": "string1", })
+        body.update({
+            "name": "string1",
+            "description": "string1",
+            "size": "string1",
+        })
         return body
 
     def construct_required_body(self):
         body = dict()
-        body.update({"name": "string1", "description": "string1", "size": "string1", })
+        body.update({
+            "name": "string1",
+            "description": "string1",
+            "size": "string1",
+        })
         return body
 
 
@@ -144,16 +153,16 @@ class TestListEnvironments():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.list_environments(**body)
         return output
@@ -213,16 +222,16 @@ class TestGetEnvironment():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.get_environment(**body)
         return output
@@ -283,16 +292,16 @@ class TestUpdateEnvironment():
 
     def add_mock_response(self, url, response):
         responses.add(responses.PUT,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.update_environment(**body)
         return output
@@ -300,13 +309,21 @@ class TestUpdateEnvironment():
     def construct_full_body(self):
         body = dict()
         body['environment_id'] = "string1"
-        body.update({"name": "string1", "description": "string1", "size": "string1", })
+        body.update({
+            "name": "string1",
+            "description": "string1",
+            "size": "string1",
+        })
         return body
 
     def construct_required_body(self):
         body = dict()
         body['environment_id'] = "string1"
-        body.update({"name": "string1", "description": "string1", "size": "string1", })
+        body.update({
+            "name": "string1",
+            "description": "string1",
+            "size": "string1",
+        })
         return body
 
 
@@ -341,7 +358,8 @@ class TestDeleteEnvironment():
     #--------------------------------------------------------
     @responses.activate
     def test_delete_environment_empty(self):
-        check_empty_required_params(self, fake_response_DeleteEnvironmentResponse_json)
+        check_empty_required_params(
+            self, fake_response_DeleteEnvironmentResponse_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -355,16 +373,16 @@ class TestDeleteEnvironment():
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.delete_environment(**body)
         return output
@@ -411,7 +429,8 @@ class TestListFields():
     #--------------------------------------------------------
     @responses.activate
     def test_list_fields_empty(self):
-        check_empty_required_params(self, fake_response_ListCollectionFieldsResponse_json)
+        check_empty_required_params(
+            self, fake_response_ListCollectionFieldsResponse_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -425,16 +444,16 @@ class TestListFields():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.list_fields(**body)
         return output
@@ -461,6 +480,7 @@ class TestListFields():
 # Start of Service: Configurations
 ##############################################################################
 # region
+
 
 #-----------------------------------------------------------------------------
 # Test Class for create_configuration
@@ -501,22 +521,23 @@ class TestCreateConfiguration():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/configurations'.format(body['environment_id'])
+        endpoint = '/v1/environments/{0}/configurations'.format(
+            body['environment_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=201,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=201,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.create_configuration(**body)
         return output
@@ -524,13 +545,47 @@ class TestCreateConfiguration():
     def construct_full_body(self):
         body = dict()
         body['environment_id'] = "string1"
-        body.update({"name": "string1", "description": "string1", "conversions": Conversions._from_dict(json.loads("""{"pdf": {"heading": {"fonts": []}}, "word": {"heading": {"fonts": [], "styles": []}}, "html": {"exclude_tags_completely": [], "exclude_tags_keep_content": [], "keep_content": {"xpaths": []}, "exclude_content": {"xpaths": []}, "keep_tag_attributes": [], "exclude_tag_attributes": []}, "segment": {"enabled": false, "selector_tags": [], "annotated_fields": []}, "json_normalizations": [], "image_text_recognition": true}""")), "enrichments": [], "normalizations": [], "source": Source._from_dict(json.loads("""{"type": "fake_type", "credential_id": "fake_credential_id", "schedule": {"enabled": false, "time_zone": "fake_time_zone", "frequency": "fake_frequency"}, "options": {"folders": [], "objects": [], "site_collections": [], "urls": [], "buckets": [], "crawl_all_buckets": false}}""")), })
+        body.update({
+            "name":
+                "string1",
+            "description":
+                "string1",
+            "conversions":
+                Conversions._from_dict(
+                    json.loads(
+                        """{"pdf": {"heading": {"fonts": []}}, "word": {"heading": {"fonts": [], "styles": []}}, "html": {"exclude_tags_completely": [], "exclude_tags_keep_content": [], "keep_content": {"xpaths": []}, "exclude_content": {"xpaths": []}, "keep_tag_attributes": [], "exclude_tag_attributes": []}, "segment": {"enabled": false, "selector_tags": [], "annotated_fields": []}, "json_normalizations": [], "image_text_recognition": true}"""
+                    )),
+            "enrichments": [],
+            "normalizations": [],
+            "source":
+                Source._from_dict(
+                    json.loads(
+                        """{"type": "fake_type", "credential_id": "fake_credential_id", "schedule": {"enabled": false, "time_zone": "fake_time_zone", "frequency": "fake_frequency"}, "options": {"folders": [], "objects": [], "site_collections": [], "urls": [], "buckets": [], "crawl_all_buckets": false}}"""
+                    )),
+        })
         return body
 
     def construct_required_body(self):
         body = dict()
         body['environment_id'] = "string1"
-        body.update({"name": "string1", "description": "string1", "conversions": Conversions._from_dict(json.loads("""{"pdf": {"heading": {"fonts": []}}, "word": {"heading": {"fonts": [], "styles": []}}, "html": {"exclude_tags_completely": [], "exclude_tags_keep_content": [], "keep_content": {"xpaths": []}, "exclude_content": {"xpaths": []}, "keep_tag_attributes": [], "exclude_tag_attributes": []}, "segment": {"enabled": false, "selector_tags": [], "annotated_fields": []}, "json_normalizations": [], "image_text_recognition": true}""")), "enrichments": [], "normalizations": [], "source": Source._from_dict(json.loads("""{"type": "fake_type", "credential_id": "fake_credential_id", "schedule": {"enabled": false, "time_zone": "fake_time_zone", "frequency": "fake_frequency"}, "options": {"folders": [], "objects": [], "site_collections": [], "urls": [], "buckets": [], "crawl_all_buckets": false}}""")), })
+        body.update({
+            "name":
+                "string1",
+            "description":
+                "string1",
+            "conversions":
+                Conversions._from_dict(
+                    json.loads(
+                        """{"pdf": {"heading": {"fonts": []}}, "word": {"heading": {"fonts": [], "styles": []}}, "html": {"exclude_tags_completely": [], "exclude_tags_keep_content": [], "keep_content": {"xpaths": []}, "exclude_content": {"xpaths": []}, "keep_tag_attributes": [], "exclude_tag_attributes": []}, "segment": {"enabled": false, "selector_tags": [], "annotated_fields": []}, "json_normalizations": [], "image_text_recognition": true}"""
+                    )),
+            "enrichments": [],
+            "normalizations": [],
+            "source":
+                Source._from_dict(
+                    json.loads(
+                        """{"type": "fake_type", "credential_id": "fake_credential_id", "schedule": {"enabled": false, "time_zone": "fake_time_zone", "frequency": "fake_frequency"}, "options": {"folders": [], "objects": [], "site_collections": [], "urls": [], "buckets": [], "crawl_all_buckets": false}}"""
+                    )),
+        })
         return body
 
 
@@ -565,7 +620,8 @@ class TestListConfigurations():
     #--------------------------------------------------------
     @responses.activate
     def test_list_configurations_empty(self):
-        check_empty_required_params(self, fake_response_ListConfigurationsResponse_json)
+        check_empty_required_params(
+            self, fake_response_ListConfigurationsResponse_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -573,22 +629,23 @@ class TestListConfigurations():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/configurations'.format(body['environment_id'])
+        endpoint = '/v1/environments/{0}/configurations'.format(
+            body['environment_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.list_configurations(**body)
         return output
@@ -644,22 +701,23 @@ class TestGetConfiguration():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/configurations/{1}'.format(body['environment_id'], body['configuration_id'])
+        endpoint = '/v1/environments/{0}/configurations/{1}'.format(
+            body['environment_id'], body['configuration_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.get_configuration(**body)
         return output
@@ -716,22 +774,23 @@ class TestUpdateConfiguration():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/configurations/{1}'.format(body['environment_id'], body['configuration_id'])
+        endpoint = '/v1/environments/{0}/configurations/{1}'.format(
+            body['environment_id'], body['configuration_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.PUT,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.update_configuration(**body)
         return output
@@ -740,14 +799,48 @@ class TestUpdateConfiguration():
         body = dict()
         body['environment_id'] = "string1"
         body['configuration_id'] = "string1"
-        body.update({"name": "string1", "description": "string1", "conversions": Conversions._from_dict(json.loads("""{"pdf": {"heading": {"fonts": []}}, "word": {"heading": {"fonts": [], "styles": []}}, "html": {"exclude_tags_completely": [], "exclude_tags_keep_content": [], "keep_content": {"xpaths": []}, "exclude_content": {"xpaths": []}, "keep_tag_attributes": [], "exclude_tag_attributes": []}, "segment": {"enabled": false, "selector_tags": [], "annotated_fields": []}, "json_normalizations": [], "image_text_recognition": true}""")), "enrichments": [], "normalizations": [], "source": Source._from_dict(json.loads("""{"type": "fake_type", "credential_id": "fake_credential_id", "schedule": {"enabled": false, "time_zone": "fake_time_zone", "frequency": "fake_frequency"}, "options": {"folders": [], "objects": [], "site_collections": [], "urls": [], "buckets": [], "crawl_all_buckets": false}}""")), })
+        body.update({
+            "name":
+                "string1",
+            "description":
+                "string1",
+            "conversions":
+                Conversions._from_dict(
+                    json.loads(
+                        """{"pdf": {"heading": {"fonts": []}}, "word": {"heading": {"fonts": [], "styles": []}}, "html": {"exclude_tags_completely": [], "exclude_tags_keep_content": [], "keep_content": {"xpaths": []}, "exclude_content": {"xpaths": []}, "keep_tag_attributes": [], "exclude_tag_attributes": []}, "segment": {"enabled": false, "selector_tags": [], "annotated_fields": []}, "json_normalizations": [], "image_text_recognition": true}"""
+                    )),
+            "enrichments": [],
+            "normalizations": [],
+            "source":
+                Source._from_dict(
+                    json.loads(
+                        """{"type": "fake_type", "credential_id": "fake_credential_id", "schedule": {"enabled": false, "time_zone": "fake_time_zone", "frequency": "fake_frequency"}, "options": {"folders": [], "objects": [], "site_collections": [], "urls": [], "buckets": [], "crawl_all_buckets": false}}"""
+                    )),
+        })
         return body
 
     def construct_required_body(self):
         body = dict()
         body['environment_id'] = "string1"
         body['configuration_id'] = "string1"
-        body.update({"name": "string1", "description": "string1", "conversions": Conversions._from_dict(json.loads("""{"pdf": {"heading": {"fonts": []}}, "word": {"heading": {"fonts": [], "styles": []}}, "html": {"exclude_tags_completely": [], "exclude_tags_keep_content": [], "keep_content": {"xpaths": []}, "exclude_content": {"xpaths": []}, "keep_tag_attributes": [], "exclude_tag_attributes": []}, "segment": {"enabled": false, "selector_tags": [], "annotated_fields": []}, "json_normalizations": [], "image_text_recognition": true}""")), "enrichments": [], "normalizations": [], "source": Source._from_dict(json.loads("""{"type": "fake_type", "credential_id": "fake_credential_id", "schedule": {"enabled": false, "time_zone": "fake_time_zone", "frequency": "fake_frequency"}, "options": {"folders": [], "objects": [], "site_collections": [], "urls": [], "buckets": [], "crawl_all_buckets": false}}""")), })
+        body.update({
+            "name":
+                "string1",
+            "description":
+                "string1",
+            "conversions":
+                Conversions._from_dict(
+                    json.loads(
+                        """{"pdf": {"heading": {"fonts": []}}, "word": {"heading": {"fonts": [], "styles": []}}, "html": {"exclude_tags_completely": [], "exclude_tags_keep_content": [], "keep_content": {"xpaths": []}, "exclude_content": {"xpaths": []}, "keep_tag_attributes": [], "exclude_tag_attributes": []}, "segment": {"enabled": false, "selector_tags": [], "annotated_fields": []}, "json_normalizations": [], "image_text_recognition": true}"""
+                    )),
+            "enrichments": [],
+            "normalizations": [],
+            "source":
+                Source._from_dict(
+                    json.loads(
+                        """{"type": "fake_type", "credential_id": "fake_credential_id", "schedule": {"enabled": false, "time_zone": "fake_time_zone", "frequency": "fake_frequency"}, "options": {"folders": [], "objects": [], "site_collections": [], "urls": [], "buckets": [], "crawl_all_buckets": false}}"""
+                    )),
+        })
         return body
 
 
@@ -782,7 +875,8 @@ class TestDeleteConfiguration():
     #--------------------------------------------------------
     @responses.activate
     def test_delete_configuration_empty(self):
-        check_empty_required_params(self, fake_response_DeleteConfigurationResponse_json)
+        check_empty_required_params(
+            self, fake_response_DeleteConfigurationResponse_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -790,22 +884,23 @@ class TestDeleteConfiguration():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/configurations/{1}'.format(body['environment_id'], body['configuration_id'])
+        endpoint = '/v1/environments/{0}/configurations/{1}'.format(
+            body['environment_id'], body['configuration_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.delete_configuration(**body)
         return output
@@ -832,6 +927,7 @@ class TestDeleteConfiguration():
 # Start of Service: Collections
 ##############################################################################
 # region
+
 
 #-----------------------------------------------------------------------------
 # Test Class for create_collection
@@ -872,22 +968,23 @@ class TestCreateCollection():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections'.format(body['environment_id'])
+        endpoint = '/v1/environments/{0}/collections'.format(
+            body['environment_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=201,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=201,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.create_collection(**body)
         return output
@@ -895,13 +992,23 @@ class TestCreateCollection():
     def construct_full_body(self):
         body = dict()
         body['environment_id'] = "string1"
-        body.update({"name": "string1", "description": "string1", "configuration_id": "string1", "language": "string1", })
+        body.update({
+            "name": "string1",
+            "description": "string1",
+            "configuration_id": "string1",
+            "language": "string1",
+        })
         return body
 
     def construct_required_body(self):
         body = dict()
         body['environment_id'] = "string1"
-        body.update({"name": "string1", "description": "string1", "configuration_id": "string1", "language": "string1", })
+        body.update({
+            "name": "string1",
+            "description": "string1",
+            "configuration_id": "string1",
+            "language": "string1",
+        })
         return body
 
 
@@ -936,7 +1043,8 @@ class TestListCollections():
     #--------------------------------------------------------
     @responses.activate
     def test_list_collections_empty(self):
-        check_empty_required_params(self, fake_response_ListCollectionsResponse_json)
+        check_empty_required_params(self,
+                                    fake_response_ListCollectionsResponse_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -944,22 +1052,23 @@ class TestListCollections():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections'.format(body['environment_id'])
+        endpoint = '/v1/environments/{0}/collections'.format(
+            body['environment_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.list_collections(**body)
         return output
@@ -1015,22 +1124,23 @@ class TestGetCollection():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections/{1}'.format(body['environment_id'], body['collection_id'])
+        endpoint = '/v1/environments/{0}/collections/{1}'.format(
+            body['environment_id'], body['collection_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.get_collection(**body)
         return output
@@ -1087,22 +1197,23 @@ class TestUpdateCollection():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections/{1}'.format(body['environment_id'], body['collection_id'])
+        endpoint = '/v1/environments/{0}/collections/{1}'.format(
+            body['environment_id'], body['collection_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.PUT,
-                    url,
-                    body=json.dumps(response),
-                    status=201,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=201,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.update_collection(**body)
         return output
@@ -1111,14 +1222,22 @@ class TestUpdateCollection():
         body = dict()
         body['environment_id'] = "string1"
         body['collection_id'] = "string1"
-        body.update({"name": "string1", "description": "string1", "configuration_id": "string1", })
+        body.update({
+            "name": "string1",
+            "description": "string1",
+            "configuration_id": "string1",
+        })
         return body
 
     def construct_required_body(self):
         body = dict()
         body['environment_id'] = "string1"
         body['collection_id'] = "string1"
-        body.update({"name": "string1", "description": "string1", "configuration_id": "string1", })
+        body.update({
+            "name": "string1",
+            "description": "string1",
+            "configuration_id": "string1",
+        })
         return body
 
 
@@ -1153,7 +1272,8 @@ class TestDeleteCollection():
     #--------------------------------------------------------
     @responses.activate
     def test_delete_collection_empty(self):
-        check_empty_required_params(self, fake_response_DeleteCollectionResponse_json)
+        check_empty_required_params(
+            self, fake_response_DeleteCollectionResponse_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -1161,22 +1281,23 @@ class TestDeleteCollection():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections/{1}'.format(body['environment_id'], body['collection_id'])
+        endpoint = '/v1/environments/{0}/collections/{1}'.format(
+            body['environment_id'], body['collection_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.delete_collection(**body)
         return output
@@ -1225,7 +1346,8 @@ class TestListCollectionFields():
     #--------------------------------------------------------
     @responses.activate
     def test_list_collection_fields_empty(self):
-        check_empty_required_params(self, fake_response_ListCollectionFieldsResponse_json)
+        check_empty_required_params(
+            self, fake_response_ListCollectionFieldsResponse_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -1233,22 +1355,23 @@ class TestListCollectionFields():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections/{1}/fields'.format(body['environment_id'], body['collection_id'])
+        endpoint = '/v1/environments/{0}/collections/{1}/fields'.format(
+            body['environment_id'], body['collection_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.list_collection_fields(**body)
         return output
@@ -1275,6 +1398,7 @@ class TestListCollectionFields():
 # Start of Service: QueryModifications
 ##############################################################################
 # region
+
 
 #-----------------------------------------------------------------------------
 # Test Class for list_expansions
@@ -1315,22 +1439,23 @@ class TestListExpansions():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections/{1}/expansions'.format(body['environment_id'], body['collection_id'])
+        endpoint = '/v1/environments/{0}/collections/{1}/expansions'.format(
+            body['environment_id'], body['collection_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.list_expansions(**body)
         return output
@@ -1387,22 +1512,23 @@ class TestCreateExpansions():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections/{1}/expansions'.format(body['environment_id'], body['collection_id'])
+        endpoint = '/v1/environments/{0}/collections/{1}/expansions'.format(
+            body['environment_id'], body['collection_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.create_expansions(**body)
         return output
@@ -1411,14 +1537,18 @@ class TestCreateExpansions():
         body = dict()
         body['environment_id'] = "string1"
         body['collection_id'] = "string1"
-        body.update({"expansions": [], })
+        body.update({
+            "expansions": [],
+        })
         return body
 
     def construct_required_body(self):
         body = dict()
         body['environment_id'] = "string1"
         body['collection_id'] = "string1"
-        body.update({"expansions": [], })
+        body.update({
+            "expansions": [],
+        })
         return body
 
 
@@ -1461,22 +1591,23 @@ class TestDeleteExpansions():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections/{1}/expansions'.format(body['environment_id'], body['collection_id'])
+        endpoint = '/v1/environments/{0}/collections/{1}/expansions'.format(
+            body['environment_id'], body['collection_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                    url,
-                    body=json.dumps(response),
-                    status=204,
-                    content_type='')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=204,
+                      content_type='')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.delete_expansions(**body)
         return output
@@ -1525,7 +1656,8 @@ class TestGetTokenizationDictionaryStatus():
     #--------------------------------------------------------
     @responses.activate
     def test_get_tokenization_dictionary_status_empty(self):
-        check_empty_required_params(self, fake_response_TokenDictStatusResponse_json)
+        check_empty_required_params(self,
+                                    fake_response_TokenDictStatusResponse_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -1533,22 +1665,23 @@ class TestGetTokenizationDictionaryStatus():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections/{1}/word_lists/tokenization_dictionary'.format(body['environment_id'], body['collection_id'])
+        endpoint = '/v1/environments/{0}/collections/{1}/word_lists/tokenization_dictionary'.format(
+            body['environment_id'], body['collection_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.get_tokenization_dictionary_status(**body)
         return output
@@ -1597,7 +1730,8 @@ class TestCreateTokenizationDictionary():
     #--------------------------------------------------------
     @responses.activate
     def test_create_tokenization_dictionary_empty(self):
-        check_empty_required_params(self, fake_response_TokenDictStatusResponse_json)
+        check_empty_required_params(self,
+                                    fake_response_TokenDictStatusResponse_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -1605,22 +1739,23 @@ class TestCreateTokenizationDictionary():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections/{1}/word_lists/tokenization_dictionary'.format(body['environment_id'], body['collection_id'])
+        endpoint = '/v1/environments/{0}/collections/{1}/word_lists/tokenization_dictionary'.format(
+            body['environment_id'], body['collection_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=202,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=202,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.create_tokenization_dictionary(**body)
         return output
@@ -1629,7 +1764,9 @@ class TestCreateTokenizationDictionary():
         body = dict()
         body['environment_id'] = "string1"
         body['collection_id'] = "string1"
-        body.update({"tokenization_rules": [], })
+        body.update({
+            "tokenization_rules": [],
+        })
         return body
 
     def construct_required_body(self):
@@ -1678,22 +1815,23 @@ class TestDeleteTokenizationDictionary():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections/{1}/word_lists/tokenization_dictionary'.format(body['environment_id'], body['collection_id'])
+        endpoint = '/v1/environments/{0}/collections/{1}/word_lists/tokenization_dictionary'.format(
+            body['environment_id'], body['collection_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.delete_tokenization_dictionary(**body)
         return output
@@ -1742,7 +1880,8 @@ class TestGetStopwordListStatus():
     #--------------------------------------------------------
     @responses.activate
     def test_get_stopword_list_status_empty(self):
-        check_empty_required_params(self, fake_response_TokenDictStatusResponse_json)
+        check_empty_required_params(self,
+                                    fake_response_TokenDictStatusResponse_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -1750,22 +1889,23 @@ class TestGetStopwordListStatus():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections/{1}/word_lists/stopwords'.format(body['environment_id'], body['collection_id'])
+        endpoint = '/v1/environments/{0}/collections/{1}/word_lists/stopwords'.format(
+            body['environment_id'], body['collection_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.get_stopword_list_status(**body)
         return output
@@ -1814,7 +1954,8 @@ class TestCreateStopwordList():
     #--------------------------------------------------------
     @responses.activate
     def test_create_stopword_list_empty(self):
-        check_empty_required_params(self, fake_response_TokenDictStatusResponse_json)
+        check_empty_required_params(self,
+                                    fake_response_TokenDictStatusResponse_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -1822,22 +1963,23 @@ class TestCreateStopwordList():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections/{1}/word_lists/stopwords'.format(body['environment_id'], body['collection_id'])
+        endpoint = '/v1/environments/{0}/collections/{1}/word_lists/stopwords'.format(
+            body['environment_id'], body['collection_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.create_stopword_list(**body)
         return output
@@ -1897,22 +2039,23 @@ class TestDeleteStopwordList():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections/{1}/word_lists/stopwords'.format(body['environment_id'], body['collection_id'])
+        endpoint = '/v1/environments/{0}/collections/{1}/word_lists/stopwords'.format(
+            body['environment_id'], body['collection_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.delete_stopword_list(**body)
         return output
@@ -1939,6 +2082,7 @@ class TestDeleteStopwordList():
 # Start of Service: Documents
 ##############################################################################
 # region
+
 
 #-----------------------------------------------------------------------------
 # Test Class for add_document
@@ -1979,22 +2123,23 @@ class TestAddDocument():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections/{1}/documents'.format(body['environment_id'], body['collection_id'])
+        endpoint = '/v1/environments/{0}/collections/{1}/documents'.format(
+            body['environment_id'], body['collection_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=202,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=202,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.add_document(**body)
         return output
@@ -2055,22 +2200,23 @@ class TestGetDocumentStatus():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(body['environment_id'], body['collection_id'], body['document_id'])
+        endpoint = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
+            body['environment_id'], body['collection_id'], body['document_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.get_document_status(**body)
         return output
@@ -2129,22 +2275,23 @@ class TestUpdateDocument():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(body['environment_id'], body['collection_id'], body['document_id'])
+        endpoint = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
+            body['environment_id'], body['collection_id'], body['document_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=202,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=202,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.update_document(**body)
         return output
@@ -2199,7 +2346,8 @@ class TestDeleteDocument():
     #--------------------------------------------------------
     @responses.activate
     def test_delete_document_empty(self):
-        check_empty_required_params(self, fake_response_DeleteDocumentResponse_json)
+        check_empty_required_params(self,
+                                    fake_response_DeleteDocumentResponse_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -2207,22 +2355,23 @@ class TestDeleteDocument():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(body['environment_id'], body['collection_id'], body['document_id'])
+        endpoint = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
+            body['environment_id'], body['collection_id'], body['document_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.delete_document(**body)
         return output
@@ -2251,6 +2400,7 @@ class TestDeleteDocument():
 # Start of Service: Queries
 ##############################################################################
 # region
+
 
 #-----------------------------------------------------------------------------
 # Test Class for query
@@ -2291,22 +2441,23 @@ class TestQuery():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections/{1}/query'.format(body['environment_id'], body['collection_id'])
+        endpoint = '/v1/environments/{0}/collections/{1}/query'.format(
+            body['environment_id'], body['collection_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.query(**body)
         return output
@@ -2315,7 +2466,28 @@ class TestQuery():
         body = dict()
         body['environment_id'] = "string1"
         body['collection_id'] = "string1"
-        body.update({"filter": "string1", "query": "string1", "natural_language_query": "string1", "passages": True, "aggregation": "string1", "count": 12345, "return_": "string1", "offset": 12345, "sort": "string1", "highlight": True, "passages_fields": "string1", "passages_count": 12345, "passages_characters": 12345, "deduplicate": True, "deduplicate_field": "string1", "similar": True, "similar_document_ids": "string1", "similar_fields": "string1", "bias": "string1", "spelling_suggestions": True, })
+        body.update({
+            "filter": "string1",
+            "query": "string1",
+            "natural_language_query": "string1",
+            "passages": True,
+            "aggregation": "string1",
+            "count": 12345,
+            "return_": "string1",
+            "offset": 12345,
+            "sort": "string1",
+            "highlight": True,
+            "passages_fields": "string1",
+            "passages_count": 12345,
+            "passages_characters": 12345,
+            "deduplicate": True,
+            "deduplicate_field": "string1",
+            "similar": True,
+            "similar_document_ids": "string1",
+            "similar_fields": "string1",
+            "bias": "string1",
+            "spelling_suggestions": True,
+        })
         body['x_watson_logging_opt_out'] = True
         return body
 
@@ -2357,7 +2529,8 @@ class TestQueryNotices():
     #--------------------------------------------------------
     @responses.activate
     def test_query_notices_empty(self):
-        check_empty_required_params(self, fake_response_QueryNoticesResponse_json)
+        check_empty_required_params(self,
+                                    fake_response_QueryNoticesResponse_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -2365,22 +2538,23 @@ class TestQueryNotices():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections/{1}/notices'.format(body['environment_id'], body['collection_id'])
+        endpoint = '/v1/environments/{0}/collections/{1}/notices'.format(
+            body['environment_id'], body['collection_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.query_notices(**body)
         return output
@@ -2460,16 +2634,16 @@ class TestFederatedQuery():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.federated_query(**body)
         return output
@@ -2477,14 +2651,56 @@ class TestFederatedQuery():
     def construct_full_body(self):
         body = dict()
         body['environment_id'] = "string1"
-        body.update({"collection_ids": "string1", "filter": "string1", "query": "string1", "natural_language_query": "string1", "passages": True, "aggregation": "string1", "count": 12345, "return_": "string1", "offset": 12345, "sort": "string1", "highlight": True, "passages_fields": "string1", "passages_count": 12345, "passages_characters": 12345, "deduplicate": True, "deduplicate_field": "string1", "similar": True, "similar_document_ids": "string1", "similar_fields": "string1", "bias": "string1", })
+        body.update({
+            "collection_ids": "string1",
+            "filter": "string1",
+            "query": "string1",
+            "natural_language_query": "string1",
+            "passages": True,
+            "aggregation": "string1",
+            "count": 12345,
+            "return_": "string1",
+            "offset": 12345,
+            "sort": "string1",
+            "highlight": True,
+            "passages_fields": "string1",
+            "passages_count": 12345,
+            "passages_characters": 12345,
+            "deduplicate": True,
+            "deduplicate_field": "string1",
+            "similar": True,
+            "similar_document_ids": "string1",
+            "similar_fields": "string1",
+            "bias": "string1",
+        })
         body['x_watson_logging_opt_out'] = True
         return body
 
     def construct_required_body(self):
         body = dict()
         body['environment_id'] = "string1"
-        body.update({"collection_ids": "string1", "filter": "string1", "query": "string1", "natural_language_query": "string1", "passages": True, "aggregation": "string1", "count": 12345, "return_": "string1", "offset": 12345, "sort": "string1", "highlight": True, "passages_fields": "string1", "passages_count": 12345, "passages_characters": 12345, "deduplicate": True, "deduplicate_field": "string1", "similar": True, "similar_document_ids": "string1", "similar_fields": "string1", "bias": "string1", })
+        body.update({
+            "collection_ids": "string1",
+            "filter": "string1",
+            "query": "string1",
+            "natural_language_query": "string1",
+            "passages": True,
+            "aggregation": "string1",
+            "count": 12345,
+            "return_": "string1",
+            "offset": 12345,
+            "sort": "string1",
+            "highlight": True,
+            "passages_fields": "string1",
+            "passages_count": 12345,
+            "passages_characters": 12345,
+            "deduplicate": True,
+            "deduplicate_field": "string1",
+            "similar": True,
+            "similar_document_ids": "string1",
+            "similar_fields": "string1",
+            "bias": "string1",
+        })
         return body
 
 
@@ -2519,7 +2735,8 @@ class TestFederatedQueryNotices():
     #--------------------------------------------------------
     @responses.activate
     def test_federated_query_notices_empty(self):
-        check_empty_required_params(self, fake_response_QueryNoticesResponse_json)
+        check_empty_required_params(self,
+                                    fake_response_QueryNoticesResponse_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -2533,16 +2750,16 @@ class TestFederatedQueryNotices():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.federated_query_notices(**body)
         return output
@@ -2612,22 +2829,23 @@ class TestGetAutocompletion():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections/{1}/autocompletion'.format(body['environment_id'], body['collection_id'])
+        endpoint = '/v1/environments/{0}/collections/{1}/autocompletion'.format(
+            body['environment_id'], body['collection_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.get_autocompletion(**body)
         return output
@@ -2658,6 +2876,7 @@ class TestGetAutocompletion():
 # Start of Service: TrainingData
 ##############################################################################
 # region
+
 
 #-----------------------------------------------------------------------------
 # Test Class for list_training_data
@@ -2698,22 +2917,23 @@ class TestListTrainingData():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections/{1}/training_data'.format(body['environment_id'], body['collection_id'])
+        endpoint = '/v1/environments/{0}/collections/{1}/training_data'.format(
+            body['environment_id'], body['collection_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.list_training_data(**body)
         return output
@@ -2770,22 +2990,23 @@ class TestAddTrainingData():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections/{1}/training_data'.format(body['environment_id'], body['collection_id'])
+        endpoint = '/v1/environments/{0}/collections/{1}/training_data'.format(
+            body['environment_id'], body['collection_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.add_training_data(**body)
         return output
@@ -2794,14 +3015,22 @@ class TestAddTrainingData():
         body = dict()
         body['environment_id'] = "string1"
         body['collection_id'] = "string1"
-        body.update({"natural_language_query": "string1", "filter": "string1", "examples": [], })
+        body.update({
+            "natural_language_query": "string1",
+            "filter": "string1",
+            "examples": [],
+        })
         return body
 
     def construct_required_body(self):
         body = dict()
         body['environment_id'] = "string1"
         body['collection_id'] = "string1"
-        body.update({"natural_language_query": "string1", "filter": "string1", "examples": [], })
+        body.update({
+            "natural_language_query": "string1",
+            "filter": "string1",
+            "examples": [],
+        })
         return body
 
 
@@ -2844,22 +3073,23 @@ class TestDeleteAllTrainingData():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections/{1}/training_data'.format(body['environment_id'], body['collection_id'])
+        endpoint = '/v1/environments/{0}/collections/{1}/training_data'.format(
+            body['environment_id'], body['collection_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                    url,
-                    body=json.dumps(response),
-                    status=204,
-                    content_type='')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=204,
+                      content_type='')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.delete_all_training_data(**body)
         return output
@@ -2916,22 +3146,23 @@ class TestGetTrainingData():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections/{1}/training_data/{2}'.format(body['environment_id'], body['collection_id'], body['query_id'])
+        endpoint = '/v1/environments/{0}/collections/{1}/training_data/{2}'.format(
+            body['environment_id'], body['collection_id'], body['query_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.get_training_data(**body)
         return output
@@ -2990,22 +3221,23 @@ class TestDeleteTrainingData():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections/{1}/training_data/{2}'.format(body['environment_id'], body['collection_id'], body['query_id'])
+        endpoint = '/v1/environments/{0}/collections/{1}/training_data/{2}'.format(
+            body['environment_id'], body['collection_id'], body['query_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                    url,
-                    body=json.dumps(response),
-                    status=204,
-                    content_type='')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=204,
+                      content_type='')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.delete_training_data(**body)
         return output
@@ -3056,7 +3288,8 @@ class TestListTrainingExamples():
     #--------------------------------------------------------
     @responses.activate
     def test_list_training_examples_empty(self):
-        check_empty_required_params(self, fake_response_TrainingExampleList_json)
+        check_empty_required_params(self,
+                                    fake_response_TrainingExampleList_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -3064,22 +3297,23 @@ class TestListTrainingExamples():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples'.format(body['environment_id'], body['collection_id'], body['query_id'])
+        endpoint = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples'.format(
+            body['environment_id'], body['collection_id'], body['query_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.list_training_examples(**body)
         return output
@@ -3138,22 +3372,23 @@ class TestCreateTrainingExample():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples'.format(body['environment_id'], body['collection_id'], body['query_id'])
+        endpoint = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples'.format(
+            body['environment_id'], body['collection_id'], body['query_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=201,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=201,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.create_training_example(**body)
         return output
@@ -3163,7 +3398,11 @@ class TestCreateTrainingExample():
         body['environment_id'] = "string1"
         body['collection_id'] = "string1"
         body['query_id'] = "string1"
-        body.update({"document_id": "string1", "cross_reference": "string1", "relevance": 12345, })
+        body.update({
+            "document_id": "string1",
+            "cross_reference": "string1",
+            "relevance": 12345,
+        })
         return body
 
     def construct_required_body(self):
@@ -3171,7 +3410,11 @@ class TestCreateTrainingExample():
         body['environment_id'] = "string1"
         body['collection_id'] = "string1"
         body['query_id'] = "string1"
-        body.update({"document_id": "string1", "cross_reference": "string1", "relevance": 12345, })
+        body.update({
+            "document_id": "string1",
+            "cross_reference": "string1",
+            "relevance": 12345,
+        })
         return body
 
 
@@ -3214,22 +3457,24 @@ class TestDeleteTrainingExample():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.format(body['environment_id'], body['collection_id'], body['query_id'], body['example_id'])
+        endpoint = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.format(
+            body['environment_id'], body['collection_id'], body['query_id'],
+            body['example_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                    url,
-                    body=json.dumps(response),
-                    status=204,
-                    content_type='')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=204,
+                      content_type='')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.delete_training_example(**body)
         return output
@@ -3290,22 +3535,24 @@ class TestUpdateTrainingExample():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.format(body['environment_id'], body['collection_id'], body['query_id'], body['example_id'])
+        endpoint = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.format(
+            body['environment_id'], body['collection_id'], body['query_id'],
+            body['example_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.PUT,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.update_training_example(**body)
         return output
@@ -3316,7 +3563,10 @@ class TestUpdateTrainingExample():
         body['collection_id'] = "string1"
         body['query_id'] = "string1"
         body['example_id'] = "string1"
-        body.update({"cross_reference": "string1", "relevance": 12345, })
+        body.update({
+            "cross_reference": "string1",
+            "relevance": 12345,
+        })
         return body
 
     def construct_required_body(self):
@@ -3325,7 +3575,10 @@ class TestUpdateTrainingExample():
         body['collection_id'] = "string1"
         body['query_id'] = "string1"
         body['example_id'] = "string1"
-        body.update({"cross_reference": "string1", "relevance": 12345, })
+        body.update({
+            "cross_reference": "string1",
+            "relevance": 12345,
+        })
         return body
 
 
@@ -3368,22 +3621,24 @@ class TestGetTrainingExample():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.format(body['environment_id'], body['collection_id'], body['query_id'], body['example_id'])
+        endpoint = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.format(
+            body['environment_id'], body['collection_id'], body['query_id'],
+            body['example_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.get_training_example(**body)
         return output
@@ -3414,6 +3669,7 @@ class TestGetTrainingExample():
 # Start of Service: UserData
 ##############################################################################
 # region
+
 
 #-----------------------------------------------------------------------------
 # Test Class for delete_user_data
@@ -3460,16 +3716,16 @@ class TestDeleteUserData():
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.delete_user_data(**body)
         return output
@@ -3494,6 +3750,7 @@ class TestDeleteUserData():
 # Start of Service: EventsAndFeedback
 ##############################################################################
 # region
+
 
 #-----------------------------------------------------------------------------
 # Test Class for create_event
@@ -3526,7 +3783,8 @@ class TestCreateEvent():
     #--------------------------------------------------------
     @responses.activate
     def test_create_event_empty(self):
-        check_empty_required_params(self, fake_response_CreateEventResponse_json)
+        check_empty_required_params(self,
+                                    fake_response_CreateEventResponse_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -3540,28 +3798,44 @@ class TestCreateEvent():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=201,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=201,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.create_event(**body)
         return output
 
     def construct_full_body(self):
         body = dict()
-        body.update({"type": "string1", "data": EventData._from_dict(json.loads("""{"environment_id": "fake_environment_id", "session_token": "fake_session_token", "client_timestamp": "2017-05-16T13:56:54.957Z", "display_rank": 12, "collection_id": "fake_collection_id", "document_id": "fake_document_id", "query_id": "fake_query_id"}""")), })
+        body.update({
+            "type":
+                "string1",
+            "data":
+                EventData._from_dict(
+                    json.loads(
+                        """{"environment_id": "fake_environment_id", "session_token": "fake_session_token", "client_timestamp": "2017-05-16T13:56:54.957Z", "display_rank": 12, "collection_id": "fake_collection_id", "document_id": "fake_document_id", "query_id": "fake_query_id"}"""
+                    )),
+        })
         return body
 
     def construct_required_body(self):
         body = dict()
-        body.update({"type": "string1", "data": EventData._from_dict(json.loads("""{"environment_id": "fake_environment_id", "session_token": "fake_session_token", "client_timestamp": "2017-05-16T13:56:54.957Z", "display_rank": 12, "collection_id": "fake_collection_id", "document_id": "fake_document_id", "query_id": "fake_query_id"}""")), })
+        body.update({
+            "type":
+                "string1",
+            "data":
+                EventData._from_dict(
+                    json.loads(
+                        """{"environment_id": "fake_environment_id", "session_token": "fake_session_token", "client_timestamp": "2017-05-16T13:56:54.957Z", "display_rank": 12, "collection_id": "fake_collection_id", "document_id": "fake_document_id", "query_id": "fake_query_id"}"""
+                    )),
+        })
         return body
 
 
@@ -3609,16 +3883,16 @@ class TestQueryLog():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.query_log(**body)
         return output
@@ -3681,16 +3955,16 @@ class TestGetMetricsQuery():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.get_metrics_query(**body)
         return output
@@ -3751,16 +4025,16 @@ class TestGetMetricsQueryEvent():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.get_metrics_query_event(**body)
         return output
@@ -3821,16 +4095,16 @@ class TestGetMetricsQueryNoResults():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.get_metrics_query_no_results(**body)
         return output
@@ -3891,16 +4165,16 @@ class TestGetMetricsEventRate():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.get_metrics_event_rate(**body)
         return output
@@ -3961,16 +4235,16 @@ class TestGetMetricsQueryTokenEvent():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.get_metrics_query_token_event(**body)
         return output
@@ -3994,6 +4268,7 @@ class TestGetMetricsQueryTokenEvent():
 # Start of Service: Credentials
 ##############################################################################
 # region
+
 
 #-----------------------------------------------------------------------------
 # Test Class for list_credentials
@@ -4034,22 +4309,23 @@ class TestListCredentials():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/credentials'.format(body['environment_id'])
+        endpoint = '/v1/environments/{0}/credentials'.format(
+            body['environment_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.list_credentials(**body)
         return output
@@ -4104,22 +4380,23 @@ class TestCreateCredentials():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/credentials'.format(body['environment_id'])
+        endpoint = '/v1/environments/{0}/credentials'.format(
+            body['environment_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.create_credentials(**body)
         return output
@@ -4127,13 +4404,33 @@ class TestCreateCredentials():
     def construct_full_body(self):
         body = dict()
         body['environment_id'] = "string1"
-        body.update({"source_type": "string1", "credential_details": CredentialDetails._from_dict(json.loads("""{"credential_type": "fake_credential_type", "client_id": "fake_client_id", "enterprise_id": "fake_enterprise_id", "url": "fake_url", "username": "fake_username", "organization_url": "fake_organization_url", "site_collection.path": "fake_site_collection_path", "client_secret": "fake_client_secret", "public_key_id": "fake_public_key_id", "private_key": "fake_private_key", "passphrase": "fake_passphrase", "password": "fake_password", "gateway_id": "fake_gateway_id", "source_version": "fake_source_version", "web_application_url": "fake_web_application_url", "domain": "fake_domain", "endpoint": "fake_endpoint", "access_key_id": "fake_access_key_id", "secret_access_key": "fake_secret_access_key"}""")), "status": "string1", })
+        body.update({
+            "source_type":
+                "string1",
+            "credential_details":
+                CredentialDetails._from_dict(
+                    json.loads(
+                        """{"credential_type": "fake_credential_type", "client_id": "fake_client_id", "enterprise_id": "fake_enterprise_id", "url": "fake_url", "username": "fake_username", "organization_url": "fake_organization_url", "site_collection.path": "fake_site_collection_path", "client_secret": "fake_client_secret", "public_key_id": "fake_public_key_id", "private_key": "fake_private_key", "passphrase": "fake_passphrase", "password": "fake_password", "gateway_id": "fake_gateway_id", "source_version": "fake_source_version", "web_application_url": "fake_web_application_url", "domain": "fake_domain", "endpoint": "fake_endpoint", "access_key_id": "fake_access_key_id", "secret_access_key": "fake_secret_access_key"}"""
+                    )),
+            "status":
+                "string1",
+        })
         return body
 
     def construct_required_body(self):
         body = dict()
         body['environment_id'] = "string1"
-        body.update({"source_type": "string1", "credential_details": CredentialDetails._from_dict(json.loads("""{"credential_type": "fake_credential_type", "client_id": "fake_client_id", "enterprise_id": "fake_enterprise_id", "url": "fake_url", "username": "fake_username", "organization_url": "fake_organization_url", "site_collection.path": "fake_site_collection_path", "client_secret": "fake_client_secret", "public_key_id": "fake_public_key_id", "private_key": "fake_private_key", "passphrase": "fake_passphrase", "password": "fake_password", "gateway_id": "fake_gateway_id", "source_version": "fake_source_version", "web_application_url": "fake_web_application_url", "domain": "fake_domain", "endpoint": "fake_endpoint", "access_key_id": "fake_access_key_id", "secret_access_key": "fake_secret_access_key"}""")), "status": "string1", })
+        body.update({
+            "source_type":
+                "string1",
+            "credential_details":
+                CredentialDetails._from_dict(
+                    json.loads(
+                        """{"credential_type": "fake_credential_type", "client_id": "fake_client_id", "enterprise_id": "fake_enterprise_id", "url": "fake_url", "username": "fake_username", "organization_url": "fake_organization_url", "site_collection.path": "fake_site_collection_path", "client_secret": "fake_client_secret", "public_key_id": "fake_public_key_id", "private_key": "fake_private_key", "passphrase": "fake_passphrase", "password": "fake_password", "gateway_id": "fake_gateway_id", "source_version": "fake_source_version", "web_application_url": "fake_web_application_url", "domain": "fake_domain", "endpoint": "fake_endpoint", "access_key_id": "fake_access_key_id", "secret_access_key": "fake_secret_access_key"}"""
+                    )),
+            "status":
+                "string1",
+        })
         return body
 
 
@@ -4176,22 +4473,23 @@ class TestGetCredentials():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/credentials/{1}'.format(body['environment_id'], body['credential_id'])
+        endpoint = '/v1/environments/{0}/credentials/{1}'.format(
+            body['environment_id'], body['credential_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.get_credentials(**body)
         return output
@@ -4248,22 +4546,23 @@ class TestUpdateCredentials():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/credentials/{1}'.format(body['environment_id'], body['credential_id'])
+        endpoint = '/v1/environments/{0}/credentials/{1}'.format(
+            body['environment_id'], body['credential_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.PUT,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.update_credentials(**body)
         return output
@@ -4272,14 +4571,34 @@ class TestUpdateCredentials():
         body = dict()
         body['environment_id'] = "string1"
         body['credential_id'] = "string1"
-        body.update({"source_type": "string1", "credential_details": CredentialDetails._from_dict(json.loads("""{"credential_type": "fake_credential_type", "client_id": "fake_client_id", "enterprise_id": "fake_enterprise_id", "url": "fake_url", "username": "fake_username", "organization_url": "fake_organization_url", "site_collection.path": "fake_site_collection_path", "client_secret": "fake_client_secret", "public_key_id": "fake_public_key_id", "private_key": "fake_private_key", "passphrase": "fake_passphrase", "password": "fake_password", "gateway_id": "fake_gateway_id", "source_version": "fake_source_version", "web_application_url": "fake_web_application_url", "domain": "fake_domain", "endpoint": "fake_endpoint", "access_key_id": "fake_access_key_id", "secret_access_key": "fake_secret_access_key"}""")), "status": "string1", })
+        body.update({
+            "source_type":
+                "string1",
+            "credential_details":
+                CredentialDetails._from_dict(
+                    json.loads(
+                        """{"credential_type": "fake_credential_type", "client_id": "fake_client_id", "enterprise_id": "fake_enterprise_id", "url": "fake_url", "username": "fake_username", "organization_url": "fake_organization_url", "site_collection.path": "fake_site_collection_path", "client_secret": "fake_client_secret", "public_key_id": "fake_public_key_id", "private_key": "fake_private_key", "passphrase": "fake_passphrase", "password": "fake_password", "gateway_id": "fake_gateway_id", "source_version": "fake_source_version", "web_application_url": "fake_web_application_url", "domain": "fake_domain", "endpoint": "fake_endpoint", "access_key_id": "fake_access_key_id", "secret_access_key": "fake_secret_access_key"}"""
+                    )),
+            "status":
+                "string1",
+        })
         return body
 
     def construct_required_body(self):
         body = dict()
         body['environment_id'] = "string1"
         body['credential_id'] = "string1"
-        body.update({"source_type": "string1", "credential_details": CredentialDetails._from_dict(json.loads("""{"credential_type": "fake_credential_type", "client_id": "fake_client_id", "enterprise_id": "fake_enterprise_id", "url": "fake_url", "username": "fake_username", "organization_url": "fake_organization_url", "site_collection.path": "fake_site_collection_path", "client_secret": "fake_client_secret", "public_key_id": "fake_public_key_id", "private_key": "fake_private_key", "passphrase": "fake_passphrase", "password": "fake_password", "gateway_id": "fake_gateway_id", "source_version": "fake_source_version", "web_application_url": "fake_web_application_url", "domain": "fake_domain", "endpoint": "fake_endpoint", "access_key_id": "fake_access_key_id", "secret_access_key": "fake_secret_access_key"}""")), "status": "string1", })
+        body.update({
+            "source_type":
+                "string1",
+            "credential_details":
+                CredentialDetails._from_dict(
+                    json.loads(
+                        """{"credential_type": "fake_credential_type", "client_id": "fake_client_id", "enterprise_id": "fake_enterprise_id", "url": "fake_url", "username": "fake_username", "organization_url": "fake_organization_url", "site_collection.path": "fake_site_collection_path", "client_secret": "fake_client_secret", "public_key_id": "fake_public_key_id", "private_key": "fake_private_key", "passphrase": "fake_passphrase", "password": "fake_password", "gateway_id": "fake_gateway_id", "source_version": "fake_source_version", "web_application_url": "fake_web_application_url", "domain": "fake_domain", "endpoint": "fake_endpoint", "access_key_id": "fake_access_key_id", "secret_access_key": "fake_secret_access_key"}"""
+                    )),
+            "status":
+                "string1",
+        })
         return body
 
 
@@ -4322,22 +4641,23 @@ class TestDeleteCredentials():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/credentials/{1}'.format(body['environment_id'], body['credential_id'])
+        endpoint = '/v1/environments/{0}/credentials/{1}'.format(
+            body['environment_id'], body['credential_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.delete_credentials(**body)
         return output
@@ -4364,6 +4684,7 @@ class TestDeleteCredentials():
 # Start of Service: GatewayConfiguration
 ##############################################################################
 # region
+
 
 #-----------------------------------------------------------------------------
 # Test Class for list_gateways
@@ -4404,22 +4725,23 @@ class TestListGateways():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/gateways'.format(body['environment_id'])
+        endpoint = '/v1/environments/{0}/gateways'.format(
+            body['environment_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.list_gateways(**body)
         return output
@@ -4474,22 +4796,23 @@ class TestCreateGateway():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/gateways'.format(body['environment_id'])
+        endpoint = '/v1/environments/{0}/gateways'.format(
+            body['environment_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.create_gateway(**body)
         return output
@@ -4497,7 +4820,9 @@ class TestCreateGateway():
     def construct_full_body(self):
         body = dict()
         body['environment_id'] = "string1"
-        body.update({"name": "string1", })
+        body.update({
+            "name": "string1",
+        })
         return body
 
     def construct_required_body(self):
@@ -4545,22 +4870,23 @@ class TestGetGateway():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/gateways/{1}'.format(body['environment_id'], body['gateway_id'])
+        endpoint = '/v1/environments/{0}/gateways/{1}'.format(
+            body['environment_id'], body['gateway_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.get_gateway(**body)
         return output
@@ -4617,22 +4943,23 @@ class TestDeleteGateway():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/environments/{0}/gateways/{1}'.format(body['environment_id'], body['gateway_id'])
+        endpoint = '/v1/environments/{0}/gateways/{1}'.format(
+            body['environment_id'], body['gateway_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
     def call_service(self, body):
         service = DiscoveryV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-04-30',
-            )
+        )
         service.set_service_url(base_url)
         output = service.delete_gateway(**body)
         return output
@@ -4672,6 +4999,7 @@ def check_empty_required_params(obj, response):
         error = True
     assert error
 
+
 def check_missing_required_params(obj):
     """Test function to assert that the operation will throw an error when missing required data
 
@@ -4688,6 +5016,7 @@ def check_missing_required_params(obj):
         error = True
     assert error
 
+
 def check_empty_response(obj):
     """Test function to assert that the operation will return an empty response when given an empty request
 
@@ -4698,6 +5027,7 @@ def check_empty_response(obj):
     body = obj.construct_full_body()
     url = obj.make_url(body)
     send_request(obj, {}, {}, url=url)
+
 
 def send_request(obj, body, response, url=None):
     """Test function to create a request, send it, and assert its accuracy to the mock response
@@ -4714,6 +5044,7 @@ def send_request(obj, body, response, url=None):
     output = obj.call_service(body)
     assert responses.calls[0].request.url.startswith(url)
     assert output.get_result() == response
+
 
 ####################
 ## Mock Responses ##
