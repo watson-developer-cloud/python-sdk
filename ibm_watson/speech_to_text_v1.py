@@ -152,29 +152,31 @@ class SpeechToTextV1(BaseService):
     #########################
 
     def recognize(self,
-                  audio,
+                  audio: BinaryIO,
                   *,
-                  content_type=None,
-                  model=None,
-                  language_customization_id=None,
-                  acoustic_customization_id=None,
-                  base_model_version=None,
-                  customization_weight=None,
-                  inactivity_timeout=None,
-                  keywords=None,
-                  keywords_threshold=None,
-                  max_alternatives=None,
-                  word_alternatives_threshold=None,
-                  word_confidence=None,
-                  timestamps=None,
-                  profanity_filter=None,
-                  smart_formatting=None,
-                  speaker_labels=None,
-                  customization_id=None,
-                  grammar_name=None,
-                  redaction=None,
-                  audio_metrics=None,
-                  **kwargs):
+                  content_type: str = None,
+                  model: str = None,
+                  language_customization_id: str = None,
+                  acoustic_customization_id: str = None,
+                  base_model_version: str = None,
+                  customization_weight: float = None,
+                  inactivity_timeout: int = None,
+                  keywords: List[str] = None,
+                  keywords_threshold: float = None,
+                  max_alternatives: int = None,
+                  word_alternatives_threshold: float = None,
+                  word_confidence: bool = None,
+                  timestamps: bool = None,
+                  profanity_filter: bool = None,
+                  smart_formatting: bool = None,
+                  speaker_labels: bool = None,
+                  customization_id: str = None,
+                  grammar_name: str = None,
+                  redaction: bool = None,
+                  audio_metrics: bool = None,
+                  end_of_phrase_silence_time: float = None,
+                  split_transcript_at_phrase_end: bool = None,
+                  **kwargs) -> 'DetailedResponse':
         """
         Recognize audio.
 
@@ -389,6 +391,33 @@ class SpeechToTextV1(BaseService):
                information about the signal characteristics of the input audio. The
                service returns audio metrics with the final transcription results. By
                default, the service returns no audio metrics.
+               See [Audio
+               metrics](https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-metrics#audio_metrics).
+        :param float end_of_phrase_silence_time: (optional) If `true`, specifies
+               the duration of the pause interval at which the service splits a transcript
+               into multiple final results. If the service detects pauses or extended
+               silence before it reaches the end of the audio stream, its response can
+               include multiple final results. Silence indicates a point at which the
+               speaker pauses between spoken words or phrases.
+               Specify a value for the pause interval in the range of 0.0 to 120.0.
+               * A value greater than 0 specifies the interval that the service is to use
+               for speech recognition.
+               * A value of 0 indicates that the service is to use the default interval.
+               It is equivalent to omitting the parameter.
+               The default pause interval for most languages is 0.8 seconds; the default
+               for Chinese is 0.6 seconds.
+               See [End of phrase silence
+               time](https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-output#silence_time).
+        :param bool split_transcript_at_phrase_end: (optional) If `true`, directs
+               the service to split the transcript into multiple final results based on
+               semantic features of the input, for example, at the conclusion of
+               meaningful phrases such as sentences. The service bases its understanding
+               of semantic features on the base language model that you use with a
+               request. Custom language models and grammars can also influence how and
+               where the service splits a transcript. By default, the service splits
+               transcripts based solely on the pause interval.
+               See [Split transcript at phrase
+               end](https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-output#split_transcript).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
