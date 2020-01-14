@@ -1,1423 +1,4777 @@
-# coding: utf-8
-import responses
-import os
+# -*- coding: utf-8 -*-
+# (C) Copyright IBM Corp. 2020.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+from datetime import datetime
+from ibm_cloud_sdk_core.authenticators.no_auth_authenticator import NoAuthAuthenticator
+import inspect
 import json
-import io
-import time
-import jwt
-from unittest import TestCase
-import ibm_watson
-from ibm_watson.discovery_v1 import TrainingDataSet, TrainingQuery, TrainingExample
-from ibm_cloud_sdk_core.authenticators import BasicAuthenticator, IAMAuthenticator
+import pytest
+import responses
+import tempfile
+import ibm_watson.discovery_v1
+from ibm_watson.discovery_v1 import *
 
-from urllib.parse import urlparse, urljoin
+base_url = 'https://gateway.watsonplatform.net/discovery/api'
 
-base_discovery_url = 'https://gateway.watsonplatform.net/discovery/api/v1/'
+##############################################################################
+# Start of Service: Environments
+##############################################################################
+# region
 
-platform_url = 'https://gateway.watsonplatform.net'
-service_path = '/discovery/api'
-base_url = '{0}{1}'.format(platform_url, service_path)
+#-----------------------------------------------------------------------------
+# Test Class for create_environment
+#-----------------------------------------------------------------------------
+class TestCreateEnvironment():
 
-version = '2016-12-01'
-environment_id = 'envid'
-collection_id = 'collid'
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_environment_response(self):
+        body = self.construct_full_body()
+        response = fake_response_Environment_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
 
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_environment_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_Environment_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
 
-def get_access_token():
-    access_token_layout = {
-        "username": "dummy",
-        "role": "Admin",
-        "permissions": ["administrator", "manage_catalog"],
-        "sub": "admin",
-        "iss": "sss",
-        "aud": "sss",
-        "uid": "sss",
-        "iat": 3600,
-        "exp": int(time.time())
-    }
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_environment_empty(self):
+        check_empty_required_params(self, fake_response_Environment_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
 
-    access_token = jwt.encode(
-        access_token_layout,
-        'secret',
-        algorithm='HS256',
-        headers={'kid': '230498151c214b788dd97f22b85410a5'})
-    return access_token.decode('utf-8')
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments'
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
 
-
-class TestDiscoveryV1(TestCase):
-
-    @classmethod
-    def setUp(cls):
-        iam_url = "https://iam.cloud.ibm.com/identity/token"
-        iam_token_response = {
-            "access_token": get_access_token(),
-            "token_type": "Bearer",
-            "expires_in": 3600,
-            "expiration": 1524167011,
-            "refresh_token": "jy4gl91BQ"
-        }
+    def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url=iam_url,
-                      body=json.dumps(iam_token_response),
-                      status=200)
+                    url,
+                    body=json.dumps(response),
+                    status=201,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.create_environment(**body)
+        return output
 
-    @classmethod
+    def construct_full_body(self):
+        body = dict()
+        body.update({"name": "string1", "description": "string1", "size": "string1", })
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body.update({"name": "string1", "description": "string1", "size": "string1", })
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for list_environments
+#-----------------------------------------------------------------------------
+class TestListEnvironments():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_environments(cls):
-        discovery_url = urljoin(base_discovery_url, 'environments')
-        discovery_response_body = """{
-        "environments": [
-            {
-            "environment_id": "string",
-            "name": "envname",
-            "description": "",
-            "created": "2016-11-20T01:03:17.645Z",
-            "updated": "2016-11-20T01:03:17.645Z",
-            "status": "status",
-            "index_capacity": {
-                "disk_usage": {
-                "used_bytes": 0,
-                "total_bytes": 0,
-                "used": "string",
-                "total": "string",
-                "percent_used": 0
-                },
-                "memory_usage": {
-                "used_bytes": 0,
-                "total_bytes": 0,
-                "used": "string",
-                "total": "string",
-                "percent_used": 0
-                }
-            }
-            }
-        ]
-        }"""
+    def test_list_environments_response(self):
+        body = self.construct_full_body()
+        response = fake_response_ListEnvironmentsResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
 
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_environments_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_ListEnvironmentsResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_environments_empty(self):
+        check_empty_response(self)
+        assert len(responses.calls) == 1
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments'
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      discovery_url,
-                      body=discovery_response_body,
-                      status=200,
-                      content_type='application/json')
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.list_environments(**body)
+        return output
 
-        authenticator = BasicAuthenticator('username', 'password')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
-        discovery.list_environments()
+    def construct_full_body(self):
+        body = dict()
+        body['name'] = "string1"
+        return body
 
-        url_str = "{0}?version=2018-08-13".format(discovery_url)
-        assert responses.calls[0].request.url == url_str
+    def construct_required_body(self):
+        body = dict()
+        return body
 
-        assert responses.calls[0].response.text == discovery_response_body
+
+#-----------------------------------------------------------------------------
+# Test Class for get_environment
+#-----------------------------------------------------------------------------
+class TestGetEnvironment():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_environment_response(self):
+        body = self.construct_full_body()
+        response = fake_response_Environment_json
+        send_request(self, body, response)
         assert len(responses.calls) == 1
 
-    @classmethod
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_get_environment(cls):
-        discovery_url = urljoin(base_discovery_url, 'environments/envid')
+    def test_get_environment_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_Environment_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_environment_empty(self):
+        check_empty_required_params(self, fake_response_Environment_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}'.format(body['environment_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      discovery_url,
-                      body="{\"resulting_key\": true}",
-                      status=200,
-                      content_type='application/json')
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.get_environment(**body)
+        return output
 
-        authenticator = BasicAuthenticator('username', 'password')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        return body
 
-        discovery.get_environment(environment_id='envid')
-        url_str = "{0}?version=2018-08-13".format(discovery_url)
-        assert responses.calls[0].request.url == url_str
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for update_environment
+#-----------------------------------------------------------------------------
+class TestUpdateEnvironment():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_environment_response(self):
+        body = self.construct_full_body()
+        response = fake_response_Environment_json
+        send_request(self, body, response)
         assert len(responses.calls) == 1
 
-    @classmethod
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_create_environment(cls):
-
-        discovery_url = urljoin(base_discovery_url, 'environments')
-        responses.add(responses.POST,
-                      discovery_url,
-                      body="{\"resulting_key\": true}",
-                      status=200,
-                      content_type='application/json')
-
-        authenticator = BasicAuthenticator('username', 'password')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
-
-        discovery.create_environment(name="my name",
-                                     description="my description")
+    def test_update_environment_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_Environment_json
+        send_request(self, body, response)
         assert len(responses.calls) == 1
 
-    @classmethod
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_update_environment(cls):
-        discovery_url = urljoin(base_discovery_url, 'environments/envid')
+    def test_update_environment_empty(self):
+        check_empty_required_params(self, fake_response_Environment_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}'.format(body['environment_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
         responses.add(responses.PUT,
-                      discovery_url,
-                      body="{\"resulting_key\": true}",
-                      status=200,
-                      content_type='application/json')
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.update_environment(**body)
+        return output
 
-        authenticator = BasicAuthenticator('username', 'password')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body.update({"name": "string1", "description": "string1", "size": "string1", })
+        return body
 
-        discovery.update_environment('envid', name="hello", description="new")
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body.update({"name": "string1", "description": "string1", "size": "string1", })
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for delete_environment
+#-----------------------------------------------------------------------------
+class TestDeleteEnvironment():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_environment_response(self):
+        body = self.construct_full_body()
+        response = fake_response_DeleteEnvironmentResponse_json
+        send_request(self, body, response)
         assert len(responses.calls) == 1
 
-    @classmethod
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_delete_environment(cls):
-        discovery_url = urljoin(base_discovery_url, 'environments/envid')
+    def test_delete_environment_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_DeleteEnvironmentResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_environment_empty(self):
+        check_empty_required_params(self, fake_response_DeleteEnvironmentResponse_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}'.format(body['environment_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                      discovery_url,
-                      body="{\"resulting_key\": true}",
-                      status=200,
-                      content_type='application/json')
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.delete_environment(**body)
+        return output
 
-        authenticator = BasicAuthenticator('username', 'password')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        return body
 
-        discovery.delete_environment('envid')
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for list_fields
+#-----------------------------------------------------------------------------
+class TestListFields():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_fields_response(self):
+        body = self.construct_full_body()
+        response = fake_response_ListCollectionFieldsResponse_json
+        send_request(self, body, response)
         assert len(responses.calls) == 1
 
-    @classmethod
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_collections(cls):
-        discovery_url = urljoin(base_discovery_url,
-                                'environments/envid/collections')
-
-        responses.add(responses.GET,
-                      discovery_url,
-                      body="{\"body\": \"hello\"}",
-                      status=200,
-                      content_type='application/json')
-
-        authenticator = BasicAuthenticator('username', 'password')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
-
-        discovery.list_collections('envid')
-
-        called_url = urlparse(responses.calls[0].request.url)
-        test_url = urlparse(discovery_url)
-
-        assert called_url.netloc == test_url.netloc
-        assert called_url.path == test_url.path
+    def test_list_fields_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_ListCollectionFieldsResponse_json
+        send_request(self, body, response)
         assert len(responses.calls) == 1
 
-    @classmethod
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_collection(cls):
-        discovery_url = urljoin(base_discovery_url,
-                                'environments/envid/collections/collid')
+    def test_list_fields_empty(self):
+        check_empty_required_params(self, fake_response_ListCollectionFieldsResponse_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
 
-        discovery_fields = urljoin(
-            base_discovery_url, 'environments/envid/collections/collid/fields')
-        config_url = urljoin(base_discovery_url,
-                             'environments/envid/configurations')
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/fields'.format(body['environment_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
 
+    def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      config_url,
-                      body="{\"body\": \"hello\"}",
-                      status=200,
-                      content_type='application/json')
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.list_fields(**body)
+        return output
 
-        responses.add(responses.GET,
-                      discovery_fields,
-                      body="{\"body\": \"hello\"}",
-                      status=200,
-                      content_type='application/json')
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_ids'] = []
+        return body
 
-        responses.add(responses.GET,
-                      discovery_url,
-                      body="{\"body\": \"hello\"}",
-                      status=200,
-                      content_type='application/json')
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_ids'] = []
+        return body
 
-        responses.add(responses.DELETE,
-                      discovery_url,
-                      body="{\"body\": \"hello\"}",
-                      status=200,
-                      content_type='application/json')
 
+# endregion
+##############################################################################
+# End of Service: Environments
+##############################################################################
+
+##############################################################################
+# Start of Service: Configurations
+##############################################################################
+# region
+
+#-----------------------------------------------------------------------------
+# Test Class for create_configuration
+#-----------------------------------------------------------------------------
+class TestCreateConfiguration():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_configuration_response(self):
+        body = self.construct_full_body()
+        response = fake_response_Configuration_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_configuration_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_Configuration_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_configuration_empty(self):
+        check_empty_required_params(self, fake_response_Configuration_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/configurations'.format(body['environment_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      urljoin(base_discovery_url,
-                              'environments/envid/collections'),
-                      body="{\"body\": \"create\"}",
-                      status=200,
-                      content_type='application/json')
+                    url,
+                    body=json.dumps(response),
+                    status=201,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.create_configuration(**body)
+        return output
 
-        authenticator = BasicAuthenticator('username', 'password')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body.update({"name": "string1", "description": "string1", "conversions": Conversions._from_dict(json.loads("""{"pdf": {"heading": {"fonts": []}}, "word": {"heading": {"fonts": [], "styles": []}}, "html": {"exclude_tags_completely": [], "exclude_tags_keep_content": [], "keep_content": {"xpaths": []}, "exclude_content": {"xpaths": []}, "keep_tag_attributes": [], "exclude_tag_attributes": []}, "segment": {"enabled": false, "selector_tags": [], "annotated_fields": []}, "json_normalizations": [], "image_text_recognition": true}""")), "enrichments": [], "normalizations": [], "source": Source._from_dict(json.loads("""{"type": "fake_type", "credential_id": "fake_credential_id", "schedule": {"enabled": false, "time_zone": "fake_time_zone", "frequency": "fake_frequency"}, "options": {"folders": [], "objects": [], "site_collections": [], "urls": [], "buckets": [], "crawl_all_buckets": false}}""")), })
+        return body
 
-        discovery.create_collection(environment_id='envid',
-                                    name="name",
-                                    description="",
-                                    language="",
-                                    configuration_id='confid')
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body.update({"name": "string1", "description": "string1", "conversions": Conversions._from_dict(json.loads("""{"pdf": {"heading": {"fonts": []}}, "word": {"heading": {"fonts": [], "styles": []}}, "html": {"exclude_tags_completely": [], "exclude_tags_keep_content": [], "keep_content": {"xpaths": []}, "exclude_content": {"xpaths": []}, "keep_tag_attributes": [], "exclude_tag_attributes": []}, "segment": {"enabled": false, "selector_tags": [], "annotated_fields": []}, "json_normalizations": [], "image_text_recognition": true}""")), "enrichments": [], "normalizations": [], "source": Source._from_dict(json.loads("""{"type": "fake_type", "credential_id": "fake_credential_id", "schedule": {"enabled": false, "time_zone": "fake_time_zone", "frequency": "fake_frequency"}, "options": {"folders": [], "objects": [], "site_collections": [], "urls": [], "buckets": [], "crawl_all_buckets": false}}""")), })
+        return body
 
-        discovery.create_collection(environment_id='envid',
-                                    name="name",
-                                    language="es",
-                                    description="")
 
-        discovery.get_collection('envid', 'collid')
+#-----------------------------------------------------------------------------
+# Test Class for list_configurations
+#-----------------------------------------------------------------------------
+class TestListConfigurations():
 
-        called_url = urlparse(responses.calls[2].request.url)
-        test_url = urlparse(discovery_url)
-
-        assert called_url.netloc == test_url.netloc
-        assert called_url.path == test_url.path
-
-        discovery.delete_collection(environment_id='envid',
-                                    collection_id='collid')
-        discovery.list_collection_fields(environment_id='envid',
-                                         collection_id='collid')
-        assert len(responses.calls) == 5
-
-    @classmethod
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_federated_query(cls):
-        discovery_url = urljoin(base_discovery_url, 'environments/envid/query')
-
-        responses.add(responses.POST,
-                      discovery_url,
-                      body="{\"body\": \"hello\"}",
-                      status=200,
-                      content_type='application/json')
-
-        authenticator = BasicAuthenticator('username', 'password')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
-
-        discovery.federated_query('envid',
-                                  filter='colls.sha1::9181d244*',
-                                  collection_ids=['collid1', 'collid2'])
-
-        called_url = urlparse(responses.calls[0].request.url)
-        test_url = urlparse(discovery_url)
-
-        assert called_url.netloc == test_url.netloc
-        assert called_url.path == test_url.path
+    def test_list_configurations_response(self):
+        body = self.construct_full_body()
+        response = fake_response_ListConfigurationsResponse_json
+        send_request(self, body, response)
         assert len(responses.calls) == 1
 
-    @classmethod
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_federated_query_2(cls):
-        discovery_url = urljoin(base_discovery_url, 'environments/envid/query')
-
-        responses.add(responses.POST,
-                      discovery_url,
-                      body="{\"body\": \"hello\"}",
-                      status=200,
-                      content_type='application/json')
-
-        authenticator = BasicAuthenticator('username', 'password')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
-
-        discovery.federated_query('envid',
-                                  collection_ids="'collid1', 'collid2'",
-                                  filter='colls.sha1::9181d244*',
-                                  bias='1',
-                                  logging_opt_out=True)
-
-        called_url = urlparse(responses.calls[0].request.url)
-        test_url = urlparse(discovery_url)
-
-        assert called_url.netloc == test_url.netloc
-        assert called_url.path == test_url.path
+    def test_list_configurations_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_ListConfigurationsResponse_json
+        send_request(self, body, response)
         assert len(responses.calls) == 1
 
-    @classmethod
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_federated_query_notices(cls):
-        discovery_url = urljoin(base_discovery_url,
-                                'environments/envid/notices')
+    def test_list_configurations_empty(self):
+        check_empty_required_params(self, fake_response_ListConfigurationsResponse_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
 
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/configurations'.format(body['environment_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      discovery_url,
-                      body="{\"body\": \"hello\"}",
-                      status=200,
-                      content_type='application/json')
-        authenticator = BasicAuthenticator('username', 'password')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
-        discovery.federated_query_notices('envid',
-                                          collection_ids=['collid1', 'collid2'],
-                                          filter='notices.sha1::9181d244*')
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.list_configurations(**body)
+        return output
 
-        called_url = urlparse(responses.calls[0].request.url)
-        test_url = urlparse(discovery_url)
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['name'] = "string1"
+        return body
 
-        assert called_url.netloc == test_url.netloc
-        assert called_url.path == test_url.path
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for get_configuration
+#-----------------------------------------------------------------------------
+class TestGetConfiguration():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_configuration_response(self):
+        body = self.construct_full_body()
+        response = fake_response_Configuration_json
+        send_request(self, body, response)
         assert len(responses.calls) == 1
 
-    @classmethod
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_query(cls):
-        discovery_url = urljoin(base_discovery_url,
-                                'environments/envid/collections/collid/query')
-
-        responses.add(responses.POST,
-                      discovery_url,
-                      body="{\"body\": \"hello\"}",
-                      status=200,
-                      content_type='application/json')
-        authenticator = BasicAuthenticator('username', 'password')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
-        discovery.query('envid',
-                        'collid',
-                        filter='extracted_metadata.sha1::9181d244*',
-                        count=1,
-                        passages=True,
-                        passages_fields=['x', 'y'],
-                        logging_opt_out='True',
-                        passages_count=2)
-
-        called_url = urlparse(responses.calls[0].request.url)
-        test_url = urlparse(discovery_url)
-
-        assert called_url.netloc == test_url.netloc
-        assert called_url.path == test_url.path
+    def test_get_configuration_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_Configuration_json
+        send_request(self, body, response)
         assert len(responses.calls) == 1
 
-    @classmethod
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_query_2(cls):
-        discovery_url = urljoin(base_discovery_url,
-                                'environments/envid/collections/collid/query')
+    def test_get_configuration_empty(self):
+        check_empty_required_params(self, fake_response_Configuration_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
 
-        responses.add(responses.POST,
-                      discovery_url,
-                      body="{\"body\": \"hello\"}",
-                      status=200,
-                      content_type='application/json')
-        authenticator = BasicAuthenticator('username', 'password')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
-        discovery.query('envid',
-                        'collid',
-                        filter='extracted_metadata.sha1::9181d244*',
-                        count=1,
-                        passages=True,
-                        passages_fields=['x', 'y'],
-                        logging_opt_out='True',
-                        passages_count=2,
-                        bias='1',
-                        collection_ids='1,2')
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/configurations/{1}'.format(body['environment_id'], body['configuration_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
 
-        called_url = urlparse(responses.calls[0].request.url)
-        test_url = urlparse(discovery_url)
-
-        assert called_url.netloc == test_url.netloc
-        assert called_url.path == test_url.path
-        assert len(responses.calls) == 1
-
-    @classmethod
-    @responses.activate
-    def test_query_notices(cls):
-        discovery_url = urljoin(
-            base_discovery_url, 'environments/envid/collections/collid/notices')
-
+    def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      discovery_url,
-                      body="{\"body\": \"hello\"}",
-                      status=200,
-                      content_type='application/json')
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.get_configuration(**body)
+        return output
 
-        authenticator = BasicAuthenticator('username', 'password')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['configuration_id'] = "string1"
+        return body
 
-        discovery.query_notices('envid', 'collid', filter='notices.sha1::*')
-        called_url = urlparse(responses.calls[0].request.url)
-        test_url = urlparse(discovery_url)
-        assert called_url.netloc == test_url.netloc
-        assert called_url.path == test_url.path
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['configuration_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for update_configuration
+#-----------------------------------------------------------------------------
+class TestUpdateConfiguration():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_configuration_response(self):
+        body = self.construct_full_body()
+        response = fake_response_Configuration_json
+        send_request(self, body, response)
         assert len(responses.calls) == 1
 
-    @classmethod
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_configs(cls):
-        discovery_url = urljoin(base_discovery_url,
-                                'environments/envid/configurations')
-        discovery_config_id = urljoin(
-            base_discovery_url, 'environments/envid/configurations/confid')
+    def test_update_configuration_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_Configuration_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
 
-        results = {
-            "configurations": [{
-                "name": "Default Configuration",
-                "configuration_id": "confid"
-            }]
-        }
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_configuration_empty(self):
+        check_empty_required_params(self, fake_response_Configuration_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
 
-        responses.add(responses.GET,
-                      discovery_url,
-                      body=json.dumps(results),
-                      status=200,
-                      content_type='application/json')
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/configurations/{1}'.format(body['environment_id'], body['configuration_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
 
-        responses.add(responses.GET,
-                      discovery_config_id,
-                      body=json.dumps(results['configurations'][0]),
-                      status=200,
-                      content_type='application/json')
-        responses.add(responses.POST,
-                      discovery_url,
-                      body=json.dumps(results['configurations'][0]),
-                      status=200,
-                      content_type='application/json')
+    def add_mock_response(self, url, response):
         responses.add(responses.PUT,
-                      discovery_config_id,
-                      body=json.dumps(results['configurations'][0]),
-                      status=200,
-                      content_type='application/json')
-        responses.add(responses.DELETE,
-                      discovery_config_id,
-                      body=json.dumps({'deleted': 'bogus -- ok'}),
-                      status=200,
-                      content_type='application/json')
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.update_configuration(**body)
+        return output
 
-        authenticator = BasicAuthenticator('username', 'password')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
-        discovery.list_configurations(environment_id='envid')
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['configuration_id'] = "string1"
+        body.update({"name": "string1", "description": "string1", "conversions": Conversions._from_dict(json.loads("""{"pdf": {"heading": {"fonts": []}}, "word": {"heading": {"fonts": [], "styles": []}}, "html": {"exclude_tags_completely": [], "exclude_tags_keep_content": [], "keep_content": {"xpaths": []}, "exclude_content": {"xpaths": []}, "keep_tag_attributes": [], "exclude_tag_attributes": []}, "segment": {"enabled": false, "selector_tags": [], "annotated_fields": []}, "json_normalizations": [], "image_text_recognition": true}""")), "enrichments": [], "normalizations": [], "source": Source._from_dict(json.loads("""{"type": "fake_type", "credential_id": "fake_credential_id", "schedule": {"enabled": false, "time_zone": "fake_time_zone", "frequency": "fake_frequency"}, "options": {"folders": [], "objects": [], "site_collections": [], "urls": [], "buckets": [], "crawl_all_buckets": false}}""")), })
+        return body
 
-        discovery.get_configuration(environment_id='envid',
-                                    configuration_id='confid')
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['configuration_id'] = "string1"
+        body.update({"name": "string1", "description": "string1", "conversions": Conversions._from_dict(json.loads("""{"pdf": {"heading": {"fonts": []}}, "word": {"heading": {"fonts": [], "styles": []}}, "html": {"exclude_tags_completely": [], "exclude_tags_keep_content": [], "keep_content": {"xpaths": []}, "exclude_content": {"xpaths": []}, "keep_tag_attributes": [], "exclude_tag_attributes": []}, "segment": {"enabled": false, "selector_tags": [], "annotated_fields": []}, "json_normalizations": [], "image_text_recognition": true}""")), "enrichments": [], "normalizations": [], "source": Source._from_dict(json.loads("""{"type": "fake_type", "credential_id": "fake_credential_id", "schedule": {"enabled": false, "time_zone": "fake_time_zone", "frequency": "fake_frequency"}, "options": {"folders": [], "objects": [], "site_collections": [], "urls": [], "buckets": [], "crawl_all_buckets": false}}""")), })
+        return body
 
-        assert len(responses.calls) == 2
 
-        discovery.create_configuration(environment_id='envid', name='my name')
-        discovery.create_configuration(environment_id='envid',
-                                       name='my name',
-                                       source={
-                                           'type': 'salesforce',
-                                           'credential_id': 'xxx'
-                                       })
-        discovery.update_configuration(environment_id='envid',
-                                       configuration_id='confid',
-                                       name='my new name')
-        discovery.update_configuration(environment_id='envid',
-                                       configuration_id='confid',
-                                       name='my new name',
-                                       source={
-                                           'type': 'salesforce',
-                                           'credential_id': 'xxx'
-                                       })
-        discovery.delete_configuration(environment_id='envid',
-                                       configuration_id='confid')
+#-----------------------------------------------------------------------------
+# Test Class for delete_configuration
+#-----------------------------------------------------------------------------
+class TestDeleteConfiguration():
 
-        assert len(responses.calls) == 7
-
-    @classmethod
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_document(cls):
-        discovery_url = urljoin(base_discovery_url,
-                                'environments/envid/preview')
-        config_url = urljoin(base_discovery_url,
-                             'environments/envid/configurations')
-        responses.add(responses.POST,
-                      discovery_url,
-                      body="{\"configurations\": []}",
-                      status=200,
-                      content_type='application/json')
-        responses.add(responses.GET,
-                      config_url,
-                      body=json.dumps({
-                          "configurations": [{
-                              "name": "Default Configuration",
-                              "configuration_id": "confid"
-                          }]
-                      }),
-                      status=200,
-                      content_type='application/json')
-
-        authenticator = BasicAuthenticator('username', 'password')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
-
-        add_doc_url = urljoin(
-            base_discovery_url,
-            'environments/envid/collections/collid/documents')
-
-        doc_id_path = 'environments/envid/collections/collid/documents/docid'
-
-        update_doc_url = urljoin(base_discovery_url, doc_id_path)
-        del_doc_url = urljoin(base_discovery_url, doc_id_path)
-        responses.add(responses.POST,
-                      add_doc_url,
-                      body="{\"body\": []}",
-                      status=200,
-                      content_type='application/json')
-
-        doc_status = {
-            "document_id":
-                "45556e23-f2b1-449d-8f27-489b514000ff",
-            "configuration_id":
-                "2e079259-7dd2-40a9-998f-3e716f5a7b88",
-            "created":
-                "2016-06-16T10:56:54.957Z",
-            "updated":
-                "2017-05-16T13:56:54.957Z",
-            "status":
-                "available",
-            "status_description":
-                "Document is successfully ingested and indexed with no warnings",
-            "notices": []
-        }
-
-        responses.add(responses.GET,
-                      del_doc_url,
-                      body=json.dumps(doc_status),
-                      status=200,
-                      content_type='application/json')
-
-        responses.add(responses.POST,
-                      update_doc_url,
-                      body="{\"body\": []}",
-                      status=200,
-                      content_type='application/json')
-
-        responses.add(responses.DELETE,
-                      del_doc_url,
-                      body="{\"body\": []}",
-                      status=200,
-                      content_type='application/json')
-
-        html_path = os.path.join(os.getcwd(), 'resources', 'simple.html')
-        with open(html_path) as fileinfo:
-            conf_id = discovery.add_document(environment_id='envid',
-                                             collection_id='collid',
-                                             file=fileinfo)
-            assert conf_id is not None
-
+    def test_delete_configuration_response(self):
+        body = self.construct_full_body()
+        response = fake_response_DeleteConfigurationResponse_json
+        send_request(self, body, response)
         assert len(responses.calls) == 1
 
-        discovery.get_document_status(environment_id='envid',
-                                      collection_id='collid',
-                                      document_id='docid')
-
-        assert len(responses.calls) == 2
-
-        discovery.update_document(environment_id='envid',
-                                  collection_id='collid',
-                                  document_id='docid')
-
-        assert len(responses.calls) == 3
-
-        discovery.update_document(environment_id='envid',
-                                  collection_id='collid',
-                                  document_id='docid')
-
-        assert len(responses.calls) == 4
-
-        discovery.delete_document(environment_id='envid',
-                                  collection_id='collid',
-                                  document_id='docid')
-
-        assert len(responses.calls) == 5
-
-        conf_id = discovery.add_document(environment_id='envid',
-                                         collection_id='collid',
-                                         file=io.StringIO(u'my string of file'),
-                                         filename='file.txt')
-
-        assert len(responses.calls) == 6
-
-        conf_id = discovery.add_document(
-            environment_id='envid',
-            collection_id='collid',
-            file=io.StringIO(u'<h1>my string of file</h1>'),
-            filename='file.html',
-            file_content_type='application/html')
-
-        assert len(responses.calls) == 7
-
-        conf_id = discovery.add_document(
-            environment_id='envid',
-            collection_id='collid',
-            file=io.StringIO(u'<h1>my string of file</h1>'),
-            filename='file.html',
-            file_content_type='application/html',
-            metadata=io.StringIO(u'{"stuff": "woot!"}'))
-
-        assert len(responses.calls) == 8
-
-    @classmethod
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_delete_all_training_data(cls):
-        training_endpoint = '/v1/environments/{0}/collections/{1}/training_data'
-        endpoint = training_endpoint.format(environment_id, collection_id)
-        url = '{0}{1}'.format(base_url, endpoint)
-        responses.add(responses.DELETE, url, status=204)
-
-        authenticator = BasicAuthenticator('username', 'password')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
-
-        response = discovery.delete_all_training_data(
-            environment_id=environment_id,
-            collection_id=collection_id).get_result()
-
-        assert response is None
-
-    @classmethod
-    @responses.activate
-    def test_list_training_data(cls):
-        training_endpoint = '/v1/environments/{0}/collections/{1}/training_data'
-        endpoint = training_endpoint.format(environment_id, collection_id)
-        url = '{0}{1}'.format(base_url, endpoint)
-        mock_response = {
-            "environment_id":
-                "string",
-            "collection_id":
-                "string",
-            "queries": [{
-                "query_id":
-                    "string",
-                "natural_language_query":
-                    "string",
-                "filter":
-                    "string",
-                "examples": [{
-                    "document_id": "string",
-                    "cross_reference": "string",
-                    "relevance": 0
-                }]
-            }]
-        }
-        responses.add(responses.GET,
-                      url,
-                      body=json.dumps(mock_response),
-                      status=200,
-                      content_type='application/json')
-
-        authenticator = BasicAuthenticator('username', 'password')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
-
-        response = discovery.list_training_data(
-            environment_id=environment_id,
-            collection_id=collection_id).get_result()
-
-        assert response == mock_response
-        # Verify that response can be converted to a TrainingDataSet
-        TrainingDataSet._from_dict(response)
-
-    @classmethod
-    @responses.activate
-    def test_add_training_data(cls):
-        training_endpoint = '/v1/environments/{0}/collections/{1}/training_data'
-        endpoint = training_endpoint.format(environment_id, collection_id)
-        url = '{0}{1}'.format(base_url, endpoint)
-        natural_language_query = "why is the sky blue"
-        filter = "text:meteorology"
-        examples = [{
-            "document_id": "54f95ac0-3e4f-4756-bea6-7a67b2713c81",
-            "relevance": 1
-        }, {
-            "document_id": "01bcca32-7300-4c9f-8d32-33ed7ea643da",
-            "cross_reference": "my_id_field:1463",
-            "relevance": 5
-        }]
-        mock_response = {
-            "query_id":
-                "string",
-            "natural_language_query":
-                "string",
-            "filter":
-                "string",
-            "examples": [{
-                "document_id": "string",
-                "cross_reference": "string",
-                "relevance": 0
-            }]
-        }
-        responses.add(responses.POST,
-                      url,
-                      body=json.dumps(mock_response),
-                      status=200,
-                      content_type='application/json')
-
-        authenticator = BasicAuthenticator('username', 'password')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
-
-        response = discovery.add_training_data(
-            environment_id=environment_id,
-            collection_id=collection_id,
-            natural_language_query=natural_language_query,
-            filter=filter,
-            examples=examples).get_result()
-
-        assert response == mock_response
-        # Verify that response can be converted to a TrainingQuery
-        TrainingQuery._from_dict(response)
-
-    @classmethod
-    @responses.activate
-    def test_delete_training_data(cls):
-        training_endpoint = '/v1/environments/{0}/collections/{1}/training_data/{2}'
-        query_id = 'queryid'
-        endpoint = training_endpoint.format(environment_id, collection_id,
-                                            query_id)
-        url = '{0}{1}'.format(base_url, endpoint)
-        responses.add(responses.DELETE, url, status=204)
-
-        authenticator = BasicAuthenticator('username', 'password')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
-
-        response = discovery.delete_training_data(
-            environment_id=environment_id,
-            collection_id=collection_id,
-            query_id=query_id).get_result()
-
-        assert response is None
-
-    @classmethod
-    @responses.activate
-    def test_get_training_data(cls):
-        training_endpoint = '/v1/environments/{0}/collections/{1}/training_data/{2}'
-        query_id = 'queryid'
-        endpoint = training_endpoint.format(environment_id, collection_id,
-                                            query_id)
-        url = '{0}{1}'.format(base_url, endpoint)
-        mock_response = {
-            "query_id":
-                "string",
-            "natural_language_query":
-                "string",
-            "filter":
-                "string",
-            "examples": [{
-                "document_id": "string",
-                "cross_reference": "string",
-                "relevance": 0
-            }]
-        }
-        responses.add(responses.GET,
-                      url,
-                      body=json.dumps(mock_response),
-                      status=200,
-                      content_type='application/json')
-
-        authenticator = BasicAuthenticator('username', 'password')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
-        response = discovery.get_training_data(environment_id=environment_id,
-                                               collection_id=collection_id,
-                                               query_id=query_id).get_result()
-
-        assert response == mock_response
-        # Verify that response can be converted to a TrainingQuery
-        TrainingQuery._from_dict(response)
-
-    @classmethod
-    @responses.activate
-    def test_create_training_example(cls):
-        examples_endpoint = '/v1/environments/{0}/collections/{1}/training_data' + \
-            '/{2}/examples'
-        query_id = 'queryid'
-        endpoint = examples_endpoint.format(environment_id, collection_id,
-                                            query_id)
-        url = '{0}{1}'.format(base_url, endpoint)
-        document_id = "string"
-        relevance = 0
-        cross_reference = "string"
-        mock_response = {
-            "document_id": "string",
-            "cross_reference": "string",
-            "relevance": 0
-        }
-        responses.add(responses.POST,
-                      url,
-                      body=json.dumps(mock_response),
-                      status=201,
-                      content_type='application/json')
-
-        authenticator = BasicAuthenticator('username', 'password')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
-
-        response = discovery.create_training_example(
-            environment_id=environment_id,
-            collection_id=collection_id,
-            query_id=query_id,
-            document_id=document_id,
-            relevance=relevance,
-            cross_reference=cross_reference).get_result()
-
-        assert response == mock_response
-        # Verify that response can be converted to a TrainingExample
-        TrainingExample._from_dict(response)
-
-    @classmethod
-    @responses.activate
-    def test_delete_training_example(cls):
-        examples_endpoint = '/v1/environments/{0}/collections/{1}/training_data' + \
-            '/{2}/examples/{3}'
-        query_id = 'queryid'
-        example_id = 'exampleid'
-        endpoint = examples_endpoint.format(environment_id, collection_id,
-                                            query_id, example_id)
-        url = '{0}{1}'.format(base_url, endpoint)
-        responses.add(responses.DELETE, url, status=204)
-
-        authenticator = BasicAuthenticator('username', 'password')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
-        response = discovery.delete_training_example(
-            environment_id=environment_id,
-            collection_id=collection_id,
-            query_id=query_id,
-            example_id=example_id).get_result()
-
-        assert response is None
-
-    @classmethod
-    @responses.activate
-    def test_get_training_example(cls):
-        examples_endpoint = '/v1/environments/{0}/collections/{1}/training_data' + \
-            '/{2}/examples/{3}'
-        query_id = 'queryid'
-        example_id = 'exampleid'
-        endpoint = examples_endpoint.format(environment_id, collection_id,
-                                            query_id, example_id)
-        url = '{0}{1}'.format(base_url, endpoint)
-        mock_response = {
-            "document_id": "string",
-            "cross_reference": "string",
-            "relevance": 0
-        }
-        responses.add(responses.GET,
-                      url,
-                      body=json.dumps(mock_response),
-                      status=200,
-                      content_type='application/json')
-
-        authenticator = BasicAuthenticator('username', 'password')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
-
-        response = discovery.get_training_example(
-            environment_id=environment_id,
-            collection_id=collection_id,
-            query_id=query_id,
-            example_id=example_id).get_result()
-
-        assert response == mock_response
-        # Verify that response can be converted to a TrainingExample
-        TrainingExample._from_dict(response)
-
-    @classmethod
-    @responses.activate
-    def test_update_training_example(cls):
-        examples_endpoint = '/v1/environments/{0}/collections/{1}/training_data' + \
-            '/{2}/examples/{3}'
-        query_id = 'queryid'
-        example_id = 'exampleid'
-        endpoint = examples_endpoint.format(environment_id, collection_id,
-                                            query_id, example_id)
-        url = '{0}{1}'.format(base_url, endpoint)
-        relevance = 0
-        cross_reference = "string"
-        mock_response = {
-            "document_id": "string",
-            "cross_reference": "string",
-            "relevance": 0
-        }
-        responses.add(responses.PUT,
-                      url,
-                      body=json.dumps(mock_response),
-                      status=200,
-                      content_type='application/json')
-
-        authenticator = BasicAuthenticator('username', 'password')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
-
-        response = discovery.update_training_example(
-            environment_id=environment_id,
-            collection_id=collection_id,
-            query_id=query_id,
-            example_id=example_id,
-            relevance=relevance,
-            cross_reference=cross_reference).get_result()
-
-        assert response == mock_response
-        # Verify that response can be converted to a TrainingExample
-        TrainingExample._from_dict(response)
-
-    @classmethod
-    @responses.activate
-    def test_expansions(cls):
-        url = 'https://gateway.watsonplatform.net/discovery/api/v1/environments/envid/collections/colid/expansions'
-        responses.add(responses.GET,
-                      url,
-                      body='{"expansions": "results"}',
-                      status=200,
-                      content_type='application_json')
-        responses.add(responses.DELETE,
-                      url,
-                      body='{"description": "success" }',
-                      status=200,
-                      content_type='application_json')
-        responses.add(responses.POST,
-                      url,
-                      body='{"expansions": "success" }',
-                      status=200,
-                      content_type='application_json')
-
-        authenticator = BasicAuthenticator('username', 'password')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
-
-        discovery.list_expansions('envid', 'colid')
-        assert responses.calls[0].response.json() == {"expansions": "results"}
-
-        discovery.create_expansions('envid', 'colid', [{
-            "input_terms": "dumb",
-            "expanded_terms": "dumb2"
-        }])
-        assert responses.calls[1].response.json() == {"expansions": "success"}
-
-        discovery.delete_expansions('envid', 'colid')
-        assert responses.calls[2].response.json() == {"description": "success"}
-
-        assert len(responses.calls) == 3
-
-    @classmethod
-    @responses.activate
-    def test_delete_user_data(cls):
-        url = 'https://gateway.watsonplatform.net/discovery/api/v1/user_data'
-        responses.add(responses.DELETE,
-                      url,
-                      body='{"description": "success" }',
-                      status=204,
-                      content_type='application_json')
-
-        authenticator = BasicAuthenticator('username', 'password')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
-
-        response = discovery.delete_user_data('id').get_result()
-        assert response is None
+    def test_delete_configuration_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_DeleteConfigurationResponse_json
+        send_request(self, body, response)
         assert len(responses.calls) == 1
 
-    @classmethod
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_credentials(cls):
-        discovery_credentials_url = urljoin(base_discovery_url,
-                                            'environments/envid/credentials')
+    def test_delete_configuration_empty(self):
+        check_empty_required_params(self, fake_response_DeleteConfigurationResponse_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
 
-        results = {
-            'credential_id': 'e68305ce-29f3-48ea-b829-06653ca0fdef',
-            'source_type': 'salesforce',
-            'credential_details': {
-                'url': 'https://login.salesforce.com',
-                'credential_type': 'username_password',
-                'username': 'user@email.com'
-            }
-        }
-        authenticator = IAMAuthenticator('iam_apikey')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/configurations/{1}'.format(body['environment_id'], body['configuration_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
 
+    def add_mock_response(self, url, response):
+        responses.add(responses.DELETE,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.delete_configuration(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['configuration_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['configuration_id'] = "string1"
+        return body
+
+
+# endregion
+##############################################################################
+# End of Service: Configurations
+##############################################################################
+
+##############################################################################
+# Start of Service: Collections
+##############################################################################
+# region
+
+#-----------------------------------------------------------------------------
+# Test Class for create_collection
+#-----------------------------------------------------------------------------
+class TestCreateCollection():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_collection_response(self):
+        body = self.construct_full_body()
+        response = fake_response_Collection_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_collection_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_Collection_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_collection_empty(self):
+        check_empty_required_params(self, fake_response_Collection_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections'.format(body['environment_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.POST,
+                    url,
+                    body=json.dumps(response),
+                    status=201,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.create_collection(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body.update({"name": "string1", "description": "string1", "configuration_id": "string1", "language": "string1", })
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body.update({"name": "string1", "description": "string1", "configuration_id": "string1", "language": "string1", })
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for list_collections
+#-----------------------------------------------------------------------------
+class TestListCollections():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_collections_response(self):
+        body = self.construct_full_body()
+        response = fake_response_ListCollectionsResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_collections_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_ListCollectionsResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_collections_empty(self):
+        check_empty_required_params(self, fake_response_ListCollectionsResponse_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections'.format(body['environment_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      "{0}/{1}?version=2018-08-13".format(
-                          discovery_credentials_url, 'credential_id'),
-                      body=json.dumps(results),
-                      status=200,
-                      content_type='application/json')
-        responses.add(
-            responses.GET,
-            "{0}?version=2018-08-13".format(discovery_credentials_url),
-            body=json.dumps([results]),
-            status=200,
-            content_type='application/json')
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.list_collections(**body)
+        return output
 
-        responses.add(
-            responses.POST,
-            "{0}?version=2018-08-13".format(discovery_credentials_url),
-            body=json.dumps(results),
-            status=200,
-            content_type='application/json')
-        results['source_type'] = 'ibm'
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['name'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for get_collection
+#-----------------------------------------------------------------------------
+class TestGetCollection():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_collection_response(self):
+        body = self.construct_full_body()
+        response = fake_response_Collection_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_collection_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_Collection_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_collection_empty(self):
+        check_empty_required_params(self, fake_response_Collection_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections/{1}'.format(body['environment_id'], body['collection_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.get_collection(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for update_collection
+#-----------------------------------------------------------------------------
+class TestUpdateCollection():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_collection_response(self):
+        body = self.construct_full_body()
+        response = fake_response_Collection_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_collection_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_Collection_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_collection_empty(self):
+        check_empty_required_params(self, fake_response_Collection_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections/{1}'.format(body['environment_id'], body['collection_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
         responses.add(responses.PUT,
-                      "{0}/{1}?version=2018-08-13".format(
-                          discovery_credentials_url, 'credential_id'),
-                      body=json.dumps(results),
-                      status=200,
-                      content_type='application/json')
+                    url,
+                    body=json.dumps(response),
+                    status=201,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.update_collection(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body.update({"name": "string1", "description": "string1", "configuration_id": "string1", })
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body.update({"name": "string1", "description": "string1", "configuration_id": "string1", })
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for delete_collection
+#-----------------------------------------------------------------------------
+class TestDeleteCollection():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_collection_response(self):
+        body = self.construct_full_body()
+        response = fake_response_DeleteCollectionResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_collection_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_DeleteCollectionResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_collection_empty(self):
+        check_empty_required_params(self, fake_response_DeleteCollectionResponse_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections/{1}'.format(body['environment_id'], body['collection_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                      "{0}/{1}?version=2018-08-13".format(
-                          discovery_credentials_url, 'credential_id'),
-                      body=json.dumps({'deleted': 'bogus -- ok'}),
-                      status=200,
-                      content_type='application/json')
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.delete_collection(**body)
+        return output
 
-        discovery.create_credentials('envid',
-                                     source_type='salesforce',
-                                     credential_details={
-                                         'url': 'https://login.salesforce.com',
-                                         'credential_type': 'username_password',
-                                         'username': 'user@email.com'
-                                     })
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        return body
 
-        discovery.get_credentials('envid', 'credential_id')
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        return body
 
-        discovery.update_credentials(
-            environment_id='envid',
-            credential_id='credential_id',
-            source_type='salesforce',
-            credential_details=results['credential_details'])
-        discovery.list_credentials('envid')
-        discovery.delete_credentials(environment_id='envid',
-                                     credential_id='credential_id')
-        assert len(responses.calls) == 10
 
-    @classmethod
+#-----------------------------------------------------------------------------
+# Test Class for list_collection_fields
+#-----------------------------------------------------------------------------
+class TestListCollectionFields():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_events_and_feedback(cls):
-        discovery_event_url = urljoin(base_discovery_url, 'events')
-        discovery_metrics_event_rate_url = urljoin(base_discovery_url,
-                                                   'metrics/event_rate')
-        discovery_metrics_query_url = urljoin(base_discovery_url,
-                                              'metrics/number_of_queries')
-        discovery_metrics_query_event_url = urljoin(
-            base_discovery_url, 'metrics/number_of_queries_with_event')
-        discovery_metrics_query_no_results_url = urljoin(
-            base_discovery_url,
-            'metrics/number_of_queries_with_no_search_results')
-        discovery_metrics_query_token_event_url = urljoin(
-            base_discovery_url, 'metrics/top_query_tokens_with_event_rate')
-        discovery_query_log_url = urljoin(base_discovery_url, 'logs')
+    def test_list_collection_fields_response(self):
+        body = self.construct_full_body()
+        response = fake_response_ListCollectionFieldsResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
 
-        event_data = {
-            "environment_id": "xxx",
-            "session_token": "yyy",
-            "client_timestamp": "2018-08-14T14:39:59.268Z",
-            "display_rank": 0,
-            "collection_id": "abc",
-            "document_id": "xyz",
-            "query_id": "cde"
-        }
-
-        create_event_response = {"type": "click", "data": event_data}
-
-        metric_response = {
-            "aggregations": [{
-                "interval":
-                    "1d",
-                "event_type":
-                    "click",
-                "results": [{
-                    "key_as_string": "2018-08-14T14:39:59.309Z",
-                    "key": 1533513600000,
-                    "matching_results": 2,
-                    "event_rate": 0.0
-                }]
-            }]
-        }
-
-        metric_token_response = {
-            "aggregations": [{
-                "event_type":
-                    "click",
-                "results": [{
-                    "key": "content",
-                    "matching_results": 5,
-                    "event_rate": 0.6
-                }, {
-                    "key": "first",
-                    "matching_results": 5,
-                    "event_rate": 0.6
-                }, {
-                    "key": "of",
-                    "matching_results": 5,
-                    "event_rate": 0.6
-                }]
-            }]
-        }
-
-        log_query_response = {
-            "matching_results":
-                20,
-            "results": [{
-                "customer_id": "",
-                "environment_id": "xxx",
-                "natural_language_query": "The content of the first chapter",
-                "query_id": "1ICUdh3Pab",
-                "document_results": {
-                    "count":
-                        1,
-                    "results": [{
-                        "collection_id": "b67a82f3-6507-4c25-9757-3485ff4f2a32",
-                        "score": 0.025773458,
-                        "position": 10,
-                        "document_id": "af0be20e-e130-4712-9a2e-37d9c8b9c52f"
-                    }]
-                },
-                "event_type": "query",
-                "session_token": "1_nbEfQtKVcg9qx3t41ICUdh3Pab",
-                "created_timestamp": "2018-08-14T18:20:30.460Z"
-            }]
-        }
-
-        responses.add(responses.POST,
-                      "{0}?version=2018-08-13".format(discovery_event_url),
-                      body=json.dumps(create_event_response),
-                      status=200,
-                      content_type='application/json')
-
-        responses.add(
-            responses.GET,
-            "{0}?version=2018-08-13&start_time=2018-08-13T14%3A39%3A59.309Z&end_time=2018-08-14T14%3A39%3A59.309Z&result_type=document"
-            .format(discovery_metrics_event_rate_url),
-            body=json.dumps(metric_response),
-            status=200,
-            content_type='application/json')
-
-        responses.add(
-            responses.GET,
-            "{0}?version=2018-08-13&start_time=2018-08-13T14%3A39%3A59.309Z&end_time=2018-08-14T14%3A39%3A59.309Z&result_type=document"
-            .format(discovery_metrics_query_url),
-            body=json.dumps(metric_response),
-            status=200,
-            content_type='application/json')
-
-        responses.add(
-            responses.GET,
-            "{0}?version=2018-08-13&start_time=2018-08-13T14%3A39%3A59.309Z&end_time=2018-08-14T14%3A39%3A59.309Z&result_type=document"
-            .format(discovery_metrics_query_event_url),
-            body=json.dumps(metric_response),
-            status=200,
-            content_type='application/json')
-        responses.add(
-            responses.GET,
-            "{0}?version=2018-08-13&start_time=2018-08-13T14%3A39%3A59.309Z&end_time=2018-08-14T14%3A39%3A59.309Z&result_type=document"
-            .format(discovery_metrics_query_no_results_url),
-            body=json.dumps(metric_response),
-            status=200,
-            content_type='application/json')
-        responses.add(responses.GET,
-                      "{0}?version=2018-08-13&count=2".format(
-                          discovery_metrics_query_token_event_url),
-                      body=json.dumps(metric_token_response),
-                      status=200,
-                      content_type='application/json')
-        responses.add(responses.GET,
-                      "{0}?version=2018-08-13".format(discovery_query_log_url),
-                      body=json.dumps(log_query_response),
-                      status=200,
-                      content_type='application/json')
-
-        authenticator = IAMAuthenticator('iam_apikey')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
-
-        discovery.create_event('click', event_data)
-        assert responses.calls[1].response.json()["data"] == event_data
-
-        discovery.get_metrics_event_rate(start_time='2018-08-13T14:39:59.309Z',
-                                         end_time='2018-08-14T14:39:59.309Z',
-                                         result_type='document')
-        assert responses.calls[3].response.json() == metric_response
-
-        discovery.get_metrics_query(start_time='2018-08-13T14:39:59.309Z',
-                                    end_time='2018-08-14T14:39:59.309Z',
-                                    result_type='document')
-        assert responses.calls[5].response.json() == metric_response
-
-        discovery.get_metrics_query_event(start_time='2018-08-13T14:39:59.309Z',
-                                          end_time='2018-08-14T14:39:59.309Z',
-                                          result_type='document')
-        assert responses.calls[7].response.json() == metric_response
-
-        discovery.get_metrics_query_no_results(
-            start_time='2018-08-13T14:39:59.309Z',
-            end_time='2018-08-14T14:39:59.309Z',
-            result_type='document')
-        assert responses.calls[9].response.json() == metric_response
-
-        discovery.get_metrics_query_token_event(count=2)
-        assert responses.calls[11].response.json() == metric_token_response
-
-        discovery.query_log()
-        assert responses.calls[13].response.json() == log_query_response
-
-        assert len(responses.calls) == 14
-
-    @classmethod
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_tokenization_dictionary(cls):
-        url = 'https://gateway.watsonplatform.net/discovery/api/v1/environments/envid/collections/colid/word_lists/tokenization_dictionary?version=2018-08-13'
+    def test_list_collection_fields_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_ListCollectionFieldsResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_collection_fields_empty(self):
+        check_empty_required_params(self, fake_response_ListCollectionFieldsResponse_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections/{1}/fields'.format(body['environment_id'], body['collection_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.list_collection_fields(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        return body
+
+
+# endregion
+##############################################################################
+# End of Service: Collections
+##############################################################################
+
+##############################################################################
+# Start of Service: QueryModifications
+##############################################################################
+# region
+
+#-----------------------------------------------------------------------------
+# Test Class for list_expansions
+#-----------------------------------------------------------------------------
+class TestListExpansions():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_expansions_response(self):
+        body = self.construct_full_body()
+        response = fake_response_Expansions_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_expansions_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_Expansions_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_expansions_empty(self):
+        check_empty_required_params(self, fake_response_Expansions_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections/{1}/expansions'.format(body['environment_id'], body['collection_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.list_expansions(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for create_expansions
+#-----------------------------------------------------------------------------
+class TestCreateExpansions():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_expansions_response(self):
+        body = self.construct_full_body()
+        response = fake_response_Expansions_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_expansions_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_Expansions_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_expansions_empty(self):
+        check_empty_required_params(self, fake_response_Expansions_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections/{1}/expansions'.format(body['environment_id'], body['collection_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body='{"status": "pending"}',
-                      status=200,
-                      content_type='application_json')
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.create_expansions(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body.update({"expansions": [], })
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body.update({"expansions": [], })
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for delete_expansions
+#-----------------------------------------------------------------------------
+class TestDeleteExpansions():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_expansions_response(self):
+        body = self.construct_full_body()
+        response = fake_response__json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_expansions_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response__json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_expansions_empty(self):
+        check_empty_required_params(self, fake_response__json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections/{1}/expansions'.format(body['environment_id'], body['collection_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                      url,
-                      body='{"status": "pending"}',
-                      status=200)
-        responses.add(
-            responses.GET,
-            url,
-            body='{"status": "pending", "type":"tokenization_dictionary"}',
-            status=200,
-            content_type='application_json')
+                    url,
+                    body=json.dumps(response),
+                    status=204,
+                    content_type='')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.delete_expansions(**body)
+        return output
 
-        authenticator = BasicAuthenticator('username', 'password')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        return body
 
-        tokenization_rules = [{
-            'text': 'token',
-            'tokens': ['token 1', 'token 2'],
-            'readings': ['reading 1', 'reading 2'],
-            'part_of_speech': 'noun',
-        }]
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        return body
 
-        discovery.create_tokenization_dictionary(
-            'envid', 'colid', tokenization_rules=tokenization_rules)
-        assert responses.calls[0].response.json() == {"status": "pending"}
 
-        discovery.get_tokenization_dictionary_status('envid', 'colid')
-        assert responses.calls[1].response.json() == {
-            "status": "pending",
-            "type": "tokenization_dictionary"
-        }
+#-----------------------------------------------------------------------------
+# Test Class for get_tokenization_dictionary_status
+#-----------------------------------------------------------------------------
+class TestGetTokenizationDictionaryStatus():
 
-        discovery.delete_tokenization_dictionary('envid', 'colid')
-        assert responses.calls[2].response.status_code == 200
-
-        assert len(responses.calls) == 3
-
-    @classmethod
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_stopword_operations(cls):
-        url = 'https://gateway.watsonplatform.net/discovery/api/v1/environments/envid/collections/colid/word_lists/stopwords?version=2018-08-13'
-        responses.add(responses.POST,
-                      url,
-                      body='{"status": "pending", "type": "stopwords"}',
-                      status=200,
-                      content_type='application_json')
-        responses.add(responses.DELETE, url, status=200)
-        responses.add(responses.GET,
-                      url,
-                      body='{"status": "ready", "type": "stopwords"}',
-                      status=200,
-                      content_type='application_json')
+    def test_get_tokenization_dictionary_status_response(self):
+        body = self.construct_full_body()
+        response = fake_response_TokenDictStatusResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
 
-        authenticator = BasicAuthenticator('username', 'password')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
-
-        stopwords_file_path = os.path.join(os.getcwd(), 'resources',
-                                           'stopwords.txt')
-        with open(stopwords_file_path) as file:
-            discovery.create_stopword_list('envid', 'colid', file)
-            assert responses.calls[0].response.json() == {
-                "status": "pending",
-                "type": "stopwords"
-            }
-
-        discovery.get_stopword_list_status('envid', 'colid')
-        assert responses.calls[1].response.json() == {
-            "status": "ready",
-            "type": "stopwords"
-        }
-
-        discovery.delete_stopword_list('envid', 'colid')
-        assert responses.calls[2].response.status_code == 200
-
-        assert len(responses.calls) == 3
-
-    @classmethod
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_gateway_configuration(cls):
-        discovery_gateway_url = urljoin(base_discovery_url,
-                                        'environments/envid/gateways')
+    def test_get_tokenization_dictionary_status_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_TokenDictStatusResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
 
-        gateway_details = {
-            "status": "idle",
-            "token_id": "9GnaCreixek_prod_ng",
-            "token": "4FByv9Mmd79x6c",
-            "name": "test-gateway-configuration-python",
-            "gateway_id": "gateway_id"
-        }
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_tokenization_dictionary_status_empty(self):
+        check_empty_required_params(self, fake_response_TokenDictStatusResponse_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
 
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections/{1}/word_lists/tokenization_dictionary'.format(body['environment_id'], body['collection_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      "{0}/{1}?version=2018-08-13".format(
-                          discovery_gateway_url, 'gateway_id'),
-                      body=json.dumps(gateway_details),
-                      status=200,
-                      content_type='application/json')
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.get_tokenization_dictionary_status(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for create_tokenization_dictionary
+#-----------------------------------------------------------------------------
+class TestCreateTokenizationDictionary():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_tokenization_dictionary_response(self):
+        body = self.construct_full_body()
+        response = fake_response_TokenDictStatusResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_tokenization_dictionary_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_TokenDictStatusResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_tokenization_dictionary_empty(self):
+        check_empty_required_params(self, fake_response_TokenDictStatusResponse_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections/{1}/word_lists/tokenization_dictionary'.format(body['environment_id'], body['collection_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      "{0}?version=2018-08-13".format(discovery_gateway_url),
-                      body=json.dumps(gateway_details),
-                      status=200,
-                      content_type='application/json')
-        responses.add(responses.GET,
-                      "{0}?version=2018-08-13".format(discovery_gateway_url),
-                      body=json.dumps({'gateways': [gateway_details]}),
-                      status=200,
-                      content_type='application/json')
+                    url,
+                    body=json.dumps(response),
+                    status=202,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.create_tokenization_dictionary(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body.update({"tokenization_rules": [], })
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for delete_tokenization_dictionary
+#-----------------------------------------------------------------------------
+class TestDeleteTokenizationDictionary():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_tokenization_dictionary_response(self):
+        body = self.construct_full_body()
+        response = fake_response__json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_tokenization_dictionary_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response__json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_tokenization_dictionary_empty(self):
+        check_empty_required_params(self, fake_response__json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections/{1}/word_lists/tokenization_dictionary'.format(body['environment_id'], body['collection_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                      "{0}/{1}?version=2018-08-13".format(
-                          discovery_gateway_url, 'gateway_id'),
-                      body=json.dumps({
-                          'gateway_id': 'gateway_id',
-                          'status': 'deleted'
-                      }),
-                      status=200,
-                      content_type='application/json')
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.delete_tokenization_dictionary(**body)
+        return output
 
-        authenticator = IAMAuthenticator('iam_apikey')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        return body
 
-        discovery.create_gateway('envid', name='gateway_id')
-        discovery.list_gateways('envid')
-        discovery.get_gateway('envid', 'gateway_id')
-        discovery.delete_gateway(environment_id='envid',
-                                 gateway_id='gateway_id')
-        assert len(responses.calls) == 8
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        return body
 
+
+#-----------------------------------------------------------------------------
+# Test Class for get_stopword_list_status
+#-----------------------------------------------------------------------------
+class TestGetStopwordListStatus():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_get_autocompletion(self):
-        endpoint = 'environments/{0}/collections/{1}/autocompletion?version=2018-08-13&field=field&prefix=prefix&count=count'.format(
-            'environment_id', 'collection_id').format('collection_id')
-        url = '{0}{1}'.format(base_discovery_url, endpoint)
-        print('hello')
-        print(url)
-        response = {"completions": ["completions", "completions"]}
+    def test_get_stopword_list_status_response(self):
+        body = self.construct_full_body()
+        response = fake_response_TokenDictStatusResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_stopword_list_status_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_TokenDictStatusResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_stopword_list_status_empty(self):
+        check_empty_required_params(self, fake_response_TokenDictStatusResponse_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections/{1}/word_lists/stopwords'.format(body['environment_id'], body['collection_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.get_stopword_list_status(**body)
+        return output
 
-        authenticator = IAMAuthenticator('iam_apikey')
-        discovery = ibm_watson.DiscoveryV1('2018-08-13',
-                                           authenticator=authenticator)
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        return body
 
-        detailed_response = discovery.get_autocompletion(
-            environment_id='environment_id',
-            collection_id='collection_id',
-            field='field',
-            prefix='prefix',
-            count='count')
-        result = detailed_response.get_result()
-        assert result is not None
-        assert len(responses.calls) == 2
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for create_stopword_list
+#-----------------------------------------------------------------------------
+class TestCreateStopwordList():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_stopword_list_response(self):
+        body = self.construct_full_body()
+        response = fake_response_TokenDictStatusResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_stopword_list_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_TokenDictStatusResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_stopword_list_empty(self):
+        check_empty_required_params(self, fake_response_TokenDictStatusResponse_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections/{1}/word_lists/stopwords'.format(body['environment_id'], body['collection_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.POST,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.create_stopword_list(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body['stopword_file'] = tempfile.NamedTemporaryFile()
+        body['stopword_filename'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body['stopword_file'] = tempfile.NamedTemporaryFile()
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for delete_stopword_list
+#-----------------------------------------------------------------------------
+class TestDeleteStopwordList():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_stopword_list_response(self):
+        body = self.construct_full_body()
+        response = fake_response__json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_stopword_list_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response__json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_stopword_list_empty(self):
+        check_empty_required_params(self, fake_response__json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections/{1}/word_lists/stopwords'.format(body['environment_id'], body['collection_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.DELETE,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.delete_stopword_list(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        return body
+
+
+# endregion
+##############################################################################
+# End of Service: QueryModifications
+##############################################################################
+
+##############################################################################
+# Start of Service: Documents
+##############################################################################
+# region
+
+#-----------------------------------------------------------------------------
+# Test Class for add_document
+#-----------------------------------------------------------------------------
+class TestAddDocument():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_add_document_response(self):
+        body = self.construct_full_body()
+        response = fake_response_DocumentAccepted_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_add_document_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_DocumentAccepted_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_add_document_empty(self):
+        check_empty_required_params(self, fake_response_DocumentAccepted_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections/{1}/documents'.format(body['environment_id'], body['collection_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.POST,
+                    url,
+                    body=json.dumps(response),
+                    status=202,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.add_document(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body['file'] = tempfile.NamedTemporaryFile()
+        body['filename'] = "string1"
+        body['file_content_type'] = "string1"
+        body['metadata'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for get_document_status
+#-----------------------------------------------------------------------------
+class TestGetDocumentStatus():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_document_status_response(self):
+        body = self.construct_full_body()
+        response = fake_response_DocumentStatus_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_document_status_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_DocumentStatus_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_document_status_empty(self):
+        check_empty_required_params(self, fake_response_DocumentStatus_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(body['environment_id'], body['collection_id'], body['document_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.get_document_status(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body['document_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body['document_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for update_document
+#-----------------------------------------------------------------------------
+class TestUpdateDocument():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_document_response(self):
+        body = self.construct_full_body()
+        response = fake_response_DocumentAccepted_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_document_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_DocumentAccepted_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_document_empty(self):
+        check_empty_required_params(self, fake_response_DocumentAccepted_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(body['environment_id'], body['collection_id'], body['document_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.POST,
+                    url,
+                    body=json.dumps(response),
+                    status=202,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.update_document(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body['document_id'] = "string1"
+        body['file'] = tempfile.NamedTemporaryFile()
+        body['filename'] = "string1"
+        body['file_content_type'] = "string1"
+        body['metadata'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body['document_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for delete_document
+#-----------------------------------------------------------------------------
+class TestDeleteDocument():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_document_response(self):
+        body = self.construct_full_body()
+        response = fake_response_DeleteDocumentResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_document_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_DeleteDocumentResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_document_empty(self):
+        check_empty_required_params(self, fake_response_DeleteDocumentResponse_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(body['environment_id'], body['collection_id'], body['document_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.DELETE,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.delete_document(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body['document_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body['document_id'] = "string1"
+        return body
+
+
+# endregion
+##############################################################################
+# End of Service: Documents
+##############################################################################
+
+##############################################################################
+# Start of Service: Queries
+##############################################################################
+# region
+
+#-----------------------------------------------------------------------------
+# Test Class for query
+#-----------------------------------------------------------------------------
+class TestQuery():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_query_response(self):
+        body = self.construct_full_body()
+        response = fake_response_QueryResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_query_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_QueryResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_query_empty(self):
+        check_empty_required_params(self, fake_response_QueryResponse_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections/{1}/query'.format(body['environment_id'], body['collection_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.POST,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.query(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body.update({"filter": "string1", "query": "string1", "natural_language_query": "string1", "passages": True, "aggregation": "string1", "count": 12345, "return_": "string1", "offset": 12345, "sort": "string1", "highlight": True, "passages_fields": "string1", "passages_count": 12345, "passages_characters": 12345, "deduplicate": True, "deduplicate_field": "string1", "similar": True, "similar_document_ids": "string1", "similar_fields": "string1", "bias": "string1", "spelling_suggestions": True, })
+        body['x_watson_logging_opt_out'] = True
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for query_notices
+#-----------------------------------------------------------------------------
+class TestQueryNotices():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_query_notices_response(self):
+        body = self.construct_full_body()
+        response = fake_response_QueryNoticesResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_query_notices_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_QueryNoticesResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_query_notices_empty(self):
+        check_empty_required_params(self, fake_response_QueryNoticesResponse_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections/{1}/notices'.format(body['environment_id'], body['collection_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.query_notices(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body['filter'] = "string1"
+        body['query'] = "string1"
+        body['natural_language_query'] = "string1"
+        body['passages'] = True
+        body['aggregation'] = "string1"
+        body['count'] = 12345
+        body['return_'] = []
+        body['offset'] = 12345
+        body['sort'] = []
+        body['highlight'] = True
+        body['passages_fields'] = []
+        body['passages_count'] = 12345
+        body['passages_characters'] = 12345
+        body['deduplicate_field'] = "string1"
+        body['similar'] = True
+        body['similar_document_ids'] = []
+        body['similar_fields'] = []
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for federated_query
+#-----------------------------------------------------------------------------
+class TestFederatedQuery():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_federated_query_response(self):
+        body = self.construct_full_body()
+        response = fake_response_QueryResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_federated_query_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_QueryResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_federated_query_empty(self):
+        check_empty_required_params(self, fake_response_QueryResponse_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/query'.format(body['environment_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.POST,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.federated_query(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body.update({"collection_ids": "string1", "filter": "string1", "query": "string1", "natural_language_query": "string1", "passages": True, "aggregation": "string1", "count": 12345, "return_": "string1", "offset": 12345, "sort": "string1", "highlight": True, "passages_fields": "string1", "passages_count": 12345, "passages_characters": 12345, "deduplicate": True, "deduplicate_field": "string1", "similar": True, "similar_document_ids": "string1", "similar_fields": "string1", "bias": "string1", })
+        body['x_watson_logging_opt_out'] = True
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body.update({"collection_ids": "string1", "filter": "string1", "query": "string1", "natural_language_query": "string1", "passages": True, "aggregation": "string1", "count": 12345, "return_": "string1", "offset": 12345, "sort": "string1", "highlight": True, "passages_fields": "string1", "passages_count": 12345, "passages_characters": 12345, "deduplicate": True, "deduplicate_field": "string1", "similar": True, "similar_document_ids": "string1", "similar_fields": "string1", "bias": "string1", })
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for federated_query_notices
+#-----------------------------------------------------------------------------
+class TestFederatedQueryNotices():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_federated_query_notices_response(self):
+        body = self.construct_full_body()
+        response = fake_response_QueryNoticesResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_federated_query_notices_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_QueryNoticesResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_federated_query_notices_empty(self):
+        check_empty_required_params(self, fake_response_QueryNoticesResponse_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/notices'.format(body['environment_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.federated_query_notices(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_ids'] = []
+        body['filter'] = "string1"
+        body['query'] = "string1"
+        body['natural_language_query'] = "string1"
+        body['aggregation'] = "string1"
+        body['count'] = 12345
+        body['return_'] = []
+        body['offset'] = 12345
+        body['sort'] = []
+        body['highlight'] = True
+        body['deduplicate_field'] = "string1"
+        body['similar'] = True
+        body['similar_document_ids'] = []
+        body['similar_fields'] = []
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_ids'] = []
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for get_autocompletion
+#-----------------------------------------------------------------------------
+class TestGetAutocompletion():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_autocompletion_response(self):
+        body = self.construct_full_body()
+        response = fake_response_Completions_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_autocompletion_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_Completions_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_autocompletion_empty(self):
+        check_empty_required_params(self, fake_response_Completions_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections/{1}/autocompletion'.format(body['environment_id'], body['collection_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.get_autocompletion(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body['prefix'] = "string1"
+        body['field'] = "string1"
+        body['count'] = 12345
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body['prefix'] = "string1"
+        return body
+
+
+# endregion
+##############################################################################
+# End of Service: Queries
+##############################################################################
+
+##############################################################################
+# Start of Service: TrainingData
+##############################################################################
+# region
+
+#-----------------------------------------------------------------------------
+# Test Class for list_training_data
+#-----------------------------------------------------------------------------
+class TestListTrainingData():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_training_data_response(self):
+        body = self.construct_full_body()
+        response = fake_response_TrainingDataSet_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_training_data_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_TrainingDataSet_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_training_data_empty(self):
+        check_empty_required_params(self, fake_response_TrainingDataSet_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections/{1}/training_data'.format(body['environment_id'], body['collection_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.list_training_data(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for add_training_data
+#-----------------------------------------------------------------------------
+class TestAddTrainingData():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_add_training_data_response(self):
+        body = self.construct_full_body()
+        response = fake_response_TrainingQuery_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_add_training_data_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_TrainingQuery_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_add_training_data_empty(self):
+        check_empty_required_params(self, fake_response_TrainingQuery_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections/{1}/training_data'.format(body['environment_id'], body['collection_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.POST,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.add_training_data(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body.update({"natural_language_query": "string1", "filter": "string1", "examples": [], })
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body.update({"natural_language_query": "string1", "filter": "string1", "examples": [], })
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for delete_all_training_data
+#-----------------------------------------------------------------------------
+class TestDeleteAllTrainingData():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_all_training_data_response(self):
+        body = self.construct_full_body()
+        response = fake_response__json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_all_training_data_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response__json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_all_training_data_empty(self):
+        check_empty_required_params(self, fake_response__json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections/{1}/training_data'.format(body['environment_id'], body['collection_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.DELETE,
+                    url,
+                    body=json.dumps(response),
+                    status=204,
+                    content_type='')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.delete_all_training_data(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for get_training_data
+#-----------------------------------------------------------------------------
+class TestGetTrainingData():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_training_data_response(self):
+        body = self.construct_full_body()
+        response = fake_response_TrainingQuery_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_training_data_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_TrainingQuery_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_training_data_empty(self):
+        check_empty_required_params(self, fake_response_TrainingQuery_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections/{1}/training_data/{2}'.format(body['environment_id'], body['collection_id'], body['query_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.get_training_data(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body['query_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body['query_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for delete_training_data
+#-----------------------------------------------------------------------------
+class TestDeleteTrainingData():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_training_data_response(self):
+        body = self.construct_full_body()
+        response = fake_response__json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_training_data_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response__json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_training_data_empty(self):
+        check_empty_required_params(self, fake_response__json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections/{1}/training_data/{2}'.format(body['environment_id'], body['collection_id'], body['query_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.DELETE,
+                    url,
+                    body=json.dumps(response),
+                    status=204,
+                    content_type='')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.delete_training_data(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body['query_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body['query_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for list_training_examples
+#-----------------------------------------------------------------------------
+class TestListTrainingExamples():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_training_examples_response(self):
+        body = self.construct_full_body()
+        response = fake_response_TrainingExampleList_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_training_examples_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_TrainingExampleList_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_training_examples_empty(self):
+        check_empty_required_params(self, fake_response_TrainingExampleList_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples'.format(body['environment_id'], body['collection_id'], body['query_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.list_training_examples(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body['query_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body['query_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for create_training_example
+#-----------------------------------------------------------------------------
+class TestCreateTrainingExample():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_training_example_response(self):
+        body = self.construct_full_body()
+        response = fake_response_TrainingExample_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_training_example_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_TrainingExample_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_training_example_empty(self):
+        check_empty_required_params(self, fake_response_TrainingExample_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples'.format(body['environment_id'], body['collection_id'], body['query_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.POST,
+                    url,
+                    body=json.dumps(response),
+                    status=201,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.create_training_example(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body['query_id'] = "string1"
+        body.update({"document_id": "string1", "cross_reference": "string1", "relevance": 12345, })
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body['query_id'] = "string1"
+        body.update({"document_id": "string1", "cross_reference": "string1", "relevance": 12345, })
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for delete_training_example
+#-----------------------------------------------------------------------------
+class TestDeleteTrainingExample():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_training_example_response(self):
+        body = self.construct_full_body()
+        response = fake_response__json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_training_example_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response__json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_training_example_empty(self):
+        check_empty_required_params(self, fake_response__json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.format(body['environment_id'], body['collection_id'], body['query_id'], body['example_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.DELETE,
+                    url,
+                    body=json.dumps(response),
+                    status=204,
+                    content_type='')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.delete_training_example(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body['query_id'] = "string1"
+        body['example_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body['query_id'] = "string1"
+        body['example_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for update_training_example
+#-----------------------------------------------------------------------------
+class TestUpdateTrainingExample():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_training_example_response(self):
+        body = self.construct_full_body()
+        response = fake_response_TrainingExample_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_training_example_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_TrainingExample_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_training_example_empty(self):
+        check_empty_required_params(self, fake_response_TrainingExample_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.format(body['environment_id'], body['collection_id'], body['query_id'], body['example_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.PUT,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.update_training_example(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body['query_id'] = "string1"
+        body['example_id'] = "string1"
+        body.update({"cross_reference": "string1", "relevance": 12345, })
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body['query_id'] = "string1"
+        body['example_id'] = "string1"
+        body.update({"cross_reference": "string1", "relevance": 12345, })
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for get_training_example
+#-----------------------------------------------------------------------------
+class TestGetTrainingExample():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_training_example_response(self):
+        body = self.construct_full_body()
+        response = fake_response_TrainingExample_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_training_example_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_TrainingExample_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_training_example_empty(self):
+        check_empty_required_params(self, fake_response_TrainingExample_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.format(body['environment_id'], body['collection_id'], body['query_id'], body['example_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.get_training_example(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body['query_id'] = "string1"
+        body['example_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['collection_id'] = "string1"
+        body['query_id'] = "string1"
+        body['example_id'] = "string1"
+        return body
+
+
+# endregion
+##############################################################################
+# End of Service: TrainingData
+##############################################################################
+
+##############################################################################
+# Start of Service: UserData
+##############################################################################
+# region
+
+#-----------------------------------------------------------------------------
+# Test Class for delete_user_data
+#-----------------------------------------------------------------------------
+class TestDeleteUserData():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_user_data_response(self):
+        body = self.construct_full_body()
+        response = fake_response__json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_user_data_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response__json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_user_data_empty(self):
+        check_empty_required_params(self, fake_response__json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/user_data'
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.DELETE,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.delete_user_data(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['customer_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['customer_id'] = "string1"
+        return body
+
+
+# endregion
+##############################################################################
+# End of Service: UserData
+##############################################################################
+
+##############################################################################
+# Start of Service: EventsAndFeedback
+##############################################################################
+# region
+
+#-----------------------------------------------------------------------------
+# Test Class for create_event
+#-----------------------------------------------------------------------------
+class TestCreateEvent():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_event_response(self):
+        body = self.construct_full_body()
+        response = fake_response_CreateEventResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_event_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_CreateEventResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_event_empty(self):
+        check_empty_required_params(self, fake_response_CreateEventResponse_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/events'
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.POST,
+                    url,
+                    body=json.dumps(response),
+                    status=201,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.create_event(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body.update({"type": "string1", "data": EventData._from_dict(json.loads("""{"environment_id": "fake_environment_id", "session_token": "fake_session_token", "client_timestamp": "2017-05-16T13:56:54.957Z", "display_rank": 12, "collection_id": "fake_collection_id", "document_id": "fake_document_id", "query_id": "fake_query_id"}""")), })
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body.update({"type": "string1", "data": EventData._from_dict(json.loads("""{"environment_id": "fake_environment_id", "session_token": "fake_session_token", "client_timestamp": "2017-05-16T13:56:54.957Z", "display_rank": 12, "collection_id": "fake_collection_id", "document_id": "fake_document_id", "query_id": "fake_query_id"}""")), })
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for query_log
+#-----------------------------------------------------------------------------
+class TestQueryLog():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_query_log_response(self):
+        body = self.construct_full_body()
+        response = fake_response_LogQueryResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_query_log_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_LogQueryResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_query_log_empty(self):
+        check_empty_response(self)
+        assert len(responses.calls) == 1
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/logs'
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.query_log(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['filter'] = "string1"
+        body['query'] = "string1"
+        body['count'] = 12345
+        body['offset'] = 12345
+        body['sort'] = []
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for get_metrics_query
+#-----------------------------------------------------------------------------
+class TestGetMetricsQuery():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_metrics_query_response(self):
+        body = self.construct_full_body()
+        response = fake_response_MetricResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_metrics_query_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_MetricResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_metrics_query_empty(self):
+        check_empty_response(self)
+        assert len(responses.calls) == 1
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/metrics/number_of_queries'
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.get_metrics_query(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['start_time'] = datetime.now()
+        body['end_time'] = datetime.now()
+        body['result_type'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for get_metrics_query_event
+#-----------------------------------------------------------------------------
+class TestGetMetricsQueryEvent():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_metrics_query_event_response(self):
+        body = self.construct_full_body()
+        response = fake_response_MetricResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_metrics_query_event_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_MetricResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_metrics_query_event_empty(self):
+        check_empty_response(self)
+        assert len(responses.calls) == 1
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/metrics/number_of_queries_with_event'
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.get_metrics_query_event(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['start_time'] = datetime.now()
+        body['end_time'] = datetime.now()
+        body['result_type'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for get_metrics_query_no_results
+#-----------------------------------------------------------------------------
+class TestGetMetricsQueryNoResults():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_metrics_query_no_results_response(self):
+        body = self.construct_full_body()
+        response = fake_response_MetricResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_metrics_query_no_results_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_MetricResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_metrics_query_no_results_empty(self):
+        check_empty_response(self)
+        assert len(responses.calls) == 1
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/metrics/number_of_queries_with_no_search_results'
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.get_metrics_query_no_results(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['start_time'] = datetime.now()
+        body['end_time'] = datetime.now()
+        body['result_type'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for get_metrics_event_rate
+#-----------------------------------------------------------------------------
+class TestGetMetricsEventRate():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_metrics_event_rate_response(self):
+        body = self.construct_full_body()
+        response = fake_response_MetricResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_metrics_event_rate_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_MetricResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_metrics_event_rate_empty(self):
+        check_empty_response(self)
+        assert len(responses.calls) == 1
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/metrics/event_rate'
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.get_metrics_event_rate(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['start_time'] = datetime.now()
+        body['end_time'] = datetime.now()
+        body['result_type'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for get_metrics_query_token_event
+#-----------------------------------------------------------------------------
+class TestGetMetricsQueryTokenEvent():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_metrics_query_token_event_response(self):
+        body = self.construct_full_body()
+        response = fake_response_MetricTokenResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_metrics_query_token_event_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_MetricTokenResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_metrics_query_token_event_empty(self):
+        check_empty_response(self)
+        assert len(responses.calls) == 1
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/metrics/top_query_tokens_with_event_rate'
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.get_metrics_query_token_event(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['count'] = 12345
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        return body
+
+
+# endregion
+##############################################################################
+# End of Service: EventsAndFeedback
+##############################################################################
+
+##############################################################################
+# Start of Service: Credentials
+##############################################################################
+# region
+
+#-----------------------------------------------------------------------------
+# Test Class for list_credentials
+#-----------------------------------------------------------------------------
+class TestListCredentials():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_credentials_response(self):
+        body = self.construct_full_body()
+        response = fake_response_CredentialsList_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_credentials_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_CredentialsList_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_credentials_empty(self):
+        check_empty_required_params(self, fake_response_CredentialsList_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/credentials'.format(body['environment_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.list_credentials(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for create_credentials
+#-----------------------------------------------------------------------------
+class TestCreateCredentials():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_credentials_response(self):
+        body = self.construct_full_body()
+        response = fake_response_Credentials_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_credentials_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_Credentials_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_credentials_empty(self):
+        check_empty_required_params(self, fake_response_Credentials_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/credentials'.format(body['environment_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.POST,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.create_credentials(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body.update({"source_type": "string1", "credential_details": CredentialDetails._from_dict(json.loads("""{"credential_type": "fake_credential_type", "client_id": "fake_client_id", "enterprise_id": "fake_enterprise_id", "url": "fake_url", "username": "fake_username", "organization_url": "fake_organization_url", "site_collection.path": "fake_site_collection_path", "client_secret": "fake_client_secret", "public_key_id": "fake_public_key_id", "private_key": "fake_private_key", "passphrase": "fake_passphrase", "password": "fake_password", "gateway_id": "fake_gateway_id", "source_version": "fake_source_version", "web_application_url": "fake_web_application_url", "domain": "fake_domain", "endpoint": "fake_endpoint", "access_key_id": "fake_access_key_id", "secret_access_key": "fake_secret_access_key"}""")), "status": "string1", })
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body.update({"source_type": "string1", "credential_details": CredentialDetails._from_dict(json.loads("""{"credential_type": "fake_credential_type", "client_id": "fake_client_id", "enterprise_id": "fake_enterprise_id", "url": "fake_url", "username": "fake_username", "organization_url": "fake_organization_url", "site_collection.path": "fake_site_collection_path", "client_secret": "fake_client_secret", "public_key_id": "fake_public_key_id", "private_key": "fake_private_key", "passphrase": "fake_passphrase", "password": "fake_password", "gateway_id": "fake_gateway_id", "source_version": "fake_source_version", "web_application_url": "fake_web_application_url", "domain": "fake_domain", "endpoint": "fake_endpoint", "access_key_id": "fake_access_key_id", "secret_access_key": "fake_secret_access_key"}""")), "status": "string1", })
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for get_credentials
+#-----------------------------------------------------------------------------
+class TestGetCredentials():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_credentials_response(self):
+        body = self.construct_full_body()
+        response = fake_response_Credentials_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_credentials_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_Credentials_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_credentials_empty(self):
+        check_empty_required_params(self, fake_response_Credentials_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/credentials/{1}'.format(body['environment_id'], body['credential_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.get_credentials(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['credential_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['credential_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for update_credentials
+#-----------------------------------------------------------------------------
+class TestUpdateCredentials():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_credentials_response(self):
+        body = self.construct_full_body()
+        response = fake_response_Credentials_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_credentials_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_Credentials_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_credentials_empty(self):
+        check_empty_required_params(self, fake_response_Credentials_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/credentials/{1}'.format(body['environment_id'], body['credential_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.PUT,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.update_credentials(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['credential_id'] = "string1"
+        body.update({"source_type": "string1", "credential_details": CredentialDetails._from_dict(json.loads("""{"credential_type": "fake_credential_type", "client_id": "fake_client_id", "enterprise_id": "fake_enterprise_id", "url": "fake_url", "username": "fake_username", "organization_url": "fake_organization_url", "site_collection.path": "fake_site_collection_path", "client_secret": "fake_client_secret", "public_key_id": "fake_public_key_id", "private_key": "fake_private_key", "passphrase": "fake_passphrase", "password": "fake_password", "gateway_id": "fake_gateway_id", "source_version": "fake_source_version", "web_application_url": "fake_web_application_url", "domain": "fake_domain", "endpoint": "fake_endpoint", "access_key_id": "fake_access_key_id", "secret_access_key": "fake_secret_access_key"}""")), "status": "string1", })
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['credential_id'] = "string1"
+        body.update({"source_type": "string1", "credential_details": CredentialDetails._from_dict(json.loads("""{"credential_type": "fake_credential_type", "client_id": "fake_client_id", "enterprise_id": "fake_enterprise_id", "url": "fake_url", "username": "fake_username", "organization_url": "fake_organization_url", "site_collection.path": "fake_site_collection_path", "client_secret": "fake_client_secret", "public_key_id": "fake_public_key_id", "private_key": "fake_private_key", "passphrase": "fake_passphrase", "password": "fake_password", "gateway_id": "fake_gateway_id", "source_version": "fake_source_version", "web_application_url": "fake_web_application_url", "domain": "fake_domain", "endpoint": "fake_endpoint", "access_key_id": "fake_access_key_id", "secret_access_key": "fake_secret_access_key"}""")), "status": "string1", })
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for delete_credentials
+#-----------------------------------------------------------------------------
+class TestDeleteCredentials():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_credentials_response(self):
+        body = self.construct_full_body()
+        response = fake_response_DeleteCredentials_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_credentials_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_DeleteCredentials_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_credentials_empty(self):
+        check_empty_required_params(self, fake_response_DeleteCredentials_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/credentials/{1}'.format(body['environment_id'], body['credential_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.DELETE,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.delete_credentials(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['credential_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['credential_id'] = "string1"
+        return body
+
+
+# endregion
+##############################################################################
+# End of Service: Credentials
+##############################################################################
+
+##############################################################################
+# Start of Service: GatewayConfiguration
+##############################################################################
+# region
+
+#-----------------------------------------------------------------------------
+# Test Class for list_gateways
+#-----------------------------------------------------------------------------
+class TestListGateways():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_gateways_response(self):
+        body = self.construct_full_body()
+        response = fake_response_GatewayList_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_gateways_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_GatewayList_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_gateways_empty(self):
+        check_empty_required_params(self, fake_response_GatewayList_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/gateways'.format(body['environment_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.list_gateways(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for create_gateway
+#-----------------------------------------------------------------------------
+class TestCreateGateway():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_gateway_response(self):
+        body = self.construct_full_body()
+        response = fake_response_Gateway_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_gateway_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_Gateway_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_gateway_empty(self):
+        check_empty_required_params(self, fake_response_Gateway_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/gateways'.format(body['environment_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.POST,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.create_gateway(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body.update({"name": "string1", })
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for get_gateway
+#-----------------------------------------------------------------------------
+class TestGetGateway():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_gateway_response(self):
+        body = self.construct_full_body()
+        response = fake_response_Gateway_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_gateway_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_Gateway_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_gateway_empty(self):
+        check_empty_required_params(self, fake_response_Gateway_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/gateways/{1}'.format(body['environment_id'], body['gateway_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.get_gateway(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['gateway_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['gateway_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for delete_gateway
+#-----------------------------------------------------------------------------
+class TestDeleteGateway():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_gateway_response(self):
+        body = self.construct_full_body()
+        response = fake_response_GatewayDelete_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_gateway_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_GatewayDelete_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_gateway_empty(self):
+        check_empty_required_params(self, fake_response_GatewayDelete_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/environments/{0}/gateways/{1}'.format(body['environment_id'], body['gateway_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.DELETE,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-04-30',
+            )
+        service.set_service_url(base_url)
+        output = service.delete_gateway(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['gateway_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['environment_id'] = "string1"
+        body['gateway_id'] = "string1"
+        return body
+
+
+# endregion
+##############################################################################
+# End of Service: GatewayConfiguration
+##############################################################################
+
+
+def check_empty_required_params(obj, response):
+    """Test function to assert that the operation will throw an error when given empty required data
+
+    Args:
+        obj: The generated test function
+
+    """
+    body = obj.construct_full_body()
+    body = {k: None for k in body.keys()}
+    error = False
+    try:
+        send_request(obj, body, response)
+    except ValueError as e:
+        error = True
+    assert error
+
+def check_missing_required_params(obj):
+    """Test function to assert that the operation will throw an error when missing required data
+
+    Args:
+        obj: The generated test function
+
+    """
+    body = obj.construct_full_body()
+    url = obj.make_url(body)
+    error = False
+    try:
+        send_request(obj, {}, {}, url=url)
+    except TypeError as e:
+        error = True
+    assert error
+
+def check_empty_response(obj):
+    """Test function to assert that the operation will return an empty response when given an empty request
+
+    Args:
+        obj: The generated test function
+
+    """
+    body = obj.construct_full_body()
+    url = obj.make_url(body)
+    send_request(obj, {}, {}, url=url)
+
+def send_request(obj, body, response, url=None):
+    """Test function to create a request, send it, and assert its accuracy to the mock response
+
+    Args:
+        obj: The generated test function
+        body: Dict filled with fake data for calling the service
+        response_str: Mock response string
+
+    """
+    if not url:
+        url = obj.make_url(body)
+    obj.add_mock_response(url, response)
+    output = obj.call_service(body)
+    assert responses.calls[0].request.url.startswith(url)
+    assert output.get_result() == response
+
+####################
+## Mock Responses ##
+####################
+
+fake_response__json = None
+fake_response_Environment_json = """{"environment_id": "fake_environment_id", "name": "fake_name", "description": "fake_description", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "status": "fake_status", "read_only": false, "size": "fake_size", "requested_size": "fake_requested_size", "index_capacity": {"documents": {"indexed": 7, "maximum_allowed": 15}, "disk_usage": {"used_bytes": 10, "maximum_allowed_bytes": 21}, "collections": {"available": 9, "maximum_allowed": 15}}, "search_status": {"scope": "fake_scope", "status": "fake_status", "status_description": "fake_status_description"}}"""
+fake_response_ListEnvironmentsResponse_json = """{"environments": []}"""
+fake_response_Environment_json = """{"environment_id": "fake_environment_id", "name": "fake_name", "description": "fake_description", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "status": "fake_status", "read_only": false, "size": "fake_size", "requested_size": "fake_requested_size", "index_capacity": {"documents": {"indexed": 7, "maximum_allowed": 15}, "disk_usage": {"used_bytes": 10, "maximum_allowed_bytes": 21}, "collections": {"available": 9, "maximum_allowed": 15}}, "search_status": {"scope": "fake_scope", "status": "fake_status", "status_description": "fake_status_description"}}"""
+fake_response_Environment_json = """{"environment_id": "fake_environment_id", "name": "fake_name", "description": "fake_description", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "status": "fake_status", "read_only": false, "size": "fake_size", "requested_size": "fake_requested_size", "index_capacity": {"documents": {"indexed": 7, "maximum_allowed": 15}, "disk_usage": {"used_bytes": 10, "maximum_allowed_bytes": 21}, "collections": {"available": 9, "maximum_allowed": 15}}, "search_status": {"scope": "fake_scope", "status": "fake_status", "status_description": "fake_status_description"}}"""
+fake_response_DeleteEnvironmentResponse_json = """{"environment_id": "fake_environment_id", "status": "fake_status"}"""
+fake_response_ListCollectionFieldsResponse_json = """{"fields": []}"""
+fake_response_Configuration_json = """{"configuration_id": "fake_configuration_id", "name": "fake_name", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "description": "fake_description", "conversions": {"pdf": {"heading": {"fonts": []}}, "word": {"heading": {"fonts": [], "styles": []}}, "html": {"exclude_tags_completely": [], "exclude_tags_keep_content": [], "keep_content": {"xpaths": []}, "exclude_content": {"xpaths": []}, "keep_tag_attributes": [], "exclude_tag_attributes": []}, "segment": {"enabled": false, "selector_tags": [], "annotated_fields": []}, "json_normalizations": [], "image_text_recognition": true}, "enrichments": [], "normalizations": [], "source": {"type": "fake_type", "credential_id": "fake_credential_id", "schedule": {"enabled": false, "time_zone": "fake_time_zone", "frequency": "fake_frequency"}, "options": {"folders": [], "objects": [], "site_collections": [], "urls": [], "buckets": [], "crawl_all_buckets": false}}}"""
+fake_response_ListConfigurationsResponse_json = """{"configurations": []}"""
+fake_response_Configuration_json = """{"configuration_id": "fake_configuration_id", "name": "fake_name", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "description": "fake_description", "conversions": {"pdf": {"heading": {"fonts": []}}, "word": {"heading": {"fonts": [], "styles": []}}, "html": {"exclude_tags_completely": [], "exclude_tags_keep_content": [], "keep_content": {"xpaths": []}, "exclude_content": {"xpaths": []}, "keep_tag_attributes": [], "exclude_tag_attributes": []}, "segment": {"enabled": false, "selector_tags": [], "annotated_fields": []}, "json_normalizations": [], "image_text_recognition": true}, "enrichments": [], "normalizations": [], "source": {"type": "fake_type", "credential_id": "fake_credential_id", "schedule": {"enabled": false, "time_zone": "fake_time_zone", "frequency": "fake_frequency"}, "options": {"folders": [], "objects": [], "site_collections": [], "urls": [], "buckets": [], "crawl_all_buckets": false}}}"""
+fake_response_Configuration_json = """{"configuration_id": "fake_configuration_id", "name": "fake_name", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "description": "fake_description", "conversions": {"pdf": {"heading": {"fonts": []}}, "word": {"heading": {"fonts": [], "styles": []}}, "html": {"exclude_tags_completely": [], "exclude_tags_keep_content": [], "keep_content": {"xpaths": []}, "exclude_content": {"xpaths": []}, "keep_tag_attributes": [], "exclude_tag_attributes": []}, "segment": {"enabled": false, "selector_tags": [], "annotated_fields": []}, "json_normalizations": [], "image_text_recognition": true}, "enrichments": [], "normalizations": [], "source": {"type": "fake_type", "credential_id": "fake_credential_id", "schedule": {"enabled": false, "time_zone": "fake_time_zone", "frequency": "fake_frequency"}, "options": {"folders": [], "objects": [], "site_collections": [], "urls": [], "buckets": [], "crawl_all_buckets": false}}}"""
+fake_response_DeleteConfigurationResponse_json = """{"configuration_id": "fake_configuration_id", "status": "fake_status", "notices": []}"""
+fake_response_Collection_json = """{"collection_id": "fake_collection_id", "name": "fake_name", "description": "fake_description", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "status": "fake_status", "configuration_id": "fake_configuration_id", "language": "fake_language", "document_counts": {"available": 9, "processing": 10, "failed": 6, "pending": 7}, "disk_usage": {"used_bytes": 10}, "training_status": {"total_examples": 14, "available": false, "processing": true, "minimum_queries_added": false, "minimum_examples_added": true, "sufficient_label_diversity": true, "notices": 7, "successfully_trained": "2017-05-16T13:56:54.957Z", "data_updated": "2017-05-16T13:56:54.957Z"}, "crawl_status": {"source_crawl": {"status": "fake_status", "next_crawl": "2017-05-16T13:56:54.957Z"}}, "smart_document_understanding": {"enabled": false, "total_annotated_pages": 21, "total_pages": 11, "total_documents": 15, "custom_fields": {"defined": 7, "maximum_allowed": 15}}}"""
+fake_response_ListCollectionsResponse_json = """{"collections": []}"""
+fake_response_Collection_json = """{"collection_id": "fake_collection_id", "name": "fake_name", "description": "fake_description", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "status": "fake_status", "configuration_id": "fake_configuration_id", "language": "fake_language", "document_counts": {"available": 9, "processing": 10, "failed": 6, "pending": 7}, "disk_usage": {"used_bytes": 10}, "training_status": {"total_examples": 14, "available": false, "processing": true, "minimum_queries_added": false, "minimum_examples_added": true, "sufficient_label_diversity": true, "notices": 7, "successfully_trained": "2017-05-16T13:56:54.957Z", "data_updated": "2017-05-16T13:56:54.957Z"}, "crawl_status": {"source_crawl": {"status": "fake_status", "next_crawl": "2017-05-16T13:56:54.957Z"}}, "smart_document_understanding": {"enabled": false, "total_annotated_pages": 21, "total_pages": 11, "total_documents": 15, "custom_fields": {"defined": 7, "maximum_allowed": 15}}}"""
+fake_response_Collection_json = """{"collection_id": "fake_collection_id", "name": "fake_name", "description": "fake_description", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "status": "fake_status", "configuration_id": "fake_configuration_id", "language": "fake_language", "document_counts": {"available": 9, "processing": 10, "failed": 6, "pending": 7}, "disk_usage": {"used_bytes": 10}, "training_status": {"total_examples": 14, "available": false, "processing": true, "minimum_queries_added": false, "minimum_examples_added": true, "sufficient_label_diversity": true, "notices": 7, "successfully_trained": "2017-05-16T13:56:54.957Z", "data_updated": "2017-05-16T13:56:54.957Z"}, "crawl_status": {"source_crawl": {"status": "fake_status", "next_crawl": "2017-05-16T13:56:54.957Z"}}, "smart_document_understanding": {"enabled": false, "total_annotated_pages": 21, "total_pages": 11, "total_documents": 15, "custom_fields": {"defined": 7, "maximum_allowed": 15}}}"""
+fake_response_DeleteCollectionResponse_json = """{"collection_id": "fake_collection_id", "status": "fake_status"}"""
+fake_response_ListCollectionFieldsResponse_json = """{"fields": []}"""
+fake_response_Expansions_json = """{"expansions": []}"""
+fake_response_Expansions_json = """{"expansions": []}"""
+fake_response_TokenDictStatusResponse_json = """{"status": "fake_status", "type": "fake_type"}"""
+fake_response_TokenDictStatusResponse_json = """{"status": "fake_status", "type": "fake_type"}"""
+fake_response_TokenDictStatusResponse_json = """{"status": "fake_status", "type": "fake_type"}"""
+fake_response_TokenDictStatusResponse_json = """{"status": "fake_status", "type": "fake_type"}"""
+fake_response_DocumentAccepted_json = """{"document_id": "fake_document_id", "status": "fake_status", "notices": []}"""
+fake_response_DocumentStatus_json = """{"document_id": "fake_document_id", "configuration_id": "fake_configuration_id", "status": "fake_status", "status_description": "fake_status_description", "filename": "fake_filename", "file_type": "fake_file_type", "sha1": "fake_sha1", "notices": []}"""
+fake_response_DocumentAccepted_json = """{"document_id": "fake_document_id", "status": "fake_status", "notices": []}"""
+fake_response_DeleteDocumentResponse_json = """{"document_id": "fake_document_id", "status": "fake_status"}"""
+fake_response_QueryResponse_json = """{"matching_results": 16, "results": [], "aggregations": [], "passages": [], "duplicates_removed": 18, "session_token": "fake_session_token", "retrieval_details": {"document_retrieval_strategy": "fake_document_retrieval_strategy"}, "suggested_query": "fake_suggested_query"}"""
+fake_response_QueryNoticesResponse_json = """{"matching_results": 16, "results": [], "aggregations": [], "passages": [], "duplicates_removed": 18}"""
+fake_response_QueryResponse_json = """{"matching_results": 16, "results": [], "aggregations": [], "passages": [], "duplicates_removed": 18, "session_token": "fake_session_token", "retrieval_details": {"document_retrieval_strategy": "fake_document_retrieval_strategy"}, "suggested_query": "fake_suggested_query"}"""
+fake_response_QueryNoticesResponse_json = """{"matching_results": 16, "results": [], "aggregations": [], "passages": [], "duplicates_removed": 18}"""
+fake_response_Completions_json = """{"completions": []}"""
+fake_response_TrainingDataSet_json = """{"environment_id": "fake_environment_id", "collection_id": "fake_collection_id", "queries": []}"""
+fake_response_TrainingQuery_json = """{"query_id": "fake_query_id", "natural_language_query": "fake_natural_language_query", "filter": "fake_filter", "examples": []}"""
+fake_response_TrainingQuery_json = """{"query_id": "fake_query_id", "natural_language_query": "fake_natural_language_query", "filter": "fake_filter", "examples": []}"""
+fake_response_TrainingExampleList_json = """{"examples": []}"""
+fake_response_TrainingExample_json = """{"document_id": "fake_document_id", "cross_reference": "fake_cross_reference", "relevance": 9}"""
+fake_response_TrainingExample_json = """{"document_id": "fake_document_id", "cross_reference": "fake_cross_reference", "relevance": 9}"""
+fake_response_TrainingExample_json = """{"document_id": "fake_document_id", "cross_reference": "fake_cross_reference", "relevance": 9}"""
+fake_response_CreateEventResponse_json = """{"type": "fake_type", "data": {"environment_id": "fake_environment_id", "session_token": "fake_session_token", "client_timestamp": "2017-05-16T13:56:54.957Z", "display_rank": 12, "collection_id": "fake_collection_id", "document_id": "fake_document_id", "query_id": "fake_query_id"}}"""
+fake_response_LogQueryResponse_json = """{"matching_results": 16, "results": []}"""
+fake_response_MetricResponse_json = """{"aggregations": []}"""
+fake_response_MetricResponse_json = """{"aggregations": []}"""
+fake_response_MetricResponse_json = """{"aggregations": []}"""
+fake_response_MetricResponse_json = """{"aggregations": []}"""
+fake_response_MetricTokenResponse_json = """{"aggregations": []}"""
+fake_response_CredentialsList_json = """{"credentials": []}"""
+fake_response_Credentials_json = """{"credential_id": "fake_credential_id", "source_type": "fake_source_type", "credential_details": {"credential_type": "fake_credential_type", "client_id": "fake_client_id", "enterprise_id": "fake_enterprise_id", "url": "fake_url", "username": "fake_username", "organization_url": "fake_organization_url", "site_collection.path": "fake_site_collection_path", "client_secret": "fake_client_secret", "public_key_id": "fake_public_key_id", "private_key": "fake_private_key", "passphrase": "fake_passphrase", "password": "fake_password", "gateway_id": "fake_gateway_id", "source_version": "fake_source_version", "web_application_url": "fake_web_application_url", "domain": "fake_domain", "endpoint": "fake_endpoint", "access_key_id": "fake_access_key_id", "secret_access_key": "fake_secret_access_key"}, "status": "fake_status"}"""
+fake_response_Credentials_json = """{"credential_id": "fake_credential_id", "source_type": "fake_source_type", "credential_details": {"credential_type": "fake_credential_type", "client_id": "fake_client_id", "enterprise_id": "fake_enterprise_id", "url": "fake_url", "username": "fake_username", "organization_url": "fake_organization_url", "site_collection.path": "fake_site_collection_path", "client_secret": "fake_client_secret", "public_key_id": "fake_public_key_id", "private_key": "fake_private_key", "passphrase": "fake_passphrase", "password": "fake_password", "gateway_id": "fake_gateway_id", "source_version": "fake_source_version", "web_application_url": "fake_web_application_url", "domain": "fake_domain", "endpoint": "fake_endpoint", "access_key_id": "fake_access_key_id", "secret_access_key": "fake_secret_access_key"}, "status": "fake_status"}"""
+fake_response_Credentials_json = """{"credential_id": "fake_credential_id", "source_type": "fake_source_type", "credential_details": {"credential_type": "fake_credential_type", "client_id": "fake_client_id", "enterprise_id": "fake_enterprise_id", "url": "fake_url", "username": "fake_username", "organization_url": "fake_organization_url", "site_collection.path": "fake_site_collection_path", "client_secret": "fake_client_secret", "public_key_id": "fake_public_key_id", "private_key": "fake_private_key", "passphrase": "fake_passphrase", "password": "fake_password", "gateway_id": "fake_gateway_id", "source_version": "fake_source_version", "web_application_url": "fake_web_application_url", "domain": "fake_domain", "endpoint": "fake_endpoint", "access_key_id": "fake_access_key_id", "secret_access_key": "fake_secret_access_key"}, "status": "fake_status"}"""
+fake_response_DeleteCredentials_json = """{"credential_id": "fake_credential_id", "status": "fake_status"}"""
+fake_response_GatewayList_json = """{"gateways": []}"""
+fake_response_Gateway_json = """{"gateway_id": "fake_gateway_id", "name": "fake_name", "status": "fake_status", "token": "fake_token", "token_id": "fake_token_id"}"""
+fake_response_Gateway_json = """{"gateway_id": "fake_gateway_id", "name": "fake_name", "status": "fake_status", "token": "fake_token", "token_id": "fake_token_id"}"""
+fake_response_GatewayDelete_json = """{"gateway_id": "fake_gateway_id", "status": "fake_status"}"""
