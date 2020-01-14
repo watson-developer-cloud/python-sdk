@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019.
+# (C) Copyright IBM Corp. 2020.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -26,11 +26,15 @@ data from requests and responses.
 """
 
 import json
+from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
 from .common import get_sdk_headers
 from enum import Enum
 from ibm_cloud_sdk_core import BaseService
 from ibm_cloud_sdk_core import get_authenticator_from_environment
-from ibm_cloud_sdk_core import read_external_sources
+from ibm_cloud_sdk_core import read_external_sources, DetailedResponse
+from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
+from typing import Dict
+from typing import List
 
 ##############################################################################
 # Service
@@ -40,13 +44,15 @@ from ibm_cloud_sdk_core import read_external_sources
 class ToneAnalyzerV3(BaseService):
     """The Tone Analyzer V3 service."""
 
-    default_service_url = 'https://gateway.watsonplatform.net/tone-analyzer/api'
+    DEFAULT_SERVICE_URL = 'https://gateway.watsonplatform.net/tone-analyzer/api'
+    DEFAULT_SERVICE_NAME = 'tone_analyzer'
 
     def __init__(
             self,
-            version,
-            authenticator=None,
-    ):
+            version: str,
+            authenticator: Authenticator = None,
+            service_name: str = DEFAULT_SERVICE_NAME,
+    ) -> None:
         """
         Construct a new client for the Tone Analyzer service.
 
@@ -65,38 +71,28 @@ class ToneAnalyzerV3(BaseService):
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
         """
-
-        service_url = self.default_service_url
-        disable_ssl_verification = False
-
-        config = read_external_sources('tone_analyzer')
-        if config.get('URL'):
-            service_url = config.get('URL')
-        if config.get('DISABLE_SSL'):
-            disable_ssl_verification = config.get('DISABLE_SSL')
-
         if not authenticator:
-            authenticator = get_authenticator_from_environment('tone_analyzer')
-
+            authenticator = get_authenticator_from_environment(service_name)
         BaseService.__init__(self,
-                             service_url=service_url,
+                             service_url=self.DEFAULT_SERVICE_URL,
                              authenticator=authenticator,
-                             disable_ssl_verification=disable_ssl_verification)
+                             disable_ssl_verification=False)
         self.version = version
+        self.configure_service(service_name)
 
     #########################
     # Methods
     #########################
 
     def tone(self,
-             tone_input,
+             tone_input: object,
              *,
-             content_type=None,
-             sentences=None,
-             tones=None,
-             content_language=None,
-             accept_language=None,
-             **kwargs):
+             content_type: str = None,
+             sentences: bool = None,
+             tones: List[str] = None,
+             content_language: str = None,
+             accept_language: str = None,
+             **kwargs) -> 'DetailedResponse':
         """
         Analyze general tone.
 
@@ -128,7 +124,7 @@ class ToneAnalyzerV3(BaseService):
                return an analysis of each individual sentence in addition to its analysis
                of the full document. If `true` (the default), the service returns results
                for each sentence.
-        :param list[str] tones: (optional) **`2017-09-21`:** Deprecated. The
+        :param List[str] tones: (optional) **`2017-09-21`:** Deprecated. The
                service continues to accept the parameter for backward-compatibility, but
                the parameter no longer affects the response.
                **`2016-05-19`:** A comma-separated list of tones for which the service is
@@ -165,7 +161,9 @@ class ToneAnalyzerV3(BaseService):
         }
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('tone_analyzer', 'V3', 'tone')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V3',
+                                      operation_id='tone')
         headers.update(sdk_headers)
 
         params = {
@@ -184,17 +182,17 @@ class ToneAnalyzerV3(BaseService):
                                        url=url,
                                        headers=headers,
                                        params=params,
-                                       data=data,
-                                       accept_json=True)
+                                       data=data)
+
         response = self.send(request)
         return response
 
     def tone_chat(self,
-                  utterances,
+                  utterances: List['Utterance'],
                   *,
-                  content_language=None,
-                  accept_language=None,
-                  **kwargs):
+                  content_language: str = None,
+                  accept_language: str = None,
+                  **kwargs) -> 'DetailedResponse':
         """
         Analyze customer-engagement tone.
 
@@ -211,7 +209,7 @@ class ToneAnalyzerV3(BaseService):
         **See also:** [Using the customer-engagement
         endpoint](https://cloud.ibm.com/docs/services/tone-analyzer?topic=tone-analyzer-utco#utco).
 
-        :param list[Utterance] utterances: An array of `Utterance` objects that
+        :param List[Utterance] utterances: An array of `Utterance` objects that
                provides the input content that the service is to analyze.
         :param str content_language: (optional) The language of the input text for
                the request: English or French. Regional variants are treated as their
@@ -240,7 +238,9 @@ class ToneAnalyzerV3(BaseService):
         }
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('tone_analyzer', 'V3', 'tone_chat')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V3',
+                                      operation_id='tone_chat')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
@@ -252,8 +252,8 @@ class ToneAnalyzerV3(BaseService):
                                        url=url,
                                        headers=headers,
                                        params=params,
-                                       data=data,
-                                       accept_json=True)
+                                       data=data)
+
         response = self.send(request)
         return response
 
@@ -359,12 +359,12 @@ class DocumentAnalysis():
     """
     The results of the analysis for the full input content.
 
-    :attr list[ToneScore] tones: (optional) **`2017-09-21`:** An array of
+    :attr List[ToneScore] tones: (optional) **`2017-09-21`:** An array of
           `ToneScore` objects that provides the results of the analysis for each
           qualifying tone of the document. The array includes results for any tone whose
           score is at least 0.5. The array is empty if no tone has a score that meets this
           threshold. **`2016-05-19`:** Not returned.
-    :attr list[ToneCategory] tone_categories: (optional) **`2017-09-21`:** Not
+    :attr List[ToneCategory] tone_categories: (optional) **`2017-09-21`:** Not
           returned. **`2016-05-19`:** An array of `ToneCategory` objects that provides the
           results of the tone analysis for the full document of the input content. The
           service returns results only for the tones specified with the `tones` parameter
@@ -375,16 +375,20 @@ class DocumentAnalysis():
           100 sentences for sentence-level analysis. **`2016-05-19`:** Not returned.
     """
 
-    def __init__(self, *, tones=None, tone_categories=None, warning=None):
+    def __init__(self,
+                 *,
+                 tones: List['ToneScore'] = None,
+                 tone_categories: List['ToneCategory'] = None,
+                 warning: str = None) -> None:
         """
         Initialize a DocumentAnalysis object.
 
-        :param list[ToneScore] tones: (optional) **`2017-09-21`:** An array of
+        :param List[ToneScore] tones: (optional) **`2017-09-21`:** An array of
                `ToneScore` objects that provides the results of the analysis for each
                qualifying tone of the document. The array includes results for any tone
                whose score is at least 0.5. The array is empty if no tone has a score that
                meets this threshold. **`2016-05-19`:** Not returned.
-        :param list[ToneCategory] tone_categories: (optional) **`2017-09-21`:** Not
+        :param List[ToneCategory] tone_categories: (optional) **`2017-09-21`:** Not
                returned. **`2016-05-19`:** An array of `ToneCategory` objects that
                provides the results of the tone analysis for the full document of the
                input content. The service returns results only for the tones specified
@@ -400,7 +404,7 @@ class DocumentAnalysis():
         self.warning = warning
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'DocumentAnalysis':
         """Initialize a DocumentAnalysis object from a json dictionary."""
         args = {}
         valid_keys = ['tones', 'tone_categories', 'warning']
@@ -422,7 +426,12 @@ class DocumentAnalysis():
             args['warning'] = _dict.get('warning')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DocumentAnalysis object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'tones') and self.tones is not None:
@@ -436,17 +445,21 @@ class DocumentAnalysis():
             _dict['warning'] = self.warning
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this DocumentAnalysis object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'DocumentAnalysis') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'DocumentAnalysis') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -459,12 +472,12 @@ class SentenceAnalysis():
           The first sentence has ID 0, and the ID of each subsequent sentence is
           incremented by one.
     :attr str text: The text of the input sentence.
-    :attr list[ToneScore] tones: (optional) **`2017-09-21`:** An array of
+    :attr List[ToneScore] tones: (optional) **`2017-09-21`:** An array of
           `ToneScore` objects that provides the results of the analysis for each
           qualifying tone of the sentence. The array includes results for any tone whose
           score is at least 0.5. The array is empty if no tone has a score that meets this
           threshold. **`2016-05-19`:** Not returned.
-    :attr list[ToneCategory] tone_categories: (optional) **`2017-09-21`:** Not
+    :attr List[ToneCategory] tone_categories: (optional) **`2017-09-21`:** Not
           returned. **`2016-05-19`:** An array of `ToneCategory` objects that provides the
           results of the tone analysis for the sentence. The service returns results only
           for the tones specified with the `tones` parameter of the request.
@@ -476,13 +489,13 @@ class SentenceAnalysis():
     """
 
     def __init__(self,
-                 sentence_id,
-                 text,
+                 sentence_id: int,
+                 text: str,
                  *,
-                 tones=None,
-                 tone_categories=None,
-                 input_from=None,
-                 input_to=None):
+                 tones: List['ToneScore'] = None,
+                 tone_categories: List['ToneCategory'] = None,
+                 input_from: int = None,
+                 input_to: int = None) -> None:
         """
         Initialize a SentenceAnalysis object.
 
@@ -490,12 +503,12 @@ class SentenceAnalysis():
                content. The first sentence has ID 0, and the ID of each subsequent
                sentence is incremented by one.
         :param str text: The text of the input sentence.
-        :param list[ToneScore] tones: (optional) **`2017-09-21`:** An array of
+        :param List[ToneScore] tones: (optional) **`2017-09-21`:** An array of
                `ToneScore` objects that provides the results of the analysis for each
                qualifying tone of the sentence. The array includes results for any tone
                whose score is at least 0.5. The array is empty if no tone has a score that
                meets this threshold. **`2016-05-19`:** Not returned.
-        :param list[ToneCategory] tone_categories: (optional) **`2017-09-21`:** Not
+        :param List[ToneCategory] tone_categories: (optional) **`2017-09-21`:** Not
                returned. **`2016-05-19`:** An array of `ToneCategory` objects that
                provides the results of the tone analysis for the sentence. The service
                returns results only for the tones specified with the `tones` parameter of
@@ -515,7 +528,7 @@ class SentenceAnalysis():
         self.input_to = input_to
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'SentenceAnalysis':
         """Initialize a SentenceAnalysis object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -554,7 +567,12 @@ class SentenceAnalysis():
             args['input_to'] = _dict.get('input_to')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SentenceAnalysis object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'sentence_id') and self.sentence_id is not None:
@@ -574,17 +592,21 @@ class SentenceAnalysis():
             _dict['input_to'] = self.input_to
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this SentenceAnalysis object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'SentenceAnalysis') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'SentenceAnalysis') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -595,20 +617,23 @@ class ToneAnalysis():
 
     :attr DocumentAnalysis document_tone: The results of the analysis for the full
           input content.
-    :attr list[SentenceAnalysis] sentences_tone: (optional) An array of
+    :attr List[SentenceAnalysis] sentences_tone: (optional) An array of
           `SentenceAnalysis` objects that provides the results of the analysis for the
           individual sentences of the input content. The service returns results only for
           the first 100 sentences of the input. The field is omitted if the `sentences`
           parameter of the request is set to `false`.
     """
 
-    def __init__(self, document_tone, *, sentences_tone=None):
+    def __init__(self,
+                 document_tone: 'DocumentAnalysis',
+                 *,
+                 sentences_tone: List['SentenceAnalysis'] = None) -> None:
         """
         Initialize a ToneAnalysis object.
 
         :param DocumentAnalysis document_tone: The results of the analysis for the
                full input content.
-        :param list[SentenceAnalysis] sentences_tone: (optional) An array of
+        :param List[SentenceAnalysis] sentences_tone: (optional) An array of
                `SentenceAnalysis` objects that provides the results of the analysis for
                the individual sentences of the input content. The service returns results
                only for the first 100 sentences of the input. The field is omitted if the
@@ -618,7 +643,7 @@ class ToneAnalysis():
         self.sentences_tone = sentences_tone
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ToneAnalysis':
         """Initialize a ToneAnalysis object from a json dictionary."""
         args = {}
         valid_keys = ['document_tone', 'sentences_tone']
@@ -641,7 +666,12 @@ class ToneAnalysis():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ToneAnalysis object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'document_tone') and self.document_tone is not None:
@@ -652,17 +682,21 @@ class ToneAnalysis():
             ]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ToneAnalysis object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ToneAnalysis') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ToneAnalysis') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -671,7 +705,7 @@ class ToneCategory():
     """
     The category for a tone from the input content.
 
-    :attr list[ToneScore] tones: An array of `ToneScore` objects that provides the
+    :attr List[ToneScore] tones: An array of `ToneScore` objects that provides the
           results for the tones of the category.
     :attr str category_id: The unique, non-localized identifier of the category for
           the results. The service can return results for the following category IDs:
@@ -679,11 +713,12 @@ class ToneCategory():
     :attr str category_name: The user-visible, localized name of the category.
     """
 
-    def __init__(self, tones, category_id, category_name):
+    def __init__(self, tones: List['ToneScore'], category_id: str,
+                 category_name: str) -> None:
         """
         Initialize a ToneCategory object.
 
-        :param list[ToneScore] tones: An array of `ToneScore` objects that provides
+        :param List[ToneScore] tones: An array of `ToneScore` objects that provides
                the results for the tones of the category.
         :param str category_id: The unique, non-localized identifier of the
                category for the results. The service can return results for the following
@@ -695,7 +730,7 @@ class ToneCategory():
         self.category_name = category_name
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ToneCategory':
         """Initialize a ToneCategory object from a json dictionary."""
         args = {}
         valid_keys = ['tones', 'category_id', 'category_name']
@@ -725,7 +760,12 @@ class ToneCategory():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ToneCategory object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'tones') and self.tones is not None:
@@ -736,17 +776,21 @@ class ToneCategory():
             _dict['category_name'] = self.category_name
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ToneCategory object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ToneCategory') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ToneCategory') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -764,7 +808,7 @@ class ToneChatScore():
     :attr str tone_name: The user-visible, localized name of the tone.
     """
 
-    def __init__(self, score, tone_id, tone_name):
+    def __init__(self, score: float, tone_id: str, tone_name: str) -> None:
         """
         Initialize a ToneChatScore object.
 
@@ -781,7 +825,7 @@ class ToneChatScore():
         self.tone_name = tone_name
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ToneChatScore':
         """Initialize a ToneChatScore object from a json dictionary."""
         args = {}
         valid_keys = ['score', 'tone_id', 'tone_name']
@@ -809,7 +853,12 @@ class ToneChatScore():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ToneChatScore object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'score') and self.score is not None:
@@ -820,17 +869,21 @@ class ToneChatScore():
             _dict['tone_name'] = self.tone_name
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ToneChatScore object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ToneChatScore') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ToneChatScore') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -855,7 +908,7 @@ class ToneInput():
     :attr str text: The input content that the service is to analyze.
     """
 
-    def __init__(self, text):
+    def __init__(self, text: str) -> None:
         """
         Initialize a ToneInput object.
 
@@ -864,7 +917,7 @@ class ToneInput():
         self.text = text
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ToneInput':
         """Initialize a ToneInput object from a json dictionary."""
         args = {}
         valid_keys = ['text']
@@ -880,24 +933,33 @@ class ToneInput():
                 'Required property \'text\' not present in ToneInput JSON')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ToneInput object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ToneInput object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ToneInput') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ToneInput') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -929,7 +991,7 @@ class ToneScore():
     :attr str tone_name: The user-visible, localized name of the tone.
     """
 
-    def __init__(self, score, tone_id, tone_name):
+    def __init__(self, score: float, tone_id: str, tone_name: str) -> None:
         """
         Initialize a ToneScore object.
 
@@ -960,7 +1022,7 @@ class ToneScore():
         self.tone_name = tone_name
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ToneScore':
         """Initialize a ToneScore object from a json dictionary."""
         args = {}
         valid_keys = ['score', 'tone_id', 'tone_name']
@@ -986,7 +1048,12 @@ class ToneScore():
                 'Required property \'tone_name\' not present in ToneScore JSON')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ToneScore object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'score') and self.score is not None:
@@ -997,17 +1064,21 @@ class ToneScore():
             _dict['tone_name'] = self.tone_name
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ToneScore object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ToneScore') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ToneScore') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1022,7 +1093,7 @@ class Utterance():
           utterance specified by the `text` parameter.
     """
 
-    def __init__(self, text, *, user=None):
+    def __init__(self, text: str, *, user: str = None) -> None:
         """
         Initialize a Utterance object.
 
@@ -1035,7 +1106,7 @@ class Utterance():
         self.user = user
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Utterance':
         """Initialize a Utterance object from a json dictionary."""
         args = {}
         valid_keys = ['text', 'user']
@@ -1053,7 +1124,12 @@ class Utterance():
             args['user'] = _dict.get('user')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Utterance object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
@@ -1062,17 +1138,21 @@ class Utterance():
             _dict['user'] = self.user
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Utterance object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Utterance') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Utterance') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1081,18 +1161,21 @@ class UtteranceAnalyses():
     """
     The results of the analysis for the utterances of the input content.
 
-    :attr list[UtteranceAnalysis] utterances_tone: An array of `UtteranceAnalysis`
+    :attr List[UtteranceAnalysis] utterances_tone: An array of `UtteranceAnalysis`
           objects that provides the results for each utterance of the input.
     :attr str warning: (optional) **`2017-09-21`:** A warning message if the content
           contains more than 50 utterances. The service analyzes only the first 50
           utterances. **`2016-05-19`:** Not returned.
     """
 
-    def __init__(self, utterances_tone, *, warning=None):
+    def __init__(self,
+                 utterances_tone: List['UtteranceAnalysis'],
+                 *,
+                 warning: str = None) -> None:
         """
         Initialize a UtteranceAnalyses object.
 
-        :param list[UtteranceAnalysis] utterances_tone: An array of
+        :param List[UtteranceAnalysis] utterances_tone: An array of
                `UtteranceAnalysis` objects that provides the results for each utterance of
                the input.
         :param str warning: (optional) **`2017-09-21`:** A warning message if the
@@ -1103,7 +1186,7 @@ class UtteranceAnalyses():
         self.warning = warning
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'UtteranceAnalyses':
         """Initialize a UtteranceAnalyses object from a json dictionary."""
         args = {}
         valid_keys = ['utterances_tone', 'warning']
@@ -1125,7 +1208,12 @@ class UtteranceAnalyses():
             args['warning'] = _dict.get('warning')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a UtteranceAnalyses object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self,
@@ -1137,17 +1225,21 @@ class UtteranceAnalyses():
             _dict['warning'] = self.warning
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this UtteranceAnalyses object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'UtteranceAnalyses') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'UtteranceAnalyses') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1160,7 +1252,7 @@ class UtteranceAnalysis():
           utterance has ID 0, and the ID of each subsequent utterance is incremented by
           one.
     :attr str utterance_text: The text of the utterance.
-    :attr list[ToneChatScore] tones: An array of `ToneChatScore` objects that
+    :attr List[ToneChatScore] tones: An array of `ToneChatScore` objects that
           provides results for the most prevalent tones of the utterance. The array
           includes results for any tone whose score is at least 0.5. The array is empty if
           no tone has a score that meets this threshold.
@@ -1169,7 +1261,12 @@ class UtteranceAnalysis():
           **`2016-05-19`:** Not returned.
     """
 
-    def __init__(self, utterance_id, utterance_text, tones, *, error=None):
+    def __init__(self,
+                 utterance_id: int,
+                 utterance_text: str,
+                 tones: List['ToneChatScore'],
+                 *,
+                 error: str = None) -> None:
         """
         Initialize a UtteranceAnalysis object.
 
@@ -1177,7 +1274,7 @@ class UtteranceAnalysis():
                utterance has ID 0, and the ID of each subsequent utterance is incremented
                by one.
         :param str utterance_text: The text of the utterance.
-        :param list[ToneChatScore] tones: An array of `ToneChatScore` objects that
+        :param List[ToneChatScore] tones: An array of `ToneChatScore` objects that
                provides results for the most prevalent tones of the utterance. The array
                includes results for any tone whose score is at least 0.5. The array is
                empty if no tone has a score that meets this threshold.
@@ -1191,7 +1288,7 @@ class UtteranceAnalysis():
         self.error = error
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'UtteranceAnalysis':
         """Initialize a UtteranceAnalysis object from a json dictionary."""
         args = {}
         valid_keys = ['utterance_id', 'utterance_text', 'tones', 'error']
@@ -1224,7 +1321,12 @@ class UtteranceAnalysis():
             args['error'] = _dict.get('error')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a UtteranceAnalysis object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'utterance_id') and self.utterance_id is not None:
@@ -1237,16 +1339,20 @@ class UtteranceAnalysis():
             _dict['error'] = self.error
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this UtteranceAnalysis object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'UtteranceAnalysis') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'UtteranceAnalysis') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
