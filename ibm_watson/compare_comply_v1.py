@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019.
+# (C) Copyright IBM Corp. 2020.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,12 +19,21 @@ critical aspects of the documents.
 """
 
 import json
+from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
 from .common import get_sdk_headers
+from datetime import date
+from datetime import datetime
 from enum import Enum
 from ibm_cloud_sdk_core import BaseService
 from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
 from ibm_cloud_sdk_core import get_authenticator_from_environment
-from ibm_cloud_sdk_core import read_external_sources
+from ibm_cloud_sdk_core import read_external_sources, DetailedResponse
+from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
+from os.path import basename
+from typing import BinaryIO
+from typing import Dict
+from typing import List
+from typing import TextIO
 
 ##############################################################################
 # Service
@@ -34,13 +43,15 @@ from ibm_cloud_sdk_core import read_external_sources
 class CompareComplyV1(BaseService):
     """The Compare Comply V1 service."""
 
-    default_service_url = 'https://gateway.watsonplatform.net/compare-comply/api'
+    DEFAULT_SERVICE_URL = 'https://gateway.watsonplatform.net/compare-comply/api'
+    DEFAULT_SERVICE_NAME = 'compare-comply'
 
     def __init__(
             self,
-            version,
-            authenticator=None,
-    ):
+            version: str,
+            authenticator: Authenticator = None,
+            service_name: str = DEFAULT_SERVICE_NAME,
+    ) -> None:
         """
         Construct a new client for the Compare Comply service.
 
@@ -59,41 +70,31 @@ class CompareComplyV1(BaseService):
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
         """
-
-        service_url = self.default_service_url
-        disable_ssl_verification = False
-
-        config = read_external_sources('compare_comply')
-        if config.get('URL'):
-            service_url = config.get('URL')
-        if config.get('DISABLE_SSL'):
-            disable_ssl_verification = config.get('DISABLE_SSL')
-
         if not authenticator:
-            authenticator = get_authenticator_from_environment('compare_comply')
-
+            authenticator = get_authenticator_from_environment(service_name)
         BaseService.__init__(self,
-                             service_url=service_url,
+                             service_url=self.DEFAULT_SERVICE_URL,
                              authenticator=authenticator,
-                             disable_ssl_verification=disable_ssl_verification)
+                             disable_ssl_verification=False)
         self.version = version
+        self.configure_service(service_name)
 
     #########################
     # HTML conversion
     #########################
 
     def convert_to_html(self,
-                        file,
+                        file: BinaryIO,
                         *,
-                        file_content_type=None,
-                        model=None,
-                        **kwargs):
+                        file_content_type: str = None,
+                        model: str = None,
+                        **kwargs) -> 'DetailedResponse':
         """
         Convert document to HTML.
 
         Converts a document to HTML.
 
-        :param file file: The document to convert.
+        :param TextIO file: The document to convert.
         :param str file_content_type: (optional) The content type of file.
         :param str model: (optional) The analysis model to be used by the service.
                For the **Element classification** and **Compare two documents** methods,
@@ -111,7 +112,9 @@ class CompareComplyV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('compare-comply', 'V1', 'convert_to_html')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='convert_to_html')
         headers.update(sdk_headers)
 
         params = {'version': self.version, 'model': model}
@@ -125,8 +128,8 @@ class CompareComplyV1(BaseService):
                                        url=url,
                                        headers=headers,
                                        params=params,
-                                       files=form_data,
-                                       accept_json=True)
+                                       files=form_data)
+
         response = self.send(request)
         return response
 
@@ -135,17 +138,17 @@ class CompareComplyV1(BaseService):
     #########################
 
     def classify_elements(self,
-                          file,
+                          file: BinaryIO,
                           *,
-                          file_content_type=None,
-                          model=None,
-                          **kwargs):
+                          file_content_type: str = None,
+                          model: str = None,
+                          **kwargs) -> 'DetailedResponse':
         """
         Classify the elements of a document.
 
         Analyzes the structural and semantic elements of a document.
 
-        :param file file: The document to classify.
+        :param TextIO file: The document to classify.
         :param str file_content_type: (optional) The content type of file.
         :param str model: (optional) The analysis model to be used by the service.
                For the **Element classification** and **Compare two documents** methods,
@@ -163,8 +166,9 @@ class CompareComplyV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('compare-comply', 'V1',
-                                      'classify_elements')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='classify_elements')
         headers.update(sdk_headers)
 
         params = {'version': self.version, 'model': model}
@@ -178,8 +182,8 @@ class CompareComplyV1(BaseService):
                                        url=url,
                                        headers=headers,
                                        params=params,
-                                       files=form_data,
-                                       accept_json=True)
+                                       files=form_data)
+
         response = self.send(request)
         return response
 
@@ -188,17 +192,17 @@ class CompareComplyV1(BaseService):
     #########################
 
     def extract_tables(self,
-                       file,
+                       file: BinaryIO,
                        *,
-                       file_content_type=None,
-                       model=None,
-                       **kwargs):
+                       file_content_type: str = None,
+                       model: str = None,
+                       **kwargs) -> 'DetailedResponse':
         """
         Extract a document's tables.
 
         Analyzes the tables in a document.
 
-        :param file file: The document on which to run table extraction.
+        :param TextIO file: The document on which to run table extraction.
         :param str file_content_type: (optional) The content type of file.
         :param str model: (optional) The analysis model to be used by the service.
                For the **Element classification** and **Compare two documents** methods,
@@ -216,7 +220,9 @@ class CompareComplyV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('compare-comply', 'V1', 'extract_tables')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='extract_tables')
         headers.update(sdk_headers)
 
         params = {'version': self.version, 'model': model}
@@ -230,8 +236,8 @@ class CompareComplyV1(BaseService):
                                        url=url,
                                        headers=headers,
                                        params=params,
-                                       files=form_data,
-                                       accept_json=True)
+                                       files=form_data)
+
         response = self.send(request)
         return response
 
@@ -240,22 +246,22 @@ class CompareComplyV1(BaseService):
     #########################
 
     def compare_documents(self,
-                          file_1,
-                          file_2,
+                          file_1: BinaryIO,
+                          file_2: BinaryIO,
                           *,
-                          file_1_content_type=None,
-                          file_2_content_type=None,
-                          file_1_label=None,
-                          file_2_label=None,
-                          model=None,
-                          **kwargs):
+                          file_1_content_type: str = None,
+                          file_2_content_type: str = None,
+                          file_1_label: str = None,
+                          file_2_label: str = None,
+                          model: str = None,
+                          **kwargs) -> 'DetailedResponse':
         """
         Compare two documents.
 
         Compares two input documents. Documents must be in the same format.
 
-        :param file file_1: The first document to compare.
-        :param file file_2: The second document to compare.
+        :param TextIO file_1: The first document to compare.
+        :param TextIO file_2: The second document to compare.
         :param str file_1_content_type: (optional) The content type of file_1.
         :param str file_2_content_type: (optional) The content type of file_2.
         :param str file_1_label: (optional) A text label for the first document.
@@ -278,8 +284,9 @@ class CompareComplyV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('compare-comply', 'V1',
-                                      'compare_documents')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='compare_documents')
         headers.update(sdk_headers)
 
         params = {
@@ -300,8 +307,8 @@ class CompareComplyV1(BaseService):
                                        url=url,
                                        headers=headers,
                                        params=params,
-                                       files=form_data,
-                                       accept_json=True)
+                                       files=form_data)
+
         response = self.send(request)
         return response
 
@@ -310,11 +317,11 @@ class CompareComplyV1(BaseService):
     #########################
 
     def add_feedback(self,
-                     feedback_data,
+                     feedback_data: 'FeedbackDataInput',
                      *,
-                     user_id=None,
-                     comment=None,
-                     **kwargs):
+                     user_id: str = None,
+                     comment: str = None,
+                     **kwargs) -> 'DetailedResponse':
         """
         Add feedback.
 
@@ -340,7 +347,9 @@ class CompareComplyV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('compare-comply', 'V1', 'add_feedback')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='add_feedback')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
@@ -356,30 +365,30 @@ class CompareComplyV1(BaseService):
                                        url=url,
                                        headers=headers,
                                        params=params,
-                                       data=data,
-                                       accept_json=True)
+                                       data=data)
+
         response = self.send(request)
         return response
 
     def list_feedback(self,
                       *,
-                      feedback_type=None,
-                      before=None,
-                      after=None,
-                      document_title=None,
-                      model_id=None,
-                      model_version=None,
-                      category_removed=None,
-                      category_added=None,
-                      category_not_changed=None,
-                      type_removed=None,
-                      type_added=None,
-                      type_not_changed=None,
-                      page_limit=None,
-                      cursor=None,
-                      sort=None,
-                      include_total=None,
-                      **kwargs):
+                      feedback_type: str = None,
+                      before: date = None,
+                      after: date = None,
+                      document_title: str = None,
+                      model_id: str = None,
+                      model_version: str = None,
+                      category_removed: str = None,
+                      category_added: str = None,
+                      category_not_changed: str = None,
+                      type_removed: str = None,
+                      type_added: str = None,
+                      type_not_changed: str = None,
+                      page_limit: int = None,
+                      cursor: str = None,
+                      sort: str = None,
+                      include_total: bool = None,
+                      **kwargs) -> 'DetailedResponse':
         """
         List the feedback in a document.
 
@@ -447,7 +456,9 @@ class CompareComplyV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('compare-comply', 'V1', 'list_feedback')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='list_feedback')
         headers.update(sdk_headers)
 
         params = {
@@ -474,12 +485,13 @@ class CompareComplyV1(BaseService):
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=True)
+                                       params=params)
+
         response = self.send(request)
         return response
 
-    def get_feedback(self, feedback_id, *, model=None, **kwargs):
+    def get_feedback(self, feedback_id: str, *, model: str = None,
+                     **kwargs) -> 'DetailedResponse':
         """
         Get a specified feedback entry.
 
@@ -503,7 +515,9 @@ class CompareComplyV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('compare-comply', 'V1', 'get_feedback')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='get_feedback')
         headers.update(sdk_headers)
 
         params = {'version': self.version, 'model': model}
@@ -512,12 +526,13 @@ class CompareComplyV1(BaseService):
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=True)
+                                       params=params)
+
         response = self.send(request)
         return response
 
-    def delete_feedback(self, feedback_id, *, model=None, **kwargs):
+    def delete_feedback(self, feedback_id: str, *, model: str = None,
+                        **kwargs) -> 'DetailedResponse':
         """
         Delete a specified feedback entry.
 
@@ -541,7 +556,9 @@ class CompareComplyV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('compare-comply', 'V1', 'delete_feedback')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='delete_feedback')
         headers.update(sdk_headers)
 
         params = {'version': self.version, 'model': model}
@@ -550,8 +567,8 @@ class CompareComplyV1(BaseService):
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=True)
+                                       params=params)
+
         response = self.send(request)
         return response
 
@@ -560,16 +577,16 @@ class CompareComplyV1(BaseService):
     #########################
 
     def create_batch(self,
-                     function,
-                     input_credentials_file,
-                     input_bucket_location,
-                     input_bucket_name,
-                     output_credentials_file,
-                     output_bucket_location,
-                     output_bucket_name,
+                     function: str,
+                     input_credentials_file: BinaryIO,
+                     input_bucket_location: str,
+                     input_bucket_name: str,
+                     output_credentials_file: BinaryIO,
+                     output_bucket_location: str,
+                     output_bucket_name: str,
                      *,
-                     model=None,
-                     **kwargs):
+                     model: str = None,
+                     **kwargs) -> 'DetailedResponse':
         """
         Submit a batch-processing request.
 
@@ -582,8 +599,8 @@ class CompareComplyV1(BaseService):
 
         :param str function: The Compare and Comply method to run across the
                submitted input documents.
-        :param file input_credentials_file: A JSON file containing the input Cloud
-               Object Storage credentials. At a minimum, the credentials must enable
+        :param TextIO input_credentials_file: A JSON file containing the input
+               Cloud Object Storage credentials. At a minimum, the credentials must enable
                `READ` permissions on the bucket defined by the `input_bucket_name`
                parameter.
         :param str input_bucket_location: The geographical location of the Cloud
@@ -591,7 +608,7 @@ class CompareComplyV1(BaseService):
                Object Storage instance; for example, `us-geo`, `eu-geo`, or `ap-geo`.
         :param str input_bucket_name: The name of the Cloud Object Storage input
                bucket.
-        :param file output_credentials_file: A JSON file that lists the Cloud
+        :param TextIO output_credentials_file: A JSON file that lists the Cloud
                Object Storage output credentials. At a minimum, the credentials must
                enable `READ` and `WRITE` permissions on the bucket defined by the
                `output_bucket_name` parameter.
@@ -629,7 +646,9 @@ class CompareComplyV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('compare-comply', 'V1', 'create_batch')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='create_batch')
         headers.update(sdk_headers)
 
         params = {'version': self.version, 'function': function, 'model': model}
@@ -637,14 +656,18 @@ class CompareComplyV1(BaseService):
         form_data = []
         form_data.append(('input_credentials_file',
                           (None, input_credentials_file, 'application/json')))
+        input_bucket_location = str(input_bucket_location)
         form_data.append(('input_bucket_location', (None, input_bucket_location,
                                                     'text/plain')))
+        input_bucket_name = str(input_bucket_name)
         form_data.append(
             ('input_bucket_name', (None, input_bucket_name, 'text/plain')))
         form_data.append(('output_credentials_file',
                           (None, output_credentials_file, 'application/json')))
+        output_bucket_location = str(output_bucket_location)
         form_data.append(('output_bucket_location',
                           (None, output_bucket_location, 'text/plain')))
+        output_bucket_name = str(output_bucket_name)
         form_data.append(
             ('output_bucket_name', (None, output_bucket_name, 'text/plain')))
 
@@ -653,12 +676,12 @@ class CompareComplyV1(BaseService):
                                        url=url,
                                        headers=headers,
                                        params=params,
-                                       files=form_data,
-                                       accept_json=True)
+                                       files=form_data)
+
         response = self.send(request)
         return response
 
-    def list_batches(self, **kwargs):
+    def list_batches(self, **kwargs) -> 'DetailedResponse':
         """
         List submitted batch-processing jobs.
 
@@ -672,7 +695,9 @@ class CompareComplyV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('compare-comply', 'V1', 'list_batches')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='list_batches')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
@@ -681,12 +706,12 @@ class CompareComplyV1(BaseService):
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=True)
+                                       params=params)
+
         response = self.send(request)
         return response
 
-    def get_batch(self, batch_id, **kwargs):
+    def get_batch(self, batch_id: str, **kwargs) -> 'DetailedResponse':
         """
         Get information about a specific batch-processing job.
 
@@ -705,7 +730,9 @@ class CompareComplyV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('compare-comply', 'V1', 'get_batch')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='get_batch')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
@@ -714,12 +741,17 @@ class CompareComplyV1(BaseService):
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=True)
+                                       params=params)
+
         response = self.send(request)
         return response
 
-    def update_batch(self, batch_id, action, *, model=None, **kwargs):
+    def update_batch(self,
+                     batch_id: str,
+                     action: str,
+                     *,
+                     model: str = None,
+                     **kwargs) -> 'DetailedResponse':
         """
         Update a pending or active batch-processing job.
 
@@ -747,7 +779,9 @@ class CompareComplyV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('compare-comply', 'V1', 'update_batch')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='update_batch')
         headers.update(sdk_headers)
 
         params = {'version': self.version, 'action': action, 'model': model}
@@ -756,8 +790,8 @@ class CompareComplyV1(BaseService):
         request = self.prepare_request(method='PUT',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=True)
+                                       params=params)
+
         response = self.send(request)
         return response
 
@@ -965,7 +999,8 @@ class Address():
           `end`.
     """
 
-    def __init__(self, *, text=None, location=None):
+    def __init__(self, *, text: str = None,
+                 location: 'Location' = None) -> None:
         """
         Initialize a Address object.
 
@@ -978,7 +1013,7 @@ class Address():
         self.location = location
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Address':
         """Initialize a Address object from a json dictionary."""
         args = {}
         valid_keys = ['text', 'location']
@@ -993,7 +1028,12 @@ class Address():
             args['location'] = Location._from_dict(_dict.get('location'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Address object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
@@ -1002,17 +1042,21 @@ class Address():
             _dict['location'] = self.location._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Address object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Address') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Address') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1021,13 +1065,13 @@ class AlignedElement():
     """
     AlignedElement.
 
-    :attr list[ElementPair] element_pair: (optional) Identifies two elements that
+    :attr List[ElementPair] element_pair: (optional) Identifies two elements that
           semantically align between the compared documents.
     :attr bool identical_text: (optional) Specifies whether the aligned element is
           identical. Elements are considered identical despite minor differences such as
           leading punctuation, end-of-sentence punctuation, whitespace, the presence or
           absence of definite or indefinite articles, and others.
-    :attr list[str] provenance_ids: (optional) Hashed values that you can send to
+    :attr List[str] provenance_ids: (optional) Hashed values that you can send to
           IBM to provide feedback or receive support.
     :attr bool significant_elements: (optional) Indicates that the elements aligned
           are contractual clauses of significance.
@@ -1035,21 +1079,21 @@ class AlignedElement():
 
     def __init__(self,
                  *,
-                 element_pair=None,
-                 identical_text=None,
-                 provenance_ids=None,
-                 significant_elements=None):
+                 element_pair: List['ElementPair'] = None,
+                 identical_text: bool = None,
+                 provenance_ids: List[str] = None,
+                 significant_elements: bool = None) -> None:
         """
         Initialize a AlignedElement object.
 
-        :param list[ElementPair] element_pair: (optional) Identifies two elements
+        :param List[ElementPair] element_pair: (optional) Identifies two elements
                that semantically align between the compared documents.
         :param bool identical_text: (optional) Specifies whether the aligned
                element is identical. Elements are considered identical despite minor
                differences such as leading punctuation, end-of-sentence punctuation,
                whitespace, the presence or absence of definite or indefinite articles, and
                others.
-        :param list[str] provenance_ids: (optional) Hashed values that you can send
+        :param List[str] provenance_ids: (optional) Hashed values that you can send
                to IBM to provide feedback or receive support.
         :param bool significant_elements: (optional) Indicates that the elements
                aligned are contractual clauses of significance.
@@ -1060,7 +1104,7 @@ class AlignedElement():
         self.significant_elements = significant_elements
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'AlignedElement':
         """Initialize a AlignedElement object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -1084,7 +1128,12 @@ class AlignedElement():
             args['significant_elements'] = _dict.get('significant_elements')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AlignedElement object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'element_pair') and self.element_pair is not None:
@@ -1098,17 +1147,21 @@ class AlignedElement():
             _dict['significant_elements'] = self.significant_elements
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this AlignedElement object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'AlignedElement') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'AlignedElement') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1124,7 +1177,11 @@ class Attribute():
           `end`.
     """
 
-    def __init__(self, *, type=None, text=None, location=None):
+    def __init__(self,
+                 *,
+                 type: str = None,
+                 text: str = None,
+                 location: 'Location' = None) -> None:
         """
         Initialize a Attribute object.
 
@@ -1139,7 +1196,7 @@ class Attribute():
         self.location = location
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Attribute':
         """Initialize a Attribute object from a json dictionary."""
         args = {}
         valid_keys = ['type', 'text', 'location']
@@ -1156,7 +1213,12 @@ class Attribute():
             args['location'] = Location._from_dict(_dict.get('location'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Attribute object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'type') and self.type is not None:
@@ -1167,17 +1229,21 @@ class Attribute():
             _dict['location'] = self.location._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Attribute object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Attribute') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Attribute') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1222,16 +1288,16 @@ class BatchStatus():
 
     def __init__(self,
                  *,
-                 function=None,
-                 input_bucket_location=None,
-                 input_bucket_name=None,
-                 output_bucket_location=None,
-                 output_bucket_name=None,
-                 batch_id=None,
-                 document_counts=None,
-                 status=None,
-                 created=None,
-                 updated=None):
+                 function: str = None,
+                 input_bucket_location: str = None,
+                 input_bucket_name: str = None,
+                 output_bucket_location: str = None,
+                 output_bucket_name: str = None,
+                 batch_id: str = None,
+                 document_counts: 'DocCounts' = None,
+                 status: str = None,
+                 created: datetime = None,
+                 updated: datetime = None) -> None:
         """
         Initialize a BatchStatus object.
 
@@ -1268,7 +1334,7 @@ class BatchStatus():
         self.updated = updated
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'BatchStatus':
         """Initialize a BatchStatus object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -1304,7 +1370,12 @@ class BatchStatus():
             args['updated'] = string_to_datetime(_dict.get('updated'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a BatchStatus object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'function') and self.function is not None:
@@ -1335,17 +1406,21 @@ class BatchStatus():
             _dict['updated'] = datetime_to_string(self.updated)
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this BatchStatus object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'BatchStatus') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'BatchStatus') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1363,21 +1438,21 @@ class Batches():
     """
     The results of a successful **List Batches** request.
 
-    :attr list[BatchStatus] batches: (optional) A list of the status of all batch
+    :attr List[BatchStatus] batches: (optional) A list of the status of all batch
           requests.
     """
 
-    def __init__(self, *, batches=None):
+    def __init__(self, *, batches: List['BatchStatus'] = None) -> None:
         """
         Initialize a Batches object.
 
-        :param list[BatchStatus] batches: (optional) A list of the status of all
+        :param List[BatchStatus] batches: (optional) A list of the status of all
                batch requests.
         """
         self.batches = batches
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Batches':
         """Initialize a Batches object from a json dictionary."""
         args = {}
         valid_keys = ['batches']
@@ -1392,24 +1467,33 @@ class Batches():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Batches object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'batches') and self.batches is not None:
             _dict['batches'] = [x._to_dict() for x in self.batches]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Batches object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Batches') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Batches') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1432,39 +1516,39 @@ class BodyCells():
           `column` location in the current table.
     :attr int column_index_end: (optional) The `end` index of this cell's `column`
           location in the current table.
-    :attr list[str] row_header_ids: (optional) An array that contains the `id` value
+    :attr List[str] row_header_ids: (optional) An array that contains the `id` value
           of a row header that is applicable to this body cell.
-    :attr list[str] row_header_texts: (optional) An array that contains the `text`
+    :attr List[str] row_header_texts: (optional) An array that contains the `text`
           value of a row header that is applicable to this body cell.
-    :attr list[str] row_header_texts_normalized: (optional) If you provide
+    :attr List[str] row_header_texts_normalized: (optional) If you provide
           customization input, the normalized version of the row header texts according to
           the customization; otherwise, the same value as `row_header_texts`.
-    :attr list[str] column_header_ids: (optional) An array that contains the `id`
+    :attr List[str] column_header_ids: (optional) An array that contains the `id`
           value of a column header that is applicable to the current cell.
-    :attr list[str] column_header_texts: (optional) An array that contains the
+    :attr List[str] column_header_texts: (optional) An array that contains the
           `text` value of a column header that is applicable to the current cell.
-    :attr list[str] column_header_texts_normalized: (optional) If you provide
+    :attr List[str] column_header_texts_normalized: (optional) If you provide
           customization input, the normalized version of the column header texts according
           to the customization; otherwise, the same value as `column_header_texts`.
-    :attr list[Attribute] attributes: (optional)
+    :attr List[Attribute] attributes: (optional)
     """
 
     def __init__(self,
                  *,
-                 cell_id=None,
-                 location=None,
-                 text=None,
-                 row_index_begin=None,
-                 row_index_end=None,
-                 column_index_begin=None,
-                 column_index_end=None,
-                 row_header_ids=None,
-                 row_header_texts=None,
-                 row_header_texts_normalized=None,
-                 column_header_ids=None,
-                 column_header_texts=None,
-                 column_header_texts_normalized=None,
-                 attributes=None):
+                 cell_id: str = None,
+                 location: 'Location' = None,
+                 text: str = None,
+                 row_index_begin: int = None,
+                 row_index_end: int = None,
+                 column_index_begin: int = None,
+                 column_index_end: int = None,
+                 row_header_ids: List[str] = None,
+                 row_header_texts: List[str] = None,
+                 row_header_texts_normalized: List[str] = None,
+                 column_header_ids: List[str] = None,
+                 column_header_texts: List[str] = None,
+                 column_header_texts_normalized: List[str] = None,
+                 attributes: List['Attribute'] = None) -> None:
         """
         Initialize a BodyCells object.
 
@@ -1483,23 +1567,23 @@ class BodyCells():
                `column` location in the current table.
         :param int column_index_end: (optional) The `end` index of this cell's
                `column` location in the current table.
-        :param list[str] row_header_ids: (optional) An array that contains the `id`
+        :param List[str] row_header_ids: (optional) An array that contains the `id`
                value of a row header that is applicable to this body cell.
-        :param list[str] row_header_texts: (optional) An array that contains the
+        :param List[str] row_header_texts: (optional) An array that contains the
                `text` value of a row header that is applicable to this body cell.
-        :param list[str] row_header_texts_normalized: (optional) If you provide
+        :param List[str] row_header_texts_normalized: (optional) If you provide
                customization input, the normalized version of the row header texts
                according to the customization; otherwise, the same value as
                `row_header_texts`.
-        :param list[str] column_header_ids: (optional) An array that contains the
+        :param List[str] column_header_ids: (optional) An array that contains the
                `id` value of a column header that is applicable to the current cell.
-        :param list[str] column_header_texts: (optional) An array that contains the
+        :param List[str] column_header_texts: (optional) An array that contains the
                `text` value of a column header that is applicable to the current cell.
-        :param list[str] column_header_texts_normalized: (optional) If you provide
+        :param List[str] column_header_texts_normalized: (optional) If you provide
                customization input, the normalized version of the column header texts
                according to the customization; otherwise, the same value as
                `column_header_texts`.
-        :param list[Attribute] attributes: (optional)
+        :param List[Attribute] attributes: (optional)
         """
         self.cell_id = cell_id
         self.location = location
@@ -1517,7 +1601,7 @@ class BodyCells():
         self.attributes = attributes
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'BodyCells':
         """Initialize a BodyCells object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -1566,7 +1650,12 @@ class BodyCells():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a BodyCells object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'cell_id') and self.cell_id is not None:
@@ -1611,17 +1700,21 @@ class BodyCells():
             _dict['attributes'] = [x._to_dict() for x in self.attributes]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this BodyCells object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'BodyCells') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'BodyCells') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1631,23 +1724,24 @@ class Category():
     Information defining an element's subject matter.
 
     :attr str label: (optional) The category of the associated element.
-    :attr list[str] provenance_ids: (optional) Hashed values that you can send to
+    :attr List[str] provenance_ids: (optional) Hashed values that you can send to
           IBM to provide feedback or receive support.
     """
 
-    def __init__(self, *, label=None, provenance_ids=None):
+    def __init__(self, *, label: str = None,
+                 provenance_ids: List[str] = None) -> None:
         """
         Initialize a Category object.
 
         :param str label: (optional) The category of the associated element.
-        :param list[str] provenance_ids: (optional) Hashed values that you can send
+        :param List[str] provenance_ids: (optional) Hashed values that you can send
                to IBM to provide feedback or receive support.
         """
         self.label = label
         self.provenance_ids = provenance_ids
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Category':
         """Initialize a Category object from a json dictionary."""
         args = {}
         valid_keys = ['label', 'provenance_ids']
@@ -1662,7 +1756,12 @@ class Category():
             args['provenance_ids'] = _dict.get('provenance_ids')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Category object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'label') and self.label is not None:
@@ -1671,17 +1770,21 @@ class Category():
             _dict['provenance_ids'] = self.provenance_ids
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Category object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Category') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Category') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1723,7 +1826,7 @@ class CategoryComparison():
     :attr str label: (optional) The category of the associated element.
     """
 
-    def __init__(self, *, label=None):
+    def __init__(self, *, label: str = None) -> None:
         """
         Initialize a CategoryComparison object.
 
@@ -1732,7 +1835,7 @@ class CategoryComparison():
         self.label = label
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'CategoryComparison':
         """Initialize a CategoryComparison object from a json dictionary."""
         args = {}
         valid_keys = ['label']
@@ -1745,24 +1848,33 @@ class CategoryComparison():
             args['label'] = _dict.get('label')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CategoryComparison object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'label') and self.label is not None:
             _dict['label'] = self.label
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this CategoryComparison object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'CategoryComparison') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'CategoryComparison') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1807,47 +1919,47 @@ class ClassifyReturn():
           `contracts`.
     :attr str model_version: (optional) The version of the analysis model identified
           by the value of the `model_id` key.
-    :attr list[Element] elements: (optional) Document elements identified by the
+    :attr List[Element] elements: (optional) Document elements identified by the
           service.
-    :attr list[EffectiveDates] effective_dates: (optional) The date or dates on
+    :attr List[EffectiveDates] effective_dates: (optional) The date or dates on
           which the document becomes effective.
-    :attr list[ContractAmts] contract_amounts: (optional) The monetary amounts that
+    :attr List[ContractAmts] contract_amounts: (optional) The monetary amounts that
           identify the total amount of the contract that needs to be paid from one party
           to another.
-    :attr list[TerminationDates] termination_dates: (optional) The dates on which
+    :attr List[TerminationDates] termination_dates: (optional) The dates on which
           the document is to be terminated.
-    :attr list[ContractTypes] contract_types: (optional) The contract type as
+    :attr List[ContractTypes] contract_types: (optional) The contract type as
           declared in the document.
-    :attr list[ContractTerms] contract_terms: (optional) The durations of the
+    :attr List[ContractTerms] contract_terms: (optional) The durations of the
           contract.
-    :attr list[PaymentTerms] payment_terms: (optional) The document's payment
+    :attr List[PaymentTerms] payment_terms: (optional) The document's payment
           durations.
-    :attr list[ContractCurrencies] contract_currencies: (optional) The contract
+    :attr List[ContractCurrencies] contract_currencies: (optional) The contract
           currencies as declared in the document.
-    :attr list[Tables] tables: (optional) Definition of tables identified in the
+    :attr List[Tables] tables: (optional) Definition of tables identified in the
           input document.
     :attr DocStructure document_structure: (optional) The structure of the input
           document.
-    :attr list[Parties] parties: (optional) Definitions of the parties identified in
+    :attr List[Parties] parties: (optional) Definitions of the parties identified in
           the input document.
     """
 
     def __init__(self,
                  *,
-                 document=None,
-                 model_id=None,
-                 model_version=None,
-                 elements=None,
-                 effective_dates=None,
-                 contract_amounts=None,
-                 termination_dates=None,
-                 contract_types=None,
-                 contract_terms=None,
-                 payment_terms=None,
-                 contract_currencies=None,
-                 tables=None,
-                 document_structure=None,
-                 parties=None):
+                 document: 'Document' = None,
+                 model_id: str = None,
+                 model_version: str = None,
+                 elements: List['Element'] = None,
+                 effective_dates: List['EffectiveDates'] = None,
+                 contract_amounts: List['ContractAmts'] = None,
+                 termination_dates: List['TerminationDates'] = None,
+                 contract_types: List['ContractTypes'] = None,
+                 contract_terms: List['ContractTerms'] = None,
+                 payment_terms: List['PaymentTerms'] = None,
+                 contract_currencies: List['ContractCurrencies'] = None,
+                 tables: List['Tables'] = None,
+                 document_structure: 'DocStructure' = None,
+                 parties: List['Parties'] = None) -> None:
         """
         Initialize a ClassifyReturn object.
 
@@ -1858,28 +1970,28 @@ class ClassifyReturn():
                value is `contracts`.
         :param str model_version: (optional) The version of the analysis model
                identified by the value of the `model_id` key.
-        :param list[Element] elements: (optional) Document elements identified by
+        :param List[Element] elements: (optional) Document elements identified by
                the service.
-        :param list[EffectiveDates] effective_dates: (optional) The date or dates
+        :param List[EffectiveDates] effective_dates: (optional) The date or dates
                on which the document becomes effective.
-        :param list[ContractAmts] contract_amounts: (optional) The monetary amounts
+        :param List[ContractAmts] contract_amounts: (optional) The monetary amounts
                that identify the total amount of the contract that needs to be paid from
                one party to another.
-        :param list[TerminationDates] termination_dates: (optional) The dates on
+        :param List[TerminationDates] termination_dates: (optional) The dates on
                which the document is to be terminated.
-        :param list[ContractTypes] contract_types: (optional) The contract type as
+        :param List[ContractTypes] contract_types: (optional) The contract type as
                declared in the document.
-        :param list[ContractTerms] contract_terms: (optional) The durations of the
+        :param List[ContractTerms] contract_terms: (optional) The durations of the
                contract.
-        :param list[PaymentTerms] payment_terms: (optional) The document's payment
+        :param List[PaymentTerms] payment_terms: (optional) The document's payment
                durations.
-        :param list[ContractCurrencies] contract_currencies: (optional) The
+        :param List[ContractCurrencies] contract_currencies: (optional) The
                contract currencies as declared in the document.
-        :param list[Tables] tables: (optional) Definition of tables identified in
+        :param List[Tables] tables: (optional) Definition of tables identified in
                the input document.
         :param DocStructure document_structure: (optional) The structure of the
                input document.
-        :param list[Parties] parties: (optional) Definitions of the parties
+        :param List[Parties] parties: (optional) Definitions of the parties
                identified in the input document.
         """
         self.document = document
@@ -1898,7 +2010,7 @@ class ClassifyReturn():
         self.parties = parties
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ClassifyReturn':
         """Initialize a ClassifyReturn object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -1969,7 +2081,12 @@ class ClassifyReturn():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ClassifyReturn object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'document') and self.document is not None:
@@ -2021,17 +2138,21 @@ class ClassifyReturn():
             _dict['parties'] = [x._to_dict() for x in self.parties]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ClassifyReturn object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ClassifyReturn') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ClassifyReturn') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2062,14 +2183,14 @@ class ColumnHeaders():
 
     def __init__(self,
                  *,
-                 cell_id=None,
-                 location=None,
-                 text=None,
-                 text_normalized=None,
-                 row_index_begin=None,
-                 row_index_end=None,
-                 column_index_begin=None,
-                 column_index_end=None):
+                 cell_id: str = None,
+                 location: object = None,
+                 text: str = None,
+                 text_normalized: str = None,
+                 row_index_begin: int = None,
+                 row_index_end: int = None,
+                 column_index_begin: int = None,
+                 column_index_end: int = None) -> None:
         """
         Initialize a ColumnHeaders object.
 
@@ -2102,7 +2223,7 @@ class ColumnHeaders():
         self.column_index_end = column_index_end
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ColumnHeaders':
         """Initialize a ColumnHeaders object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -2132,7 +2253,12 @@ class ColumnHeaders():
             args['column_index_end'] = _dict.get('column_index_end')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ColumnHeaders object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'cell_id') and self.cell_id is not None:
@@ -2158,17 +2284,21 @@ class ColumnHeaders():
             _dict['column_index_end'] = self.column_index_end
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ColumnHeaders object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ColumnHeaders') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ColumnHeaders') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2182,21 +2312,21 @@ class CompareReturn():
           `contracts`.
     :attr str model_version: (optional) The version of the analysis model identified
           by the value of the `model_id` key.
-    :attr list[Document] documents: (optional) Information about the documents being
+    :attr List[Document] documents: (optional) Information about the documents being
           compared.
-    :attr list[AlignedElement] aligned_elements: (optional) A list of pairs of
+    :attr List[AlignedElement] aligned_elements: (optional) A list of pairs of
           elements that semantically align between the compared documents.
-    :attr list[UnalignedElement] unaligned_elements: (optional) A list of elements
+    :attr List[UnalignedElement] unaligned_elements: (optional) A list of elements
           that do not semantically align between the compared documents.
     """
 
     def __init__(self,
                  *,
-                 model_id=None,
-                 model_version=None,
-                 documents=None,
-                 aligned_elements=None,
-                 unaligned_elements=None):
+                 model_id: str = None,
+                 model_version: str = None,
+                 documents: List['Document'] = None,
+                 aligned_elements: List['AlignedElement'] = None,
+                 unaligned_elements: List['UnalignedElement'] = None) -> None:
         """
         Initialize a CompareReturn object.
 
@@ -2205,11 +2335,11 @@ class CompareReturn():
                value is `contracts`.
         :param str model_version: (optional) The version of the analysis model
                identified by the value of the `model_id` key.
-        :param list[Document] documents: (optional) Information about the documents
+        :param List[Document] documents: (optional) Information about the documents
                being compared.
-        :param list[AlignedElement] aligned_elements: (optional) A list of pairs of
+        :param List[AlignedElement] aligned_elements: (optional) A list of pairs of
                elements that semantically align between the compared documents.
-        :param list[UnalignedElement] unaligned_elements: (optional) A list of
+        :param List[UnalignedElement] unaligned_elements: (optional) A list of
                elements that do not semantically align between the compared documents.
         """
         self.model_id = model_id
@@ -2219,7 +2349,7 @@ class CompareReturn():
         self.unaligned_elements = unaligned_elements
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'CompareReturn':
         """Initialize a CompareReturn object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -2251,7 +2381,12 @@ class CompareReturn():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CompareReturn object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'model_id') and self.model_id is not None:
@@ -2273,17 +2408,21 @@ class CompareReturn():
             ]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this CompareReturn object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'CompareReturn') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'CompareReturn') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2296,7 +2435,7 @@ class Contact():
     :attr str role: (optional) A string listing the role of the contact.
     """
 
-    def __init__(self, *, name=None, role=None):
+    def __init__(self, *, name: str = None, role: str = None) -> None:
         """
         Initialize a Contact object.
 
@@ -2307,7 +2446,7 @@ class Contact():
         self.role = role
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Contact':
         """Initialize a Contact object from a json dictionary."""
         args = {}
         valid_keys = ['name', 'role']
@@ -2322,7 +2461,12 @@ class Contact():
             args['role'] = _dict.get('role')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Contact object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'name') and self.name is not None:
@@ -2331,17 +2475,21 @@ class Contact():
             _dict['role'] = self.role
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Contact object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Contact') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Contact') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2357,7 +2505,8 @@ class Contexts():
           `end`.
     """
 
-    def __init__(self, *, text=None, location=None):
+    def __init__(self, *, text: str = None,
+                 location: 'Location' = None) -> None:
         """
         Initialize a Contexts object.
 
@@ -2370,7 +2519,7 @@ class Contexts():
         self.location = location
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Contexts':
         """Initialize a Contexts object from a json dictionary."""
         args = {}
         valid_keys = ['text', 'location']
@@ -2385,7 +2534,12 @@ class Contexts():
             args['location'] = Location._from_dict(_dict.get('location'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Contexts object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
@@ -2394,17 +2548,21 @@ class Contexts():
             _dict['location'] = self.location._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Contexts object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Contexts') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Contexts') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2422,7 +2580,7 @@ class ContractAmts():
     :attr Interpretation interpretation: (optional) The details of the normalized
           text, if applicable. This element is optional; it is returned only if normalized
           text exists.
-    :attr list[str] provenance_ids: (optional) Hashed values that you can send to
+    :attr List[str] provenance_ids: (optional) Hashed values that you can send to
           IBM to provide feedback or receive support.
     :attr Location location: (optional) The numeric location of the identified
           element in the document, represented with two integers labeled `begin` and
@@ -2431,12 +2589,12 @@ class ContractAmts():
 
     def __init__(self,
                  *,
-                 confidence_level=None,
-                 text=None,
-                 text_normalized=None,
-                 interpretation=None,
-                 provenance_ids=None,
-                 location=None):
+                 confidence_level: str = None,
+                 text: str = None,
+                 text_normalized: str = None,
+                 interpretation: 'Interpretation' = None,
+                 provenance_ids: List[str] = None,
+                 location: 'Location' = None) -> None:
         """
         Initialize a ContractAmts object.
 
@@ -2449,7 +2607,7 @@ class ContractAmts():
         :param Interpretation interpretation: (optional) The details of the
                normalized text, if applicable. This element is optional; it is returned
                only if normalized text exists.
-        :param list[str] provenance_ids: (optional) Hashed values that you can send
+        :param List[str] provenance_ids: (optional) Hashed values that you can send
                to IBM to provide feedback or receive support.
         :param Location location: (optional) The numeric location of the identified
                element in the document, represented with two integers labeled `begin` and
@@ -2463,7 +2621,7 @@ class ContractAmts():
         self.location = location
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ContractAmts':
         """Initialize a ContractAmts object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -2490,7 +2648,12 @@ class ContractAmts():
             args['location'] = Location._from_dict(_dict.get('location'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ContractAmts object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self,
@@ -2509,17 +2672,21 @@ class ContractAmts():
             _dict['location'] = self.location._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ContractAmts object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ContractAmts') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ContractAmts') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2543,7 +2710,7 @@ class ContractCurrencies():
           currency, which is listed as a string in
           [ISO-4217](https://www.iso.org/iso-4217-currency-codes.html) format. This
           element is optional; it is returned only if normalized text exists.
-    :attr list[str] provenance_ids: (optional) Hashed values that you can send to
+    :attr List[str] provenance_ids: (optional) Hashed values that you can send to
           IBM to provide feedback or receive support.
     :attr Location location: (optional) The numeric location of the identified
           element in the document, represented with two integers labeled `begin` and
@@ -2552,11 +2719,11 @@ class ContractCurrencies():
 
     def __init__(self,
                  *,
-                 confidence_level=None,
-                 text=None,
-                 text_normalized=None,
-                 provenance_ids=None,
-                 location=None):
+                 confidence_level: str = None,
+                 text: str = None,
+                 text_normalized: str = None,
+                 provenance_ids: List[str] = None,
+                 location: 'Location' = None) -> None:
         """
         Initialize a ContractCurrencies object.
 
@@ -2567,7 +2734,7 @@ class ContractCurrencies():
                currency, which is listed as a string in
                [ISO-4217](https://www.iso.org/iso-4217-currency-codes.html) format. This
                element is optional; it is returned only if normalized text exists.
-        :param list[str] provenance_ids: (optional) Hashed values that you can send
+        :param List[str] provenance_ids: (optional) Hashed values that you can send
                to IBM to provide feedback or receive support.
         :param Location location: (optional) The numeric location of the identified
                element in the document, represented with two integers labeled `begin` and
@@ -2580,7 +2747,7 @@ class ContractCurrencies():
         self.location = location
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ContractCurrencies':
         """Initialize a ContractCurrencies object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -2604,7 +2771,12 @@ class ContractCurrencies():
             args['location'] = Location._from_dict(_dict.get('location'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ContractCurrencies object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self,
@@ -2621,17 +2793,21 @@ class ContractCurrencies():
             _dict['location'] = self.location._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ContractCurrencies object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ContractCurrencies') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ContractCurrencies') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2657,7 +2833,7 @@ class ContractTerms():
     :attr Interpretation interpretation: (optional) The details of the normalized
           text, if applicable. This element is optional; it is returned only if normalized
           text exists.
-    :attr list[str] provenance_ids: (optional) Hashed values that you can send to
+    :attr List[str] provenance_ids: (optional) Hashed values that you can send to
           IBM to provide feedback or receive support.
     :attr Location location: (optional) The numeric location of the identified
           element in the document, represented with two integers labeled `begin` and
@@ -2666,12 +2842,12 @@ class ContractTerms():
 
     def __init__(self,
                  *,
-                 confidence_level=None,
-                 text=None,
-                 text_normalized=None,
-                 interpretation=None,
-                 provenance_ids=None,
-                 location=None):
+                 confidence_level: str = None,
+                 text: str = None,
+                 text_normalized: str = None,
+                 interpretation: 'Interpretation' = None,
+                 provenance_ids: List[str] = None,
+                 location: 'Location' = None) -> None:
         """
         Initialize a ContractTerms object.
 
@@ -2684,7 +2860,7 @@ class ContractTerms():
         :param Interpretation interpretation: (optional) The details of the
                normalized text, if applicable. This element is optional; it is returned
                only if normalized text exists.
-        :param list[str] provenance_ids: (optional) Hashed values that you can send
+        :param List[str] provenance_ids: (optional) Hashed values that you can send
                to IBM to provide feedback or receive support.
         :param Location location: (optional) The numeric location of the identified
                element in the document, represented with two integers labeled `begin` and
@@ -2698,7 +2874,7 @@ class ContractTerms():
         self.location = location
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ContractTerms':
         """Initialize a ContractTerms object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -2725,7 +2901,12 @@ class ContractTerms():
             args['location'] = Location._from_dict(_dict.get('location'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ContractTerms object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self,
@@ -2744,17 +2925,21 @@ class ContractTerms():
             _dict['location'] = self.location._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ContractTerms object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ContractTerms') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ContractTerms') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2774,7 +2959,7 @@ class ContractTypes():
     :attr str confidence_level: (optional) The confidence level in the
           identification of the contract type.
     :attr str text: (optional) The contract type.
-    :attr list[str] provenance_ids: (optional) Hashed values that you can send to
+    :attr List[str] provenance_ids: (optional) Hashed values that you can send to
           IBM to provide feedback or receive support.
     :attr Location location: (optional) The numeric location of the identified
           element in the document, represented with two integers labeled `begin` and
@@ -2783,17 +2968,17 @@ class ContractTypes():
 
     def __init__(self,
                  *,
-                 confidence_level=None,
-                 text=None,
-                 provenance_ids=None,
-                 location=None):
+                 confidence_level: str = None,
+                 text: str = None,
+                 provenance_ids: List[str] = None,
+                 location: 'Location' = None) -> None:
         """
         Initialize a ContractTypes object.
 
         :param str confidence_level: (optional) The confidence level in the
                identification of the contract type.
         :param str text: (optional) The contract type.
-        :param list[str] provenance_ids: (optional) Hashed values that you can send
+        :param List[str] provenance_ids: (optional) Hashed values that you can send
                to IBM to provide feedback or receive support.
         :param Location location: (optional) The numeric location of the identified
                element in the document, represented with two integers labeled `begin` and
@@ -2805,7 +2990,7 @@ class ContractTypes():
         self.location = location
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ContractTypes':
         """Initialize a ContractTypes object from a json dictionary."""
         args = {}
         valid_keys = ['confidence_level', 'text', 'provenance_ids', 'location']
@@ -2824,7 +3009,12 @@ class ContractTypes():
             args['location'] = Location._from_dict(_dict.get('location'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ContractTypes object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self,
@@ -2838,17 +3028,21 @@ class ContractTypes():
             _dict['location'] = self.location._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ContractTypes object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ContractTypes') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ContractTypes') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2873,10 +3067,10 @@ class DocCounts():
 
     def __init__(self,
                  *,
-                 total=None,
-                 pending=None,
-                 successful=None,
-                 failed=None):
+                 total: int = None,
+                 pending: int = None,
+                 successful: int = None,
+                 failed: int = None) -> None:
         """
         Initialize a DocCounts object.
 
@@ -2893,7 +3087,7 @@ class DocCounts():
         self.failed = failed
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'DocCounts':
         """Initialize a DocCounts object from a json dictionary."""
         args = {}
         valid_keys = ['total', 'pending', 'successful', 'failed']
@@ -2912,7 +3106,12 @@ class DocCounts():
             args['failed'] = _dict.get('failed')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DocCounts object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'total') and self.total is not None:
@@ -2925,17 +3124,21 @@ class DocCounts():
             _dict['failed'] = self.failed
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this DocCounts object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'DocCounts') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'DocCounts') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2950,7 +3153,8 @@ class DocInfo():
     :attr str hash: (optional) The MD5 hash of the input document.
     """
 
-    def __init__(self, *, html=None, title=None, hash=None):
+    def __init__(self, *, html: str = None, title: str = None,
+                 hash: str = None) -> None:
         """
         Initialize a DocInfo object.
 
@@ -2965,7 +3169,7 @@ class DocInfo():
         self.hash = hash
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'DocInfo':
         """Initialize a DocInfo object from a json dictionary."""
         args = {}
         valid_keys = ['html', 'title', 'hash']
@@ -2982,7 +3186,12 @@ class DocInfo():
             args['hash'] = _dict.get('hash')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DocInfo object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'html') and self.html is not None:
@@ -2993,17 +3202,21 @@ class DocInfo():
             _dict['hash'] = self.hash
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this DocInfo object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'DocInfo') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'DocInfo') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3012,31 +3225,31 @@ class DocStructure():
     """
     The structure of the input document.
 
-    :attr list[SectionTitles] section_titles: (optional) An array containing one
+    :attr List[SectionTitles] section_titles: (optional) An array containing one
           object per section or subsection identified in the input document.
-    :attr list[LeadingSentence] leading_sentences: (optional) An array containing
+    :attr List[LeadingSentence] leading_sentences: (optional) An array containing
           one object per section or subsection, in parallel with the `section_titles`
           array, that details the leading sentences in the corresponding section or
           subsection.
-    :attr list[Paragraphs] paragraphs: (optional) An array containing one object per
+    :attr List[Paragraphs] paragraphs: (optional) An array containing one object per
           paragraph, in parallel with the `section_titles` and `leading_sentences` arrays.
     """
 
     def __init__(self,
                  *,
-                 section_titles=None,
-                 leading_sentences=None,
-                 paragraphs=None):
+                 section_titles: List['SectionTitles'] = None,
+                 leading_sentences: List['LeadingSentence'] = None,
+                 paragraphs: List['Paragraphs'] = None) -> None:
         """
         Initialize a DocStructure object.
 
-        :param list[SectionTitles] section_titles: (optional) An array containing
+        :param List[SectionTitles] section_titles: (optional) An array containing
                one object per section or subsection identified in the input document.
-        :param list[LeadingSentence] leading_sentences: (optional) An array
+        :param List[LeadingSentence] leading_sentences: (optional) An array
                containing one object per section or subsection, in parallel with the
                `section_titles` array, that details the leading sentences in the
                corresponding section or subsection.
-        :param list[Paragraphs] paragraphs: (optional) An array containing one
+        :param List[Paragraphs] paragraphs: (optional) An array containing one
                object per paragraph, in parallel with the `section_titles` and
                `leading_sentences` arrays.
         """
@@ -3045,7 +3258,7 @@ class DocStructure():
         self.paragraphs = paragraphs
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'DocStructure':
         """Initialize a DocStructure object from a json dictionary."""
         args = {}
         valid_keys = ['section_titles', 'leading_sentences', 'paragraphs']
@@ -3070,7 +3283,12 @@ class DocStructure():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DocStructure object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'section_titles') and self.section_titles is not None:
@@ -3086,17 +3304,21 @@ class DocStructure():
             _dict['paragraphs'] = [x._to_dict() for x in self.paragraphs]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this DocStructure object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'DocStructure') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'DocStructure') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3113,7 +3335,12 @@ class Document():
           only in the output of the **Comparing two documents** method.
     """
 
-    def __init__(self, *, title=None, html=None, hash=None, label=None):
+    def __init__(self,
+                 *,
+                 title: str = None,
+                 html: str = None,
+                 hash: str = None,
+                 label: str = None) -> None:
         """
         Initialize a Document object.
 
@@ -3130,7 +3357,7 @@ class Document():
         self.label = label
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Document':
         """Initialize a Document object from a json dictionary."""
         args = {}
         valid_keys = ['title', 'html', 'hash', 'label']
@@ -3149,7 +3376,12 @@ class Document():
             args['label'] = _dict.get('label')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Document object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'title') and self.title is not None:
@@ -3162,17 +3394,21 @@ class Document():
             _dict['label'] = self.label
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Document object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Document') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Document') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3187,7 +3423,7 @@ class EffectiveDates():
     :attr str text_normalized: (optional) The normalized form of the effective date,
           which is listed as a string. This element is optional; it is returned only if
           normalized text exists.
-    :attr list[str] provenance_ids: (optional) Hashed values that you can send to
+    :attr List[str] provenance_ids: (optional) Hashed values that you can send to
           IBM to provide feedback or receive support.
     :attr Location location: (optional) The numeric location of the identified
           element in the document, represented with two integers labeled `begin` and
@@ -3196,11 +3432,11 @@ class EffectiveDates():
 
     def __init__(self,
                  *,
-                 confidence_level=None,
-                 text=None,
-                 text_normalized=None,
-                 provenance_ids=None,
-                 location=None):
+                 confidence_level: str = None,
+                 text: str = None,
+                 text_normalized: str = None,
+                 provenance_ids: List[str] = None,
+                 location: 'Location' = None) -> None:
         """
         Initialize a EffectiveDates object.
 
@@ -3210,7 +3446,7 @@ class EffectiveDates():
         :param str text_normalized: (optional) The normalized form of the effective
                date, which is listed as a string. This element is optional; it is returned
                only if normalized text exists.
-        :param list[str] provenance_ids: (optional) Hashed values that you can send
+        :param List[str] provenance_ids: (optional) Hashed values that you can send
                to IBM to provide feedback or receive support.
         :param Location location: (optional) The numeric location of the identified
                element in the document, represented with two integers labeled `begin` and
@@ -3223,7 +3459,7 @@ class EffectiveDates():
         self.location = location
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'EffectiveDates':
         """Initialize a EffectiveDates object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -3247,7 +3483,12 @@ class EffectiveDates():
             args['location'] = Location._from_dict(_dict.get('location'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a EffectiveDates object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self,
@@ -3264,17 +3505,21 @@ class EffectiveDates():
             _dict['location'] = self.location._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this EffectiveDates object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'EffectiveDates') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'EffectiveDates') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3295,20 +3540,20 @@ class Element():
           element in the document, represented with two integers labeled `begin` and
           `end`.
     :attr str text: (optional) The text of the element.
-    :attr list[TypeLabel] types: (optional) Description of the action specified by
+    :attr List[TypeLabel] types: (optional) Description of the action specified by
           the element  and whom it affects.
-    :attr list[Category] categories: (optional) List of functional categories into
+    :attr List[Category] categories: (optional) List of functional categories into
           which the element falls; in other words, the subject matter of the element.
-    :attr list[Attribute] attributes: (optional) List of document attributes.
+    :attr List[Attribute] attributes: (optional) List of document attributes.
     """
 
     def __init__(self,
                  *,
-                 location=None,
-                 text=None,
-                 types=None,
-                 categories=None,
-                 attributes=None):
+                 location: 'Location' = None,
+                 text: str = None,
+                 types: List['TypeLabel'] = None,
+                 categories: List['Category'] = None,
+                 attributes: List['Attribute'] = None) -> None:
         """
         Initialize a Element object.
 
@@ -3316,12 +3561,12 @@ class Element():
                element in the document, represented with two integers labeled `begin` and
                `end`.
         :param str text: (optional) The text of the element.
-        :param list[TypeLabel] types: (optional) Description of the action
+        :param List[TypeLabel] types: (optional) Description of the action
                specified by the element  and whom it affects.
-        :param list[Category] categories: (optional) List of functional categories
+        :param List[Category] categories: (optional) List of functional categories
                into which the element falls; in other words, the subject matter of the
                element.
-        :param list[Attribute] attributes: (optional) List of document attributes.
+        :param List[Attribute] attributes: (optional) List of document attributes.
         """
         self.location = location
         self.text = text
@@ -3330,7 +3575,7 @@ class Element():
         self.attributes = attributes
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Element':
         """Initialize a Element object from a json dictionary."""
         args = {}
         valid_keys = ['location', 'text', 'types', 'categories', 'attributes']
@@ -3357,7 +3602,12 @@ class Element():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Element object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'location') and self.location is not None:
@@ -3372,17 +3622,21 @@ class Element():
             _dict['attributes'] = [x._to_dict() for x in self.attributes]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Element object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Element') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Element') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3398,7 +3652,7 @@ class ElementLocations():
           element in the input document.
     """
 
-    def __init__(self, *, begin=None, end=None):
+    def __init__(self, *, begin: int = None, end: int = None) -> None:
         """
         Initialize a ElementLocations object.
 
@@ -3411,7 +3665,7 @@ class ElementLocations():
         self.end = end
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ElementLocations':
         """Initialize a ElementLocations object from a json dictionary."""
         args = {}
         valid_keys = ['begin', 'end']
@@ -3426,7 +3680,12 @@ class ElementLocations():
             args['end'] = _dict.get('end')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ElementLocations object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'begin') and self.begin is not None:
@@ -3435,17 +3694,21 @@ class ElementLocations():
             _dict['end'] = self.end
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ElementLocations object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ElementLocations') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ElementLocations') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3461,22 +3724,22 @@ class ElementPair():
     :attr Location location: (optional) The numeric location of the identified
           element in the document, represented with two integers labeled `begin` and
           `end`.
-    :attr list[TypeLabelComparison] types: (optional) Description of the action
+    :attr List[TypeLabelComparison] types: (optional) Description of the action
           specified by the element and whom it affects.
-    :attr list[CategoryComparison] categories: (optional) List of functional
+    :attr List[CategoryComparison] categories: (optional) List of functional
           categories into which the element falls; in other words, the subject matter of
           the element.
-    :attr list[Attribute] attributes: (optional) List of document attributes.
+    :attr List[Attribute] attributes: (optional) List of document attributes.
     """
 
     def __init__(self,
                  *,
-                 document_label=None,
-                 text=None,
-                 location=None,
-                 types=None,
-                 categories=None,
-                 attributes=None):
+                 document_label: str = None,
+                 text: str = None,
+                 location: 'Location' = None,
+                 types: List['TypeLabelComparison'] = None,
+                 categories: List['CategoryComparison'] = None,
+                 attributes: List['Attribute'] = None) -> None:
         """
         Initialize a ElementPair object.
 
@@ -3487,12 +3750,12 @@ class ElementPair():
         :param Location location: (optional) The numeric location of the identified
                element in the document, represented with two integers labeled `begin` and
                `end`.
-        :param list[TypeLabelComparison] types: (optional) Description of the
+        :param List[TypeLabelComparison] types: (optional) Description of the
                action specified by the element and whom it affects.
-        :param list[CategoryComparison] categories: (optional) List of functional
+        :param List[CategoryComparison] categories: (optional) List of functional
                categories into which the element falls; in other words, the subject matter
                of the element.
-        :param list[Attribute] attributes: (optional) List of document attributes.
+        :param List[Attribute] attributes: (optional) List of document attributes.
         """
         self.document_label = document_label
         self.text = text
@@ -3502,7 +3765,7 @@ class ElementPair():
         self.attributes = attributes
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ElementPair':
         """Initialize a ElementPair object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -3535,7 +3798,12 @@ class ElementPair():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ElementPair object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'document_label') and self.document_label is not None:
@@ -3552,17 +3820,21 @@ class ElementPair():
             _dict['attributes'] = [x._to_dict() for x in self.attributes]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ElementPair object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ElementPair') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ElementPair') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3588,15 +3860,15 @@ class FeedbackDataInput():
     """
 
     def __init__(self,
-                 feedback_type,
-                 location,
-                 text,
-                 original_labels,
-                 updated_labels,
+                 feedback_type: str,
+                 location: 'Location',
+                 text: str,
+                 original_labels: 'OriginalLabelsIn',
+                 updated_labels: 'UpdatedLabelsIn',
                  *,
-                 document=None,
-                 model_id=None,
-                 model_version=None):
+                 document: 'ShortDoc' = None,
+                 model_id: str = None,
+                 model_version: str = None) -> None:
         """
         Initialize a FeedbackDataInput object.
 
@@ -3626,7 +3898,7 @@ class FeedbackDataInput():
         self.updated_labels = updated_labels
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'FeedbackDataInput':
         """Initialize a FeedbackDataInput object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -3678,7 +3950,12 @@ class FeedbackDataInput():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a FeedbackDataInput object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'feedback_type') and self.feedback_type is not None:
@@ -3700,17 +3977,21 @@ class FeedbackDataInput():
             _dict['updated_labels'] = self.updated_labels._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this FeedbackDataInput object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'FeedbackDataInput') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'FeedbackDataInput') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3740,15 +4021,15 @@ class FeedbackDataOutput():
 
     def __init__(self,
                  *,
-                 feedback_type=None,
-                 document=None,
-                 model_id=None,
-                 model_version=None,
-                 location=None,
-                 text=None,
-                 original_labels=None,
-                 updated_labels=None,
-                 pagination=None):
+                 feedback_type: str = None,
+                 document: 'ShortDoc' = None,
+                 model_id: str = None,
+                 model_version: str = None,
+                 location: 'Location' = None,
+                 text: str = None,
+                 original_labels: 'OriginalLabelsOut' = None,
+                 updated_labels: 'UpdatedLabelsOut' = None,
+                 pagination: 'Pagination' = None) -> None:
         """
         Initialize a FeedbackDataOutput object.
 
@@ -3782,7 +4063,7 @@ class FeedbackDataOutput():
         self.pagination = pagination
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'FeedbackDataOutput':
         """Initialize a FeedbackDataOutput object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -3817,7 +4098,12 @@ class FeedbackDataOutput():
             args['pagination'] = Pagination._from_dict(_dict.get('pagination'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a FeedbackDataOutput object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'feedback_type') and self.feedback_type is not None:
@@ -3841,17 +4127,21 @@ class FeedbackDataOutput():
             _dict['pagination'] = self.pagination._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this FeedbackDataOutput object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'FeedbackDataOutput') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'FeedbackDataOutput') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3864,7 +4154,7 @@ class FeedbackDeleted():
     :attr str message: (optional) Status message returned from the service.
     """
 
-    def __init__(self, *, status=None, message=None):
+    def __init__(self, *, status: int = None, message: str = None) -> None:
         """
         Initialize a FeedbackDeleted object.
 
@@ -3875,7 +4165,7 @@ class FeedbackDeleted():
         self.message = message
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'FeedbackDeleted':
         """Initialize a FeedbackDeleted object from a json dictionary."""
         args = {}
         valid_keys = ['status', 'message']
@@ -3890,7 +4180,12 @@ class FeedbackDeleted():
             args['message'] = _dict.get('message')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a FeedbackDeleted object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'status') and self.status is not None:
@@ -3899,17 +4194,21 @@ class FeedbackDeleted():
             _dict['message'] = self.message
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this FeedbackDeleted object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'FeedbackDeleted') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'FeedbackDeleted') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3918,21 +4217,21 @@ class FeedbackList():
     """
     The results of a successful **List Feedback** request for all feedback.
 
-    :attr list[GetFeedback] feedback: (optional) A list of all feedback for the
+    :attr List[GetFeedback] feedback: (optional) A list of all feedback for the
           document.
     """
 
-    def __init__(self, *, feedback=None):
+    def __init__(self, *, feedback: List['GetFeedback'] = None) -> None:
         """
         Initialize a FeedbackList object.
 
-        :param list[GetFeedback] feedback: (optional) A list of all feedback for
+        :param List[GetFeedback] feedback: (optional) A list of all feedback for
                the document.
         """
         self.feedback = feedback
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'FeedbackList':
         """Initialize a FeedbackList object from a json dictionary."""
         args = {}
         valid_keys = ['feedback']
@@ -3947,24 +4246,33 @@ class FeedbackList():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a FeedbackList object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'feedback') and self.feedback is not None:
             _dict['feedback'] = [x._to_dict() for x in self.feedback]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this FeedbackList object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'FeedbackList') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'FeedbackList') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3986,11 +4294,11 @@ class FeedbackReturn():
 
     def __init__(self,
                  *,
-                 feedback_id=None,
-                 user_id=None,
-                 comment=None,
-                 created=None,
-                 feedback_data=None):
+                 feedback_id: str = None,
+                 user_id: str = None,
+                 comment: str = None,
+                 created: datetime = None,
+                 feedback_data: 'FeedbackDataOutput' = None) -> None:
         """
         Initialize a FeedbackReturn object.
 
@@ -4011,7 +4319,7 @@ class FeedbackReturn():
         self.feedback_data = feedback_data
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'FeedbackReturn':
         """Initialize a FeedbackReturn object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -4035,7 +4343,12 @@ class FeedbackReturn():
                 _dict.get('feedback_data'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a FeedbackReturn object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'feedback_id') and self.feedback_id is not None:
@@ -4050,17 +4363,21 @@ class FeedbackReturn():
             _dict['feedback_data'] = self.feedback_data._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this FeedbackReturn object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'FeedbackReturn') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'FeedbackReturn') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4081,10 +4398,10 @@ class GetFeedback():
 
     def __init__(self,
                  *,
-                 feedback_id=None,
-                 created=None,
-                 comment=None,
-                 feedback_data=None):
+                 feedback_id: str = None,
+                 created: datetime = None,
+                 comment: str = None,
+                 feedback_data: 'FeedbackDataOutput' = None) -> None:
         """
         Initialize a GetFeedback object.
 
@@ -4103,7 +4420,7 @@ class GetFeedback():
         self.feedback_data = feedback_data
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'GetFeedback':
         """Initialize a GetFeedback object from a json dictionary."""
         args = {}
         valid_keys = ['feedback_id', 'created', 'comment', 'feedback_data']
@@ -4123,7 +4440,12 @@ class GetFeedback():
                 _dict.get('feedback_data'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a GetFeedback object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'feedback_id') and self.feedback_id is not None:
@@ -4136,17 +4458,21 @@ class GetFeedback():
             _dict['feedback_data'] = self.feedback_data._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this GetFeedback object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'GetFeedback') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'GetFeedback') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4165,11 +4491,11 @@ class HTMLReturn():
 
     def __init__(self,
                  *,
-                 num_pages=None,
-                 author=None,
-                 publication_date=None,
-                 title=None,
-                 html=None):
+                 num_pages: str = None,
+                 author: str = None,
+                 publication_date: str = None,
+                 title: str = None,
+                 html: str = None) -> None:
         """
         Initialize a HTMLReturn object.
 
@@ -4189,7 +4515,7 @@ class HTMLReturn():
         self.html = html
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'HTMLReturn':
         """Initialize a HTMLReturn object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -4212,7 +4538,12 @@ class HTMLReturn():
             args['html'] = _dict.get('html')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a HTMLReturn object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'num_pages') and self.num_pages is not None:
@@ -4228,17 +4559,21 @@ class HTMLReturn():
             _dict['html'] = self.html
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this HTMLReturn object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'HTMLReturn') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'HTMLReturn') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4260,7 +4595,11 @@ class Interpretation():
           contains the ambiguous symbol as-is.
     """
 
-    def __init__(self, *, value=None, numeric_value=None, unit=None):
+    def __init__(self,
+                 *,
+                 value: str = None,
+                 numeric_value: float = None,
+                 unit: str = None) -> None:
         """
         Initialize a Interpretation object.
 
@@ -4281,7 +4620,7 @@ class Interpretation():
         self.unit = unit
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Interpretation':
         """Initialize a Interpretation object from a json dictionary."""
         args = {}
         valid_keys = ['value', 'numeric_value', 'unit']
@@ -4298,7 +4637,12 @@ class Interpretation():
             args['unit'] = _dict.get('unit')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Interpretation object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'value') and self.value is not None:
@@ -4309,17 +4653,21 @@ class Interpretation():
             _dict['unit'] = self.unit
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Interpretation object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Interpretation') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Interpretation') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4336,7 +4684,11 @@ class Key():
           markup.
     """
 
-    def __init__(self, *, cell_id=None, location=None, text=None):
+    def __init__(self,
+                 *,
+                 cell_id: str = None,
+                 location: 'Location' = None,
+                 text: str = None) -> None:
         """
         Initialize a Key object.
 
@@ -4352,7 +4704,7 @@ class Key():
         self.text = text
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Key':
         """Initialize a Key object from a json dictionary."""
         args = {}
         valid_keys = ['cell_id', 'location', 'text']
@@ -4369,7 +4721,12 @@ class Key():
             args['text'] = _dict.get('text')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Key object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'cell_id') and self.cell_id is not None:
@@ -4380,17 +4737,21 @@ class Key():
             _dict['text'] = self.text
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Key object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Key') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Key') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4400,21 +4761,22 @@ class KeyValuePair():
     Key-value pairs detected across cell boundaries.
 
     :attr Key key: (optional) A key in a key-value pair.
-    :attr list[Value] value: (optional) A list of values in a key-value pair.
+    :attr List[Value] value: (optional) A list of values in a key-value pair.
     """
 
-    def __init__(self, *, key=None, value=None):
+    def __init__(self, *, key: 'Key' = None,
+                 value: List['Value'] = None) -> None:
         """
         Initialize a KeyValuePair object.
 
         :param Key key: (optional) A key in a key-value pair.
-        :param list[Value] value: (optional) A list of values in a key-value pair.
+        :param List[Value] value: (optional) A list of values in a key-value pair.
         """
         self.key = key
         self.value = value
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'KeyValuePair':
         """Initialize a KeyValuePair object from a json dictionary."""
         args = {}
         valid_keys = ['key', 'value']
@@ -4429,7 +4791,12 @@ class KeyValuePair():
             args['value'] = [Value._from_dict(x) for x in (_dict.get('value'))]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a KeyValuePair object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'key') and self.key is not None:
@@ -4438,17 +4805,21 @@ class KeyValuePair():
             _dict['value'] = [x._to_dict() for x in self.value]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this KeyValuePair object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'KeyValuePair') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'KeyValuePair') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4463,7 +4834,7 @@ class Label():
     :attr str party: The identified `party` of the element.
     """
 
-    def __init__(self, nature, party):
+    def __init__(self, nature: str, party: str) -> None:
         """
         Initialize a Label object.
 
@@ -4474,7 +4845,7 @@ class Label():
         self.party = party
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Label':
         """Initialize a Label object from a json dictionary."""
         args = {}
         valid_keys = ['nature', 'party']
@@ -4495,7 +4866,12 @@ class Label():
                 'Required property \'party\' not present in Label JSON')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Label object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'nature') and self.nature is not None:
@@ -4504,17 +4880,21 @@ class Label():
             _dict['party'] = self.party
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Label object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Label') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Label') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4527,11 +4907,15 @@ class LeadingSentence():
     :attr Location location: (optional) The numeric location of the identified
           element in the document, represented with two integers labeled `begin` and
           `end`.
-    :attr list[ElementLocations] element_locations: (optional) An array of
+    :attr List[ElementLocations] element_locations: (optional) An array of
           `location` objects that lists the locations of detected leading sentences.
     """
 
-    def __init__(self, *, text=None, location=None, element_locations=None):
+    def __init__(self,
+                 *,
+                 text: str = None,
+                 location: 'Location' = None,
+                 element_locations: List['ElementLocations'] = None) -> None:
         """
         Initialize a LeadingSentence object.
 
@@ -4539,7 +4923,7 @@ class LeadingSentence():
         :param Location location: (optional) The numeric location of the identified
                element in the document, represented with two integers labeled `begin` and
                `end`.
-        :param list[ElementLocations] element_locations: (optional) An array of
+        :param List[ElementLocations] element_locations: (optional) An array of
                `location` objects that lists the locations of detected leading sentences.
         """
         self.text = text
@@ -4547,7 +4931,7 @@ class LeadingSentence():
         self.element_locations = element_locations
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'LeadingSentence':
         """Initialize a LeadingSentence object from a json dictionary."""
         args = {}
         valid_keys = ['text', 'location', 'element_locations']
@@ -4567,7 +4951,12 @@ class LeadingSentence():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a LeadingSentence object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
@@ -4581,17 +4970,21 @@ class LeadingSentence():
             ]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this LeadingSentence object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'LeadingSentence') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'LeadingSentence') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4605,7 +4998,7 @@ class Location():
     :attr int end: The element's `end` index.
     """
 
-    def __init__(self, begin, end):
+    def __init__(self, begin: int, end: int) -> None:
         """
         Initialize a Location object.
 
@@ -4616,7 +5009,7 @@ class Location():
         self.end = end
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Location':
         """Initialize a Location object from a json dictionary."""
         args = {}
         valid_keys = ['begin', 'end']
@@ -4637,7 +5030,12 @@ class Location():
                 'Required property \'end\' not present in Location JSON')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Location object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'begin') and self.begin is not None:
@@ -4646,17 +5044,21 @@ class Location():
             _dict['end'] = self.end
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Location object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Location') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Location') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4671,7 +5073,8 @@ class Mention():
           `end`.
     """
 
-    def __init__(self, *, text=None, location=None):
+    def __init__(self, *, text: str = None,
+                 location: 'Location' = None) -> None:
         """
         Initialize a Mention object.
 
@@ -4684,7 +5087,7 @@ class Mention():
         self.location = location
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Mention':
         """Initialize a Mention object from a json dictionary."""
         args = {}
         valid_keys = ['text', 'location']
@@ -4699,7 +5102,12 @@ class Mention():
             args['location'] = Location._from_dict(_dict.get('location'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Mention object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
@@ -4708,17 +5116,21 @@ class Mention():
             _dict['location'] = self.location._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Mention object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Mention') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Mention') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4727,26 +5139,27 @@ class OriginalLabelsIn():
     """
     The original labeling from the input document, without the submitted feedback.
 
-    :attr list[TypeLabel] types: Description of the action specified by the element
+    :attr List[TypeLabel] types: Description of the action specified by the element
           and whom it affects.
-    :attr list[Category] categories: List of functional categories into which the
+    :attr List[Category] categories: List of functional categories into which the
           element falls; in other words, the subject matter of the element.
     """
 
-    def __init__(self, types, categories):
+    def __init__(self, types: List['TypeLabel'],
+                 categories: List['Category']) -> None:
         """
         Initialize a OriginalLabelsIn object.
 
-        :param list[TypeLabel] types: Description of the action specified by the
+        :param List[TypeLabel] types: Description of the action specified by the
                element and whom it affects.
-        :param list[Category] categories: List of functional categories into which
+        :param List[Category] categories: List of functional categories into which
                the element falls; in other words, the subject matter of the element.
         """
         self.types = types
         self.categories = categories
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'OriginalLabelsIn':
         """Initialize a OriginalLabelsIn object from a json dictionary."""
         args = {}
         valid_keys = ['types', 'categories']
@@ -4773,7 +5186,12 @@ class OriginalLabelsIn():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a OriginalLabelsIn object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'types') and self.types is not None:
@@ -4782,17 +5200,21 @@ class OriginalLabelsIn():
             _dict['categories'] = [x._to_dict() for x in self.categories]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this OriginalLabelsIn object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'OriginalLabelsIn') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'OriginalLabelsIn') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4801,22 +5223,26 @@ class OriginalLabelsOut():
     """
     The original labeling from the input document, without the submitted feedback.
 
-    :attr list[TypeLabel] types: (optional) Description of the action specified by
+    :attr List[TypeLabel] types: (optional) Description of the action specified by
           the element and whom it affects.
-    :attr list[Category] categories: (optional) List of functional categories into
+    :attr List[Category] categories: (optional) List of functional categories into
           which the element falls; in other words, the subject matter of the element.
     :attr str modification: (optional) A string identifying the type of modification
           the feedback entry in the `updated_labels` array. Possible values are `added`,
           `not_changed`, and `removed`.
     """
 
-    def __init__(self, *, types=None, categories=None, modification=None):
+    def __init__(self,
+                 *,
+                 types: List['TypeLabel'] = None,
+                 categories: List['Category'] = None,
+                 modification: str = None) -> None:
         """
         Initialize a OriginalLabelsOut object.
 
-        :param list[TypeLabel] types: (optional) Description of the action
+        :param List[TypeLabel] types: (optional) Description of the action
                specified by the element and whom it affects.
-        :param list[Category] categories: (optional) List of functional categories
+        :param List[Category] categories: (optional) List of functional categories
                into which the element falls; in other words, the subject matter of the
                element.
         :param str modification: (optional) A string identifying the type of
@@ -4828,7 +5254,7 @@ class OriginalLabelsOut():
         self.modification = modification
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'OriginalLabelsOut':
         """Initialize a OriginalLabelsOut object from a json dictionary."""
         args = {}
         valid_keys = ['types', 'categories', 'modification']
@@ -4849,7 +5275,12 @@ class OriginalLabelsOut():
             args['modification'] = _dict.get('modification')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a OriginalLabelsOut object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'types') and self.types is not None:
@@ -4860,17 +5291,21 @@ class OriginalLabelsOut():
             _dict['modification'] = self.modification
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this OriginalLabelsOut object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'OriginalLabelsOut') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'OriginalLabelsOut') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4899,11 +5334,11 @@ class Pagination():
 
     def __init__(self,
                  *,
-                 refresh_cursor=None,
-                 next_cursor=None,
-                 refresh_url=None,
-                 next_url=None,
-                 total=None):
+                 refresh_cursor: str = None,
+                 next_cursor: str = None,
+                 refresh_url: str = None,
+                 next_url: str = None,
+                 total: int = None) -> None:
         """
         Initialize a Pagination object.
 
@@ -4924,7 +5359,7 @@ class Pagination():
         self.total = total
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Pagination':
         """Initialize a Pagination object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -4947,7 +5382,12 @@ class Pagination():
             args['total'] = _dict.get('total')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Pagination object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'refresh_cursor') and self.refresh_cursor is not None:
@@ -4962,17 +5402,21 @@ class Pagination():
             _dict['total'] = self.total
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Pagination object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Pagination') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Pagination') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4986,7 +5430,7 @@ class Paragraphs():
           `end`.
     """
 
-    def __init__(self, *, location=None):
+    def __init__(self, *, location: 'Location' = None) -> None:
         """
         Initialize a Paragraphs object.
 
@@ -4997,7 +5441,7 @@ class Paragraphs():
         self.location = location
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Paragraphs':
         """Initialize a Paragraphs object from a json dictionary."""
         args = {}
         valid_keys = ['location']
@@ -5010,24 +5454,33 @@ class Paragraphs():
             args['location'] = Location._from_dict(_dict.get('location'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Paragraphs object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'location') and self.location is not None:
             _dict['location'] = self.location._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Paragraphs object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Paragraphs') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Paragraphs') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -5041,22 +5494,22 @@ class Parties():
     :attr str role: (optional) A string identifying the party's role.
     :attr str importance: (optional) A string that identifies the importance of the
           party.
-    :attr list[Address] addresses: (optional) A list of the party's address or
+    :attr List[Address] addresses: (optional) A list of the party's address or
           addresses.
-    :attr list[Contact] contacts: (optional) A list of the names and roles of
+    :attr List[Contact] contacts: (optional) A list of the names and roles of
           contacts identified in the input document.
-    :attr list[Mention] mentions: (optional) A list of the party's mentions in the
+    :attr List[Mention] mentions: (optional) A list of the party's mentions in the
           input document.
     """
 
     def __init__(self,
                  *,
-                 party=None,
-                 role=None,
-                 importance=None,
-                 addresses=None,
-                 contacts=None,
-                 mentions=None):
+                 party: str = None,
+                 role: str = None,
+                 importance: str = None,
+                 addresses: List['Address'] = None,
+                 contacts: List['Contact'] = None,
+                 mentions: List['Mention'] = None) -> None:
         """
         Initialize a Parties object.
 
@@ -5064,11 +5517,11 @@ class Parties():
         :param str role: (optional) A string identifying the party's role.
         :param str importance: (optional) A string that identifies the importance
                of the party.
-        :param list[Address] addresses: (optional) A list of the party's address or
+        :param List[Address] addresses: (optional) A list of the party's address or
                addresses.
-        :param list[Contact] contacts: (optional) A list of the names and roles of
+        :param List[Contact] contacts: (optional) A list of the names and roles of
                contacts identified in the input document.
-        :param list[Mention] mentions: (optional) A list of the party's mentions in
+        :param List[Mention] mentions: (optional) A list of the party's mentions in
                the input document.
         """
         self.party = party
@@ -5079,7 +5532,7 @@ class Parties():
         self.mentions = mentions
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Parties':
         """Initialize a Parties object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -5110,7 +5563,12 @@ class Parties():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Parties object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'party') and self.party is not None:
@@ -5127,17 +5585,21 @@ class Parties():
             _dict['mentions'] = [x._to_dict() for x in self.mentions]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Parties object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Parties') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Parties') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -5162,7 +5624,7 @@ class PaymentTerms():
     :attr Interpretation interpretation: (optional) The details of the normalized
           text, if applicable. This element is optional; it is returned only if normalized
           text exists.
-    :attr list[str] provenance_ids: (optional) Hashed values that you can send to
+    :attr List[str] provenance_ids: (optional) Hashed values that you can send to
           IBM to provide feedback or receive support.
     :attr Location location: (optional) The numeric location of the identified
           element in the document, represented with two integers labeled `begin` and
@@ -5171,12 +5633,12 @@ class PaymentTerms():
 
     def __init__(self,
                  *,
-                 confidence_level=None,
-                 text=None,
-                 text_normalized=None,
-                 interpretation=None,
-                 provenance_ids=None,
-                 location=None):
+                 confidence_level: str = None,
+                 text: str = None,
+                 text_normalized: str = None,
+                 interpretation: 'Interpretation' = None,
+                 provenance_ids: List[str] = None,
+                 location: 'Location' = None) -> None:
         """
         Initialize a PaymentTerms object.
 
@@ -5189,7 +5651,7 @@ class PaymentTerms():
         :param Interpretation interpretation: (optional) The details of the
                normalized text, if applicable. This element is optional; it is returned
                only if normalized text exists.
-        :param list[str] provenance_ids: (optional) Hashed values that you can send
+        :param List[str] provenance_ids: (optional) Hashed values that you can send
                to IBM to provide feedback or receive support.
         :param Location location: (optional) The numeric location of the identified
                element in the document, represented with two integers labeled `begin` and
@@ -5203,7 +5665,7 @@ class PaymentTerms():
         self.location = location
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'PaymentTerms':
         """Initialize a PaymentTerms object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -5230,7 +5692,12 @@ class PaymentTerms():
             args['location'] = Location._from_dict(_dict.get('location'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a PaymentTerms object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self,
@@ -5249,17 +5716,21 @@ class PaymentTerms():
             _dict['location'] = self.location._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this PaymentTerms object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'PaymentTerms') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'PaymentTerms') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -5298,14 +5769,14 @@ class RowHeaders():
 
     def __init__(self,
                  *,
-                 cell_id=None,
-                 location=None,
-                 text=None,
-                 text_normalized=None,
-                 row_index_begin=None,
-                 row_index_end=None,
-                 column_index_begin=None,
-                 column_index_end=None):
+                 cell_id: str = None,
+                 location: 'Location' = None,
+                 text: str = None,
+                 text_normalized: str = None,
+                 row_index_begin: int = None,
+                 row_index_end: int = None,
+                 column_index_begin: int = None,
+                 column_index_end: int = None) -> None:
         """
         Initialize a RowHeaders object.
 
@@ -5338,7 +5809,7 @@ class RowHeaders():
         self.column_index_end = column_index_end
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'RowHeaders':
         """Initialize a RowHeaders object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -5368,7 +5839,12 @@ class RowHeaders():
             args['column_index_end'] = _dict.get('column_index_end')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RowHeaders object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'cell_id') and self.cell_id is not None:
@@ -5394,17 +5870,21 @@ class RowHeaders():
             _dict['column_index_end'] = self.column_index_end
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this RowHeaders object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'RowHeaders') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'RowHeaders') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -5419,7 +5899,8 @@ class SectionTitle():
           `end`.
     """
 
-    def __init__(self, *, text=None, location=None):
+    def __init__(self, *, text: str = None,
+                 location: 'Location' = None) -> None:
         """
         Initialize a SectionTitle object.
 
@@ -5432,7 +5913,7 @@ class SectionTitle():
         self.location = location
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'SectionTitle':
         """Initialize a SectionTitle object from a json dictionary."""
         args = {}
         valid_keys = ['text', 'location']
@@ -5447,7 +5928,12 @@ class SectionTitle():
             args['location'] = Location._from_dict(_dict.get('location'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SectionTitle object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
@@ -5456,17 +5942,21 @@ class SectionTitle():
             _dict['location'] = self.location._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this SectionTitle object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'SectionTitle') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'SectionTitle') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -5485,16 +5975,16 @@ class SectionTitles():
     :attr int level: (optional) An integer indicating the level at which the section
           is located in the input document. For example, `1` represents a top-level
           section, `2` represents a subsection within the level `1` section, and so forth.
-    :attr list[ElementLocations] element_locations: (optional) An array of
+    :attr List[ElementLocations] element_locations: (optional) An array of
           `location` objects that lists the locations of detected section titles.
     """
 
     def __init__(self,
                  *,
-                 text=None,
-                 location=None,
-                 level=None,
-                 element_locations=None):
+                 text: str = None,
+                 location: 'Location' = None,
+                 level: int = None,
+                 element_locations: List['ElementLocations'] = None) -> None:
         """
         Initialize a SectionTitles object.
 
@@ -5506,7 +5996,7 @@ class SectionTitles():
                section is located in the input document. For example, `1` represents a
                top-level section, `2` represents a subsection within the level `1`
                section, and so forth.
-        :param list[ElementLocations] element_locations: (optional) An array of
+        :param List[ElementLocations] element_locations: (optional) An array of
                `location` objects that lists the locations of detected section titles.
         """
         self.text = text
@@ -5515,7 +6005,7 @@ class SectionTitles():
         self.element_locations = element_locations
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'SectionTitles':
         """Initialize a SectionTitles object from a json dictionary."""
         args = {}
         valid_keys = ['text', 'location', 'level', 'element_locations']
@@ -5537,7 +6027,12 @@ class SectionTitles():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SectionTitles object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
@@ -5553,17 +6048,21 @@ class SectionTitles():
             ]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this SectionTitles object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'SectionTitles') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'SectionTitles') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -5576,7 +6075,7 @@ class ShortDoc():
     :attr str hash: (optional) The MD5 hash of the input document.
     """
 
-    def __init__(self, *, title=None, hash=None):
+    def __init__(self, *, title: str = None, hash: str = None) -> None:
         """
         Initialize a ShortDoc object.
 
@@ -5588,7 +6087,7 @@ class ShortDoc():
         self.hash = hash
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ShortDoc':
         """Initialize a ShortDoc object from a json dictionary."""
         args = {}
         valid_keys = ['title', 'hash']
@@ -5603,7 +6102,12 @@ class ShortDoc():
             args['hash'] = _dict.get('hash')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ShortDoc object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'title') and self.title is not None:
@@ -5612,17 +6116,21 @@ class ShortDoc():
             _dict['hash'] = self.hash
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ShortDoc object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ShortDoc') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ShortDoc') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -5649,13 +6157,13 @@ class TableHeaders():
 
     def __init__(self,
                  *,
-                 cell_id=None,
-                 location=None,
-                 text=None,
-                 row_index_begin=None,
-                 row_index_end=None,
-                 column_index_begin=None,
-                 column_index_end=None):
+                 cell_id: str = None,
+                 location: object = None,
+                 text: str = None,
+                 row_index_begin: int = None,
+                 row_index_end: int = None,
+                 column_index_begin: int = None,
+                 column_index_end: int = None) -> None:
         """
         Initialize a TableHeaders object.
 
@@ -5684,7 +6192,7 @@ class TableHeaders():
         self.column_index_end = column_index_end
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'TableHeaders':
         """Initialize a TableHeaders object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -5712,7 +6220,12 @@ class TableHeaders():
             args['column_index_end'] = _dict.get('column_index_end')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TableHeaders object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'cell_id') and self.cell_id is not None:
@@ -5735,17 +6248,21 @@ class TableHeaders():
             _dict['column_index_end'] = self.column_index_end
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this TableHeaders object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'TableHeaders') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'TableHeaders') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -5758,16 +6275,16 @@ class TableReturn():
     :attr str model_id: (optional) The ID of the model used to extract the table
           contents. The value for table extraction is `tables`.
     :attr str model_version: (optional) The version of the `tables` model ID.
-    :attr list[Tables] tables: (optional) Definitions of the tables identified in
+    :attr List[Tables] tables: (optional) Definitions of the tables identified in
           the input document.
     """
 
     def __init__(self,
                  *,
-                 document=None,
-                 model_id=None,
-                 model_version=None,
-                 tables=None):
+                 document: 'DocInfo' = None,
+                 model_id: str = None,
+                 model_version: str = None,
+                 tables: List['Tables'] = None) -> None:
         """
         Initialize a TableReturn object.
 
@@ -5776,7 +6293,7 @@ class TableReturn():
         :param str model_id: (optional) The ID of the model used to extract the
                table contents. The value for table extraction is `tables`.
         :param str model_version: (optional) The version of the `tables` model ID.
-        :param list[Tables] tables: (optional) Definitions of the tables identified
+        :param List[Tables] tables: (optional) Definitions of the tables identified
                in the input document.
         """
         self.document = document
@@ -5785,7 +6302,7 @@ class TableReturn():
         self.tables = tables
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'TableReturn':
         """Initialize a TableReturn object from a json dictionary."""
         args = {}
         valid_keys = ['document', 'model_id', 'model_version', 'tables']
@@ -5806,7 +6323,12 @@ class TableReturn():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TableReturn object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'document') and self.document is not None:
@@ -5819,17 +6341,21 @@ class TableReturn():
             _dict['tables'] = [x._to_dict() for x in self.tables]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this TableReturn object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'TableReturn') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'TableReturn') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -5846,7 +6372,8 @@ class TableTitle():
     :attr str text: (optional) The text of the identified table title or caption.
     """
 
-    def __init__(self, *, location=None, text=None):
+    def __init__(self, *, location: 'Location' = None,
+                 text: str = None) -> None:
         """
         Initialize a TableTitle object.
 
@@ -5860,7 +6387,7 @@ class TableTitle():
         self.text = text
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'TableTitle':
         """Initialize a TableTitle object from a json dictionary."""
         args = {}
         valid_keys = ['location', 'text']
@@ -5875,7 +6402,12 @@ class TableTitle():
             args['text'] = _dict.get('text')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TableTitle object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'location') and self.location is not None:
@@ -5884,17 +6416,21 @@ class TableTitle():
             _dict['text'] = self.text
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this TableTitle object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'TableTitle') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'TableTitle') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -5914,36 +6450,36 @@ class Tables():
           current table of the form `Table x.: ...`. Empty when no title is identified.
           When exposed, the `title` is also excluded from the `contexts` array of the same
           table.
-    :attr list[TableHeaders] table_headers: (optional) An array of table-level cells
+    :attr List[TableHeaders] table_headers: (optional) An array of table-level cells
           that apply as headers to all the other cells in the current table.
-    :attr list[RowHeaders] row_headers: (optional) An array of row-level cells, each
+    :attr List[RowHeaders] row_headers: (optional) An array of row-level cells, each
           applicable as a header to other cells in the same row as itself, of the current
           table.
-    :attr list[ColumnHeaders] column_headers: (optional) An array of column-level
+    :attr List[ColumnHeaders] column_headers: (optional) An array of column-level
           cells, each applicable as a header to other cells in the same column as itself,
           of the current table.
-    :attr list[BodyCells] body_cells: (optional) An array of cells that are neither
+    :attr List[BodyCells] body_cells: (optional) An array of cells that are neither
           table header nor column header nor row header cells, of the current table with
           corresponding row and column header associations.
-    :attr list[Contexts] contexts: (optional) An array of objects that list text
+    :attr List[Contexts] contexts: (optional) An array of objects that list text
           that is related to the table contents and that precedes or follows the current
           table.
-    :attr list[KeyValuePair] key_value_pairs: (optional) An array of key-value pairs
+    :attr List[KeyValuePair] key_value_pairs: (optional) An array of key-value pairs
           identified in the current table.
     """
 
     def __init__(self,
                  *,
-                 location=None,
-                 text=None,
-                 section_title=None,
-                 title=None,
-                 table_headers=None,
-                 row_headers=None,
-                 column_headers=None,
-                 body_cells=None,
-                 contexts=None,
-                 key_value_pairs=None):
+                 location: 'Location' = None,
+                 text: str = None,
+                 section_title: 'SectionTitle' = None,
+                 title: 'TableTitle' = None,
+                 table_headers: List['TableHeaders'] = None,
+                 row_headers: List['RowHeaders'] = None,
+                 column_headers: List['ColumnHeaders'] = None,
+                 body_cells: List['BodyCells'] = None,
+                 contexts: List['Contexts'] = None,
+                 key_value_pairs: List['KeyValuePair'] = None) -> None:
         """
         Initialize a Tables object.
 
@@ -5958,21 +6494,21 @@ class Tables():
                the current table of the form `Table x.: ...`. Empty when no title is
                identified. When exposed, the `title` is also excluded from the `contexts`
                array of the same table.
-        :param list[TableHeaders] table_headers: (optional) An array of table-level
+        :param List[TableHeaders] table_headers: (optional) An array of table-level
                cells that apply as headers to all the other cells in the current table.
-        :param list[RowHeaders] row_headers: (optional) An array of row-level
+        :param List[RowHeaders] row_headers: (optional) An array of row-level
                cells, each applicable as a header to other cells in the same row as
                itself, of the current table.
-        :param list[ColumnHeaders] column_headers: (optional) An array of
+        :param List[ColumnHeaders] column_headers: (optional) An array of
                column-level cells, each applicable as a header to other cells in the same
                column as itself, of the current table.
-        :param list[BodyCells] body_cells: (optional) An array of cells that are
+        :param List[BodyCells] body_cells: (optional) An array of cells that are
                neither table header nor column header nor row header cells, of the current
                table with corresponding row and column header associations.
-        :param list[Contexts] contexts: (optional) An array of objects that list
+        :param List[Contexts] contexts: (optional) An array of objects that list
                text that is related to the table contents and that precedes or follows the
                current table.
-        :param list[KeyValuePair] key_value_pairs: (optional) An array of key-value
+        :param List[KeyValuePair] key_value_pairs: (optional) An array of key-value
                pairs identified in the current table.
         """
         self.location = location
@@ -5987,7 +6523,7 @@ class Tables():
         self.key_value_pairs = key_value_pairs
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Tables':
         """Initialize a Tables object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -6037,7 +6573,12 @@ class Tables():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Tables object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'location') and self.location is not None:
@@ -6067,17 +6608,21 @@ class Tables():
             ]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Tables object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Tables') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Tables') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -6092,7 +6637,7 @@ class TerminationDates():
     :attr str text_normalized: (optional) The normalized form of the termination
           date, which is listed as a string. This element is optional; it is returned only
           if normalized text exists.
-    :attr list[str] provenance_ids: (optional) Hashed values that you can send to
+    :attr List[str] provenance_ids: (optional) Hashed values that you can send to
           IBM to provide feedback or receive support.
     :attr Location location: (optional) The numeric location of the identified
           element in the document, represented with two integers labeled `begin` and
@@ -6101,11 +6646,11 @@ class TerminationDates():
 
     def __init__(self,
                  *,
-                 confidence_level=None,
-                 text=None,
-                 text_normalized=None,
-                 provenance_ids=None,
-                 location=None):
+                 confidence_level: str = None,
+                 text: str = None,
+                 text_normalized: str = None,
+                 provenance_ids: List[str] = None,
+                 location: 'Location' = None) -> None:
         """
         Initialize a TerminationDates object.
 
@@ -6115,7 +6660,7 @@ class TerminationDates():
         :param str text_normalized: (optional) The normalized form of the
                termination date, which is listed as a string. This element is optional; it
                is returned only if normalized text exists.
-        :param list[str] provenance_ids: (optional) Hashed values that you can send
+        :param List[str] provenance_ids: (optional) Hashed values that you can send
                to IBM to provide feedback or receive support.
         :param Location location: (optional) The numeric location of the identified
                element in the document, represented with two integers labeled `begin` and
@@ -6128,7 +6673,7 @@ class TerminationDates():
         self.location = location
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'TerminationDates':
         """Initialize a TerminationDates object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -6152,7 +6697,12 @@ class TerminationDates():
             args['location'] = Location._from_dict(_dict.get('location'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TerminationDates object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self,
@@ -6169,17 +6719,21 @@ class TerminationDates():
             _dict['location'] = self.location._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this TerminationDates object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'TerminationDates') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'TerminationDates') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -6199,25 +6753,28 @@ class TypeLabel():
     :attr Label label: (optional) A pair of `nature` and `party` objects. The
           `nature` object identifies the effect of the element on the identified `party`,
           and the `party` object identifies the affected party.
-    :attr list[str] provenance_ids: (optional) Hashed values that you can send to
+    :attr List[str] provenance_ids: (optional) Hashed values that you can send to
           IBM to provide feedback or receive support.
     """
 
-    def __init__(self, *, label=None, provenance_ids=None):
+    def __init__(self,
+                 *,
+                 label: 'Label' = None,
+                 provenance_ids: List[str] = None) -> None:
         """
         Initialize a TypeLabel object.
 
         :param Label label: (optional) A pair of `nature` and `party` objects. The
                `nature` object identifies the effect of the element on the identified
                `party`, and the `party` object identifies the affected party.
-        :param list[str] provenance_ids: (optional) Hashed values that you can send
+        :param List[str] provenance_ids: (optional) Hashed values that you can send
                to IBM to provide feedback or receive support.
         """
         self.label = label
         self.provenance_ids = provenance_ids
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'TypeLabel':
         """Initialize a TypeLabel object from a json dictionary."""
         args = {}
         valid_keys = ['label', 'provenance_ids']
@@ -6232,7 +6789,12 @@ class TypeLabel():
             args['provenance_ids'] = _dict.get('provenance_ids')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TypeLabel object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'label') and self.label is not None:
@@ -6241,17 +6803,21 @@ class TypeLabel():
             _dict['provenance_ids'] = self.provenance_ids
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this TypeLabel object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'TypeLabel') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'TypeLabel') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -6265,7 +6831,7 @@ class TypeLabelComparison():
           and the `party` object identifies the affected party.
     """
 
-    def __init__(self, *, label=None):
+    def __init__(self, *, label: 'Label' = None) -> None:
         """
         Initialize a TypeLabelComparison object.
 
@@ -6276,7 +6842,7 @@ class TypeLabelComparison():
         self.label = label
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'TypeLabelComparison':
         """Initialize a TypeLabelComparison object from a json dictionary."""
         args = {}
         valid_keys = ['label']
@@ -6289,24 +6855,33 @@ class TypeLabelComparison():
             args['label'] = Label._from_dict(_dict.get('label'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TypeLabelComparison object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'label') and self.label is not None:
             _dict['label'] = self.label._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this TypeLabelComparison object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'TypeLabelComparison') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'TypeLabelComparison') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -6322,22 +6897,22 @@ class UnalignedElement():
           element in the document, represented with two integers labeled `begin` and
           `end`.
     :attr str text: (optional) The text of the element.
-    :attr list[TypeLabelComparison] types: (optional) Description of the action
+    :attr List[TypeLabelComparison] types: (optional) Description of the action
           specified by the element and whom it affects.
-    :attr list[CategoryComparison] categories: (optional) List of functional
+    :attr List[CategoryComparison] categories: (optional) List of functional
           categories into which the element falls; in other words, the subject matter of
           the element.
-    :attr list[Attribute] attributes: (optional) List of document attributes.
+    :attr List[Attribute] attributes: (optional) List of document attributes.
     """
 
     def __init__(self,
                  *,
-                 document_label=None,
-                 location=None,
-                 text=None,
-                 types=None,
-                 categories=None,
-                 attributes=None):
+                 document_label: str = None,
+                 location: 'Location' = None,
+                 text: str = None,
+                 types: List['TypeLabelComparison'] = None,
+                 categories: List['CategoryComparison'] = None,
+                 attributes: List['Attribute'] = None) -> None:
         """
         Initialize a UnalignedElement object.
 
@@ -6348,12 +6923,12 @@ class UnalignedElement():
                element in the document, represented with two integers labeled `begin` and
                `end`.
         :param str text: (optional) The text of the element.
-        :param list[TypeLabelComparison] types: (optional) Description of the
+        :param List[TypeLabelComparison] types: (optional) Description of the
                action specified by the element and whom it affects.
-        :param list[CategoryComparison] categories: (optional) List of functional
+        :param List[CategoryComparison] categories: (optional) List of functional
                categories into which the element falls; in other words, the subject matter
                of the element.
-        :param list[Attribute] attributes: (optional) List of document attributes.
+        :param List[Attribute] attributes: (optional) List of document attributes.
         """
         self.document_label = document_label
         self.location = location
@@ -6363,7 +6938,7 @@ class UnalignedElement():
         self.attributes = attributes
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'UnalignedElement':
         """Initialize a UnalignedElement object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -6396,7 +6971,12 @@ class UnalignedElement():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a UnalignedElement object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'document_label') and self.document_label is not None:
@@ -6413,17 +6993,21 @@ class UnalignedElement():
             _dict['attributes'] = [x._to_dict() for x in self.attributes]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this UnalignedElement object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'UnalignedElement') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'UnalignedElement') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -6432,26 +7016,27 @@ class UpdatedLabelsIn():
     """
     The updated labeling from the input document, accounting for the submitted feedback.
 
-    :attr list[TypeLabel] types: Description of the action specified by the element
+    :attr List[TypeLabel] types: Description of the action specified by the element
           and whom it affects.
-    :attr list[Category] categories: List of functional categories into which the
+    :attr List[Category] categories: List of functional categories into which the
           element falls; in other words, the subject matter of the element.
     """
 
-    def __init__(self, types, categories):
+    def __init__(self, types: List['TypeLabel'],
+                 categories: List['Category']) -> None:
         """
         Initialize a UpdatedLabelsIn object.
 
-        :param list[TypeLabel] types: Description of the action specified by the
+        :param List[TypeLabel] types: Description of the action specified by the
                element and whom it affects.
-        :param list[Category] categories: List of functional categories into which
+        :param List[Category] categories: List of functional categories into which
                the element falls; in other words, the subject matter of the element.
         """
         self.types = types
         self.categories = categories
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'UpdatedLabelsIn':
         """Initialize a UpdatedLabelsIn object from a json dictionary."""
         args = {}
         valid_keys = ['types', 'categories']
@@ -6478,7 +7063,12 @@ class UpdatedLabelsIn():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a UpdatedLabelsIn object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'types') and self.types is not None:
@@ -6487,17 +7077,21 @@ class UpdatedLabelsIn():
             _dict['categories'] = [x._to_dict() for x in self.categories]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this UpdatedLabelsIn object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'UpdatedLabelsIn') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'UpdatedLabelsIn') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -6506,22 +7100,26 @@ class UpdatedLabelsOut():
     """
     The updated labeling from the input document, accounting for the submitted feedback.
 
-    :attr list[TypeLabel] types: (optional) Description of the action specified by
+    :attr List[TypeLabel] types: (optional) Description of the action specified by
           the element and whom it affects.
-    :attr list[Category] categories: (optional) List of functional categories into
+    :attr List[Category] categories: (optional) List of functional categories into
           which the element falls; in other words, the subject matter of the element.
     :attr str modification: (optional) The type of modification the feedback entry
           in the `updated_labels` array. Possible values are `added`, `not_changed`, and
           `removed`.
     """
 
-    def __init__(self, *, types=None, categories=None, modification=None):
+    def __init__(self,
+                 *,
+                 types: List['TypeLabel'] = None,
+                 categories: List['Category'] = None,
+                 modification: str = None) -> None:
         """
         Initialize a UpdatedLabelsOut object.
 
-        :param list[TypeLabel] types: (optional) Description of the action
+        :param List[TypeLabel] types: (optional) Description of the action
                specified by the element and whom it affects.
-        :param list[Category] categories: (optional) List of functional categories
+        :param List[Category] categories: (optional) List of functional categories
                into which the element falls; in other words, the subject matter of the
                element.
         :param str modification: (optional) The type of modification the feedback
@@ -6533,7 +7131,7 @@ class UpdatedLabelsOut():
         self.modification = modification
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'UpdatedLabelsOut':
         """Initialize a UpdatedLabelsOut object from a json dictionary."""
         args = {}
         valid_keys = ['types', 'categories', 'modification']
@@ -6554,7 +7152,12 @@ class UpdatedLabelsOut():
             args['modification'] = _dict.get('modification')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a UpdatedLabelsOut object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'types') and self.types is not None:
@@ -6565,17 +7168,21 @@ class UpdatedLabelsOut():
             _dict['modification'] = self.modification
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this UpdatedLabelsOut object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'UpdatedLabelsOut') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'UpdatedLabelsOut') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -6601,7 +7208,11 @@ class Value():
           markup.
     """
 
-    def __init__(self, *, cell_id=None, location=None, text=None):
+    def __init__(self,
+                 *,
+                 cell_id: str = None,
+                 location: 'Location' = None,
+                 text: str = None) -> None:
         """
         Initialize a Value object.
 
@@ -6617,7 +7228,7 @@ class Value():
         self.text = text
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Value':
         """Initialize a Value object from a json dictionary."""
         args = {}
         valid_keys = ['cell_id', 'location', 'text']
@@ -6634,7 +7245,12 @@ class Value():
             args['text'] = _dict.get('text')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Value object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'cell_id') and self.cell_id is not None:
@@ -6645,16 +7261,20 @@ class Value():
             _dict['text'] = self.text
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Value object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Value') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Value') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
