@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2019.
+# (C) Copyright IBM Corp. 2020.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,9 +13,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from datetime import datetime
 from ibm_cloud_sdk_core.authenticators.no_auth_authenticator import NoAuthAuthenticator
+import inspect
+import json
+import pytest
 import responses
 import tempfile
+import ibm_watson.visual_recognition_v4
 from ibm_watson.visual_recognition_v4 import *
 
 base_url = 'https://gateway.watsonplatform.net/visual-recognition/api'
@@ -77,25 +82,27 @@ class TestAnalyze():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = VisualRecognitionV4(authenticator=NoAuthAuthenticator(),
-                                      version='2019-02-11')
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
         service.set_service_url(base_url)
         output = service.analyze(**body)
         return output
 
     def construct_full_body(self):
         body = dict()
-        body['collection_ids'] = ['collection_id1, collection_id2']
-        body['features'] = ['test']
-        body['image_url'] = ['https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/American_Eskimo_Dog.jpg/1280px-American_Eskimo_Dog.jpg']
+        body['collection_ids'] = []
+        body['features'] = []
+        body['images_file'] = []
+        body['image_url'] = []
         body['threshold'] = 12345.0
-        body['images_file'] = [FileWithMetadata(tempfile.NamedTemporaryFile())]
         return body
 
     def construct_required_body(self):
         body = dict()
-        body['collection_ids'] = ['fake']
-        body['features'] = [AnalyzeEnums.Features.OBJECTS.value]
+        body['collection_ids'] = []
+        body['features'] = []
         return body
 
 
@@ -160,8 +167,10 @@ class TestCreateCollection():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = VisualRecognitionV4(authenticator=NoAuthAuthenticator(),
-                                      version='2019-02-11')
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
         service.set_service_url(base_url)
         output = service.create_collection(**body)
         return output
@@ -233,8 +242,10 @@ class TestListCollections():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = VisualRecognitionV4(authenticator=NoAuthAuthenticator(),
-                                      version='2019-02-11')
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
         service.set_service_url(base_url)
         output = service.list_collections(**body)
         return output
@@ -299,8 +310,10 @@ class TestGetCollection():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = VisualRecognitionV4(authenticator=NoAuthAuthenticator(),
-                                      version='2019-02-11')
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
         service.set_service_url(base_url)
         output = service.get_collection(**body)
         return output
@@ -367,8 +380,10 @@ class TestUpdateCollection():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = VisualRecognitionV4(authenticator=NoAuthAuthenticator(),
-                                      version='2019-02-11')
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
         service.set_service_url(base_url)
         output = service.update_collection(**body)
         return output
@@ -439,8 +454,10 @@ class TestDeleteCollection():
                       content_type='')
 
     def call_service(self, body):
-        service = VisualRecognitionV4(authenticator=NoAuthAuthenticator(),
-                                      version='2019-02-11')
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
         service.set_service_url(base_url)
         output = service.delete_collection(**body)
         return output
@@ -518,8 +535,10 @@ class TestAddImages():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = VisualRecognitionV4(authenticator=NoAuthAuthenticator(),
-                                      version='2019-02-11')
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
         service.set_service_url(base_url)
         output = service.add_images(**body)
         return output
@@ -589,8 +608,10 @@ class TestListImages():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = VisualRecognitionV4(authenticator=NoAuthAuthenticator(),
-                                      version='2019-02-11')
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
         service.set_service_url(base_url)
         output = service.list_images(**body)
         return output
@@ -658,8 +679,10 @@ class TestGetImageDetails():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = VisualRecognitionV4(authenticator=NoAuthAuthenticator(),
-                                      version='2019-02-11')
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
         service.set_service_url(base_url)
         output = service.get_image_details(**body)
         return output
@@ -729,8 +752,10 @@ class TestDeleteImage():
                       content_type='')
 
     def call_service(self, body):
-        service = VisualRecognitionV4(authenticator=NoAuthAuthenticator(),
-                                      version='2019-02-11')
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
         service.set_service_url(base_url)
         output = service.delete_image(**body)
         return output
@@ -800,8 +825,10 @@ class TestGetJpegImage():
                       content_type='')
 
     def call_service(self, body):
-        service = VisualRecognitionV4(authenticator=NoAuthAuthenticator(),
-                                      version='2019-02-11')
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
         service.set_service_url(base_url)
         output = service.get_jpeg_image(**body)
         return output
@@ -882,8 +909,10 @@ class TestTrain():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = VisualRecognitionV4(authenticator=NoAuthAuthenticator(),
-                                      version='2019-02-11')
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
         service.set_service_url(base_url)
         output = service.train(**body)
         return output
@@ -952,8 +981,10 @@ class TestAddImageTrainingData():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = VisualRecognitionV4(authenticator=NoAuthAuthenticator(),
-                                      version='2019-02-11')
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
         service.set_service_url(base_url)
         output = service.add_image_training_data(**body)
         return output
@@ -1027,8 +1058,10 @@ class TestGetTrainingUsage():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = VisualRecognitionV4(authenticator=NoAuthAuthenticator(),
-                                      version='2019-02-11')
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
         service.set_service_url(base_url)
         output = service.get_training_usage(**body)
         return output
@@ -1106,8 +1139,10 @@ class TestDeleteUserData():
                       content_type='')
 
     def call_service(self, body):
-        service = VisualRecognitionV4(authenticator=NoAuthAuthenticator(),
-                                      version='2019-02-11')
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
         service.set_service_url(base_url)
         output = service.delete_user_data(**body)
         return output
