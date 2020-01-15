@@ -27,13 +27,10 @@ from enum import Enum
 from ibm_cloud_sdk_core import BaseService
 from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
 from ibm_cloud_sdk_core import get_authenticator_from_environment
-from ibm_cloud_sdk_core import read_external_sources, DetailedResponse
-from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
 from os.path import basename
 from typing import BinaryIO
 from typing import Dict
 from typing import List
-from typing import TextIO
 
 ##############################################################################
 # Service
