@@ -39,7 +39,7 @@ class AssistantV2(BaseService):
     """The Assistant V2 service."""
 
     DEFAULT_SERVICE_URL = 'https://gateway.watsonplatform.net/assistant/api'
-    DEFAULT_SERVICE_NAME = 'conversation'
+    DEFAULT_SERVICE_NAME = 'assistant'
 
     def __init__(
             self,

@@ -41,7 +41,7 @@ class VisualRecognitionV3(BaseService):
     """The Visual Recognition V3 service."""
 
     DEFAULT_SERVICE_URL = 'https://gateway.watsonplatform.net/visual-recognition/api'
-    DEFAULT_SERVICE_NAME = 'watson_vision_combined'
+    DEFAULT_SERVICE_NAME = 'visual_recognition'
 
     def __init__(
             self,
