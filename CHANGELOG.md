@@ -1,3 +1,12 @@
+# [4.2.0](https://github.com/watson-developer-cloud/python-sdk/compare/v4.1.0...v4.2.0) (2020-01-16)
+
+
+### Features
+
+* **core:** Update core version ([88106fb](https://github.com/watson-developer-cloud/python-sdk/commit/88106fb9c9460e60363a814565b51a512805f8b9))
+* **stt:** New param `end_of_phrase_silence_time` and `split_transcript_at_phrase_end` in `recognize` ([776dc86](https://github.com/watson-developer-cloud/python-sdk/commit/776dc8635a98489a9ceb8abf155947bb0f39ad8a))
+* **stt:** New param `end_of_phrase_silence_time` and `split_transcription` in recognize_using_websocket ([040946f](https://github.com/watson-developer-cloud/python-sdk/commit/040946f88d6b652f8b8e5638429b69fb1035e79a))
+
 # [4.1.0](https://github.com/watson-developer-cloud/python-sdk/compare/v4.0.4...v4.1.0) (2019-11-27)
 
 
