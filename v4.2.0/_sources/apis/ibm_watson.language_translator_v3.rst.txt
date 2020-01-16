@@ -1,0 +1,7 @@
+ibm\_watson.language\_translator\_v3 module
+===========================================
+
+.. automodule:: ibm_watson.language_translator_v3
+   :members:
+   :undoc-members:
+   :show-inheritance:

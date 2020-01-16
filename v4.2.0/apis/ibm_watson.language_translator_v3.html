@@ -1,0 +1,1120 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>ibm_watson.language_translator_v3 module &#8212; Watson Developer Cloud Python SDK 4.2.0 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ibm_watson.natural_language_classifier_v1 module" href="ibm_watson.natural_language_classifier_v1.html" />
+    <link rel="prev" title="ibm_watson.discovery_v2 module" href="ibm_watson.discovery_v2.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-ibm_watson.language_translator_v3">
+<span id="ibm-watson-language-translator-v3-module"></span><h1>ibm_watson.language_translator_v3 module<a class="headerlink" href="#module-ibm_watson.language_translator_v3" title="Permalink to this headline">¶</a></h1>
+<p>IBM Watson&amp;trade; Language Translator translates text from one language to another. The
+service offers multiple IBM provided translation models that you can customize based on
+your unique terminology and language. Use Language Translator to take news from across the
+globe and present it in your language, communicate with your customers in their own
+language, and more.</p>
+<dl class="class">
+<dt id="ibm_watson.language_translator_v3.LanguageTranslatorV3">
+<em class="property">class </em><code class="sig-name descname">LanguageTranslatorV3</code><span class="sig-paren">(</span><em class="sig-param">version: str</em>, <em class="sig-param">authenticator: ibm_cloud_sdk_core.authenticators.authenticator.Authenticator = None</em>, <em class="sig-param">service_name: str = 'language_translator'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#LanguageTranslatorV3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.LanguageTranslatorV3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ibm_cloud_sdk_core.base_service.BaseService</span></code></p>
+<p>The Language Translator V3 service.</p>
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.LanguageTranslatorV3.DEFAULT_SERVICE_URL">
+<code class="sig-name descname">DEFAULT_SERVICE_URL</code><em class="property"> = 'https://gateway.watsonplatform.net/language-translator/api'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.LanguageTranslatorV3.DEFAULT_SERVICE_URL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.LanguageTranslatorV3.DEFAULT_SERVICE_NAME">
+<code class="sig-name descname">DEFAULT_SERVICE_NAME</code><em class="property"> = 'language_translator'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.LanguageTranslatorV3.DEFAULT_SERVICE_NAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.LanguageTranslatorV3.translate">
+<code class="sig-name descname">translate</code><span class="sig-paren">(</span><em class="sig-param">text: List[str], *, model_id: str = None, source: str = None, target: str = None, **kwargs</em><span class="sig-paren">)</span> &#x2192; DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#LanguageTranslatorV3.translate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.LanguageTranslatorV3.translate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Translate.</p>
+<p>Translates the input text from the source language to the target language.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>]</em>) – Input text in UTF-8 encoding. Multiple entries will
+result in multiple translations in the response.</p></li>
+<li><p><strong>model_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – (optional) A globally unique string that identifies
+the underlying model that is used for translation.</p></li>
+<li><p><strong>source</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – (optional) Translation source language code.</p></li>
+<li><p><strong>target</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – (optional) Translation target language code.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.LanguageTranslatorV3.list_identifiable_languages">
+<code class="sig-name descname">list_identifiable_languages</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#LanguageTranslatorV3.list_identifiable_languages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.LanguageTranslatorV3.list_identifiable_languages" title="Permalink to this definition">¶</a></dt>
+<dd><p>List identifiable languages.</p>
+<p>Lists the languages that the service can identify. Returns the language code (for
+example, <cite>en</cite> for English or <cite>es</cite> for Spanish) and name of each language.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.LanguageTranslatorV3.identify">
+<code class="sig-name descname">identify</code><span class="sig-paren">(</span><em class="sig-param">text: str</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#LanguageTranslatorV3.identify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.LanguageTranslatorV3.identify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Identify language.</p>
+<p>Identifies the language of the input text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Input text in UTF-8 format.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.LanguageTranslatorV3.list_models">
+<code class="sig-name descname">list_models</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">source: str = None</em>, <em class="sig-param">target: str = None</em>, <em class="sig-param">default: bool = None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#LanguageTranslatorV3.list_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.LanguageTranslatorV3.list_models" title="Permalink to this definition">¶</a></dt>
+<dd><p>List models.</p>
+<p>Lists available translation models.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – (optional) Specify a language code to filter results by
+source language.</p></li>
+<li><p><strong>target</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – (optional) Specify a language code to filter results by
+target language.</p></li>
+<li><p><strong>default</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – (optional) If the default parameter isn’t specified,
+the service will return all models (default and non-default) for each
+language pair. To return only default models, set this to <cite>true</cite>. To return
+only non-default models, set this to <cite>false</cite>. There is exactly one default
+model per language pair, the IBM provided base model.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.LanguageTranslatorV3.create_model">
+<code class="sig-name descname">create_model</code><span class="sig-paren">(</span><em class="sig-param">base_model_id: str</em>, <em class="sig-param">*</em>, <em class="sig-param">forced_glossary: BinaryIO = None</em>, <em class="sig-param">parallel_corpus: BinaryIO = None</em>, <em class="sig-param">name: str = None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#LanguageTranslatorV3.create_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.LanguageTranslatorV3.create_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create model.</p>
+<p>Uploads Translation Memory eXchange (TMX) files to customize a translation model.
+You can either customize a model with a forced glossary or with a corpus that
+contains parallel sentences. To create a model that is customized with a parallel
+corpus &lt;b&gt;and&lt;/b&gt; a forced glossary, proceed in two steps: customize with a
+parallel corpus first and then customize the resulting model with a glossary.
+Depending on the type of customization and the size of the uploaded corpora,
+training can range from minutes for a glossary to several hours for a large
+parallel corpus. You can upload a single forced glossary file and this file must
+be less than &lt;b&gt;10 MB&lt;/b&gt;. You can upload multiple parallel corpora tmx files. The
+cumulative file size of all uploaded files is limited to &lt;b&gt;250 MB&lt;/b&gt;. To
+successfully train with a parallel corpus you must have at least &lt;b&gt;5,000 parallel
+sentences&lt;/b&gt; in your corpus.
+You can have a &lt;b&gt;maximum of 10 custom models per language pair&lt;/b&gt;.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>base_model_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The model ID of the model to use as the base for
+customization. To see available models, use the <cite>List models</cite> method.
+Usually all IBM provided models are customizable. In addition, all your
+models that have been created via parallel corpus customization, can be
+further customized with a forced glossary.</p></li>
+<li><p><strong>forced_glossary</strong> (<em>TextIO</em>) – (optional) A TMX file with your
+customizations. The customizations in the file completely overwrite the
+domain translaton data, including high frequency or high confidence phrase
+translations. You can upload only one glossary with a file size less than
+10 MB per call. A forced glossary should contain single words or short
+phrases.</p></li>
+<li><p><strong>parallel_corpus</strong> (<em>TextIO</em>) – (optional) A TMX file with parallel
+sentences for source and target language. You can upload multiple
+parallel_corpus files in one request. All uploaded parallel_corpus files
+combined, your parallel corpus must contain at least 5,000 parallel
+sentences to train successfully.</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – (optional) An optional model name that you can use to
+identify the model. Valid characters are letters, numbers, dashes,
+underscores, spaces and apostrophes. The maximum length is 32 characters.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.LanguageTranslatorV3.delete_model">
+<code class="sig-name descname">delete_model</code><span class="sig-paren">(</span><em class="sig-param">model_id: str</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#LanguageTranslatorV3.delete_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.LanguageTranslatorV3.delete_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete model.</p>
+<p>Deletes a custom translation model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Model ID of the model to delete.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.LanguageTranslatorV3.get_model">
+<code class="sig-name descname">get_model</code><span class="sig-paren">(</span><em class="sig-param">model_id: str</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#LanguageTranslatorV3.get_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.LanguageTranslatorV3.get_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get model details.</p>
+<p>Gets information about a translation model, including training status for custom
+models. Use this API call to poll the status of your customization request. A
+successfully completed training will have a status of <cite>available</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Model ID of the model to get.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.LanguageTranslatorV3.list_documents">
+<code class="sig-name descname">list_documents</code><span class="sig-paren">(</span><em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#LanguageTranslatorV3.list_documents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.LanguageTranslatorV3.list_documents" title="Permalink to this definition">¶</a></dt>
+<dd><p>List documents.</p>
+<p>Lists documents that have been submitted for translation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.LanguageTranslatorV3.translate_document">
+<code class="sig-name descname">translate_document</code><span class="sig-paren">(</span><em class="sig-param">file: BinaryIO</em>, <em class="sig-param">*</em>, <em class="sig-param">filename: str = None</em>, <em class="sig-param">file_content_type: str = None</em>, <em class="sig-param">model_id: str = None</em>, <em class="sig-param">source: str = None</em>, <em class="sig-param">target: str = None</em>, <em class="sig-param">document_id: str = None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#LanguageTranslatorV3.translate_document"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.LanguageTranslatorV3.translate_document" title="Permalink to this definition">¶</a></dt>
+<dd><p>Translate document.</p>
+<p>Submit a document for translation. You can submit the document contents in the
+<cite>file</cite> parameter, or you can reference a previously submitted document by document
+ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> (<em>TextIO</em>) – The contents of the source file to translate.
+[Supported file
+types](<a class="reference external" href="https://cloud.ibm.com/docs/services/language-translator?topic=language-translator-document-translator-tutorial#supported-file-formats">https://cloud.ibm.com/docs/services/language-translator?topic=language-translator-document-translator-tutorial#supported-file-formats</a>)
+Maximum file size: <strong>20 MB</strong>.</p></li>
+<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – (optional) The filename for file.</p></li>
+<li><p><strong>file_content_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – (optional) The content type of file.</p></li>
+<li><p><strong>model_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – (optional) The model to use for translation.
+<cite>model_id</cite> or both <cite>source</cite> and <cite>target</cite> are required.</p></li>
+<li><p><strong>source</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – (optional) Language code that specifies the language of
+the source document.</p></li>
+<li><p><strong>target</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – (optional) Language code that specifies the target
+language for translation.</p></li>
+<li><p><strong>document_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – (optional) To use a previously submitted document
+as the source for a new translation, enter the <cite>document_id</cite> of the
+document.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.LanguageTranslatorV3.get_document_status">
+<code class="sig-name descname">get_document_status</code><span class="sig-paren">(</span><em class="sig-param">document_id: str</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#LanguageTranslatorV3.get_document_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.LanguageTranslatorV3.get_document_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get document status.</p>
+<p>Gets the translation status of a document.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>document_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The document ID of the document.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.LanguageTranslatorV3.delete_document">
+<code class="sig-name descname">delete_document</code><span class="sig-paren">(</span><em class="sig-param">document_id: str</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#LanguageTranslatorV3.delete_document"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.LanguageTranslatorV3.delete_document" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete document.</p>
+<p>Deletes a document.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>document_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Document ID of the document to delete.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.LanguageTranslatorV3.get_translated_document">
+<code class="sig-name descname">get_translated_document</code><span class="sig-paren">(</span><em class="sig-param">document_id: str</em>, <em class="sig-param">*</em>, <em class="sig-param">accept: str = None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span> &#x2192; DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#LanguageTranslatorV3.get_translated_document"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.LanguageTranslatorV3.get_translated_document" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get translated document.</p>
+<p>Gets the translated document associated with the given document ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>document_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The document ID of the document that was submitted
+for translation.</p></li>
+<li><p><strong>accept</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – (optional) The type of the response:
+application/powerpoint, application/mspowerpoint, application/x-rtf,
+application/json, application/xml, application/vnd.ms-excel,
+application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+application/vnd.ms-powerpoint,
+application/vnd.openxmlformats-officedocument.presentationml.presentation,
+application/msword,
+application/vnd.openxmlformats-officedocument.wordprocessingml.document,
+application/vnd.oasis.opendocument.spreadsheet,
+application/vnd.oasis.opendocument.presentation,
+application/vnd.oasis.opendocument.text, application/pdf, application/rtf,
+text/html, text/json, text/plain, text/richtext, text/rtf, or text/xml. A
+character encoding can be specified by including a <cite>charset</cite> parameter. For
+example, ‘text/html;charset=utf-8’.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.language_translator_v3.TranslateDocumentEnums">
+<em class="property">class </em><code class="sig-name descname">TranslateDocumentEnums</code><a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#TranslateDocumentEnums"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslateDocumentEnums" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="class">
+<dt id="ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType">
+<em class="property">class </em><code class="sig-name descname">FileContentType</code><a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#TranslateDocumentEnums.FileContentType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>The content type of file.</p>
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_POWERPOINT">
+<code class="sig-name descname">APPLICATION_POWERPOINT</code><em class="property"> = 'application/powerpoint'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_POWERPOINT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_MSPOWERPOINT">
+<code class="sig-name descname">APPLICATION_MSPOWERPOINT</code><em class="property"> = 'application/mspowerpoint'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_MSPOWERPOINT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_X_RTF">
+<code class="sig-name descname">APPLICATION_X_RTF</code><em class="property"> = 'application/x-rtf'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_X_RTF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_JSON">
+<code class="sig-name descname">APPLICATION_JSON</code><em class="property"> = 'application/json'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_JSON" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_XML">
+<code class="sig-name descname">APPLICATION_XML</code><em class="property"> = 'application/xml'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_XML" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_VND_MS_EXCEL">
+<code class="sig-name descname">APPLICATION_VND_MS_EXCEL</code><em class="property"> = 'application/vnd.ms-excel'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_VND_MS_EXCEL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET">
+<code class="sig-name descname">APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET</code><em class="property"> = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_VND_MS_POWERPOINT">
+<code class="sig-name descname">APPLICATION_VND_MS_POWERPOINT</code><em class="property"> = 'application/vnd.ms-powerpoint'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_VND_MS_POWERPOINT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_PRESENTATION">
+<code class="sig-name descname">APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_PRESENTATION</code><em class="property"> = 'application/vnd.openxmlformats-officedocument.presentationml.presentation'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_PRESENTATION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_MSWORD">
+<code class="sig-name descname">APPLICATION_MSWORD</code><em class="property"> = 'application/msword'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_MSWORD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT">
+<code class="sig-name descname">APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT</code><em class="property"> = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_VND_OASIS_OPENDOCUMENT_SPREADSHEET">
+<code class="sig-name descname">APPLICATION_VND_OASIS_OPENDOCUMENT_SPREADSHEET</code><em class="property"> = 'application/vnd.oasis.opendocument.spreadsheet'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_VND_OASIS_OPENDOCUMENT_SPREADSHEET" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_VND_OASIS_OPENDOCUMENT_PRESENTATION">
+<code class="sig-name descname">APPLICATION_VND_OASIS_OPENDOCUMENT_PRESENTATION</code><em class="property"> = 'application/vnd.oasis.opendocument.presentation'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_VND_OASIS_OPENDOCUMENT_PRESENTATION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_VND_OASIS_OPENDOCUMENT_TEXT">
+<code class="sig-name descname">APPLICATION_VND_OASIS_OPENDOCUMENT_TEXT</code><em class="property"> = 'application/vnd.oasis.opendocument.text'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_VND_OASIS_OPENDOCUMENT_TEXT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_PDF">
+<code class="sig-name descname">APPLICATION_PDF</code><em class="property"> = 'application/pdf'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_PDF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_RTF">
+<code class="sig-name descname">APPLICATION_RTF</code><em class="property"> = 'application/rtf'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.APPLICATION_RTF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.TEXT_HTML">
+<code class="sig-name descname">TEXT_HTML</code><em class="property"> = 'text/html'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.TEXT_HTML" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.TEXT_JSON">
+<code class="sig-name descname">TEXT_JSON</code><em class="property"> = 'text/json'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.TEXT_JSON" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.TEXT_PLAIN">
+<code class="sig-name descname">TEXT_PLAIN</code><em class="property"> = 'text/plain'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.TEXT_PLAIN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.TEXT_RICHTEXT">
+<code class="sig-name descname">TEXT_RICHTEXT</code><em class="property"> = 'text/richtext'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.TEXT_RICHTEXT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.TEXT_RTF">
+<code class="sig-name descname">TEXT_RTF</code><em class="property"> = 'text/rtf'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.TEXT_RTF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.TEXT_XML">
+<code class="sig-name descname">TEXT_XML</code><em class="property"> = 'text/xml'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslateDocumentEnums.FileContentType.TEXT_XML" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.language_translator_v3.GetTranslatedDocumentEnums">
+<em class="property">class </em><code class="sig-name descname">GetTranslatedDocumentEnums</code><a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#GetTranslatedDocumentEnums"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.GetTranslatedDocumentEnums" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="class">
+<dt id="ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept">
+<em class="property">class </em><code class="sig-name descname">Accept</code><a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#GetTranslatedDocumentEnums.Accept"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>The type of the response: application/powerpoint, application/mspowerpoint,
+application/x-rtf, application/json, application/xml, application/vnd.ms-excel,
+application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,
+application/vnd.ms-powerpoint,
+application/vnd.openxmlformats-officedocument.presentationml.presentation,
+application/msword,
+application/vnd.openxmlformats-officedocument.wordprocessingml.document,
+application/vnd.oasis.opendocument.spreadsheet,
+application/vnd.oasis.opendocument.presentation,
+application/vnd.oasis.opendocument.text, application/pdf, application/rtf,
+text/html, text/json, text/plain, text/richtext, text/rtf, or text/xml. A
+character encoding can be specified by including a <cite>charset</cite> parameter. For
+example, ‘text/html;charset=utf-8’.</p>
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_POWERPOINT">
+<code class="sig-name descname">APPLICATION_POWERPOINT</code><em class="property"> = 'application/powerpoint'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_POWERPOINT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_MSPOWERPOINT">
+<code class="sig-name descname">APPLICATION_MSPOWERPOINT</code><em class="property"> = 'application/mspowerpoint'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_MSPOWERPOINT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_X_RTF">
+<code class="sig-name descname">APPLICATION_X_RTF</code><em class="property"> = 'application/x-rtf'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_X_RTF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_JSON">
+<code class="sig-name descname">APPLICATION_JSON</code><em class="property"> = 'application/json'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_JSON" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_XML">
+<code class="sig-name descname">APPLICATION_XML</code><em class="property"> = 'application/xml'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_XML" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_VND_MS_EXCEL">
+<code class="sig-name descname">APPLICATION_VND_MS_EXCEL</code><em class="property"> = 'application/vnd.ms-excel'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_VND_MS_EXCEL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET">
+<code class="sig-name descname">APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET</code><em class="property"> = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_SPREADSHEETML_SHEET" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_VND_MS_POWERPOINT">
+<code class="sig-name descname">APPLICATION_VND_MS_POWERPOINT</code><em class="property"> = 'application/vnd.ms-powerpoint'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_VND_MS_POWERPOINT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_PRESENTATION">
+<code class="sig-name descname">APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_PRESENTATION</code><em class="property"> = 'application/vnd.openxmlformats-officedocument.presentationml.presentation'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_PRESENTATIONML_PRESENTATION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_MSWORD">
+<code class="sig-name descname">APPLICATION_MSWORD</code><em class="property"> = 'application/msword'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_MSWORD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT">
+<code class="sig-name descname">APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT</code><em class="property"> = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_VND_OASIS_OPENDOCUMENT_SPREADSHEET">
+<code class="sig-name descname">APPLICATION_VND_OASIS_OPENDOCUMENT_SPREADSHEET</code><em class="property"> = 'application/vnd.oasis.opendocument.spreadsheet'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_VND_OASIS_OPENDOCUMENT_SPREADSHEET" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_VND_OASIS_OPENDOCUMENT_PRESENTATION">
+<code class="sig-name descname">APPLICATION_VND_OASIS_OPENDOCUMENT_PRESENTATION</code><em class="property"> = 'application/vnd.oasis.opendocument.presentation'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_VND_OASIS_OPENDOCUMENT_PRESENTATION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_VND_OASIS_OPENDOCUMENT_TEXT">
+<code class="sig-name descname">APPLICATION_VND_OASIS_OPENDOCUMENT_TEXT</code><em class="property"> = 'application/vnd.oasis.opendocument.text'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_VND_OASIS_OPENDOCUMENT_TEXT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_PDF">
+<code class="sig-name descname">APPLICATION_PDF</code><em class="property"> = 'application/pdf'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_PDF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_RTF">
+<code class="sig-name descname">APPLICATION_RTF</code><em class="property"> = 'application/rtf'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.APPLICATION_RTF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.TEXT_HTML">
+<code class="sig-name descname">TEXT_HTML</code><em class="property"> = 'text/html'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.TEXT_HTML" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.TEXT_JSON">
+<code class="sig-name descname">TEXT_JSON</code><em class="property"> = 'text/json'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.TEXT_JSON" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.TEXT_PLAIN">
+<code class="sig-name descname">TEXT_PLAIN</code><em class="property"> = 'text/plain'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.TEXT_PLAIN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.TEXT_RICHTEXT">
+<code class="sig-name descname">TEXT_RICHTEXT</code><em class="property"> = 'text/richtext'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.TEXT_RICHTEXT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.TEXT_RTF">
+<code class="sig-name descname">TEXT_RTF</code><em class="property"> = 'text/rtf'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.TEXT_RTF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.TEXT_XML">
+<code class="sig-name descname">TEXT_XML</code><em class="property"> = 'text/xml'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.GetTranslatedDocumentEnums.Accept.TEXT_XML" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.language_translator_v3.DeleteModelResult">
+<em class="property">class </em><code class="sig-name descname">DeleteModelResult</code><span class="sig-paren">(</span><em class="sig-param">status: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#DeleteModelResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.DeleteModelResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>DeleteModelResult.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str status</dt>
+<dd class="field-odd"><p>“OK” indicates that the model was successfully deleted.</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.DeleteModelResult.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param">_dict: Dict</em><span class="sig-paren">)</span> &#x2192; ibm_watson.language_translator_v3.DeleteModelResult<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#DeleteModelResult.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.DeleteModelResult.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a DeleteModelResult object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.DeleteModelResult.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#DeleteModelResult.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.DeleteModelResult.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.language_translator_v3.DocumentList">
+<em class="property">class </em><code class="sig-name descname">DocumentList</code><span class="sig-paren">(</span><em class="sig-param">documents: List[DocumentStatus]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#DocumentList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.DocumentList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>DocumentList.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr List[DocumentStatus] documents</dt>
+<dd class="field-odd"><p>An array of all previously submitted
+documents.</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.DocumentList.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param">_dict: Dict</em><span class="sig-paren">)</span> &#x2192; ibm_watson.language_translator_v3.DocumentList<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#DocumentList.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.DocumentList.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a DocumentList object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.DocumentList.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#DocumentList.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.DocumentList.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.language_translator_v3.DocumentStatus">
+<em class="property">class </em><code class="sig-name descname">DocumentStatus</code><span class="sig-paren">(</span><em class="sig-param">document_id: str</em>, <em class="sig-param">filename: str</em>, <em class="sig-param">status: str</em>, <em class="sig-param">model_id: str</em>, <em class="sig-param">source: str</em>, <em class="sig-param">target: str</em>, <em class="sig-param">created: datetime.datetime</em>, <em class="sig-param">*</em>, <em class="sig-param">base_model_id: str = None</em>, <em class="sig-param">completed: datetime.datetime = None</em>, <em class="sig-param">word_count: int = None</em>, <em class="sig-param">character_count: int = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#DocumentStatus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.DocumentStatus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Document information, including translation status.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str document_id</dt>
+<dd class="field-odd"><p>System generated ID identifying a document being
+translated using one specific translation model.</p>
+</dd>
+<dt class="field-even">Attr str filename</dt>
+<dd class="field-even"><p>filename from the submission (if it was missing in the
+multipart-form, ‘noname.&lt;ext matching content type&gt;’ is used.</p>
+</dd>
+<dt class="field-odd">Attr str status</dt>
+<dd class="field-odd"><p>The status of the translation job associated with a submitted
+document.</p>
+</dd>
+<dt class="field-even">Attr str model_id</dt>
+<dd class="field-even"><p>A globally unique string that identifies the underlying
+model that is used for translation.</p>
+</dd>
+<dt class="field-odd">Attr str base_model_id</dt>
+<dd class="field-odd"><p>(optional) Model ID of the base model that was used to
+customize the model. If the model is not a custom model, this will be absent or
+an empty string.</p>
+</dd>
+<dt class="field-even">Attr str source</dt>
+<dd class="field-even"><p>Translation source language code.</p>
+</dd>
+<dt class="field-odd">Attr str target</dt>
+<dd class="field-odd"><p>Translation target language code.</p>
+</dd>
+<dt class="field-even">Attr datetime created</dt>
+<dd class="field-even"><p>The time when the document was submitted.</p>
+</dd>
+<dt class="field-odd">Attr datetime completed</dt>
+<dd class="field-odd"><p>(optional) The time when the translation completed.</p>
+</dd>
+<dt class="field-even">Attr int word_count</dt>
+<dd class="field-even"><p>(optional) An estimate of the number of words in the
+source document. Returned only if <cite>status</cite> is <cite>available</cite>.</p>
+</dd>
+<dt class="field-odd">Attr int character_count</dt>
+<dd class="field-odd"><p>(optional) The number of characters in the source
+document, present only if status=available.</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.DocumentStatus.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param">_dict: Dict</em><span class="sig-paren">)</span> &#x2192; ibm_watson.language_translator_v3.DocumentStatus<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#DocumentStatus.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.DocumentStatus.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a DocumentStatus object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.DocumentStatus.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#DocumentStatus.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.DocumentStatus.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.language_translator_v3.DocumentStatus.StatusEnum">
+<em class="property">class </em><code class="sig-name descname">StatusEnum</code><a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#DocumentStatus.StatusEnum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.DocumentStatus.StatusEnum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>The status of the translation job associated with a submitted document.</p>
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.DocumentStatus.StatusEnum.PROCESSING">
+<code class="sig-name descname">PROCESSING</code><em class="property"> = 'processing'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.DocumentStatus.StatusEnum.PROCESSING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.DocumentStatus.StatusEnum.AVAILABLE">
+<code class="sig-name descname">AVAILABLE</code><em class="property"> = 'available'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.DocumentStatus.StatusEnum.AVAILABLE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.DocumentStatus.StatusEnum.FAILED">
+<code class="sig-name descname">FAILED</code><em class="property"> = 'failed'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.DocumentStatus.StatusEnum.FAILED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.language_translator_v3.IdentifiableLanguage">
+<em class="property">class </em><code class="sig-name descname">IdentifiableLanguage</code><span class="sig-paren">(</span><em class="sig-param">language: str</em>, <em class="sig-param">name: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#IdentifiableLanguage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.IdentifiableLanguage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>IdentifiableLanguage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str language</dt>
+<dd class="field-odd"><p>The language code for an identifiable language.</p>
+</dd>
+<dt class="field-even">Attr str name</dt>
+<dd class="field-even"><p>The name of the identifiable language.</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.IdentifiableLanguage.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param">_dict: Dict</em><span class="sig-paren">)</span> &#x2192; ibm_watson.language_translator_v3.IdentifiableLanguage<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#IdentifiableLanguage.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.IdentifiableLanguage.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a IdentifiableLanguage object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.IdentifiableLanguage.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#IdentifiableLanguage.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.IdentifiableLanguage.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.language_translator_v3.IdentifiableLanguages">
+<em class="property">class </em><code class="sig-name descname">IdentifiableLanguages</code><span class="sig-paren">(</span><em class="sig-param">languages: List[IdentifiableLanguage]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#IdentifiableLanguages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.IdentifiableLanguages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>IdentifiableLanguages.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr List[IdentifiableLanguage] languages</dt>
+<dd class="field-odd"><p>A list of all languages that the
+service can identify.</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.IdentifiableLanguages.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param">_dict: Dict</em><span class="sig-paren">)</span> &#x2192; ibm_watson.language_translator_v3.IdentifiableLanguages<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#IdentifiableLanguages.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.IdentifiableLanguages.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a IdentifiableLanguages object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.IdentifiableLanguages.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#IdentifiableLanguages.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.IdentifiableLanguages.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.language_translator_v3.IdentifiedLanguage">
+<em class="property">class </em><code class="sig-name descname">IdentifiedLanguage</code><span class="sig-paren">(</span><em class="sig-param">language: str</em>, <em class="sig-param">confidence: float</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#IdentifiedLanguage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.IdentifiedLanguage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>IdentifiedLanguage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str language</dt>
+<dd class="field-odd"><p>The language code for an identified language.</p>
+</dd>
+<dt class="field-even">Attr float confidence</dt>
+<dd class="field-even"><p>The confidence score for the identified language.</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.IdentifiedLanguage.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param">_dict: Dict</em><span class="sig-paren">)</span> &#x2192; ibm_watson.language_translator_v3.IdentifiedLanguage<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#IdentifiedLanguage.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.IdentifiedLanguage.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a IdentifiedLanguage object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.IdentifiedLanguage.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#IdentifiedLanguage.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.IdentifiedLanguage.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.language_translator_v3.IdentifiedLanguages">
+<em class="property">class </em><code class="sig-name descname">IdentifiedLanguages</code><span class="sig-paren">(</span><em class="sig-param">languages: List[IdentifiedLanguage]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#IdentifiedLanguages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.IdentifiedLanguages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>IdentifiedLanguages.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr List[IdentifiedLanguage] languages</dt>
+<dd class="field-odd"><p>A ranking of identified languages with
+confidence scores.</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.IdentifiedLanguages.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param">_dict: Dict</em><span class="sig-paren">)</span> &#x2192; ibm_watson.language_translator_v3.IdentifiedLanguages<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#IdentifiedLanguages.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.IdentifiedLanguages.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a IdentifiedLanguages object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.IdentifiedLanguages.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#IdentifiedLanguages.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.IdentifiedLanguages.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.language_translator_v3.Translation">
+<em class="property">class </em><code class="sig-name descname">Translation</code><span class="sig-paren">(</span><em class="sig-param">translation: str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#Translation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.Translation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Translation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str translation</dt>
+<dd class="field-odd"><p>Translation output in UTF-8.</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.Translation.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param">_dict: Dict</em><span class="sig-paren">)</span> &#x2192; ibm_watson.language_translator_v3.Translation<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#Translation.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.Translation.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a Translation object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.Translation.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#Translation.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.Translation.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.language_translator_v3.TranslationModel">
+<em class="property">class </em><code class="sig-name descname">TranslationModel</code><span class="sig-paren">(</span><em class="sig-param">model_id: str</em>, <em class="sig-param">*</em>, <em class="sig-param">name: str = None</em>, <em class="sig-param">source: str = None</em>, <em class="sig-param">target: str = None</em>, <em class="sig-param">base_model_id: str = None</em>, <em class="sig-param">domain: str = None</em>, <em class="sig-param">customizable: bool = None</em>, <em class="sig-param">default_model: bool = None</em>, <em class="sig-param">owner: str = None</em>, <em class="sig-param">status: str = None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#TranslationModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslationModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Response payload for models.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str model_id</dt>
+<dd class="field-odd"><p>A globally unique string that identifies the underlying
+model that is used for translation.</p>
+</dd>
+<dt class="field-even">Attr str name</dt>
+<dd class="field-even"><p>(optional) Optional name that can be specified when the model is
+created.</p>
+</dd>
+<dt class="field-odd">Attr str source</dt>
+<dd class="field-odd"><p>(optional) Translation source language code.</p>
+</dd>
+<dt class="field-even">Attr str target</dt>
+<dd class="field-even"><p>(optional) Translation target language code.</p>
+</dd>
+<dt class="field-odd">Attr str base_model_id</dt>
+<dd class="field-odd"><p>(optional) Model ID of the base model that was used to
+customize the model. If the model is not a custom model, this will be an empty
+string.</p>
+</dd>
+<dt class="field-even">Attr str domain</dt>
+<dd class="field-even"><p>(optional) The domain of the translation model.</p>
+</dd>
+<dt class="field-odd">Attr bool customizable</dt>
+<dd class="field-odd"><p>(optional) Whether this model can be used as a base for
+customization. Customized models are not further customizable, and some base
+models are not customizable.</p>
+</dd>
+<dt class="field-even">Attr bool default_model</dt>
+<dd class="field-even"><p>(optional) Whether or not the model is a default
+model. A default model is the model for a given language pair that will be used
+when that language pair is specified in the source and target parameters.</p>
+</dd>
+<dt class="field-odd">Attr str owner</dt>
+<dd class="field-odd"><p>(optional) Either an empty string, indicating the model is not
+a custom model, or the ID of the service instance that created the model.</p>
+</dd>
+<dt class="field-even">Attr str status</dt>
+<dd class="field-even"><p>(optional) Availability of a model.</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.TranslationModel.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param">_dict: Dict</em><span class="sig-paren">)</span> &#x2192; ibm_watson.language_translator_v3.TranslationModel<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#TranslationModel.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslationModel.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a TranslationModel object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.TranslationModel.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#TranslationModel.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslationModel.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.language_translator_v3.TranslationModel.StatusEnum">
+<em class="property">class </em><code class="sig-name descname">StatusEnum</code><a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#TranslationModel.StatusEnum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslationModel.StatusEnum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>Availability of a model.</p>
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslationModel.StatusEnum.UPLOADING">
+<code class="sig-name descname">UPLOADING</code><em class="property"> = 'uploading'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslationModel.StatusEnum.UPLOADING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslationModel.StatusEnum.UPLOADED">
+<code class="sig-name descname">UPLOADED</code><em class="property"> = 'uploaded'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslationModel.StatusEnum.UPLOADED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslationModel.StatusEnum.DISPATCHING">
+<code class="sig-name descname">DISPATCHING</code><em class="property"> = 'dispatching'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslationModel.StatusEnum.DISPATCHING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslationModel.StatusEnum.QUEUED">
+<code class="sig-name descname">QUEUED</code><em class="property"> = 'queued'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslationModel.StatusEnum.QUEUED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslationModel.StatusEnum.TRAINING">
+<code class="sig-name descname">TRAINING</code><em class="property"> = 'training'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslationModel.StatusEnum.TRAINING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslationModel.StatusEnum.TRAINED">
+<code class="sig-name descname">TRAINED</code><em class="property"> = 'trained'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslationModel.StatusEnum.TRAINED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslationModel.StatusEnum.PUBLISHING">
+<code class="sig-name descname">PUBLISHING</code><em class="property"> = 'publishing'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslationModel.StatusEnum.PUBLISHING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslationModel.StatusEnum.AVAILABLE">
+<code class="sig-name descname">AVAILABLE</code><em class="property"> = 'available'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslationModel.StatusEnum.AVAILABLE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslationModel.StatusEnum.DELETED">
+<code class="sig-name descname">DELETED</code><em class="property"> = 'deleted'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslationModel.StatusEnum.DELETED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ibm_watson.language_translator_v3.TranslationModel.StatusEnum.ERROR">
+<code class="sig-name descname">ERROR</code><em class="property"> = 'error'</em><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslationModel.StatusEnum.ERROR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.language_translator_v3.TranslationModels">
+<em class="property">class </em><code class="sig-name descname">TranslationModels</code><span class="sig-paren">(</span><em class="sig-param">models: List[TranslationModel]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#TranslationModels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslationModels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The response type for listing existing translation models.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr List[TranslationModel] models</dt>
+<dd class="field-odd"><p>An array of available models.</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.TranslationModels.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param">_dict: Dict</em><span class="sig-paren">)</span> &#x2192; ibm_watson.language_translator_v3.TranslationModels<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#TranslationModels.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslationModels.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a TranslationModels object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.TranslationModels.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#TranslationModels.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslationModels.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ibm_watson.language_translator_v3.TranslationResult">
+<em class="property">class </em><code class="sig-name descname">TranslationResult</code><span class="sig-paren">(</span><em class="sig-param">word_count: int, character_count: int, translations: List[Translation]</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#TranslationResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslationResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>TranslationResult.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr int word_count</dt>
+<dd class="field-odd"><p>An estimate of the number of words in the input text.</p>
+</dd>
+<dt class="field-even">Attr int character_count</dt>
+<dd class="field-even"><p>Number of characters in the input text.</p>
+</dd>
+<dt class="field-odd">Attr List[Translation] translations</dt>
+<dd class="field-odd"><p>List of translation output in UTF-8,
+corresponding to the input text entries.</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.TranslationResult.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param">_dict: Dict</em><span class="sig-paren">)</span> &#x2192; ibm_watson.language_translator_v3.TranslationResult<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#TranslationResult.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslationResult.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a TranslationResult object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ibm_watson.language_translator_v3.TranslationResult.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/language_translator_v3.html#TranslationResult.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.language_translator_v3.TranslationResult.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="ibm_watson.discovery_v2.html" title="previous chapter">ibm_watson.discovery_v2 module</a></li>
+      <li>Next: <a href="ibm_watson.natural_language_classifier_v1.html" title="next chapter">ibm_watson.natural_language_classifier_v1 module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
