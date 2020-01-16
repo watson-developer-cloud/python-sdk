@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2018, 2020.
+# (C) Copyright IBM Corp. 2020.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,34 +13,36 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from datetime import datetime
 from ibm_cloud_sdk_core.authenticators.no_auth_authenticator import NoAuthAuthenticator
 import inspect
 import json
 import pytest
 import responses
-import ibm_watson.assistant_v2
-from ibm_watson.assistant_v2 import *
+import tempfile
+import ibm_watson.natural_language_understanding_v1
+from ibm_watson.natural_language_understanding_v1 import *
 
-base_url = 'https://gateway.watsonplatform.net/assistant/api'
+base_url = 'https://gateway.watsonplatform.net/natural-language-understanding/api'
 
 ##############################################################################
-# Start of Service: Sessions
+# Start of Service: Analyze
 ##############################################################################
 # region
 
 
 #-----------------------------------------------------------------------------
-# Test Class for create_session
+# Test Class for analyze
 #-----------------------------------------------------------------------------
-class TestCreateSession():
+class TestAnalyze():
 
     #--------------------------------------------------------
     # Test 1: Send fake data and check response
     #--------------------------------------------------------
     @responses.activate
-    def test_create_session_response(self):
+    def test_analyze_response(self):
         body = self.construct_full_body()
-        response = fake_response_SessionResponse_json
+        response = fake_response_AnalysisResults_json
         send_request(self, body, response)
         assert len(responses.calls) == 1
 
@@ -48,10 +50,10 @@ class TestCreateSession():
     # Test 2: Send only required fake data and check response
     #--------------------------------------------------------
     @responses.activate
-    def test_create_session_required_response(self):
+    def test_analyze_required_response(self):
         # Check response with required params
         body = self.construct_required_body()
-        response = fake_response_SessionResponse_json
+        response = fake_response_AnalysisResults_json
         send_request(self, body, response)
         assert len(responses.calls) == 1
 
@@ -59,8 +61,8 @@ class TestCreateSession():
     # Test 3: Send empty data and check response
     #--------------------------------------------------------
     @responses.activate
-    def test_create_session_empty(self):
-        check_empty_required_params(self, fake_response_SessionResponse_json)
+    def test_analyze_empty(self):
+        check_empty_required_params(self, fake_response_AnalysisResults_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -68,7 +70,7 @@ class TestCreateSession():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v2/assistants/{0}/sessions'.format(body['assistant_id'])
+        endpoint = '/v1/analyze'
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
@@ -76,41 +78,100 @@ class TestCreateSession():
         responses.add(responses.POST,
                       url,
                       body=json.dumps(response),
-                      status=201,
+                      status=200,
                       content_type='application/json')
 
     def call_service(self, body):
-        service = AssistantV2(
+        service = NaturalLanguageUnderstandingV1(
             authenticator=NoAuthAuthenticator(),
-            version='2019-02-28',
+            version='2019-07-12',
         )
         service.set_service_url(base_url)
-        output = service.create_session(**body)
+        output = service.analyze(**body)
         return output
 
     def construct_full_body(self):
         body = dict()
-        body['assistant_id'] = "string1"
+        body.update({
+            "features":
+                Features._from_dict(
+                    json.loads(
+                        """{"concepts": {"limit": 5}, "emotion": {"document": true, "targets": []}, "entities": {"limit": 5, "mentions": true, "model": "fake_model", "sentiment": false, "emotion": false}, "keywords": {"limit": 5, "sentiment": false, "emotion": false}, "metadata": {}, "relations": {"model": "fake_model"}, "semantic_roles": {"limit": 5, "keywords": true, "entities": true}, "sentiment": {"document": true, "targets": []}, "categories": {"explanation": false, "limit": 5}, "syntax": {"tokens": {"lemma": false, "part_of_speech": true}, "sentences": false}}"""
+                    )),
+            "text":
+                "string1",
+            "html":
+                "string1",
+            "url":
+                "string1",
+            "clean":
+                True,
+            "xpath":
+                "string1",
+            "fallback_to_raw":
+                True,
+            "return_analyzed_text":
+                True,
+            "language":
+                "string1",
+            "limit_text_characters":
+                12345,
+        })
         return body
 
     def construct_required_body(self):
         body = dict()
-        body['assistant_id'] = "string1"
+        body.update({
+            "features":
+                Features._from_dict(
+                    json.loads(
+                        """{"concepts": {"limit": 5}, "emotion": {"document": true, "targets": []}, "entities": {"limit": 5, "mentions": true, "model": "fake_model", "sentiment": false, "emotion": false}, "keywords": {"limit": 5, "sentiment": false, "emotion": false}, "metadata": {}, "relations": {"model": "fake_model"}, "semantic_roles": {"limit": 5, "keywords": true, "entities": true}, "sentiment": {"document": true, "targets": []}, "categories": {"explanation": false, "limit": 5}, "syntax": {"tokens": {"lemma": false, "part_of_speech": true}, "sentences": false}}"""
+                    )),
+            "text":
+                "string1",
+            "html":
+                "string1",
+            "url":
+                "string1",
+            "clean":
+                True,
+            "xpath":
+                "string1",
+            "fallback_to_raw":
+                True,
+            "return_analyzed_text":
+                True,
+            "language":
+                "string1",
+            "limit_text_characters":
+                12345,
+        })
         return body
 
 
+# endregion
+##############################################################################
+# End of Service: Analyze
+##############################################################################
+
+##############################################################################
+# Start of Service: ManageModels
+##############################################################################
+# region
+
+
 #-----------------------------------------------------------------------------
-# Test Class for delete_session
+# Test Class for list_models
 #-----------------------------------------------------------------------------
-class TestDeleteSession():
+class TestListModels():
 
     #--------------------------------------------------------
     # Test 1: Send fake data and check response
     #--------------------------------------------------------
     @responses.activate
-    def test_delete_session_response(self):
+    def test_list_models_response(self):
         body = self.construct_full_body()
-        response = fake_response__json
+        response = fake_response_ListModelsResults_json
         send_request(self, body, response)
         assert len(responses.calls) == 1
 
@@ -118,10 +179,10 @@ class TestDeleteSession():
     # Test 2: Send only required fake data and check response
     #--------------------------------------------------------
     @responses.activate
-    def test_delete_session_required_response(self):
+    def test_list_models_required_response(self):
         # Check response with required params
         body = self.construct_required_body()
-        response = fake_response__json
+        response = fake_response_ListModelsResults_json
         send_request(self, body, response)
         assert len(responses.calls) == 1
 
@@ -129,8 +190,75 @@ class TestDeleteSession():
     # Test 3: Send empty data and check response
     #--------------------------------------------------------
     @responses.activate
-    def test_delete_session_empty(self):
-        check_empty_required_params(self, fake_response__json)
+    def test_list_models_empty(self):
+        check_empty_response(self)
+        assert len(responses.calls) == 1
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/models'
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
+    def call_service(self, body):
+        service = NaturalLanguageUnderstandingV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-07-12',
+        )
+        service.set_service_url(base_url)
+        output = service.list_models(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for delete_model
+#-----------------------------------------------------------------------------
+class TestDeleteModel():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_model_response(self):
+        body = self.construct_full_body()
+        response = fake_response_DeleteModelResults_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_model_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_DeleteModelResults_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_model_empty(self):
+        check_empty_required_params(self, fake_response_DeleteModelResults_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -138,8 +266,7 @@ class TestDeleteSession():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v2/assistants/{0}/sessions/{1}'.format(
-            body['assistant_id'], body['session_id'])
+        endpoint = '/v1/models/{0}'.format(body['model_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
@@ -148,129 +275,31 @@ class TestDeleteSession():
                       url,
                       body=json.dumps(response),
                       status=200,
-                      content_type='')
-
-    def call_service(self, body):
-        service = AssistantV2(
-            authenticator=NoAuthAuthenticator(),
-            version='2019-02-28',
-        )
-        service.set_service_url(base_url)
-        output = service.delete_session(**body)
-        return output
-
-    def construct_full_body(self):
-        body = dict()
-        body['assistant_id'] = "string1"
-        body['session_id'] = "string1"
-        return body
-
-    def construct_required_body(self):
-        body = dict()
-        body['assistant_id'] = "string1"
-        body['session_id'] = "string1"
-        return body
-
-
-# endregion
-##############################################################################
-# End of Service: Sessions
-##############################################################################
-
-##############################################################################
-# Start of Service: Message
-##############################################################################
-# region
-
-
-#-----------------------------------------------------------------------------
-# Test Class for message
-#-----------------------------------------------------------------------------
-class TestMessage():
-
-    #--------------------------------------------------------
-    # Test 1: Send fake data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_message_response(self):
-        body = self.construct_full_body()
-        response = fake_response_MessageResponse_json
-        send_request(self, body, response)
-        assert len(responses.calls) == 1
-
-    #--------------------------------------------------------
-    # Test 2: Send only required fake data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_message_required_response(self):
-        # Check response with required params
-        body = self.construct_required_body()
-        response = fake_response_MessageResponse_json
-        send_request(self, body, response)
-        assert len(responses.calls) == 1
-
-    #--------------------------------------------------------
-    # Test 3: Send empty data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_message_empty(self):
-        check_empty_required_params(self, fake_response_MessageResponse_json)
-        check_missing_required_params(self)
-        assert len(responses.calls) == 0
-
-    #-----------
-    #- Helpers -
-    #-----------
-    def make_url(self, body):
-        endpoint = '/v2/assistants/{0}/sessions/{1}/message'.format(
-            body['assistant_id'], body['session_id'])
-        url = '{0}{1}'.format(base_url, endpoint)
-        return url
-
-    def add_mock_response(self, url, response):
-        responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
                       content_type='application/json')
 
     def call_service(self, body):
-        service = AssistantV2(
+        service = NaturalLanguageUnderstandingV1(
             authenticator=NoAuthAuthenticator(),
-            version='2019-02-28',
+            version='2019-07-12',
         )
         service.set_service_url(base_url)
-        output = service.message(**body)
+        output = service.delete_model(**body)
         return output
 
     def construct_full_body(self):
         body = dict()
-        body['assistant_id'] = "string1"
-        body['session_id'] = "string1"
-        body.update({
-            "input":
-                MessageInput._from_dict(
-                    json.loads(
-                        """{"message_type": "fake_message_type", "text": "fake_text", "options": {"debug": false, "restart": false, "alternate_intents": false, "return_context": true}, "intents": [], "entities": [], "suggestion_id": "fake_suggestion_id"}"""
-                    )),
-            "context":
-                MessageContext._from_dict(
-                    json.loads(
-                        """{"global": {"system": {"timezone": "fake_timezone", "user_id": "fake_user_id", "turn_count": 10}}, "skills": {}}"""
-                    )),
-        })
+        body['model_id'] = "string1"
         return body
 
     def construct_required_body(self):
         body = dict()
-        body['assistant_id'] = "string1"
-        body['session_id'] = "string1"
+        body['model_id'] = "string1"
         return body
 
 
 # endregion
 ##############################################################################
-# End of Service: Message
+# End of Service: ManageModels
 ##############################################################################
 
 
@@ -342,5 +371,6 @@ def send_request(obj, body, response, url=None):
 ####################
 
 fake_response__json = None
-fake_response_SessionResponse_json = """{"session_id": "fake_session_id"}"""
-fake_response_MessageResponse_json = """{"output": {"generic": [], "intents": [], "entities": [], "actions": [], "debug": {"nodes_visited": [], "log_messages": [], "branch_exited": false, "branch_exited_reason": "fake_branch_exited_reason"}}, "context": {"global": {"system": {"timezone": "fake_timezone", "user_id": "fake_user_id", "turn_count": 10}}, "skills": {}}}"""
+fake_response_AnalysisResults_json = """{"language": "fake_language", "analyzed_text": "fake_analyzed_text", "retrieved_url": "fake_retrieved_url", "usage": {"features": 8, "text_characters": 15, "text_units": 10}, "concepts": [], "entities": [], "keywords": [], "categories": [], "emotion": {"document": {"emotion": {"anger": 5, "disgust": 7, "fear": 4, "joy": 3, "sadness": 7}}, "targets": []}, "metadata": {"authors": [], "publication_date": "fake_publication_date", "title": "fake_title", "image": "fake_image", "feeds": []}, "relations": [], "semantic_roles": [], "sentiment": {"document": {"label": "fake_label", "score": 5}, "targets": []}, "syntax": {"tokens": [], "sentences": []}}"""
+fake_response_ListModelsResults_json = """{"models": []}"""
+fake_response_DeleteModelResults_json = """{"deleted": "fake_deleted"}"""

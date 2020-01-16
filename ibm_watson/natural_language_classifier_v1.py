@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019.
+# (C) Copyright IBM Corp. 2019, 2020.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,12 +21,16 @@ those classes to new inputs.
 """
 
 import json
+from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
 from .common import get_sdk_headers
+from datetime import datetime
 from enum import Enum
 from ibm_cloud_sdk_core import BaseService
 from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
 from ibm_cloud_sdk_core import get_authenticator_from_environment
-from ibm_cloud_sdk_core import read_external_sources
+from typing import BinaryIO
+from typing import Dict
+from typing import List
 
 ##############################################################################
 # Service
@@ -36,12 +40,14 @@ from ibm_cloud_sdk_core import read_external_sources
 class NaturalLanguageClassifierV1(BaseService):
     """The Natural Language Classifier V1 service."""
 
-    default_service_url = 'https://gateway.watsonplatform.net/natural-language-classifier/api'
+    DEFAULT_SERVICE_URL = 'https://gateway.watsonplatform.net/natural-language-classifier/api'
+    DEFAULT_SERVICE_NAME = 'natural_language_classifier'
 
     def __init__(
             self,
-            authenticator=None,
-    ):
+            authenticator: Authenticator = None,
+            service_name: str = DEFAULT_SERVICE_NAME,
+    ) -> None:
         """
         Construct a new client for the Natural Language Classifier service.
 
@@ -49,30 +55,20 @@ class NaturalLanguageClassifierV1(BaseService):
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
         """
-
-        service_url = self.default_service_url
-        disable_ssl_verification = False
-
-        config = read_external_sources('natural_language_classifier')
-        if config.get('URL'):
-            service_url = config.get('URL')
-        if config.get('DISABLE_SSL'):
-            disable_ssl_verification = config.get('DISABLE_SSL')
-
         if not authenticator:
-            authenticator = get_authenticator_from_environment(
-                'natural_language_classifier')
-
+            authenticator = get_authenticator_from_environment(service_name)
         BaseService.__init__(self,
-                             service_url=service_url,
+                             service_url=self.DEFAULT_SERVICE_URL,
                              authenticator=authenticator,
-                             disable_ssl_verification=disable_ssl_verification)
+                             disable_ssl_verification=False)
+        self.configure_service(service_name)
 
     #########################
     # Classify text
     #########################
 
-    def classify(self, classifier_id, text, **kwargs):
+    def classify(self, classifier_id: str, text: str,
+                 **kwargs) -> 'DetailedResponse':
         """
         Classify a phrase.
 
@@ -95,8 +91,9 @@ class NaturalLanguageClassifierV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('natural_language_classifier', 'V1',
-                                      'classify')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='classify')
         headers.update(sdk_headers)
 
         data = {'text': text}
@@ -106,12 +103,14 @@ class NaturalLanguageClassifierV1(BaseService):
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
-                                       data=data,
-                                       accept_json=True)
+                                       data=data)
+
         response = self.send(request)
         return response
 
-    def classify_collection(self, classifier_id, collection, **kwargs):
+    def classify_collection(self, classifier_id: str,
+                            collection: List['ClassifyInput'],
+                            **kwargs) -> 'DetailedResponse':
         """
         Classify multiple phrases.
 
@@ -120,7 +119,7 @@ class NaturalLanguageClassifierV1(BaseService):
         Note that classifying Japanese texts is a beta feature.
 
         :param str classifier_id: Classifier ID to use.
-        :param list[ClassifyInput] collection: The submitted phrases.
+        :param List[ClassifyInput] collection: The submitted phrases.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -135,8 +134,9 @@ class NaturalLanguageClassifierV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('natural_language_classifier', 'V1',
-                                      'classify_collection')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='classify_collection')
         headers.update(sdk_headers)
 
         data = {'collection': collection}
@@ -146,8 +146,8 @@ class NaturalLanguageClassifierV1(BaseService):
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
-                                       data=data,
-                                       accept_json=True)
+                                       data=data)
+
         response = self.send(request)
         return response
 
@@ -155,21 +155,23 @@ class NaturalLanguageClassifierV1(BaseService):
     # Manage classifiers
     #########################
 
-    def create_classifier(self, training_metadata, training_data, **kwargs):
+    def create_classifier(self, training_metadata: BinaryIO,
+                          training_data: BinaryIO,
+                          **kwargs) -> 'DetailedResponse':
         """
         Create classifier.
 
         Sends data to create and train a classifier and returns information about the new
         classifier.
 
-        :param file training_metadata: Metadata in JSON format. The metadata
+        :param TextIO training_metadata: Metadata in JSON format. The metadata
                identifies the language of the data, and an optional name to identify the
                classifier. Specify the language with the 2-letter primary language code as
                assigned in ISO standard 639.
                Supported languages are English (`en`), Arabic (`ar`), French (`fr`),
                German, (`de`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Brazilian
                Portuguese (`pt`), and Spanish (`es`).
-        :param file training_data: Training data in CSV format. Each text value
+        :param TextIO training_data: Training data in CSV format. Each text value
                must have at least one class. The data can include up to 3,000 classes and
                20,000 records. For details, see [Data
                preparation](https://cloud.ibm.com/docs/services/natural-language-classifier?topic=natural-language-classifier-using-your-data).
@@ -186,8 +188,9 @@ class NaturalLanguageClassifierV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('natural_language_classifier', 'V1',
-                                      'create_classifier')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='create_classifier')
         headers.update(sdk_headers)
 
         form_data = []
@@ -199,12 +202,12 @@ class NaturalLanguageClassifierV1(BaseService):
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
-                                       files=form_data,
-                                       accept_json=True)
+                                       files=form_data)
+
         response = self.send(request)
         return response
 
-    def list_classifiers(self, **kwargs):
+    def list_classifiers(self, **kwargs) -> 'DetailedResponse':
         """
         List classifiers.
 
@@ -218,19 +221,19 @@ class NaturalLanguageClassifierV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('natural_language_classifier', 'V1',
-                                      'list_classifiers')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='list_classifiers')
         headers.update(sdk_headers)
 
         url = '/v1/classifiers'
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       accept_json=True)
+        request = self.prepare_request(method='GET', url=url, headers=headers)
+
         response = self.send(request)
         return response
 
-    def get_classifier(self, classifier_id, **kwargs):
+    def get_classifier(self, classifier_id: str,
+                       **kwargs) -> 'DetailedResponse':
         """
         Get information about a classifier.
 
@@ -248,20 +251,20 @@ class NaturalLanguageClassifierV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('natural_language_classifier', 'V1',
-                                      'get_classifier')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='get_classifier')
         headers.update(sdk_headers)
 
         url = '/v1/classifiers/{0}'.format(
             *self._encode_path_vars(classifier_id))
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       accept_json=True)
+        request = self.prepare_request(method='GET', url=url, headers=headers)
+
         response = self.send(request)
         return response
 
-    def delete_classifier(self, classifier_id, **kwargs):
+    def delete_classifier(self, classifier_id: str,
+                          **kwargs) -> 'DetailedResponse':
         """
         Delete classifier.
 
@@ -277,16 +280,17 @@ class NaturalLanguageClassifierV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('natural_language_classifier', 'V1',
-                                      'delete_classifier')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='delete_classifier')
         headers.update(sdk_headers)
 
         url = '/v1/classifiers/{0}'.format(
             *self._encode_path_vars(classifier_id))
         request = self.prepare_request(method='DELETE',
                                        url=url,
-                                       headers=headers,
-                                       accept_json=True)
+                                       headers=headers)
+
         response = self.send(request)
         return response
 
@@ -304,17 +308,17 @@ class Classification():
     :attr str url: (optional) Link to the classifier.
     :attr str text: (optional) The submitted phrase.
     :attr str top_class: (optional) The class with the highest confidence.
-    :attr list[ClassifiedClass] classes: (optional) An array of up to ten
+    :attr List[ClassifiedClass] classes: (optional) An array of up to ten
           class-confidence pairs sorted in descending order of confidence.
     """
 
     def __init__(self,
                  *,
-                 classifier_id=None,
-                 url=None,
-                 text=None,
-                 top_class=None,
-                 classes=None):
+                 classifier_id: str = None,
+                 url: str = None,
+                 text: str = None,
+                 top_class: str = None,
+                 classes: List['ClassifiedClass'] = None) -> None:
         """
         Initialize a Classification object.
 
@@ -322,7 +326,7 @@ class Classification():
         :param str url: (optional) Link to the classifier.
         :param str text: (optional) The submitted phrase.
         :param str top_class: (optional) The class with the highest confidence.
-        :param list[ClassifiedClass] classes: (optional) An array of up to ten
+        :param List[ClassifiedClass] classes: (optional) An array of up to ten
                class-confidence pairs sorted in descending order of confidence.
         """
         self.classifier_id = classifier_id
@@ -332,7 +336,7 @@ class Classification():
         self.classes = classes
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Classification':
         """Initialize a Classification object from a json dictionary."""
         args = {}
         valid_keys = ['classifier_id', 'url', 'text', 'top_class', 'classes']
@@ -355,7 +359,12 @@ class Classification():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Classification object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'classifier_id') and self.classifier_id is not None:
@@ -370,17 +379,21 @@ class Classification():
             _dict['classes'] = [x._to_dict() for x in self.classes]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Classification object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Classification') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Classification') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -391,17 +404,21 @@ class ClassificationCollection():
 
     :attr str classifier_id: (optional) Unique identifier for this classifier.
     :attr str url: (optional) Link to the classifier.
-    :attr list[CollectionItem] collection: (optional) An array of classifier
+    :attr List[CollectionItem] collection: (optional) An array of classifier
           responses for each submitted phrase.
     """
 
-    def __init__(self, *, classifier_id=None, url=None, collection=None):
+    def __init__(self,
+                 *,
+                 classifier_id: str = None,
+                 url: str = None,
+                 collection: List['CollectionItem'] = None) -> None:
         """
         Initialize a ClassificationCollection object.
 
         :param str classifier_id: (optional) Unique identifier for this classifier.
         :param str url: (optional) Link to the classifier.
-        :param list[CollectionItem] collection: (optional) An array of classifier
+        :param List[CollectionItem] collection: (optional) An array of classifier
                responses for each submitted phrase.
         """
         self.classifier_id = classifier_id
@@ -409,7 +426,7 @@ class ClassificationCollection():
         self.collection = collection
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ClassificationCollection':
         """Initialize a ClassificationCollection object from a json dictionary."""
         args = {}
         valid_keys = ['classifier_id', 'url', 'collection']
@@ -428,7 +445,12 @@ class ClassificationCollection():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ClassificationCollection object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'classifier_id') and self.classifier_id is not None:
@@ -439,17 +461,21 @@ class ClassificationCollection():
             _dict['collection'] = [x._to_dict() for x in self.collection]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ClassificationCollection object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ClassificationCollection') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ClassificationCollection') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -464,7 +490,8 @@ class ClassifiedClass():
     :attr str class_name: (optional) Class label.
     """
 
-    def __init__(self, *, confidence=None, class_name=None):
+    def __init__(self, *, confidence: float = None,
+                 class_name: str = None) -> None:
         """
         Initialize a ClassifiedClass object.
 
@@ -477,7 +504,7 @@ class ClassifiedClass():
         self.class_name = class_name
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ClassifiedClass':
         """Initialize a ClassifiedClass object from a json dictionary."""
         args = {}
         valid_keys = ['confidence', 'class_name']
@@ -492,7 +519,12 @@ class ClassifiedClass():
             args['class_name'] = _dict.get('class_name')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ClassifiedClass object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'confidence') and self.confidence is not None:
@@ -501,17 +533,21 @@ class ClassifiedClass():
             _dict['class_name'] = self.class_name
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ClassifiedClass object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ClassifiedClass') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ClassifiedClass') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -531,14 +567,14 @@ class Classifier():
     """
 
     def __init__(self,
-                 url,
-                 classifier_id,
+                 url: str,
+                 classifier_id: str,
                  *,
-                 name=None,
-                 status=None,
-                 created=None,
-                 status_description=None,
-                 language=None):
+                 name: str = None,
+                 status: str = None,
+                 created: datetime = None,
+                 status_description: str = None,
+                 language: str = None) -> None:
         """
         Initialize a Classifier object.
 
@@ -561,7 +597,7 @@ class Classifier():
         self.language = language
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Classifier':
         """Initialize a Classifier object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -596,7 +632,12 @@ class Classifier():
             args['language'] = _dict.get('language')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Classifier object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'name') and self.name is not None:
@@ -617,17 +658,21 @@ class Classifier():
             _dict['language'] = self.language
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Classifier object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Classifier') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Classifier') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -646,21 +691,21 @@ class ClassifierList():
     """
     List of available classifiers.
 
-    :attr list[Classifier] classifiers: The classifiers available to the user.
+    :attr List[Classifier] classifiers: The classifiers available to the user.
           Returns an empty array if no classifiers are available.
     """
 
-    def __init__(self, classifiers):
+    def __init__(self, classifiers: List['Classifier']) -> None:
         """
         Initialize a ClassifierList object.
 
-        :param list[Classifier] classifiers: The classifiers available to the user.
+        :param List[Classifier] classifiers: The classifiers available to the user.
                Returns an empty array if no classifiers are available.
         """
         self.classifiers = classifiers
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ClassifierList':
         """Initialize a ClassifierList object from a json dictionary."""
         args = {}
         valid_keys = ['classifiers']
@@ -679,24 +724,33 @@ class ClassifierList():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ClassifierList object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'classifiers') and self.classifiers is not None:
             _dict['classifiers'] = [x._to_dict() for x in self.classifiers]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ClassifierList object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ClassifierList') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ClassifierList') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -708,7 +762,7 @@ class ClassifyInput():
     :attr str text: The submitted phrase. The maximum length is 2048 characters.
     """
 
-    def __init__(self, text):
+    def __init__(self, text: str) -> None:
         """
         Initialize a ClassifyInput object.
 
@@ -718,7 +772,7 @@ class ClassifyInput():
         self.text = text
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ClassifyInput':
         """Initialize a ClassifyInput object from a json dictionary."""
         args = {}
         valid_keys = ['text']
@@ -734,24 +788,33 @@ class ClassifyInput():
                 'Required property \'text\' not present in ClassifyInput JSON')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ClassifyInput object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ClassifyInput object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ClassifyInput') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ClassifyInput') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -763,18 +826,22 @@ class CollectionItem():
     :attr str text: (optional) The submitted phrase. The maximum length is 2048
           characters.
     :attr str top_class: (optional) The class with the highest confidence.
-    :attr list[ClassifiedClass] classes: (optional) An array of up to ten
+    :attr List[ClassifiedClass] classes: (optional) An array of up to ten
           class-confidence pairs sorted in descending order of confidence.
     """
 
-    def __init__(self, *, text=None, top_class=None, classes=None):
+    def __init__(self,
+                 *,
+                 text: str = None,
+                 top_class: str = None,
+                 classes: List['ClassifiedClass'] = None) -> None:
         """
         Initialize a CollectionItem object.
 
         :param str text: (optional) The submitted phrase. The maximum length is
                2048 characters.
         :param str top_class: (optional) The class with the highest confidence.
-        :param list[ClassifiedClass] classes: (optional) An array of up to ten
+        :param List[ClassifiedClass] classes: (optional) An array of up to ten
                class-confidence pairs sorted in descending order of confidence.
         """
         self.text = text
@@ -782,7 +849,7 @@ class CollectionItem():
         self.classes = classes
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'CollectionItem':
         """Initialize a CollectionItem object from a json dictionary."""
         args = {}
         valid_keys = ['text', 'top_class', 'classes']
@@ -801,7 +868,12 @@ class CollectionItem():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CollectionItem object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
@@ -812,16 +884,20 @@ class CollectionItem():
             _dict['classes'] = [x._to_dict() for x in self.classes]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this CollectionItem object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'CollectionItem') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'CollectionItem') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other

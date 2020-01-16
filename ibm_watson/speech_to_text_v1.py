@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019.
+# (C) Copyright IBM Corp. 2015, 2020.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -35,11 +35,14 @@ supported languages.
 """
 
 import json
+from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
 from .common import get_sdk_headers
 from enum import Enum
 from ibm_cloud_sdk_core import BaseService
 from ibm_cloud_sdk_core import get_authenticator_from_environment
-from ibm_cloud_sdk_core import read_external_sources
+from typing import BinaryIO
+from typing import Dict
+from typing import List
 
 ##############################################################################
 # Service
@@ -49,12 +52,14 @@ from ibm_cloud_sdk_core import read_external_sources
 class SpeechToTextV1(BaseService):
     """The Speech to Text V1 service."""
 
-    default_service_url = 'https://stream.watsonplatform.net/speech-to-text/api'
+    DEFAULT_SERVICE_URL = 'https://stream.watsonplatform.net/speech-to-text/api'
+    DEFAULT_SERVICE_NAME = 'speech_to_text'
 
     def __init__(
             self,
-            authenticator=None,
-    ):
+            authenticator: Authenticator = None,
+            service_name: str = DEFAULT_SERVICE_NAME,
+    ) -> None:
         """
         Construct a new client for the Speech to Text service.
 
@@ -62,29 +67,19 @@ class SpeechToTextV1(BaseService):
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
         """
-
-        service_url = self.default_service_url
-        disable_ssl_verification = False
-
-        config = read_external_sources('speech_to_text')
-        if config.get('URL'):
-            service_url = config.get('URL')
-        if config.get('DISABLE_SSL'):
-            disable_ssl_verification = config.get('DISABLE_SSL')
-
         if not authenticator:
-            authenticator = get_authenticator_from_environment('speech_to_text')
-
+            authenticator = get_authenticator_from_environment(service_name)
         BaseService.__init__(self,
-                             service_url=service_url,
+                             service_url=self.DEFAULT_SERVICE_URL,
                              authenticator=authenticator,
-                             disable_ssl_verification=disable_ssl_verification)
+                             disable_ssl_verification=False)
+        self.configure_service(service_name)
 
     #########################
     # Models
     #########################
 
-    def list_models(self, **kwargs):
+    def list_models(self, **kwargs) -> 'DetailedResponse':
         """
         List models.
 
@@ -102,18 +97,18 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1', 'list_models')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='list_models')
         headers.update(sdk_headers)
 
         url = '/v1/models'
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       accept_json=True)
+        request = self.prepare_request(method='GET', url=url, headers=headers)
+
         response = self.send(request)
         return response
 
-    def get_model(self, model_id, **kwargs):
+    def get_model(self, model_id: str, **kwargs) -> 'DetailedResponse':
         """
         Get a model.
 
@@ -136,14 +131,14 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1', 'get_model')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='get_model')
         headers.update(sdk_headers)
 
         url = '/v1/models/{0}'.format(*self._encode_path_vars(model_id))
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       accept_json=True)
+        request = self.prepare_request(method='GET', url=url, headers=headers)
+
         response = self.send(request)
         return response
 
@@ -152,29 +147,31 @@ class SpeechToTextV1(BaseService):
     #########################
 
     def recognize(self,
-                  audio,
+                  audio: BinaryIO,
                   *,
-                  content_type=None,
-                  model=None,
-                  language_customization_id=None,
-                  acoustic_customization_id=None,
-                  base_model_version=None,
-                  customization_weight=None,
-                  inactivity_timeout=None,
-                  keywords=None,
-                  keywords_threshold=None,
-                  max_alternatives=None,
-                  word_alternatives_threshold=None,
-                  word_confidence=None,
-                  timestamps=None,
-                  profanity_filter=None,
-                  smart_formatting=None,
-                  speaker_labels=None,
-                  customization_id=None,
-                  grammar_name=None,
-                  redaction=None,
-                  audio_metrics=None,
-                  **kwargs):
+                  content_type: str = None,
+                  model: str = None,
+                  language_customization_id: str = None,
+                  acoustic_customization_id: str = None,
+                  base_model_version: str = None,
+                  customization_weight: float = None,
+                  inactivity_timeout: int = None,
+                  keywords: List[str] = None,
+                  keywords_threshold: float = None,
+                  max_alternatives: int = None,
+                  word_alternatives_threshold: float = None,
+                  word_confidence: bool = None,
+                  timestamps: bool = None,
+                  profanity_filter: bool = None,
+                  smart_formatting: bool = None,
+                  speaker_labels: bool = None,
+                  customization_id: str = None,
+                  grammar_name: str = None,
+                  redaction: bool = None,
+                  audio_metrics: bool = None,
+                  end_of_phrase_silence_time: float = None,
+                  split_transcript_at_phrase_end: bool = None,
+                  **kwargs) -> 'DetailedResponse':
         """
         Recognize audio.
 
@@ -248,7 +245,7 @@ class SpeechToTextV1(BaseService):
         **See also:** [Making a multipart HTTP
         request](https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-http#HTTP-multi).
 
-        :param file audio: The audio to transcribe.
+        :param BinaryIO audio: The audio to transcribe.
         :param str content_type: (optional) The format (MIME type) of the audio.
                For more information about specifying an audio format, see **Audio formats
                (content types)** in the method description.
@@ -300,7 +297,7 @@ class SpeechToTextV1(BaseService):
                submission from a live microphone when a user simply walks away. Use `-1`
                for infinity. See [Inactivity
                timeout](https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-input#timeouts-inactivity).
-        :param list[str] keywords: (optional) An array of keyword strings to spot
+        :param List[str] keywords: (optional) An array of keyword strings to spot
                in the audio. Each keyword string can include one or more string tokens.
                Keywords are spotted only in the final results, not in interim hypotheses.
                If you specify any keywords, you must also specify a keywords threshold.
@@ -389,6 +386,33 @@ class SpeechToTextV1(BaseService):
                information about the signal characteristics of the input audio. The
                service returns audio metrics with the final transcription results. By
                default, the service returns no audio metrics.
+               See [Audio
+               metrics](https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-metrics#audio_metrics).
+        :param float end_of_phrase_silence_time: (optional) If `true`, specifies
+               the duration of the pause interval at which the service splits a transcript
+               into multiple final results. If the service detects pauses or extended
+               silence before it reaches the end of the audio stream, its response can
+               include multiple final results. Silence indicates a point at which the
+               speaker pauses between spoken words or phrases.
+               Specify a value for the pause interval in the range of 0.0 to 120.0.
+               * A value greater than 0 specifies the interval that the service is to use
+               for speech recognition.
+               * A value of 0 indicates that the service is to use the default interval.
+               It is equivalent to omitting the parameter.
+               The default pause interval for most languages is 0.8 seconds; the default
+               for Chinese is 0.6 seconds.
+               See [End of phrase silence
+               time](https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-output#silence_time).
+        :param bool split_transcript_at_phrase_end: (optional) If `true`, directs
+               the service to split the transcript into multiple final results based on
+               semantic features of the input, for example, at the conclusion of
+               meaningful phrases such as sentences. The service bases its understanding
+               of semantic features on the base language model that you use with a
+               request. Custom language models and grammars can also influence how and
+               where the service splits a transcript. By default, the service splits
+               transcripts based solely on the pause interval.
+               See [Split transcript at phrase
+               end](https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-output#split_transcript).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -400,7 +424,9 @@ class SpeechToTextV1(BaseService):
         headers = {'Content-Type': content_type}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1', 'recognize')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='recognize')
         headers.update(sdk_headers)
 
         params = {
@@ -422,7 +448,9 @@ class SpeechToTextV1(BaseService):
             'customization_id': customization_id,
             'grammar_name': grammar_name,
             'redaction': redaction,
-            'audio_metrics': audio_metrics
+            'audio_metrics': audio_metrics,
+            'end_of_phrase_silence_time': end_of_phrase_silence_time,
+            'split_transcript_at_phrase_end': split_transcript_at_phrase_end
         }
 
         data = audio
@@ -432,8 +460,8 @@ class SpeechToTextV1(BaseService):
                                        url=url,
                                        headers=headers,
                                        params=params,
-                                       data=data,
-                                       accept_json=True)
+                                       data=data)
+
         response = self.send(request)
         return response
 
@@ -441,7 +469,11 @@ class SpeechToTextV1(BaseService):
     # Asynchronous
     #########################
 
-    def register_callback(self, callback_url, *, user_secret=None, **kwargs):
+    def register_callback(self,
+                          callback_url: str,
+                          *,
+                          user_secret: str = None,
+                          **kwargs) -> 'DetailedResponse':
         """
         Register a callback.
 
@@ -497,8 +529,9 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1',
-                                      'register_callback')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='register_callback')
         headers.update(sdk_headers)
 
         params = {'callback_url': callback_url, 'user_secret': user_secret}
@@ -507,12 +540,13 @@ class SpeechToTextV1(BaseService):
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=True)
+                                       params=params)
+
         response = self.send(request)
         return response
 
-    def unregister_callback(self, callback_url, **kwargs):
+    def unregister_callback(self, callback_url: str,
+                            **kwargs) -> 'DetailedResponse':
         """
         Unregister a callback.
 
@@ -534,8 +568,9 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1',
-                                      'unregister_callback')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='unregister_callback')
         headers.update(sdk_headers)
 
         params = {'callback_url': callback_url}
@@ -544,41 +579,43 @@ class SpeechToTextV1(BaseService):
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=False)
+                                       params=params)
+
         response = self.send(request)
         return response
 
     def create_job(self,
-                   audio,
+                   audio: BinaryIO,
                    *,
-                   content_type=None,
-                   model=None,
-                   callback_url=None,
-                   events=None,
-                   user_token=None,
-                   results_ttl=None,
-                   language_customization_id=None,
-                   acoustic_customization_id=None,
-                   base_model_version=None,
-                   customization_weight=None,
-                   inactivity_timeout=None,
-                   keywords=None,
-                   keywords_threshold=None,
-                   max_alternatives=None,
-                   word_alternatives_threshold=None,
-                   word_confidence=None,
-                   timestamps=None,
-                   profanity_filter=None,
-                   smart_formatting=None,
-                   speaker_labels=None,
-                   customization_id=None,
-                   grammar_name=None,
-                   redaction=None,
-                   processing_metrics=None,
-                   processing_metrics_interval=None,
-                   audio_metrics=None,
-                   **kwargs):
+                   content_type: str = None,
+                   model: str = None,
+                   callback_url: str = None,
+                   events: str = None,
+                   user_token: str = None,
+                   results_ttl: int = None,
+                   language_customization_id: str = None,
+                   acoustic_customization_id: str = None,
+                   base_model_version: str = None,
+                   customization_weight: float = None,
+                   inactivity_timeout: int = None,
+                   keywords: List[str] = None,
+                   keywords_threshold: float = None,
+                   max_alternatives: int = None,
+                   word_alternatives_threshold: float = None,
+                   word_confidence: bool = None,
+                   timestamps: bool = None,
+                   profanity_filter: bool = None,
+                   smart_formatting: bool = None,
+                   speaker_labels: bool = None,
+                   customization_id: str = None,
+                   grammar_name: str = None,
+                   redaction: bool = None,
+                   processing_metrics: bool = None,
+                   processing_metrics_interval: float = None,
+                   audio_metrics: bool = None,
+                   end_of_phrase_silence_time: float = None,
+                   split_transcript_at_phrase_end: bool = None,
+                   **kwargs) -> 'DetailedResponse':
         """
         Create a job.
 
@@ -665,7 +702,7 @@ class SpeechToTextV1(BaseService):
          **See also:** [Audio
         formats](https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-audio-formats#audio-formats).
 
-        :param file audio: The audio to transcribe.
+        :param BinaryIO audio: The audio to transcribe.
         :param str content_type: (optional) The format (MIME type) of the audio.
                For more information about specifying an audio format, see **Audio formats
                (content types)** in the method description.
@@ -753,7 +790,7 @@ class SpeechToTextV1(BaseService):
                submission from a live microphone when a user simply walks away. Use `-1`
                for infinity. See [Inactivity
                timeout](https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-input#timeouts-inactivity).
-        :param list[str] keywords: (optional) An array of keyword strings to spot
+        :param List[str] keywords: (optional) An array of keyword strings to spot
                in the audio. Each keyword string can include one or more string tokens.
                Keywords are spotted only in the final results, not in interim hypotheses.
                If you specify any keywords, you must also specify a keywords threshold.
@@ -844,6 +881,8 @@ class SpeechToTextV1(BaseService):
                `processing_metrics_interval` parameter. It also returns processing metrics
                for transcription events, for example, for final and interim results. By
                default, the service returns no processing metrics.
+               See [Processing
+               metrics](https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-metrics#processing_metrics).
         :param float processing_metrics_interval: (optional) Specifies the interval
                in real wall-clock seconds at which the service is to return processing
                metrics. The parameter is ignored unless the `processing_metrics` parameter
@@ -856,10 +895,39 @@ class SpeechToTextV1(BaseService):
                intervals, set the value to a large number. If the value is larger than the
                duration of the audio, the service returns processing metrics only for
                transcription events.
+               See [Processing
+               metrics](https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-metrics#processing_metrics).
         :param bool audio_metrics: (optional) If `true`, requests detailed
                information about the signal characteristics of the input audio. The
                service returns audio metrics with the final transcription results. By
                default, the service returns no audio metrics.
+               See [Audio
+               metrics](https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-metrics#audio_metrics).
+        :param float end_of_phrase_silence_time: (optional) If `true`, specifies
+               the duration of the pause interval at which the service splits a transcript
+               into multiple final results. If the service detects pauses or extended
+               silence before it reaches the end of the audio stream, its response can
+               include multiple final results. Silence indicates a point at which the
+               speaker pauses between spoken words or phrases.
+               Specify a value for the pause interval in the range of 0.0 to 120.0.
+               * A value greater than 0 specifies the interval that the service is to use
+               for speech recognition.
+               * A value of 0 indicates that the service is to use the default interval.
+               It is equivalent to omitting the parameter.
+               The default pause interval for most languages is 0.8 seconds; the default
+               for Chinese is 0.6 seconds.
+               See [End of phrase silence
+               time](https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-output#silence_time).
+        :param bool split_transcript_at_phrase_end: (optional) If `true`, directs
+               the service to split the transcript into multiple final results based on
+               semantic features of the input, for example, at the conclusion of
+               meaningful phrases such as sentences. The service bases its understanding
+               of semantic features on the base language model that you use with a
+               request. Custom language models and grammars can also influence how and
+               where the service splits a transcript. By default, the service splits
+               transcripts based solely on the pause interval.
+               See [Split transcript at phrase
+               end](https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-output#split_transcript).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -871,7 +939,9 @@ class SpeechToTextV1(BaseService):
         headers = {'Content-Type': content_type}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1', 'create_job')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='create_job')
         headers.update(sdk_headers)
 
         params = {
@@ -899,7 +969,9 @@ class SpeechToTextV1(BaseService):
             'redaction': redaction,
             'processing_metrics': processing_metrics,
             'processing_metrics_interval': processing_metrics_interval,
-            'audio_metrics': audio_metrics
+            'audio_metrics': audio_metrics,
+            'end_of_phrase_silence_time': end_of_phrase_silence_time,
+            'split_transcript_at_phrase_end': split_transcript_at_phrase_end
         }
 
         data = audio
@@ -909,12 +981,12 @@ class SpeechToTextV1(BaseService):
                                        url=url,
                                        headers=headers,
                                        params=params,
-                                       data=data,
-                                       accept_json=True)
+                                       data=data)
+
         response = self.send(request)
         return response
 
-    def check_jobs(self, **kwargs):
+    def check_jobs(self, **kwargs) -> 'DetailedResponse':
         """
         Check jobs.
 
@@ -937,18 +1009,18 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1', 'check_jobs')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='check_jobs')
         headers.update(sdk_headers)
 
         url = '/v1/recognitions'
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       accept_json=True)
+        request = self.prepare_request(method='GET', url=url, headers=headers)
+
         response = self.send(request)
         return response
 
-    def check_job(self, id, **kwargs):
+    def check_job(self, id: str, **kwargs) -> 'DetailedResponse':
         """
         Check a job.
 
@@ -979,18 +1051,18 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1', 'check_job')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='check_job')
         headers.update(sdk_headers)
 
         url = '/v1/recognitions/{0}'.format(*self._encode_path_vars(id))
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       accept_json=True)
+        request = self.prepare_request(method='GET', url=url, headers=headers)
+
         response = self.send(request)
         return response
 
-    def delete_job(self, id, **kwargs):
+    def delete_job(self, id: str, **kwargs) -> 'DetailedResponse':
         """
         Delete a job.
 
@@ -1016,14 +1088,16 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1', 'delete_job')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='delete_job')
         headers.update(sdk_headers)
 
         url = '/v1/recognitions/{0}'.format(*self._encode_path_vars(id))
         request = self.prepare_request(method='DELETE',
                                        url=url,
-                                       headers=headers,
-                                       accept_json=False)
+                                       headers=headers)
+
         response = self.send(request)
         return response
 
@@ -1032,12 +1106,12 @@ class SpeechToTextV1(BaseService):
     #########################
 
     def create_language_model(self,
-                              name,
-                              base_model_name,
+                              name: str,
+                              base_model_name: str,
                               *,
-                              dialect=None,
-                              description=None,
-                              **kwargs):
+                              dialect: str = None,
+                              description: str = None,
+                              **kwargs) -> 'DetailedResponse':
         """
         Create a custom language model.
 
@@ -1045,9 +1119,9 @@ class SpeechToTextV1(BaseService):
         language model can be used only with the base model for which it is created. The
         model is owned by the instance of the service whose credentials are used to create
         it.
-        You can create a maximum of 1024 custom language models, per credential. The
-        service returns an error if you attempt to create more than 1024 models. You do
-        not lose any models, but you cannot create any more until your model count is
+        You can create a maximum of 1024 custom language models per owning credentials.
+        The service returns an error if you attempt to create more than 1024 models. You
+        do not lose any models, but you cannot create any more until your model count is
         below the limit.
         **See also:** [Create a custom language
         model](https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-languageCreate#createModel-language).
@@ -1099,8 +1173,9 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1',
-                                      'create_language_model')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='create_language_model')
         headers.update(sdk_headers)
 
         data = {
@@ -1114,12 +1189,13 @@ class SpeechToTextV1(BaseService):
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
-                                       data=data,
-                                       accept_json=True)
+                                       data=data)
+
         response = self.send(request)
         return response
 
-    def list_language_models(self, *, language=None, **kwargs):
+    def list_language_models(self, *, language: str = None,
+                             **kwargs) -> 'DetailedResponse':
         """
         List custom language models.
 
@@ -1143,8 +1219,9 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1',
-                                      'list_language_models')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='list_language_models')
         headers.update(sdk_headers)
 
         params = {'language': language}
@@ -1153,12 +1230,13 @@ class SpeechToTextV1(BaseService):
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=True)
+                                       params=params)
+
         response = self.send(request)
         return response
 
-    def get_language_model(self, customization_id, **kwargs):
+    def get_language_model(self, customization_id: str,
+                           **kwargs) -> 'DetailedResponse':
         """
         Get a custom language model.
 
@@ -1182,20 +1260,20 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1',
-                                      'get_language_model')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='get_language_model')
         headers.update(sdk_headers)
 
         url = '/v1/customizations/{0}'.format(
             *self._encode_path_vars(customization_id))
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       accept_json=True)
+        request = self.prepare_request(method='GET', url=url, headers=headers)
+
         response = self.send(request)
         return response
 
-    def delete_language_model(self, customization_id, **kwargs):
+    def delete_language_model(self, customization_id: str,
+                              **kwargs) -> 'DetailedResponse':
         """
         Delete a custom language model.
 
@@ -1221,25 +1299,26 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1',
-                                      'delete_language_model')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='delete_language_model')
         headers.update(sdk_headers)
 
         url = '/v1/customizations/{0}'.format(
             *self._encode_path_vars(customization_id))
         request = self.prepare_request(method='DELETE',
                                        url=url,
-                                       headers=headers,
-                                       accept_json=True)
+                                       headers=headers)
+
         response = self.send(request)
         return response
 
     def train_language_model(self,
-                             customization_id,
+                             customization_id: str,
                              *,
-                             word_type_to_add=None,
-                             customization_weight=None,
-                             **kwargs):
+                             word_type_to_add: str = None,
+                             customization_weight: float = None,
+                             **kwargs) -> 'DetailedResponse':
         """
         Train a custom language model.
 
@@ -1309,8 +1388,9 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1',
-                                      'train_language_model')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='train_language_model')
         headers.update(sdk_headers)
 
         params = {
@@ -1323,12 +1403,13 @@ class SpeechToTextV1(BaseService):
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=True)
+                                       params=params)
+
         response = self.send(request)
         return response
 
-    def reset_language_model(self, customization_id, **kwargs):
+    def reset_language_model(self, customization_id: str,
+                             **kwargs) -> 'DetailedResponse':
         """
         Reset a custom language model.
 
@@ -1356,20 +1437,20 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1',
-                                      'reset_language_model')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='reset_language_model')
         headers.update(sdk_headers)
 
         url = '/v1/customizations/{0}/reset'.format(
             *self._encode_path_vars(customization_id))
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       accept_json=True)
+        request = self.prepare_request(method='POST', url=url, headers=headers)
+
         response = self.send(request)
         return response
 
-    def upgrade_language_model(self, customization_id, **kwargs):
+    def upgrade_language_model(self, customization_id: str,
+                               **kwargs) -> 'DetailedResponse':
         """
         Upgrade a custom language model.
 
@@ -1405,16 +1486,15 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1',
-                                      'upgrade_language_model')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='upgrade_language_model')
         headers.update(sdk_headers)
 
         url = '/v1/customizations/{0}/upgrade_model'.format(
             *self._encode_path_vars(customization_id))
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       accept_json=True)
+        request = self.prepare_request(method='POST', url=url, headers=headers)
+
         response = self.send(request)
         return response
 
@@ -1422,7 +1502,8 @@ class SpeechToTextV1(BaseService):
     # Custom corpora
     #########################
 
-    def list_corpora(self, customization_id, **kwargs):
+    def list_corpora(self, customization_id: str,
+                     **kwargs) -> 'DetailedResponse':
         """
         List corpora.
 
@@ -1448,25 +1529,25 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1', 'list_corpora')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='list_corpora')
         headers.update(sdk_headers)
 
         url = '/v1/customizations/{0}/corpora'.format(
             *self._encode_path_vars(customization_id))
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       accept_json=True)
+        request = self.prepare_request(method='GET', url=url, headers=headers)
+
         response = self.send(request)
         return response
 
     def add_corpus(self,
-                   customization_id,
-                   corpus_name,
-                   corpus_file,
+                   customization_id: str,
+                   corpus_name: str,
+                   corpus_file: BinaryIO,
                    *,
-                   allow_overwrite=None,
-                   **kwargs):
+                   allow_overwrite: bool = None,
+                   **kwargs) -> 'DetailedResponse':
         """
         Add a corpus.
 
@@ -1529,8 +1610,8 @@ class SpeechToTextV1(BaseService):
                custom words that are added or modified by the user.
                * Do not use the name `base_lm` or `default_lm`. Both names are reserved
                for future use by the service.
-        :param file corpus_file: A plain text file that contains the training data
-               for the corpus. Encode the file in UTF-8 if it contains non-ASCII
+        :param TextIO corpus_file: A plain text file that contains the training
+               data for the corpus. Encode the file in UTF-8 if it contains non-ASCII
                characters; the service assumes UTF-8 encoding if it encounters non-ASCII
                characters.
                Make sure that you know the character encoding of the file. You must use
@@ -1558,7 +1639,9 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1', 'add_corpus')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='add_corpus')
         headers.update(sdk_headers)
 
         params = {'allow_overwrite': allow_overwrite}
@@ -1572,12 +1655,13 @@ class SpeechToTextV1(BaseService):
                                        url=url,
                                        headers=headers,
                                        params=params,
-                                       files=form_data,
-                                       accept_json=True)
+                                       files=form_data)
+
         response = self.send(request)
         return response
 
-    def get_corpus(self, customization_id, corpus_name, **kwargs):
+    def get_corpus(self, customization_id: str, corpus_name: str,
+                   **kwargs) -> 'DetailedResponse':
         """
         Get a corpus.
 
@@ -1607,19 +1691,20 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1', 'get_corpus')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='get_corpus')
         headers.update(sdk_headers)
 
         url = '/v1/customizations/{0}/corpora/{1}'.format(
             *self._encode_path_vars(customization_id, corpus_name))
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       accept_json=True)
+        request = self.prepare_request(method='GET', url=url, headers=headers)
+
         response = self.send(request)
         return response
 
-    def delete_corpus(self, customization_id, corpus_name, **kwargs):
+    def delete_corpus(self, customization_id: str, corpus_name: str,
+                      **kwargs) -> 'DetailedResponse':
         """
         Delete a corpus.
 
@@ -1653,15 +1738,17 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1', 'delete_corpus')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='delete_corpus')
         headers.update(sdk_headers)
 
         url = '/v1/customizations/{0}/corpora/{1}'.format(
             *self._encode_path_vars(customization_id, corpus_name))
         request = self.prepare_request(method='DELETE',
                                        url=url,
-                                       headers=headers,
-                                       accept_json=True)
+                                       headers=headers)
+
         response = self.send(request)
         return response
 
@@ -1670,11 +1757,11 @@ class SpeechToTextV1(BaseService):
     #########################
 
     def list_words(self,
-                   customization_id,
+                   customization_id: str,
                    *,
-                   word_type=None,
-                   sort=None,
-                   **kwargs):
+                   word_type: str = None,
+                   sort: str = None,
+                   **kwargs) -> 'DetailedResponse':
         """
         List custom words.
 
@@ -1718,7 +1805,9 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1', 'list_words')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='list_words')
         headers.update(sdk_headers)
 
         params = {'word_type': word_type, 'sort': sort}
@@ -1728,12 +1817,13 @@ class SpeechToTextV1(BaseService):
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=True)
+                                       params=params)
+
         response = self.send(request)
         return response
 
-    def add_words(self, customization_id, words, **kwargs):
+    def add_words(self, customization_id: str, words: List['CustomWord'],
+                  **kwargs) -> 'DetailedResponse':
         """
         Add custom words.
 
@@ -1790,7 +1880,7 @@ class SpeechToTextV1(BaseService):
                language model that is to be used for the request. You must make the
                request with credentials for the instance of the service that owns the
                custom model.
-        :param list[CustomWord] words: An array of `CustomWord` objects that
+        :param List[CustomWord] words: An array of `CustomWord` objects that
                provides information about each custom word that is to be added to or
                updated in the custom language model.
         :param dict headers: A `dict` containing the request headers
@@ -1807,7 +1897,9 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1', 'add_words')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='add_words')
         headers.update(sdk_headers)
 
         data = {'words': words}
@@ -1817,19 +1909,19 @@ class SpeechToTextV1(BaseService):
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
-                                       data=data,
-                                       accept_json=True)
+                                       data=data)
+
         response = self.send(request)
         return response
 
     def add_word(self,
-                 customization_id,
-                 word_name,
+                 customization_id: str,
+                 word_name: str,
                  *,
-                 word=None,
-                 sounds_like=None,
-                 display_as=None,
-                 **kwargs):
+                 word: str = None,
+                 sounds_like: List[str] = None,
+                 display_as: str = None,
+                 **kwargs) -> 'DetailedResponse':
         """
         Add a custom word.
 
@@ -1881,7 +1973,7 @@ class SpeechToTextV1(BaseService):
                model. Do not include spaces in the word. Use a `-` (dash) or `_`
                (underscore) to connect the tokens of compound words.
                Omit this parameter for the **Add a custom word** method.
-        :param list[str] sounds_like: (optional) An array of sounds-like
+        :param List[str] sounds_like: (optional) An array of sounds-like
                pronunciations for the custom word. Specify how words that are difficult to
                pronounce, foreign words, acronyms, and so on can be pronounced by users.
                * For a word that is not in the service's base vocabulary, omit the
@@ -1910,7 +2002,9 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1', 'add_word')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='add_word')
         headers.update(sdk_headers)
 
         data = {
@@ -1924,12 +2018,13 @@ class SpeechToTextV1(BaseService):
         request = self.prepare_request(method='PUT',
                                        url=url,
                                        headers=headers,
-                                       data=data,
-                                       accept_json=True)
+                                       data=data)
+
         response = self.send(request)
         return response
 
-    def get_word(self, customization_id, word_name, **kwargs):
+    def get_word(self, customization_id: str, word_name: str,
+                 **kwargs) -> 'DetailedResponse':
         """
         Get a custom word.
 
@@ -1960,19 +2055,20 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1', 'get_word')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='get_word')
         headers.update(sdk_headers)
 
         url = '/v1/customizations/{0}/words/{1}'.format(
             *self._encode_path_vars(customization_id, word_name))
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       accept_json=True)
+        request = self.prepare_request(method='GET', url=url, headers=headers)
+
         response = self.send(request)
         return response
 
-    def delete_word(self, customization_id, word_name, **kwargs):
+    def delete_word(self, customization_id: str, word_name: str,
+                    **kwargs) -> 'DetailedResponse':
         """
         Delete a custom word.
 
@@ -2007,15 +2103,17 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1', 'delete_word')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='delete_word')
         headers.update(sdk_headers)
 
         url = '/v1/customizations/{0}/words/{1}'.format(
             *self._encode_path_vars(customization_id, word_name))
         request = self.prepare_request(method='DELETE',
                                        url=url,
-                                       headers=headers,
-                                       accept_json=True)
+                                       headers=headers)
+
         response = self.send(request)
         return response
 
@@ -2023,7 +2121,8 @@ class SpeechToTextV1(BaseService):
     # Custom grammars
     #########################
 
-    def list_grammars(self, customization_id, **kwargs):
+    def list_grammars(self, customization_id: str,
+                      **kwargs) -> 'DetailedResponse':
         """
         List grammars.
 
@@ -2049,26 +2148,26 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1', 'list_grammars')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='list_grammars')
         headers.update(sdk_headers)
 
         url = '/v1/customizations/{0}/grammars'.format(
             *self._encode_path_vars(customization_id))
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       accept_json=True)
+        request = self.prepare_request(method='GET', url=url, headers=headers)
+
         response = self.send(request)
         return response
 
     def add_grammar(self,
-                    customization_id,
-                    grammar_name,
-                    grammar_file,
-                    content_type,
+                    customization_id: str,
+                    grammar_name: str,
+                    grammar_file: str,
+                    content_type: str,
                     *,
-                    allow_overwrite=None,
-                    **kwargs):
+                    allow_overwrite: bool = None,
+                    **kwargs) -> 'DetailedResponse':
         """
         Add a grammar.
 
@@ -2160,7 +2259,9 @@ class SpeechToTextV1(BaseService):
         headers = {'Content-Type': content_type}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1', 'add_grammar')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='add_grammar')
         headers.update(sdk_headers)
 
         params = {'allow_overwrite': allow_overwrite}
@@ -2173,12 +2274,13 @@ class SpeechToTextV1(BaseService):
                                        url=url,
                                        headers=headers,
                                        params=params,
-                                       data=data,
-                                       accept_json=True)
+                                       data=data)
+
         response = self.send(request)
         return response
 
-    def get_grammar(self, customization_id, grammar_name, **kwargs):
+    def get_grammar(self, customization_id: str, grammar_name: str,
+                    **kwargs) -> 'DetailedResponse':
         """
         Get a grammar.
 
@@ -2208,19 +2310,20 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1', 'get_grammar')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='get_grammar')
         headers.update(sdk_headers)
 
         url = '/v1/customizations/{0}/grammars/{1}'.format(
             *self._encode_path_vars(customization_id, grammar_name))
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       accept_json=True)
+        request = self.prepare_request(method='GET', url=url, headers=headers)
+
         response = self.send(request)
         return response
 
-    def delete_grammar(self, customization_id, grammar_name, **kwargs):
+    def delete_grammar(self, customization_id: str, grammar_name: str,
+                       **kwargs) -> 'DetailedResponse':
         """
         Delete a grammar.
 
@@ -2253,15 +2356,17 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1', 'delete_grammar')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='delete_grammar')
         headers.update(sdk_headers)
 
         url = '/v1/customizations/{0}/grammars/{1}'.format(
             *self._encode_path_vars(customization_id, grammar_name))
         request = self.prepare_request(method='DELETE',
                                        url=url,
-                                       headers=headers,
-                                       accept_json=True)
+                                       headers=headers)
+
         response = self.send(request)
         return response
 
@@ -2270,11 +2375,11 @@ class SpeechToTextV1(BaseService):
     #########################
 
     def create_acoustic_model(self,
-                              name,
-                              base_model_name,
+                              name: str,
+                              base_model_name: str,
                               *,
-                              description=None,
-                              **kwargs):
+                              description: str = None,
+                              **kwargs) -> 'DetailedResponse':
         """
         Create a custom acoustic model.
 
@@ -2282,9 +2387,9 @@ class SpeechToTextV1(BaseService):
         acoustic model can be used only with the base model for which it is created. The
         model is owned by the instance of the service whose credentials are used to create
         it.
-        You can create a maximum of 1024 custom acoustic models, per credential. The
-        service returns an error if you attempt to create more than 1024 models. You do
-        not lose any models, but you cannot create any more until your model count is
+        You can create a maximum of 1024 custom acoustic models per owning credentials.
+        The service returns an error if you attempt to create more than 1024 models. You
+        do not lose any models, but you cannot create any more until your model count is
         below the limit.
         **See also:** [Create a custom acoustic
         model](https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-acoustic#createModel-acoustic).
@@ -2316,8 +2421,9 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1',
-                                      'create_acoustic_model')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='create_acoustic_model')
         headers.update(sdk_headers)
 
         data = {
@@ -2330,12 +2436,13 @@ class SpeechToTextV1(BaseService):
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
-                                       data=data,
-                                       accept_json=True)
+                                       data=data)
+
         response = self.send(request)
         return response
 
-    def list_acoustic_models(self, *, language=None, **kwargs):
+    def list_acoustic_models(self, *, language: str = None,
+                             **kwargs) -> 'DetailedResponse':
         """
         List custom acoustic models.
 
@@ -2359,8 +2466,9 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1',
-                                      'list_acoustic_models')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='list_acoustic_models')
         headers.update(sdk_headers)
 
         params = {'language': language}
@@ -2369,12 +2477,13 @@ class SpeechToTextV1(BaseService):
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=True)
+                                       params=params)
+
         response = self.send(request)
         return response
 
-    def get_acoustic_model(self, customization_id, **kwargs):
+    def get_acoustic_model(self, customization_id: str,
+                           **kwargs) -> 'DetailedResponse':
         """
         Get a custom acoustic model.
 
@@ -2398,20 +2507,20 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1',
-                                      'get_acoustic_model')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='get_acoustic_model')
         headers.update(sdk_headers)
 
         url = '/v1/acoustic_customizations/{0}'.format(
             *self._encode_path_vars(customization_id))
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       accept_json=True)
+        request = self.prepare_request(method='GET', url=url, headers=headers)
+
         response = self.send(request)
         return response
 
-    def delete_acoustic_model(self, customization_id, **kwargs):
+    def delete_acoustic_model(self, customization_id: str,
+                              **kwargs) -> 'DetailedResponse':
         """
         Delete a custom acoustic model.
 
@@ -2437,24 +2546,25 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1',
-                                      'delete_acoustic_model')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='delete_acoustic_model')
         headers.update(sdk_headers)
 
         url = '/v1/acoustic_customizations/{0}'.format(
             *self._encode_path_vars(customization_id))
         request = self.prepare_request(method='DELETE',
                                        url=url,
-                                       headers=headers,
-                                       accept_json=True)
+                                       headers=headers)
+
         response = self.send(request)
         return response
 
     def train_acoustic_model(self,
-                             customization_id,
+                             customization_id: str,
                              *,
-                             custom_language_model_id=None,
-                             **kwargs):
+                             custom_language_model_id: str = None,
+                             **kwargs) -> 'DetailedResponse':
         """
         Train a custom acoustic model.
 
@@ -2528,8 +2638,9 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1',
-                                      'train_acoustic_model')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='train_acoustic_model')
         headers.update(sdk_headers)
 
         params = {'custom_language_model_id': custom_language_model_id}
@@ -2539,12 +2650,13 @@ class SpeechToTextV1(BaseService):
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=True)
+                                       params=params)
+
         response = self.send(request)
         return response
 
-    def reset_acoustic_model(self, customization_id, **kwargs):
+    def reset_acoustic_model(self, customization_id: str,
+                             **kwargs) -> 'DetailedResponse':
         """
         Reset a custom acoustic model.
 
@@ -2574,25 +2686,24 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1',
-                                      'reset_acoustic_model')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='reset_acoustic_model')
         headers.update(sdk_headers)
 
         url = '/v1/acoustic_customizations/{0}/reset'.format(
             *self._encode_path_vars(customization_id))
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       accept_json=True)
+        request = self.prepare_request(method='POST', url=url, headers=headers)
+
         response = self.send(request)
         return response
 
     def upgrade_acoustic_model(self,
-                               customization_id,
+                               customization_id: str,
                                *,
-                               custom_language_model_id=None,
-                               force=None,
-                               **kwargs):
+                               custom_language_model_id: str = None,
+                               force: bool = None,
+                               **kwargs) -> 'DetailedResponse':
         """
         Upgrade a custom acoustic model.
 
@@ -2648,8 +2759,9 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1',
-                                      'upgrade_acoustic_model')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='upgrade_acoustic_model')
         headers.update(sdk_headers)
 
         params = {
@@ -2662,8 +2774,8 @@ class SpeechToTextV1(BaseService):
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=True)
+                                       params=params)
+
         response = self.send(request)
         return response
 
@@ -2671,7 +2783,7 @@ class SpeechToTextV1(BaseService):
     # Custom audio resources
     #########################
 
-    def list_audio(self, customization_id, **kwargs):
+    def list_audio(self, customization_id: str, **kwargs) -> 'DetailedResponse':
         """
         List audio resources.
 
@@ -2699,27 +2811,27 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1', 'list_audio')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='list_audio')
         headers.update(sdk_headers)
 
         url = '/v1/acoustic_customizations/{0}/audio'.format(
             *self._encode_path_vars(customization_id))
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       accept_json=True)
+        request = self.prepare_request(method='GET', url=url, headers=headers)
+
         response = self.send(request)
         return response
 
     def add_audio(self,
-                  customization_id,
-                  audio_name,
-                  audio_resource,
+                  customization_id: str,
+                  audio_name: str,
+                  audio_resource: BinaryIO,
                   *,
-                  content_type=None,
-                  contained_content_type=None,
-                  allow_overwrite=None,
-                  **kwargs):
+                  content_type: str = None,
+                  contained_content_type: str = None,
+                  allow_overwrite: bool = None,
+                  **kwargs) -> 'DetailedResponse':
         """
         Add an audio resource.
 
@@ -2824,8 +2936,8 @@ class SpeechToTextV1(BaseService):
                URL-encoded wherever used, their use is strongly discouraged.)
                * Do not use the name of an audio resource that has already been added to
                the custom model.
-        :param file audio_resource: The audio resource that is to be added to the
-               custom acoustic model, an individual audio file or an archive file.
+        :param BinaryIO audio_resource: The audio resource that is to be added to
+               the custom acoustic model, an individual audio file or an archive file.
                With the `curl` command, use the `--data-binary` option to upload the file
                for the request.
         :param str content_type: (optional) For an audio-type resource, the format
@@ -2870,7 +2982,9 @@ class SpeechToTextV1(BaseService):
         }
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1', 'add_audio')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='add_audio')
         headers.update(sdk_headers)
 
         params = {'allow_overwrite': allow_overwrite}
@@ -2883,12 +2997,13 @@ class SpeechToTextV1(BaseService):
                                        url=url,
                                        headers=headers,
                                        params=params,
-                                       data=data,
-                                       accept_json=True)
+                                       data=data)
+
         response = self.send(request)
         return response
 
-    def get_audio(self, customization_id, audio_name, **kwargs):
+    def get_audio(self, customization_id: str, audio_name: str,
+                  **kwargs) -> 'DetailedResponse':
         """
         Get an audio resource.
 
@@ -2932,19 +3047,20 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1', 'get_audio')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='get_audio')
         headers.update(sdk_headers)
 
         url = '/v1/acoustic_customizations/{0}/audio/{1}'.format(
             *self._encode_path_vars(customization_id, audio_name))
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       accept_json=True)
+        request = self.prepare_request(method='GET', url=url, headers=headers)
+
         response = self.send(request)
         return response
 
-    def delete_audio(self, customization_id, audio_name, **kwargs):
+    def delete_audio(self, customization_id: str, audio_name: str,
+                     **kwargs) -> 'DetailedResponse':
         """
         Delete an audio resource.
 
@@ -2978,15 +3094,17 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1', 'delete_audio')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='delete_audio')
         headers.update(sdk_headers)
 
         url = '/v1/acoustic_customizations/{0}/audio/{1}'.format(
             *self._encode_path_vars(customization_id, audio_name))
         request = self.prepare_request(method='DELETE',
                                        url=url,
-                                       headers=headers,
-                                       accept_json=True)
+                                       headers=headers)
+
         response = self.send(request)
         return response
 
@@ -2994,7 +3112,8 @@ class SpeechToTextV1(BaseService):
     # User data
     #########################
 
-    def delete_user_data(self, customer_id, **kwargs):
+    def delete_user_data(self, customer_id: str,
+                         **kwargs) -> 'DetailedResponse':
         """
         Delete labeled data.
 
@@ -3021,8 +3140,9 @@ class SpeechToTextV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('speech_to_text', 'V1',
-                                      'delete_user_data')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='delete_user_data')
         headers.update(sdk_headers)
 
         params = {'customer_id': customer_id}
@@ -3031,8 +3151,8 @@ class SpeechToTextV1(BaseService):
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=False)
+                                       params=params)
+
         response = self.send(request)
         return response
 
@@ -3066,10 +3186,14 @@ class GetModelEnums(object):
         ES_PE_NARROWBANDMODEL = 'es-PE_NarrowbandModel'
         FR_FR_BROADBANDMODEL = 'fr-FR_BroadbandModel'
         FR_FR_NARROWBANDMODEL = 'fr-FR_NarrowbandModel'
+        IT_IT_BROADBANDMODEL = 'it-IT_BroadbandModel'
+        IT_IT_NARROWBANDMODEL = 'it-IT_NarrowbandModel'
         JA_JP_BROADBANDMODEL = 'ja-JP_BroadbandModel'
         JA_JP_NARROWBANDMODEL = 'ja-JP_NarrowbandModel'
         KO_KR_BROADBANDMODEL = 'ko-KR_BroadbandModel'
         KO_KR_NARROWBANDMODEL = 'ko-KR_NarrowbandModel'
+        NL_NL_BROADBANDMODEL = 'nl-NL_BroadbandModel'
+        NL_NL_NARROWBANDMODEL = 'nl-NL_NarrowbandModel'
         PT_BR_BROADBANDMODEL = 'pt-BR_BroadbandModel'
         PT_BR_NARROWBANDMODEL = 'pt-BR_NarrowbandModel'
         ZH_CN_BROADBANDMODEL = 'zh-CN_BroadbandModel'
@@ -3128,10 +3252,14 @@ class RecognizeEnums(object):
         ES_PE_NARROWBANDMODEL = 'es-PE_NarrowbandModel'
         FR_FR_BROADBANDMODEL = 'fr-FR_BroadbandModel'
         FR_FR_NARROWBANDMODEL = 'fr-FR_NarrowbandModel'
+        IT_IT_BROADBANDMODEL = 'it-IT_BroadbandModel'
+        IT_IT_NARROWBANDMODEL = 'it-IT_NarrowbandModel'
         JA_JP_BROADBANDMODEL = 'ja-JP_BroadbandModel'
         JA_JP_NARROWBANDMODEL = 'ja-JP_NarrowbandModel'
         KO_KR_BROADBANDMODEL = 'ko-KR_BroadbandModel'
         KO_KR_NARROWBANDMODEL = 'ko-KR_NarrowbandModel'
+        NL_NL_BROADBANDMODEL = 'nl-NL_BroadbandModel'
+        NL_NL_NARROWBANDMODEL = 'nl-NL_NarrowbandModel'
         PT_BR_BROADBANDMODEL = 'pt-BR_BroadbandModel'
         PT_BR_NARROWBANDMODEL = 'pt-BR_NarrowbandModel'
         ZH_CN_BROADBANDMODEL = 'zh-CN_BroadbandModel'
@@ -3190,10 +3318,14 @@ class CreateJobEnums(object):
         ES_PE_NARROWBANDMODEL = 'es-PE_NarrowbandModel'
         FR_FR_BROADBANDMODEL = 'fr-FR_BroadbandModel'
         FR_FR_NARROWBANDMODEL = 'fr-FR_NarrowbandModel'
+        IT_IT_BROADBANDMODEL = 'it-IT_BroadbandModel'
+        IT_IT_NARROWBANDMODEL = 'it-IT_NarrowbandModel'
         JA_JP_BROADBANDMODEL = 'ja-JP_BroadbandModel'
         JA_JP_NARROWBANDMODEL = 'ja-JP_NarrowbandModel'
         KO_KR_BROADBANDMODEL = 'ko-KR_BroadbandModel'
         KO_KR_NARROWBANDMODEL = 'ko-KR_NarrowbandModel'
+        NL_NL_BROADBANDMODEL = 'nl-NL_BroadbandModel'
+        NL_NL_NARROWBANDMODEL = 'nl-NL_NarrowbandModel'
         PT_BR_BROADBANDMODEL = 'pt-BR_BroadbandModel'
         PT_BR_NARROWBANDMODEL = 'pt-BR_NarrowbandModel'
         ZH_CN_BROADBANDMODEL = 'zh-CN_BroadbandModel'
@@ -3368,7 +3500,7 @@ class AcousticModel():
           (YYYY-MM-DDThh:mm:ss.sTZD).
     :attr str language: (optional) The language identifier of the custom acoustic
           model (for example, `en-US`).
-    :attr list[str] versions: (optional) A list of the available versions of the
+    :attr List[str] versions: (optional) A list of the available versions of the
           custom acoustic model. Each element of the array indicates a version of the base
           model with which the custom model can be used. Multiple versions exist only if
           the custom model has been upgraded; otherwise, only a single version is shown.
@@ -3400,19 +3532,19 @@ class AcousticModel():
     """
 
     def __init__(self,
-                 customization_id,
+                 customization_id: str,
                  *,
-                 created=None,
-                 updated=None,
-                 language=None,
-                 versions=None,
-                 owner=None,
-                 name=None,
-                 description=None,
-                 base_model_name=None,
-                 status=None,
-                 progress=None,
-                 warnings=None):
+                 created: str = None,
+                 updated: str = None,
+                 language: str = None,
+                 versions: List[str] = None,
+                 owner: str = None,
+                 name: str = None,
+                 description: str = None,
+                 base_model_name: str = None,
+                 status: str = None,
+                 progress: int = None,
+                 warnings: str = None) -> None:
         """
         Initialize a AcousticModel object.
 
@@ -3429,7 +3561,7 @@ class AcousticModel():
                format (YYYY-MM-DDThh:mm:ss.sTZD).
         :param str language: (optional) The language identifier of the custom
                acoustic model (for example, `en-US`).
-        :param list[str] versions: (optional) A list of the available versions of
+        :param List[str] versions: (optional) A list of the available versions of
                the custom acoustic model. Each element of the array indicates a version of
                the base model with which the custom model can be used. Multiple versions
                exist only if the custom model has been upgraded; otherwise, only a single
@@ -3476,7 +3608,7 @@ class AcousticModel():
         self.warnings = warnings
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'AcousticModel':
         """Initialize a AcousticModel object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -3519,7 +3651,12 @@ class AcousticModel():
             args['warnings'] = _dict.get('warnings')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AcousticModel object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self,
@@ -3550,17 +3687,21 @@ class AcousticModel():
             _dict['warnings'] = self.warnings
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this AcousticModel object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'AcousticModel') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'AcousticModel') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3589,18 +3730,18 @@ class AcousticModels():
     """
     Information about existing custom acoustic models.
 
-    :attr list[AcousticModel] customizations: An array of `AcousticModel` objects
+    :attr List[AcousticModel] customizations: An array of `AcousticModel` objects
           that provides information about each available custom acoustic model. The array
           is empty if the requesting credentials own no custom acoustic models (if no
           language is specified) or own no custom acoustic models for the specified
           language.
     """
 
-    def __init__(self, customizations):
+    def __init__(self, customizations: List['AcousticModel']) -> None:
         """
         Initialize a AcousticModels object.
 
-        :param list[AcousticModel] customizations: An array of `AcousticModel`
+        :param List[AcousticModel] customizations: An array of `AcousticModel`
                objects that provides information about each available custom acoustic
                model. The array is empty if the requesting credentials own no custom
                acoustic models (if no language is specified) or own no custom acoustic
@@ -3609,7 +3750,7 @@ class AcousticModels():
         self.customizations = customizations
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'AcousticModels':
         """Initialize a AcousticModels object from a json dictionary."""
         args = {}
         valid_keys = ['customizations']
@@ -3629,7 +3770,12 @@ class AcousticModels():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AcousticModels object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'customizations') and self.customizations is not None:
@@ -3638,17 +3784,21 @@ class AcousticModels():
             ]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this AcousticModels object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'AcousticModels') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'AcousticModels') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3678,10 +3828,10 @@ class AudioDetails():
 
     def __init__(self,
                  *,
-                 type=None,
-                 codec=None,
-                 frequency=None,
-                 compression=None):
+                 type: str = None,
+                 codec: str = None,
+                 frequency: int = None,
+                 compression: str = None) -> None:
         """
         Initialize a AudioDetails object.
 
@@ -3709,7 +3859,7 @@ class AudioDetails():
         self.compression = compression
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'AudioDetails':
         """Initialize a AudioDetails object from a json dictionary."""
         args = {}
         valid_keys = ['type', 'codec', 'frequency', 'compression']
@@ -3728,7 +3878,12 @@ class AudioDetails():
             args['compression'] = _dict.get('compression')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AudioDetails object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'type') and self.type is not None:
@@ -3741,17 +3896,21 @@ class AudioDetails():
             _dict['compression'] = self.compression
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this AudioDetails object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'AudioDetails') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'AudioDetails') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3805,7 +3964,7 @@ class AudioListing():
     :attr AudioResource container: (optional) **For an archive-type resource,** an
           object of type `AudioResource` that provides information about the resource.
           Omitted for an audio-type resource.
-    :attr list[AudioResource] audio: (optional) **For an archive-type resource,** an
+    :attr List[AudioResource] audio: (optional) **For an archive-type resource,** an
           array of `AudioResource` objects that provides information about the audio-type
           resources that are contained in the resource. Omitted for an audio-type
           resource.
@@ -3813,12 +3972,12 @@ class AudioListing():
 
     def __init__(self,
                  *,
-                 duration=None,
-                 name=None,
-                 details=None,
-                 status=None,
-                 container=None,
-                 audio=None):
+                 duration: int = None,
+                 name: str = None,
+                 details: 'AudioDetails' = None,
+                 status: str = None,
+                 container: 'AudioResource' = None,
+                 audio: List['AudioResource'] = None) -> None:
         """
         Initialize a AudioListing object.
 
@@ -3844,7 +4003,7 @@ class AudioListing():
         :param AudioResource container: (optional) **For an archive-type
                resource,** an object of type `AudioResource` that provides information
                about the resource. Omitted for an audio-type resource.
-        :param list[AudioResource] audio: (optional) **For an archive-type
+        :param List[AudioResource] audio: (optional) **For an archive-type
                resource,** an array of `AudioResource` objects that provides information
                about the audio-type resources that are contained in the resource. Omitted
                for an audio-type resource.
@@ -3857,7 +4016,7 @@ class AudioListing():
         self.audio = audio
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'AudioListing':
         """Initialize a AudioListing object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -3884,7 +4043,12 @@ class AudioListing():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AudioListing object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'duration') and self.duration is not None:
@@ -3901,17 +4065,21 @@ class AudioListing():
             _dict['audio'] = [x._to_dict() for x in self.audio]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this AudioListing object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'AudioListing') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'AudioListing') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3946,7 +4114,8 @@ class AudioMetrics():
           characteristics of the input audio.
     """
 
-    def __init__(self, sampling_interval, accumulated):
+    def __init__(self, sampling_interval: float,
+                 accumulated: 'AudioMetricsDetails') -> None:
         """
         Initialize a AudioMetrics object.
 
@@ -3962,7 +4131,7 @@ class AudioMetrics():
         self.accumulated = accumulated
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'AudioMetrics':
         """Initialize a AudioMetrics object from a json dictionary."""
         args = {}
         valid_keys = ['sampling_interval', 'accumulated']
@@ -3986,7 +4155,12 @@ class AudioMetrics():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AudioMetrics object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self,
@@ -3996,17 +4170,21 @@ class AudioMetrics():
             _dict['accumulated'] = self.accumulated._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this AudioMetrics object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'AudioMetrics') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'AudioMetrics') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4035,10 +4213,10 @@ class AudioMetricsDetails():
           spectrum.
           * A value around 0.5 means that detection of the frequency content is unreliable
           or not available.
-    :attr list[AudioMetricsHistogramBin] direct_current_offset: An array of
+    :attr List[AudioMetricsHistogramBin] direct_current_offset: An array of
           `AudioMetricsHistogramBin` objects that defines a histogram of the cumulative
           direct current (DC) component of the audio signal.
-    :attr list[AudioMetricsHistogramBin] clipping_rate: An array of
+    :attr List[AudioMetricsHistogramBin] clipping_rate: An array of
           `AudioMetricsHistogramBin` objects that defines a histogram of the clipping rate
           for the audio segments. The clipping rate is defined as the fraction of samples
           in the segment that reach the maximum or minimum value that is offered by the
@@ -4046,12 +4224,12 @@ class AudioMetricsDetails():
           Modulation(PCM) audio range (-32768 to +32767) or a unit range (-1.0 to +1.0).
           The clipping rate is between 0.0 and 1.0, with higher values indicating possible
           degradation of speech recognition.
-    :attr list[AudioMetricsHistogramBin] speech_level: An array of
+    :attr List[AudioMetricsHistogramBin] speech_level: An array of
           `AudioMetricsHistogramBin` objects that defines a histogram of the signal level
           in segments of the audio that contain speech. The signal level is computed as
           the Root-Mean-Square (RMS) value in a decibel (dB) scale normalized to the range
           0.0 (minimum level) to 1.0 (maximum level).
-    :attr list[AudioMetricsHistogramBin] non_speech_level: An array of
+    :attr List[AudioMetricsHistogramBin] non_speech_level: An array of
           `AudioMetricsHistogramBin` objects that defines a histogram of the signal level
           in segments of the audio that do not contain speech. The signal level is
           computed as the Root-Mean-Square (RMS) value in a decibel (dB) scale normalized
@@ -4059,16 +4237,16 @@ class AudioMetricsDetails():
     """
 
     def __init__(self,
-                 final,
-                 end_time,
-                 speech_ratio,
-                 high_frequency_loss,
-                 direct_current_offset,
-                 clipping_rate,
-                 speech_level,
-                 non_speech_level,
+                 final: bool,
+                 end_time: float,
+                 speech_ratio: float,
+                 high_frequency_loss: float,
+                 direct_current_offset: List['AudioMetricsHistogramBin'],
+                 clipping_rate: List['AudioMetricsHistogramBin'],
+                 speech_level: List['AudioMetricsHistogramBin'],
+                 non_speech_level: List['AudioMetricsHistogramBin'],
                  *,
-                 signal_to_noise_ratio=None):
+                 signal_to_noise_ratio: float = None) -> None:
         """
         Initialize a AudioMetricsDetails object.
 
@@ -4088,10 +4266,10 @@ class AudioMetricsDetails():
                full spectrum.
                * A value around 0.5 means that detection of the frequency content is
                unreliable or not available.
-        :param list[AudioMetricsHistogramBin] direct_current_offset: An array of
+        :param List[AudioMetricsHistogramBin] direct_current_offset: An array of
                `AudioMetricsHistogramBin` objects that defines a histogram of the
                cumulative direct current (DC) component of the audio signal.
-        :param list[AudioMetricsHistogramBin] clipping_rate: An array of
+        :param List[AudioMetricsHistogramBin] clipping_rate: An array of
                `AudioMetricsHistogramBin` objects that defines a histogram of the clipping
                rate for the audio segments. The clipping rate is defined as the fraction
                of samples in the segment that reach the maximum or minimum value that is
@@ -4099,12 +4277,12 @@ class AudioMetricsDetails():
                16-bit Pulse-Code Modulation(PCM) audio range (-32768 to +32767) or a unit
                range (-1.0 to +1.0). The clipping rate is between 0.0 and 1.0, with higher
                values indicating possible degradation of speech recognition.
-        :param list[AudioMetricsHistogramBin] speech_level: An array of
+        :param List[AudioMetricsHistogramBin] speech_level: An array of
                `AudioMetricsHistogramBin` objects that defines a histogram of the signal
                level in segments of the audio that contain speech. The signal level is
                computed as the Root-Mean-Square (RMS) value in a decibel (dB) scale
                normalized to the range 0.0 (minimum level) to 1.0 (maximum level).
-        :param list[AudioMetricsHistogramBin] non_speech_level: An array of
+        :param List[AudioMetricsHistogramBin] non_speech_level: An array of
                `AudioMetricsHistogramBin` objects that defines a histogram of the signal
                level in segments of the audio that do not contain speech. The signal level
                is computed as the Root-Mean-Square (RMS) value in a decibel (dB) scale
@@ -4126,7 +4304,7 @@ class AudioMetricsDetails():
         self.non_speech_level = non_speech_level
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'AudioMetricsDetails':
         """Initialize a AudioMetricsDetails object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -4203,7 +4381,12 @@ class AudioMetricsDetails():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AudioMetricsDetails object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'final') and self.final is not None:
@@ -4235,17 +4418,21 @@ class AudioMetricsDetails():
             ]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this AudioMetricsDetails object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'AudioMetricsDetails') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'AudioMetricsDetails') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4262,7 +4449,7 @@ class AudioMetricsHistogramBin():
     :attr int count: The number of values in the bin of the histogram.
     """
 
-    def __init__(self, begin, end, count):
+    def __init__(self, begin: float, end: float, count: int) -> None:
         """
         Initialize a AudioMetricsHistogramBin object.
 
@@ -4275,7 +4462,7 @@ class AudioMetricsHistogramBin():
         self.count = count
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'AudioMetricsHistogramBin':
         """Initialize a AudioMetricsHistogramBin object from a json dictionary."""
         args = {}
         valid_keys = ['begin', 'end', 'count']
@@ -4304,7 +4491,12 @@ class AudioMetricsHistogramBin():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AudioMetricsHistogramBin object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'begin') and self.begin is not None:
@@ -4315,17 +4507,21 @@ class AudioMetricsHistogramBin():
             _dict['count'] = self.count
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this AudioMetricsHistogramBin object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'AudioMetricsHistogramBin') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'AudioMetricsHistogramBin') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4355,7 +4551,8 @@ class AudioResource():
           invalid.
     """
 
-    def __init__(self, duration, name, details, status):
+    def __init__(self, duration: int, name: str, details: 'AudioDetails',
+                 status: str) -> None:
         """
         Initialize a AudioResource object.
 
@@ -4385,7 +4582,7 @@ class AudioResource():
         self.status = status
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'AudioResource':
         """Initialize a AudioResource object from a json dictionary."""
         args = {}
         valid_keys = ['duration', 'name', 'details', 'status']
@@ -4419,7 +4616,12 @@ class AudioResource():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AudioResource object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'duration') and self.duration is not None:
@@ -4432,17 +4634,21 @@ class AudioResource():
             _dict['status'] = self.status
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this AudioResource object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'AudioResource') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'AudioResource') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4472,12 +4678,13 @@ class AudioResources():
           summed over all of the valid audio resources for the custom acoustic model. You
           can use this value to determine whether the custom model has too little or too
           much audio to begin training.
-    :attr list[AudioResource] audio: An array of `AudioResource` objects that
+    :attr List[AudioResource] audio: An array of `AudioResource` objects that
           provides information about the audio resources of the custom acoustic model. The
           array is empty if the custom model has no audio resources.
     """
 
-    def __init__(self, total_minutes_of_audio, audio):
+    def __init__(self, total_minutes_of_audio: float,
+                 audio: List['AudioResource']) -> None:
         """
         Initialize a AudioResources object.
 
@@ -4485,7 +4692,7 @@ class AudioResources():
                summed over all of the valid audio resources for the custom acoustic model.
                You can use this value to determine whether the custom model has too little
                or too much audio to begin training.
-        :param list[AudioResource] audio: An array of `AudioResource` objects that
+        :param List[AudioResource] audio: An array of `AudioResource` objects that
                provides information about the audio resources of the custom acoustic
                model. The array is empty if the custom model has no audio resources.
         """
@@ -4493,7 +4700,7 @@ class AudioResources():
         self.audio = audio
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'AudioResources':
         """Initialize a AudioResources object from a json dictionary."""
         args = {}
         valid_keys = ['total_minutes_of_audio', 'audio']
@@ -4518,7 +4725,12 @@ class AudioResources():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AudioResources object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'total_minutes_of_audio'
@@ -4528,17 +4740,21 @@ class AudioResources():
             _dict['audio'] = [x._to_dict() for x in self.audio]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this AudioResources object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'AudioResources') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'AudioResources') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4547,23 +4763,23 @@ class Corpora():
     """
     Information about the corpora from a custom language model.
 
-    :attr list[Corpus] corpora: An array of `Corpus` objects that provides
+    :attr List[Corpus] corpora: An array of `Corpus` objects that provides
           information about the corpora for the custom model. The array is empty if the
           custom model has no corpora.
     """
 
-    def __init__(self, corpora):
+    def __init__(self, corpora: List['Corpus']) -> None:
         """
         Initialize a Corpora object.
 
-        :param list[Corpus] corpora: An array of `Corpus` objects that provides
+        :param List[Corpus] corpora: An array of `Corpus` objects that provides
                information about the corpora for the custom model. The array is empty if
                the custom model has no corpora.
         """
         self.corpora = corpora
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Corpora':
         """Initialize a Corpora object from a json dictionary."""
         args = {}
         valid_keys = ['corpora']
@@ -4581,24 +4797,33 @@ class Corpora():
                 'Required property \'corpora\' not present in Corpora JSON')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Corpora object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'corpora') and self.corpora is not None:
             _dict['corpora'] = [x._to_dict() for x in self.corpora]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Corpora object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Corpora') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Corpora') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4625,12 +4850,12 @@ class Corpus():
     """
 
     def __init__(self,
-                 name,
-                 total_words,
-                 out_of_vocabulary_words,
-                 status,
+                 name: str,
+                 total_words: int,
+                 out_of_vocabulary_words: int,
+                 status: str,
                  *,
-                 error=None):
+                 error: str = None) -> None:
         """
         Initialize a Corpus object.
 
@@ -4657,7 +4882,7 @@ class Corpus():
         self.error = error
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Corpus':
         """Initialize a Corpus object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -4694,7 +4919,12 @@ class Corpus():
             args['error'] = _dict.get('error')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Corpus object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'name') and self.name is not None:
@@ -4710,17 +4940,21 @@ class Corpus():
             _dict['error'] = self.error
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Corpus object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Corpus') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Corpus') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4748,7 +4982,7 @@ class CustomWord():
           include spaces in the word. Use a `-` (dash) or `_` (underscore) to connect the
           tokens of compound words.
           Omit this parameter for the **Add a custom word** method.
-    :attr list[str] sounds_like: (optional) An array of sounds-like pronunciations
+    :attr List[str] sounds_like: (optional) An array of sounds-like pronunciations
           for the custom word. Specify how words that are difficult to pronounce, foreign
           words, acronyms, and so on can be pronounced by users.
           * For a word that is not in the service's base vocabulary, omit the parameter to
@@ -4766,7 +5000,11 @@ class CustomWord():
           spelling in corpora training data.
     """
 
-    def __init__(self, *, word=None, sounds_like=None, display_as=None):
+    def __init__(self,
+                 *,
+                 word: str = None,
+                 sounds_like: List[str] = None,
+                 display_as: str = None) -> None:
         """
         Initialize a CustomWord object.
 
@@ -4775,7 +5013,7 @@ class CustomWord():
                model. Do not include spaces in the word. Use a `-` (dash) or `_`
                (underscore) to connect the tokens of compound words.
                Omit this parameter for the **Add a custom word** method.
-        :param list[str] sounds_like: (optional) An array of sounds-like
+        :param List[str] sounds_like: (optional) An array of sounds-like
                pronunciations for the custom word. Specify how words that are difficult to
                pronounce, foreign words, acronyms, and so on can be pronounced by users.
                * For a word that is not in the service's base vocabulary, omit the
@@ -4797,7 +5035,7 @@ class CustomWord():
         self.display_as = display_as
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'CustomWord':
         """Initialize a CustomWord object from a json dictionary."""
         args = {}
         valid_keys = ['word', 'sounds_like', 'display_as']
@@ -4814,7 +5052,12 @@ class CustomWord():
             args['display_as'] = _dict.get('display_as')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CustomWord object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'word') and self.word is not None:
@@ -4825,17 +5068,21 @@ class CustomWord():
             _dict['display_as'] = self.display_as
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this CustomWord object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'CustomWord') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'CustomWord') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4860,7 +5107,12 @@ class Grammar():
           flag to 'true'.`.
     """
 
-    def __init__(self, name, out_of_vocabulary_words, status, *, error=None):
+    def __init__(self,
+                 name: str,
+                 out_of_vocabulary_words: int,
+                 status: str,
+                 *,
+                 error: str = None) -> None:
         """
         Initialize a Grammar object.
 
@@ -4886,7 +5138,7 @@ class Grammar():
         self.error = error
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Grammar':
         """Initialize a Grammar object from a json dictionary."""
         args = {}
         valid_keys = ['name', 'out_of_vocabulary_words', 'status', 'error']
@@ -4916,7 +5168,12 @@ class Grammar():
             args['error'] = _dict.get('error')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Grammar object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'name') and self.name is not None:
@@ -4930,17 +5187,21 @@ class Grammar():
             _dict['error'] = self.error
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Grammar object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Grammar') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Grammar') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4963,23 +5224,23 @@ class Grammars():
     """
     Information about the grammars from a custom language model.
 
-    :attr list[Grammar] grammars: An array of `Grammar` objects that provides
+    :attr List[Grammar] grammars: An array of `Grammar` objects that provides
           information about the grammars for the custom model. The array is empty if the
           custom model has no grammars.
     """
 
-    def __init__(self, grammars):
+    def __init__(self, grammars: List['Grammar']) -> None:
         """
         Initialize a Grammars object.
 
-        :param list[Grammar] grammars: An array of `Grammar` objects that provides
+        :param List[Grammar] grammars: An array of `Grammar` objects that provides
                information about the grammars for the custom model. The array is empty if
                the custom model has no grammars.
         """
         self.grammars = grammars
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Grammars':
         """Initialize a Grammars object from a json dictionary."""
         args = {}
         valid_keys = ['grammars']
@@ -4997,24 +5258,33 @@ class Grammars():
                 'Required property \'grammars\' not present in Grammars JSON')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Grammars object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'grammars') and self.grammars is not None:
             _dict['grammars'] = [x._to_dict() for x in self.grammars]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Grammars object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Grammars') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Grammars') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -5031,7 +5301,8 @@ class KeywordResult():
           0.0 to 1.0.
     """
 
-    def __init__(self, normalized_text, start_time, end_time, confidence):
+    def __init__(self, normalized_text: str, start_time: float, end_time: float,
+                 confidence: float) -> None:
         """
         Initialize a KeywordResult object.
 
@@ -5048,7 +5319,7 @@ class KeywordResult():
         self.confidence = confidence
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'KeywordResult':
         """Initialize a KeywordResult object from a json dictionary."""
         args = {}
         valid_keys = ['normalized_text', 'start_time', 'end_time', 'confidence']
@@ -5083,7 +5354,12 @@ class KeywordResult():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a KeywordResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self,
@@ -5097,17 +5373,21 @@ class KeywordResult():
             _dict['confidence'] = self.confidence
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this KeywordResult object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'KeywordResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'KeywordResult') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -5139,7 +5419,7 @@ class LanguageModel():
           models)
           * `es-US` for Mexican (North American) Spanish (`es-MX` models)
           Dialect values are case-insensitive.
-    :attr list[str] versions: (optional) A list of the available versions of the
+    :attr List[str] versions: (optional) A list of the available versions of the
           custom language model. Each element of the array indicates a version of the base
           model with which the custom model can be used. Multiple versions exist only if
           the custom model has been upgraded; otherwise, only a single version is shown.
@@ -5175,21 +5455,21 @@ class LanguageModel():
     """
 
     def __init__(self,
-                 customization_id,
+                 customization_id: str,
                  *,
-                 created=None,
-                 updated=None,
-                 language=None,
-                 dialect=None,
-                 versions=None,
-                 owner=None,
-                 name=None,
-                 description=None,
-                 base_model_name=None,
-                 status=None,
-                 progress=None,
-                 error=None,
-                 warnings=None):
+                 created: str = None,
+                 updated: str = None,
+                 language: str = None,
+                 dialect: str = None,
+                 versions: List[str] = None,
+                 owner: str = None,
+                 name: str = None,
+                 description: str = None,
+                 base_model_name: str = None,
+                 status: str = None,
+                 progress: int = None,
+                 error: str = None,
+                 warnings: str = None) -> None:
         """
         Initialize a LanguageModel object.
 
@@ -5216,7 +5496,7 @@ class LanguageModel():
                `es-PE` models)
                * `es-US` for Mexican (North American) Spanish (`es-MX` models)
                Dialect values are case-insensitive.
-        :param list[str] versions: (optional) A list of the available versions of
+        :param List[str] versions: (optional) A list of the available versions of
                the custom language model. Each element of the array indicates a version of
                the base model with which the custom model can be used. Multiple versions
                exist only if the custom model has been upgraded; otherwise, only a single
@@ -5270,7 +5550,7 @@ class LanguageModel():
         self.warnings = warnings
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'LanguageModel':
         """Initialize a LanguageModel object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -5317,7 +5597,12 @@ class LanguageModel():
             args['warnings'] = _dict.get('warnings')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a LanguageModel object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self,
@@ -5352,17 +5637,21 @@ class LanguageModel():
             _dict['warnings'] = self.warnings
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this LanguageModel object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'LanguageModel') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'LanguageModel') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -5391,18 +5680,18 @@ class LanguageModels():
     """
     Information about existing custom language models.
 
-    :attr list[LanguageModel] customizations: An array of `LanguageModel` objects
+    :attr List[LanguageModel] customizations: An array of `LanguageModel` objects
           that provides information about each available custom language model. The array
           is empty if the requesting credentials own no custom language models (if no
           language is specified) or own no custom language models for the specified
           language.
     """
 
-    def __init__(self, customizations):
+    def __init__(self, customizations: List['LanguageModel']) -> None:
         """
         Initialize a LanguageModels object.
 
-        :param list[LanguageModel] customizations: An array of `LanguageModel`
+        :param List[LanguageModel] customizations: An array of `LanguageModel`
                objects that provides information about each available custom language
                model. The array is empty if the requesting credentials own no custom
                language models (if no language is specified) or own no custom language
@@ -5411,7 +5700,7 @@ class LanguageModels():
         self.customizations = customizations
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'LanguageModels':
         """Initialize a LanguageModels object from a json dictionary."""
         args = {}
         valid_keys = ['customizations']
@@ -5431,7 +5720,12 @@ class LanguageModels():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a LanguageModels object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'customizations') and self.customizations is not None:
@@ -5440,17 +5734,21 @@ class LanguageModels():
             ]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this LanguageModels object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'LanguageModels') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'LanguageModels') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -5482,11 +5780,11 @@ class ProcessedAudio():
     """
 
     def __init__(self,
-                 received,
-                 seen_by_engine,
-                 transcription,
+                 received: float,
+                 seen_by_engine: float,
+                 transcription: float,
                  *,
-                 speaker_labels=None):
+                 speaker_labels: float = None) -> None:
         """
         Initialize a ProcessedAudio object.
 
@@ -5520,7 +5818,7 @@ class ProcessedAudio():
         self.speaker_labels = speaker_labels
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ProcessedAudio':
         """Initialize a ProcessedAudio object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -5553,7 +5851,12 @@ class ProcessedAudio():
             args['speaker_labels'] = _dict.get('speaker_labels')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProcessedAudio object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'received') and self.received is not None:
@@ -5566,17 +5869,21 @@ class ProcessedAudio():
             _dict['speaker_labels'] = self.speaker_labels
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ProcessedAudio object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ProcessedAudio') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ProcessedAudio') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -5609,8 +5916,9 @@ class ProcessingMetrics():
           different results if necessary.
     """
 
-    def __init__(self, processed_audio, wall_clock_since_first_byte_received,
-                 periodic):
+    def __init__(self, processed_audio: 'ProcessedAudio',
+                 wall_clock_since_first_byte_received: float,
+                 periodic: bool) -> None:
         """
         Initialize a ProcessingMetrics object.
 
@@ -5640,7 +5948,7 @@ class ProcessingMetrics():
         self.periodic = periodic
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ProcessingMetrics':
         """Initialize a ProcessingMetrics object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -5674,7 +5982,12 @@ class ProcessingMetrics():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProcessingMetrics object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self,
@@ -5688,17 +6001,21 @@ class ProcessingMetrics():
             _dict['periodic'] = self.periodic
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ProcessingMetrics object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ProcessingMetrics') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ProcessingMetrics') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -5732,11 +6049,11 @@ class RecognitionJob():
     :attr str user_token: (optional) The user token associated with a job that was
           created with a callback URL and a user token. This field can be returned only by
           the **Check jobs** method.
-    :attr list[SpeechRecognitionResults] results: (optional) If the status is
+    :attr List[SpeechRecognitionResults] results: (optional) If the status is
           `completed`, the results of the recognition request as an array that includes a
           single instance of a `SpeechRecognitionResults` object. This field is returned
           only by the **Check a job** method.
-    :attr list[str] warnings: (optional) An array of warning messages about invalid
+    :attr List[str] warnings: (optional) An array of warning messages about invalid
           parameters included with the request. Each warning includes a descriptive
           message and a list of invalid argument strings, for example, `"unexpected query
           parameter 'user_token', query parameter 'callback_url' was not specified"`. The
@@ -5745,15 +6062,15 @@ class RecognitionJob():
     """
 
     def __init__(self,
-                 id,
-                 status,
-                 created,
+                 id: str,
+                 status: str,
+                 created: str,
                  *,
-                 updated=None,
-                 url=None,
-                 user_token=None,
-                 results=None,
-                 warnings=None):
+                 updated: str = None,
+                 url: str = None,
+                 user_token: str = None,
+                 results: List['SpeechRecognitionResults'] = None,
+                 warnings: List[str] = None) -> None:
         """
         Initialize a RecognitionJob object.
 
@@ -5783,11 +6100,11 @@ class RecognitionJob():
         :param str user_token: (optional) The user token associated with a job that
                was created with a callback URL and a user token. This field can be
                returned only by the **Check jobs** method.
-        :param list[SpeechRecognitionResults] results: (optional) If the status is
+        :param List[SpeechRecognitionResults] results: (optional) If the status is
                `completed`, the results of the recognition request as an array that
                includes a single instance of a `SpeechRecognitionResults` object. This
                field is returned only by the **Check a job** method.
-        :param list[str] warnings: (optional) An array of warning messages about
+        :param List[str] warnings: (optional) An array of warning messages about
                invalid parameters included with the request. Each warning includes a
                descriptive message and a list of invalid argument strings, for example,
                `"unexpected query parameter 'user_token', query parameter 'callback_url'
@@ -5804,7 +6121,7 @@ class RecognitionJob():
         self.warnings = warnings
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'RecognitionJob':
         """Initialize a RecognitionJob object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -5848,7 +6165,12 @@ class RecognitionJob():
             args['warnings'] = _dict.get('warnings')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RecognitionJob object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'id') and self.id is not None:
@@ -5869,17 +6191,21 @@ class RecognitionJob():
             _dict['warnings'] = self.warnings
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this RecognitionJob object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'RecognitionJob') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'RecognitionJob') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -5907,23 +6233,23 @@ class RecognitionJobs():
     """
     Information about current asynchronous speech recognition jobs.
 
-    :attr list[RecognitionJob] recognitions: An array of `RecognitionJob` objects
+    :attr List[RecognitionJob] recognitions: An array of `RecognitionJob` objects
           that provides the status for each of the user's current jobs. The array is empty
           if the user has no current jobs.
     """
 
-    def __init__(self, recognitions):
+    def __init__(self, recognitions: List['RecognitionJob']) -> None:
         """
         Initialize a RecognitionJobs object.
 
-        :param list[RecognitionJob] recognitions: An array of `RecognitionJob`
+        :param List[RecognitionJob] recognitions: An array of `RecognitionJob`
                objects that provides the status for each of the user's current jobs. The
                array is empty if the user has no current jobs.
         """
         self.recognitions = recognitions
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'RecognitionJobs':
         """Initialize a RecognitionJobs object from a json dictionary."""
         args = {}
         valid_keys = ['recognitions']
@@ -5943,24 +6269,33 @@ class RecognitionJobs():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RecognitionJobs object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'recognitions') and self.recognitions is not None:
             _dict['recognitions'] = [x._to_dict() for x in self.recognitions]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this RecognitionJobs object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'RecognitionJobs') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'RecognitionJobs') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -5977,7 +6312,7 @@ class RegisterStatus():
     :attr str url: The callback URL that is successfully registered.
     """
 
-    def __init__(self, status, url):
+    def __init__(self, status: str, url: str) -> None:
         """
         Initialize a RegisterStatus object.
 
@@ -5991,7 +6326,7 @@ class RegisterStatus():
         self.url = url
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'RegisterStatus':
         """Initialize a RegisterStatus object from a json dictionary."""
         args = {}
         valid_keys = ['status', 'url']
@@ -6013,7 +6348,12 @@ class RegisterStatus():
                 'Required property \'url\' not present in RegisterStatus JSON')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RegisterStatus object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'status') and self.status is not None:
@@ -6022,17 +6362,21 @@ class RegisterStatus():
             _dict['url'] = self.url
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this RegisterStatus object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'RegisterStatus') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'RegisterStatus') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -6068,7 +6412,8 @@ class SpeakerLabelsResult():
           `false` means that the service might send further updates to the results.
     """
 
-    def __init__(self, from_, to, speaker, confidence, final):
+    def __init__(self, from_: float, to: float, speaker: int, confidence: float,
+                 final: bool) -> None:
         """
         Initialize a SpeakerLabelsResult object.
 
@@ -6096,7 +6441,7 @@ class SpeakerLabelsResult():
         self.final = final
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'SpeakerLabelsResult':
         """Initialize a SpeakerLabelsResult object from a json dictionary."""
         args = {}
         valid_keys = ['from_', 'from', 'to', 'speaker', 'confidence', 'final']
@@ -6137,7 +6482,12 @@ class SpeakerLabelsResult():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SpeakerLabelsResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'from_') and self.from_ is not None:
@@ -6152,17 +6502,21 @@ class SpeakerLabelsResult():
             _dict['final'] = self.final
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this SpeakerLabelsResult object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'SpeakerLabelsResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'SpeakerLabelsResult') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -6182,8 +6536,9 @@ class SpeechModel():
     :attr str description: A brief description of the model.
     """
 
-    def __init__(self, name, language, rate, url, supported_features,
-                 description):
+    def __init__(self, name: str, language: str, rate: int, url: str,
+                 supported_features: 'SupportedFeatures',
+                 description: str) -> None:
         """
         Initialize a SpeechModel object.
 
@@ -6206,7 +6561,7 @@ class SpeechModel():
         self.description = description
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'SpeechModel':
         """Initialize a SpeechModel object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -6254,7 +6609,12 @@ class SpeechModel():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SpeechModel object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'name') and self.name is not None:
@@ -6273,17 +6633,21 @@ class SpeechModel():
             _dict['description'] = self.description
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this SpeechModel object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'SpeechModel') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'SpeechModel') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -6292,21 +6656,21 @@ class SpeechModels():
     """
     Information about the available language models.
 
-    :attr list[SpeechModel] models: An array of `SpeechModel` objects that provides
+    :attr List[SpeechModel] models: An array of `SpeechModel` objects that provides
           information about each available model.
     """
 
-    def __init__(self, models):
+    def __init__(self, models: List['SpeechModel']) -> None:
         """
         Initialize a SpeechModels object.
 
-        :param list[SpeechModel] models: An array of `SpeechModel` objects that
+        :param List[SpeechModel] models: An array of `SpeechModel` objects that
                provides information about each available model.
         """
         self.models = models
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'SpeechModels':
         """Initialize a SpeechModels object from a json dictionary."""
         args = {}
         valid_keys = ['models']
@@ -6324,24 +6688,33 @@ class SpeechModels():
                 'Required property \'models\' not present in SpeechModels JSON')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SpeechModels object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'models') and self.models is not None:
             _dict['models'] = [x._to_dict() for x in self.models]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this SpeechModels object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'SpeechModels') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'SpeechModels') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -6354,12 +6727,12 @@ class SpeechRecognitionAlternative():
     :attr float confidence: (optional) A score that indicates the service's
           confidence in the transcript in the range of 0.0 to 1.0. A confidence score is
           returned only for the best alternative and only with results marked as final.
-    :attr list[str] timestamps: (optional) Time alignments for each word from the
+    :attr List[str] timestamps: (optional) Time alignments for each word from the
           transcript as a list of lists. Each inner list consists of three elements: the
           word followed by its start and end time in seconds, for example:
           `[["hello",0.0,1.2],["world",1.2,2.5]]`. Timestamps are returned only for the
           best alternative.
-    :attr list[str] word_confidence: (optional) A confidence score for each word of
+    :attr List[str] word_confidence: (optional) A confidence score for each word of
           the transcript as a list of lists. Each inner list consists of two elements: the
           word and its confidence score in the range of 0.0 to 1.0, for example:
           `[["hello",0.95],["world",0.866]]`. Confidence scores are returned only for the
@@ -6367,11 +6740,11 @@ class SpeechRecognitionAlternative():
     """
 
     def __init__(self,
-                 transcript,
+                 transcript: str,
                  *,
-                 confidence=None,
-                 timestamps=None,
-                 word_confidence=None):
+                 confidence: float = None,
+                 timestamps: List[str] = None,
+                 word_confidence: List[str] = None) -> None:
         """
         Initialize a SpeechRecognitionAlternative object.
 
@@ -6380,12 +6753,12 @@ class SpeechRecognitionAlternative():
                confidence in the transcript in the range of 0.0 to 1.0. A confidence score
                is returned only for the best alternative and only with results marked as
                final.
-        :param list[str] timestamps: (optional) Time alignments for each word from
+        :param List[str] timestamps: (optional) Time alignments for each word from
                the transcript as a list of lists. Each inner list consists of three
                elements: the word followed by its start and end time in seconds, for
                example: `[["hello",0.0,1.2],["world",1.2,2.5]]`. Timestamps are returned
                only for the best alternative.
-        :param list[str] word_confidence: (optional) A confidence score for each
+        :param List[str] word_confidence: (optional) A confidence score for each
                word of the transcript as a list of lists. Each inner list consists of two
                elements: the word and its confidence score in the range of 0.0 to 1.0, for
                example: `[["hello",0.95],["world",0.866]]`. Confidence scores are returned
@@ -6397,7 +6770,7 @@ class SpeechRecognitionAlternative():
         self.word_confidence = word_confidence
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'SpeechRecognitionAlternative':
         """Initialize a SpeechRecognitionAlternative object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -6422,7 +6795,12 @@ class SpeechRecognitionAlternative():
             args['word_confidence'] = _dict.get('word_confidence')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SpeechRecognitionAlternative object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'transcript') and self.transcript is not None:
@@ -6436,17 +6814,21 @@ class SpeechRecognitionAlternative():
             _dict['word_confidence'] = self.word_confidence
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this SpeechRecognitionAlternative object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'SpeechRecognitionAlternative') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'SpeechRecognitionAlternative') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -6458,7 +6840,7 @@ class SpeechRecognitionResult():
     :attr bool final: An indication of whether the transcription results are final.
           If `true`, the results for this utterance are not updated further; no additional
           results are sent for a `result_index` once its results are indicated as final.
-    :attr list[SpeechRecognitionAlternative] alternatives: An array of alternative
+    :attr List[SpeechRecognitionAlternative] alternatives: An array of alternative
           transcripts. The `alternatives` array can include additional requested output
           such as word confidence or timestamps.
     :attr dict keywords_result: (optional) A dictionary (or associative array) whose
@@ -6468,17 +6850,28 @@ class SpeechRecognitionResult():
           `KeywordResult` object. A keyword for which no matches are found is omitted from
           the dictionary. The dictionary is omitted entirely if no matches are found for
           any keywords.
-    :attr list[WordAlternativeResults] word_alternatives: (optional) An array of
+    :attr List[WordAlternativeResults] word_alternatives: (optional) An array of
           alternative hypotheses found for words of the input audio if a
           `word_alternatives_threshold` is specified.
+    :attr str end_of_utterance: (optional) If the `split_transcript_at_phrase_end`
+          parameter is `true`, describes the reason for the split:
+          * `end_of_data` - The end of the input audio stream.
+          * `full_stop` - A full semantic stop, such as for the conclusion of a
+          grammatical sentence. The insertion of splits is influenced by the base language
+          model and biased by custom language models and grammars.
+          * `reset` - The amount of audio that is currently being processed exceeds the
+          two-minute maximum. The service splits the transcript to avoid excessive memory
+          use.
+          * `silence` - A pause or silence that is at least as long as the pause interval.
     """
 
     def __init__(self,
-                 final,
-                 alternatives,
+                 final: bool,
+                 alternatives: List['SpeechRecognitionAlternative'],
                  *,
-                 keywords_result=None,
-                 word_alternatives=None):
+                 keywords_result: dict = None,
+                 word_alternatives: List['WordAlternativeResults'] = None,
+                 end_of_utterance: str = None) -> None:
         """
         Initialize a SpeechRecognitionResult object.
 
@@ -6486,7 +6879,7 @@ class SpeechRecognitionResult():
                final. If `true`, the results for this utterance are not updated further;
                no additional results are sent for a `result_index` once its results are
                indicated as final.
-        :param list[SpeechRecognitionAlternative] alternatives: An array of
+        :param List[SpeechRecognitionAlternative] alternatives: An array of
                alternative transcripts. The `alternatives` array can include additional
                requested output such as word confidence or timestamps.
         :param dict keywords_result: (optional) A dictionary (or associative array)
@@ -6496,21 +6889,35 @@ class SpeechRecognitionResult():
                by a `KeywordResult` object. A keyword for which no matches are found is
                omitted from the dictionary. The dictionary is omitted entirely if no
                matches are found for any keywords.
-        :param list[WordAlternativeResults] word_alternatives: (optional) An array
+        :param List[WordAlternativeResults] word_alternatives: (optional) An array
                of alternative hypotheses found for words of the input audio if a
                `word_alternatives_threshold` is specified.
+        :param str end_of_utterance: (optional) If the
+               `split_transcript_at_phrase_end` parameter is `true`, describes the reason
+               for the split:
+               * `end_of_data` - The end of the input audio stream.
+               * `full_stop` - A full semantic stop, such as for the conclusion of a
+               grammatical sentence. The insertion of splits is influenced by the base
+               language model and biased by custom language models and grammars.
+               * `reset` - The amount of audio that is currently being processed exceeds
+               the two-minute maximum. The service splits the transcript to avoid
+               excessive memory use.
+               * `silence` - A pause or silence that is at least as long as the pause
+               interval.
         """
         self.final = final
         self.alternatives = alternatives
         self.keywords_result = keywords_result
         self.word_alternatives = word_alternatives
+        self.end_of_utterance = end_of_utterance
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'SpeechRecognitionResult':
         """Initialize a SpeechRecognitionResult object from a json dictionary."""
         args = {}
         valid_keys = [
-            'final', 'alternatives', 'keywords_result', 'word_alternatives'
+            'final', 'alternatives', 'keywords_result', 'word_alternatives',
+            'end_of_utterance'
         ]
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
@@ -6539,9 +6946,16 @@ class SpeechRecognitionResult():
                 WordAlternativeResults._from_dict(x)
                 for x in (_dict.get('word_alternatives'))
             ]
+        if 'end_of_utterance' in _dict:
+            args['end_of_utterance'] = _dict.get('end_of_utterance')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SpeechRecognitionResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'final') and self.final is not None:
@@ -6556,28 +6970,53 @@ class SpeechRecognitionResult():
             _dict['word_alternatives'] = [
                 x._to_dict() for x in self.word_alternatives
             ]
+        if hasattr(self,
+                   'end_of_utterance') and self.end_of_utterance is not None:
+            _dict['end_of_utterance'] = self.end_of_utterance
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this SpeechRecognitionResult object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'SpeechRecognitionResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'SpeechRecognitionResult') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
+
+    class EndOfUtteranceEnum(Enum):
+        """
+        If the `split_transcript_at_phrase_end` parameter is `true`, describes the reason
+        for the split:
+        * `end_of_data` - The end of the input audio stream.
+        * `full_stop` - A full semantic stop, such as for the conclusion of a grammatical
+        sentence. The insertion of splits is influenced by the base language model and
+        biased by custom language models and grammars.
+        * `reset` - The amount of audio that is currently being processed exceeds the
+        two-minute maximum. The service splits the transcript to avoid excessive memory
+        use.
+        * `silence` - A pause or silence that is at least as long as the pause interval.
+        """
+        END_OF_DATA = "end_of_data"
+        FULL_STOP = "full_stop"
+        RESET = "reset"
+        SILENCE = "silence"
 
 
 class SpeechRecognitionResults():
     """
     The complete results for a speech recognition request.
 
-    :attr list[SpeechRecognitionResult] results: (optional) An array of
+    :attr List[SpeechRecognitionResult] results: (optional) An array of
           `SpeechRecognitionResult` objects that can include interim and final results
           (interim results are returned only if supported by the method). Final results
           are guaranteed not to change; interim results might be replaced by further
@@ -6587,7 +7026,7 @@ class SpeechRecognitionResults():
     :attr int result_index: (optional) An index that indicates a change point in the
           `results` array. The service increments the index only for additional results
           that it sends for new audio for the same request.
-    :attr list[SpeakerLabelsResult] speaker_labels: (optional) An array of
+    :attr List[SpeakerLabelsResult] speaker_labels: (optional) An array of
           `SpeakerLabelsResult` objects that identifies which words were spoken by which
           speakers in a multi-person exchange. The array is returned only if the
           `speaker_labels` parameter is `true`. When interim results are also requested
@@ -6599,7 +7038,7 @@ class SpeechRecognitionResults():
           method.
     :attr AudioMetrics audio_metrics: (optional) If audio metrics are requested,
           information about the signal characteristics of the input audio.
-    :attr list[str] warnings: (optional) An array of warning messages associated
+    :attr List[str] warnings: (optional) An array of warning messages associated
           with the request:
           * Warnings for invalid parameters or fields can include a descriptive message
           and a list of invalid argument strings, for example, `"Unknown arguments:"` or
@@ -6617,16 +7056,16 @@ class SpeechRecognitionResults():
 
     def __init__(self,
                  *,
-                 results=None,
-                 result_index=None,
-                 speaker_labels=None,
-                 processing_metrics=None,
-                 audio_metrics=None,
-                 warnings=None):
+                 results: List['SpeechRecognitionResult'] = None,
+                 result_index: int = None,
+                 speaker_labels: List['SpeakerLabelsResult'] = None,
+                 processing_metrics: 'ProcessingMetrics' = None,
+                 audio_metrics: 'AudioMetrics' = None,
+                 warnings: List[str] = None) -> None:
         """
         Initialize a SpeechRecognitionResults object.
 
-        :param list[SpeechRecognitionResult] results: (optional) An array of
+        :param List[SpeechRecognitionResult] results: (optional) An array of
                `SpeechRecognitionResult` objects that can include interim and final
                results (interim results are returned only if supported by the method).
                Final results are guaranteed not to change; interim results might be
@@ -6637,7 +7076,7 @@ class SpeechRecognitionResults():
         :param int result_index: (optional) An index that indicates a change point
                in the `results` array. The service increments the index only for
                additional results that it sends for new audio for the same request.
-        :param list[SpeakerLabelsResult] speaker_labels: (optional) An array of
+        :param List[SpeakerLabelsResult] speaker_labels: (optional) An array of
                `SpeakerLabelsResult` objects that identifies which words were spoken by
                which speakers in a multi-person exchange. The array is returned only if
                the `speaker_labels` parameter is `true`. When interim results are also
@@ -6650,7 +7089,7 @@ class SpeechRecognitionResults():
                **Recognize audio** method.
         :param AudioMetrics audio_metrics: (optional) If audio metrics are
                requested, information about the signal characteristics of the input audio.
-        :param list[str] warnings: (optional) An array of warning messages
+        :param List[str] warnings: (optional) An array of warning messages
                associated with the request:
                * Warnings for invalid parameters or fields can include a descriptive
                message and a list of invalid argument strings, for example, `"Unknown
@@ -6673,7 +7112,7 @@ class SpeechRecognitionResults():
         self.warnings = warnings
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'SpeechRecognitionResults':
         """Initialize a SpeechRecognitionResults object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -6707,7 +7146,12 @@ class SpeechRecognitionResults():
             args['warnings'] = _dict.get('warnings')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SpeechRecognitionResults object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'results') and self.results is not None:
@@ -6728,17 +7172,21 @@ class SpeechRecognitionResults():
             _dict['warnings'] = self.warnings
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this SpeechRecognitionResults object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'SpeechRecognitionResults') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'SpeechRecognitionResults') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -6753,7 +7201,8 @@ class SupportedFeatures():
           be used with the language model.
     """
 
-    def __init__(self, custom_language_model, speaker_labels):
+    def __init__(self, custom_language_model: bool,
+                 speaker_labels: bool) -> None:
         """
         Initialize a SupportedFeatures object.
 
@@ -6767,7 +7216,7 @@ class SupportedFeatures():
         self.speaker_labels = speaker_labels
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'SupportedFeatures':
         """Initialize a SupportedFeatures object from a json dictionary."""
         args = {}
         valid_keys = ['custom_language_model', 'speaker_labels']
@@ -6790,7 +7239,12 @@ class SupportedFeatures():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SupportedFeatures object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'custom_language_model'
@@ -6800,17 +7254,21 @@ class SupportedFeatures():
             _dict['speaker_labels'] = self.speaker_labels
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this SupportedFeatures object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'SupportedFeatures') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'SupportedFeatures') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -6819,18 +7277,18 @@ class TrainingResponse():
     """
     The response from training of a custom language or custom acoustic model.
 
-    :attr list[TrainingWarning] warnings: (optional) An array of `TrainingWarning`
+    :attr List[TrainingWarning] warnings: (optional) An array of `TrainingWarning`
           objects that lists any invalid resources contained in the custom model. For
           custom language models, invalid resources are grouped and identified by type of
           resource. The method can return warnings only if the `strict` parameter is set
           to `false`.
     """
 
-    def __init__(self, *, warnings=None):
+    def __init__(self, *, warnings: List['TrainingWarning'] = None) -> None:
         """
         Initialize a TrainingResponse object.
 
-        :param list[TrainingWarning] warnings: (optional) An array of
+        :param List[TrainingWarning] warnings: (optional) An array of
                `TrainingWarning` objects that lists any invalid resources contained in the
                custom model. For custom language models, invalid resources are grouped and
                identified by type of resource. The method can return warnings only if the
@@ -6839,7 +7297,7 @@ class TrainingResponse():
         self.warnings = warnings
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'TrainingResponse':
         """Initialize a TrainingResponse object from a json dictionary."""
         args = {}
         valid_keys = ['warnings']
@@ -6854,24 +7312,33 @@ class TrainingResponse():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TrainingResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'warnings') and self.warnings is not None:
             _dict['warnings'] = [x._to_dict() for x in self.warnings]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this TrainingResponse object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'TrainingResponse') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'TrainingResponse') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -6889,7 +7356,7 @@ class TrainingWarning():
           training.`.
     """
 
-    def __init__(self, code, message):
+    def __init__(self, code: str, message: str) -> None:
         """
         Initialize a TrainingWarning object.
 
@@ -6905,7 +7372,7 @@ class TrainingWarning():
         self.message = message
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'TrainingWarning':
         """Initialize a TrainingWarning object from a json dictionary."""
         args = {}
         valid_keys = ['code', 'message']
@@ -6928,7 +7395,12 @@ class TrainingWarning():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TrainingWarning object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'code') and self.code is not None:
@@ -6937,17 +7409,21 @@ class TrainingWarning():
             _dict['message'] = self.message
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this TrainingWarning object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'TrainingWarning') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'TrainingWarning') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -6967,7 +7443,7 @@ class Word():
 
     :attr str word: A word from the custom model's words resource. The spelling of
           the word is used to train the model.
-    :attr list[str] sounds_like: An array of pronunciations for the word. The array
+    :attr List[str] sounds_like: An array of pronunciations for the word. The array
           can include the sounds-like pronunciation automatically generated by the service
           if none is provided for the word; the service adds this pronunciation when it
           finishes processing the word.
@@ -6981,30 +7457,30 @@ class Word():
           it is added by any corpora, the count begins at `1`; if the word is added from a
           corpus first and later modified, the count reflects only the number of times it
           is found in corpora.
-    :attr list[str] source: An array of sources that describes how the word was
+    :attr List[str] source: An array of sources that describes how the word was
           added to the custom model's words resource. For OOV words added from a corpus,
           includes the name of the corpus; if the word was added by multiple corpora, the
           names of all corpora are listed. If the word was modified or added by the user
           directly, the field includes the string `user`.
-    :attr list[WordError] error: (optional) If the service discovered one or more
+    :attr List[WordError] error: (optional) If the service discovered one or more
           problems that you need to correct for the word's definition, an array that
           describes each of the errors.
     """
 
     def __init__(self,
-                 word,
-                 sounds_like,
-                 display_as,
-                 count,
-                 source,
+                 word: str,
+                 sounds_like: List[str],
+                 display_as: str,
+                 count: int,
+                 source: List[str],
                  *,
-                 error=None):
+                 error: List['WordError'] = None) -> None:
         """
         Initialize a Word object.
 
         :param str word: A word from the custom model's words resource. The
                spelling of the word is used to train the model.
-        :param list[str] sounds_like: An array of pronunciations for the word. The
+        :param List[str] sounds_like: An array of pronunciations for the word. The
                array can include the sounds-like pronunciation automatically generated by
                the service if none is provided for the word; the service adds this
                pronunciation when it finishes processing the word.
@@ -7018,12 +7494,12 @@ class Word():
                before it is added by any corpora, the count begins at `1`; if the word is
                added from a corpus first and later modified, the count reflects only the
                number of times it is found in corpora.
-        :param list[str] source: An array of sources that describes how the word
+        :param List[str] source: An array of sources that describes how the word
                was added to the custom model's words resource. For OOV words added from a
                corpus, includes the name of the corpus; if the word was added by multiple
                corpora, the names of all corpora are listed. If the word was modified or
                added by the user directly, the field includes the string `user`.
-        :param list[WordError] error: (optional) If the service discovered one or
+        :param List[WordError] error: (optional) If the service discovered one or
                more problems that you need to correct for the word's definition, an array
                that describes each of the errors.
         """
@@ -7035,7 +7511,7 @@ class Word():
         self.error = error
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Word':
         """Initialize a Word object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -7077,7 +7553,12 @@ class Word():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Word object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'word') and self.word is not None:
@@ -7094,17 +7575,21 @@ class Word():
             _dict['error'] = [x._to_dict() for x in self.error]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Word object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Word') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Word') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -7118,7 +7603,7 @@ class WordAlternativeResult():
     :attr str word: An alternative hypothesis for a word from the input audio.
     """
 
-    def __init__(self, confidence, word):
+    def __init__(self, confidence: float, word: str) -> None:
         """
         Initialize a WordAlternativeResult object.
 
@@ -7130,7 +7615,7 @@ class WordAlternativeResult():
         self.word = word
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'WordAlternativeResult':
         """Initialize a WordAlternativeResult object from a json dictionary."""
         args = {}
         valid_keys = ['confidence', 'word']
@@ -7153,7 +7638,12 @@ class WordAlternativeResult():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a WordAlternativeResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'confidence') and self.confidence is not None:
@@ -7162,17 +7652,21 @@ class WordAlternativeResult():
             _dict['word'] = self.word
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this WordAlternativeResult object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'WordAlternativeResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'WordAlternativeResult') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -7185,11 +7679,12 @@ class WordAlternativeResults():
           audio that corresponds to the word alternatives.
     :attr float end_time: The end time in seconds of the word from the input audio
           that corresponds to the word alternatives.
-    :attr list[WordAlternativeResult] alternatives: An array of alternative
+    :attr List[WordAlternativeResult] alternatives: An array of alternative
           hypotheses for a word from the input audio.
     """
 
-    def __init__(self, start_time, end_time, alternatives):
+    def __init__(self, start_time: float, end_time: float,
+                 alternatives: List['WordAlternativeResult']) -> None:
         """
         Initialize a WordAlternativeResults object.
 
@@ -7197,7 +7692,7 @@ class WordAlternativeResults():
                input audio that corresponds to the word alternatives.
         :param float end_time: The end time in seconds of the word from the input
                audio that corresponds to the word alternatives.
-        :param list[WordAlternativeResult] alternatives: An array of alternative
+        :param List[WordAlternativeResult] alternatives: An array of alternative
                hypotheses for a word from the input audio.
         """
         self.start_time = start_time
@@ -7205,7 +7700,7 @@ class WordAlternativeResults():
         self.alternatives = alternatives
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'WordAlternativeResults':
         """Initialize a WordAlternativeResults object from a json dictionary."""
         args = {}
         valid_keys = ['start_time', 'end_time', 'alternatives']
@@ -7237,7 +7732,12 @@ class WordAlternativeResults():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a WordAlternativeResults object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'start_time') and self.start_time is not None:
@@ -7248,17 +7748,21 @@ class WordAlternativeResults():
             _dict['alternatives'] = [x._to_dict() for x in self.alternatives]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this WordAlternativeResults object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'WordAlternativeResults') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'WordAlternativeResults') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -7276,7 +7780,7 @@ class WordError():
           '{suggested_string}'."`.
     """
 
-    def __init__(self, element):
+    def __init__(self, element: str) -> None:
         """
         Initialize a WordError object.
 
@@ -7291,7 +7795,7 @@ class WordError():
         self.element = element
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'WordError':
         """Initialize a WordError object from a json dictionary."""
         args = {}
         valid_keys = ['element']
@@ -7307,24 +7811,33 @@ class WordError():
                 'Required property \'element\' not present in WordError JSON')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a WordError object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'element') and self.element is not None:
             _dict['element'] = self.element
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this WordError object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'WordError') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'WordError') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -7333,23 +7846,23 @@ class Words():
     """
     Information about the words from a custom language model.
 
-    :attr list[Word] words: An array of `Word` objects that provides information
+    :attr List[Word] words: An array of `Word` objects that provides information
           about each word in the custom model's words resource. The array is empty if the
           custom model has no words.
     """
 
-    def __init__(self, words):
+    def __init__(self, words: List['Word']) -> None:
         """
         Initialize a Words object.
 
-        :param list[Word] words: An array of `Word` objects that provides
+        :param List[Word] words: An array of `Word` objects that provides
                information about each word in the custom model's words resource. The array
                is empty if the custom model has no words.
         """
         self.words = words
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Words':
         """Initialize a Words object from a json dictionary."""
         args = {}
         valid_keys = ['words']
@@ -7365,23 +7878,32 @@ class Words():
                 'Required property \'words\' not present in Words JSON')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Words object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'words') and self.words is not None:
             _dict['words'] = [x._to_dict() for x in self.words]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Words object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Words') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Words') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other

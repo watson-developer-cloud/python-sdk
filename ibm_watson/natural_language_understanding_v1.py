@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019.
+# (C) Copyright IBM Corp. 2019, 2020.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,17 +20,20 @@ request. The service cleans HTML content before analysis by default, so the resu
 ignore most advertisements and other unwanted content.
 You can create [custom
 models](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing)
-with Watson Knowledge Studio to detect custom entities, relations, and categories in
-Natural Language Understanding.
+with Watson Knowledge Studio to detect custom entities and relations in Natural Language
+Understanding.
 """
 
 import json
+from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
 from .common import get_sdk_headers
+from datetime import datetime
 from enum import Enum
 from ibm_cloud_sdk_core import BaseService
 from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
 from ibm_cloud_sdk_core import get_authenticator_from_environment
-from ibm_cloud_sdk_core import read_external_sources
+from typing import Dict
+from typing import List
 
 ##############################################################################
 # Service
@@ -40,13 +43,15 @@ from ibm_cloud_sdk_core import read_external_sources
 class NaturalLanguageUnderstandingV1(BaseService):
     """The Natural Language Understanding V1 service."""
 
-    default_service_url = 'https://gateway.watsonplatform.net/natural-language-understanding/api'
+    DEFAULT_SERVICE_URL = 'https://gateway.watsonplatform.net/natural-language-understanding/api'
+    DEFAULT_SERVICE_NAME = 'natural-language-understanding'
 
     def __init__(
             self,
-            version,
-            authenticator=None,
-    ):
+            version: str,
+            authenticator: Authenticator = None,
+            service_name: str = DEFAULT_SERVICE_NAME,
+    ) -> None:
         """
         Construct a new client for the Natural Language Understanding service.
 
@@ -65,43 +70,32 @@ class NaturalLanguageUnderstandingV1(BaseService):
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
         """
-
-        service_url = self.default_service_url
-        disable_ssl_verification = False
-
-        config = read_external_sources('natural_language_understanding')
-        if config.get('URL'):
-            service_url = config.get('URL')
-        if config.get('DISABLE_SSL'):
-            disable_ssl_verification = config.get('DISABLE_SSL')
-
         if not authenticator:
-            authenticator = get_authenticator_from_environment(
-                'natural_language_understanding')
-
+            authenticator = get_authenticator_from_environment(service_name)
         BaseService.__init__(self,
-                             service_url=service_url,
+                             service_url=self.DEFAULT_SERVICE_URL,
                              authenticator=authenticator,
-                             disable_ssl_verification=disable_ssl_verification)
+                             disable_ssl_verification=False)
         self.version = version
+        self.configure_service(service_name)
 
     #########################
     # Analyze
     #########################
 
     def analyze(self,
-                features,
+                features: 'Features',
                 *,
-                text=None,
-                html=None,
-                url=None,
-                clean=None,
-                xpath=None,
-                fallback_to_raw=None,
-                return_analyzed_text=None,
-                language=None,
-                limit_text_characters=None,
-                **kwargs):
+                text: str = None,
+                html: str = None,
+                url: str = None,
+                clean: bool = None,
+                xpath: str = None,
+                fallback_to_raw: bool = None,
+                return_analyzed_text: bool = None,
+                language: str = None,
+                limit_text_characters: int = None,
+                **kwargs) -> 'DetailedResponse':
         """
         Analyze text.
 
@@ -116,6 +110,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
         - Semantic roles
         - Sentiment
         - Syntax (Experimental).
+        If a language for the input text is not specified with the `language` parameter,
+        the service [automatically detects the
+        language](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-detectable-languages).
 
         :param Features features: Specific features to analyze the document for.
         :param str text: (optional) The plain text to analyze. One of the `text`,
@@ -157,8 +154,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('natural-language-understanding', 'V1',
-                                      'analyze')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='analyze')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
@@ -181,8 +179,8 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                        url=url,
                                        headers=headers,
                                        params=params,
-                                       data=data,
-                                       accept_json=True)
+                                       data=data)
+
         response = self.send(request)
         return response
 
@@ -190,7 +188,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
     # Manage models
     #########################
 
-    def list_models(self, **kwargs):
+    def list_models(self, **kwargs) -> 'DetailedResponse':
         """
         List models.
 
@@ -206,8 +204,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('natural-language-understanding', 'V1',
-                                      'list_models')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='list_models')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
@@ -216,12 +215,12 @@ class NaturalLanguageUnderstandingV1(BaseService):
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=True)
+                                       params=params)
+
         response = self.send(request)
         return response
 
-    def delete_model(self, model_id, **kwargs):
+    def delete_model(self, model_id: str, **kwargs) -> 'DetailedResponse':
         """
         Delete model.
 
@@ -239,8 +238,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('natural-language-understanding', 'V1',
-                                      'delete_model')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='delete_model')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
@@ -249,8 +249,8 @@ class NaturalLanguageUnderstandingV1(BaseService):
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=True)
+                                       params=params)
+
         response = self.send(request)
         return response
 
@@ -269,21 +269,21 @@ class AnalysisResults():
     :attr str retrieved_url: (optional) URL of the webpage that was analyzed.
     :attr AnalysisResultsUsage usage: (optional) API usage information for the
           request.
-    :attr list[ConceptsResult] concepts: (optional) The general concepts referenced
+    :attr List[ConceptsResult] concepts: (optional) The general concepts referenced
           or alluded to in the analyzed text.
-    :attr list[EntitiesResult] entities: (optional) The entities detected in the
+    :attr List[EntitiesResult] entities: (optional) The entities detected in the
           analyzed text.
-    :attr list[KeywordsResult] keywords: (optional) The keywords from the analyzed
+    :attr List[KeywordsResult] keywords: (optional) The keywords from the analyzed
           text.
-    :attr list[CategoriesResult] categories: (optional) The categories that the
+    :attr List[CategoriesResult] categories: (optional) The categories that the
           service assigned to the analyzed text.
     :attr EmotionResult emotion: (optional) The anger, disgust, fear, joy, or
           sadness conveyed by the content.
     :attr AnalysisResultsMetadata metadata: (optional) Webpage metadata, such as the
           author and the title of the page.
-    :attr list[RelationsResult] relations: (optional) The relationships between
+    :attr List[RelationsResult] relations: (optional) The relationships between
           entities in the content.
-    :attr list[SemanticRolesResult] semantic_roles: (optional) Sentences parsed into
+    :attr List[SemanticRolesResult] semantic_roles: (optional) Sentences parsed into
           `subject`, `action`, and `object` form.
     :attr SentimentResult sentiment: (optional) The sentiment of the content.
     :attr SyntaxResult syntax: (optional) Tokens and sentences returned from syntax
@@ -292,20 +292,20 @@ class AnalysisResults():
 
     def __init__(self,
                  *,
-                 language=None,
-                 analyzed_text=None,
-                 retrieved_url=None,
-                 usage=None,
-                 concepts=None,
-                 entities=None,
-                 keywords=None,
-                 categories=None,
-                 emotion=None,
-                 metadata=None,
-                 relations=None,
-                 semantic_roles=None,
-                 sentiment=None,
-                 syntax=None):
+                 language: str = None,
+                 analyzed_text: str = None,
+                 retrieved_url: str = None,
+                 usage: 'AnalysisResultsUsage' = None,
+                 concepts: List['ConceptsResult'] = None,
+                 entities: List['EntitiesResult'] = None,
+                 keywords: List['KeywordsResult'] = None,
+                 categories: List['CategoriesResult'] = None,
+                 emotion: 'EmotionResult' = None,
+                 metadata: 'AnalysisResultsMetadata' = None,
+                 relations: List['RelationsResult'] = None,
+                 semantic_roles: List['SemanticRolesResult'] = None,
+                 sentiment: 'SentimentResult' = None,
+                 syntax: 'SyntaxResult' = None) -> None:
         """
         Initialize a AnalysisResults object.
 
@@ -314,21 +314,21 @@ class AnalysisResults():
         :param str retrieved_url: (optional) URL of the webpage that was analyzed.
         :param AnalysisResultsUsage usage: (optional) API usage information for the
                request.
-        :param list[ConceptsResult] concepts: (optional) The general concepts
+        :param List[ConceptsResult] concepts: (optional) The general concepts
                referenced or alluded to in the analyzed text.
-        :param list[EntitiesResult] entities: (optional) The entities detected in
+        :param List[EntitiesResult] entities: (optional) The entities detected in
                the analyzed text.
-        :param list[KeywordsResult] keywords: (optional) The keywords from the
+        :param List[KeywordsResult] keywords: (optional) The keywords from the
                analyzed text.
-        :param list[CategoriesResult] categories: (optional) The categories that
+        :param List[CategoriesResult] categories: (optional) The categories that
                the service assigned to the analyzed text.
         :param EmotionResult emotion: (optional) The anger, disgust, fear, joy, or
                sadness conveyed by the content.
         :param AnalysisResultsMetadata metadata: (optional) Webpage metadata, such
                as the author and the title of the page.
-        :param list[RelationsResult] relations: (optional) The relationships
+        :param List[RelationsResult] relations: (optional) The relationships
                between entities in the content.
-        :param list[SemanticRolesResult] semantic_roles: (optional) Sentences
+        :param List[SemanticRolesResult] semantic_roles: (optional) Sentences
                parsed into `subject`, `action`, and `object` form.
         :param SentimentResult sentiment: (optional) The sentiment of the content.
         :param SyntaxResult syntax: (optional) Tokens and sentences returned from
@@ -350,7 +350,7 @@ class AnalysisResults():
         self.syntax = syntax
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'AnalysisResults':
         """Initialize a AnalysisResults object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -409,7 +409,12 @@ class AnalysisResults():
             args['syntax'] = SyntaxResult._from_dict(_dict.get('syntax'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AnalysisResults object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'language') and self.language is not None:
@@ -444,17 +449,21 @@ class AnalysisResults():
             _dict['syntax'] = self.syntax._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this AnalysisResults object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'AnalysisResults') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'AnalysisResults') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -463,30 +472,30 @@ class AnalysisResultsMetadata():
     """
     Webpage metadata, such as the author and the title of the page.
 
-    :attr list[Author] authors: (optional) The authors of the document.
+    :attr List[Author] authors: (optional) The authors of the document.
     :attr str publication_date: (optional) The publication date in the format ISO
           8601.
     :attr str title: (optional) The title of the document.
     :attr str image: (optional) URL of a prominent image on the webpage.
-    :attr list[Feed] feeds: (optional) RSS/ATOM feeds found on the webpage.
+    :attr List[Feed] feeds: (optional) RSS/ATOM feeds found on the webpage.
     """
 
     def __init__(self,
                  *,
-                 authors=None,
-                 publication_date=None,
-                 title=None,
-                 image=None,
-                 feeds=None):
+                 authors: List['Author'] = None,
+                 publication_date: str = None,
+                 title: str = None,
+                 image: str = None,
+                 feeds: List['Feed'] = None) -> None:
         """
         Initialize a AnalysisResultsMetadata object.
 
-        :param list[Author] authors: (optional) The authors of the document.
+        :param List[Author] authors: (optional) The authors of the document.
         :param str publication_date: (optional) The publication date in the format
                ISO 8601.
         :param str title: (optional) The title of the document.
         :param str image: (optional) URL of a prominent image on the webpage.
-        :param list[Feed] feeds: (optional) RSS/ATOM feeds found on the webpage.
+        :param List[Feed] feeds: (optional) RSS/ATOM feeds found on the webpage.
         """
         self.authors = authors
         self.publication_date = publication_date
@@ -495,7 +504,7 @@ class AnalysisResultsMetadata():
         self.feeds = feeds
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'AnalysisResultsMetadata':
         """Initialize a AnalysisResultsMetadata object from a json dictionary."""
         args = {}
         valid_keys = ['authors', 'publication_date', 'title', 'image', 'feeds']
@@ -518,7 +527,12 @@ class AnalysisResultsMetadata():
             args['feeds'] = [Feed._from_dict(x) for x in (_dict.get('feeds'))]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AnalysisResultsMetadata object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'authors') and self.authors is not None:
@@ -534,17 +548,21 @@ class AnalysisResultsMetadata():
             _dict['feeds'] = [x._to_dict() for x in self.feeds]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this AnalysisResultsMetadata object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'AnalysisResultsMetadata') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'AnalysisResultsMetadata') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -558,7 +576,11 @@ class AnalysisResultsUsage():
     :attr int text_units: (optional) Number of 10,000-character units processed.
     """
 
-    def __init__(self, *, features=None, text_characters=None, text_units=None):
+    def __init__(self,
+                 *,
+                 features: int = None,
+                 text_characters: int = None,
+                 text_units: int = None) -> None:
         """
         Initialize a AnalysisResultsUsage object.
 
@@ -572,7 +594,7 @@ class AnalysisResultsUsage():
         self.text_units = text_units
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'AnalysisResultsUsage':
         """Initialize a AnalysisResultsUsage object from a json dictionary."""
         args = {}
         valid_keys = ['features', 'text_characters', 'text_units']
@@ -589,7 +611,12 @@ class AnalysisResultsUsage():
             args['text_units'] = _dict.get('text_units')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AnalysisResultsUsage object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'features') and self.features is not None:
@@ -601,17 +628,21 @@ class AnalysisResultsUsage():
             _dict['text_units'] = self.text_units
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this AnalysisResultsUsage object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'AnalysisResultsUsage') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'AnalysisResultsUsage') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -623,7 +654,7 @@ class Author():
     :attr str name: (optional) Name of the author.
     """
 
-    def __init__(self, *, name=None):
+    def __init__(self, *, name: str = None) -> None:
         """
         Initialize a Author object.
 
@@ -632,7 +663,7 @@ class Author():
         self.name = name
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Author':
         """Initialize a Author object from a json dictionary."""
         args = {}
         valid_keys = ['name']
@@ -645,24 +676,33 @@ class Author():
             args['name'] = _dict.get('name')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Author object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'name') and self.name is not None:
             _dict['name'] = self.name
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Author object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Author') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Author') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -676,12 +716,9 @@ class CategoriesOptions():
     :attr bool explanation: (optional) Set this to `true` to return explanations for
           each categorization. **This is available only for English categories.**.
     :attr int limit: (optional) Maximum number of categories to return.
-    :attr str model: (optional) Enter a [custom
-          model](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing)
-          ID to override the standard categories model.
     """
 
-    def __init__(self, *, explanation=None, limit=None, model=None):
+    def __init__(self, *, explanation: bool = None, limit: int = None) -> None:
         """
         Initialize a CategoriesOptions object.
 
@@ -689,19 +726,15 @@ class CategoriesOptions():
                explanations for each categorization. **This is available only for English
                categories.**.
         :param int limit: (optional) Maximum number of categories to return.
-        :param str model: (optional) Enter a [custom
-               model](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing)
-               ID to override the standard categories model.
         """
         self.explanation = explanation
         self.limit = limit
-        self.model = model
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'CategoriesOptions':
         """Initialize a CategoriesOptions object from a json dictionary."""
         args = {}
-        valid_keys = ['explanation', 'limit', 'model']
+        valid_keys = ['explanation', 'limit']
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
             raise ValueError(
@@ -711,32 +744,37 @@ class CategoriesOptions():
             args['explanation'] = _dict.get('explanation')
         if 'limit' in _dict:
             args['limit'] = _dict.get('limit')
-        if 'model' in _dict:
-            args['model'] = _dict.get('model')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CategoriesOptions object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'explanation') and self.explanation is not None:
             _dict['explanation'] = self.explanation
         if hasattr(self, 'limit') and self.limit is not None:
             _dict['limit'] = self.limit
-        if hasattr(self, 'model') and self.model is not None:
-            _dict['model'] = self.model
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this CategoriesOptions object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'CategoriesOptions') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'CategoriesOptions') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -749,7 +787,7 @@ class CategoriesRelevantText():
           categorization.
     """
 
-    def __init__(self, *, text=None):
+    def __init__(self, *, text: str = None) -> None:
         """
         Initialize a CategoriesRelevantText object.
 
@@ -759,7 +797,7 @@ class CategoriesRelevantText():
         self.text = text
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'CategoriesRelevantText':
         """Initialize a CategoriesRelevantText object from a json dictionary."""
         args = {}
         valid_keys = ['text']
@@ -772,24 +810,33 @@ class CategoriesRelevantText():
             args['text'] = _dict.get('text')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CategoriesRelevantText object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this CategoriesRelevantText object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'CategoriesRelevantText') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'CategoriesRelevantText') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -808,7 +855,11 @@ class CategoriesResult():
           to explain what contributed to the categories result.
     """
 
-    def __init__(self, *, label=None, score=None, explanation=None):
+    def __init__(self,
+                 *,
+                 label: str = None,
+                 score: float = None,
+                 explanation: 'CategoriesResultExplanation' = None) -> None:
         """
         Initialize a CategoriesResult object.
 
@@ -827,7 +878,7 @@ class CategoriesResult():
         self.explanation = explanation
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'CategoriesResult':
         """Initialize a CategoriesResult object from a json dictionary."""
         args = {}
         valid_keys = ['label', 'score', 'explanation']
@@ -845,7 +896,12 @@ class CategoriesResult():
                 _dict.get('explanation'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CategoriesResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'label') and self.label is not None:
@@ -856,17 +912,21 @@ class CategoriesResult():
             _dict['explanation'] = self.explanation._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this CategoriesResult object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'CategoriesResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'CategoriesResult') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -875,17 +935,18 @@ class CategoriesResultExplanation():
     """
     Information that helps to explain what contributed to the categories result.
 
-    :attr list[CategoriesRelevantText] relevant_text: (optional) An array of
+    :attr List[CategoriesRelevantText] relevant_text: (optional) An array of
           relevant text from the source that contributed to the categorization. The sorted
           array begins with the phrase that contributed most significantly to the result,
           followed by phrases that were less and less impactful.
     """
 
-    def __init__(self, *, relevant_text=None):
+    def __init__(self, *,
+                 relevant_text: List['CategoriesRelevantText'] = None) -> None:
         """
         Initialize a CategoriesResultExplanation object.
 
-        :param list[CategoriesRelevantText] relevant_text: (optional) An array of
+        :param List[CategoriesRelevantText] relevant_text: (optional) An array of
                relevant text from the source that contributed to the categorization. The
                sorted array begins with the phrase that contributed most significantly to
                the result, followed by phrases that were less and less impactful.
@@ -893,7 +954,7 @@ class CategoriesResultExplanation():
         self.relevant_text = relevant_text
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'CategoriesResultExplanation':
         """Initialize a CategoriesResultExplanation object from a json dictionary."""
         args = {}
         valid_keys = ['relevant_text']
@@ -909,24 +970,33 @@ class CategoriesResultExplanation():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CategoriesResultExplanation object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'relevant_text') and self.relevant_text is not None:
             _dict['relevant_text'] = [x._to_dict() for x in self.relevant_text]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this CategoriesResultExplanation object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'CategoriesResultExplanation') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'CategoriesResultExplanation') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -942,7 +1012,7 @@ class ConceptsOptions():
     :attr int limit: (optional) Maximum number of concepts to return.
     """
 
-    def __init__(self, *, limit=None):
+    def __init__(self, *, limit: int = None) -> None:
         """
         Initialize a ConceptsOptions object.
 
@@ -951,7 +1021,7 @@ class ConceptsOptions():
         self.limit = limit
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ConceptsOptions':
         """Initialize a ConceptsOptions object from a json dictionary."""
         args = {}
         valid_keys = ['limit']
@@ -964,24 +1034,33 @@ class ConceptsOptions():
             args['limit'] = _dict.get('limit')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ConceptsOptions object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'limit') and self.limit is not None:
             _dict['limit'] = self.limit
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ConceptsOptions object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ConceptsOptions') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ConceptsOptions') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -997,7 +1076,11 @@ class ConceptsResult():
           resource.
     """
 
-    def __init__(self, *, text=None, relevance=None, dbpedia_resource=None):
+    def __init__(self,
+                 *,
+                 text: str = None,
+                 relevance: float = None,
+                 dbpedia_resource: str = None) -> None:
         """
         Initialize a ConceptsResult object.
 
@@ -1012,7 +1095,7 @@ class ConceptsResult():
         self.dbpedia_resource = dbpedia_resource
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ConceptsResult':
         """Initialize a ConceptsResult object from a json dictionary."""
         args = {}
         valid_keys = ['text', 'relevance', 'dbpedia_resource']
@@ -1029,7 +1112,12 @@ class ConceptsResult():
             args['dbpedia_resource'] = _dict.get('dbpedia_resource')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ConceptsResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
@@ -1041,17 +1129,21 @@ class ConceptsResult():
             _dict['dbpedia_resource'] = self.dbpedia_resource
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ConceptsResult object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ConceptsResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ConceptsResult') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1063,7 +1155,7 @@ class DeleteModelResults():
     :attr str deleted: (optional) model_id of the deleted model.
     """
 
-    def __init__(self, *, deleted=None):
+    def __init__(self, *, deleted: str = None) -> None:
         """
         Initialize a DeleteModelResults object.
 
@@ -1072,7 +1164,7 @@ class DeleteModelResults():
         self.deleted = deleted
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'DeleteModelResults':
         """Initialize a DeleteModelResults object from a json dictionary."""
         args = {}
         valid_keys = ['deleted']
@@ -1085,24 +1177,33 @@ class DeleteModelResults():
             args['deleted'] = _dict.get('deleted')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DeleteModelResults object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'deleted') and self.deleted is not None:
             _dict['deleted'] = self.deleted
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this DeleteModelResults object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'DeleteModelResults') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'DeleteModelResults') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1114,24 +1215,28 @@ class DisambiguationResult():
     :attr str name: (optional) Common entity name.
     :attr str dbpedia_resource: (optional) Link to the corresponding DBpedia
           resource.
-    :attr list[str] subtype: (optional) Entity subtype information.
+    :attr List[str] subtype: (optional) Entity subtype information.
     """
 
-    def __init__(self, *, name=None, dbpedia_resource=None, subtype=None):
+    def __init__(self,
+                 *,
+                 name: str = None,
+                 dbpedia_resource: str = None,
+                 subtype: List[str] = None) -> None:
         """
         Initialize a DisambiguationResult object.
 
         :param str name: (optional) Common entity name.
         :param str dbpedia_resource: (optional) Link to the corresponding DBpedia
                resource.
-        :param list[str] subtype: (optional) Entity subtype information.
+        :param List[str] subtype: (optional) Entity subtype information.
         """
         self.name = name
         self.dbpedia_resource = dbpedia_resource
         self.subtype = subtype
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'DisambiguationResult':
         """Initialize a DisambiguationResult object from a json dictionary."""
         args = {}
         valid_keys = ['name', 'dbpedia_resource', 'subtype']
@@ -1148,7 +1253,12 @@ class DisambiguationResult():
             args['subtype'] = _dict.get('subtype')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DisambiguationResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'name') and self.name is not None:
@@ -1160,17 +1270,21 @@ class DisambiguationResult():
             _dict['subtype'] = self.subtype
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this DisambiguationResult object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'DisambiguationResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'DisambiguationResult') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1183,7 +1297,7 @@ class DocumentEmotionResults():
           whole.
     """
 
-    def __init__(self, *, emotion=None):
+    def __init__(self, *, emotion: 'EmotionScores' = None) -> None:
         """
         Initialize a DocumentEmotionResults object.
 
@@ -1193,7 +1307,7 @@ class DocumentEmotionResults():
         self.emotion = emotion
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'DocumentEmotionResults':
         """Initialize a DocumentEmotionResults object from a json dictionary."""
         args = {}
         valid_keys = ['emotion']
@@ -1206,24 +1320,33 @@ class DocumentEmotionResults():
             args['emotion'] = EmotionScores._from_dict(_dict.get('emotion'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DocumentEmotionResults object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'emotion') and self.emotion is not None:
             _dict['emotion'] = self.emotion._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this DocumentEmotionResults object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'DocumentEmotionResults') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'DocumentEmotionResults') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1238,7 +1361,7 @@ class DocumentSentimentResults():
           (positive).
     """
 
-    def __init__(self, *, label=None, score=None):
+    def __init__(self, *, label: str = None, score: float = None) -> None:
         """
         Initialize a DocumentSentimentResults object.
 
@@ -1251,7 +1374,7 @@ class DocumentSentimentResults():
         self.score = score
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'DocumentSentimentResults':
         """Initialize a DocumentSentimentResults object from a json dictionary."""
         args = {}
         valid_keys = ['label', 'score']
@@ -1266,7 +1389,12 @@ class DocumentSentimentResults():
             args['score'] = _dict.get('score')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DocumentSentimentResults object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'label') and self.label is not None:
@@ -1275,17 +1403,21 @@ class DocumentSentimentResults():
             _dict['score'] = self.score
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this DocumentSentimentResults object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'DocumentSentimentResults') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'DocumentSentimentResults') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1300,24 +1432,25 @@ class EmotionOptions():
 
     :attr bool document: (optional) Set this to `false` to hide document-level
           emotion results.
-    :attr list[str] targets: (optional) Emotion results will be returned for each
+    :attr List[str] targets: (optional) Emotion results will be returned for each
           target string that is found in the document.
     """
 
-    def __init__(self, *, document=None, targets=None):
+    def __init__(self, *, document: bool = None,
+                 targets: List[str] = None) -> None:
         """
         Initialize a EmotionOptions object.
 
         :param bool document: (optional) Set this to `false` to hide document-level
                emotion results.
-        :param list[str] targets: (optional) Emotion results will be returned for
+        :param List[str] targets: (optional) Emotion results will be returned for
                each target string that is found in the document.
         """
         self.document = document
         self.targets = targets
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'EmotionOptions':
         """Initialize a EmotionOptions object from a json dictionary."""
         args = {}
         valid_keys = ['document', 'targets']
@@ -1332,7 +1465,12 @@ class EmotionOptions():
             args['targets'] = _dict.get('targets')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a EmotionOptions object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'document') and self.document is not None:
@@ -1341,17 +1479,21 @@ class EmotionOptions():
             _dict['targets'] = self.targets
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this EmotionOptions object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'EmotionOptions') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'EmotionOptions') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1364,24 +1506,27 @@ class EmotionResult():
 
     :attr DocumentEmotionResults document: (optional) Emotion results for the
           document as a whole.
-    :attr list[TargetedEmotionResults] targets: (optional) Emotion results for
+    :attr List[TargetedEmotionResults] targets: (optional) Emotion results for
           specified targets.
     """
 
-    def __init__(self, *, document=None, targets=None):
+    def __init__(self,
+                 *,
+                 document: 'DocumentEmotionResults' = None,
+                 targets: List['TargetedEmotionResults'] = None) -> None:
         """
         Initialize a EmotionResult object.
 
         :param DocumentEmotionResults document: (optional) Emotion results for the
                document as a whole.
-        :param list[TargetedEmotionResults] targets: (optional) Emotion results for
+        :param List[TargetedEmotionResults] targets: (optional) Emotion results for
                specified targets.
         """
         self.document = document
         self.targets = targets
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'EmotionResult':
         """Initialize a EmotionResult object from a json dictionary."""
         args = {}
         valid_keys = ['document', 'targets']
@@ -1400,7 +1545,12 @@ class EmotionResult():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a EmotionResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'document') and self.document is not None:
@@ -1409,17 +1559,21 @@ class EmotionResult():
             _dict['targets'] = [x._to_dict() for x in self.targets]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this EmotionResult object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'EmotionResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'EmotionResult') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1442,11 +1596,11 @@ class EmotionScores():
 
     def __init__(self,
                  *,
-                 anger=None,
-                 disgust=None,
-                 fear=None,
-                 joy=None,
-                 sadness=None):
+                 anger: float = None,
+                 disgust: float = None,
+                 fear: float = None,
+                 joy: float = None,
+                 sadness: float = None) -> None:
         """
         Initialize a EmotionScores object.
 
@@ -1468,7 +1622,7 @@ class EmotionScores():
         self.sadness = sadness
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'EmotionScores':
         """Initialize a EmotionScores object from a json dictionary."""
         args = {}
         valid_keys = ['anger', 'disgust', 'fear', 'joy', 'sadness']
@@ -1489,7 +1643,12 @@ class EmotionScores():
             args['sadness'] = _dict.get('sadness')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a EmotionScores object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'anger') and self.anger is not None:
@@ -1504,17 +1663,21 @@ class EmotionScores():
             _dict['sadness'] = self.sadness
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this EmotionScores object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'EmotionScores') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'EmotionScores') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1542,11 +1705,11 @@ class EntitiesOptions():
 
     def __init__(self,
                  *,
-                 limit=None,
-                 mentions=None,
-                 model=None,
-                 sentiment=None,
-                 emotion=None):
+                 limit: int = None,
+                 mentions: bool = None,
+                 model: str = None,
+                 sentiment: bool = None,
+                 emotion: bool = None) -> None:
         """
         Initialize a EntitiesOptions object.
 
@@ -1568,7 +1731,7 @@ class EntitiesOptions():
         self.emotion = emotion
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'EntitiesOptions':
         """Initialize a EntitiesOptions object from a json dictionary."""
         args = {}
         valid_keys = ['limit', 'mentions', 'model', 'sentiment', 'emotion']
@@ -1589,7 +1752,12 @@ class EntitiesOptions():
             args['emotion'] = _dict.get('emotion')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a EntitiesOptions object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'limit') and self.limit is not None:
@@ -1604,17 +1772,21 @@ class EntitiesOptions():
             _dict['emotion'] = self.emotion
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this EntitiesOptions object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'EntitiesOptions') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'EntitiesOptions') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1632,7 +1804,7 @@ class EntitiesResult():
           0 to 1. Higher values indicate higher confidence. In standard entities requests,
           confidence is returned only for English text. All entities requests that use
           custom models return the confidence score.
-    :attr list[EntityMention] mentions: (optional) Entity mentions and locations.
+    :attr List[EntityMention] mentions: (optional) Entity mentions and locations.
     :attr int count: (optional) How many times the entity was mentioned in the text.
     :attr EmotionScores emotion: (optional) Emotion analysis results for the entity,
           enabled with the `emotion` option.
@@ -1644,15 +1816,15 @@ class EntitiesResult():
 
     def __init__(self,
                  *,
-                 type=None,
-                 text=None,
-                 relevance=None,
-                 confidence=None,
-                 mentions=None,
-                 count=None,
-                 emotion=None,
-                 sentiment=None,
-                 disambiguation=None):
+                 type: str = None,
+                 text: str = None,
+                 relevance: float = None,
+                 confidence: float = None,
+                 mentions: List['EntityMention'] = None,
+                 count: int = None,
+                 emotion: 'EmotionScores' = None,
+                 sentiment: 'FeatureSentimentResults' = None,
+                 disambiguation: 'DisambiguationResult' = None) -> None:
         """
         Initialize a EntitiesResult object.
 
@@ -1664,7 +1836,7 @@ class EntitiesResult():
                from 0 to 1. Higher values indicate higher confidence. In standard entities
                requests, confidence is returned only for English text. All entities
                requests that use custom models return the confidence score.
-        :param list[EntityMention] mentions: (optional) Entity mentions and
+        :param List[EntityMention] mentions: (optional) Entity mentions and
                locations.
         :param int count: (optional) How many times the entity was mentioned in the
                text.
@@ -1686,7 +1858,7 @@ class EntitiesResult():
         self.disambiguation = disambiguation
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'EntitiesResult':
         """Initialize a EntitiesResult object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -1722,7 +1894,12 @@ class EntitiesResult():
                 _dict.get('disambiguation'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a EntitiesResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'type') and self.type is not None:
@@ -1745,17 +1922,21 @@ class EntitiesResult():
             _dict['disambiguation'] = self.disambiguation._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this EntitiesResult object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'EntitiesResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'EntitiesResult') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1765,7 +1946,7 @@ class EntityMention():
     EntityMention.
 
     :attr str text: (optional) Entity mention text.
-    :attr list[int] location: (optional) Character offsets indicating the beginning
+    :attr List[int] location: (optional) Character offsets indicating the beginning
           and end of the mention in the analyzed text.
     :attr float confidence: (optional) Confidence in the entity identification from
           0 to 1. Higher values indicate higher confidence. In standard entities requests,
@@ -1773,12 +1954,16 @@ class EntityMention():
           custom models return the confidence score.
     """
 
-    def __init__(self, *, text=None, location=None, confidence=None):
+    def __init__(self,
+                 *,
+                 text: str = None,
+                 location: List[int] = None,
+                 confidence: float = None) -> None:
         """
         Initialize a EntityMention object.
 
         :param str text: (optional) Entity mention text.
-        :param list[int] location: (optional) Character offsets indicating the
+        :param List[int] location: (optional) Character offsets indicating the
                beginning and end of the mention in the analyzed text.
         :param float confidence: (optional) Confidence in the entity identification
                from 0 to 1. Higher values indicate higher confidence. In standard entities
@@ -1790,7 +1975,7 @@ class EntityMention():
         self.confidence = confidence
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'EntityMention':
         """Initialize a EntityMention object from a json dictionary."""
         args = {}
         valid_keys = ['text', 'location', 'confidence']
@@ -1807,7 +1992,12 @@ class EntityMention():
             args['confidence'] = _dict.get('confidence')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a EntityMention object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
@@ -1818,17 +2008,21 @@ class EntityMention():
             _dict['confidence'] = self.confidence
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this EntityMention object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'EntityMention') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'EntityMention') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1841,7 +2035,7 @@ class FeatureSentimentResults():
           (positive).
     """
 
-    def __init__(self, *, score=None):
+    def __init__(self, *, score: float = None) -> None:
         """
         Initialize a FeatureSentimentResults object.
 
@@ -1851,7 +2045,7 @@ class FeatureSentimentResults():
         self.score = score
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'FeatureSentimentResults':
         """Initialize a FeatureSentimentResults object from a json dictionary."""
         args = {}
         valid_keys = ['score']
@@ -1864,24 +2058,33 @@ class FeatureSentimentResults():
             args['score'] = _dict.get('score')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a FeatureSentimentResults object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'score') and self.score is not None:
             _dict['score'] = self.score
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this FeatureSentimentResults object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'FeatureSentimentResults') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'FeatureSentimentResults') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1940,16 +2143,16 @@ class Features():
 
     def __init__(self,
                  *,
-                 concepts=None,
-                 emotion=None,
-                 entities=None,
-                 keywords=None,
-                 metadata=None,
-                 relations=None,
-                 semantic_roles=None,
-                 sentiment=None,
-                 categories=None,
-                 syntax=None):
+                 concepts: 'ConceptsOptions' = None,
+                 emotion: 'EmotionOptions' = None,
+                 entities: 'EntitiesOptions' = None,
+                 keywords: 'KeywordsOptions' = None,
+                 metadata: 'MetadataOptions' = None,
+                 relations: 'RelationsOptions' = None,
+                 semantic_roles: 'SemanticRolesOptions' = None,
+                 sentiment: 'SentimentOptions' = None,
+                 categories: 'CategoriesOptions' = None,
+                 syntax: 'SyntaxOptions' = None) -> None:
         """
         Initialize a Features object.
 
@@ -2013,7 +2216,7 @@ class Features():
         self.syntax = syntax
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Features':
         """Initialize a Features object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -2051,7 +2254,12 @@ class Features():
             args['syntax'] = SyntaxOptions._from_dict(_dict.get('syntax'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Features object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'concepts') and self.concepts is not None:
@@ -2076,17 +2284,21 @@ class Features():
             _dict['syntax'] = self.syntax._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Features object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Features') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Features') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2098,7 +2310,7 @@ class Feed():
     :attr str link: (optional) URL of the RSS or ATOM feed.
     """
 
-    def __init__(self, *, link=None):
+    def __init__(self, *, link: str = None) -> None:
         """
         Initialize a Feed object.
 
@@ -2107,7 +2319,7 @@ class Feed():
         self.link = link
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Feed':
         """Initialize a Feed object from a json dictionary."""
         args = {}
         valid_keys = ['link']
@@ -2120,24 +2332,33 @@ class Feed():
             args['link'] = _dict.get('link')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Feed object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'link') and self.link is not None:
             _dict['link'] = self.link
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Feed object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Feed') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Feed') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2155,7 +2376,11 @@ class KeywordsOptions():
           detected keywords.
     """
 
-    def __init__(self, *, limit=None, sentiment=None, emotion=None):
+    def __init__(self,
+                 *,
+                 limit: int = None,
+                 sentiment: bool = None,
+                 emotion: bool = None) -> None:
         """
         Initialize a KeywordsOptions object.
 
@@ -2170,7 +2395,7 @@ class KeywordsOptions():
         self.emotion = emotion
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'KeywordsOptions':
         """Initialize a KeywordsOptions object from a json dictionary."""
         args = {}
         valid_keys = ['limit', 'sentiment', 'emotion']
@@ -2187,7 +2412,12 @@ class KeywordsOptions():
             args['emotion'] = _dict.get('emotion')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a KeywordsOptions object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'limit') and self.limit is not None:
@@ -2198,17 +2428,21 @@ class KeywordsOptions():
             _dict['emotion'] = self.emotion
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this KeywordsOptions object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'KeywordsOptions') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'KeywordsOptions') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2230,11 +2464,11 @@ class KeywordsResult():
 
     def __init__(self,
                  *,
-                 count=None,
-                 relevance=None,
-                 text=None,
-                 emotion=None,
-                 sentiment=None):
+                 count: int = None,
+                 relevance: float = None,
+                 text: str = None,
+                 emotion: 'EmotionScores' = None,
+                 sentiment: 'FeatureSentimentResults' = None) -> None:
         """
         Initialize a KeywordsResult object.
 
@@ -2255,7 +2489,7 @@ class KeywordsResult():
         self.sentiment = sentiment
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'KeywordsResult':
         """Initialize a KeywordsResult object from a json dictionary."""
         args = {}
         valid_keys = ['count', 'relevance', 'text', 'emotion', 'sentiment']
@@ -2277,7 +2511,12 @@ class KeywordsResult():
                 _dict.get('sentiment'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a KeywordsResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'count') and self.count is not None:
@@ -2292,17 +2531,21 @@ class KeywordsResult():
             _dict['sentiment'] = self.sentiment._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this KeywordsResult object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'KeywordsResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'KeywordsResult') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2311,19 +2554,19 @@ class ListModelsResults():
     """
     Custom models that are available for entities and relations.
 
-    :attr list[Model] models: (optional) An array of available models.
+    :attr List[Model] models: (optional) An array of available models.
     """
 
-    def __init__(self, *, models=None):
+    def __init__(self, *, models: List['Model'] = None) -> None:
         """
         Initialize a ListModelsResults object.
 
-        :param list[Model] models: (optional) An array of available models.
+        :param List[Model] models: (optional) An array of available models.
         """
         self.models = models
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ListModelsResults':
         """Initialize a ListModelsResults object from a json dictionary."""
         args = {}
         valid_keys = ['models']
@@ -2338,24 +2581,33 @@ class ListModelsResults():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ListModelsResults object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'models') and self.models is not None:
             _dict['models'] = [x._to_dict() for x in self.models]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ListModelsResults object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ListModelsResults') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ListModelsResults') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2367,34 +2619,43 @@ class MetadataOptions():
 
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """
         Initialize a MetadataOptions object.
 
         """
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'MetadataOptions':
         """Initialize a MetadataOptions object from a json dictionary."""
         args = {}
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MetadataOptions object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this MetadataOptions object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'MetadataOptions') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'MetadataOptions') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2421,14 +2682,14 @@ class Model():
 
     def __init__(self,
                  *,
-                 status=None,
-                 model_id=None,
-                 language=None,
-                 description=None,
-                 workspace_id=None,
-                 version=None,
-                 version_description=None,
-                 created=None):
+                 status: str = None,
+                 model_id: str = None,
+                 language: str = None,
+                 description: str = None,
+                 workspace_id: str = None,
+                 version: str = None,
+                 version_description: str = None,
+                 created: datetime = None) -> None:
         """
         Initialize a Model object.
 
@@ -2457,7 +2718,7 @@ class Model():
         self.created = created
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Model':
         """Initialize a Model object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -2487,7 +2748,12 @@ class Model():
             args['created'] = string_to_datetime(_dict.get('created'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Model object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'status') and self.status is not None:
@@ -2510,17 +2776,21 @@ class Model():
             _dict['created'] = datetime_to_string(self.created)
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Model object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Model') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Model') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2529,19 +2799,23 @@ class RelationArgument():
     """
     RelationArgument.
 
-    :attr list[RelationEntity] entities: (optional) An array of extracted entities.
-    :attr list[int] location: (optional) Character offsets indicating the beginning
+    :attr List[RelationEntity] entities: (optional) An array of extracted entities.
+    :attr List[int] location: (optional) Character offsets indicating the beginning
           and end of the mention in the analyzed text.
     :attr str text: (optional) Text that corresponds to the argument.
     """
 
-    def __init__(self, *, entities=None, location=None, text=None):
+    def __init__(self,
+                 *,
+                 entities: List['RelationEntity'] = None,
+                 location: List[int] = None,
+                 text: str = None) -> None:
         """
         Initialize a RelationArgument object.
 
-        :param list[RelationEntity] entities: (optional) An array of extracted
+        :param List[RelationEntity] entities: (optional) An array of extracted
                entities.
-        :param list[int] location: (optional) Character offsets indicating the
+        :param List[int] location: (optional) Character offsets indicating the
                beginning and end of the mention in the analyzed text.
         :param str text: (optional) Text that corresponds to the argument.
         """
@@ -2550,7 +2824,7 @@ class RelationArgument():
         self.text = text
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'RelationArgument':
         """Initialize a RelationArgument object from a json dictionary."""
         args = {}
         valid_keys = ['entities', 'location', 'text']
@@ -2569,7 +2843,12 @@ class RelationArgument():
             args['text'] = _dict.get('text')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RelationArgument object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'entities') and self.entities is not None:
@@ -2580,17 +2859,21 @@ class RelationArgument():
             _dict['text'] = self.text
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this RelationArgument object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'RelationArgument') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'RelationArgument') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2603,7 +2886,7 @@ class RelationEntity():
     :attr str type: (optional) Entity type.
     """
 
-    def __init__(self, *, text=None, type=None):
+    def __init__(self, *, text: str = None, type: str = None) -> None:
         """
         Initialize a RelationEntity object.
 
@@ -2614,7 +2897,7 @@ class RelationEntity():
         self.type = type
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'RelationEntity':
         """Initialize a RelationEntity object from a json dictionary."""
         args = {}
         valid_keys = ['text', 'type']
@@ -2629,7 +2912,12 @@ class RelationEntity():
             args['type'] = _dict.get('type')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RelationEntity object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
@@ -2638,17 +2926,21 @@ class RelationEntity():
             _dict['type'] = self.type
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this RelationEntity object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'RelationEntity') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'RelationEntity') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2667,7 +2959,7 @@ class RelationsOptions():
           ID to override the default model.
     """
 
-    def __init__(self, *, model=None):
+    def __init__(self, *, model: str = None) -> None:
         """
         Initialize a RelationsOptions object.
 
@@ -2678,7 +2970,7 @@ class RelationsOptions():
         self.model = model
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'RelationsOptions':
         """Initialize a RelationsOptions object from a json dictionary."""
         args = {}
         valid_keys = ['model']
@@ -2691,24 +2983,33 @@ class RelationsOptions():
             args['model'] = _dict.get('model')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RelationsOptions object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'model') and self.model is not None:
             _dict['model'] = self.model
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this RelationsOptions object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'RelationsOptions') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'RelationsOptions') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2721,11 +3022,16 @@ class RelationsResult():
           indicate greater confidence.
     :attr str sentence: (optional) The sentence that contains the relation.
     :attr str type: (optional) The type of the relation.
-    :attr list[RelationArgument] arguments: (optional) Entity mentions that are
+    :attr List[RelationArgument] arguments: (optional) Entity mentions that are
           involved in the relation.
     """
 
-    def __init__(self, *, score=None, sentence=None, type=None, arguments=None):
+    def __init__(self,
+                 *,
+                 score: float = None,
+                 sentence: str = None,
+                 type: str = None,
+                 arguments: List['RelationArgument'] = None) -> None:
         """
         Initialize a RelationsResult object.
 
@@ -2733,7 +3039,7 @@ class RelationsResult():
                values indicate greater confidence.
         :param str sentence: (optional) The sentence that contains the relation.
         :param str type: (optional) The type of the relation.
-        :param list[RelationArgument] arguments: (optional) Entity mentions that
+        :param List[RelationArgument] arguments: (optional) Entity mentions that
                are involved in the relation.
         """
         self.score = score
@@ -2742,7 +3048,7 @@ class RelationsResult():
         self.arguments = arguments
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'RelationsResult':
         """Initialize a RelationsResult object from a json dictionary."""
         args = {}
         valid_keys = ['score', 'sentence', 'type', 'arguments']
@@ -2763,7 +3069,12 @@ class RelationsResult():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RelationsResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'score') and self.score is not None:
@@ -2776,17 +3087,21 @@ class RelationsResult():
             _dict['arguments'] = [x._to_dict() for x in self.arguments]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this RelationsResult object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'RelationsResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'RelationsResult') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2799,7 +3114,7 @@ class SemanticRolesEntity():
     :attr str text: (optional) The entity text.
     """
 
-    def __init__(self, *, type=None, text=None):
+    def __init__(self, *, type: str = None, text: str = None) -> None:
         """
         Initialize a SemanticRolesEntity object.
 
@@ -2810,7 +3125,7 @@ class SemanticRolesEntity():
         self.text = text
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'SemanticRolesEntity':
         """Initialize a SemanticRolesEntity object from a json dictionary."""
         args = {}
         valid_keys = ['type', 'text']
@@ -2825,7 +3140,12 @@ class SemanticRolesEntity():
             args['text'] = _dict.get('text')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SemanticRolesEntity object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'type') and self.type is not None:
@@ -2834,17 +3154,21 @@ class SemanticRolesEntity():
             _dict['text'] = self.text
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this SemanticRolesEntity object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'SemanticRolesEntity') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'SemanticRolesEntity') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2856,7 +3180,7 @@ class SemanticRolesKeyword():
     :attr str text: (optional) The keyword text.
     """
 
-    def __init__(self, *, text=None):
+    def __init__(self, *, text: str = None) -> None:
         """
         Initialize a SemanticRolesKeyword object.
 
@@ -2865,7 +3189,7 @@ class SemanticRolesKeyword():
         self.text = text
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'SemanticRolesKeyword':
         """Initialize a SemanticRolesKeyword object from a json dictionary."""
         args = {}
         valid_keys = ['text']
@@ -2878,24 +3202,33 @@ class SemanticRolesKeyword():
             args['text'] = _dict.get('text')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SemanticRolesKeyword object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this SemanticRolesKeyword object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'SemanticRolesKeyword') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'SemanticRolesKeyword') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2912,7 +3245,11 @@ class SemanticRolesOptions():
           for subjects and objects.
     """
 
-    def __init__(self, *, limit=None, keywords=None, entities=None):
+    def __init__(self,
+                 *,
+                 limit: int = None,
+                 keywords: bool = None,
+                 entities: bool = None) -> None:
         """
         Initialize a SemanticRolesOptions object.
 
@@ -2928,7 +3265,7 @@ class SemanticRolesOptions():
         self.entities = entities
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'SemanticRolesOptions':
         """Initialize a SemanticRolesOptions object from a json dictionary."""
         args = {}
         valid_keys = ['limit', 'keywords', 'entities']
@@ -2945,7 +3282,12 @@ class SemanticRolesOptions():
             args['entities'] = _dict.get('entities')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SemanticRolesOptions object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'limit') and self.limit is not None:
@@ -2956,17 +3298,21 @@ class SemanticRolesOptions():
             _dict['entities'] = self.entities
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this SemanticRolesOptions object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'SemanticRolesOptions') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'SemanticRolesOptions') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2985,8 +3331,12 @@ class SemanticRolesResult():
           sentence.
     """
 
-    def __init__(self, *, sentence=None, subject=None, action=None,
-                 object=None):
+    def __init__(self,
+                 *,
+                 sentence: str = None,
+                 subject: 'SemanticRolesResultSubject' = None,
+                 action: 'SemanticRolesResultAction' = None,
+                 object: 'SemanticRolesResultObject' = None) -> None:
         """
         Initialize a SemanticRolesResult object.
 
@@ -3005,7 +3355,7 @@ class SemanticRolesResult():
         self.object = object
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'SemanticRolesResult':
         """Initialize a SemanticRolesResult object from a json dictionary."""
         args = {}
         valid_keys = ['sentence', 'subject', 'action', 'object']
@@ -3027,7 +3377,12 @@ class SemanticRolesResult():
                 _dict.get('object'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SemanticRolesResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'sentence') and self.sentence is not None:
@@ -3040,17 +3395,21 @@ class SemanticRolesResult():
             _dict['object'] = self.object._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this SemanticRolesResult object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'SemanticRolesResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'SemanticRolesResult') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3064,7 +3423,11 @@ class SemanticRolesResultAction():
     :attr SemanticRolesVerb verb: (optional)
     """
 
-    def __init__(self, *, text=None, normalized=None, verb=None):
+    def __init__(self,
+                 *,
+                 text: str = None,
+                 normalized: str = None,
+                 verb: 'SemanticRolesVerb' = None) -> None:
         """
         Initialize a SemanticRolesResultAction object.
 
@@ -3077,7 +3440,7 @@ class SemanticRolesResultAction():
         self.verb = verb
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'SemanticRolesResultAction':
         """Initialize a SemanticRolesResultAction object from a json dictionary."""
         args = {}
         valid_keys = ['text', 'normalized', 'verb']
@@ -3094,7 +3457,12 @@ class SemanticRolesResultAction():
             args['verb'] = SemanticRolesVerb._from_dict(_dict.get('verb'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SemanticRolesResultAction object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
@@ -3105,17 +3473,21 @@ class SemanticRolesResultAction():
             _dict['verb'] = self.verb._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this SemanticRolesResultAction object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'SemanticRolesResultAction') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'SemanticRolesResultAction') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3125,23 +3497,26 @@ class SemanticRolesResultObject():
     The extracted object from the sentence.
 
     :attr str text: (optional) Object text.
-    :attr list[SemanticRolesKeyword] keywords: (optional) An array of extracted
+    :attr List[SemanticRolesKeyword] keywords: (optional) An array of extracted
           keywords.
     """
 
-    def __init__(self, *, text=None, keywords=None):
+    def __init__(self,
+                 *,
+                 text: str = None,
+                 keywords: List['SemanticRolesKeyword'] = None) -> None:
         """
         Initialize a SemanticRolesResultObject object.
 
         :param str text: (optional) Object text.
-        :param list[SemanticRolesKeyword] keywords: (optional) An array of
+        :param List[SemanticRolesKeyword] keywords: (optional) An array of
                extracted keywords.
         """
         self.text = text
         self.keywords = keywords
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'SemanticRolesResultObject':
         """Initialize a SemanticRolesResultObject object from a json dictionary."""
         args = {}
         valid_keys = ['text', 'keywords']
@@ -3159,7 +3534,12 @@ class SemanticRolesResultObject():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SemanticRolesResultObject object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
@@ -3168,17 +3548,21 @@ class SemanticRolesResultObject():
             _dict['keywords'] = [x._to_dict() for x in self.keywords]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this SemanticRolesResultObject object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'SemanticRolesResultObject') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'SemanticRolesResultObject') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3188,20 +3572,24 @@ class SemanticRolesResultSubject():
     The extracted subject from the sentence.
 
     :attr str text: (optional) Text that corresponds to the subject role.
-    :attr list[SemanticRolesEntity] entities: (optional) An array of extracted
+    :attr List[SemanticRolesEntity] entities: (optional) An array of extracted
           entities.
-    :attr list[SemanticRolesKeyword] keywords: (optional) An array of extracted
+    :attr List[SemanticRolesKeyword] keywords: (optional) An array of extracted
           keywords.
     """
 
-    def __init__(self, *, text=None, entities=None, keywords=None):
+    def __init__(self,
+                 *,
+                 text: str = None,
+                 entities: List['SemanticRolesEntity'] = None,
+                 keywords: List['SemanticRolesKeyword'] = None) -> None:
         """
         Initialize a SemanticRolesResultSubject object.
 
         :param str text: (optional) Text that corresponds to the subject role.
-        :param list[SemanticRolesEntity] entities: (optional) An array of extracted
+        :param List[SemanticRolesEntity] entities: (optional) An array of extracted
                entities.
-        :param list[SemanticRolesKeyword] keywords: (optional) An array of
+        :param List[SemanticRolesKeyword] keywords: (optional) An array of
                extracted keywords.
         """
         self.text = text
@@ -3209,7 +3597,7 @@ class SemanticRolesResultSubject():
         self.keywords = keywords
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'SemanticRolesResultSubject':
         """Initialize a SemanticRolesResultSubject object from a json dictionary."""
         args = {}
         valid_keys = ['text', 'entities', 'keywords']
@@ -3232,7 +3620,12 @@ class SemanticRolesResultSubject():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SemanticRolesResultSubject object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
@@ -3243,17 +3636,21 @@ class SemanticRolesResultSubject():
             _dict['keywords'] = [x._to_dict() for x in self.keywords]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this SemanticRolesResultSubject object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'SemanticRolesResultSubject') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'SemanticRolesResultSubject') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3266,7 +3663,7 @@ class SemanticRolesVerb():
     :attr str tense: (optional) Verb tense.
     """
 
-    def __init__(self, *, text=None, tense=None):
+    def __init__(self, *, text: str = None, tense: str = None) -> None:
         """
         Initialize a SemanticRolesVerb object.
 
@@ -3277,7 +3674,7 @@ class SemanticRolesVerb():
         self.tense = tense
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'SemanticRolesVerb':
         """Initialize a SemanticRolesVerb object from a json dictionary."""
         args = {}
         valid_keys = ['text', 'tense']
@@ -3292,7 +3689,12 @@ class SemanticRolesVerb():
             args['tense'] = _dict.get('tense')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SemanticRolesVerb object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
@@ -3301,17 +3703,21 @@ class SemanticRolesVerb():
             _dict['tense'] = self.tense
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this SemanticRolesVerb object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'SemanticRolesVerb') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'SemanticRolesVerb') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3321,23 +3727,23 @@ class SentenceResult():
     SentenceResult.
 
     :attr str text: (optional) The sentence.
-    :attr list[int] location: (optional) Character offsets indicating the beginning
+    :attr List[int] location: (optional) Character offsets indicating the beginning
           and end of the sentence in the analyzed text.
     """
 
-    def __init__(self, *, text=None, location=None):
+    def __init__(self, *, text: str = None, location: List[int] = None) -> None:
         """
         Initialize a SentenceResult object.
 
         :param str text: (optional) The sentence.
-        :param list[int] location: (optional) Character offsets indicating the
+        :param List[int] location: (optional) Character offsets indicating the
                beginning and end of the sentence in the analyzed text.
         """
         self.text = text
         self.location = location
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'SentenceResult':
         """Initialize a SentenceResult object from a json dictionary."""
         args = {}
         valid_keys = ['text', 'location']
@@ -3352,7 +3758,12 @@ class SentenceResult():
             args['location'] = _dict.get('location')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SentenceResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
@@ -3361,17 +3772,21 @@ class SentenceResult():
             _dict['location'] = self.location
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this SentenceResult object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'SentenceResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'SentenceResult') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3386,24 +3801,25 @@ class SentimentOptions():
 
     :attr bool document: (optional) Set this to `false` to hide document-level
           sentiment results.
-    :attr list[str] targets: (optional) Sentiment results will be returned for each
+    :attr List[str] targets: (optional) Sentiment results will be returned for each
           target string that is found in the document.
     """
 
-    def __init__(self, *, document=None, targets=None):
+    def __init__(self, *, document: bool = None,
+                 targets: List[str] = None) -> None:
         """
         Initialize a SentimentOptions object.
 
         :param bool document: (optional) Set this to `false` to hide document-level
                sentiment results.
-        :param list[str] targets: (optional) Sentiment results will be returned for
+        :param List[str] targets: (optional) Sentiment results will be returned for
                each target string that is found in the document.
         """
         self.document = document
         self.targets = targets
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'SentimentOptions':
         """Initialize a SentimentOptions object from a json dictionary."""
         args = {}
         valid_keys = ['document', 'targets']
@@ -3418,7 +3834,12 @@ class SentimentOptions():
             args['targets'] = _dict.get('targets')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SentimentOptions object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'document') and self.document is not None:
@@ -3427,17 +3848,21 @@ class SentimentOptions():
             _dict['targets'] = self.targets
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this SentimentOptions object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'SentimentOptions') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'SentimentOptions') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3448,24 +3873,27 @@ class SentimentResult():
 
     :attr DocumentSentimentResults document: (optional) The document level
           sentiment.
-    :attr list[TargetedSentimentResults] targets: (optional) The targeted sentiment
+    :attr List[TargetedSentimentResults] targets: (optional) The targeted sentiment
           to analyze.
     """
 
-    def __init__(self, *, document=None, targets=None):
+    def __init__(self,
+                 *,
+                 document: 'DocumentSentimentResults' = None,
+                 targets: List['TargetedSentimentResults'] = None) -> None:
         """
         Initialize a SentimentResult object.
 
         :param DocumentSentimentResults document: (optional) The document level
                sentiment.
-        :param list[TargetedSentimentResults] targets: (optional) The targeted
+        :param List[TargetedSentimentResults] targets: (optional) The targeted
                sentiment to analyze.
         """
         self.document = document
         self.targets = targets
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'SentimentResult':
         """Initialize a SentimentResult object from a json dictionary."""
         args = {}
         valid_keys = ['document', 'targets']
@@ -3484,7 +3912,12 @@ class SentimentResult():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SentimentResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'document') and self.document is not None:
@@ -3493,17 +3926,21 @@ class SentimentResult():
             _dict['targets'] = [x._to_dict() for x in self.targets]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this SentimentResult object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'SentimentResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'SentimentResult') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3517,7 +3954,10 @@ class SyntaxOptions():
           information.
     """
 
-    def __init__(self, *, tokens=None, sentences=None):
+    def __init__(self,
+                 *,
+                 tokens: 'SyntaxOptionsTokens' = None,
+                 sentences: bool = None) -> None:
         """
         Initialize a SyntaxOptions object.
 
@@ -3529,7 +3969,7 @@ class SyntaxOptions():
         self.sentences = sentences
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'SyntaxOptions':
         """Initialize a SyntaxOptions object from a json dictionary."""
         args = {}
         valid_keys = ['tokens', 'sentences']
@@ -3544,7 +3984,12 @@ class SyntaxOptions():
             args['sentences'] = _dict.get('sentences')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SyntaxOptions object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'tokens') and self.tokens is not None:
@@ -3553,17 +3998,21 @@ class SyntaxOptions():
             _dict['sentences'] = self.sentences
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this SyntaxOptions object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'SyntaxOptions') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'SyntaxOptions') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3578,7 +4027,8 @@ class SyntaxOptionsTokens():
           speech for each token.
     """
 
-    def __init__(self, *, lemma=None, part_of_speech=None):
+    def __init__(self, *, lemma: bool = None,
+                 part_of_speech: bool = None) -> None:
         """
         Initialize a SyntaxOptionsTokens object.
 
@@ -3591,7 +4041,7 @@ class SyntaxOptionsTokens():
         self.part_of_speech = part_of_speech
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'SyntaxOptionsTokens':
         """Initialize a SyntaxOptionsTokens object from a json dictionary."""
         args = {}
         valid_keys = ['lemma', 'part_of_speech']
@@ -3606,7 +4056,12 @@ class SyntaxOptionsTokens():
             args['part_of_speech'] = _dict.get('part_of_speech')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SyntaxOptionsTokens object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'lemma') and self.lemma is not None:
@@ -3615,17 +4070,21 @@ class SyntaxOptionsTokens():
             _dict['part_of_speech'] = self.part_of_speech
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this SyntaxOptionsTokens object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'SyntaxOptionsTokens') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'SyntaxOptionsTokens') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3634,22 +4093,25 @@ class SyntaxResult():
     """
     Tokens and sentences returned from syntax analysis.
 
-    :attr list[TokenResult] tokens: (optional)
-    :attr list[SentenceResult] sentences: (optional)
+    :attr List[TokenResult] tokens: (optional)
+    :attr List[SentenceResult] sentences: (optional)
     """
 
-    def __init__(self, *, tokens=None, sentences=None):
+    def __init__(self,
+                 *,
+                 tokens: List['TokenResult'] = None,
+                 sentences: List['SentenceResult'] = None) -> None:
         """
         Initialize a SyntaxResult object.
 
-        :param list[TokenResult] tokens: (optional)
-        :param list[SentenceResult] sentences: (optional)
+        :param List[TokenResult] tokens: (optional)
+        :param List[SentenceResult] sentences: (optional)
         """
         self.tokens = tokens
         self.sentences = sentences
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'SyntaxResult':
         """Initialize a SyntaxResult object from a json dictionary."""
         args = {}
         valid_keys = ['tokens', 'sentences']
@@ -3668,7 +4130,12 @@ class SyntaxResult():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SyntaxResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'tokens') and self.tokens is not None:
@@ -3677,17 +4144,21 @@ class SyntaxResult():
             _dict['sentences'] = [x._to_dict() for x in self.sentences]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this SyntaxResult object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'SyntaxResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'SyntaxResult') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3700,7 +4171,8 @@ class TargetedEmotionResults():
     :attr EmotionScores emotion: (optional) The emotion results for the target.
     """
 
-    def __init__(self, *, text=None, emotion=None):
+    def __init__(self, *, text: str = None,
+                 emotion: 'EmotionScores' = None) -> None:
         """
         Initialize a TargetedEmotionResults object.
 
@@ -3712,7 +4184,7 @@ class TargetedEmotionResults():
         self.emotion = emotion
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'TargetedEmotionResults':
         """Initialize a TargetedEmotionResults object from a json dictionary."""
         args = {}
         valid_keys = ['text', 'emotion']
@@ -3727,7 +4199,12 @@ class TargetedEmotionResults():
             args['emotion'] = EmotionScores._from_dict(_dict.get('emotion'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TargetedEmotionResults object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
@@ -3736,17 +4213,21 @@ class TargetedEmotionResults():
             _dict['emotion'] = self.emotion._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this TargetedEmotionResults object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'TargetedEmotionResults') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'TargetedEmotionResults') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3760,7 +4241,7 @@ class TargetedSentimentResults():
           (positive).
     """
 
-    def __init__(self, *, text=None, score=None):
+    def __init__(self, *, text: str = None, score: float = None) -> None:
         """
         Initialize a TargetedSentimentResults object.
 
@@ -3772,7 +4253,7 @@ class TargetedSentimentResults():
         self.score = score
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'TargetedSentimentResults':
         """Initialize a TargetedSentimentResults object from a json dictionary."""
         args = {}
         valid_keys = ['text', 'score']
@@ -3787,7 +4268,12 @@ class TargetedSentimentResults():
             args['score'] = _dict.get('score')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TargetedSentimentResults object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
@@ -3796,17 +4282,21 @@ class TargetedSentimentResults():
             _dict['score'] = self.score
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this TargetedSentimentResults object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'TargetedSentimentResults') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'TargetedSentimentResults') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3819,7 +4309,7 @@ class TokenResult():
     :attr str part_of_speech: (optional) The part of speech of the token. For
           descriptions of the values, see [Universal Dependencies POS
           tags](https://universaldependencies.org/u/pos/).
-    :attr list[int] location: (optional) Character offsets indicating the beginning
+    :attr List[int] location: (optional) Character offsets indicating the beginning
           and end of the token in the analyzed text.
     :attr str lemma: (optional) The
           [lemma](https://wikipedia.org/wiki/Lemma_%28morphology%29) of the token.
@@ -3827,10 +4317,10 @@ class TokenResult():
 
     def __init__(self,
                  *,
-                 text=None,
-                 part_of_speech=None,
-                 location=None,
-                 lemma=None):
+                 text: str = None,
+                 part_of_speech: str = None,
+                 location: List[int] = None,
+                 lemma: str = None) -> None:
         """
         Initialize a TokenResult object.
 
@@ -3838,7 +4328,7 @@ class TokenResult():
         :param str part_of_speech: (optional) The part of speech of the token. For
                descriptions of the values, see [Universal Dependencies POS
                tags](https://universaldependencies.org/u/pos/).
-        :param list[int] location: (optional) Character offsets indicating the
+        :param List[int] location: (optional) Character offsets indicating the
                beginning and end of the token in the analyzed text.
         :param str lemma: (optional) The
                [lemma](https://wikipedia.org/wiki/Lemma_%28morphology%29) of the token.
@@ -3849,7 +4339,7 @@ class TokenResult():
         self.lemma = lemma
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'TokenResult':
         """Initialize a TokenResult object from a json dictionary."""
         args = {}
         valid_keys = ['text', 'part_of_speech', 'location', 'lemma']
@@ -3868,7 +4358,12 @@ class TokenResult():
             args['lemma'] = _dict.get('lemma')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TokenResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
@@ -3881,17 +4376,21 @@ class TokenResult():
             _dict['lemma'] = self.lemma
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this TokenResult object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'TokenResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'TokenResult') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 

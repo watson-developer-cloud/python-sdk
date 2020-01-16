@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019.
+# (C) Copyright IBM Corp. 2019, 2020.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,13 +22,18 @@ eliminate the need for manual filtering of results.
 """
 
 import json
+from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
 from .common import get_sdk_headers
+from datetime import datetime
 from enum import Enum
 from ibm_cloud_sdk_core import BaseService
 from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
 from ibm_cloud_sdk_core import get_authenticator_from_environment
-from ibm_cloud_sdk_core import read_external_sources
 from os.path import basename
+from typing import BinaryIO
+from typing import Dict
+from typing import List
+import sys
 
 ##############################################################################
 # Service
@@ -38,13 +43,15 @@ from os.path import basename
 class DiscoveryV2(BaseService):
     """The Discovery V2 service."""
 
-    default_service_url = None
+    DEFAULT_SERVICE_URL = None
+    DEFAULT_SERVICE_NAME = 'discovery'
 
     def __init__(
             self,
-            version,
-            authenticator=None,
-    ):
+            version: str,
+            authenticator: Authenticator = None,
+            service_name: str = DEFAULT_SERVICE_NAME,
+    ) -> None:
         """
         Construct a new client for the Discovery service.
 
@@ -63,30 +70,20 @@ class DiscoveryV2(BaseService):
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
         """
-
-        service_url = self.default_service_url
-        disable_ssl_verification = False
-
-        config = read_external_sources('discovery')
-        if config.get('URL'):
-            service_url = config.get('URL')
-        if config.get('DISABLE_SSL'):
-            disable_ssl_verification = config.get('DISABLE_SSL')
-
         if not authenticator:
-            authenticator = get_authenticator_from_environment('discovery')
-
+            authenticator = get_authenticator_from_environment(service_name)
         BaseService.__init__(self,
-                             service_url=service_url,
+                             service_url=self.DEFAULT_SERVICE_URL,
                              authenticator=authenticator,
-                             disable_ssl_verification=disable_ssl_verification)
+                             disable_ssl_verification=False)
         self.version = version
+        self.configure_service(service_name)
 
     #########################
     # Collections
     #########################
 
-    def list_collections(self, project_id, **kwargs):
+    def list_collections(self, project_id: str, **kwargs) -> 'DetailedResponse':
         """
         List collections.
 
@@ -105,7 +102,9 @@ class DiscoveryV2(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V2', 'list_collections')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='list_collections')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
@@ -115,8 +114,8 @@ class DiscoveryV2(BaseService):
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=True)
+                                       params=params)
+
         response = self.send(request)
         return response
 
@@ -125,23 +124,23 @@ class DiscoveryV2(BaseService):
     #########################
 
     def query(self,
-              project_id,
+              project_id: str,
               *,
-              collection_ids=None,
-              filter=None,
-              query=None,
-              natural_language_query=None,
-              aggregation=None,
-              count=None,
-              return_=None,
-              offset=None,
-              sort=None,
-              highlight=None,
-              spelling_suggestions=None,
-              table_results=None,
-              suggested_refinements=None,
-              passages=None,
-              **kwargs):
+              collection_ids: List[str] = None,
+              filter: str = None,
+              query: str = None,
+              natural_language_query: str = None,
+              aggregation: str = None,
+              count: int = None,
+              return_: List[str] = None,
+              offset: int = None,
+              sort: str = None,
+              highlight: bool = None,
+              spelling_suggestions: bool = None,
+              table_results: 'QueryLargeTableResults' = None,
+              suggested_refinements: 'QueryLargeSuggestedRefinements' = None,
+              passages: 'QueryLargePassages' = None,
+              **kwargs) -> 'DetailedResponse':
         """
         Query a project.
 
@@ -150,7 +149,7 @@ class DiscoveryV2(BaseService):
 
         :param str project_id: The ID of the project. This information can be found
                from the deploy page of the Discovery administrative tooling.
-        :param list[str] collection_ids: (optional) A comma-separated list of
+        :param List[str] collection_ids: (optional) A comma-separated list of
                collection IDs to be queried against.
         :param str filter: (optional) A cacheable query that excludes documents
                that don't mention the query content. Filter searches are better for
@@ -167,7 +166,7 @@ class DiscoveryV2(BaseService):
                applications to build lists, tables, and time series. For a full list of
                possible aggregations, see the Query reference.
         :param int count: (optional) Number of results to return.
-        :param list[str] return_: (optional) A list of the fields in the document
+        :param List[str] return_: (optional) A list of the fields in the document
                hierarchy to return. If this parameter not specified, then all top-level
                fields are returned.
         :param int offset: (optional) The number of query results to skip at the
@@ -209,7 +208,9 @@ class DiscoveryV2(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V2', 'query')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='query')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
@@ -237,19 +238,19 @@ class DiscoveryV2(BaseService):
                                        url=url,
                                        headers=headers,
                                        params=params,
-                                       data=data,
-                                       accept_json=True)
+                                       data=data)
+
         response = self.send(request)
         return response
 
     def get_autocompletion(self,
-                           project_id,
-                           prefix,
+                           project_id: str,
+                           prefix: str,
                            *,
-                           collection_ids=None,
-                           field=None,
-                           count=None,
-                           **kwargs):
+                           collection_ids: List[str] = None,
+                           field: str = None,
+                           count: int = None,
+                           **kwargs) -> 'DetailedResponse':
         """
         Get Autocomplete Suggestions.
 
@@ -260,7 +261,7 @@ class DiscoveryV2(BaseService):
         :param str prefix: The prefix to use for autocompletion. For example, the
                prefix `Ho` could autocomplete to `Hot`, `Housing`, or `How do I upgrade`.
                Possible completions are.
-        :param list[str] collection_ids: (optional) Comma separated list of the
+        :param List[str] collection_ids: (optional) Comma separated list of the
                collection IDs. If this parameter is not specified, all collections in the
                project are used.
         :param str field: (optional) The field in the result documents that
@@ -280,7 +281,9 @@ class DiscoveryV2(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V2', 'get_autocompletion')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='get_autocompletion')
         headers.update(sdk_headers)
 
         params = {
@@ -296,20 +299,20 @@ class DiscoveryV2(BaseService):
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=True)
+                                       params=params)
+
         response = self.send(request)
         return response
 
     def query_notices(self,
-                      project_id,
+                      project_id: str,
                       *,
-                      filter=None,
-                      query=None,
-                      natural_language_query=None,
-                      count=None,
-                      offset=None,
-                      **kwargs):
+                      filter: str = None,
+                      query: str = None,
+                      natural_language_query: str = None,
+                      count: int = None,
+                      offset: int = None,
+                      **kwargs) -> 'DetailedResponse':
         """
         Query system notices.
 
@@ -345,7 +348,9 @@ class DiscoveryV2(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V2', 'query_notices')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='query_notices')
         headers.update(sdk_headers)
 
         params = {
@@ -362,12 +367,16 @@ class DiscoveryV2(BaseService):
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=True)
+                                       params=params)
+
         response = self.send(request)
         return response
 
-    def list_fields(self, project_id, *, collection_ids=None, **kwargs):
+    def list_fields(self,
+                    project_id: str,
+                    *,
+                    collection_ids: List[str] = None,
+                    **kwargs) -> 'DetailedResponse':
         """
         List fields.
 
@@ -376,7 +385,7 @@ class DiscoveryV2(BaseService):
 
         :param str project_id: The ID of the project. This information can be found
                from the deploy page of the Discovery administrative tooling.
-        :param list[str] collection_ids: (optional) Comma separated list of the
+        :param List[str] collection_ids: (optional) Comma separated list of the
                collection IDs. If this parameter is not specified, all collections in the
                project are used.
         :param dict headers: A `dict` containing the request headers
@@ -390,7 +399,9 @@ class DiscoveryV2(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V2', 'list_fields')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='list_fields')
         headers.update(sdk_headers)
 
         params = {
@@ -403,8 +414,8 @@ class DiscoveryV2(BaseService):
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=True)
+                                       params=params)
+
         response = self.send(request)
         return response
 
@@ -412,7 +423,8 @@ class DiscoveryV2(BaseService):
     # Component settings
     #########################
 
-    def get_component_settings(self, project_id, **kwargs):
+    def get_component_settings(self, project_id: str,
+                               **kwargs) -> 'DetailedResponse':
         """
         Configuration settings for components.
 
@@ -431,8 +443,9 @@ class DiscoveryV2(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V2',
-                                      'get_component_settings')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='get_component_settings')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
@@ -442,8 +455,8 @@ class DiscoveryV2(BaseService):
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=True)
+                                       params=params)
+
         response = self.send(request)
         return response
 
@@ -452,15 +465,15 @@ class DiscoveryV2(BaseService):
     #########################
 
     def add_document(self,
-                     project_id,
-                     collection_id,
+                     project_id: str,
+                     collection_id: str,
                      *,
-                     file=None,
-                     filename=None,
-                     file_content_type=None,
-                     metadata=None,
-                     x_watson_discovery_force=None,
-                     **kwargs):
+                     file: BinaryIO = None,
+                     filename: str = None,
+                     file_content_type: str = None,
+                     metadata: str = None,
+                     x_watson_discovery_force: bool = None,
+                     **kwargs) -> 'DetailedResponse':
         """
         Add a document.
 
@@ -485,15 +498,15 @@ class DiscoveryV2(BaseService):
          **Note:** Documents can be added with a specific **document_id** by using the
         **_/v2/projects/{project_id}/collections/{collection_id}/documents** method.
         **Note:** This operation only works on collections created to accept direct file
-        uploads. It cannot be used to modify a collection that conects to an external
+        uploads. It cannot be used to modify a collection that connects to an external
         source such as Microsoft SharePoint.
 
         :param str project_id: The ID of the project. This information can be found
                from the deploy page of the Discovery administrative tooling.
         :param str collection_id: The ID of the collection.
-        :param file file: (optional) The content of the document to ingest. The
+        :param TextIO file: (optional) The content of the document to ingest. The
                maximum supported file size when adding a file to a collection is 50
-               megabytes, the maximum supported file size when testing a confiruration is
+               megabytes, the maximum supported file size when testing a configuration is
                1 megabyte. Files larger than the supported size are rejected.
         :param str filename: (optional) The filename for file.
         :param str file_content_type: (optional) The content type of file.
@@ -518,7 +531,9 @@ class DiscoveryV2(BaseService):
         headers = {'X-Watson-Discovery-Force': x_watson_discovery_force}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V2', 'add_document')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='add_document')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
@@ -532,6 +547,7 @@ class DiscoveryV2(BaseService):
             form_data.append(('file', (filename, file, file_content_type or
                                        'application/octet-stream')))
         if metadata:
+            metadata = str(metadata)
             form_data.append(('metadata', (None, metadata, 'text/plain')))
 
         url = '/v2/projects/{0}/collections/{1}/documents'.format(
@@ -540,22 +556,22 @@ class DiscoveryV2(BaseService):
                                        url=url,
                                        headers=headers,
                                        params=params,
-                                       files=form_data,
-                                       accept_json=True)
+                                       files=form_data)
+
         response = self.send(request)
         return response
 
     def update_document(self,
-                        project_id,
-                        collection_id,
-                        document_id,
+                        project_id: str,
+                        collection_id: str,
+                        document_id: str,
                         *,
-                        file=None,
-                        filename=None,
-                        file_content_type=None,
-                        metadata=None,
-                        x_watson_discovery_force=None,
-                        **kwargs):
+                        file: BinaryIO = None,
+                        filename: str = None,
+                        file_content_type: str = None,
+                        metadata: str = None,
+                        x_watson_discovery_force: bool = None,
+                        **kwargs) -> 'DetailedResponse':
         """
         Update a document.
 
@@ -566,16 +582,16 @@ class DiscoveryV2(BaseService):
         **Note:** When uploading a new document with this method it automatically replaces
         any document stored with the same **document_id** if it exists.
         **Note:** This operation only works on collections created to accept direct file
-        uploads. It cannot be used to modify a collection that conects to an external
+        uploads. It cannot be used to modify a collection that connects to an external
         source such as Microsoft SharePoint.
 
         :param str project_id: The ID of the project. This information can be found
                from the deploy page of the Discovery administrative tooling.
         :param str collection_id: The ID of the collection.
         :param str document_id: The ID of the document.
-        :param file file: (optional) The content of the document to ingest. The
+        :param TextIO file: (optional) The content of the document to ingest. The
                maximum supported file size when adding a file to a collection is 50
-               megabytes, the maximum supported file size when testing a confiruration is
+               megabytes, the maximum supported file size when testing a configuration is
                1 megabyte. Files larger than the supported size are rejected.
         :param str filename: (optional) The filename for file.
         :param str file_content_type: (optional) The content type of file.
@@ -602,7 +618,9 @@ class DiscoveryV2(BaseService):
         headers = {'X-Watson-Discovery-Force': x_watson_discovery_force}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V2', 'update_document')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='update_document')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
@@ -616,6 +634,7 @@ class DiscoveryV2(BaseService):
             form_data.append(('file', (filename, file, file_content_type or
                                        'application/octet-stream')))
         if metadata:
+            metadata = str(metadata)
             form_data.append(('metadata', (None, metadata, 'text/plain')))
 
         url = '/v2/projects/{0}/collections/{1}/documents/{2}'.format(
@@ -624,18 +643,18 @@ class DiscoveryV2(BaseService):
                                        url=url,
                                        headers=headers,
                                        params=params,
-                                       files=form_data,
-                                       accept_json=True)
+                                       files=form_data)
+
         response = self.send(request)
         return response
 
     def delete_document(self,
-                        project_id,
-                        collection_id,
-                        document_id,
+                        project_id: str,
+                        collection_id: str,
+                        document_id: str,
                         *,
-                        x_watson_discovery_force=None,
-                        **kwargs):
+                        x_watson_discovery_force: bool = None,
+                        **kwargs) -> 'DetailedResponse':
         """
         Delete a document.
 
@@ -643,7 +662,7 @@ class DiscoveryV2(BaseService):
         success response is returned (HTTP status code `200`) with the status set to
         'deleted'.
         **Note:** This operation only works on collections created to accept direct file
-        uploads. It cannot be used to modify a collection that conects to an external
+        uploads. It cannot be used to modify a collection that connects to an external
         source such as Microsoft SharePoint.
 
         :param str project_id: The ID of the project. This information can be found
@@ -668,7 +687,9 @@ class DiscoveryV2(BaseService):
         headers = {'X-Watson-Discovery-Force': x_watson_discovery_force}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V2', 'delete_document')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='delete_document')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
@@ -678,8 +699,8 @@ class DiscoveryV2(BaseService):
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=True)
+                                       params=params)
+
         response = self.send(request)
         return response
 
@@ -687,7 +708,8 @@ class DiscoveryV2(BaseService):
     # Training data
     #########################
 
-    def list_training_queries(self, project_id, **kwargs):
+    def list_training_queries(self, project_id: str,
+                              **kwargs) -> 'DetailedResponse':
         """
         List training queries.
 
@@ -706,8 +728,9 @@ class DiscoveryV2(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V2',
-                                      'list_training_queries')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='list_training_queries')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
@@ -717,12 +740,13 @@ class DiscoveryV2(BaseService):
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=True)
+                                       params=params)
+
         response = self.send(request)
         return response
 
-    def delete_training_queries(self, project_id, **kwargs):
+    def delete_training_queries(self, project_id: str,
+                                **kwargs) -> 'DetailedResponse':
         """
         Delete training queries.
 
@@ -741,8 +765,9 @@ class DiscoveryV2(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V2',
-                                      'delete_training_queries')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='delete_training_queries')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
@@ -752,18 +777,18 @@ class DiscoveryV2(BaseService):
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=False)
+                                       params=params)
+
         response = self.send(request)
         return response
 
     def create_training_query(self,
-                              project_id,
-                              natural_language_query,
-                              examples,
+                              project_id: str,
+                              natural_language_query: str,
+                              examples: List['TrainingExample'],
                               *,
-                              filter=None,
-                              **kwargs):
+                              filter: str = None,
+                              **kwargs) -> 'DetailedResponse':
         """
         Create training query.
 
@@ -774,7 +799,7 @@ class DiscoveryV2(BaseService):
                from the deploy page of the Discovery administrative tooling.
         :param str natural_language_query: The natural text query for the training
                query.
-        :param list[TrainingExample] examples: Array of training examples.
+        :param List[TrainingExample] examples: Array of training examples.
         :param str filter: (optional) The filter used on the collection before the
                **natural_language_query** is applied.
         :param dict headers: A `dict` containing the request headers
@@ -784,13 +809,18 @@ class DiscoveryV2(BaseService):
 
         if project_id is None:
             raise ValueError('project_id must be provided')
+        if natural_language_query is None:
+            raise ValueError('natural_language_query must be provided')
+        if examples is None:
+            raise ValueError('examples must be provided')
         examples = [self._convert_model(x) for x in examples]
 
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V2',
-                                      'create_training_query')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='create_training_query')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
@@ -807,12 +837,13 @@ class DiscoveryV2(BaseService):
                                        url=url,
                                        headers=headers,
                                        params=params,
-                                       data=data,
-                                       accept_json=True)
+                                       data=data)
+
         response = self.send(request)
         return response
 
-    def get_training_query(self, project_id, query_id, **kwargs):
+    def get_training_query(self, project_id: str, query_id: str,
+                           **kwargs) -> 'DetailedResponse':
         """
         Get a training data query.
 
@@ -835,7 +866,9 @@ class DiscoveryV2(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V2', 'get_training_query')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='get_training_query')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
@@ -845,19 +878,19 @@ class DiscoveryV2(BaseService):
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=True)
+                                       params=params)
+
         response = self.send(request)
         return response
 
     def update_training_query(self,
-                              project_id,
-                              query_id,
-                              natural_language_query,
-                              examples,
+                              project_id: str,
+                              query_id: str,
+                              natural_language_query: str,
+                              examples: List['TrainingExample'],
                               *,
-                              filter=None,
-                              **kwargs):
+                              filter: str = None,
+                              **kwargs) -> 'DetailedResponse':
         """
         Update a training query.
 
@@ -868,7 +901,7 @@ class DiscoveryV2(BaseService):
         :param str query_id: The ID of the query used for training.
         :param str natural_language_query: The natural text query for the training
                query.
-        :param list[TrainingExample] examples: Array of training examples.
+        :param List[TrainingExample] examples: Array of training examples.
         :param str filter: (optional) The filter used on the collection before the
                **natural_language_query** is applied.
         :param dict headers: A `dict` containing the request headers
@@ -889,8 +922,9 @@ class DiscoveryV2(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('discovery', 'V2',
-                                      'update_training_query')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='update_training_query')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
@@ -907,8 +941,8 @@ class DiscoveryV2(BaseService):
                                        url=url,
                                        headers=headers,
                                        params=params,
-                                       data=data,
-                                       accept_json=True)
+                                       data=data)
+
         response = self.send(request)
         return response
 
@@ -954,7 +988,7 @@ class Collection():
     :attr str name: (optional) The name of the collection.
     """
 
-    def __init__(self, *, collection_id=None, name=None):
+    def __init__(self, *, collection_id: str = None, name: str = None) -> None:
         """
         Initialize a Collection object.
 
@@ -966,7 +1000,7 @@ class Collection():
         self.name = name
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Collection':
         """Initialize a Collection object from a json dictionary."""
         args = {}
         valid_keys = ['collection_id', 'name']
@@ -981,7 +1015,12 @@ class Collection():
             args['name'] = _dict.get('name')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Collection object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'collection_id') and self.collection_id is not None:
@@ -990,17 +1029,21 @@ class Collection():
             _dict['name'] = self.name
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Collection object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Collection') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Collection') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1009,21 +1052,21 @@ class Completions():
     """
     An object containing an array of autocompletion suggestions.
 
-    :attr list[str] completions: (optional) Array of autcomplete suggestion based on
+    :attr List[str] completions: (optional) Array of autcomplete suggestion based on
           the provided prefix.
     """
 
-    def __init__(self, *, completions=None):
+    def __init__(self, *, completions: List[str] = None) -> None:
         """
         Initialize a Completions object.
 
-        :param list[str] completions: (optional) Array of autcomplete suggestion
+        :param List[str] completions: (optional) Array of autcomplete suggestion
                based on the provided prefix.
         """
         self.completions = completions
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Completions':
         """Initialize a Completions object from a json dictionary."""
         args = {}
         valid_keys = ['completions']
@@ -1036,24 +1079,33 @@ class Completions():
             args['completions'] = _dict.get('completions')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Completions object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'completions') and self.completions is not None:
             _dict['completions'] = self.completions
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Completions object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Completions') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Completions') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1073,10 +1125,10 @@ class ComponentSettingsAggregation():
 
     def __init__(self,
                  *,
-                 name=None,
-                 label=None,
-                 multiple_selections_allowed=None,
-                 visualization_type=None):
+                 name: str = None,
+                 label: str = None,
+                 multiple_selections_allowed: bool = None,
+                 visualization_type: str = None) -> None:
         """
         Initialize a ComponentSettingsAggregation object.
 
@@ -1094,7 +1146,7 @@ class ComponentSettingsAggregation():
         self.visualization_type = visualization_type
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ComponentSettingsAggregation':
         """Initialize a ComponentSettingsAggregation object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -1116,7 +1168,12 @@ class ComponentSettingsAggregation():
             args['visualization_type'] = _dict.get('visualization_type')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ComponentSettingsAggregation object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'name') and self.name is not None:
@@ -1133,17 +1190,21 @@ class ComponentSettingsAggregation():
             _dict['visualization_type'] = self.visualization_type
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ComponentSettingsAggregation object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ComponentSettingsAggregation') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ComponentSettingsAggregation') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1165,7 +1226,10 @@ class ComponentSettingsFieldsShown():
     :attr ComponentSettingsFieldsShownTitle title: (optional) Title label.
     """
 
-    def __init__(self, *, body=None, title=None):
+    def __init__(self,
+                 *,
+                 body: 'ComponentSettingsFieldsShownBody' = None,
+                 title: 'ComponentSettingsFieldsShownTitle' = None) -> None:
         """
         Initialize a ComponentSettingsFieldsShown object.
 
@@ -1176,7 +1240,7 @@ class ComponentSettingsFieldsShown():
         self.title = title
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ComponentSettingsFieldsShown':
         """Initialize a ComponentSettingsFieldsShown object from a json dictionary."""
         args = {}
         valid_keys = ['body', 'title']
@@ -1193,7 +1257,12 @@ class ComponentSettingsFieldsShown():
                 _dict.get('title'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ComponentSettingsFieldsShown object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'body') and self.body is not None:
@@ -1202,17 +1271,21 @@ class ComponentSettingsFieldsShown():
             _dict['title'] = self.title._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ComponentSettingsFieldsShown object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ComponentSettingsFieldsShown') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ComponentSettingsFieldsShown') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1225,7 +1298,7 @@ class ComponentSettingsFieldsShownBody():
     :attr str field: (optional) Use a specific field as the title.
     """
 
-    def __init__(self, *, use_passage=None, field=None):
+    def __init__(self, *, use_passage: bool = None, field: str = None) -> None:
         """
         Initialize a ComponentSettingsFieldsShownBody object.
 
@@ -1236,7 +1309,7 @@ class ComponentSettingsFieldsShownBody():
         self.field = field
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ComponentSettingsFieldsShownBody':
         """Initialize a ComponentSettingsFieldsShownBody object from a json dictionary."""
         args = {}
         valid_keys = ['use_passage', 'field']
@@ -1251,7 +1324,12 @@ class ComponentSettingsFieldsShownBody():
             args['field'] = _dict.get('field')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ComponentSettingsFieldsShownBody object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'use_passage') and self.use_passage is not None:
@@ -1260,17 +1338,21 @@ class ComponentSettingsFieldsShownBody():
             _dict['field'] = self.field
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ComponentSettingsFieldsShownBody object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ComponentSettingsFieldsShownBody') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ComponentSettingsFieldsShownBody') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1282,7 +1364,7 @@ class ComponentSettingsFieldsShownTitle():
     :attr str field: (optional) Use a specific field as the title.
     """
 
-    def __init__(self, *, field=None):
+    def __init__(self, *, field: str = None) -> None:
         """
         Initialize a ComponentSettingsFieldsShownTitle object.
 
@@ -1291,7 +1373,7 @@ class ComponentSettingsFieldsShownTitle():
         self.field = field
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ComponentSettingsFieldsShownTitle':
         """Initialize a ComponentSettingsFieldsShownTitle object from a json dictionary."""
         args = {}
         valid_keys = ['field']
@@ -1304,24 +1386,33 @@ class ComponentSettingsFieldsShownTitle():
             args['field'] = _dict.get('field')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ComponentSettingsFieldsShownTitle object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'field') and self.field is not None:
             _dict['field'] = self.field
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ComponentSettingsFieldsShownTitle object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ComponentSettingsFieldsShownTitle') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ComponentSettingsFieldsShownTitle') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1336,17 +1427,18 @@ class ComponentSettingsResponse():
     :attr bool structured_search: (optional) Whether or not structured search is
           enabled.
     :attr int results_per_page: (optional) Number or results shown per page.
-    :attr list[ComponentSettingsAggregation] aggregations: (optional) a list of
+    :attr List[ComponentSettingsAggregation] aggregations: (optional) a list of
           component setting aggregations.
     """
 
     def __init__(self,
                  *,
-                 fields_shown=None,
-                 autocomplete=None,
-                 structured_search=None,
-                 results_per_page=None,
-                 aggregations=None):
+                 fields_shown: 'ComponentSettingsFieldsShown' = None,
+                 autocomplete: bool = None,
+                 structured_search: bool = None,
+                 results_per_page: int = None,
+                 aggregations: List['ComponentSettingsAggregation'] = None
+                ) -> None:
         """
         Initialize a ComponentSettingsResponse object.
 
@@ -1357,7 +1449,7 @@ class ComponentSettingsResponse():
         :param bool structured_search: (optional) Whether or not structured search
                is enabled.
         :param int results_per_page: (optional) Number or results shown per page.
-        :param list[ComponentSettingsAggregation] aggregations: (optional) a list
+        :param List[ComponentSettingsAggregation] aggregations: (optional) a list
                of component setting aggregations.
         """
         self.fields_shown = fields_shown
@@ -1367,7 +1459,7 @@ class ComponentSettingsResponse():
         self.aggregations = aggregations
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ComponentSettingsResponse':
         """Initialize a ComponentSettingsResponse object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -1395,7 +1487,12 @@ class ComponentSettingsResponse():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ComponentSettingsResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'fields_shown') and self.fields_shown is not None:
@@ -1412,17 +1509,21 @@ class ComponentSettingsResponse():
             _dict['aggregations'] = [x._to_dict() for x in self.aggregations]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ComponentSettingsResponse object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ComponentSettingsResponse') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ComponentSettingsResponse') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1436,7 +1537,7 @@ class DeleteDocumentResponse():
           status deleted.
     """
 
-    def __init__(self, *, document_id=None, status=None):
+    def __init__(self, *, document_id: str = None, status: str = None) -> None:
         """
         Initialize a DeleteDocumentResponse object.
 
@@ -1448,7 +1549,7 @@ class DeleteDocumentResponse():
         self.status = status
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'DeleteDocumentResponse':
         """Initialize a DeleteDocumentResponse object from a json dictionary."""
         args = {}
         valid_keys = ['document_id', 'status']
@@ -1463,7 +1564,12 @@ class DeleteDocumentResponse():
             args['status'] = _dict.get('status')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DeleteDocumentResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'document_id') and self.document_id is not None:
@@ -1472,17 +1578,21 @@ class DeleteDocumentResponse():
             _dict['status'] = self.status
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this DeleteDocumentResponse object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'DeleteDocumentResponse') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'DeleteDocumentResponse') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1505,7 +1615,7 @@ class DocumentAccepted():
           others.
     """
 
-    def __init__(self, *, document_id=None, status=None):
+    def __init__(self, *, document_id: str = None, status: str = None) -> None:
         """
         Initialize a DocumentAccepted object.
 
@@ -1520,7 +1630,7 @@ class DocumentAccepted():
         self.status = status
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'DocumentAccepted':
         """Initialize a DocumentAccepted object from a json dictionary."""
         args = {}
         valid_keys = ['document_id', 'status']
@@ -1535,7 +1645,12 @@ class DocumentAccepted():
             args['status'] = _dict.get('status')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DocumentAccepted object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'document_id') and self.document_id is not None:
@@ -1544,17 +1659,21 @@ class DocumentAccepted():
             _dict['status'] = self.status
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this DocumentAccepted object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'DocumentAccepted') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'DocumentAccepted') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1579,7 +1698,11 @@ class DocumentAttribute():
           `begin` and `end`.
     """
 
-    def __init__(self, *, type=None, text=None, location=None):
+    def __init__(self,
+                 *,
+                 type: str = None,
+                 text: str = None,
+                 location: 'TableElementLocation' = None) -> None:
         """
         Initialize a DocumentAttribute object.
 
@@ -1594,7 +1717,7 @@ class DocumentAttribute():
         self.location = location
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'DocumentAttribute':
         """Initialize a DocumentAttribute object from a json dictionary."""
         args = {}
         valid_keys = ['type', 'text', 'location']
@@ -1612,7 +1735,12 @@ class DocumentAttribute():
                 _dict.get('location'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DocumentAttribute object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'type') and self.type is not None:
@@ -1623,17 +1751,21 @@ class DocumentAttribute():
             _dict['location'] = self.location._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this DocumentAttribute object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'DocumentAttribute') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'DocumentAttribute') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1648,7 +1780,11 @@ class Field():
           the field was found.
     """
 
-    def __init__(self, *, field=None, type=None, collection_id=None):
+    def __init__(self,
+                 *,
+                 field: str = None,
+                 type: str = None,
+                 collection_id: str = None) -> None:
         """
         Initialize a Field object.
 
@@ -1662,7 +1798,7 @@ class Field():
         self.collection_id = collection_id
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Field':
         """Initialize a Field object from a json dictionary."""
         args = {}
         valid_keys = ['field', 'type', 'collection_id']
@@ -1679,7 +1815,12 @@ class Field():
             args['collection_id'] = _dict.get('collection_id')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Field object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'field') and self.field is not None:
@@ -1690,17 +1831,21 @@ class Field():
             _dict['collection_id'] = self.collection_id
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Field object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Field') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Field') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1725,21 +1870,21 @@ class ListCollectionsResponse():
     """
     Response object containing an array of collection details.
 
-    :attr list[Collection] collections: (optional) An array containing information
+    :attr List[Collection] collections: (optional) An array containing information
           about each collection in the project.
     """
 
-    def __init__(self, *, collections=None):
+    def __init__(self, *, collections: List['Collection'] = None) -> None:
         """
         Initialize a ListCollectionsResponse object.
 
-        :param list[Collection] collections: (optional) An array containing
+        :param List[Collection] collections: (optional) An array containing
                information about each collection in the project.
         """
         self.collections = collections
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ListCollectionsResponse':
         """Initialize a ListCollectionsResponse object from a json dictionary."""
         args = {}
         valid_keys = ['collections']
@@ -1754,24 +1899,33 @@ class ListCollectionsResponse():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ListCollectionsResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'collections') and self.collections is not None:
             _dict['collections'] = [x._to_dict() for x in self.collections]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ListCollectionsResponse object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ListCollectionsResponse') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ListCollectionsResponse') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1786,21 +1940,21 @@ class ListFieldsResponse():
     example, `warnings.properties.severity` means that the `warnings` object has a
     property called `severity`).
 
-    :attr list[Field] fields: (optional) An array containing information about each
+    :attr List[Field] fields: (optional) An array containing information about each
           field in the collections.
     """
 
-    def __init__(self, *, fields=None):
+    def __init__(self, *, fields: List['Field'] = None) -> None:
         """
         Initialize a ListFieldsResponse object.
 
-        :param list[Field] fields: (optional) An array containing information about
+        :param List[Field] fields: (optional) An array containing information about
                each field in the collections.
         """
         self.fields = fields
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ListFieldsResponse':
         """Initialize a ListFieldsResponse object from a json dictionary."""
         args = {}
         valid_keys = ['fields']
@@ -1815,24 +1969,33 @@ class ListFieldsResponse():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ListFieldsResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'fields') and self.fields is not None:
             _dict['fields'] = [x._to_dict() for x in self.fields]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ListFieldsResponse object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ListFieldsResponse') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ListFieldsResponse') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1869,14 +2032,14 @@ class Notice():
 
     def __init__(self,
                  *,
-                 notice_id=None,
-                 created=None,
-                 document_id=None,
-                 collection_id=None,
-                 query_id=None,
-                 severity=None,
-                 step=None,
-                 description=None):
+                 notice_id: str = None,
+                 created: datetime = None,
+                 document_id: str = None,
+                 collection_id: str = None,
+                 query_id: str = None,
+                 severity: str = None,
+                 step: str = None,
+                 description: str = None) -> None:
         """
         Initialize a Notice object.
 
@@ -1915,7 +2078,7 @@ class Notice():
         self.description = description
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Notice':
         """Initialize a Notice object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -1945,7 +2108,12 @@ class Notice():
             args['description'] = _dict.get('description')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Notice object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'notice_id') and self.notice_id is not None:
@@ -1966,17 +2134,21 @@ class Notice():
             _dict['description'] = self.description
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Notice object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Notice') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Notice') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1997,7 +2169,7 @@ class QueryAggregation():
           top_hits.
     """
 
-    def __init__(self, type):
+    def __init__(self, type: str) -> None:
         """
         Initialize a QueryAggregation object.
 
@@ -2008,8 +2180,11 @@ class QueryAggregation():
         self.type = type
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'QueryAggregation':
         """Initialize a QueryAggregation object from a json dictionary."""
+        disc_class = cls._get_class_by_discriminator(_dict)
+        if disc_class != cls:
+            return disc_class.from_dict(_dict)
         args = {}
         valid_keys = ['type']
         bad_keys = set(_dict.keys()) - set(valid_keys)
@@ -2025,258 +2200,63 @@ class QueryAggregation():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryAggregation object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'type') and self.type is not None:
             _dict['type'] = self.type
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this QueryAggregation object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'QueryAggregation') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'QueryAggregation') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
-
-
-class QueryCalculationAggregation():
-    """
-    Returns a scalar calculation across all documents for the field specified. Possible
-    calculations include min, max, sum, average, and unique_count.
-
-    :attr str field: The field to perform the calculation on.
-    :attr float value: (optional) The value of the calculation.
-    """
-
-    def __init__(self, type, field, *, value=None):
-        """
-        Initialize a QueryCalculationAggregation object.
-
-        :param str type: The type of aggregation command used. Options include:
-               term, histogram, timeslice, nested, filter, min, max, sum, average,
-               unique_count, and top_hits.
-        :param str field: The field to perform the calculation on.
-        :param float value: (optional) The value of the calculation.
-        """
-        self.field = field
-        self.value = value
 
     @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryCalculationAggregation object from a json dictionary."""
-        args = {}
-        valid_keys = ['field', 'value']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
+    def _get_class_by_discriminator(cls, _dict: Dict) -> object:
+        mapping = {}
+        mapping['term'] = 'QueryTermAggregation'
+        mapping['histogram'] = 'QueryHistogramAggregation'
+        mapping['timeslice'] = 'QueryTimesliceAggregation'
+        mapping['nested'] = 'QueryNestedAggregation'
+        mapping['filter'] = 'QueryFilterAggregation'
+        mapping['min'] = 'QueryCalculationAggregation'
+        mapping['max'] = 'QueryCalculationAggregation'
+        mapping['sum'] = 'QueryCalculationAggregation'
+        mapping['average'] = 'QueryCalculationAggregation'
+        mapping['unique_count'] = 'QueryCalculationAggregation'
+        mapping['top_hits'] = 'QueryTopHitsAggregation'
+        disc_value = _dict.get('type')
+        if disc_value is None:
             raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryCalculationAggregation: '
-                + ', '.join(bad_keys))
-        if 'field' in _dict:
-            args['field'] = _dict.get('field')
-        else:
-            raise ValueError(
-                'Required property \'field\' not present in QueryCalculationAggregation JSON'
+                'Discriminator property \'type\' not found in QueryAggregation JSON'
             )
-        if 'value' in _dict:
-            args['value'] = _dict.get('value')
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'field') and self.field is not None:
-            _dict['field'] = self.field
-        if hasattr(self, 'value') and self.value is not None:
-            _dict['value'] = self.value
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryCalculationAggregation object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryFilterAggregation():
-    """
-    A modifier that will narrow down the document set of the sub aggregations it precedes.
-
-    :attr str match: The filter written in Discovery Query Language syntax applied
-          to the documents before sub aggregations are run.
-    :attr int matching_results: Number of documents matching the filter.
-    :attr list[QueryAggregation] aggregations: (optional) An array of sub
-          aggregations.
-    """
-
-    def __init__(self, type, match, matching_results, *, aggregations=None):
-        """
-        Initialize a QueryFilterAggregation object.
-
-        :param str type: The type of aggregation command used. Options include:
-               term, histogram, timeslice, nested, filter, min, max, sum, average,
-               unique_count, and top_hits.
-        :param str match: The filter written in Discovery Query Language syntax
-               applied to the documents before sub aggregations are run.
-        :param int matching_results: Number of documents matching the filter.
-        :param list[QueryAggregation] aggregations: (optional) An array of sub
-               aggregations.
-        """
-        self.match = match
-        self.matching_results = matching_results
-        self.aggregations = aggregations
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryFilterAggregation object from a json dictionary."""
-        args = {}
-        valid_keys = ['match', 'matching_results', 'aggregations']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryFilterAggregation: '
-                + ', '.join(bad_keys))
-        if 'match' in _dict:
-            args['match'] = _dict.get('match')
-        else:
-            raise ValueError(
-                'Required property \'match\' not present in QueryFilterAggregation JSON'
-            )
-        if 'matching_results' in _dict:
-            args['matching_results'] = _dict.get('matching_results')
-        else:
-            raise ValueError(
-                'Required property \'matching_results\' not present in QueryFilterAggregation JSON'
-            )
-        if 'aggregations' in _dict:
-            args['aggregations'] = [
-                QueryAggregation._from_dict(x)
-                for x in (_dict.get('aggregations'))
-            ]
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'match') and self.match is not None:
-            _dict['match'] = self.match
-        if hasattr(self,
-                   'matching_results') and self.matching_results is not None:
-            _dict['matching_results'] = self.matching_results
-        if hasattr(self, 'aggregations') and self.aggregations is not None:
-            _dict['aggregations'] = [x._to_dict() for x in self.aggregations]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryFilterAggregation object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryHistogramAggregation():
-    """
-    Numeric interval segments to categorize documents by using field values from a single
-    numeric field to describe the category.
-
-    :attr str field: The numeric field name used to create the histogram.
-    :attr int interval: The size of the sections the results are split into.
-    :attr list[QueryHistogramAggregationResult] results: (optional) Array of numeric
-          intervals.
-    """
-
-    def __init__(self, type, field, interval, *, results=None):
-        """
-        Initialize a QueryHistogramAggregation object.
-
-        :param str type: The type of aggregation command used. Options include:
-               term, histogram, timeslice, nested, filter, min, max, sum, average,
-               unique_count, and top_hits.
-        :param str field: The numeric field name used to create the histogram.
-        :param int interval: The size of the sections the results are split into.
-        :param list[QueryHistogramAggregationResult] results: (optional) Array of
-               numeric intervals.
-        """
-        self.field = field
-        self.interval = interval
-        self.results = results
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryHistogramAggregation object from a json dictionary."""
-        args = {}
-        valid_keys = ['field', 'interval', 'results']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryHistogramAggregation: '
-                + ', '.join(bad_keys))
-        if 'field' in _dict:
-            args['field'] = _dict.get('field')
-        else:
-            raise ValueError(
-                'Required property \'field\' not present in QueryHistogramAggregation JSON'
-            )
-        if 'interval' in _dict:
-            args['interval'] = _dict.get('interval')
-        else:
-            raise ValueError(
-                'Required property \'interval\' not present in QueryHistogramAggregation JSON'
-            )
-        if 'results' in _dict:
-            args['results'] = [
-                QueryHistogramAggregationResult._from_dict(x)
-                for x in (_dict.get('results'))
-            ]
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'field') and self.field is not None:
-            _dict['field'] = self.field
-        if hasattr(self, 'interval') and self.interval is not None:
-            _dict['interval'] = self.interval
-        if hasattr(self, 'results') and self.results is not None:
-            _dict['results'] = [x._to_dict() for x in self.results]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryHistogramAggregation object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
+        class_name = mapping.get(disc_value, disc_value)
+        try:
+            disc_class = getattr(sys.modules[__name__], class_name)
+        except AttributeError:
+            disc_class = cls
+        if isinstance(disc_class, object):
+            return disc_class
+        raise TypeError('%s is not a discriminator class' % class_name)
 
 
 class QueryHistogramAggregationResult():
@@ -2286,18 +2266,22 @@ class QueryHistogramAggregationResult():
     :attr int key: The value of the upper bound for the numeric segment.
     :attr int matching_results: Number of documents with the specified key as the
           upper bound.
-    :attr list[QueryAggregation] aggregations: (optional) An array of sub
+    :attr List[QueryAggregation] aggregations: (optional) An array of sub
           aggregations.
     """
 
-    def __init__(self, key, matching_results, *, aggregations=None):
+    def __init__(self,
+                 key: int,
+                 matching_results: int,
+                 *,
+                 aggregations: List['QueryAggregation'] = None) -> None:
         """
         Initialize a QueryHistogramAggregationResult object.
 
         :param int key: The value of the upper bound for the numeric segment.
         :param int matching_results: Number of documents with the specified key as
                the upper bound.
-        :param list[QueryAggregation] aggregations: (optional) An array of sub
+        :param List[QueryAggregation] aggregations: (optional) An array of sub
                aggregations.
         """
         self.key = key
@@ -2305,7 +2289,7 @@ class QueryHistogramAggregationResult():
         self.aggregations = aggregations
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'QueryHistogramAggregationResult':
         """Initialize a QueryHistogramAggregationResult object from a json dictionary."""
         args = {}
         valid_keys = ['key', 'matching_results', 'aggregations']
@@ -2333,7 +2317,12 @@ class QueryHistogramAggregationResult():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryHistogramAggregationResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'key') and self.key is not None:
@@ -2345,17 +2334,21 @@ class QueryHistogramAggregationResult():
             _dict['aggregations'] = [x._to_dict() for x in self.aggregations]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this QueryHistogramAggregationResult object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'QueryHistogramAggregationResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'QueryHistogramAggregationResult') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2367,10 +2360,10 @@ class QueryLargePassages():
     :attr bool enabled: (optional) A passages query that returns the most relevant
           passages from the results.
     :attr bool per_document: (optional) When `true`, passages will be returned
-          whithin their respective result.
+          within their respective result.
     :attr int max_per_document: (optional) Maximum number of passages to return per
           result.
-    :attr list[str] fields: (optional) A list of fields that passages are drawn
+    :attr List[str] fields: (optional) A list of fields that passages are drawn
           from. If this parameter not specified, then all top-level fields are included.
     :attr int count: (optional) The maximum number of passages to return. The search
           returns fewer passages if the requested total is not found. The default is `10`.
@@ -2381,22 +2374,22 @@ class QueryLargePassages():
 
     def __init__(self,
                  *,
-                 enabled=None,
-                 per_document=None,
-                 max_per_document=None,
-                 fields=None,
-                 count=None,
-                 characters=None):
+                 enabled: bool = None,
+                 per_document: bool = None,
+                 max_per_document: int = None,
+                 fields: List[str] = None,
+                 count: int = None,
+                 characters: int = None) -> None:
         """
         Initialize a QueryLargePassages object.
 
         :param bool enabled: (optional) A passages query that returns the most
                relevant passages from the results.
         :param bool per_document: (optional) When `true`, passages will be returned
-               whithin their respective result.
+               within their respective result.
         :param int max_per_document: (optional) Maximum number of passages to
                return per result.
-        :param list[str] fields: (optional) A list of fields that passages are
+        :param List[str] fields: (optional) A list of fields that passages are
                drawn from. If this parameter not specified, then all top-level fields are
                included.
         :param int count: (optional) The maximum number of passages to return. The
@@ -2413,7 +2406,7 @@ class QueryLargePassages():
         self.characters = characters
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'QueryLargePassages':
         """Initialize a QueryLargePassages object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -2439,7 +2432,12 @@ class QueryLargePassages():
             args['characters'] = _dict.get('characters')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryLargePassages object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'enabled') and self.enabled is not None:
@@ -2457,17 +2455,21 @@ class QueryLargePassages():
             _dict['characters'] = self.characters
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this QueryLargePassages object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'QueryLargePassages') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'QueryLargePassages') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2481,7 +2483,7 @@ class QueryLargeSuggestedRefinements():
           returned. The default is `10`. The maximum is `100`.
     """
 
-    def __init__(self, *, enabled=None, count=None):
+    def __init__(self, *, enabled: bool = None, count: int = None) -> None:
         """
         Initialize a QueryLargeSuggestedRefinements object.
 
@@ -2493,7 +2495,7 @@ class QueryLargeSuggestedRefinements():
         self.count = count
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'QueryLargeSuggestedRefinements':
         """Initialize a QueryLargeSuggestedRefinements object from a json dictionary."""
         args = {}
         valid_keys = ['enabled', 'count']
@@ -2508,7 +2510,12 @@ class QueryLargeSuggestedRefinements():
             args['count'] = _dict.get('count')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryLargeSuggestedRefinements object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'enabled') and self.enabled is not None:
@@ -2517,17 +2524,21 @@ class QueryLargeSuggestedRefinements():
             _dict['count'] = self.count
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this QueryLargeSuggestedRefinements object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'QueryLargeSuggestedRefinements') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'QueryLargeSuggestedRefinements') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2540,7 +2551,7 @@ class QueryLargeTableResults():
     :attr int count: (optional) Maximum number of tables to return.
     """
 
-    def __init__(self, *, enabled=None, count=None):
+    def __init__(self, *, enabled: bool = None, count: int = None) -> None:
         """
         Initialize a QueryLargeTableResults object.
 
@@ -2551,7 +2562,7 @@ class QueryLargeTableResults():
         self.count = count
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'QueryLargeTableResults':
         """Initialize a QueryLargeTableResults object from a json dictionary."""
         args = {}
         valid_keys = ['enabled', 'count']
@@ -2566,7 +2577,12 @@ class QueryLargeTableResults():
             args['count'] = _dict.get('count')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryLargeTableResults object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'enabled') and self.enabled is not None:
@@ -2575,103 +2591,21 @@ class QueryLargeTableResults():
             _dict['count'] = self.count
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this QueryLargeTableResults object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'QueryLargeTableResults') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryNestedAggregation():
-    """
-    A restriction that alter the document set used for sub aggregations it precedes to
-    nested documents found in the field specified.
-
-    :attr str path: The path to the document field to scope sub aggregations to.
-    :attr int matching_results: Number of nested documents found in the specified
-          field.
-    :attr list[QueryAggregation] aggregations: (optional) An array of sub
-          aggregations.
-    """
-
-    def __init__(self, type, path, matching_results, *, aggregations=None):
-        """
-        Initialize a QueryNestedAggregation object.
-
-        :param str type: The type of aggregation command used. Options include:
-               term, histogram, timeslice, nested, filter, min, max, sum, average,
-               unique_count, and top_hits.
-        :param str path: The path to the document field to scope sub aggregations
-               to.
-        :param int matching_results: Number of nested documents found in the
-               specified field.
-        :param list[QueryAggregation] aggregations: (optional) An array of sub
-               aggregations.
-        """
-        self.path = path
-        self.matching_results = matching_results
-        self.aggregations = aggregations
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryNestedAggregation object from a json dictionary."""
-        args = {}
-        valid_keys = ['path', 'matching_results', 'aggregations']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryNestedAggregation: '
-                + ', '.join(bad_keys))
-        if 'path' in _dict:
-            args['path'] = _dict.get('path')
-        else:
-            raise ValueError(
-                'Required property \'path\' not present in QueryNestedAggregation JSON'
-            )
-        if 'matching_results' in _dict:
-            args['matching_results'] = _dict.get('matching_results')
-        else:
-            raise ValueError(
-                'Required property \'matching_results\' not present in QueryNestedAggregation JSON'
-            )
-        if 'aggregations' in _dict:
-            args['aggregations'] = [
-                QueryAggregation._from_dict(x)
-                for x in (_dict.get('aggregations'))
-            ]
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'path') and self.path is not None:
-            _dict['path'] = self.path
-        if hasattr(self,
-                   'matching_results') and self.matching_results is not None:
-            _dict['matching_results'] = self.matching_results
-        if hasattr(self, 'aggregations') and self.aggregations is not None:
-            _dict['aggregations'] = [x._to_dict() for x in self.aggregations]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryNestedAggregation object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
+    def __ne__(self, other: 'QueryLargeTableResults') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2681,23 +2615,26 @@ class QueryNoticesResponse():
     Object containing notice query results.
 
     :attr int matching_results: (optional) The number of matching results.
-    :attr list[Notice] notices: (optional) Array of document results that match the
+    :attr List[Notice] notices: (optional) Array of document results that match the
           query.
     """
 
-    def __init__(self, *, matching_results=None, notices=None):
+    def __init__(self,
+                 *,
+                 matching_results: int = None,
+                 notices: List['Notice'] = None) -> None:
         """
         Initialize a QueryNoticesResponse object.
 
         :param int matching_results: (optional) The number of matching results.
-        :param list[Notice] notices: (optional) Array of document results that
+        :param List[Notice] notices: (optional) Array of document results that
                match the query.
         """
         self.matching_results = matching_results
         self.notices = notices
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'QueryNoticesResponse':
         """Initialize a QueryNoticesResponse object from a json dictionary."""
         args = {}
         valid_keys = ['matching_results', 'notices']
@@ -2714,7 +2651,12 @@ class QueryNoticesResponse():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryNoticesResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self,
@@ -2724,17 +2666,21 @@ class QueryNoticesResponse():
             _dict['notices'] = [x._to_dict() for x in self.notices]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this QueryNoticesResponse object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'QueryNoticesResponse') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'QueryNoticesResponse') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2745,44 +2691,44 @@ class QueryResponse():
 
     :attr int matching_results: (optional) The number of matching results for the
           query.
-    :attr list[QueryResult] results: (optional) Array of document results for the
+    :attr List[QueryResult] results: (optional) Array of document results for the
           query.
-    :attr list[QueryAggregation] aggregations: (optional) Array of aggregations for
+    :attr List[QueryAggregation] aggregations: (optional) Array of aggregations for
           the query.
     :attr RetrievalDetails retrieval_details: (optional) An object contain retrieval
           type information.
     :attr str suggested_query: (optional) Suggested correction to the submitted
           **natural_language_query** value.
-    :attr list[QuerySuggestedRefinement] suggested_refinements: (optional) Array of
-          suggested refinments.
-    :attr list[QueryTableResult] table_results: (optional) Array of table results.
+    :attr List[QuerySuggestedRefinement] suggested_refinements: (optional) Array of
+          suggested refinements.
+    :attr List[QueryTableResult] table_results: (optional) Array of table results.
     """
 
     def __init__(self,
                  *,
-                 matching_results=None,
-                 results=None,
-                 aggregations=None,
-                 retrieval_details=None,
-                 suggested_query=None,
-                 suggested_refinements=None,
-                 table_results=None):
+                 matching_results: int = None,
+                 results: List['QueryResult'] = None,
+                 aggregations: List['QueryAggregation'] = None,
+                 retrieval_details: 'RetrievalDetails' = None,
+                 suggested_query: str = None,
+                 suggested_refinements: List['QuerySuggestedRefinement'] = None,
+                 table_results: List['QueryTableResult'] = None) -> None:
         """
         Initialize a QueryResponse object.
 
         :param int matching_results: (optional) The number of matching results for
                the query.
-        :param list[QueryResult] results: (optional) Array of document results for
+        :param List[QueryResult] results: (optional) Array of document results for
                the query.
-        :param list[QueryAggregation] aggregations: (optional) Array of
+        :param List[QueryAggregation] aggregations: (optional) Array of
                aggregations for the query.
         :param RetrievalDetails retrieval_details: (optional) An object contain
                retrieval type information.
         :param str suggested_query: (optional) Suggested correction to the
                submitted **natural_language_query** value.
-        :param list[QuerySuggestedRefinement] suggested_refinements: (optional)
-               Array of suggested refinments.
-        :param list[QueryTableResult] table_results: (optional) Array of table
+        :param List[QuerySuggestedRefinement] suggested_refinements: (optional)
+               Array of suggested refinements.
+        :param List[QueryTableResult] table_results: (optional) Array of table
                results.
         """
         self.matching_results = matching_results
@@ -2794,7 +2740,7 @@ class QueryResponse():
         self.table_results = table_results
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'QueryResponse':
         """Initialize a QueryResponse object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -2834,7 +2780,12 @@ class QueryResponse():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self,
@@ -2859,17 +2810,21 @@ class QueryResponse():
             _dict['table_results'] = [x._to_dict() for x in self.table_results]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this QueryResponse object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'QueryResponse') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'QueryResponse') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2881,24 +2836,24 @@ class QueryResult():
     :attr str document_id: The unique identifier of the document.
     :attr dict metadata: (optional) Metadata of the document.
     :attr QueryResultMetadata result_metadata: Metadata of a query result.
-    :attr list[QueryResultPassage] document_passages: (optional) Passages returned
+    :attr List[QueryResultPassage] document_passages: (optional) Passages returned
           by Discovery.
     """
 
     def __init__(self,
-                 document_id,
-                 result_metadata,
+                 document_id: str,
+                 result_metadata: 'QueryResultMetadata',
                  *,
-                 metadata=None,
-                 document_passages=None,
-                 **kwargs):
+                 metadata: dict = None,
+                 document_passages: List['QueryResultPassage'] = None,
+                 **kwargs) -> None:
         """
         Initialize a QueryResult object.
 
         :param str document_id: The unique identifier of the document.
         :param QueryResultMetadata result_metadata: Metadata of a query result.
         :param dict metadata: (optional) Metadata of the document.
-        :param list[QueryResultPassage] document_passages: (optional) Passages
+        :param List[QueryResultPassage] document_passages: (optional) Passages
                returned by Discovery.
         :param **kwargs: (optional) Any additional properties.
         """
@@ -2910,7 +2865,7 @@ class QueryResult():
             setattr(self, _key, _value)
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'QueryResult':
         """Initialize a QueryResult object from a json dictionary."""
         args = {}
         xtra = _dict.copy()
@@ -2941,7 +2896,12 @@ class QueryResult():
         args.update(xtra)
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'document_id') and self.document_id is not None:
@@ -2963,7 +2923,11 @@ class QueryResult():
                     _dict[_key] = _value
         return _dict
 
-    def __setattr__(self, name, value):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __setattr__(self, name: str, value: object) -> None:
         properties = {
             'document_id', 'metadata', 'result_metadata', 'document_passages'
         }
@@ -2973,17 +2937,17 @@ class QueryResult():
             self._additionalProperties.add(name)
         super(QueryResult, self).__setattr__(name, value)
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Return a `str` version of this QueryResult object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'QueryResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'QueryResult') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3006,10 +2970,10 @@ class QueryResultMetadata():
     """
 
     def __init__(self,
-                 collection_id,
+                 collection_id: str,
                  *,
-                 document_retrieval_source=None,
-                 confidence=None):
+                 document_retrieval_source: str = None,
+                 confidence: float = None) -> None:
         """
         Initialize a QueryResultMetadata object.
 
@@ -3030,7 +2994,7 @@ class QueryResultMetadata():
         self.confidence = confidence
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'QueryResultMetadata':
         """Initialize a QueryResultMetadata object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -3054,7 +3018,12 @@ class QueryResultMetadata():
             args['confidence'] = _dict.get('confidence')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryResultMetadata object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'document_retrieval_source'
@@ -3066,17 +3035,21 @@ class QueryResultMetadata():
             _dict['confidence'] = self.confidence
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this QueryResultMetadata object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'QueryResultMetadata') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'QueryResultMetadata') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3103,10 +3076,10 @@ class QueryResultPassage():
 
     def __init__(self,
                  *,
-                 passage_text=None,
-                 start_offset=None,
-                 end_offset=None,
-                 field=None):
+                 passage_text: str = None,
+                 start_offset: int = None,
+                 end_offset: int = None,
+                 field: str = None) -> None:
         """
         Initialize a QueryResultPassage object.
 
@@ -3124,7 +3097,7 @@ class QueryResultPassage():
         self.field = field
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'QueryResultPassage':
         """Initialize a QueryResultPassage object from a json dictionary."""
         args = {}
         valid_keys = ['passage_text', 'start_offset', 'end_offset', 'field']
@@ -3143,7 +3116,12 @@ class QueryResultPassage():
             args['field'] = _dict.get('field')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryResultPassage object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'passage_text') and self.passage_text is not None:
@@ -3156,17 +3134,21 @@ class QueryResultPassage():
             _dict['field'] = self.field
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this QueryResultPassage object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'QueryResultPassage') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'QueryResultPassage') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3178,7 +3160,7 @@ class QuerySuggestedRefinement():
     :attr str text: (optional) The text used to filter.
     """
 
-    def __init__(self, *, text=None):
+    def __init__(self, *, text: str = None) -> None:
         """
         Initialize a QuerySuggestedRefinement object.
 
@@ -3187,7 +3169,7 @@ class QuerySuggestedRefinement():
         self.text = text
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'QuerySuggestedRefinement':
         """Initialize a QuerySuggestedRefinement object from a json dictionary."""
         args = {}
         valid_keys = ['text']
@@ -3200,24 +3182,33 @@ class QuerySuggestedRefinement():
             args['text'] = _dict.get('text')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QuerySuggestedRefinement object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this QuerySuggestedRefinement object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'QuerySuggestedRefinement') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'QuerySuggestedRefinement') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3240,12 +3231,12 @@ class QueryTableResult():
 
     def __init__(self,
                  *,
-                 table_id=None,
-                 source_document_id=None,
-                 collection_id=None,
-                 table_html=None,
-                 table_html_offset=None,
-                 table=None):
+                 table_id: str = None,
+                 source_document_id: str = None,
+                 collection_id: str = None,
+                 table_html: str = None,
+                 table_html_offset: int = None,
+                 table: 'TableResultTable' = None) -> None:
         """
         Initialize a QueryTableResult object.
 
@@ -3268,7 +3259,7 @@ class QueryTableResult():
         self.table = table
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'QueryTableResult':
         """Initialize a QueryTableResult object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -3294,7 +3285,12 @@ class QueryTableResult():
             args['table'] = TableResultTable._from_dict(_dict.get('table'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryTableResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'table_id') and self.table_id is not None:
@@ -3314,95 +3310,21 @@ class QueryTableResult():
             _dict['table'] = self.table._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this QueryTableResult object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'QueryTableResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryTermAggregation():
-    """
-    Returns the top values for the field specified.
-
-    :attr str field: The field in the document used to generate top values from.
-    :attr int count: (optional) The number of top values returned.
-    :attr list[QueryTermAggregationResult] results: (optional) Array of top values
-          for the field.
-    """
-
-    def __init__(self, type, field, *, count=None, results=None):
-        """
-        Initialize a QueryTermAggregation object.
-
-        :param str type: The type of aggregation command used. Options include:
-               term, histogram, timeslice, nested, filter, min, max, sum, average,
-               unique_count, and top_hits.
-        :param str field: The field in the document used to generate top values
-               from.
-        :param int count: (optional) The number of top values returned.
-        :param list[QueryTermAggregationResult] results: (optional) Array of top
-               values for the field.
-        """
-        self.field = field
-        self.count = count
-        self.results = results
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryTermAggregation object from a json dictionary."""
-        args = {}
-        valid_keys = ['field', 'count', 'results']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryTermAggregation: '
-                + ', '.join(bad_keys))
-        if 'field' in _dict:
-            args['field'] = _dict.get('field')
-        else:
-            raise ValueError(
-                'Required property \'field\' not present in QueryTermAggregation JSON'
-            )
-        if 'count' in _dict:
-            args['count'] = _dict.get('count')
-        if 'results' in _dict:
-            args['results'] = [
-                QueryTermAggregationResult._from_dict(x)
-                for x in (_dict.get('results'))
-            ]
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'field') and self.field is not None:
-            _dict['field'] = self.field
-        if hasattr(self, 'count') and self.count is not None:
-            _dict['count'] = self.count
-        if hasattr(self, 'results') and self.results is not None:
-            _dict['results'] = [x._to_dict() for x in self.results]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryTermAggregation object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
+    def __ne__(self, other: 'QueryTableResult') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3413,18 +3335,22 @@ class QueryTermAggregationResult():
 
     :attr str key: Value of the field with a non-zero frequency in the document set.
     :attr int matching_results: Number of documents containing the 'key'.
-    :attr list[QueryAggregation] aggregations: (optional) An array of sub
+    :attr List[QueryAggregation] aggregations: (optional) An array of sub
           aggregations.
     """
 
-    def __init__(self, key, matching_results, *, aggregations=None):
+    def __init__(self,
+                 key: str,
+                 matching_results: int,
+                 *,
+                 aggregations: List['QueryAggregation'] = None) -> None:
         """
         Initialize a QueryTermAggregationResult object.
 
         :param str key: Value of the field with a non-zero frequency in the
                document set.
         :param int matching_results: Number of documents containing the 'key'.
-        :param list[QueryAggregation] aggregations: (optional) An array of sub
+        :param List[QueryAggregation] aggregations: (optional) An array of sub
                aggregations.
         """
         self.key = key
@@ -3432,7 +3358,7 @@ class QueryTermAggregationResult():
         self.aggregations = aggregations
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'QueryTermAggregationResult':
         """Initialize a QueryTermAggregationResult object from a json dictionary."""
         args = {}
         valid_keys = ['key', 'matching_results', 'aggregations']
@@ -3460,7 +3386,12 @@ class QueryTermAggregationResult():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryTermAggregationResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'key') and self.key is not None:
@@ -3472,100 +3403,21 @@ class QueryTermAggregationResult():
             _dict['aggregations'] = [x._to_dict() for x in self.aggregations]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this QueryTermAggregationResult object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'QueryTermAggregationResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryTimesliceAggregation():
-    """
-    A specialized histogram aggregation that uses dates to create interval segments.
-
-    :attr str field: The date field name used to create the timeslice.
-    :attr str interval: The date interval value. Valid values are seconds, minutes,
-          hours, days, weeks, and years.
-    :attr list[QueryTimesliceAggregationResult] results: (optional) Array of
-          aggregation results.
-    """
-
-    def __init__(self, type, field, interval, *, results=None):
-        """
-        Initialize a QueryTimesliceAggregation object.
-
-        :param str type: The type of aggregation command used. Options include:
-               term, histogram, timeslice, nested, filter, min, max, sum, average,
-               unique_count, and top_hits.
-        :param str field: The date field name used to create the timeslice.
-        :param str interval: The date interval value. Valid values are seconds,
-               minutes, hours, days, weeks, and years.
-        :param list[QueryTimesliceAggregationResult] results: (optional) Array of
-               aggregation results.
-        """
-        self.field = field
-        self.interval = interval
-        self.results = results
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryTimesliceAggregation object from a json dictionary."""
-        args = {}
-        valid_keys = ['field', 'interval', 'results']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryTimesliceAggregation: '
-                + ', '.join(bad_keys))
-        if 'field' in _dict:
-            args['field'] = _dict.get('field')
-        else:
-            raise ValueError(
-                'Required property \'field\' not present in QueryTimesliceAggregation JSON'
-            )
-        if 'interval' in _dict:
-            args['interval'] = _dict.get('interval')
-        else:
-            raise ValueError(
-                'Required property \'interval\' not present in QueryTimesliceAggregation JSON'
-            )
-        if 'results' in _dict:
-            args['results'] = [
-                QueryTimesliceAggregationResult._from_dict(x)
-                for x in (_dict.get('results'))
-            ]
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'field') and self.field is not None:
-            _dict['field'] = self.field
-        if hasattr(self, 'interval') and self.interval is not None:
-            _dict['interval'] = self.interval
-        if hasattr(self, 'results') and self.results is not None:
-            _dict['results'] = [x._to_dict() for x in self.results]
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryTimesliceAggregation object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
+    def __ne__(self, other: 'QueryTermAggregationResult') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3577,29 +3429,29 @@ class QueryTimesliceAggregationResult():
     :attr str key_as_string: String date value of the upper bound for the timeslice
           interval in ISO-8601 format.
     :attr int key: Numeric date value of the upper bound for the timeslice interval
-          in UNIX miliseconds since epoch.
+          in UNIX milliseconds since epoch.
     :attr int matching_results: Number of documents with the specified key as the
           upper bound.
-    :attr list[QueryAggregation] aggregations: (optional) An array of sub
+    :attr List[QueryAggregation] aggregations: (optional) An array of sub
           aggregations.
     """
 
     def __init__(self,
-                 key_as_string,
-                 key,
-                 matching_results,
+                 key_as_string: str,
+                 key: int,
+                 matching_results: int,
                  *,
-                 aggregations=None):
+                 aggregations: List['QueryAggregation'] = None) -> None:
         """
         Initialize a QueryTimesliceAggregationResult object.
 
         :param str key_as_string: String date value of the upper bound for the
                timeslice interval in ISO-8601 format.
         :param int key: Numeric date value of the upper bound for the timeslice
-               interval in UNIX miliseconds since epoch.
+               interval in UNIX milliseconds since epoch.
         :param int matching_results: Number of documents with the specified key as
                the upper bound.
-        :param list[QueryAggregation] aggregations: (optional) An array of sub
+        :param List[QueryAggregation] aggregations: (optional) An array of sub
                aggregations.
         """
         self.key_as_string = key_as_string
@@ -3608,7 +3460,7 @@ class QueryTimesliceAggregationResult():
         self.aggregations = aggregations
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'QueryTimesliceAggregationResult':
         """Initialize a QueryTimesliceAggregationResult object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -3644,7 +3496,12 @@ class QueryTimesliceAggregationResult():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryTimesliceAggregationResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'key_as_string') and self.key_as_string is not None:
@@ -3658,83 +3515,21 @@ class QueryTimesliceAggregationResult():
             _dict['aggregations'] = [x._to_dict() for x in self.aggregations]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this QueryTimesliceAggregationResult object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'QueryTimesliceAggregationResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class QueryTopHitsAggregation():
-    """
-    Returns the top documents ranked by the score of the query.
-
-    :attr int size: The number of documents to return.
-    :attr QueryTopHitsAggregationResult hits: (optional)
-    """
-
-    def __init__(self, type, size, *, hits=None):
-        """
-        Initialize a QueryTopHitsAggregation object.
-
-        :param str type: The type of aggregation command used. Options include:
-               term, histogram, timeslice, nested, filter, min, max, sum, average,
-               unique_count, and top_hits.
-        :param int size: The number of documents to return.
-        :param QueryTopHitsAggregationResult hits: (optional)
-        """
-        self.size = size
-        self.hits = hits
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a QueryTopHitsAggregation object from a json dictionary."""
-        args = {}
-        valid_keys = ['size', 'hits']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryTopHitsAggregation: '
-                + ', '.join(bad_keys))
-        if 'size' in _dict:
-            args['size'] = _dict.get('size')
-        else:
-            raise ValueError(
-                'Required property \'size\' not present in QueryTopHitsAggregation JSON'
-            )
-        if 'hits' in _dict:
-            args['hits'] = QueryTopHitsAggregationResult._from_dict(
-                _dict.get('hits'))
-        return cls(**args)
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'size') and self.size is not None:
-            _dict['size'] = self.size
-        if hasattr(self, 'hits') and self.hits is not None:
-            _dict['hits'] = self.hits._to_dict()
-        return _dict
-
-    def __str__(self):
-        """Return a `str` version of this QueryTopHitsAggregation object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other):
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
+    def __ne__(self, other: 'QueryTimesliceAggregationResult') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3744,21 +3539,22 @@ class QueryTopHitsAggregationResult():
     A query response containing the matching documents for the preceding aggregations.
 
     :attr int matching_results: Number of matching results.
-    :attr list[dict] hits: (optional) An array of the document results.
+    :attr List[dict] hits: (optional) An array of the document results.
     """
 
-    def __init__(self, matching_results, *, hits=None):
+    def __init__(self, matching_results: int, *,
+                 hits: List[dict] = None) -> None:
         """
         Initialize a QueryTopHitsAggregationResult object.
 
         :param int matching_results: Number of matching results.
-        :param list[dict] hits: (optional) An array of the document results.
+        :param List[dict] hits: (optional) An array of the document results.
         """
         self.matching_results = matching_results
         self.hits = hits
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'QueryTopHitsAggregationResult':
         """Initialize a QueryTopHitsAggregationResult object from a json dictionary."""
         args = {}
         valid_keys = ['matching_results', 'hits']
@@ -3777,7 +3573,12 @@ class QueryTopHitsAggregationResult():
             args['hits'] = _dict.get('hits')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryTopHitsAggregationResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self,
@@ -3787,17 +3588,21 @@ class QueryTopHitsAggregationResult():
             _dict['hits'] = self.hits
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this QueryTopHitsAggregationResult object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'QueryTopHitsAggregationResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'QueryTopHitsAggregationResult') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -3806,7 +3611,7 @@ class RetrievalDetails():
     """
     An object contain retrieval type information.
 
-    :attr str document_retrieval_strategy: (optional) Indentifies the document
+    :attr str document_retrieval_strategy: (optional) Identifies the document
           retrieval strategy used for this query. `relevancy_training` indicates that the
           results were returned using a relevancy trained model.
            **Note**: In the event of trained collections being queried, but the trained
@@ -3814,11 +3619,11 @@ class RetrievalDetails():
           listed as `untrained`.
     """
 
-    def __init__(self, *, document_retrieval_strategy=None):
+    def __init__(self, *, document_retrieval_strategy: str = None) -> None:
         """
         Initialize a RetrievalDetails object.
 
-        :param str document_retrieval_strategy: (optional) Indentifies the document
+        :param str document_retrieval_strategy: (optional) Identifies the document
                retrieval strategy used for this query. `relevancy_training` indicates that
                the results were returned using a relevancy trained model.
                 **Note**: In the event of trained collections being queried, but the
@@ -3828,7 +3633,7 @@ class RetrievalDetails():
         self.document_retrieval_strategy = document_retrieval_strategy
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'RetrievalDetails':
         """Initialize a RetrievalDetails object from a json dictionary."""
         args = {}
         valid_keys = ['document_retrieval_strategy']
@@ -3842,7 +3647,12 @@ class RetrievalDetails():
                 'document_retrieval_strategy')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RetrievalDetails object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'document_retrieval_strategy'
@@ -3851,23 +3661,27 @@ class RetrievalDetails():
                 'document_retrieval_strategy'] = self.document_retrieval_strategy
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this RetrievalDetails object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'RetrievalDetails') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'RetrievalDetails') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
     class DocumentRetrievalStrategyEnum(Enum):
         """
-        Indentifies the document retrieval strategy used for this query.
+        Identifies the document retrieval strategy used for this query.
         `relevancy_training` indicates that the results were returned using a relevancy
         trained model.
          **Note**: In the event of trained collections being queried, but the trained
@@ -3896,38 +3710,40 @@ class TableBodyCells():
           `column` location in the current table.
     :attr int column_index_end: (optional) The `end` index of this cell's `column`
           location in the current table.
-    :attr list[TableRowHeaderIds] row_header_ids: (optional) A list of table row
+    :attr List[TableRowHeaderIds] row_header_ids: (optional) A list of table row
           header ids.
-    :attr list[TableRowHeaderTexts] row_header_texts: (optional) A list of table row
+    :attr List[TableRowHeaderTexts] row_header_texts: (optional) A list of table row
           header texts.
-    :attr list[TableRowHeaderTextsNormalized] row_header_texts_normalized:
+    :attr List[TableRowHeaderTextsNormalized] row_header_texts_normalized:
           (optional) A list of table row header texts normalized.
-    :attr list[TableColumnHeaderIds] column_header_ids: (optional) A list of table
+    :attr List[TableColumnHeaderIds] column_header_ids: (optional) A list of table
           column header ids.
-    :attr list[TableColumnHeaderTexts] column_header_texts: (optional) A list of
+    :attr List[TableColumnHeaderTexts] column_header_texts: (optional) A list of
           table column header texts.
-    :attr list[TableColumnHeaderTextsNormalized] column_header_texts_normalized:
+    :attr List[TableColumnHeaderTextsNormalized] column_header_texts_normalized:
           (optional) A list of table column header texts normalized.
-    :attr list[DocumentAttribute] attributes: (optional) A list of document
+    :attr List[DocumentAttribute] attributes: (optional) A list of document
           attributes.
     """
 
     def __init__(self,
                  *,
-                 cell_id=None,
-                 location=None,
-                 text=None,
-                 row_index_begin=None,
-                 row_index_end=None,
-                 column_index_begin=None,
-                 column_index_end=None,
-                 row_header_ids=None,
-                 row_header_texts=None,
-                 row_header_texts_normalized=None,
-                 column_header_ids=None,
-                 column_header_texts=None,
-                 column_header_texts_normalized=None,
-                 attributes=None):
+                 cell_id: str = None,
+                 location: 'TableElementLocation' = None,
+                 text: str = None,
+                 row_index_begin: int = None,
+                 row_index_end: int = None,
+                 column_index_begin: int = None,
+                 column_index_end: int = None,
+                 row_header_ids: List['TableRowHeaderIds'] = None,
+                 row_header_texts: List['TableRowHeaderTexts'] = None,
+                 row_header_texts_normalized: List[
+                     'TableRowHeaderTextsNormalized'] = None,
+                 column_header_ids: List['TableColumnHeaderIds'] = None,
+                 column_header_texts: List['TableColumnHeaderTexts'] = None,
+                 column_header_texts_normalized: List[
+                     'TableColumnHeaderTextsNormalized'] = None,
+                 attributes: List['DocumentAttribute'] = None) -> None:
         """
         Initialize a TableBodyCells object.
 
@@ -3946,20 +3762,20 @@ class TableBodyCells():
                `column` location in the current table.
         :param int column_index_end: (optional) The `end` index of this cell's
                `column` location in the current table.
-        :param list[TableRowHeaderIds] row_header_ids: (optional) A list of table
+        :param List[TableRowHeaderIds] row_header_ids: (optional) A list of table
                row header ids.
-        :param list[TableRowHeaderTexts] row_header_texts: (optional) A list of
+        :param List[TableRowHeaderTexts] row_header_texts: (optional) A list of
                table row header texts.
-        :param list[TableRowHeaderTextsNormalized] row_header_texts_normalized:
+        :param List[TableRowHeaderTextsNormalized] row_header_texts_normalized:
                (optional) A list of table row header texts normalized.
-        :param list[TableColumnHeaderIds] column_header_ids: (optional) A list of
+        :param List[TableColumnHeaderIds] column_header_ids: (optional) A list of
                table column header ids.
-        :param list[TableColumnHeaderTexts] column_header_texts: (optional) A list
+        :param List[TableColumnHeaderTexts] column_header_texts: (optional) A list
                of table column header texts.
-        :param list[TableColumnHeaderTextsNormalized]
+        :param List[TableColumnHeaderTextsNormalized]
                column_header_texts_normalized: (optional) A list of table column header
                texts normalized.
-        :param list[DocumentAttribute] attributes: (optional) A list of document
+        :param List[DocumentAttribute] attributes: (optional) A list of document
                attributes.
         """
         self.cell_id = cell_id
@@ -3978,7 +3794,7 @@ class TableBodyCells():
         self.attributes = attributes
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'TableBodyCells':
         """Initialize a TableBodyCells object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -4045,7 +3861,12 @@ class TableBodyCells():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TableBodyCells object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'cell_id') and self.cell_id is not None:
@@ -4100,17 +3921,21 @@ class TableBodyCells():
             _dict['attributes'] = [x._to_dict() for x in self.attributes]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this TableBodyCells object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'TableBodyCells') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'TableBodyCells') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4127,7 +3952,11 @@ class TableCellKey():
           markup.
     """
 
-    def __init__(self, *, cell_id=None, location=None, text=None):
+    def __init__(self,
+                 *,
+                 cell_id: str = None,
+                 location: 'TableElementLocation' = None,
+                 text: str = None) -> None:
         """
         Initialize a TableCellKey object.
 
@@ -4143,7 +3972,7 @@ class TableCellKey():
         self.text = text
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'TableCellKey':
         """Initialize a TableCellKey object from a json dictionary."""
         args = {}
         valid_keys = ['cell_id', 'location', 'text']
@@ -4161,7 +3990,12 @@ class TableCellKey():
             args['text'] = _dict.get('text')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TableCellKey object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'cell_id') and self.cell_id is not None:
@@ -4172,17 +4006,21 @@ class TableCellKey():
             _dict['text'] = self.text
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this TableCellKey object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'TableCellKey') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'TableCellKey') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4199,7 +4037,11 @@ class TableCellValues():
           markup.
     """
 
-    def __init__(self, *, cell_id=None, location=None, text=None):
+    def __init__(self,
+                 *,
+                 cell_id: str = None,
+                 location: 'TableElementLocation' = None,
+                 text: str = None) -> None:
         """
         Initialize a TableCellValues object.
 
@@ -4215,7 +4057,7 @@ class TableCellValues():
         self.text = text
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'TableCellValues':
         """Initialize a TableCellValues object from a json dictionary."""
         args = {}
         valid_keys = ['cell_id', 'location', 'text']
@@ -4233,7 +4075,12 @@ class TableCellValues():
             args['text'] = _dict.get('text')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TableCellValues object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'cell_id') and self.cell_id is not None:
@@ -4244,17 +4091,21 @@ class TableCellValues():
             _dict['text'] = self.text
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this TableCellValues object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'TableCellValues') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'TableCellValues') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4267,7 +4118,7 @@ class TableColumnHeaderIds():
     :attr str id: (optional) The `id` value of a column header.
     """
 
-    def __init__(self, *, id=None):
+    def __init__(self, *, id: str = None) -> None:
         """
         Initialize a TableColumnHeaderIds object.
 
@@ -4276,7 +4127,7 @@ class TableColumnHeaderIds():
         self.id = id
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'TableColumnHeaderIds':
         """Initialize a TableColumnHeaderIds object from a json dictionary."""
         args = {}
         valid_keys = ['id']
@@ -4289,24 +4140,33 @@ class TableColumnHeaderIds():
             args['id'] = _dict.get('id')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TableColumnHeaderIds object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'id') and self.id is not None:
             _dict['id'] = self.id
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this TableColumnHeaderIds object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'TableColumnHeaderIds') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'TableColumnHeaderIds') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4319,7 +4179,7 @@ class TableColumnHeaderTexts():
     :attr str text: (optional) The `text` value of a column header.
     """
 
-    def __init__(self, *, text=None):
+    def __init__(self, *, text: str = None) -> None:
         """
         Initialize a TableColumnHeaderTexts object.
 
@@ -4328,7 +4188,7 @@ class TableColumnHeaderTexts():
         self.text = text
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'TableColumnHeaderTexts':
         """Initialize a TableColumnHeaderTexts object from a json dictionary."""
         args = {}
         valid_keys = ['text']
@@ -4341,24 +4201,33 @@ class TableColumnHeaderTexts():
             args['text'] = _dict.get('text')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TableColumnHeaderTexts object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this TableColumnHeaderTexts object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'TableColumnHeaderTexts') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'TableColumnHeaderTexts') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4372,7 +4241,7 @@ class TableColumnHeaderTextsNormalized():
           text.
     """
 
-    def __init__(self, *, text_normalized=None):
+    def __init__(self, *, text_normalized: str = None) -> None:
         """
         Initialize a TableColumnHeaderTextsNormalized object.
 
@@ -4382,7 +4251,7 @@ class TableColumnHeaderTextsNormalized():
         self.text_normalized = text_normalized
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'TableColumnHeaderTextsNormalized':
         """Initialize a TableColumnHeaderTextsNormalized object from a json dictionary."""
         args = {}
         valid_keys = ['text_normalized']
@@ -4395,7 +4264,12 @@ class TableColumnHeaderTextsNormalized():
             args['text_normalized'] = _dict.get('text_normalized')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TableColumnHeaderTextsNormalized object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self,
@@ -4403,17 +4277,21 @@ class TableColumnHeaderTextsNormalized():
             _dict['text_normalized'] = self.text_normalized
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this TableColumnHeaderTextsNormalized object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'TableColumnHeaderTextsNormalized') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'TableColumnHeaderTextsNormalized') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4444,14 +4322,14 @@ class TableColumnHeaders():
 
     def __init__(self,
                  *,
-                 cell_id=None,
-                 location=None,
-                 text=None,
-                 text_normalized=None,
-                 row_index_begin=None,
-                 row_index_end=None,
-                 column_index_begin=None,
-                 column_index_end=None):
+                 cell_id: str = None,
+                 location: object = None,
+                 text: str = None,
+                 text_normalized: str = None,
+                 row_index_begin: int = None,
+                 row_index_end: int = None,
+                 column_index_begin: int = None,
+                 column_index_end: int = None) -> None:
         """
         Initialize a TableColumnHeaders object.
 
@@ -4484,7 +4362,7 @@ class TableColumnHeaders():
         self.column_index_end = column_index_end
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'TableColumnHeaders':
         """Initialize a TableColumnHeaders object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -4514,7 +4392,12 @@ class TableColumnHeaders():
             args['column_index_end'] = _dict.get('column_index_end')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TableColumnHeaders object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'cell_id') and self.cell_id is not None:
@@ -4540,17 +4423,21 @@ class TableColumnHeaders():
             _dict['column_index_end'] = self.column_index_end
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this TableColumnHeaders object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'TableColumnHeaders') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'TableColumnHeaders') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4564,7 +4451,7 @@ class TableElementLocation():
     :attr int end: The element's `end` index.
     """
 
-    def __init__(self, begin, end):
+    def __init__(self, begin: int, end: int) -> None:
         """
         Initialize a TableElementLocation object.
 
@@ -4575,7 +4462,7 @@ class TableElementLocation():
         self.end = end
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'TableElementLocation':
         """Initialize a TableElementLocation object from a json dictionary."""
         args = {}
         valid_keys = ['begin', 'end']
@@ -4598,7 +4485,12 @@ class TableElementLocation():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TableElementLocation object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'begin') and self.begin is not None:
@@ -4607,17 +4499,21 @@ class TableElementLocation():
             _dict['end'] = self.end
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this TableElementLocation object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'TableElementLocation') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'TableElementLocation') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4644,13 +4540,13 @@ class TableHeaders():
 
     def __init__(self,
                  *,
-                 cell_id=None,
-                 location=None,
-                 text=None,
-                 row_index_begin=None,
-                 row_index_end=None,
-                 column_index_begin=None,
-                 column_index_end=None):
+                 cell_id: str = None,
+                 location: object = None,
+                 text: str = None,
+                 row_index_begin: int = None,
+                 row_index_end: int = None,
+                 column_index_begin: int = None,
+                 column_index_end: int = None) -> None:
         """
         Initialize a TableHeaders object.
 
@@ -4679,7 +4575,7 @@ class TableHeaders():
         self.column_index_end = column_index_end
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'TableHeaders':
         """Initialize a TableHeaders object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -4707,7 +4603,12 @@ class TableHeaders():
             args['column_index_end'] = _dict.get('column_index_end')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TableHeaders object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'cell_id') and self.cell_id is not None:
@@ -4730,17 +4631,21 @@ class TableHeaders():
             _dict['column_index_end'] = self.column_index_end
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this TableHeaders object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'TableHeaders') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'TableHeaders') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4750,23 +4655,26 @@ class TableKeyValuePairs():
     Key-value pairs detected across cell boundaries.
 
     :attr TableCellKey key: (optional) A key in a key-value pair.
-    :attr list[TableCellValues] value: (optional) A list of values in a key-value
+    :attr List[TableCellValues] value: (optional) A list of values in a key-value
           pair.
     """
 
-    def __init__(self, *, key=None, value=None):
+    def __init__(self,
+                 *,
+                 key: 'TableCellKey' = None,
+                 value: List['TableCellValues'] = None) -> None:
         """
         Initialize a TableKeyValuePairs object.
 
         :param TableCellKey key: (optional) A key in a key-value pair.
-        :param list[TableCellValues] value: (optional) A list of values in a
+        :param List[TableCellValues] value: (optional) A list of values in a
                key-value pair.
         """
         self.key = key
         self.value = value
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'TableKeyValuePairs':
         """Initialize a TableKeyValuePairs object from a json dictionary."""
         args = {}
         valid_keys = ['key', 'value']
@@ -4783,7 +4691,12 @@ class TableKeyValuePairs():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TableKeyValuePairs object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'key') and self.key is not None:
@@ -4792,17 +4705,21 @@ class TableKeyValuePairs():
             _dict['value'] = [x._to_dict() for x in self.value]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this TableKeyValuePairs object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'TableKeyValuePairs') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'TableKeyValuePairs') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4820,35 +4737,35 @@ class TableResultTable():
           within a table.
     :attr TableTextLocation title: (optional) Text and associated location within a
           table.
-    :attr list[TableHeaders] table_headers: (optional) An array of table-level cells
+    :attr List[TableHeaders] table_headers: (optional) An array of table-level cells
           that apply as headers to all the other cells in the current table.
-    :attr list[TableRowHeaders] row_headers: (optional) An array of row-level cells,
+    :attr List[TableRowHeaders] row_headers: (optional) An array of row-level cells,
           each applicable as a header to other cells in the same row as itself, of the
           current table.
-    :attr list[TableColumnHeaders] column_headers: (optional) An array of
+    :attr List[TableColumnHeaders] column_headers: (optional) An array of
           column-level cells, each applicable as a header to other cells in the same
           column as itself, of the current table.
-    :attr list[TableKeyValuePairs] key_value_pairs: (optional) An array of key-value
+    :attr List[TableKeyValuePairs] key_value_pairs: (optional) An array of key-value
           pairs identified in the current table.
-    :attr list[TableBodyCells] body_cells: (optional) An array of cells that are
+    :attr List[TableBodyCells] body_cells: (optional) An array of cells that are
           neither table header nor column header nor row header cells, of the current
           table with corresponding row and column header associations.
-    :attr list[TableTextLocation] contexts: (optional) An array of lists of textual
+    :attr List[TableTextLocation] contexts: (optional) An array of lists of textual
           entries across the document related to the current table being parsed.
     """
 
     def __init__(self,
                  *,
-                 location=None,
-                 text=None,
-                 section_title=None,
-                 title=None,
-                 table_headers=None,
-                 row_headers=None,
-                 column_headers=None,
-                 key_value_pairs=None,
-                 body_cells=None,
-                 contexts=None):
+                 location: 'TableElementLocation' = None,
+                 text: str = None,
+                 section_title: 'TableTextLocation' = None,
+                 title: 'TableTextLocation' = None,
+                 table_headers: List['TableHeaders'] = None,
+                 row_headers: List['TableRowHeaders'] = None,
+                 column_headers: List['TableColumnHeaders'] = None,
+                 key_value_pairs: List['TableKeyValuePairs'] = None,
+                 body_cells: List['TableBodyCells'] = None,
+                 contexts: List['TableTextLocation'] = None) -> None:
         """
         Initialize a TableResultTable object.
 
@@ -4861,20 +4778,20 @@ class TableResultTable():
                location within a table.
         :param TableTextLocation title: (optional) Text and associated location
                within a table.
-        :param list[TableHeaders] table_headers: (optional) An array of table-level
+        :param List[TableHeaders] table_headers: (optional) An array of table-level
                cells that apply as headers to all the other cells in the current table.
-        :param list[TableRowHeaders] row_headers: (optional) An array of row-level
+        :param List[TableRowHeaders] row_headers: (optional) An array of row-level
                cells, each applicable as a header to other cells in the same row as
                itself, of the current table.
-        :param list[TableColumnHeaders] column_headers: (optional) An array of
+        :param List[TableColumnHeaders] column_headers: (optional) An array of
                column-level cells, each applicable as a header to other cells in the same
                column as itself, of the current table.
-        :param list[TableKeyValuePairs] key_value_pairs: (optional) An array of
+        :param List[TableKeyValuePairs] key_value_pairs: (optional) An array of
                key-value pairs identified in the current table.
-        :param list[TableBodyCells] body_cells: (optional) An array of cells that
+        :param List[TableBodyCells] body_cells: (optional) An array of cells that
                are neither table header nor column header nor row header cells, of the
                current table with corresponding row and column header associations.
-        :param list[TableTextLocation] contexts: (optional) An array of lists of
+        :param List[TableTextLocation] contexts: (optional) An array of lists of
                textual entries across the document related to the current table being
                parsed.
         """
@@ -4890,7 +4807,7 @@ class TableResultTable():
         self.contexts = contexts
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'TableResultTable':
         """Initialize a TableResultTable object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -4942,7 +4859,12 @@ class TableResultTable():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TableResultTable object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'location') and self.location is not None:
@@ -4972,17 +4894,21 @@ class TableResultTable():
             _dict['contexts'] = [x._to_dict() for x in self.contexts]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this TableResultTable object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'TableResultTable') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'TableResultTable') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4995,7 +4921,7 @@ class TableRowHeaderIds():
     :attr str id: (optional) The `id` values of a row header.
     """
 
-    def __init__(self, *, id=None):
+    def __init__(self, *, id: str = None) -> None:
         """
         Initialize a TableRowHeaderIds object.
 
@@ -5004,7 +4930,7 @@ class TableRowHeaderIds():
         self.id = id
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'TableRowHeaderIds':
         """Initialize a TableRowHeaderIds object from a json dictionary."""
         args = {}
         valid_keys = ['id']
@@ -5017,24 +4943,33 @@ class TableRowHeaderIds():
             args['id'] = _dict.get('id')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TableRowHeaderIds object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'id') and self.id is not None:
             _dict['id'] = self.id
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this TableRowHeaderIds object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'TableRowHeaderIds') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'TableRowHeaderIds') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -5047,7 +4982,7 @@ class TableRowHeaderTexts():
     :attr str text: (optional) The `text` value of a row header.
     """
 
-    def __init__(self, *, text=None):
+    def __init__(self, *, text: str = None) -> None:
         """
         Initialize a TableRowHeaderTexts object.
 
@@ -5056,7 +4991,7 @@ class TableRowHeaderTexts():
         self.text = text
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'TableRowHeaderTexts':
         """Initialize a TableRowHeaderTexts object from a json dictionary."""
         args = {}
         valid_keys = ['text']
@@ -5069,24 +5004,33 @@ class TableRowHeaderTexts():
             args['text'] = _dict.get('text')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TableRowHeaderTexts object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this TableRowHeaderTexts object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'TableRowHeaderTexts') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'TableRowHeaderTexts') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -5100,7 +5044,7 @@ class TableRowHeaderTextsNormalized():
           text.
     """
 
-    def __init__(self, *, text_normalized=None):
+    def __init__(self, *, text_normalized: str = None) -> None:
         """
         Initialize a TableRowHeaderTextsNormalized object.
 
@@ -5110,7 +5054,7 @@ class TableRowHeaderTextsNormalized():
         self.text_normalized = text_normalized
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'TableRowHeaderTextsNormalized':
         """Initialize a TableRowHeaderTextsNormalized object from a json dictionary."""
         args = {}
         valid_keys = ['text_normalized']
@@ -5123,7 +5067,12 @@ class TableRowHeaderTextsNormalized():
             args['text_normalized'] = _dict.get('text_normalized')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TableRowHeaderTextsNormalized object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self,
@@ -5131,17 +5080,21 @@ class TableRowHeaderTextsNormalized():
             _dict['text_normalized'] = self.text_normalized
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this TableRowHeaderTextsNormalized object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'TableRowHeaderTextsNormalized') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'TableRowHeaderTextsNormalized') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -5172,14 +5125,14 @@ class TableRowHeaders():
 
     def __init__(self,
                  *,
-                 cell_id=None,
-                 location=None,
-                 text=None,
-                 text_normalized=None,
-                 row_index_begin=None,
-                 row_index_end=None,
-                 column_index_begin=None,
-                 column_index_end=None):
+                 cell_id: str = None,
+                 location: 'TableElementLocation' = None,
+                 text: str = None,
+                 text_normalized: str = None,
+                 row_index_begin: int = None,
+                 row_index_end: int = None,
+                 column_index_begin: int = None,
+                 column_index_end: int = None) -> None:
         """
         Initialize a TableRowHeaders object.
 
@@ -5212,7 +5165,7 @@ class TableRowHeaders():
         self.column_index_end = column_index_end
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'TableRowHeaders':
         """Initialize a TableRowHeaders object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -5243,7 +5196,12 @@ class TableRowHeaders():
             args['column_index_end'] = _dict.get('column_index_end')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TableRowHeaders object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'cell_id') and self.cell_id is not None:
@@ -5269,17 +5227,21 @@ class TableRowHeaders():
             _dict['column_index_end'] = self.column_index_end
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this TableRowHeaders object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'TableRowHeaders') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'TableRowHeaders') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -5294,7 +5256,10 @@ class TableTextLocation():
           `begin` and `end`.
     """
 
-    def __init__(self, *, text=None, location=None):
+    def __init__(self,
+                 *,
+                 text: str = None,
+                 location: 'TableElementLocation' = None) -> None:
         """
         Initialize a TableTextLocation object.
 
@@ -5307,7 +5272,7 @@ class TableTextLocation():
         self.location = location
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'TableTextLocation':
         """Initialize a TableTextLocation object from a json dictionary."""
         args = {}
         valid_keys = ['text', 'location']
@@ -5323,7 +5288,12 @@ class TableTextLocation():
                 _dict.get('location'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TableTextLocation object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
@@ -5332,17 +5302,21 @@ class TableTextLocation():
             _dict['location'] = self.location._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this TableTextLocation object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'TableTextLocation') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'TableTextLocation') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -5355,17 +5329,17 @@ class TrainingExample():
     :attr str collection_id: The collection ID associated with this training
           example.
     :attr int relevance: The relevance of the training example.
-    :attr date created: (optional) The date and time the example was created.
-    :attr date updated: (optional) The date and time the example was updated.
+    :attr datetime created: (optional) The date and time the example was created.
+    :attr datetime updated: (optional) The date and time the example was updated.
     """
 
     def __init__(self,
-                 document_id,
-                 collection_id,
-                 relevance,
+                 document_id: str,
+                 collection_id: str,
+                 relevance: int,
                  *,
-                 created=None,
-                 updated=None):
+                 created: datetime = None,
+                 updated: datetime = None) -> None:
         """
         Initialize a TrainingExample object.
 
@@ -5374,8 +5348,10 @@ class TrainingExample():
         :param str collection_id: The collection ID associated with this training
                example.
         :param int relevance: The relevance of the training example.
-        :param date created: (optional) The date and time the example was created.
-        :param date updated: (optional) The date and time the example was updated.
+        :param datetime created: (optional) The date and time the example was
+               created.
+        :param datetime updated: (optional) The date and time the example was
+               updated.
         """
         self.document_id = document_id
         self.collection_id = collection_id
@@ -5384,7 +5360,7 @@ class TrainingExample():
         self.updated = updated
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'TrainingExample':
         """Initialize a TrainingExample object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -5414,12 +5390,17 @@ class TrainingExample():
                 'Required property \'relevance\' not present in TrainingExample JSON'
             )
         if 'created' in _dict:
-            args['created'] = _dict.get('created')
+            args['created'] = string_to_datetime(_dict.get('created'))
         if 'updated' in _dict:
-            args['updated'] = _dict.get('updated')
+            args['updated'] = string_to_datetime(_dict.get('updated'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TrainingExample object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'document_id') and self.document_id is not None:
@@ -5429,22 +5410,26 @@ class TrainingExample():
         if hasattr(self, 'relevance') and self.relevance is not None:
             _dict['relevance'] = self.relevance
         if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = self.created
+            _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = self.updated
+            _dict['updated'] = datetime_to_string(self.updated)
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this TrainingExample object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'TrainingExample') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'TrainingExample') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -5457,31 +5442,33 @@ class TrainingQuery():
     :attr str natural_language_query: The natural text query for the training query.
     :attr str filter: (optional) The filter used on the collection before the
           **natural_language_query** is applied.
-    :attr date created: (optional) The date and time the query was created.
-    :attr date updated: (optional) The date and time the query was updated.
-    :attr list[TrainingExample] examples: Array of training examples.
+    :attr datetime created: (optional) The date and time the query was created.
+    :attr datetime updated: (optional) The date and time the query was updated.
+    :attr List[TrainingExample] examples: Array of training examples.
     """
 
     def __init__(self,
-                 natural_language_query,
-                 examples,
+                 natural_language_query: str,
+                 examples: List['TrainingExample'],
                  *,
-                 query_id=None,
-                 filter=None,
-                 created=None,
-                 updated=None):
+                 query_id: str = None,
+                 filter: str = None,
+                 created: datetime = None,
+                 updated: datetime = None) -> None:
         """
         Initialize a TrainingQuery object.
 
         :param str natural_language_query: The natural text query for the training
                query.
-        :param list[TrainingExample] examples: Array of training examples.
+        :param List[TrainingExample] examples: Array of training examples.
         :param str query_id: (optional) The query ID associated with the training
                query.
         :param str filter: (optional) The filter used on the collection before the
                **natural_language_query** is applied.
-        :param date created: (optional) The date and time the query was created.
-        :param date updated: (optional) The date and time the query was updated.
+        :param datetime created: (optional) The date and time the query was
+               created.
+        :param datetime updated: (optional) The date and time the query was
+               updated.
         """
         self.query_id = query_id
         self.natural_language_query = natural_language_query
@@ -5491,7 +5478,7 @@ class TrainingQuery():
         self.examples = examples
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'TrainingQuery':
         """Initialize a TrainingQuery object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -5514,9 +5501,9 @@ class TrainingQuery():
         if 'filter' in _dict:
             args['filter'] = _dict.get('filter')
         if 'created' in _dict:
-            args['created'] = _dict.get('created')
+            args['created'] = string_to_datetime(_dict.get('created'))
         if 'updated' in _dict:
-            args['updated'] = _dict.get('updated')
+            args['updated'] = string_to_datetime(_dict.get('updated'))
         if 'examples' in _dict:
             args['examples'] = [
                 TrainingExample._from_dict(x) for x in (_dict.get('examples'))
@@ -5527,7 +5514,12 @@ class TrainingQuery():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TrainingQuery object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'query_id') and self.query_id is not None:
@@ -5538,24 +5530,28 @@ class TrainingQuery():
         if hasattr(self, 'filter') and self.filter is not None:
             _dict['filter'] = self.filter
         if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = self.created
+            _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = self.updated
+            _dict['updated'] = datetime_to_string(self.updated)
         if hasattr(self, 'examples') and self.examples is not None:
             _dict['examples'] = [x._to_dict() for x in self.examples]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this TrainingQuery object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'TrainingQuery') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'TrainingQuery') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -5564,19 +5560,19 @@ class TrainingQuerySet():
     """
     Object specifying the training queries contained in the identified training set.
 
-    :attr list[TrainingQuery] queries: (optional) Array of training queries.
+    :attr List[TrainingQuery] queries: (optional) Array of training queries.
     """
 
-    def __init__(self, *, queries=None):
+    def __init__(self, *, queries: List['TrainingQuery'] = None) -> None:
         """
         Initialize a TrainingQuerySet object.
 
-        :param list[TrainingQuery] queries: (optional) Array of training queries.
+        :param List[TrainingQuery] queries: (optional) Array of training queries.
         """
         self.queries = queries
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'TrainingQuerySet':
         """Initialize a TrainingQuerySet object from a json dictionary."""
         args = {}
         valid_keys = ['queries']
@@ -5591,23 +5587,734 @@ class TrainingQuerySet():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a TrainingQuerySet object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'queries') and self.queries is not None:
             _dict['queries'] = [x._to_dict() for x in self.queries]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this TrainingQuerySet object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'TrainingQuerySet') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'TrainingQuerySet') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class QueryCalculationAggregation(QueryAggregation):
+    """
+    Returns a scalar calculation across all documents for the field specified. Possible
+    calculations include min, max, sum, average, and unique_count.
+
+    :attr str field: The field to perform the calculation on.
+    :attr float value: (optional) The value of the calculation.
+    """
+
+    def __init__(self, type: str, field: str, *, value: float = None) -> None:
+        """
+        Initialize a QueryCalculationAggregation object.
+
+        :param str type: The type of aggregation command used. Options include:
+               term, histogram, timeslice, nested, filter, min, max, sum, average,
+               unique_count, and top_hits.
+        :param str field: The field to perform the calculation on.
+        :param float value: (optional) The value of the calculation.
+        """
+        self.type = type
+        self.field = field
+        self.value = value
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'QueryCalculationAggregation':
+        """Initialize a QueryCalculationAggregation object from a json dictionary."""
+        args = {}
+        valid_keys = ['type', 'field', 'value']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class QueryCalculationAggregation: '
+                + ', '.join(bad_keys))
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        else:
+            raise ValueError(
+                'Required property \'type\' not present in QueryCalculationAggregation JSON'
+            )
+        if 'field' in _dict:
+            args['field'] = _dict.get('field')
+        else:
+            raise ValueError(
+                'Required property \'field\' not present in QueryCalculationAggregation JSON'
+            )
+        if 'value' in _dict:
+            args['value'] = _dict.get('value')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryCalculationAggregation object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'field') and self.field is not None:
+            _dict['field'] = self.field
+        if hasattr(self, 'value') and self.value is not None:
+            _dict['value'] = self.value
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this QueryCalculationAggregation object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'QueryCalculationAggregation') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'QueryCalculationAggregation') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class QueryFilterAggregation(QueryAggregation):
+    """
+    A modifier that will narrow down the document set of the sub aggregations it precedes.
+
+    :attr str match: The filter written in Discovery Query Language syntax applied
+          to the documents before sub aggregations are run.
+    :attr int matching_results: Number of documents matching the filter.
+    :attr List[QueryAggregation] aggregations: (optional) An array of sub
+          aggregations.
+    """
+
+    def __init__(self,
+                 type: str,
+                 match: str,
+                 matching_results: int,
+                 *,
+                 aggregations: List['QueryAggregation'] = None) -> None:
+        """
+        Initialize a QueryFilterAggregation object.
+
+        :param str type: The type of aggregation command used. Options include:
+               term, histogram, timeslice, nested, filter, min, max, sum, average,
+               unique_count, and top_hits.
+        :param str match: The filter written in Discovery Query Language syntax
+               applied to the documents before sub aggregations are run.
+        :param int matching_results: Number of documents matching the filter.
+        :param List[QueryAggregation] aggregations: (optional) An array of sub
+               aggregations.
+        """
+        self.type = type
+        self.match = match
+        self.matching_results = matching_results
+        self.aggregations = aggregations
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'QueryFilterAggregation':
+        """Initialize a QueryFilterAggregation object from a json dictionary."""
+        args = {}
+        valid_keys = ['type', 'match', 'matching_results', 'aggregations']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class QueryFilterAggregation: '
+                + ', '.join(bad_keys))
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        else:
+            raise ValueError(
+                'Required property \'type\' not present in QueryFilterAggregation JSON'
+            )
+        if 'match' in _dict:
+            args['match'] = _dict.get('match')
+        else:
+            raise ValueError(
+                'Required property \'match\' not present in QueryFilterAggregation JSON'
+            )
+        if 'matching_results' in _dict:
+            args['matching_results'] = _dict.get('matching_results')
+        else:
+            raise ValueError(
+                'Required property \'matching_results\' not present in QueryFilterAggregation JSON'
+            )
+        if 'aggregations' in _dict:
+            args['aggregations'] = [
+                QueryAggregation._from_dict(x)
+                for x in (_dict.get('aggregations'))
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryFilterAggregation object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'match') and self.match is not None:
+            _dict['match'] = self.match
+        if hasattr(self,
+                   'matching_results') and self.matching_results is not None:
+            _dict['matching_results'] = self.matching_results
+        if hasattr(self, 'aggregations') and self.aggregations is not None:
+            _dict['aggregations'] = [x._to_dict() for x in self.aggregations]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this QueryFilterAggregation object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'QueryFilterAggregation') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'QueryFilterAggregation') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class QueryHistogramAggregation(QueryAggregation):
+    """
+    Numeric interval segments to categorize documents by using field values from a single
+    numeric field to describe the category.
+
+    :attr str field: The numeric field name used to create the histogram.
+    :attr int interval: The size of the sections the results are split into.
+    :attr List[QueryHistogramAggregationResult] results: (optional) Array of numeric
+          intervals.
+    """
+
+    def __init__(self,
+                 type: str,
+                 field: str,
+                 interval: int,
+                 *,
+                 results: List['QueryHistogramAggregationResult'] = None
+                ) -> None:
+        """
+        Initialize a QueryHistogramAggregation object.
+
+        :param str type: The type of aggregation command used. Options include:
+               term, histogram, timeslice, nested, filter, min, max, sum, average,
+               unique_count, and top_hits.
+        :param str field: The numeric field name used to create the histogram.
+        :param int interval: The size of the sections the results are split into.
+        :param List[QueryHistogramAggregationResult] results: (optional) Array of
+               numeric intervals.
+        """
+        self.type = type
+        self.field = field
+        self.interval = interval
+        self.results = results
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'QueryHistogramAggregation':
+        """Initialize a QueryHistogramAggregation object from a json dictionary."""
+        args = {}
+        valid_keys = ['type', 'field', 'interval', 'results']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class QueryHistogramAggregation: '
+                + ', '.join(bad_keys))
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        else:
+            raise ValueError(
+                'Required property \'type\' not present in QueryHistogramAggregation JSON'
+            )
+        if 'field' in _dict:
+            args['field'] = _dict.get('field')
+        else:
+            raise ValueError(
+                'Required property \'field\' not present in QueryHistogramAggregation JSON'
+            )
+        if 'interval' in _dict:
+            args['interval'] = _dict.get('interval')
+        else:
+            raise ValueError(
+                'Required property \'interval\' not present in QueryHistogramAggregation JSON'
+            )
+        if 'results' in _dict:
+            args['results'] = [
+                QueryHistogramAggregationResult._from_dict(x)
+                for x in (_dict.get('results'))
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryHistogramAggregation object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'field') and self.field is not None:
+            _dict['field'] = self.field
+        if hasattr(self, 'interval') and self.interval is not None:
+            _dict['interval'] = self.interval
+        if hasattr(self, 'results') and self.results is not None:
+            _dict['results'] = [x._to_dict() for x in self.results]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this QueryHistogramAggregation object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'QueryHistogramAggregation') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'QueryHistogramAggregation') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class QueryNestedAggregation(QueryAggregation):
+    """
+    A restriction that alter the document set used for sub aggregations it precedes to
+    nested documents found in the field specified.
+
+    :attr str path: The path to the document field to scope sub aggregations to.
+    :attr int matching_results: Number of nested documents found in the specified
+          field.
+    :attr List[QueryAggregation] aggregations: (optional) An array of sub
+          aggregations.
+    """
+
+    def __init__(self,
+                 type: str,
+                 path: str,
+                 matching_results: int,
+                 *,
+                 aggregations: List['QueryAggregation'] = None) -> None:
+        """
+        Initialize a QueryNestedAggregation object.
+
+        :param str type: The type of aggregation command used. Options include:
+               term, histogram, timeslice, nested, filter, min, max, sum, average,
+               unique_count, and top_hits.
+        :param str path: The path to the document field to scope sub aggregations
+               to.
+        :param int matching_results: Number of nested documents found in the
+               specified field.
+        :param List[QueryAggregation] aggregations: (optional) An array of sub
+               aggregations.
+        """
+        self.type = type
+        self.path = path
+        self.matching_results = matching_results
+        self.aggregations = aggregations
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'QueryNestedAggregation':
+        """Initialize a QueryNestedAggregation object from a json dictionary."""
+        args = {}
+        valid_keys = ['type', 'path', 'matching_results', 'aggregations']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class QueryNestedAggregation: '
+                + ', '.join(bad_keys))
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        else:
+            raise ValueError(
+                'Required property \'type\' not present in QueryNestedAggregation JSON'
+            )
+        if 'path' in _dict:
+            args['path'] = _dict.get('path')
+        else:
+            raise ValueError(
+                'Required property \'path\' not present in QueryNestedAggregation JSON'
+            )
+        if 'matching_results' in _dict:
+            args['matching_results'] = _dict.get('matching_results')
+        else:
+            raise ValueError(
+                'Required property \'matching_results\' not present in QueryNestedAggregation JSON'
+            )
+        if 'aggregations' in _dict:
+            args['aggregations'] = [
+                QueryAggregation._from_dict(x)
+                for x in (_dict.get('aggregations'))
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryNestedAggregation object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'path') and self.path is not None:
+            _dict['path'] = self.path
+        if hasattr(self,
+                   'matching_results') and self.matching_results is not None:
+            _dict['matching_results'] = self.matching_results
+        if hasattr(self, 'aggregations') and self.aggregations is not None:
+            _dict['aggregations'] = [x._to_dict() for x in self.aggregations]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this QueryNestedAggregation object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'QueryNestedAggregation') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'QueryNestedAggregation') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class QueryTermAggregation(QueryAggregation):
+    """
+    Returns the top values for the field specified.
+
+    :attr str field: The field in the document used to generate top values from.
+    :attr int count: (optional) The number of top values returned.
+    :attr List[QueryTermAggregationResult] results: (optional) Array of top values
+          for the field.
+    """
+
+    def __init__(self,
+                 type: str,
+                 field: str,
+                 *,
+                 count: int = None,
+                 results: List['QueryTermAggregationResult'] = None) -> None:
+        """
+        Initialize a QueryTermAggregation object.
+
+        :param str type: The type of aggregation command used. Options include:
+               term, histogram, timeslice, nested, filter, min, max, sum, average,
+               unique_count, and top_hits.
+        :param str field: The field in the document used to generate top values
+               from.
+        :param int count: (optional) The number of top values returned.
+        :param List[QueryTermAggregationResult] results: (optional) Array of top
+               values for the field.
+        """
+        self.type = type
+        self.field = field
+        self.count = count
+        self.results = results
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'QueryTermAggregation':
+        """Initialize a QueryTermAggregation object from a json dictionary."""
+        args = {}
+        valid_keys = ['type', 'field', 'count', 'results']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class QueryTermAggregation: '
+                + ', '.join(bad_keys))
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        else:
+            raise ValueError(
+                'Required property \'type\' not present in QueryTermAggregation JSON'
+            )
+        if 'field' in _dict:
+            args['field'] = _dict.get('field')
+        else:
+            raise ValueError(
+                'Required property \'field\' not present in QueryTermAggregation JSON'
+            )
+        if 'count' in _dict:
+            args['count'] = _dict.get('count')
+        if 'results' in _dict:
+            args['results'] = [
+                QueryTermAggregationResult._from_dict(x)
+                for x in (_dict.get('results'))
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryTermAggregation object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'field') and self.field is not None:
+            _dict['field'] = self.field
+        if hasattr(self, 'count') and self.count is not None:
+            _dict['count'] = self.count
+        if hasattr(self, 'results') and self.results is not None:
+            _dict['results'] = [x._to_dict() for x in self.results]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this QueryTermAggregation object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'QueryTermAggregation') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'QueryTermAggregation') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class QueryTimesliceAggregation(QueryAggregation):
+    """
+    A specialized histogram aggregation that uses dates to create interval segments.
+
+    :attr str field: The date field name used to create the timeslice.
+    :attr str interval: The date interval value. Valid values are seconds, minutes,
+          hours, days, weeks, and years.
+    :attr List[QueryTimesliceAggregationResult] results: (optional) Array of
+          aggregation results.
+    """
+
+    def __init__(self,
+                 type: str,
+                 field: str,
+                 interval: str,
+                 *,
+                 results: List['QueryTimesliceAggregationResult'] = None
+                ) -> None:
+        """
+        Initialize a QueryTimesliceAggregation object.
+
+        :param str type: The type of aggregation command used. Options include:
+               term, histogram, timeslice, nested, filter, min, max, sum, average,
+               unique_count, and top_hits.
+        :param str field: The date field name used to create the timeslice.
+        :param str interval: The date interval value. Valid values are seconds,
+               minutes, hours, days, weeks, and years.
+        :param List[QueryTimesliceAggregationResult] results: (optional) Array of
+               aggregation results.
+        """
+        self.type = type
+        self.field = field
+        self.interval = interval
+        self.results = results
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'QueryTimesliceAggregation':
+        """Initialize a QueryTimesliceAggregation object from a json dictionary."""
+        args = {}
+        valid_keys = ['type', 'field', 'interval', 'results']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class QueryTimesliceAggregation: '
+                + ', '.join(bad_keys))
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        else:
+            raise ValueError(
+                'Required property \'type\' not present in QueryTimesliceAggregation JSON'
+            )
+        if 'field' in _dict:
+            args['field'] = _dict.get('field')
+        else:
+            raise ValueError(
+                'Required property \'field\' not present in QueryTimesliceAggregation JSON'
+            )
+        if 'interval' in _dict:
+            args['interval'] = _dict.get('interval')
+        else:
+            raise ValueError(
+                'Required property \'interval\' not present in QueryTimesliceAggregation JSON'
+            )
+        if 'results' in _dict:
+            args['results'] = [
+                QueryTimesliceAggregationResult._from_dict(x)
+                for x in (_dict.get('results'))
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryTimesliceAggregation object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'field') and self.field is not None:
+            _dict['field'] = self.field
+        if hasattr(self, 'interval') and self.interval is not None:
+            _dict['interval'] = self.interval
+        if hasattr(self, 'results') and self.results is not None:
+            _dict['results'] = [x._to_dict() for x in self.results]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this QueryTimesliceAggregation object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'QueryTimesliceAggregation') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'QueryTimesliceAggregation') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class QueryTopHitsAggregation(QueryAggregation):
+    """
+    Returns the top documents ranked by the score of the query.
+
+    :attr int size: The number of documents to return.
+    :attr QueryTopHitsAggregationResult hits: (optional)
+    """
+
+    def __init__(self,
+                 type: str,
+                 size: int,
+                 *,
+                 hits: 'QueryTopHitsAggregationResult' = None) -> None:
+        """
+        Initialize a QueryTopHitsAggregation object.
+
+        :param str type: The type of aggregation command used. Options include:
+               term, histogram, timeslice, nested, filter, min, max, sum, average,
+               unique_count, and top_hits.
+        :param int size: The number of documents to return.
+        :param QueryTopHitsAggregationResult hits: (optional)
+        """
+        self.type = type
+        self.size = size
+        self.hits = hits
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'QueryTopHitsAggregation':
+        """Initialize a QueryTopHitsAggregation object from a json dictionary."""
+        args = {}
+        valid_keys = ['type', 'size', 'hits']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class QueryTopHitsAggregation: '
+                + ', '.join(bad_keys))
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        else:
+            raise ValueError(
+                'Required property \'type\' not present in QueryTopHitsAggregation JSON'
+            )
+        if 'size' in _dict:
+            args['size'] = _dict.get('size')
+        else:
+            raise ValueError(
+                'Required property \'size\' not present in QueryTopHitsAggregation JSON'
+            )
+        if 'hits' in _dict:
+            args['hits'] = QueryTopHitsAggregationResult._from_dict(
+                _dict.get('hits'))
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryTopHitsAggregation object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'size') and self.size is not None:
+            _dict['size'] = self.size
+        if hasattr(self, 'hits') and self.hits is not None:
+            _dict['hits'] = self.hits._to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this QueryTopHitsAggregation object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'QueryTopHitsAggregation') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'QueryTopHitsAggregation') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other

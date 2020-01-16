@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019.
+# (C) Copyright IBM Corp. 2016, 2020.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -34,11 +34,13 @@ or retain data from requests and responses.
 """
 
 import json
+from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
 from .common import get_sdk_headers
 from enum import Enum
 from ibm_cloud_sdk_core import BaseService
 from ibm_cloud_sdk_core import get_authenticator_from_environment
-from ibm_cloud_sdk_core import read_external_sources
+from typing import Dict
+from typing import List
 
 ##############################################################################
 # Service
@@ -48,13 +50,15 @@ from ibm_cloud_sdk_core import read_external_sources
 class PersonalityInsightsV3(BaseService):
     """The Personality Insights V3 service."""
 
-    default_service_url = 'https://gateway.watsonplatform.net/personality-insights/api'
+    DEFAULT_SERVICE_URL = 'https://gateway.watsonplatform.net/personality-insights/api'
+    DEFAULT_SERVICE_NAME = 'personality_insights'
 
     def __init__(
             self,
-            version,
-            authenticator=None,
-    ):
+            version: str,
+            authenticator: Authenticator = None,
+            service_name: str = DEFAULT_SERVICE_NAME,
+    ) -> None:
         """
         Construct a new client for the Personality Insights service.
 
@@ -73,41 +77,30 @@ class PersonalityInsightsV3(BaseService):
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
         """
-
-        service_url = self.default_service_url
-        disable_ssl_verification = False
-
-        config = read_external_sources('personality_insights')
-        if config.get('URL'):
-            service_url = config.get('URL')
-        if config.get('DISABLE_SSL'):
-            disable_ssl_verification = config.get('DISABLE_SSL')
-
         if not authenticator:
-            authenticator = get_authenticator_from_environment(
-                'personality_insights')
-
+            authenticator = get_authenticator_from_environment(service_name)
         BaseService.__init__(self,
-                             service_url=service_url,
+                             service_url=self.DEFAULT_SERVICE_URL,
                              authenticator=authenticator,
-                             disable_ssl_verification=disable_ssl_verification)
+                             disable_ssl_verification=False)
         self.version = version
+        self.configure_service(service_name)
 
     #########################
     # Methods
     #########################
 
     def profile(self,
-                content,
-                accept,
+                content: object,
+                accept: str,
                 *,
-                content_type=None,
-                content_language=None,
-                accept_language=None,
-                raw_scores=None,
-                csv_headers=None,
-                consumption_preferences=None,
-                **kwargs):
+                content_type: str = None,
+                content_language: str = None,
+                accept_language: str = None,
+                raw_scores: bool = None,
+                csv_headers: bool = None,
+                consumption_preferences: bool = None,
+                **kwargs) -> 'DetailedResponse':
         """
         Get profile.
 
@@ -200,7 +193,9 @@ class PersonalityInsightsV3(BaseService):
         }
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('personality_insights', 'V3', 'profile')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V3',
+                                      operation_id='profile')
         headers.update(sdk_headers)
 
         params = {
@@ -216,13 +211,12 @@ class PersonalityInsightsV3(BaseService):
             data = content
 
         url = '/v3/profile'
-        request = self.prepare_request(
-            method='POST',
-            url=url,
-            headers=headers,
-            params=params,
-            data=data,
-            accept_json=(accept is None or accept == 'application/json'))
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data)
+
         response = self.send(request)
         return response
 
@@ -305,7 +299,8 @@ class Behavior():
           day. The range is 0 to 1.
     """
 
-    def __init__(self, trait_id, name, category, percentage):
+    def __init__(self, trait_id: str, name: str, category: str,
+                 percentage: float) -> None:
         """
         Initialize a Behavior object.
 
@@ -325,7 +320,7 @@ class Behavior():
         self.percentage = percentage
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Behavior':
         """Initialize a Behavior object from a json dictionary."""
         args = {}
         valid_keys = ['trait_id', 'name', 'category', 'percentage']
@@ -356,7 +351,12 @@ class Behavior():
                 'Required property \'percentage\' not present in Behavior JSON')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Behavior object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'trait_id') and self.trait_id is not None:
@@ -369,17 +369,21 @@ class Behavior():
             _dict['percentage'] = self.percentage
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Behavior object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Behavior') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Behavior') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -401,7 +405,8 @@ class ConsumptionPreferences():
           input text, not a normalized percentile.
     """
 
-    def __init__(self, consumption_preference_id, name, score):
+    def __init__(self, consumption_preference_id: str, name: str,
+                 score: float) -> None:
         """
         Initialize a ConsumptionPreferences object.
 
@@ -423,7 +428,7 @@ class ConsumptionPreferences():
         self.score = score
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ConsumptionPreferences':
         """Initialize a ConsumptionPreferences object from a json dictionary."""
         args = {}
         valid_keys = ['consumption_preference_id', 'name', 'score']
@@ -453,7 +458,12 @@ class ConsumptionPreferences():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ConsumptionPreferences object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'consumption_preference_id'
@@ -465,17 +475,21 @@ class ConsumptionPreferences():
             _dict['score'] = self.score
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ConsumptionPreferences object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ConsumptionPreferences') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ConsumptionPreferences') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -488,12 +502,13 @@ class ConsumptionPreferencesCategory():
           identifier of the consumption preferences category to which the results pertain.
           IDs have the form `consumption_preferences_{category}`.
     :attr str name: The user-visible name of the consumption preferences category.
-    :attr list[ConsumptionPreferences] consumption_preferences: Detailed results
+    :attr List[ConsumptionPreferences] consumption_preferences: Detailed results
           inferred from the input text for the individual preferences of the category.
     """
 
-    def __init__(self, consumption_preference_category_id, name,
-                 consumption_preferences):
+    def __init__(self, consumption_preference_category_id: str, name: str,
+                 consumption_preferences: List['ConsumptionPreferences']
+                ) -> None:
         """
         Initialize a ConsumptionPreferencesCategory object.
 
@@ -502,7 +517,7 @@ class ConsumptionPreferencesCategory():
                pertain. IDs have the form `consumption_preferences_{category}`.
         :param str name: The user-visible name of the consumption preferences
                category.
-        :param list[ConsumptionPreferences] consumption_preferences: Detailed
+        :param List[ConsumptionPreferences] consumption_preferences: Detailed
                results inferred from the input text for the individual preferences of the
                category.
         """
@@ -511,7 +526,7 @@ class ConsumptionPreferencesCategory():
         self.consumption_preferences = consumption_preferences
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ConsumptionPreferencesCategory':
         """Initialize a ConsumptionPreferencesCategory object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -547,7 +562,12 @@ class ConsumptionPreferencesCategory():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ConsumptionPreferencesCategory object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'consumption_preference_category_id'
@@ -563,17 +583,21 @@ class ConsumptionPreferencesCategory():
             ]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ConsumptionPreferencesCategory object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ConsumptionPreferencesCategory') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ConsumptionPreferencesCategory') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -582,21 +606,21 @@ class Content():
     """
     The full input content that the service is to analyze.
 
-    :attr list[ContentItem] content_items: An array of `ContentItem` objects that
+    :attr List[ContentItem] content_items: An array of `ContentItem` objects that
           provides the text that is to be analyzed.
     """
 
-    def __init__(self, content_items):
+    def __init__(self, content_items: List['ContentItem']) -> None:
         """
         Initialize a Content object.
 
-        :param list[ContentItem] content_items: An array of `ContentItem` objects
+        :param List[ContentItem] content_items: An array of `ContentItem` objects
                that provides the text that is to be analyzed.
         """
         self.content_items = content_items
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Content':
         """Initialize a Content object from a json dictionary."""
         args = {}
         valid_keys = ['content_items', 'contentItems']
@@ -615,24 +639,33 @@ class Content():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Content object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'content_items') and self.content_items is not None:
             _dict['contentItems'] = [x._to_dict() for x in self.content_items]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Content object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Content') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Content') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -673,16 +706,16 @@ class ContentItem():
     """
 
     def __init__(self,
-                 content,
+                 content: str,
                  *,
-                 id=None,
-                 created=None,
-                 updated=None,
-                 contenttype=None,
-                 language=None,
-                 parentid=None,
-                 reply=None,
-                 forward=None):
+                 id: str = None,
+                 created: int = None,
+                 updated: int = None,
+                 contenttype: str = None,
+                 language: str = None,
+                 parentid: str = None,
+                 reply: bool = None,
+                 forward: bool = None) -> None:
         """
         Initialize a ContentItem object.
 
@@ -729,7 +762,7 @@ class ContentItem():
         self.forward = forward
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'ContentItem':
         """Initialize a ContentItem object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -764,7 +797,12 @@ class ContentItem():
             args['forward'] = _dict.get('forward')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ContentItem object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'content') and self.content is not None:
@@ -787,17 +825,21 @@ class ContentItem():
             _dict['forward'] = self.forward
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this ContentItem object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'ContentItem') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'ContentItem') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -839,38 +881,39 @@ class Profile():
     :attr str word_count_message: (optional) When guidance is appropriate, a string
           that provides a message that indicates the number of words found and where that
           value falls in the range of required or suggested number of words.
-    :attr list[Trait] personality: A recursive array of `Trait` objects that
+    :attr List[Trait] personality: A recursive array of `Trait` objects that
           provides detailed results for the Big Five personality characteristics
           (dimensions and facets) inferred from the input text.
-    :attr list[Trait] needs: Detailed results for the Needs characteristics inferred
+    :attr List[Trait] needs: Detailed results for the Needs characteristics inferred
           from the input text.
-    :attr list[Trait] values: Detailed results for the Values characteristics
+    :attr List[Trait] values: Detailed results for the Values characteristics
           inferred from the input text.
-    :attr list[Behavior] behavior: (optional) For JSON content that is timestamped,
+    :attr List[Behavior] behavior: (optional) For JSON content that is timestamped,
           detailed results about the social behavior disclosed by the input in terms of
           temporal characteristics. The results include information about the distribution
           of the content over the days of the week and the hours of the day.
-    :attr list[ConsumptionPreferencesCategory] consumption_preferences: (optional)
+    :attr List[ConsumptionPreferencesCategory] consumption_preferences: (optional)
           If the **consumption_preferences** parameter is `true`, detailed results for
           each category of consumption preferences. Each element of the array provides
           information inferred from the input text for the individual preferences of that
           category.
-    :attr list[Warning] warnings: An array of warning messages that are associated
+    :attr List[Warning] warnings: An array of warning messages that are associated
           with the input text for the request. The array is empty if the input generated
           no warnings.
     """
 
     def __init__(self,
-                 processed_language,
-                 word_count,
-                 personality,
-                 needs,
-                 values,
-                 warnings,
+                 processed_language: str,
+                 word_count: int,
+                 personality: List['Trait'],
+                 needs: List['Trait'],
+                 values: List['Trait'],
+                 warnings: List['Warning'],
                  *,
-                 word_count_message=None,
-                 behavior=None,
-                 consumption_preferences=None):
+                 word_count_message: str = None,
+                 behavior: List['Behavior'] = None,
+                 consumption_preferences: List[
+                     'ConsumptionPreferencesCategory'] = None) -> None:
         """
         Initialize a Profile object.
 
@@ -878,26 +921,26 @@ class Profile():
                the input.
         :param int word_count: The number of words from the input that were used to
                produce the profile.
-        :param list[Trait] personality: A recursive array of `Trait` objects that
+        :param List[Trait] personality: A recursive array of `Trait` objects that
                provides detailed results for the Big Five personality characteristics
                (dimensions and facets) inferred from the input text.
-        :param list[Trait] needs: Detailed results for the Needs characteristics
+        :param List[Trait] needs: Detailed results for the Needs characteristics
                inferred from the input text.
-        :param list[Trait] values: Detailed results for the Values characteristics
+        :param List[Trait] values: Detailed results for the Values characteristics
                inferred from the input text.
-        :param list[Warning] warnings: An array of warning messages that are
+        :param List[Warning] warnings: An array of warning messages that are
                associated with the input text for the request. The array is empty if the
                input generated no warnings.
         :param str word_count_message: (optional) When guidance is appropriate, a
                string that provides a message that indicates the number of words found and
                where that value falls in the range of required or suggested number of
                words.
-        :param list[Behavior] behavior: (optional) For JSON content that is
+        :param List[Behavior] behavior: (optional) For JSON content that is
                timestamped, detailed results about the social behavior disclosed by the
                input in terms of temporal characteristics. The results include information
                about the distribution of the content over the days of the week and the
                hours of the day.
-        :param list[ConsumptionPreferencesCategory] consumption_preferences:
+        :param List[ConsumptionPreferencesCategory] consumption_preferences:
                (optional) If the **consumption_preferences** parameter is `true`, detailed
                results for each category of consumption preferences. Each element of the
                array provides information inferred from the input text for the individual
@@ -914,7 +957,7 @@ class Profile():
         self.warnings = warnings
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Profile':
         """Initialize a Profile object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -977,7 +1020,12 @@ class Profile():
                 'Required property \'warnings\' not present in Profile JSON')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Profile object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(
@@ -1007,17 +1055,21 @@ class Profile():
             _dict['warnings'] = [x._to_dict() for x in self.warnings]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Profile object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Profile') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Profile') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1065,20 +1117,20 @@ class Trait():
           `false` for the subset of characteristics of Arabic and Korean input for which
           the service's models are unable to generate meaningful results.
           **`2016-10-19`**: Not returned.
-    :attr list[Trait] children: (optional) For `personality` (Big Five) dimensions,
+    :attr List[Trait] children: (optional) For `personality` (Big Five) dimensions,
           more detailed results for the facets of each dimension as inferred from the
           input text.
     """
 
     def __init__(self,
-                 trait_id,
-                 name,
-                 category,
-                 percentile,
+                 trait_id: str,
+                 name: str,
+                 category: str,
+                 percentile: float,
                  *,
-                 raw_score=None,
-                 significant=None,
-                 children=None):
+                 raw_score: float = None,
+                 significant: bool = None,
+                 children: List['Trait'] = None) -> None:
         """
         Initialize a Trait object.
 
@@ -1113,7 +1165,7 @@ class Trait():
                field is `false` for the subset of characteristics of Arabic and Korean
                input for which the service's models are unable to generate meaningful
                results. **`2016-10-19`**: Not returned.
-        :param list[Trait] children: (optional) For `personality` (Big Five)
+        :param List[Trait] children: (optional) For `personality` (Big Five)
                dimensions, more detailed results for the facets of each dimension as
                inferred from the input text.
         """
@@ -1126,7 +1178,7 @@ class Trait():
         self.children = children
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Trait':
         """Initialize a Trait object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -1168,7 +1220,12 @@ class Trait():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Trait object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'trait_id') and self.trait_id is not None:
@@ -1187,17 +1244,21 @@ class Trait():
             _dict['children'] = [x._to_dict() for x in self.children]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Trait object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Trait') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Trait') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1233,7 +1294,7 @@ class Warning():
           of the profile.
     """
 
-    def __init__(self, warning_id, message):
+    def __init__(self, warning_id: str, message: str) -> None:
         """
         Initialize a Warning object.
 
@@ -1258,7 +1319,7 @@ class Warning():
         self.message = message
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Warning':
         """Initialize a Warning object from a json dictionary."""
         args = {}
         valid_keys = ['warning_id', 'message']
@@ -1279,7 +1340,12 @@ class Warning():
                 'Required property \'message\' not present in Warning JSON')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Warning object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'warning_id') and self.warning_id is not None:
@@ -1288,17 +1354,21 @@ class Warning():
             _dict['message'] = self.message
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Warning object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Warning') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Warning') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
