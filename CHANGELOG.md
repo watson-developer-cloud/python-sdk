@@ -1,3 +1,10 @@
+## [4.2.1](https://github.com/watson-developer-cloud/python-sdk/compare/v4.2.0...v4.2.1) (2020-01-17)
+
+
+### Bug Fixes
+
+* **nlu:** Add model property back in CategoriesOptions ([6d5ed34](https://github.com/watson-developer-cloud/python-sdk/commit/6d5ed3404408a32daa90490daa9be24f53512998))
+
 # [4.2.0](https://github.com/watson-developer-cloud/python-sdk/compare/v4.1.0...v4.2.0) (2020-01-16)
 
 
