@@ -1,0 +1,7 @@
+ibm\_watson.discovery\_v2 module
+================================
+
+.. automodule:: ibm_watson.discovery_v2
+   :members:
+   :undoc-members:
+   :show-inheritance:

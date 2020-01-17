@@ -1,0 +1,7 @@
+ibm\_watson.websocket.synthesize\_listener module
+=================================================
+
+.. automodule:: ibm_watson.websocket.synthesize_listener
+   :members:
+   :undoc-members:
+   :show-inheritance:
