@@ -716,9 +716,15 @@ class CategoriesOptions():
     :attr bool explanation: (optional) Set this to `true` to return explanations for
           each categorization. **This is available only for English categories.**.
     :attr int limit: (optional) Maximum number of categories to return.
+    :attr str model: (optional) Deprecated: Enter a [custom model]
+          (https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing)
+          ID to override the standard categories model. The custom categories experimental feature will be retired on
+          19 December 2019. On that date, deployed custom categories models will no longer be accessible in Natural Language
+          Understanding. The feature will be removed from Knowledge Studio on an earlier date. Custom categories models will
+          no longer be accessible in Knowledge Studio on 17 December 2019.
     """
 
-    def __init__(self, *, explanation: bool = None, limit: int = None) -> None:
+    def __init__(self, *, explanation: bool = None, limit: int = None, model: str = None) -> None:
         """
         Initialize a CategoriesOptions object.
 
@@ -726,6 +732,12 @@ class CategoriesOptions():
                explanations for each categorization. **This is available only for English
                categories.**.
         :param int limit: (optional) Maximum number of categories to return.
+        :attr str model: (optional) Deprecated: Enter a [custom model]
+               (https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing)
+               ID to override the standard categories model. The custom categories experimental feature will be retired on
+               19 December 2019. On that date, deployed custom categories models will no longer be accessible in Natural Language
+               Understanding. The feature will be removed from Knowledge Studio on an earlier date. Custom categories models will
+               no longer be accessible in Knowledge Studio on 17 December 2019.
         """
         self.explanation = explanation
         self.limit = limit
