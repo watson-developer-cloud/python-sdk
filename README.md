@@ -31,6 +31,7 @@ Python client library to quickly get started with the various [Watson APIs][wdc]
   * [Setting the service url](#setting-the-service-url)
   * [Sending request headers](#sending-request-headers)
   * [Parsing HTTP response information](#parsing-http-response-information)
+  * [Getting the transaction ID](#getting-the-transaction-id)
   * [Using Websockets](#using-websockets)
   * [Cloud Pak for Data(CP4D)](#cloud-pak-for-data)
   * [Logging](#logging)
@@ -361,6 +362,30 @@ This would give an output of `DetailedResponse` having the structure:
 }
 ```
 You can use the `get_result()`, `get_headers()` and get_status_code() to return the result, headers and status code respectively.
+
+## Getting the transaction ID
+Every response from the SDK will contain a transaction ID. This transaction ID is useful for troubleshooting and accessing relevant logs from your service instance.
+### Suceess
+```python
+from ibm_watson import MyService
+
+service = MyService(authenticator=my_authenticator)
+response_headers = service.my_service_call().get_headers()
+print(response_headers.get('x-global-transaction-id'))
+```
+
+### Failure
+```python
+from ibm_watson import MyService, ApiException
+
+try:
+    service = MyService(authenticator=my_authenticators)
+    service.my_service_call()
+except ApiException as e:
+    print(e.global_transaction_id)
+    # OR
+    print(e.http_response.headers.get('x-global-transaction-id'))
+```
 
 ## Using Websockets
 The Text to Speech service supports synthesizing text to spoken audio using web sockets with the `synthesize_using_websocket`. The Speech to Text service supports recognizing speech to text using web sockets with the `recognize_using_websocket`. These methods need a custom callback class to listen to events. Below is an example of `synthesize_using_websocket`. Note: The service accepts one request per connection.
