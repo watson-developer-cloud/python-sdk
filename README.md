@@ -364,7 +364,7 @@ This would give an output of `DetailedResponse` having the structure:
 You can use the `get_result()`, `get_headers()` and get_status_code() to return the result, headers and status code respectively.
 
 ## Getting the transaction ID
-Every response from the SDK will contain a transaction ID. This transaction ID is useful for troubleshooting and accessing relevant logs from your service instance.
+Every SDK call returns a response with a transaction ID in the x-global-transaction-id header. This transaction ID is useful for troubleshooting and accessing relevant logs from your service instance.
 ### Suceess
 ```python
 from ibm_watson import MyService
