@@ -3,12 +3,13 @@ The example returns a JSON response whose content is the same as that in
   ../resources/personality-v3-expect2.txt
 """
 import json
-from os.path import join, dirname
+import os
+from os.path import join
 from ibm_watson import PersonalityInsightsV3
 import csv
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
-# Authentication via IAM
+# # Authentication via IAM
 # authenticator = IAMAuthenticator('your_api_key')
 # service = PersonalityInsightsV3(
 #     version='2017-10-13',
@@ -17,7 +18,7 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 # Authentication via external config like VCAP_SERVICES
 service = PersonalityInsightsV3(version='2017-10-13')
-service.set_service_url('https://gateway.watsonplatform.net/personality-insights/api')
+service.set_service_url('https://api.us-east.personality-insights.watson.cloud.ibm.com/instances/4c18b521-3abd-4c7c-bec7-6a3fd03644f1')
 
 ############################
 # Profile with JSON output #
