@@ -243,6 +243,7 @@ class AssistantV1(BaseService):
                          dialog_nodes: List['DialogNode'] = None,
                          counterexamples: List['Counterexample'] = None,
                          webhooks: List['Webhook'] = None,
+                         include_audit: bool = None,
                          **kwargs) -> 'DetailedResponse':
         """
         Create workspace.
@@ -273,6 +274,8 @@ class AssistantV1(BaseService):
         :param List[Counterexample] counterexamples: (optional) An array of objects
                defining input examples that have been marked as irrelevant input.
         :param List[Webhook] webhooks: (optional)
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -299,7 +302,7 @@ class AssistantV1(BaseService):
                                       operation_id='create_workspace')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {'version': self.version, 'include_audit': include_audit}
 
         data = {
             'name': name,
@@ -398,6 +401,7 @@ class AssistantV1(BaseService):
                          counterexamples: List['Counterexample'] = None,
                          webhooks: List['Webhook'] = None,
                          append: bool = None,
+                         include_audit: bool = None,
                          **kwargs) -> 'DetailedResponse':
         """
         Update workspace.
@@ -430,14 +434,16 @@ class AssistantV1(BaseService):
                defining input examples that have been marked as irrelevant input.
         :param List[Webhook] webhooks: (optional)
         :param bool append: (optional) Whether the new data is to be appended to
-               the existing data in the workspace. If **append**=`false`, elements
-               included in the new data completely replace the corresponding existing
-               elements, including all subelements. For example, if the new data includes
-               **entities** and **append**=`false`, all existing entities in the workspace
-               are discarded and replaced with the new entities.
+               the existing data in the object. If **append**=`false`, elements included
+               in the new data completely replace the corresponding existing elements,
+               including all subelements. For example, if the new data for a workspace
+               includes **entities** and **append**=`false`, all existing entities in the
+               workspace are discarded and replaced with the new entities.
                If **append**=`true`, existing elements are preserved, and the new elements
                are added. If any elements in the new data collide with existing elements,
                the update request fails.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -466,7 +472,11 @@ class AssistantV1(BaseService):
                                       operation_id='update_workspace')
         headers.update(sdk_headers)
 
-        params = {'version': self.version, 'append': append}
+        params = {
+            'version': self.version,
+            'append': append,
+            'include_audit': include_audit
+        }
 
         data = {
             'name': name,
