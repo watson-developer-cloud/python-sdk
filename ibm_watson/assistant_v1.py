@@ -615,6 +615,7 @@ class AssistantV1(BaseService):
                       *,
                       description: str = None,
                       examples: List['Example'] = None,
+                      include_audit: bool = None,
                       **kwargs) -> 'DetailedResponse':
         """
         Create intent.
@@ -635,6 +636,8 @@ class AssistantV1(BaseService):
                string cannot contain carriage return, newline, or tab characters.
         :param List[Example] examples: (optional) An array of user input examples
                for the intent.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -655,7 +658,7 @@ class AssistantV1(BaseService):
                                       operation_id='create_intent')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {'version': self.version, 'include_audit': include_audit}
 
         data = {
             'intent': intent,
