@@ -741,6 +741,8 @@ class AssistantV1(BaseService):
                       new_intent: str = None,
                       new_description: str = None,
                       new_examples: List['Example'] = None,
+                      append: bool = None,
+                      include_audit: bool = None,
                       **kwargs) -> 'DetailedResponse':
         """
         Update intent.
@@ -763,6 +765,17 @@ class AssistantV1(BaseService):
                string cannot contain carriage return, newline, or tab characters.
         :param List[Example] new_examples: (optional) An array of user input
                examples for the intent.
+        :param bool append: (optional) Whether the new data is to be appended to
+               the existing data in the object. If **append**=`false`, elements included
+               in the new data completely replace the corresponding existing elements,
+               including all subelements. For example, if the new data for the intent
+               includes **examples** and **append**=`false`, all existing examples for the
+               intent are discarded and replaced with the new examples.
+               If **append**=`true`, existing elements are preserved, and the new elements
+               are added. If any elements in the new data collide with existing elements,
+               the update request fails.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -783,7 +796,11 @@ class AssistantV1(BaseService):
                                       operation_id='update_intent')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+            'append': append,
+            'include_audit': include_audit
+        }
 
         data = {
             'intent': new_intent,
