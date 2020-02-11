@@ -2253,8 +2253,14 @@ class AssistantV1(BaseService):
         response = self.send(request)
         return response
 
-    def create_synonym(self, workspace_id: str, entity: str, value: str,
-                       synonym: str, **kwargs) -> 'DetailedResponse':
+    def create_synonym(self,
+                       workspace_id: str,
+                       entity: str,
+                       value: str,
+                       synonym: str,
+                       *,
+                       include_audit: bool = None,
+                       **kwargs) -> 'DetailedResponse':
         """
         Create entity value synonym.
 
@@ -2272,6 +2278,8 @@ class AssistantV1(BaseService):
                the following restrictions:
                - It cannot contain carriage return, newline, or tab characters.
                - It cannot consist of only whitespace characters.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2294,7 +2302,7 @@ class AssistantV1(BaseService):
                                       operation_id='create_synonym')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {'version': self.version, 'include_audit': include_audit}
 
         data = {'synonym': synonym}
 
@@ -2371,6 +2379,7 @@ class AssistantV1(BaseService):
                        synonym: str,
                        *,
                        new_synonym: str = None,
+                       include_audit: bool = None,
                        **kwargs) -> 'DetailedResponse':
         """
         Update entity value synonym.
@@ -2390,6 +2399,8 @@ class AssistantV1(BaseService):
                must conform to the following restrictions:
                - It cannot contain carriage return, newline, or tab characters.
                - It cannot consist of only whitespace characters.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2412,7 +2423,7 @@ class AssistantV1(BaseService):
                                       operation_id='update_synonym')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {'version': self.version, 'include_audit': include_audit}
 
         data = {'synonym': new_synonym}
 
@@ -2559,6 +2570,7 @@ class AssistantV1(BaseService):
                            digress_out_slots: str = None,
                            user_label: str = None,
                            disambiguation_opt_out: bool = None,
+                           include_audit: bool = None,
                            **kwargs) -> 'DetailedResponse':
         """
         Create dialog node.
@@ -2611,6 +2623,8 @@ class AssistantV1(BaseService):
                to describe the purpose of the node to users.
         :param bool disambiguation_opt_out: (optional) Whether the dialog node
                should be excluded from disambiguation suggestions.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2635,7 +2649,7 @@ class AssistantV1(BaseService):
                                       operation_id='create_dialog_node')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {'version': self.version, 'include_audit': include_audit}
 
         data = {
             'dialog_node': dialog_node,
@@ -2740,6 +2754,7 @@ class AssistantV1(BaseService):
                            new_digress_out_slots: str = None,
                            new_user_label: str = None,
                            new_disambiguation_opt_out: bool = None,
+                           include_audit: bool = None,
                            **kwargs) -> 'DetailedResponse':
         """
         Update dialog node.
@@ -2794,6 +2809,8 @@ class AssistantV1(BaseService):
                externally to describe the purpose of the node to users.
         :param bool new_disambiguation_opt_out: (optional) Whether the dialog node
                should be excluded from disambiguation suggestions.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2818,7 +2835,7 @@ class AssistantV1(BaseService):
                                       operation_id='update_dialog_node')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {'version': self.version, 'include_audit': include_audit}
 
         data = {
             'dialog_node': new_dialog_node,
