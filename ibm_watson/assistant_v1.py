@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019, 2020.
+# (C) Copyright IBM Corp. 2020.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -27,8 +27,9 @@ from .common import get_sdk_headers
 from datetime import datetime
 from enum import Enum
 from ibm_cloud_sdk_core import BaseService
+from ibm_cloud_sdk_core import DetailedResponse
 from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
-from ibm_cloud_sdk_core import get_authenticator_from_environment
+from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
 from typing import Dict
 from typing import List
 
@@ -98,7 +99,7 @@ class AssistantV1(BaseService):
         **Important:** This method has been superseded by the new v2 runtime API. The v2
         API offers significant advantages, including ease of deployment, automatic state
         management, versioning, and search capabilities. For more information, see the
-        [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-api-overview).
+        [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-api-overview).
         There is no rate limit for this operation.
 
         :param str workspace_id: Unique identifier of the workspace.
@@ -2598,7 +2599,7 @@ class AssistantV1(BaseService):
                sibling.
         :param DialogNodeOutput output: (optional) The output of the dialog node.
                For more information about how to specify dialog node output, see the
-               [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-dialog-overview#dialog-overview-responses).
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-overview#dialog-overview-responses).
         :param dict context: (optional) The context for the dialog node.
         :param dict metadata: (optional) The metadata for the dialog node.
         :param DialogNodeNextStep next_step: (optional) The next step to execute
@@ -2783,7 +2784,7 @@ class AssistantV1(BaseService):
                sibling.
         :param DialogNodeOutput new_output: (optional) The output of the dialog
                node. For more information about how to specify dialog node output, see the
-               [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-dialog-overview#dialog-overview-responses).
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-overview#dialog-overview-responses).
         :param dict new_context: (optional) The context for the dialog node.
         :param dict new_metadata: (optional) The metadata for the dialog node.
         :param DialogNodeNextStep new_next_step: (optional) The next step to
@@ -2937,7 +2938,7 @@ class AssistantV1(BaseService):
                parameter value with a minus sign (`-`).
         :param str filter: (optional) A cacheable parameter that limits the results
                to those matching the specified filter. For more information, see the
-               [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-filter-reference#filter-reference).
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-filter-reference#filter-reference).
         :param int page_limit: (optional) The number of records to return in each
                page of results.
         :param str cursor: (optional) A token identifying the page of results to
@@ -2996,7 +2997,7 @@ class AssistantV1(BaseService):
                includes a value for `language`, as well as a value for
                `request.context.system.assistant_id`, `workspace_id`, or
                `request.context.metadata.deployment`. For more information, see the
-               [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-filter-reference#filter-reference).
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-filter-reference#filter-reference).
         :param str sort: (optional) How to sort the returned log events. You can
                sort by **request_timestamp**. To reverse the sort order, prefix the
                parameter value with a minus sign (`-`).
@@ -3051,7 +3052,7 @@ class AssistantV1(BaseService):
         You associate a customer ID with data by passing the `X-Watson-Metadata` header
         with a request that passes data. For more information about personal data and
         customer IDs, see [Information
-        security](https://cloud.ibm.com/docs/services/assistant?topic=assistant-information-security#information-security).
+        security](https://cloud.ibm.com/docs/assistant?topic=assistant-information-security#information-security).
         This operation is limited to 4 requests per minute. For more information, see
         **Rate limiting**.
 
@@ -3805,7 +3806,7 @@ class CreateValue():
           A value can specify either synonyms or patterns (depending on the value type),
           but not both. A pattern is a regular expression; for more information about how
           to specify a pattern, see the
-          [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-entities#entities-create-dictionary-based).
+          [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-entities#entities-create-dictionary-based).
     :attr datetime created: (optional) The timestamp for creation of the object.
     :attr datetime updated: (optional) The timestamp for the most recent update to
           the object.
@@ -3839,7 +3840,7 @@ class CreateValue():
                value. A value can specify either synonyms or patterns (depending on the
                value type), but not both. A pattern is a regular expression; for more
                information about how to specify a pattern, see the
-               [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-entities#entities-create-dictionary-based).
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-entities#entities-create-dictionary-based).
         :param datetime created: (optional) The timestamp for creation of the
                object.
         :param datetime updated: (optional) The timestamp for the most recent
@@ -3953,7 +3954,7 @@ class DialogNode():
           node. This property is omitted if the dialog node has no previous sibling.
     :attr DialogNodeOutput output: (optional) The output of the dialog node. For
           more information about how to specify dialog node output, see the
-          [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-dialog-overview#dialog-overview-responses).
+          [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-overview#dialog-overview-responses).
     :attr dict context: (optional) The context for the dialog node.
     :attr dict metadata: (optional) The metadata for the dialog node.
     :attr DialogNodeNextStep next_step: (optional) The next step to execute
@@ -4027,7 +4028,7 @@ class DialogNode():
                sibling.
         :param DialogNodeOutput output: (optional) The output of the dialog node.
                For more information about how to specify dialog node output, see the
-               [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-dialog-overview#dialog-overview-responses).
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-overview#dialog-overview-responses).
         :param dict context: (optional) The context for the dialog node.
         :param dict metadata: (optional) The metadata for the dialog node.
         :param DialogNodeNextStep next_step: (optional) The next step to execute
@@ -4645,7 +4646,7 @@ class DialogNodeOutput():
     """
     The output of the dialog node. For more information about how to specify dialog node
     output, see the
-    [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-dialog-overview#dialog-overview-responses).
+    [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-overview#dialog-overview-responses).
 
     :attr List[DialogNodeOutputGeneric] generic: (optional) An array of objects
           describing the output defined for the dialog node.
@@ -7914,6 +7915,16 @@ class RuntimeEntity():
     :attr dict metadata: (optional) Any metadata for the entity.
     :attr List[CaptureGroup] groups: (optional) The recognized capture groups for
           the entity, as defined by the entity pattern.
+    :attr RuntimeEntityInterpretation interpretation: (optional) An object
+          containing detailed information about the entity recognized in the user input.
+          This property is included only if the new system entities are enabled for the
+          workspace.
+          For more information about how the new system entities are interpreted, see the
+          [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-beta-system-entities).
+    :attr RuntimeEntityRole role: (optional) An object describing the role played by
+          a system entity that is specifies the beginning or end of a range recognized in
+          the user input. This property is included only if the new system entities are
+          enabled for the workspace.
     """
 
     def __init__(self,
@@ -7923,7 +7934,9 @@ class RuntimeEntity():
                  *,
                  confidence: float = None,
                  metadata: dict = None,
-                 groups: List['CaptureGroup'] = None) -> None:
+                 groups: List['CaptureGroup'] = None,
+                 interpretation: 'RuntimeEntityInterpretation' = None,
+                 role: 'RuntimeEntityRole' = None) -> None:
         """
         Initialize a RuntimeEntity object.
 
@@ -9058,7 +9071,7 @@ class Value():
           A value can specify either synonyms or patterns (depending on the value type),
           but not both. A pattern is a regular expression; for more information about how
           to specify a pattern, see the
-          [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-entities#entities-create-dictionary-based).
+          [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-entities#entities-create-dictionary-based).
     :attr datetime created: (optional) The timestamp for creation of the object.
     :attr datetime updated: (optional) The timestamp for the most recent update to
           the object.
@@ -9092,7 +9105,7 @@ class Value():
                value. A value can specify either synonyms or patterns (depending on the
                value type), but not both. A pattern is a regular expression; for more
                information about how to specify a pattern, see the
-               [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-entities#entities-create-dictionary-based).
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-entities#entities-create-dictionary-based).
         :param datetime created: (optional) The timestamp for creation of the
                object.
         :param datetime updated: (optional) The timestamp for the most recent
@@ -9764,16 +9777,20 @@ class WorkspaceSystemSettings():
           settings related to the disambiguation feature.
           **Note:** This feature is available only to Plus and Premium users.
     :attr dict human_agent_assist: (optional) For internal use only.
+    :attr WorkspaceSystemSettingsSystemEntities system_entities: (optional)
+          Workspace settings related to the behavior of system entities.
     :attr WorkspaceSystemSettingsOffTopic off_topic: (optional) Workspace settings
           related to detection of irrelevant input.
     """
 
-    def __init__(self,
-                 *,
-                 tooling: 'WorkspaceSystemSettingsTooling' = None,
-                 disambiguation: 'WorkspaceSystemSettingsDisambiguation' = None,
-                 human_agent_assist: dict = None,
-                 off_topic: 'WorkspaceSystemSettingsOffTopic' = None) -> None:
+    def __init__(
+            self,
+            *,
+            tooling: 'WorkspaceSystemSettingsTooling' = None,
+            disambiguation: 'WorkspaceSystemSettingsDisambiguation' = None,
+            human_agent_assist: dict = None,
+            system_entities: 'WorkspaceSystemSettingsSystemEntities' = None,
+            off_topic: 'WorkspaceSystemSettingsOffTopic' = None) -> None:
         """
         Initialize a WorkspaceSystemSettings object.
 
@@ -9783,12 +9800,15 @@ class WorkspaceSystemSettings():
                Workspace settings related to the disambiguation feature.
                **Note:** This feature is available only to Plus and Premium users.
         :param dict human_agent_assist: (optional) For internal use only.
+        :param WorkspaceSystemSettingsSystemEntities system_entities: (optional)
+               Workspace settings related to the behavior of system entities.
         :param WorkspaceSystemSettingsOffTopic off_topic: (optional) Workspace
                settings related to detection of irrelevant input.
         """
         self.tooling = tooling
         self.disambiguation = disambiguation
         self.human_agent_assist = human_agent_assist
+        self.system_entities = system_entities
         self.off_topic = off_topic
 
     @classmethod
@@ -9796,7 +9816,8 @@ class WorkspaceSystemSettings():
         """Initialize a WorkspaceSystemSettings object from a json dictionary."""
         args = {}
         valid_keys = [
-            'tooling', 'disambiguation', 'human_agent_assist', 'off_topic'
+            'tooling', 'disambiguation', 'human_agent_assist',
+            'system_entities', 'off_topic'
         ]
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
@@ -9812,6 +9833,10 @@ class WorkspaceSystemSettings():
                     _dict.get('disambiguation'))
         if 'human_agent_assist' in _dict:
             args['human_agent_assist'] = _dict.get('human_agent_assist')
+        if 'system_entities' in _dict:
+            args[
+                'system_entities'] = WorkspaceSystemSettingsSystemEntities._from_dict(
+                    _dict.get('system_entities'))
         if 'off_topic' in _dict:
             args['off_topic'] = WorkspaceSystemSettingsOffTopic._from_dict(
                 _dict.get('off_topic'))
@@ -9833,6 +9858,9 @@ class WorkspaceSystemSettings():
                 self,
                 'human_agent_assist') and self.human_agent_assist is not None:
             _dict['human_agent_assist'] = self.human_agent_assist
+        if hasattr(self,
+                   'system_entities') and self.system_entities is not None:
+            _dict['system_entities'] = self.system_entities._to_dict()
         if hasattr(self, 'off_topic') and self.off_topic is not None:
             _dict['off_topic'] = self.off_topic._to_dict()
         return _dict
