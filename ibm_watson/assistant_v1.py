@@ -1637,6 +1637,8 @@ class AssistantV1(BaseService):
                       new_metadata: dict = None,
                       new_fuzzy_match: bool = None,
                       new_values: List['CreateValue'] = None,
+                      append: bool = None,
+                      include_audit: bool = None,
                       **kwargs) -> 'DetailedResponse':
         """
         Update entity.
@@ -1662,6 +1664,17 @@ class AssistantV1(BaseService):
                the entity.
         :param List[CreateValue] new_values: (optional) An array of objects
                describing the entity values.
+        :param bool append: (optional) Whether the new data is to be appended to
+               the existing data in the entity. If **append**=`false`, elements included
+               in the new data completely replace the corresponding existing elements,
+               including all subelements. For example, if the new data for the entity
+               includes **values** and **append**=`false`, all existing values for the
+               entity are discarded and replaced with the new values.
+               If **append**=`true`, existing elements are preserved, and the new elements
+               are added. If any elements in the new data collide with existing elements,
+               the update request fails.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1682,7 +1695,11 @@ class AssistantV1(BaseService):
                                       operation_id='update_entity')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+            'append': append,
+            'include_audit': include_audit
+        }
 
         data = {
             'entity': new_entity,
