@@ -1904,6 +1904,7 @@ class AssistantV1(BaseService):
                      type: str = None,
                      synonyms: List[str] = None,
                      patterns: List[str] = None,
+                     include_audit: bool = None,
                      **kwargs) -> 'DetailedResponse':
         """
         Create entity value.
@@ -1932,7 +1933,9 @@ class AssistantV1(BaseService):
                value. A value can specify either synonyms or patterns (depending on the
                value type), but not both. A pattern is a regular expression; for more
                information about how to specify a pattern, see the
-               [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-entities#entities-create-dictionary-based).
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-entities#entities-create-dictionary-based).
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1953,7 +1956,7 @@ class AssistantV1(BaseService):
                                       operation_id='create_value')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {'version': self.version, 'include_audit': include_audit}
 
         data = {
             'value': value,
