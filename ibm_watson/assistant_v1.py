@@ -934,6 +934,7 @@ class AssistantV1(BaseService):
                        text: str,
                        *,
                        mentions: List['Mention'] = None,
+                       include_audit: bool = None,
                        **kwargs) -> 'DetailedResponse':
         """
         Create user input example.
@@ -952,6 +953,8 @@ class AssistantV1(BaseService):
                - It cannot consist of only whitespace characters.
         :param List[Mention] mentions: (optional) An array of contextual entity
                mentions.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -974,7 +977,7 @@ class AssistantV1(BaseService):
                                       operation_id='create_example')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {'version': self.version, 'include_audit': include_audit}
 
         data = {'text': text, 'mentions': mentions}
 
@@ -1047,6 +1050,7 @@ class AssistantV1(BaseService):
                        *,
                        new_text: str = None,
                        new_mentions: List['Mention'] = None,
+                       include_audit: bool = None,
                        **kwargs) -> 'DetailedResponse':
         """
         Update user input example.
@@ -1066,6 +1070,8 @@ class AssistantV1(BaseService):
                - It cannot consist of only whitespace characters.
         :param List[Mention] new_mentions: (optional) An array of contextual entity
                mentions.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1088,7 +1094,7 @@ class AssistantV1(BaseService):
                                       operation_id='update_example')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {'version': self.version, 'include_audit': include_audit}
 
         data = {'text': new_text, 'mentions': new_mentions}
 
@@ -1211,7 +1217,11 @@ class AssistantV1(BaseService):
         response = self.send(request)
         return response
 
-    def create_counterexample(self, workspace_id: str, text: str,
+    def create_counterexample(self,
+                              workspace_id: str,
+                              text: str,
+                              *,
+                              include_audit: bool = None,
                               **kwargs) -> 'DetailedResponse':
         """
         Create counterexample.
@@ -1228,6 +1238,8 @@ class AssistantV1(BaseService):
                string must conform to the following restrictions:
                - It cannot contain carriage return, newline, or tab characters.
                - It cannot consist of only whitespace characters.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1246,7 +1258,7 @@ class AssistantV1(BaseService):
                                       operation_id='create_counterexample')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {'version': self.version, 'include_audit': include_audit}
 
         data = {'text': text}
 
@@ -1315,6 +1327,7 @@ class AssistantV1(BaseService):
                               text: str,
                               *,
                               new_text: str = None,
+                              include_audit: bool = None,
                               **kwargs) -> 'DetailedResponse':
         """
         Update counterexample.
@@ -1333,6 +1346,8 @@ class AssistantV1(BaseService):
                irrelevant input. This string must conform to the following restrictions:
                - It cannot contain carriage return, newline, or tab characters.
                - It cannot consist of only whitespace characters.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1351,7 +1366,7 @@ class AssistantV1(BaseService):
                                       operation_id='update_counterexample')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {'version': self.version, 'include_audit': include_audit}
 
         data = {'text': new_text}
 
@@ -1487,6 +1502,7 @@ class AssistantV1(BaseService):
                       metadata: dict = None,
                       fuzzy_match: bool = None,
                       values: List['CreateValue'] = None,
+                      include_audit: bool = None,
                       **kwargs) -> 'DetailedResponse':
         """
         Create entity.
@@ -1512,6 +1528,8 @@ class AssistantV1(BaseService):
                entity.
         :param List[CreateValue] values: (optional) An array of objects describing
                the entity values.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1532,7 +1550,7 @@ class AssistantV1(BaseService):
                                       operation_id='create_entity')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {'version': self.version, 'include_audit': include_audit}
 
         data = {
             'entity': entity,
