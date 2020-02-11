@@ -2047,6 +2047,8 @@ class AssistantV1(BaseService):
                      new_type: str = None,
                      new_synonyms: List[str] = None,
                      new_patterns: List[str] = None,
+                     append: bool = None,
+                     include_audit: bool = None,
                      **kwargs) -> 'DetailedResponse':
         """
         Update entity value.
@@ -2078,7 +2080,19 @@ class AssistantV1(BaseService):
                entity value. A value can specify either synonyms or patterns (depending on
                the value type), but not both. A pattern is a regular expression; for more
                information about how to specify a pattern, see the
-               [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-entities#entities-create-dictionary-based).
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-entities#entities-create-dictionary-based).
+        :param bool append: (optional) Whether the new data is to be appended to
+               the existing data in the entity value. If **append**=`false`, elements
+               included in the new data completely replace the corresponding existing
+               elements, including all subelements. For example, if the new data for the
+               entity value includes **synonyms** and **append**=`false`, all existing
+               synonyms for the entity value are discarded and replaced with the new
+               synonyms.
+               If **append**=`true`, existing elements are preserved, and the new elements
+               are added. If any elements in the new data collide with existing elements,
+               the update request fails.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2099,7 +2113,11 @@ class AssistantV1(BaseService):
                                       operation_id='update_value')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+            'append': append,
+            'include_audit': include_audit
+        }
 
         data = {
             'value': new_value,
