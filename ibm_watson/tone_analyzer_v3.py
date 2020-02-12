@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2016, 2020.
+# (C) Copyright IBM Corp. 2020.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -30,7 +30,8 @@ from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
 from .common import get_sdk_headers
 from enum import Enum
 from ibm_cloud_sdk_core import BaseService
-from ibm_cloud_sdk_core import get_authenticator_from_environment
+from ibm_cloud_sdk_core import DetailedResponse
+from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
 from typing import Dict
 from typing import List
 
@@ -110,7 +111,7 @@ class ToneAnalyzerV3(BaseService):
         text/plain;charset=utf-8`. For `text/html`, the service removes HTML tags and
         analyzes only the textual content.
         **See also:** [Using the general-purpose
-        endpoint](https://cloud.ibm.com/docs/services/tone-analyzer?topic=tone-analyzer-utgpe#utgpe).
+        endpoint](https://cloud.ibm.com/docs/tone-analyzer?topic=tone-analyzer-utgpe#utgpe).
 
         :param ToneInput tone_input: JSON, plain text, or HTML input that contains
                the content to be analyzed. For JSON input, provide an object of type
@@ -205,7 +206,7 @@ class ToneAnalyzerV3(BaseService):
         utterances have more than 500 characters. Per the JSON specification, the default
         character encoding for JSON content is effectively always UTF-8.
         **See also:** [Using the customer-engagement
-        endpoint](https://cloud.ibm.com/docs/services/tone-analyzer?topic=tone-analyzer-utco#utco).
+        endpoint](https://cloud.ibm.com/docs/tone-analyzer?topic=tone-analyzer-utco#utco).
 
         :param List[Utterance] utterances: An array of `Utterance` objects that
                provides the input content that the service is to analyze.
