@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019, 2020.
+# (C) Copyright IBM Corp. 2020.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -30,8 +30,9 @@ from .common import get_sdk_headers
 from datetime import datetime
 from enum import Enum
 from ibm_cloud_sdk_core import BaseService
+from ibm_cloud_sdk_core import DetailedResponse
 from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
-from ibm_cloud_sdk_core import get_authenticator_from_environment
+from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
 from typing import Dict
 from typing import List
 
@@ -716,15 +717,21 @@ class CategoriesOptions():
     :attr bool explanation: (optional) Set this to `true` to return explanations for
           each categorization. **This is available only for English categories.**.
     :attr int limit: (optional) Maximum number of categories to return.
-    :attr str model: (optional) Deprecated: Enter a [custom model]
-          (https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing)
-          ID to override the standard categories model. The custom categories experimental feature will be retired on
-          19 December 2019. On that date, deployed custom categories models will no longer be accessible in Natural Language
-          Understanding. The feature will be removed from Knowledge Studio on an earlier date. Custom categories models will
-          no longer be accessible in Knowledge Studio on 17 December 2019.
+    :attr str model: (optional) Enter a [custom
+          model](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing)
+          ID to override the standard categories model.
+          The custom categories experimental feature will be retired on 19 December 2019.
+          On that date, deployed custom categories models will no longer be accessible in
+          Natural Language Understanding. The feature will be removed from Knowledge
+          Studio on an earlier date. Custom categories models will no longer be accessible
+          in Knowledge Studio on 17 December 2019.
     """
 
-    def __init__(self, *, explanation: bool = None, limit: int = None, model: str = None) -> None:
+    def __init__(self,
+                 *,
+                 explanation: bool = None,
+                 limit: int = None,
+                 model: str = None) -> None:
         """
         Initialize a CategoriesOptions object.
 
@@ -732,21 +739,24 @@ class CategoriesOptions():
                explanations for each categorization. **This is available only for English
                categories.**.
         :param int limit: (optional) Maximum number of categories to return.
-        :attr str model: (optional) Deprecated: Enter a [custom model]
-               (https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing)
-               ID to override the standard categories model. The custom categories experimental feature will be retired on
-               19 December 2019. On that date, deployed custom categories models will no longer be accessible in Natural Language
-               Understanding. The feature will be removed from Knowledge Studio on an earlier date. Custom categories models will
-               no longer be accessible in Knowledge Studio on 17 December 2019.
+        :param str model: (optional) Enter a [custom
+               model](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing)
+               ID to override the standard categories model.
+               The custom categories experimental feature will be retired on 19 December
+               2019. On that date, deployed custom categories models will no longer be
+               accessible in Natural Language Understanding. The feature will be removed
+               from Knowledge Studio on an earlier date. Custom categories models will no
+               longer be accessible in Knowledge Studio on 17 December 2019.
         """
         self.explanation = explanation
         self.limit = limit
+        self.model = model
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'CategoriesOptions':
         """Initialize a CategoriesOptions object from a json dictionary."""
         args = {}
-        valid_keys = ['explanation', 'limit']
+        valid_keys = ['explanation', 'limit', 'model']
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
             raise ValueError(
@@ -756,6 +766,8 @@ class CategoriesOptions():
             args['explanation'] = _dict.get('explanation')
         if 'limit' in _dict:
             args['limit'] = _dict.get('limit')
+        if 'model' in _dict:
+            args['model'] = _dict.get('model')
         return cls(**args)
 
     @classmethod
@@ -770,6 +782,8 @@ class CategoriesOptions():
             _dict['explanation'] = self.explanation
         if hasattr(self, 'limit') and self.limit is not None:
             _dict['limit'] = self.limit
+        if hasattr(self, 'model') and self.model is not None:
+            _dict['model'] = self.model
         return _dict
 
     def _to_dict(self):
