@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2016, 2020.
+# (C) Copyright IBM Corp. 2020.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -25,9 +25,9 @@ consumption preferences based on the results of its analysis and, for JSON conte
 timestamped, can report temporal behavior.
 * For information about the meaning of the models that the service uses to describe
 personality characteristics, see [Personality
-models](https://cloud.ibm.com/docs/services/personality-insights?topic=personality-insights-models#models).
+models](https://cloud.ibm.com/docs/personality-insights?topic=personality-insights-models#models).
 * For information about the meaning of the consumption preferences, see [Consumption
-preferences](https://cloud.ibm.com/docs/services/personality-insights?topic=personality-insights-preferences#preferences).
+preferences](https://cloud.ibm.com/docs/personality-insights?topic=personality-insights-preferences#preferences).
 **Note:** Request logging is disabled for the Personality Insights service. Regardless of
 whether you set the `X-Watson-Learning-Opt-Out` request header, the service does not log
 or retain data from requests and responses.
@@ -38,7 +38,8 @@ from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
 from .common import get_sdk_headers
 from enum import Enum
 from ibm_cloud_sdk_core import BaseService
-from ibm_cloud_sdk_core import get_authenticator_from_environment
+from ibm_cloud_sdk_core import DetailedResponse
+from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
 from typing import Dict
 from typing import List
 
@@ -110,9 +111,9 @@ class PersonalityInsightsV3(BaseService):
         Japanese, Korean, or Spanish. It can return its results in a variety of languages.
         **See also:**
         * [Requesting a
-        profile](https://cloud.ibm.com/docs/services/personality-insights?topic=personality-insights-input#input)
+        profile](https://cloud.ibm.com/docs/personality-insights?topic=personality-insights-input#input)
         * [Providing sufficient
-        input](https://cloud.ibm.com/docs/services/personality-insights?topic=personality-insights-input#sufficient)
+        input](https://cloud.ibm.com/docs/personality-insights?topic=personality-insights-input#sufficient)
         ### Content types
          You can provide input content as plain text (`text/plain`), HTML (`text/html`),
         or JSON (`application/json`) by specifying the **Content-Type** parameter. The
@@ -125,7 +126,7 @@ class PersonalityInsightsV3(BaseService):
         parameter to indicate the character encoding of the input text; for example,
         `Content-Type: text/plain;charset=utf-8`.
         **See also:** [Specifying request and response
-        formats](https://cloud.ibm.com/docs/services/personality-insights?topic=personality-insights-input#formats)
+        formats](https://cloud.ibm.com/docs/personality-insights?topic=personality-insights-input#formats)
         ### Accept types
          You must request a response as JSON (`application/json`) or comma-separated
         values (`text/csv`) by specifying the **Accept** parameter. CSV output includes a
@@ -133,14 +134,14 @@ class PersonalityInsightsV3(BaseService):
         optional column headers for CSV output.
         **See also:**
         * [Understanding a JSON
-        profile](https://cloud.ibm.com/docs/services/personality-insights?topic=personality-insights-output#output)
+        profile](https://cloud.ibm.com/docs/personality-insights?topic=personality-insights-output#output)
         * [Understanding a CSV
-        profile](https://cloud.ibm.com/docs/services/personality-insights?topic=personality-insights-outputCSV#outputCSV).
+        profile](https://cloud.ibm.com/docs/personality-insights?topic=personality-insights-outputCSV#outputCSV).
 
         :param Content content: A maximum of 20 MB of content to analyze, though
                the service requires much less text; for more information, see [Providing
                sufficient
-               input](https://cloud.ibm.com/docs/services/personality-insights?topic=personality-insights-input#sufficient).
+               input](https://cloud.ibm.com/docs/personality-insights?topic=personality-insights-input#sufficient).
                For JSON input, provide an object of type `Content`.
         :param str accept: The type of the response. For more information, see
                **Accept types** in the method description.
