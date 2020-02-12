@@ -19,7 +19,6 @@ import inspect
 import json
 import pytest
 import responses
-import tempfile
 import ibm_watson.natural_language_understanding_v1
 from ibm_watson.natural_language_understanding_v1 import *
 
@@ -96,7 +95,7 @@ class TestAnalyze():
             "features":
                 Features._from_dict(
                     json.loads(
-                        """{"concepts": {"limit": 5}, "emotion": {"document": true, "targets": []}, "entities": {"limit": 5, "mentions": true, "model": "fake_model", "sentiment": false, "emotion": false}, "keywords": {"limit": 5, "sentiment": false, "emotion": false}, "metadata": {}, "relations": {"model": "fake_model"}, "semantic_roles": {"limit": 5, "keywords": true, "entities": true}, "sentiment": {"document": true, "targets": []}, "categories": {"explanation": false, "limit": 5}, "syntax": {"tokens": {"lemma": false, "part_of_speech": true}, "sentences": false}}"""
+                        """{"concepts": {"limit": 5}, "emotion": {"document": true, "targets": []}, "entities": {"limit": 5, "mentions": true, "model": "fake_model", "sentiment": false, "emotion": false}, "keywords": {"limit": 5, "sentiment": false, "emotion": false}, "metadata": {}, "relations": {"model": "fake_model"}, "semantic_roles": {"limit": 5, "keywords": true, "entities": true}, "sentiment": {"document": true, "targets": []}, "categories": {"explanation": false, "limit": 5, "model": "fake_model"}, "syntax": {"tokens": {"lemma": false, "part_of_speech": true}, "sentences": false}}"""
                     )),
             "text":
                 "string1",
@@ -125,7 +124,7 @@ class TestAnalyze():
             "features":
                 Features._from_dict(
                     json.loads(
-                        """{"concepts": {"limit": 5}, "emotion": {"document": true, "targets": []}, "entities": {"limit": 5, "mentions": true, "model": "fake_model", "sentiment": false, "emotion": false}, "keywords": {"limit": 5, "sentiment": false, "emotion": false}, "metadata": {}, "relations": {"model": "fake_model"}, "semantic_roles": {"limit": 5, "keywords": true, "entities": true}, "sentiment": {"document": true, "targets": []}, "categories": {"explanation": false, "limit": 5}, "syntax": {"tokens": {"lemma": false, "part_of_speech": true}, "sentences": false}}"""
+                        """{"concepts": {"limit": 5}, "emotion": {"document": true, "targets": []}, "entities": {"limit": 5, "mentions": true, "model": "fake_model", "sentiment": false, "emotion": false}, "keywords": {"limit": 5, "sentiment": false, "emotion": false}, "metadata": {}, "relations": {"model": "fake_model"}, "semantic_roles": {"limit": 5, "keywords": true, "entities": true}, "sentiment": {"document": true, "targets": []}, "categories": {"explanation": false, "limit": 5, "model": "fake_model"}, "syntax": {"tokens": {"lemma": false, "part_of_speech": true}, "sentences": false}}"""
                     )),
             "text":
                 "string1",

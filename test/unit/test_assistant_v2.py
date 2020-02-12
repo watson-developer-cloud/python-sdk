@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2018, 2020.
+# (C) Copyright IBM Corp. 2020.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -256,7 +256,7 @@ class TestMessage():
             "context":
                 MessageContext._from_dict(
                     json.loads(
-                        """{"global": {"system": {"timezone": "fake_timezone", "user_id": "fake_user_id", "turn_count": 10}}, "skills": {}}"""
+                        """{"global": {"system": {"timezone": "fake_timezone", "user_id": "fake_user_id", "turn_count": 10, "locale": "fake_locale", "reference_time": "fake_reference_time"}}, "skills": {}}"""
                     )),
         })
         return body
@@ -343,4 +343,4 @@ def send_request(obj, body, response, url=None):
 
 fake_response__json = None
 fake_response_SessionResponse_json = """{"session_id": "fake_session_id"}"""
-fake_response_MessageResponse_json = """{"output": {"generic": [], "intents": [], "entities": [], "actions": [], "debug": {"nodes_visited": [], "log_messages": [], "branch_exited": false, "branch_exited_reason": "fake_branch_exited_reason"}}, "context": {"global": {"system": {"timezone": "fake_timezone", "user_id": "fake_user_id", "turn_count": 10}}, "skills": {}}}"""
+fake_response_MessageResponse_json = """{"output": {"generic": [], "intents": [], "entities": [], "actions": [], "debug": {"nodes_visited": [], "log_messages": [], "branch_exited": false, "branch_exited_reason": "fake_branch_exited_reason"}}, "context": {"global": {"system": {"timezone": "fake_timezone", "user_id": "fake_user_id", "turn_count": 10, "locale": "fake_locale", "reference_time": "fake_reference_time"}}, "skills": {}}}"""

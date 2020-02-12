@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2015, 2020.
+# (C) Copyright IBM Corp. 2020.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ import inspect
 import json
 import pytest
 import responses
-import tempfile
 import ibm_watson.text_to_speech_v1
 from ibm_watson.text_to_speech_v1 import *
 
