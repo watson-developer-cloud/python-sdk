@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019, 2020.
+# (C) Copyright IBM Corp. 2020.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -26,7 +26,8 @@ from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
 from .common import get_sdk_headers
 from enum import Enum
 from ibm_cloud_sdk_core import BaseService
-from ibm_cloud_sdk_core import get_authenticator_from_environment
+from ibm_cloud_sdk_core import DetailedResponse
+from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
 from typing import Dict
 from typing import List
 
@@ -86,13 +87,13 @@ class AssistantV2(BaseService):
         responses. It also maintains the state of the conversation. A session persists
         until it is deleted, or until it times out because of inactivity. (For more
         information, see the
-        [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-assistant-settings).
+        [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-assistant-settings).
 
         :param str assistant_id: Unique identifier of the assistant. To find the
                assistant ID in the Watson Assistant user interface, open the assistant
                settings and click **API Details**. For information about creating
                assistants, see the
-               [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-assistant-add#assistant-add-task).
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-assistant-add#assistant-add-task).
                **Note:** Currently, the v2 API does not support creating assistants.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -129,13 +130,13 @@ class AssistantV2(BaseService):
 
         Deletes a session explicitly before it times out. (For more information about the
         session inactivity timeout, see the
-        [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-assistant-settings)).
+        [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-assistant-settings)).
 
         :param str assistant_id: Unique identifier of the assistant. To find the
                assistant ID in the Watson Assistant user interface, open the assistant
                settings and click **API Details**. For information about creating
                assistants, see the
-               [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-assistant-add#assistant-add-task).
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-assistant-add#assistant-add-task).
                **Note:** Currently, the v2 API does not support creating assistants.
         :param str session_id: Unique identifier of the session.
         :param dict headers: A `dict` containing the request headers
@@ -189,7 +190,7 @@ class AssistantV2(BaseService):
                assistant ID in the Watson Assistant user interface, open the assistant
                settings and click **API Details**. For information about creating
                assistants, see the
-               [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-assistant-add#assistant-add-task).
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-assistant-add#assistant-add-task).
                **Note:** Currently, the v2 API does not support creating assistants.
         :param str session_id: Unique identifier of the session.
         :param MessageInput input: (optional) An input object that includes the
@@ -1185,6 +1186,31 @@ class MessageContextGlobalSystem():
     def __ne__(self, other: 'MessageContextGlobalSystem') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
+
+    class LocaleEnum(Enum):
+        """
+        The language code for localization in the user input. The specified locale
+        overrides the default for the assistant, and is used for interpreting entity
+        values in user input such as date values. For example, `04/03/2018` might be
+        interpreted either as April 3 or March 4, depending on the locale.
+         This property is included only if the new system entities are enabled for the
+        skill.
+        """
+        EN_US = "en-us"
+        EN_CA = "en-ca"
+        EN_GB = "en-gb"
+        AR_AR = "ar-ar"
+        CS_CZ = "cs-cz"
+        DE_DE = "de-de"
+        ES_ES = "es-es"
+        FR_FR = "fr-fr"
+        IT_IT = "it-it"
+        JA_JP = "ja-jp"
+        KO_KR = "ko-kr"
+        NL_NL = "nl-nl"
+        PT_BR = "pt-br"
+        ZH_CN = "zh-cn"
+        ZH_TW = "zh-tw"
 
 
 class MessageContextSkill():
