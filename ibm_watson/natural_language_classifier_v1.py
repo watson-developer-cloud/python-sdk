@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019, 2020.
+# (C) Copyright IBM Corp. 2020.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -26,8 +26,9 @@ from .common import get_sdk_headers
 from datetime import datetime
 from enum import Enum
 from ibm_cloud_sdk_core import BaseService
+from ibm_cloud_sdk_core import DetailedResponse
 from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
-from ibm_cloud_sdk_core import get_authenticator_from_environment
+from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
 from typing import BinaryIO
 from typing import Dict
 from typing import List
@@ -174,7 +175,7 @@ class NaturalLanguageClassifierV1(BaseService):
         :param TextIO training_data: Training data in CSV format. Each text value
                must have at least one class. The data can include up to 3,000 classes and
                20,000 records. For details, see [Data
-               preparation](https://cloud.ibm.com/docs/services/natural-language-classifier?topic=natural-language-classifier-using-your-data).
+               preparation](https://cloud.ibm.com/docs/natural-language-classifier?topic=natural-language-classifier-using-your-data).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
