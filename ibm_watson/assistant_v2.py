@@ -1059,13 +1059,31 @@ class MessageContextGlobalSystem():
           with each turn of the conversation. A value of 1 indicates that this is the the
           first turn of a new conversation, which can affect the behavior of some skills
           (for example, triggering the start node of a dialog).
+    :attr str locale: (optional) The language code for localization in the user
+          input. The specified locale overrides the default for the assistant, and is used
+          for interpreting entity values in user input such as date values. For example,
+          `04/03/2018` might be interpreted either as April 3 or March 4, depending on the
+          locale.
+           This property is included only if the new system entities are enabled for the
+          skill.
+    :attr str reference_time: (optional) The base time for interpreting any relative
+          time mentions in the user input. The specified time overrides the current server
+          time, and is used to calculate times mentioned in relative terms such as `now`
+          or `tomorrow`. This can be useful for simulating past or future times for
+          testing purposes, or when analyzing documents such as news articles.
+          This value must be a UTC time value formatted according to ISO 8601 (for
+          example, `2019-06-26T12:00:00Z` for noon on 26 June 2019.
+          This property is included only if the new system entities are enabled for the
+          skill.
     """
 
     def __init__(self,
                  *,
                  timezone: str = None,
                  user_id: str = None,
-                 turn_count: int = None) -> None:
+                 turn_count: int = None,
+                 locale: str = None,
+                 reference_time: str = None) -> None:
         """
         Initialize a MessageContextGlobalSystem object.
 
@@ -1082,16 +1100,37 @@ class MessageContextGlobalSystem():
                this is the the first turn of a new conversation, which can affect the
                behavior of some skills (for example, triggering the start node of a
                dialog).
+        :param str locale: (optional) The language code for localization in the
+               user input. The specified locale overrides the default for the assistant,
+               and is used for interpreting entity values in user input such as date
+               values. For example, `04/03/2018` might be interpreted either as April 3 or
+               March 4, depending on the locale.
+                This property is included only if the new system entities are enabled for
+               the skill.
+        :param str reference_time: (optional) The base time for interpreting any
+               relative time mentions in the user input. The specified time overrides the
+               current server time, and is used to calculate times mentioned in relative
+               terms such as `now` or `tomorrow`. This can be useful for simulating past
+               or future times for testing purposes, or when analyzing documents such as
+               news articles.
+               This value must be a UTC time value formatted according to ISO 8601 (for
+               example, `2019-06-26T12:00:00Z` for noon on 26 June 2019.
+               This property is included only if the new system entities are enabled for
+               the skill.
         """
         self.timezone = timezone
         self.user_id = user_id
         self.turn_count = turn_count
+        self.locale = locale
+        self.reference_time = reference_time
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'MessageContextGlobalSystem':
         """Initialize a MessageContextGlobalSystem object from a json dictionary."""
         args = {}
-        valid_keys = ['timezone', 'user_id', 'turn_count']
+        valid_keys = [
+            'timezone', 'user_id', 'turn_count', 'locale', 'reference_time'
+        ]
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
             raise ValueError(
@@ -1103,6 +1142,10 @@ class MessageContextGlobalSystem():
             args['user_id'] = _dict.get('user_id')
         if 'turn_count' in _dict:
             args['turn_count'] = _dict.get('turn_count')
+        if 'locale' in _dict:
+            args['locale'] = _dict.get('locale')
+        if 'reference_time' in _dict:
+            args['reference_time'] = _dict.get('reference_time')
         return cls(**args)
 
     @classmethod
@@ -1119,6 +1162,10 @@ class MessageContextGlobalSystem():
             _dict['user_id'] = self.user_id
         if hasattr(self, 'turn_count') and self.turn_count is not None:
             _dict['turn_count'] = self.turn_count
+        if hasattr(self, 'locale') and self.locale is not None:
+            _dict['locale'] = self.locale
+        if hasattr(self, 'reference_time') and self.reference_time is not None:
+            _dict['reference_time'] = self.reference_time
         return _dict
 
     def _to_dict(self):
