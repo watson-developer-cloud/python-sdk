@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019, 2020.
+# (C) Copyright IBM Corp. 2020.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -24,11 +24,13 @@ from .common import get_sdk_headers
 from datetime import datetime
 from enum import Enum
 from ibm_cloud_sdk_core import BaseService
+from ibm_cloud_sdk_core import DetailedResponse
 from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
-from ibm_cloud_sdk_core import get_authenticator_from_environment
+from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
 from typing import BinaryIO
 from typing import Dict
 from typing import List
+from typing import TextIO
 
 ##############################################################################
 # Service
@@ -605,6 +607,173 @@ class VisualRecognitionV4(BaseService):
         return response
 
     #########################
+    # Objects
+    #########################
+
+    def list_object_metadata(self, collection_id: str,
+                             **kwargs) -> 'DetailedResponse':
+        """
+        List object metadata.
+
+        Retrieves a list of object names in a collection.
+
+        :param str collection_id: The identifier of the collection.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V4',
+                                      operation_id='list_object_metadata')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v4/collections/{0}/objects'.format(
+            *self._encode_path_vars(collection_id))
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
+    def update_object_metadata(self, collection_id: str, object: str,
+                               new_object: str, **kwargs) -> 'DetailedResponse':
+        """
+        Update an object name.
+
+        Update the name of an object. A successful request updates the training data for
+        all images that use the object.
+
+        :param str collection_id: The identifier of the collection.
+        :param str object: The name of the object.
+        :param str new_object: The updated name of the object. The name can contain
+               alphanumeric, underscore, hyphen, space, and dot characters. It cannot
+               begin with the reserved prefix `sys-`.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        if object is None:
+            raise ValueError('object must be provided')
+        if new_object is None:
+            raise ValueError('new_object must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V4',
+                                      operation_id='update_object_metadata')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        data = {'object': new_object}
+
+        url = '/v4/collections/{0}/objects/{1}'.format(
+            *self._encode_path_vars(collection_id, object))
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data)
+
+        response = self.send(request)
+        return response
+
+    def get_object_metadata(self, collection_id: str, object: str,
+                            **kwargs) -> 'DetailedResponse':
+        """
+        Get object metadata.
+
+        Get the number of bounding boxes for a single object in a collection.
+
+        :param str collection_id: The identifier of the collection.
+        :param str object: The name of the object.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        if object is None:
+            raise ValueError('object must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V4',
+                                      operation_id='get_object_metadata')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v4/collections/{0}/objects/{1}'.format(
+            *self._encode_path_vars(collection_id, object))
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
+    def delete_object(self, collection_id: str, object: str,
+                      **kwargs) -> 'DetailedResponse':
+        """
+        Delete an object.
+
+        Delete one object from a collection. A successful request deletes the training
+        data from all images that use the object.
+
+        :param str collection_id: The identifier of the collection.
+        :param str object: The name of the object.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        if object is None:
+            raise ValueError('object must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V4',
+                                      operation_id='delete_object')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v4/collections/{0}/objects/{1}'.format(
+            *self._encode_path_vars(collection_id, object))
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
+    #########################
     # Training
     #########################
 
@@ -761,7 +930,7 @@ class VisualRecognitionV4(BaseService):
         You associate a customer ID with data by passing the `X-Watson-Metadata` header
         with a request that passes data. For more information about personal data and
         customer IDs, see [Information
-        security](https://cloud.ibm.com/docs/services/visual-recognition?topic=visual-recognition-information-security).
+        security](https://cloud.ibm.com/docs/visual-recognition?topic=visual-recognition-information-security).
 
         :param str customer_id: The customer ID for which all data is to be
                deleted.
@@ -2262,6 +2431,152 @@ class ObjectDetail():
         return not self == other
 
 
+class ObjectMetadata():
+    """
+    Basic information about an object.
+
+    :attr str object: (optional) The name of the object.
+    :attr int count: (optional) Number of bounding boxes with this object name in
+          the collection.
+    """
+
+    def __init__(self, *, object: str = None, count: int = None) -> None:
+        """
+        Initialize a ObjectMetadata object.
+
+        :param str object: (optional) The name of the object.
+        :param int count: (optional) Number of bounding boxes with this object name
+               in the collection.
+        """
+        self.object = object
+        self.count = count
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ObjectMetadata':
+        """Initialize a ObjectMetadata object from a json dictionary."""
+        args = {}
+        valid_keys = ['object', 'count']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ObjectMetadata: '
+                + ', '.join(bad_keys))
+        if 'object' in _dict:
+            args['object'] = _dict.get('object')
+        if 'count' in _dict:
+            args['count'] = _dict.get('count')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ObjectMetadata object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'object') and self.object is not None:
+            _dict['object'] = self.object
+        if hasattr(self, 'count') and self.count is not None:
+            _dict['count'] = self.count
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ObjectMetadata object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'ObjectMetadata') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ObjectMetadata') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ObjectMetadataList():
+    """
+    List of objects.
+
+    :attr int object_count: Number of unique named objects in the collection.
+    :attr List[ObjectMetadata] objects: (optional) The objects in the collection.
+    """
+
+    def __init__(self,
+                 object_count: int,
+                 *,
+                 objects: List['ObjectMetadata'] = None) -> None:
+        """
+        Initialize a ObjectMetadataList object.
+
+        :param int object_count: Number of unique named objects in the collection.
+        :param List[ObjectMetadata] objects: (optional) The objects in the
+               collection.
+        """
+        self.object_count = object_count
+        self.objects = objects
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ObjectMetadataList':
+        """Initialize a ObjectMetadataList object from a json dictionary."""
+        args = {}
+        valid_keys = ['object_count', 'objects']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ObjectMetadataList: '
+                + ', '.join(bad_keys))
+        if 'object_count' in _dict:
+            args['object_count'] = _dict.get('object_count')
+        else:
+            raise ValueError(
+                'Required property \'object_count\' not present in ObjectMetadataList JSON'
+            )
+        if 'objects' in _dict:
+            args['objects'] = [
+                ObjectMetadata._from_dict(x) for x in (_dict.get('objects'))
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ObjectMetadataList object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'object_count') and self.object_count is not None:
+            _dict['object_count'] = self.object_count
+        if hasattr(self, 'objects') and self.objects is not None:
+            _dict['objects'] = [x._to_dict() for x in self.objects]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ObjectMetadataList object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'ObjectMetadataList') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ObjectMetadataList') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class ObjectTrainingStatus():
     """
     Training status for the objects in the collection.
@@ -2811,6 +3126,87 @@ class TrainingStatus():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'TrainingStatus') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class UpdateObjectMetadata():
+    """
+    Basic information about an updated object.
+
+    :attr str object: The updated name of the object. The name can contain
+          alphanumeric, underscore, hyphen, space, and dot characters. It cannot begin
+          with the reserved prefix `sys-`.
+    :attr int count: Number of bounding boxes in the collection with the updated
+          object name.
+    """
+
+    def __init__(self, object: str, count: int) -> None:
+        """
+        Initialize a UpdateObjectMetadata object.
+
+        :param str object: The updated name of the object. The name can contain
+               alphanumeric, underscore, hyphen, space, and dot characters. It cannot
+               begin with the reserved prefix `sys-`.
+        :param int count: Number of bounding boxes in the collection with the
+               updated object name.
+        """
+        self.object = object
+        self.count = count
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'UpdateObjectMetadata':
+        """Initialize a UpdateObjectMetadata object from a json dictionary."""
+        args = {}
+        valid_keys = ['object', 'count']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class UpdateObjectMetadata: '
+                + ', '.join(bad_keys))
+        if 'object' in _dict:
+            args['object'] = _dict.get('object')
+        else:
+            raise ValueError(
+                'Required property \'object\' not present in UpdateObjectMetadata JSON'
+            )
+        if 'count' in _dict:
+            args['count'] = _dict.get('count')
+        else:
+            raise ValueError(
+                'Required property \'count\' not present in UpdateObjectMetadata JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a UpdateObjectMetadata object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'object') and self.object is not None:
+            _dict['object'] = self.object
+        if hasattr(self, 'count') and self.count is not None:
+            _dict['count'] = self.count
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this UpdateObjectMetadata object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'UpdateObjectMetadata') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'UpdateObjectMetadata') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 

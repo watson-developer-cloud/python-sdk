@@ -86,7 +86,7 @@ class IntegrationTestVisualRecognitionV3(TestCase):
             assert analyze_images is not None
         print(json.dumps(analyze_images, indent=2))
 
-    def test_04_training(self):
+    def test_04_objects_and_training(self):
         # create a classifier
         my_collection = self.visual_recognition.create_collection(
             name='my_test_collection',
@@ -115,6 +115,27 @@ class IntegrationTestVisualRecognitionV3(TestCase):
             ]).get_result()
         assert training_data is not None
 
+        # list objects metadata
+        object_metadata_list = self.visual_recognition.list_object_metadata(collection_id=collection_id).get_result()
+        assert object_metadata_list is not None
+
+        # update object metadata
+        object_metadata = object_metadata_list.get('objects')[0]
+        updated_object_metadata = self.visual_recognition.update_object_metadata(
+            collection_id=collection_id,
+            object=object_metadata.get('object'),
+            new_object='updated giraffe training data'
+        ).get_result()
+        assert updated_object_metadata is not None
+
+        # get object metadata
+        object_metadata = self.visual_recognition.get_object_metadata(
+            collection_id=collection_id,
+            object='updated giraffe training data',
+        ).get_result()
+        assert object_metadata is not None
+        assert object_metadata.get('object') == 'updated giraffe training data'
+
         # train collection
         train_result = self.visual_recognition.train(collection_id).get_result()
         assert train_result is not None
@@ -123,6 +144,9 @@ class IntegrationTestVisualRecognitionV3(TestCase):
         # training usage
         training_usage = self.visual_recognition.get_training_usage(start_time='2019-11-01', end_time='2019-11-27').get_result()
         assert training_usage is not None
+
+        # delete object
+        self.visual_recognition.delete_object(collection_id, object='updated giraffe training data')
 
         # delete collection
         self.visual_recognition.delete_collection(collection_id)
