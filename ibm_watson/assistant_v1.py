@@ -27,8 +27,9 @@ from .common import get_sdk_headers
 from datetime import datetime
 from enum import Enum
 from ibm_cloud_sdk_core import BaseService
+from ibm_cloud_sdk_core import DetailedResponse
 from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
-from ibm_cloud_sdk_core import get_authenticator_from_environment
+from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
 from typing import Dict
 from typing import List
 
@@ -98,7 +99,7 @@ class AssistantV1(BaseService):
         **Important:** This method has been superseded by the new v2 runtime API. The v2
         API offers significant advantages, including ease of deployment, automatic state
         management, versioning, and search capabilities. For more information, see the
-        [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-api-overview).
+        [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-api-overview).
         There is no rate limit for this operation.
 
         :param str workspace_id: Unique identifier of the workspace.
@@ -243,6 +244,7 @@ class AssistantV1(BaseService):
                          dialog_nodes: List['DialogNode'] = None,
                          counterexamples: List['Counterexample'] = None,
                          webhooks: List['Webhook'] = None,
+                         include_audit: bool = None,
                          **kwargs) -> 'DetailedResponse':
         """
         Create workspace.
@@ -273,6 +275,8 @@ class AssistantV1(BaseService):
         :param List[Counterexample] counterexamples: (optional) An array of objects
                defining input examples that have been marked as irrelevant input.
         :param List[Webhook] webhooks: (optional)
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -299,7 +303,7 @@ class AssistantV1(BaseService):
                                       operation_id='create_workspace')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {'version': self.version, 'include_audit': include_audit}
 
         data = {
             'name': name,
@@ -398,6 +402,7 @@ class AssistantV1(BaseService):
                          counterexamples: List['Counterexample'] = None,
                          webhooks: List['Webhook'] = None,
                          append: bool = None,
+                         include_audit: bool = None,
                          **kwargs) -> 'DetailedResponse':
         """
         Update workspace.
@@ -430,14 +435,16 @@ class AssistantV1(BaseService):
                defining input examples that have been marked as irrelevant input.
         :param List[Webhook] webhooks: (optional)
         :param bool append: (optional) Whether the new data is to be appended to
-               the existing data in the workspace. If **append**=`false`, elements
-               included in the new data completely replace the corresponding existing
-               elements, including all subelements. For example, if the new data includes
-               **entities** and **append**=`false`, all existing entities in the workspace
-               are discarded and replaced with the new entities.
+               the existing data in the object. If **append**=`false`, elements included
+               in the new data completely replace the corresponding existing elements,
+               including all subelements. For example, if the new data for a workspace
+               includes **entities** and **append**=`false`, all existing entities in the
+               workspace are discarded and replaced with the new entities.
                If **append**=`true`, existing elements are preserved, and the new elements
                are added. If any elements in the new data collide with existing elements,
                the update request fails.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -466,7 +473,11 @@ class AssistantV1(BaseService):
                                       operation_id='update_workspace')
         headers.update(sdk_headers)
 
-        params = {'version': self.version, 'append': append}
+        params = {
+            'version': self.version,
+            'append': append,
+            'include_audit': include_audit
+        }
 
         data = {
             'name': name,
@@ -605,6 +616,7 @@ class AssistantV1(BaseService):
                       *,
                       description: str = None,
                       examples: List['Example'] = None,
+                      include_audit: bool = None,
                       **kwargs) -> 'DetailedResponse':
         """
         Create intent.
@@ -625,6 +637,8 @@ class AssistantV1(BaseService):
                string cannot contain carriage return, newline, or tab characters.
         :param List[Example] examples: (optional) An array of user input examples
                for the intent.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -645,7 +659,7 @@ class AssistantV1(BaseService):
                                       operation_id='create_intent')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {'version': self.version, 'include_audit': include_audit}
 
         data = {
             'intent': intent,
@@ -728,6 +742,8 @@ class AssistantV1(BaseService):
                       new_intent: str = None,
                       new_description: str = None,
                       new_examples: List['Example'] = None,
+                      append: bool = None,
+                      include_audit: bool = None,
                       **kwargs) -> 'DetailedResponse':
         """
         Update intent.
@@ -750,6 +766,17 @@ class AssistantV1(BaseService):
                string cannot contain carriage return, newline, or tab characters.
         :param List[Example] new_examples: (optional) An array of user input
                examples for the intent.
+        :param bool append: (optional) Whether the new data is to be appended to
+               the existing data in the object. If **append**=`false`, elements included
+               in the new data completely replace the corresponding existing elements,
+               including all subelements. For example, if the new data for the intent
+               includes **examples** and **append**=`false`, all existing examples for the
+               intent are discarded and replaced with the new examples.
+               If **append**=`true`, existing elements are preserved, and the new elements
+               are added. If any elements in the new data collide with existing elements,
+               the update request fails.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -770,7 +797,11 @@ class AssistantV1(BaseService):
                                       operation_id='update_intent')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+            'append': append,
+            'include_audit': include_audit
+        }
 
         data = {
             'intent': new_intent,
@@ -904,6 +935,7 @@ class AssistantV1(BaseService):
                        text: str,
                        *,
                        mentions: List['Mention'] = None,
+                       include_audit: bool = None,
                        **kwargs) -> 'DetailedResponse':
         """
         Create user input example.
@@ -922,6 +954,8 @@ class AssistantV1(BaseService):
                - It cannot consist of only whitespace characters.
         :param List[Mention] mentions: (optional) An array of contextual entity
                mentions.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -944,7 +978,7 @@ class AssistantV1(BaseService):
                                       operation_id='create_example')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {'version': self.version, 'include_audit': include_audit}
 
         data = {'text': text, 'mentions': mentions}
 
@@ -1017,6 +1051,7 @@ class AssistantV1(BaseService):
                        *,
                        new_text: str = None,
                        new_mentions: List['Mention'] = None,
+                       include_audit: bool = None,
                        **kwargs) -> 'DetailedResponse':
         """
         Update user input example.
@@ -1036,6 +1071,8 @@ class AssistantV1(BaseService):
                - It cannot consist of only whitespace characters.
         :param List[Mention] new_mentions: (optional) An array of contextual entity
                mentions.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1058,7 +1095,7 @@ class AssistantV1(BaseService):
                                       operation_id='update_example')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {'version': self.version, 'include_audit': include_audit}
 
         data = {'text': new_text, 'mentions': new_mentions}
 
@@ -1181,7 +1218,11 @@ class AssistantV1(BaseService):
         response = self.send(request)
         return response
 
-    def create_counterexample(self, workspace_id: str, text: str,
+    def create_counterexample(self,
+                              workspace_id: str,
+                              text: str,
+                              *,
+                              include_audit: bool = None,
                               **kwargs) -> 'DetailedResponse':
         """
         Create counterexample.
@@ -1198,6 +1239,8 @@ class AssistantV1(BaseService):
                string must conform to the following restrictions:
                - It cannot contain carriage return, newline, or tab characters.
                - It cannot consist of only whitespace characters.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1216,7 +1259,7 @@ class AssistantV1(BaseService):
                                       operation_id='create_counterexample')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {'version': self.version, 'include_audit': include_audit}
 
         data = {'text': text}
 
@@ -1285,6 +1328,7 @@ class AssistantV1(BaseService):
                               text: str,
                               *,
                               new_text: str = None,
+                              include_audit: bool = None,
                               **kwargs) -> 'DetailedResponse':
         """
         Update counterexample.
@@ -1303,6 +1347,8 @@ class AssistantV1(BaseService):
                irrelevant input. This string must conform to the following restrictions:
                - It cannot contain carriage return, newline, or tab characters.
                - It cannot consist of only whitespace characters.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1321,7 +1367,7 @@ class AssistantV1(BaseService):
                                       operation_id='update_counterexample')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {'version': self.version, 'include_audit': include_audit}
 
         data = {'text': new_text}
 
@@ -1457,6 +1503,7 @@ class AssistantV1(BaseService):
                       metadata: dict = None,
                       fuzzy_match: bool = None,
                       values: List['CreateValue'] = None,
+                      include_audit: bool = None,
                       **kwargs) -> 'DetailedResponse':
         """
         Create entity.
@@ -1482,6 +1529,8 @@ class AssistantV1(BaseService):
                entity.
         :param List[CreateValue] values: (optional) An array of objects describing
                the entity values.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1502,7 +1551,7 @@ class AssistantV1(BaseService):
                                       operation_id='create_entity')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {'version': self.version, 'include_audit': include_audit}
 
         data = {
             'entity': entity,
@@ -1589,6 +1638,8 @@ class AssistantV1(BaseService):
                       new_metadata: dict = None,
                       new_fuzzy_match: bool = None,
                       new_values: List['CreateValue'] = None,
+                      append: bool = None,
+                      include_audit: bool = None,
                       **kwargs) -> 'DetailedResponse':
         """
         Update entity.
@@ -1614,6 +1665,17 @@ class AssistantV1(BaseService):
                the entity.
         :param List[CreateValue] new_values: (optional) An array of objects
                describing the entity values.
+        :param bool append: (optional) Whether the new data is to be appended to
+               the existing data in the entity. If **append**=`false`, elements included
+               in the new data completely replace the corresponding existing elements,
+               including all subelements. For example, if the new data for the entity
+               includes **values** and **append**=`false`, all existing values for the
+               entity are discarded and replaced with the new values.
+               If **append**=`true`, existing elements are preserved, and the new elements
+               are added. If any elements in the new data collide with existing elements,
+               the update request fails.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1634,7 +1696,11 @@ class AssistantV1(BaseService):
                                       operation_id='update_entity')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+            'append': append,
+            'include_audit': include_audit
+        }
 
         data = {
             'entity': new_entity,
@@ -1839,6 +1905,7 @@ class AssistantV1(BaseService):
                      type: str = None,
                      synonyms: List[str] = None,
                      patterns: List[str] = None,
+                     include_audit: bool = None,
                      **kwargs) -> 'DetailedResponse':
         """
         Create entity value.
@@ -1867,7 +1934,9 @@ class AssistantV1(BaseService):
                value. A value can specify either synonyms or patterns (depending on the
                value type), but not both. A pattern is a regular expression; for more
                information about how to specify a pattern, see the
-               [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-entities#entities-create-dictionary-based).
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-entities#entities-create-dictionary-based).
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1888,7 +1957,7 @@ class AssistantV1(BaseService):
                                       operation_id='create_value')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {'version': self.version, 'include_audit': include_audit}
 
         data = {
             'value': value,
@@ -1979,6 +2048,8 @@ class AssistantV1(BaseService):
                      new_type: str = None,
                      new_synonyms: List[str] = None,
                      new_patterns: List[str] = None,
+                     append: bool = None,
+                     include_audit: bool = None,
                      **kwargs) -> 'DetailedResponse':
         """
         Update entity value.
@@ -2010,7 +2081,19 @@ class AssistantV1(BaseService):
                entity value. A value can specify either synonyms or patterns (depending on
                the value type), but not both. A pattern is a regular expression; for more
                information about how to specify a pattern, see the
-               [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-entities#entities-create-dictionary-based).
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-entities#entities-create-dictionary-based).
+        :param bool append: (optional) Whether the new data is to be appended to
+               the existing data in the entity value. If **append**=`false`, elements
+               included in the new data completely replace the corresponding existing
+               elements, including all subelements. For example, if the new data for the
+               entity value includes **synonyms** and **append**=`false`, all existing
+               synonyms for the entity value are discarded and replaced with the new
+               synonyms.
+               If **append**=`true`, existing elements are preserved, and the new elements
+               are added. If any elements in the new data collide with existing elements,
+               the update request fails.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2031,7 +2114,11 @@ class AssistantV1(BaseService):
                                       operation_id='update_value')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {
+            'version': self.version,
+            'append': append,
+            'include_audit': include_audit
+        }
 
         data = {
             'value': new_value,
@@ -2167,8 +2254,14 @@ class AssistantV1(BaseService):
         response = self.send(request)
         return response
 
-    def create_synonym(self, workspace_id: str, entity: str, value: str,
-                       synonym: str, **kwargs) -> 'DetailedResponse':
+    def create_synonym(self,
+                       workspace_id: str,
+                       entity: str,
+                       value: str,
+                       synonym: str,
+                       *,
+                       include_audit: bool = None,
+                       **kwargs) -> 'DetailedResponse':
         """
         Create entity value synonym.
 
@@ -2186,6 +2279,8 @@ class AssistantV1(BaseService):
                the following restrictions:
                - It cannot contain carriage return, newline, or tab characters.
                - It cannot consist of only whitespace characters.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2208,7 +2303,7 @@ class AssistantV1(BaseService):
                                       operation_id='create_synonym')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {'version': self.version, 'include_audit': include_audit}
 
         data = {'synonym': synonym}
 
@@ -2285,6 +2380,7 @@ class AssistantV1(BaseService):
                        synonym: str,
                        *,
                        new_synonym: str = None,
+                       include_audit: bool = None,
                        **kwargs) -> 'DetailedResponse':
         """
         Update entity value synonym.
@@ -2304,6 +2400,8 @@ class AssistantV1(BaseService):
                must conform to the following restrictions:
                - It cannot contain carriage return, newline, or tab characters.
                - It cannot consist of only whitespace characters.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2326,7 +2424,7 @@ class AssistantV1(BaseService):
                                       operation_id='update_synonym')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {'version': self.version, 'include_audit': include_audit}
 
         data = {'synonym': new_synonym}
 
@@ -2473,6 +2571,7 @@ class AssistantV1(BaseService):
                            digress_out_slots: str = None,
                            user_label: str = None,
                            disambiguation_opt_out: bool = None,
+                           include_audit: bool = None,
                            **kwargs) -> 'DetailedResponse':
         """
         Create dialog node.
@@ -2500,7 +2599,7 @@ class AssistantV1(BaseService):
                sibling.
         :param DialogNodeOutput output: (optional) The output of the dialog node.
                For more information about how to specify dialog node output, see the
-               [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-dialog-overview#dialog-overview-responses).
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-overview#dialog-overview-responses).
         :param dict context: (optional) The context for the dialog node.
         :param dict metadata: (optional) The metadata for the dialog node.
         :param DialogNodeNextStep next_step: (optional) The next step to execute
@@ -2525,6 +2624,8 @@ class AssistantV1(BaseService):
                to describe the purpose of the node to users.
         :param bool disambiguation_opt_out: (optional) Whether the dialog node
                should be excluded from disambiguation suggestions.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2549,7 +2650,7 @@ class AssistantV1(BaseService):
                                       operation_id='create_dialog_node')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {'version': self.version, 'include_audit': include_audit}
 
         data = {
             'dialog_node': dialog_node,
@@ -2654,6 +2755,7 @@ class AssistantV1(BaseService):
                            new_digress_out_slots: str = None,
                            new_user_label: str = None,
                            new_disambiguation_opt_out: bool = None,
+                           include_audit: bool = None,
                            **kwargs) -> 'DetailedResponse':
         """
         Update dialog node.
@@ -2682,7 +2784,7 @@ class AssistantV1(BaseService):
                sibling.
         :param DialogNodeOutput new_output: (optional) The output of the dialog
                node. For more information about how to specify dialog node output, see the
-               [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-dialog-overview#dialog-overview-responses).
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-overview#dialog-overview-responses).
         :param dict new_context: (optional) The context for the dialog node.
         :param dict new_metadata: (optional) The metadata for the dialog node.
         :param DialogNodeNextStep new_next_step: (optional) The next step to
@@ -2708,6 +2810,8 @@ class AssistantV1(BaseService):
                externally to describe the purpose of the node to users.
         :param bool new_disambiguation_opt_out: (optional) Whether the dialog node
                should be excluded from disambiguation suggestions.
+        :param bool include_audit: (optional) Whether to include the audit
+               properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2732,7 +2836,7 @@ class AssistantV1(BaseService):
                                       operation_id='update_dialog_node')
         headers.update(sdk_headers)
 
-        params = {'version': self.version}
+        params = {'version': self.version, 'include_audit': include_audit}
 
         data = {
             'dialog_node': new_dialog_node,
@@ -2834,7 +2938,7 @@ class AssistantV1(BaseService):
                parameter value with a minus sign (`-`).
         :param str filter: (optional) A cacheable parameter that limits the results
                to those matching the specified filter. For more information, see the
-               [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-filter-reference#filter-reference).
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-filter-reference#filter-reference).
         :param int page_limit: (optional) The number of records to return in each
                page of results.
         :param str cursor: (optional) A token identifying the page of results to
@@ -2893,7 +2997,7 @@ class AssistantV1(BaseService):
                includes a value for `language`, as well as a value for
                `request.context.system.assistant_id`, `workspace_id`, or
                `request.context.metadata.deployment`. For more information, see the
-               [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-filter-reference#filter-reference).
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-filter-reference#filter-reference).
         :param str sort: (optional) How to sort the returned log events. You can
                sort by **request_timestamp**. To reverse the sort order, prefix the
                parameter value with a minus sign (`-`).
@@ -2948,7 +3052,7 @@ class AssistantV1(BaseService):
         You associate a customer ID with data by passing the `X-Watson-Metadata` header
         with a request that passes data. For more information about personal data and
         customer IDs, see [Information
-        security](https://cloud.ibm.com/docs/services/assistant?topic=assistant-information-security#information-security).
+        security](https://cloud.ibm.com/docs/assistant?topic=assistant-information-security#information-security).
         This operation is limited to 4 requests per minute. For more information, see
         **Rate limiting**.
 
@@ -3702,7 +3806,7 @@ class CreateValue():
           A value can specify either synonyms or patterns (depending on the value type),
           but not both. A pattern is a regular expression; for more information about how
           to specify a pattern, see the
-          [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-entities#entities-create-dictionary-based).
+          [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-entities#entities-create-dictionary-based).
     :attr datetime created: (optional) The timestamp for creation of the object.
     :attr datetime updated: (optional) The timestamp for the most recent update to
           the object.
@@ -3736,7 +3840,7 @@ class CreateValue():
                value. A value can specify either synonyms or patterns (depending on the
                value type), but not both. A pattern is a regular expression; for more
                information about how to specify a pattern, see the
-               [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-entities#entities-create-dictionary-based).
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-entities#entities-create-dictionary-based).
         :param datetime created: (optional) The timestamp for creation of the
                object.
         :param datetime updated: (optional) The timestamp for the most recent
@@ -3850,7 +3954,7 @@ class DialogNode():
           node. This property is omitted if the dialog node has no previous sibling.
     :attr DialogNodeOutput output: (optional) The output of the dialog node. For
           more information about how to specify dialog node output, see the
-          [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-dialog-overview#dialog-overview-responses).
+          [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-overview#dialog-overview-responses).
     :attr dict context: (optional) The context for the dialog node.
     :attr dict metadata: (optional) The metadata for the dialog node.
     :attr DialogNodeNextStep next_step: (optional) The next step to execute
@@ -3924,7 +4028,7 @@ class DialogNode():
                sibling.
         :param DialogNodeOutput output: (optional) The output of the dialog node.
                For more information about how to specify dialog node output, see the
-               [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-dialog-overview#dialog-overview-responses).
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-overview#dialog-overview-responses).
         :param dict context: (optional) The context for the dialog node.
         :param dict metadata: (optional) The metadata for the dialog node.
         :param DialogNodeNextStep next_step: (optional) The next step to execute
@@ -4542,7 +4646,7 @@ class DialogNodeOutput():
     """
     The output of the dialog node. For more information about how to specify dialog node
     output, see the
-    [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-dialog-overview#dialog-overview-responses).
+    [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-dialog-overview#dialog-overview-responses).
 
     :attr List[DialogNodeOutputGeneric] generic: (optional) An array of objects
           describing the output defined for the dialog node.
@@ -7811,6 +7915,16 @@ class RuntimeEntity():
     :attr dict metadata: (optional) Any metadata for the entity.
     :attr List[CaptureGroup] groups: (optional) The recognized capture groups for
           the entity, as defined by the entity pattern.
+    :attr RuntimeEntityInterpretation interpretation: (optional) An object
+          containing detailed information about the entity recognized in the user input.
+          This property is included only if the new system entities are enabled for the
+          workspace.
+          For more information about how the new system entities are interpreted, see the
+          [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-beta-system-entities).
+    :attr RuntimeEntityRole role: (optional) An object describing the role played by
+          a system entity that is specifies the beginning or end of a range recognized in
+          the user input. This property is included only if the new system entities are
+          enabled for the workspace.
     """
 
     def __init__(self,
@@ -7820,7 +7934,9 @@ class RuntimeEntity():
                  *,
                  confidence: float = None,
                  metadata: dict = None,
-                 groups: List['CaptureGroup'] = None) -> None:
+                 groups: List['CaptureGroup'] = None,
+                 interpretation: 'RuntimeEntityInterpretation' = None,
+                 role: 'RuntimeEntityRole' = None) -> None:
         """
         Initialize a RuntimeEntity object.
 
@@ -7833,6 +7949,17 @@ class RuntimeEntity():
         :param dict metadata: (optional) Any metadata for the entity.
         :param List[CaptureGroup] groups: (optional) The recognized capture groups
                for the entity, as defined by the entity pattern.
+        :param RuntimeEntityInterpretation interpretation: (optional) An object
+               containing detailed information about the entity recognized in the user
+               input. This property is included only if the new system entities are
+               enabled for the workspace.
+               For more information about how the new system entities are interpreted, see
+               the
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-beta-system-entities).
+        :param RuntimeEntityRole role: (optional) An object describing the role
+               played by a system entity that is specifies the beginning or end of a range
+               recognized in the user input. This property is included only if the new
+               system entities are enabled for the workspace.
         """
         self.entity = entity
         self.location = location
@@ -7840,13 +7967,16 @@ class RuntimeEntity():
         self.confidence = confidence
         self.metadata = metadata
         self.groups = groups
+        self.interpretation = interpretation
+        self.role = role
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'RuntimeEntity':
         """Initialize a RuntimeEntity object from a json dictionary."""
         args = {}
         valid_keys = [
-            'entity', 'location', 'value', 'confidence', 'metadata', 'groups'
+            'entity', 'location', 'value', 'confidence', 'metadata', 'groups',
+            'interpretation', 'role'
         ]
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
@@ -7878,6 +8008,11 @@ class RuntimeEntity():
             args['groups'] = [
                 CaptureGroup._from_dict(x) for x in (_dict.get('groups'))
             ]
+        if 'interpretation' in _dict:
+            args['interpretation'] = RuntimeEntityInterpretation._from_dict(
+                _dict.get('interpretation'))
+        if 'role' in _dict:
+            args['role'] = RuntimeEntityRole._from_dict(_dict.get('role'))
         return cls(**args)
 
     @classmethod
@@ -7900,6 +8035,10 @@ class RuntimeEntity():
             _dict['metadata'] = self.metadata
         if hasattr(self, 'groups') and self.groups is not None:
             _dict['groups'] = [x._to_dict() for x in self.groups]
+        if hasattr(self, 'interpretation') and self.interpretation is not None:
+            _dict['interpretation'] = self.interpretation._to_dict()
+        if hasattr(self, 'role') and self.role is not None:
+            _dict['role'] = self.role._to_dict()
         return _dict
 
     def _to_dict(self):
@@ -7919,6 +8058,463 @@ class RuntimeEntity():
     def __ne__(self, other: 'RuntimeEntity') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
+
+
+class RuntimeEntityInterpretation():
+    """
+    RuntimeEntityInterpretation.
+
+    :attr str calendar_type: (optional) The calendar used to represent a recognized
+          date (for example, `Gregorian`).
+    :attr str datetime_link: (optional) A unique identifier used to associate a
+          recognized time and date. If the user input contains a date and time that are
+          mentioned together (for example, `Today at 5`, the same **datetime_link** value
+          is returned for both the `@sys-date` and `@sys-time` entities).
+    :attr str festival: (optional) A locale-specific holiday name (such as
+          `thanksgiving` or `christmas`). This property is included when a `@sys-date`
+          entity is recognized based on a holiday name in the user input.
+    :attr str granularity: (optional) The precision or duration of a time range
+          specified by a recognized `@sys-time` or `@sys-date` entity.
+    :attr str range_link: (optional) A unique identifier used to associate multiple
+          recognized `@sys-date`, `@sys-time`, or `@sys-number` entities that are
+          recognized as a range of values in the user's input (for example, `from July 4
+          until July 14` or `from 20 to 25`).
+    :attr str range_modifier: (optional) The word in the user input that indicates
+          that a `sys-date` or `sys-time` entity is part of an implied range where only
+          one date or time is specified (for example, `since` or `until`).
+    :attr float relative_day: (optional) A recognized mention of a relative day,
+          represented numerically as an offset from the current date (for example, `-1`
+          for `yesterday` or `10` for `in ten days`).
+    :attr float relative_month: (optional) A recognized mention of a relative month,
+          represented numerically as an offset from the current month (for example, `1`
+          for `next month` or `-3` for `three months ago`).
+    :attr float relative_week: (optional) A recognized mention of a relative week,
+          represented numerically as an offset from the current week (for example, `2` for
+          `in two weeks` or `-1` for `last week).
+    :attr float relative_weekend: (optional) A recognized mention of a relative date
+          range for a weekend, represented numerically as an offset from the current
+          weekend (for example, `0` for `this weekend` or `-1` for `last weekend`).
+    :attr float relative_year: (optional) A recognized mention of a relative year,
+          represented numerically as an offset from the current year (for example, `1` for
+          `next year` or `-5` for `five years ago`).
+    :attr float specific_day: (optional) A recognized mention of a specific date,
+          represented numerically as the date within the month (for example, `30` for
+          `June 30`.).
+    :attr str specific_day_of_week: (optional) A recognized mention of a specific
+          day of the week as a lowercase string (for example, `monday`).
+    :attr float specific_month: (optional) A recognized mention of a specific month,
+          represented numerically (for example, `7` for `July`).
+    :attr float specific_quarter: (optional) A recognized mention of a specific
+          quarter, represented numerically (for example, `3` for `the third quarter`).
+    :attr float specific_year: (optional) A recognized mention of a specific year
+          (for example, `2016`).
+    :attr float numeric_value: (optional) A recognized numeric value, represented as
+          an integer or double.
+    :attr str subtype: (optional) The type of numeric value recognized in the user
+          input (`integer` or `rational`).
+    :attr str part_of_day: (optional) A recognized term for a time that was
+          mentioned as a part of the day in the user's input (for example, `morning` or
+          `afternoon`).
+    :attr float relative_hour: (optional) A recognized mention of a relative hour,
+          represented numerically as an offset from the current hour (for example, `3` for
+          `in three hours` or `-1` for `an hour ago`).
+    :attr float relative_minute: (optional) A recognized mention of a relative time,
+          represented numerically as an offset in minutes from the current time (for
+          example, `5` for `in five minutes` or `-15` for `fifteen minutes ago`).
+    :attr float relative_second: (optional) A recognized mention of a relative time,
+          represented numerically as an offset in seconds from the current time (for
+          example, `10` for `in ten seconds` or `-30` for `thirty seconds ago`).
+    :attr float specific_hour: (optional) A recognized specific hour mentioned as
+          part of a time value (for example, `10` for `10:15 AM`.).
+    :attr float specific_minute: (optional) A recognized specific minute mentioned
+          as part of a time value (for example, `15` for `10:15 AM`.).
+    :attr float specific_second: (optional) A recognized specific second mentioned
+          as part of a time value (for example, `30` for `10:15:30 AM`.).
+    :attr str timezone: (optional) A recognized time zone mentioned as part of a
+          time value (for example, `EST`).
+    """
+
+    def __init__(self,
+                 *,
+                 calendar_type: str = None,
+                 datetime_link: str = None,
+                 festival: str = None,
+                 granularity: str = None,
+                 range_link: str = None,
+                 range_modifier: str = None,
+                 relative_day: float = None,
+                 relative_month: float = None,
+                 relative_week: float = None,
+                 relative_weekend: float = None,
+                 relative_year: float = None,
+                 specific_day: float = None,
+                 specific_day_of_week: str = None,
+                 specific_month: float = None,
+                 specific_quarter: float = None,
+                 specific_year: float = None,
+                 numeric_value: float = None,
+                 subtype: str = None,
+                 part_of_day: str = None,
+                 relative_hour: float = None,
+                 relative_minute: float = None,
+                 relative_second: float = None,
+                 specific_hour: float = None,
+                 specific_minute: float = None,
+                 specific_second: float = None,
+                 timezone: str = None) -> None:
+        """
+        Initialize a RuntimeEntityInterpretation object.
+
+        :param str calendar_type: (optional) The calendar used to represent a
+               recognized date (for example, `Gregorian`).
+        :param str datetime_link: (optional) A unique identifier used to associate
+               a recognized time and date. If the user input contains a date and time that
+               are mentioned together (for example, `Today at 5`, the same
+               **datetime_link** value is returned for both the `@sys-date` and
+               `@sys-time` entities).
+        :param str festival: (optional) A locale-specific holiday name (such as
+               `thanksgiving` or `christmas`). This property is included when a
+               `@sys-date` entity is recognized based on a holiday name in the user input.
+        :param str granularity: (optional) The precision or duration of a time
+               range specified by a recognized `@sys-time` or `@sys-date` entity.
+        :param str range_link: (optional) A unique identifier used to associate
+               multiple recognized `@sys-date`, `@sys-time`, or `@sys-number` entities
+               that are recognized as a range of values in the user's input (for example,
+               `from July 4 until July 14` or `from 20 to 25`).
+        :param str range_modifier: (optional) The word in the user input that
+               indicates that a `sys-date` or `sys-time` entity is part of an implied
+               range where only one date or time is specified (for example, `since` or
+               `until`).
+        :param float relative_day: (optional) A recognized mention of a relative
+               day, represented numerically as an offset from the current date (for
+               example, `-1` for `yesterday` or `10` for `in ten days`).
+        :param float relative_month: (optional) A recognized mention of a relative
+               month, represented numerically as an offset from the current month (for
+               example, `1` for `next month` or `-3` for `three months ago`).
+        :param float relative_week: (optional) A recognized mention of a relative
+               week, represented numerically as an offset from the current week (for
+               example, `2` for `in two weeks` or `-1` for `last week).
+        :param float relative_weekend: (optional) A recognized mention of a
+               relative date range for a weekend, represented numerically as an offset
+               from the current weekend (for example, `0` for `this weekend` or `-1` for
+               `last weekend`).
+        :param float relative_year: (optional) A recognized mention of a relative
+               year, represented numerically as an offset from the current year (for
+               example, `1` for `next year` or `-5` for `five years ago`).
+        :param float specific_day: (optional) A recognized mention of a specific
+               date, represented numerically as the date within the month (for example,
+               `30` for `June 30`.).
+        :param str specific_day_of_week: (optional) A recognized mention of a
+               specific day of the week as a lowercase string (for example, `monday`).
+        :param float specific_month: (optional) A recognized mention of a specific
+               month, represented numerically (for example, `7` for `July`).
+        :param float specific_quarter: (optional) A recognized mention of a
+               specific quarter, represented numerically (for example, `3` for `the third
+               quarter`).
+        :param float specific_year: (optional) A recognized mention of a specific
+               year (for example, `2016`).
+        :param float numeric_value: (optional) A recognized numeric value,
+               represented as an integer or double.
+        :param str subtype: (optional) The type of numeric value recognized in the
+               user input (`integer` or `rational`).
+        :param str part_of_day: (optional) A recognized term for a time that was
+               mentioned as a part of the day in the user's input (for example, `morning`
+               or `afternoon`).
+        :param float relative_hour: (optional) A recognized mention of a relative
+               hour, represented numerically as an offset from the current hour (for
+               example, `3` for `in three hours` or `-1` for `an hour ago`).
+        :param float relative_minute: (optional) A recognized mention of a relative
+               time, represented numerically as an offset in minutes from the current time
+               (for example, `5` for `in five minutes` or `-15` for `fifteen minutes
+               ago`).
+        :param float relative_second: (optional) A recognized mention of a relative
+               time, represented numerically as an offset in seconds from the current time
+               (for example, `10` for `in ten seconds` or `-30` for `thirty seconds ago`).
+        :param float specific_hour: (optional) A recognized specific hour mentioned
+               as part of a time value (for example, `10` for `10:15 AM`.).
+        :param float specific_minute: (optional) A recognized specific minute
+               mentioned as part of a time value (for example, `15` for `10:15 AM`.).
+        :param float specific_second: (optional) A recognized specific second
+               mentioned as part of a time value (for example, `30` for `10:15:30 AM`.).
+        :param str timezone: (optional) A recognized time zone mentioned as part of
+               a time value (for example, `EST`).
+        """
+        self.calendar_type = calendar_type
+        self.datetime_link = datetime_link
+        self.festival = festival
+        self.granularity = granularity
+        self.range_link = range_link
+        self.range_modifier = range_modifier
+        self.relative_day = relative_day
+        self.relative_month = relative_month
+        self.relative_week = relative_week
+        self.relative_weekend = relative_weekend
+        self.relative_year = relative_year
+        self.specific_day = specific_day
+        self.specific_day_of_week = specific_day_of_week
+        self.specific_month = specific_month
+        self.specific_quarter = specific_quarter
+        self.specific_year = specific_year
+        self.numeric_value = numeric_value
+        self.subtype = subtype
+        self.part_of_day = part_of_day
+        self.relative_hour = relative_hour
+        self.relative_minute = relative_minute
+        self.relative_second = relative_second
+        self.specific_hour = specific_hour
+        self.specific_minute = specific_minute
+        self.specific_second = specific_second
+        self.timezone = timezone
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'RuntimeEntityInterpretation':
+        """Initialize a RuntimeEntityInterpretation object from a json dictionary."""
+        args = {}
+        valid_keys = [
+            'calendar_type', 'datetime_link', 'festival', 'granularity',
+            'range_link', 'range_modifier', 'relative_day', 'relative_month',
+            'relative_week', 'relative_weekend', 'relative_year',
+            'specific_day', 'specific_day_of_week', 'specific_month',
+            'specific_quarter', 'specific_year', 'numeric_value', 'subtype',
+            'part_of_day', 'relative_hour', 'relative_minute',
+            'relative_second', 'specific_hour', 'specific_minute',
+            'specific_second', 'timezone'
+        ]
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class RuntimeEntityInterpretation: '
+                + ', '.join(bad_keys))
+        if 'calendar_type' in _dict:
+            args['calendar_type'] = _dict.get('calendar_type')
+        if 'datetime_link' in _dict:
+            args['datetime_link'] = _dict.get('datetime_link')
+        if 'festival' in _dict:
+            args['festival'] = _dict.get('festival')
+        if 'granularity' in _dict:
+            args['granularity'] = _dict.get('granularity')
+        if 'range_link' in _dict:
+            args['range_link'] = _dict.get('range_link')
+        if 'range_modifier' in _dict:
+            args['range_modifier'] = _dict.get('range_modifier')
+        if 'relative_day' in _dict:
+            args['relative_day'] = _dict.get('relative_day')
+        if 'relative_month' in _dict:
+            args['relative_month'] = _dict.get('relative_month')
+        if 'relative_week' in _dict:
+            args['relative_week'] = _dict.get('relative_week')
+        if 'relative_weekend' in _dict:
+            args['relative_weekend'] = _dict.get('relative_weekend')
+        if 'relative_year' in _dict:
+            args['relative_year'] = _dict.get('relative_year')
+        if 'specific_day' in _dict:
+            args['specific_day'] = _dict.get('specific_day')
+        if 'specific_day_of_week' in _dict:
+            args['specific_day_of_week'] = _dict.get('specific_day_of_week')
+        if 'specific_month' in _dict:
+            args['specific_month'] = _dict.get('specific_month')
+        if 'specific_quarter' in _dict:
+            args['specific_quarter'] = _dict.get('specific_quarter')
+        if 'specific_year' in _dict:
+            args['specific_year'] = _dict.get('specific_year')
+        if 'numeric_value' in _dict:
+            args['numeric_value'] = _dict.get('numeric_value')
+        if 'subtype' in _dict:
+            args['subtype'] = _dict.get('subtype')
+        if 'part_of_day' in _dict:
+            args['part_of_day'] = _dict.get('part_of_day')
+        if 'relative_hour' in _dict:
+            args['relative_hour'] = _dict.get('relative_hour')
+        if 'relative_minute' in _dict:
+            args['relative_minute'] = _dict.get('relative_minute')
+        if 'relative_second' in _dict:
+            args['relative_second'] = _dict.get('relative_second')
+        if 'specific_hour' in _dict:
+            args['specific_hour'] = _dict.get('specific_hour')
+        if 'specific_minute' in _dict:
+            args['specific_minute'] = _dict.get('specific_minute')
+        if 'specific_second' in _dict:
+            args['specific_second'] = _dict.get('specific_second')
+        if 'timezone' in _dict:
+            args['timezone'] = _dict.get('timezone')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RuntimeEntityInterpretation object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'calendar_type') and self.calendar_type is not None:
+            _dict['calendar_type'] = self.calendar_type
+        if hasattr(self, 'datetime_link') and self.datetime_link is not None:
+            _dict['datetime_link'] = self.datetime_link
+        if hasattr(self, 'festival') and self.festival is not None:
+            _dict['festival'] = self.festival
+        if hasattr(self, 'granularity') and self.granularity is not None:
+            _dict['granularity'] = self.granularity
+        if hasattr(self, 'range_link') and self.range_link is not None:
+            _dict['range_link'] = self.range_link
+        if hasattr(self, 'range_modifier') and self.range_modifier is not None:
+            _dict['range_modifier'] = self.range_modifier
+        if hasattr(self, 'relative_day') and self.relative_day is not None:
+            _dict['relative_day'] = self.relative_day
+        if hasattr(self, 'relative_month') and self.relative_month is not None:
+            _dict['relative_month'] = self.relative_month
+        if hasattr(self, 'relative_week') and self.relative_week is not None:
+            _dict['relative_week'] = self.relative_week
+        if hasattr(self,
+                   'relative_weekend') and self.relative_weekend is not None:
+            _dict['relative_weekend'] = self.relative_weekend
+        if hasattr(self, 'relative_year') and self.relative_year is not None:
+            _dict['relative_year'] = self.relative_year
+        if hasattr(self, 'specific_day') and self.specific_day is not None:
+            _dict['specific_day'] = self.specific_day
+        if hasattr(self, 'specific_day_of_week'
+                  ) and self.specific_day_of_week is not None:
+            _dict['specific_day_of_week'] = self.specific_day_of_week
+        if hasattr(self, 'specific_month') and self.specific_month is not None:
+            _dict['specific_month'] = self.specific_month
+        if hasattr(self,
+                   'specific_quarter') and self.specific_quarter is not None:
+            _dict['specific_quarter'] = self.specific_quarter
+        if hasattr(self, 'specific_year') and self.specific_year is not None:
+            _dict['specific_year'] = self.specific_year
+        if hasattr(self, 'numeric_value') and self.numeric_value is not None:
+            _dict['numeric_value'] = self.numeric_value
+        if hasattr(self, 'subtype') and self.subtype is not None:
+            _dict['subtype'] = self.subtype
+        if hasattr(self, 'part_of_day') and self.part_of_day is not None:
+            _dict['part_of_day'] = self.part_of_day
+        if hasattr(self, 'relative_hour') and self.relative_hour is not None:
+            _dict['relative_hour'] = self.relative_hour
+        if hasattr(self,
+                   'relative_minute') and self.relative_minute is not None:
+            _dict['relative_minute'] = self.relative_minute
+        if hasattr(self,
+                   'relative_second') and self.relative_second is not None:
+            _dict['relative_second'] = self.relative_second
+        if hasattr(self, 'specific_hour') and self.specific_hour is not None:
+            _dict['specific_hour'] = self.specific_hour
+        if hasattr(self,
+                   'specific_minute') and self.specific_minute is not None:
+            _dict['specific_minute'] = self.specific_minute
+        if hasattr(self,
+                   'specific_second') and self.specific_second is not None:
+            _dict['specific_second'] = self.specific_second
+        if hasattr(self, 'timezone') and self.timezone is not None:
+            _dict['timezone'] = self.timezone
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RuntimeEntityInterpretation object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'RuntimeEntityInterpretation') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'RuntimeEntityInterpretation') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class GranularityEnum(Enum):
+        """
+        The precision or duration of a time range specified by a recognized `@sys-time` or
+        `@sys-date` entity.
+        """
+        DAY = "day"
+        FORTNIGHT = "fortnight"
+        HOUR = "hour"
+        INSTANT = "instant"
+        MINUTE = "minute"
+        MONTH = "month"
+        QUARTER = "quarter"
+        SECOND = "second"
+        WEEK = "week"
+        WEEKEND = "weekend"
+        YEAR = "year"
+
+
+class RuntimeEntityRole():
+    """
+    An object describing the role played by a system entity that is specifies the
+    beginning or end of a range recognized in the user input. This property is included
+    only if the new system entities are enabled for the workspace.
+
+    :attr str type: (optional) The relationship of the entity to the range.
+    """
+
+    def __init__(self, *, type: str = None) -> None:
+        """
+        Initialize a RuntimeEntityRole object.
+
+        :param str type: (optional) The relationship of the entity to the range.
+        """
+        self.type = type
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'RuntimeEntityRole':
+        """Initialize a RuntimeEntityRole object from a json dictionary."""
+        args = {}
+        valid_keys = ['type']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class RuntimeEntityRole: '
+                + ', '.join(bad_keys))
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RuntimeEntityRole object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RuntimeEntityRole object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'RuntimeEntityRole') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'RuntimeEntityRole') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class TypeEnum(Enum):
+        """
+        The relationship of the entity to the range.
+        """
+        DATE_FROM = "date_from"
+        DATE_TO = "date_to"
+        NUMBER_FROM = "number_from"
+        NUMBER_TO = "number_to"
+        TIME_FROM = "time_from"
+        TIME_TO = "time_to"
 
 
 class RuntimeIntent():
@@ -8475,7 +9071,7 @@ class Value():
           A value can specify either synonyms or patterns (depending on the value type),
           but not both. A pattern is a regular expression; for more information about how
           to specify a pattern, see the
-          [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-entities#entities-create-dictionary-based).
+          [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-entities#entities-create-dictionary-based).
     :attr datetime created: (optional) The timestamp for creation of the object.
     :attr datetime updated: (optional) The timestamp for the most recent update to
           the object.
@@ -8509,7 +9105,7 @@ class Value():
                value. A value can specify either synonyms or patterns (depending on the
                value type), but not both. A pattern is a regular expression; for more
                information about how to specify a pattern, see the
-               [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-entities#entities-create-dictionary-based).
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-entities#entities-create-dictionary-based).
         :param datetime created: (optional) The timestamp for creation of the
                object.
         :param datetime updated: (optional) The timestamp for the most recent
@@ -9181,16 +9777,20 @@ class WorkspaceSystemSettings():
           settings related to the disambiguation feature.
           **Note:** This feature is available only to Plus and Premium users.
     :attr dict human_agent_assist: (optional) For internal use only.
+    :attr WorkspaceSystemSettingsSystemEntities system_entities: (optional)
+          Workspace settings related to the behavior of system entities.
     :attr WorkspaceSystemSettingsOffTopic off_topic: (optional) Workspace settings
           related to detection of irrelevant input.
     """
 
-    def __init__(self,
-                 *,
-                 tooling: 'WorkspaceSystemSettingsTooling' = None,
-                 disambiguation: 'WorkspaceSystemSettingsDisambiguation' = None,
-                 human_agent_assist: dict = None,
-                 off_topic: 'WorkspaceSystemSettingsOffTopic' = None) -> None:
+    def __init__(
+            self,
+            *,
+            tooling: 'WorkspaceSystemSettingsTooling' = None,
+            disambiguation: 'WorkspaceSystemSettingsDisambiguation' = None,
+            human_agent_assist: dict = None,
+            system_entities: 'WorkspaceSystemSettingsSystemEntities' = None,
+            off_topic: 'WorkspaceSystemSettingsOffTopic' = None) -> None:
         """
         Initialize a WorkspaceSystemSettings object.
 
@@ -9200,12 +9800,15 @@ class WorkspaceSystemSettings():
                Workspace settings related to the disambiguation feature.
                **Note:** This feature is available only to Plus and Premium users.
         :param dict human_agent_assist: (optional) For internal use only.
+        :param WorkspaceSystemSettingsSystemEntities system_entities: (optional)
+               Workspace settings related to the behavior of system entities.
         :param WorkspaceSystemSettingsOffTopic off_topic: (optional) Workspace
                settings related to detection of irrelevant input.
         """
         self.tooling = tooling
         self.disambiguation = disambiguation
         self.human_agent_assist = human_agent_assist
+        self.system_entities = system_entities
         self.off_topic = off_topic
 
     @classmethod
@@ -9213,7 +9816,8 @@ class WorkspaceSystemSettings():
         """Initialize a WorkspaceSystemSettings object from a json dictionary."""
         args = {}
         valid_keys = [
-            'tooling', 'disambiguation', 'human_agent_assist', 'off_topic'
+            'tooling', 'disambiguation', 'human_agent_assist',
+            'system_entities', 'off_topic'
         ]
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
@@ -9229,6 +9833,10 @@ class WorkspaceSystemSettings():
                     _dict.get('disambiguation'))
         if 'human_agent_assist' in _dict:
             args['human_agent_assist'] = _dict.get('human_agent_assist')
+        if 'system_entities' in _dict:
+            args[
+                'system_entities'] = WorkspaceSystemSettingsSystemEntities._from_dict(
+                    _dict.get('system_entities'))
         if 'off_topic' in _dict:
             args['off_topic'] = WorkspaceSystemSettingsOffTopic._from_dict(
                 _dict.get('off_topic'))
@@ -9250,6 +9858,9 @@ class WorkspaceSystemSettings():
                 self,
                 'human_agent_assist') and self.human_agent_assist is not None:
             _dict['human_agent_assist'] = self.human_agent_assist
+        if hasattr(self,
+                   'system_entities') and self.system_entities is not None:
+            _dict['system_entities'] = self.system_entities._to_dict()
         if hasattr(self, 'off_topic') and self.off_topic is not None:
             _dict['off_topic'] = self.off_topic._to_dict()
         return _dict
@@ -9478,6 +10089,68 @@ class WorkspaceSystemSettingsOffTopic():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'WorkspaceSystemSettingsOffTopic') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class WorkspaceSystemSettingsSystemEntities():
+    """
+    Workspace settings related to the behavior of system entities.
+
+    :attr bool enabled: (optional) Whether the new system entities are enabled for
+          the workspace.
+    """
+
+    def __init__(self, *, enabled: bool = None) -> None:
+        """
+        Initialize a WorkspaceSystemSettingsSystemEntities object.
+
+        :param bool enabled: (optional) Whether the new system entities are enabled
+               for the workspace.
+        """
+        self.enabled = enabled
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'WorkspaceSystemSettingsSystemEntities':
+        """Initialize a WorkspaceSystemSettingsSystemEntities object from a json dictionary."""
+        args = {}
+        valid_keys = ['enabled']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class WorkspaceSystemSettingsSystemEntities: '
+                + ', '.join(bad_keys))
+        if 'enabled' in _dict:
+            args['enabled'] = _dict.get('enabled')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a WorkspaceSystemSettingsSystemEntities object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'enabled') and self.enabled is not None:
+            _dict['enabled'] = self.enabled
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this WorkspaceSystemSettingsSystemEntities object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'WorkspaceSystemSettingsSystemEntities') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'WorkspaceSystemSettingsSystemEntities') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 

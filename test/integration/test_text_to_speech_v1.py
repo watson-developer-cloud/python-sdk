@@ -5,8 +5,9 @@ from ibm_watson.websocket import SynthesizeCallback
 import pytest
 import os
 
-@pytest.mark.skipif(
-    os.getenv('VCAP_SERVICES') is None, reason='requires VCAP_SERVICES')
+
+@pytest.mark.skipif(os.getenv('VCAP_SERVICES') is None,
+                    reason='requires VCAP_SERVICES')
 class TestIntegrationTextToSpeechV1(unittest.TestCase):
     text_to_speech = None
     original_customizations = None
@@ -16,12 +17,11 @@ class TestIntegrationTextToSpeechV1(unittest.TestCase):
     def setup_class(cls):
         cls.text_to_speech = ibm_watson.TextToSpeechV1()
         cls.text_to_speech.set_default_headers({
-            'X-Watson-Learning-Opt-Out':
-            '1',
-            'X-Watson-Test':
-            '1'
+            'X-Watson-Learning-Opt-Out': '1',
+            'X-Watson-Test': '1'
         })
-        cls.original_customizations = cls.text_to_speech.list_voice_models().get_result()
+        cls.original_customizations = cls.text_to_speech.list_voice_models(
+        ).get_result()
         cls.created_customization = cls.text_to_speech.create_voice_model(
             name="test_integration_customization",
             description="customization for tests").get_result()
@@ -34,7 +34,8 @@ class TestIntegrationTextToSpeechV1(unittest.TestCase):
     def test_voices(self):
         output = self.text_to_speech.list_voices().get_result()
         assert output['voices'] is not None
-        voice = self.text_to_speech.get_voice(output['voices'][0]['name']).get_result()
+        voice = self.text_to_speech.get_voice(
+            output['voices'][0]['name']).get_result()
         assert voice is not None
 
     def test_speak(self):
@@ -50,27 +51,32 @@ class TestIntegrationTextToSpeechV1(unittest.TestCase):
 
     def test_customizations(self):
         old_length = len(self.original_customizations.get('customizations'))
-        new_length = len(
-            self.text_to_speech.list_voice_models().get_result()['customizations'])
+        new_length = len(self.text_to_speech.list_voice_models().get_result()
+                         ['customizations'])
         assert new_length - old_length >= 1
 
     def test_custom_words(self):
         customization_id = self.created_customization.get('customization_id')
-        words = self.text_to_speech.list_words(customization_id).get_result()['words']
+        words = self.text_to_speech.list_words(
+            customization_id).get_result()['words']
         assert not words
-        self.text_to_speech.add_word(
-            customization_id, word="ACLs", translation="ackles")
+        self.text_to_speech.add_word(customization_id,
+                                     word="ACLs",
+                                     translation="ackles")
 
         words = [{"word": "MACLs", "translation": "mackles"}]
 
         self.text_to_speech.add_words(customization_id, words)
         self.text_to_speech.delete_word(customization_id, 'ACLs')
-        word = self.text_to_speech.get_word(customization_id, 'MACLs').get_result()
+        word = self.text_to_speech.get_word(customization_id,
+                                            'MACLs').get_result()
         assert word['translation'] == 'mackles'
 
     def test_synthesize_using_websocket(self):
         file = 'tongue_twister.wav'
+
         class MySynthesizeCallback(SynthesizeCallback):
+
             def __init__(self):
                 SynthesizeCallback.__init__(self)
                 self.fd = None
@@ -89,11 +95,11 @@ class TestIntegrationTextToSpeechV1(unittest.TestCase):
                 self.fd.close()
 
         test_callback = MySynthesizeCallback()
-        self.text_to_speech.synthesize_using_websocket('She sells seashells by the seashore',
-                                                       test_callback,
-                                                       accept='audio/wav',
-                                                       voice='en-GB_KateVoice'
-                                                      )
+        self.text_to_speech.synthesize_using_websocket(
+            'She sells seashells by the seashore',
+            test_callback,
+            accept='audio/wav',
+            voice='en-GB_KateVoice')
         assert test_callback.error is None
         assert test_callback.fd is not None
         assert os.stat(file).st_size > 0

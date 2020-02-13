@@ -277,7 +277,7 @@ class TestCreateWorkspace():
             "system_settings":
                 WorkspaceSystemSettings._from_dict(
                     json.loads(
-                        """{"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "fake_prompt", "none_of_the_above_prompt": "fake_none_of_the_above_prompt", "enabled": false, "sensitivity": "fake_sensitivity", "randomize": false, "max_suggestions": 15, "suggestion_text_policy": "fake_suggestion_text_policy"}, "off_topic": {"enabled": false}}"""
+                        """{"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "fake_prompt", "none_of_the_above_prompt": "fake_none_of_the_above_prompt", "enabled": false, "sensitivity": "fake_sensitivity", "randomize": false, "max_suggestions": 15, "suggestion_text_policy": "fake_suggestion_text_policy"}, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}"""
                     )),
             "intents": [],
             "entities": [],
@@ -285,6 +285,7 @@ class TestCreateWorkspace():
             "counterexamples": [],
             "webhooks": [],
         })
+        body['include_audit'] = True
         return body
 
     def construct_required_body(self):
@@ -442,7 +443,7 @@ class TestUpdateWorkspace():
             "system_settings":
                 WorkspaceSystemSettings._from_dict(
                     json.loads(
-                        """{"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "fake_prompt", "none_of_the_above_prompt": "fake_none_of_the_above_prompt", "enabled": false, "sensitivity": "fake_sensitivity", "randomize": false, "max_suggestions": 15, "suggestion_text_policy": "fake_suggestion_text_policy"}, "off_topic": {"enabled": false}}"""
+                        """{"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "fake_prompt", "none_of_the_above_prompt": "fake_none_of_the_above_prompt", "enabled": false, "sensitivity": "fake_sensitivity", "randomize": false, "max_suggestions": 15, "suggestion_text_policy": "fake_suggestion_text_policy"}, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}"""
                     )),
             "intents": [],
             "entities": [],
@@ -451,6 +452,7 @@ class TestUpdateWorkspace():
             "webhooks": [],
         })
         body['append'] = True
+        body['include_audit'] = True
         return body
 
     def construct_required_body(self):
@@ -682,6 +684,7 @@ class TestCreateIntent():
             "description": "string1",
             "examples": [],
         })
+        body['include_audit'] = True
         return body
 
     def construct_required_body(self):
@@ -839,6 +842,8 @@ class TestUpdateIntent():
             "new_description": "string1",
             "new_examples": [],
         })
+        body['append'] = True
+        body['include_audit'] = True
         return body
 
     def construct_required_body(self):
@@ -1082,6 +1087,7 @@ class TestCreateExample():
             "text": "string1",
             "mentions": [],
         })
+        body['include_audit'] = True
         return body
 
     def construct_required_body(self):
@@ -1240,6 +1246,7 @@ class TestUpdateExample():
             "new_text": "string1",
             "new_mentions": [],
         })
+        body['include_audit'] = True
         return body
 
     def construct_required_body(self):
@@ -1482,6 +1489,7 @@ class TestCreateCounterexample():
         body.update({
             "text": "string1",
         })
+        body['include_audit'] = True
         return body
 
     def construct_required_body(self):
@@ -1634,6 +1642,7 @@ class TestUpdateCounterexample():
         body.update({
             "new_text": "string1",
         })
+        body['include_audit'] = True
         return body
 
     def construct_required_body(self):
@@ -1876,6 +1885,7 @@ class TestCreateEntity():
             "fuzzy_match": True,
             "values": [],
         })
+        body['include_audit'] = True
         return body
 
     def construct_required_body(self):
@@ -2041,6 +2051,8 @@ class TestUpdateEntity():
             "new_fuzzy_match": True,
             "new_values": [],
         })
+        body['append'] = True
+        body['include_audit'] = True
         return body
 
     def construct_required_body(self):
@@ -2381,6 +2393,7 @@ class TestCreateValue():
             "synonyms": [],
             "patterns": [],
         })
+        body['include_audit'] = True
         return body
 
     def construct_required_body(self):
@@ -2550,6 +2563,8 @@ class TestUpdateValue():
             "new_synonyms": [],
             "new_patterns": [],
         })
+        body['append'] = True
+        body['include_audit'] = True
         return body
 
     def construct_required_body(self):
@@ -2802,6 +2817,7 @@ class TestCreateSynonym():
         body.update({
             "synonym": "string1",
         })
+        body['include_audit'] = True
         return body
 
     def construct_required_body(self):
@@ -2964,6 +2980,7 @@ class TestUpdateSynonym():
         body.update({
             "new_synonym": "string1",
         })
+        body['include_audit'] = True
         return body
 
     def construct_required_body(self):
@@ -3253,6 +3270,7 @@ class TestCreateDialogNode():
             "disambiguation_opt_out":
                 True,
         })
+        body['include_audit'] = True
         return body
 
     def construct_required_body(self):
@@ -3493,6 +3511,7 @@ class TestUpdateDialogNode():
             "new_disambiguation_opt_out":
                 True,
         })
+        body['include_audit'] = True
         return body
 
     def construct_required_body(self):
@@ -3937,9 +3956,9 @@ def send_request(obj, body, response, url=None):
 fake_response__json = None
 fake_response_MessageResponse_json = """{"input": {"text": "fake_text"}, "intents": [], "entities": [], "alternate_intents": false, "context": {"conversation_id": "fake_conversation_id", "system": {}, "metadata": {"deployment": "fake_deployment", "user_id": "fake_user_id"}}, "output": {"nodes_visited": [], "nodes_visited_details": [], "log_messages": [], "text": [], "generic": []}, "actions": []}"""
 fake_response_WorkspaceCollection_json = """{"workspaces": [], "pagination": {"refresh_url": "fake_refresh_url", "next_url": "fake_next_url", "total": 5, "matched": 7, "refresh_cursor": "fake_refresh_cursor", "next_cursor": "fake_next_cursor"}}"""
-fake_response_Workspace_json = """{"name": "fake_name", "description": "fake_description", "language": "fake_language", "learning_opt_out": true, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "fake_prompt", "none_of_the_above_prompt": "fake_none_of_the_above_prompt", "enabled": false, "sensitivity": "fake_sensitivity", "randomize": false, "max_suggestions": 15, "suggestion_text_policy": "fake_suggestion_text_policy"}, "off_topic": {"enabled": false}}, "workspace_id": "fake_workspace_id", "status": "fake_status", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "intents": [], "entities": [], "dialog_nodes": [], "counterexamples": [], "webhooks": []}"""
-fake_response_Workspace_json = """{"name": "fake_name", "description": "fake_description", "language": "fake_language", "learning_opt_out": true, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "fake_prompt", "none_of_the_above_prompt": "fake_none_of_the_above_prompt", "enabled": false, "sensitivity": "fake_sensitivity", "randomize": false, "max_suggestions": 15, "suggestion_text_policy": "fake_suggestion_text_policy"}, "off_topic": {"enabled": false}}, "workspace_id": "fake_workspace_id", "status": "fake_status", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "intents": [], "entities": [], "dialog_nodes": [], "counterexamples": [], "webhooks": []}"""
-fake_response_Workspace_json = """{"name": "fake_name", "description": "fake_description", "language": "fake_language", "learning_opt_out": true, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "fake_prompt", "none_of_the_above_prompt": "fake_none_of_the_above_prompt", "enabled": false, "sensitivity": "fake_sensitivity", "randomize": false, "max_suggestions": 15, "suggestion_text_policy": "fake_suggestion_text_policy"}, "off_topic": {"enabled": false}}, "workspace_id": "fake_workspace_id", "status": "fake_status", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "intents": [], "entities": [], "dialog_nodes": [], "counterexamples": [], "webhooks": []}"""
+fake_response_Workspace_json = """{"name": "fake_name", "description": "fake_description", "language": "fake_language", "learning_opt_out": true, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "fake_prompt", "none_of_the_above_prompt": "fake_none_of_the_above_prompt", "enabled": false, "sensitivity": "fake_sensitivity", "randomize": false, "max_suggestions": 15, "suggestion_text_policy": "fake_suggestion_text_policy"}, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "workspace_id": "fake_workspace_id", "status": "fake_status", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "intents": [], "entities": [], "dialog_nodes": [], "counterexamples": [], "webhooks": []}"""
+fake_response_Workspace_json = """{"name": "fake_name", "description": "fake_description", "language": "fake_language", "learning_opt_out": true, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "fake_prompt", "none_of_the_above_prompt": "fake_none_of_the_above_prompt", "enabled": false, "sensitivity": "fake_sensitivity", "randomize": false, "max_suggestions": 15, "suggestion_text_policy": "fake_suggestion_text_policy"}, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "workspace_id": "fake_workspace_id", "status": "fake_status", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "intents": [], "entities": [], "dialog_nodes": [], "counterexamples": [], "webhooks": []}"""
+fake_response_Workspace_json = """{"name": "fake_name", "description": "fake_description", "language": "fake_language", "learning_opt_out": true, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "fake_prompt", "none_of_the_above_prompt": "fake_none_of_the_above_prompt", "enabled": false, "sensitivity": "fake_sensitivity", "randomize": false, "max_suggestions": 15, "suggestion_text_policy": "fake_suggestion_text_policy"}, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "workspace_id": "fake_workspace_id", "status": "fake_status", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "intents": [], "entities": [], "dialog_nodes": [], "counterexamples": [], "webhooks": []}"""
 fake_response_IntentCollection_json = """{"intents": [], "pagination": {"refresh_url": "fake_refresh_url", "next_url": "fake_next_url", "total": 5, "matched": 7, "refresh_cursor": "fake_refresh_cursor", "next_cursor": "fake_next_cursor"}}"""
 fake_response_Intent_json = """{"intent": "fake_intent", "description": "fake_description", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "examples": []}"""
 fake_response_Intent_json = """{"intent": "fake_intent", "description": "fake_description", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "examples": []}"""

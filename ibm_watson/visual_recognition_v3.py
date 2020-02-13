@@ -25,8 +25,9 @@ from .common import get_sdk_headers
 from datetime import datetime
 from enum import Enum
 from ibm_cloud_sdk_core import BaseService
+from ibm_cloud_sdk_core import DetailedResponse
 from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
-from ibm_cloud_sdk_core import get_authenticator_from_environment
+from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
 from os.path import basename
 from typing import BinaryIO
 from typing import Dict
@@ -358,7 +359,7 @@ class VisualRecognitionV3(BaseService):
         Update a custom classifier by adding new positive or negative classes or by adding
         new images to existing classes. You must supply at least one set of positive or
         negative examples. For details, see [Updating custom
-        classifiers](https://cloud.ibm.com/docs/services/visual-recognition?topic=visual-recognition-customizing#updating-custom-classifiers).
+        classifiers](https://cloud.ibm.com/docs/visual-recognition?topic=visual-recognition-customizing#updating-custom-classifiers).
         Encode all names in UTF-8 if they contain non-ASCII characters (.zip and image
         file names, and classifier and class names). The service assumes UTF-8 encoding if
         it encounters non-ASCII characters.
@@ -528,7 +529,7 @@ class VisualRecognitionV3(BaseService):
         You associate a customer ID with data by passing the `X-Watson-Metadata` header
         with a request that passes data. For more information about personal data and
         customer IDs, see [Information
-        security](https://cloud.ibm.com/docs/services/visual-recognition?topic=visual-recognition-information-security).
+        security](https://cloud.ibm.com/docs/visual-recognition?topic=visual-recognition-information-security).
 
         :param str customer_id: The customer ID for which all data is to be
                deleted.

@@ -18,7 +18,6 @@ import inspect
 import json
 import pytest
 import responses
-import tempfile
 import ibm_watson.text_to_speech_v1
 from ibm_watson.text_to_speech_v1 import *
 
