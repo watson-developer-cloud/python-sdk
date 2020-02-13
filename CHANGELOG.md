@@ -1,3 +1,21 @@
+# [4.3.0](https://github.com/watson-developer-cloud/python-sdk/compare/v4.2.1...v4.3.0) (2020-02-13)
+
+
+### Features
+
+* **assistantv1:** New param `include_audi` in `create_synonym` and `update_synonym` and  `update_dialog_node ` ([fbe1081](https://github.com/watson-developer-cloud/python-sdk/commit/fbe1081309aaa380d47b3c9016aaedc0a7bb5005))
+* **assistantv1:** New param `include_audit` in `create_example`, `update_example`, `create_counterexample`, `update_counterexample`, `create_entity` ([b1f99ec](https://github.com/watson-developer-cloud/python-sdk/commit/b1f99ec1e4fad3655ff526cab7de5f18e29607a0))
+* **assistantv1:** New param `include_audit` in `create_intent` ([d523706](https://github.com/watson-developer-cloud/python-sdk/commit/d52370646cd9d5aa88bfd67da294dfd5f8ba9800))
+* **assistantv1:** New param `include_audit` in `create_value` ([4d32257](https://github.com/watson-developer-cloud/python-sdk/commit/4d32257464bd87886934c00f5a4e569896a4ac32))
+* **assistantv1:** New param `include_audit` in `create_workspace` and `update_workspace` ([e44cb16](https://github.com/watson-developer-cloud/python-sdk/commit/e44cb16771620f0cbc6f6c03e215c088c5a1beb6))
+* **assistantv1:** New params `append` and `include_audit` in `update_intent` ([3b015f9](https://github.com/watson-developer-cloud/python-sdk/commit/3b015f9b660241c2ab6f6b7f371843edf2c12c59))
+* **assistantv1:** New params `audit` and `include_audit` in `update_value` ([8bac230](https://github.com/watson-developer-cloud/python-sdk/commit/8bac230a824d996f7807f943650c737ca3ae553d))
+* **assistantv1:** New params `include_audit` and `append` in `update_entity` ([e36783d](https://github.com/watson-developer-cloud/python-sdk/commit/e36783d015e7681b626a1cc8c99ee68a9cbf614f))
+* **assistantv1:** New params `interpretation` and `role` in `RuntimeEntity` model ([a44ace8](https://github.com/watson-developer-cloud/python-sdk/commit/a44ace8638db57f17d319932863aa5c5af51dd93))
+* **assistantv2:** `interpretation`, `alternatives` and `role` properties in `RuntimeEntity` ([5ef087f](https://github.com/watson-developer-cloud/python-sdk/commit/5ef087f4b27b0771e098aaec8488e42d94ecd1ce))
+* **assistantv2:** New params `locale` and `reference_time` in `MessageContextGlobalSystem` ([9b7e56e](https://github.com/watson-developer-cloud/python-sdk/commit/9b7e56e85d9fdec8b264c1a2865882c031046998))
+* **vr4:** New objects operations ([cc9eace](https://github.com/watson-developer-cloud/python-sdk/commit/cc9eaced7ac1e693392e0ea2e6eb2ed27c63af9a))
+
 ## [4.2.1](https://github.com/watson-developer-cloud/python-sdk/compare/v4.2.0...v4.2.1) (2020-01-17)
 
 
