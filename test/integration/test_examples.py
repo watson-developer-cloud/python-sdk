@@ -9,10 +9,14 @@ from os.path import join, dirname
 from glob import glob
 
 # tests to include
-includes = ['assistant_v1.py', 'natural_language_understanding_v1.py', 'personality_insights_v3.py', 'tone_analyzer_v3.py']
+includes = [
+    'assistant_v1.py', 'natural_language_understanding_v1.py',
+    'personality_insights_v3.py', 'tone_analyzer_v3.py'
+]
 
 # examples path. /examples
 examples_path = join(dirname(__file__), '../../', 'examples', '*.py')
+
 
 @pytest.mark.skipif(os.getenv('VCAP_SERVICES') is None,
                     reason='requires VCAP_SERVICES')
@@ -28,8 +32,7 @@ def test_examples():
         service_name = name[:-6]
 
         if service_name not in vcap_services:
-            print('%s does not have credentials in VCAP_SERVICES',
-                  service_name)
+            print('%s does not have credentials in VCAP_SERVICES', service_name)
             continue
 
         try:

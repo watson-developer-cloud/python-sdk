@@ -37,6 +37,13 @@ training_data = service.add_image_training_data(
     ]).get_result()
 print(json.dumps(training_data, indent=2))
 
+# update object metadata
+updated_object_metadata = service.update_object_metadata(
+    collection_id=collection_id,
+    object='giraffe training data',
+    new_object='updated giraffe training data').get_result()
+print(json.dumps(updated_object_metadata, indent=2))
+
 # train collection
 train_result = service.train(collection_id).get_result()
 print(json.dumps(train_result, indent=2))

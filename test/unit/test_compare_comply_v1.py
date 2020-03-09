@@ -1,577 +1,1075 @@
-# coding: utf-8
-import responses
-import ibm_watson
+# -*- coding: utf-8 -*-
+# (C) Copyright IBM Corp. 2018, 2020.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+from datetime import datetime
+from ibm_cloud_sdk_core.authenticators.no_auth_authenticator import NoAuthAuthenticator
+import inspect
 import json
-import os
-import time
-import jwt
-from unittest import TestCase
-from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+import pytest
+import responses
+import tempfile
+import ibm_watson.compare_comply_v1
+from ibm_watson.compare_comply_v1 import *
 
-base_url = "https://gateway.watsonplatform.net/compare-comply/api"
-feedback = {
-    "comment": "test commment",
-    "user_id": "wonder woman",
-    "feedback_id": "lala",
-    "feedback_data": {
-        "model_id": "contracts",
-        "original_labels": {
-            "categories": [
-                {
-                    "modification": "unchanged",
-                    "provenance_ids": [],
-                    "label": "Responsibilities"
-                },
-                {
-                    "modification": "removed",
-                    "provenance_ids": [],
-                    "label": "Amendments"
-                }
-            ],
-            "types": [
-                {
-                    "modification": "unchanged",
-                    "provenance_ids": [
-                        "111",
-                        "2222"
-                    ],
-                    "label": {
-                        "party": "IBM",
-                        "nature": "Obligation"
-                    }
-                },
-                {
-                    "modification": "removed",
-                    "provenance_ids": [
-                        "111",
-                        "2222"
-                    ],
-                    "label": {
-                        "party": "Exclusion",
-                        "nature": "End User"
-                    }
-                }
-            ]
-        },
-        "text": "1. IBM will provide a Senior Managing Consultant / expert resource, for up to 80 hours, to assist Florida Power & Light (FPL) with the creation of an IT infrastructure unit cost model for existing infrastructure.",
-        "feedback_type": "element_classification",
-        "updated_labels": {
-            "categories": [
-                {
-                    "modification": "unchanged",
-                    "label": "Responsibilities"
-                },
-                {
-                    "modification": "added",
-                    "label": "Audits"
-                }
-            ],
-            "types": [
-                {
-                    "modification": "unchanged",
-                    "label": {
-                        "party": "IBM",
-                        "nature": "Obligation"
-                    }
-                },
-                {
-                    "modification": "added",
-                    "label": {
-                        "party": "Buyer",
-                        "nature": "Disclaimer"
-                    }
-                }
-            ]
-        },
-        "model_version": "11.00",
-        "location": {
-            "begin": "214",
-            "end": "237"
-        },
-        "document": {
-            "hash": "",
-            "title": "doc title"
-        }
-        },
-    "created": "2018-11-16T22:57:14+0000"
-}
+base_url = 'https://gateway.watsonplatform.net/compare-comply/api'
+
+##############################################################################
+# Start of Service: HTMLConversion
+##############################################################################
+# region
 
 
-batch = {
-    "function": "html_conversion",
-    "status": "completed",
-    "updated": "2018-11-12T21:02:43.867+0000",
-    "document_counts": {
-        "successful": 4,
-        "failed": 0,
-        "total": 4,
-        "pending": 0
-    },
-    "created": "2018-11-12T21:02:38.907+0000",
-    "input_bucket_location": "us-south",
-    "input_bucket_name": "compare-comply-integration-test-bucket-input",
-    "batch_id": "xxx",
-    "output_bucket_name": "compare-comply-integration-test-bucket-output",
-    "model": "contracts",
-    "output_bucket_location": "us-south"
-}
+#-----------------------------------------------------------------------------
+# Test Class for convert_to_html
+#-----------------------------------------------------------------------------
+class TestConvertToHtml():
 
-def get_access_token():
-    access_token_layout = {
-        "username": "dummy",
-        "role": "Admin",
-        "permissions": [
-            "administrator",
-            "manage_catalog"
-        ],
-        "sub": "admin",
-        "iss": "sss",
-        "aud": "sss",
-        "uid": "sss",
-        "iat": 3600,
-        "exp": int(time.time())
-    }
-
-    access_token = jwt.encode(access_token_layout, 'secret', algorithm='HS256', headers={'kid': '230498151c214b788dd97f22b85410a5'})
-    return access_token.decode('utf-8')
-
-class TestCompareComplyV1(TestCase):
-
-    @classmethod
-    def setUp(cls):
-        iam_url = "https://iam.cloud.ibm.com/identity/token"
-        iam_token_response = {
-            "access_token": get_access_token(),
-            "token_type": "Bearer",
-            "expires_in": 3600,
-            "expiration": 1524167011,
-            "refresh_token": "jy4gl91BQ"
-        }
-        responses.add(
-            responses.POST, url=iam_url, body=json.dumps(iam_token_response), status=200)
-
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_convert_to_html(self):
-        authenticator = IAMAuthenticator('bogusapikey')
-        service = ibm_watson.CompareComplyV1('2016-10-20', authenticator=authenticator)
+    def test_convert_to_html_response(self):
+        body = self.construct_full_body()
+        response = fake_response_HTMLReturn_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
 
-        url = "{0}{1}".format(base_url, '/v1/html_conversion')
-
-        response = {
-            "hash": "0d9589556c16fca21c64ce9c8b10d065",
-            "html": "<html><html>",
-            "num_pages": "4",
-            "publication_date": "2018-11-10",
-            "title": "Microsoft Word - contract_A.doc"
-        }
-
-        responses.add(
-            responses.POST,
-            url,
-            body=json.dumps(response),
-            status=200,
-            content_type='application/json')
-
-        with open(
-                os.path.join(os.path.dirname(__file__),
-                             '../../resources/contract_A.pdf'), 'rb') as file:
-            service.convert_to_html(
-                file,
-                model_id="contracts",
-                file_content_type="application/octet-stream")
-
-        assert len(responses.calls) == 2
-
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_classify_elements(self):
-        authenticator = IAMAuthenticator('bogusapikey')
-        service = ibm_watson.CompareComplyV1('2016-10-20', authenticator=authenticator)
+    def test_convert_to_html_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_HTMLReturn_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
 
-        url = "{0}{1}".format(base_url, '/v1/element_classification')
-
-        response = [{
-            "text":
-            "__November 9, 2018______________ date",
-            "categories": [],
-            "location": {
-                "begin": 19373,
-                "end": 19410
-            },
-            "types": [],
-            "attributes": [{
-                "text": "November 9, 2018",
-                "type": "DateTime",
-                "location": {
-                    "begin": 19375,
-                    "end": 19391
-                }
-            }]
-        }]
-
-        responses.add(
-            responses.POST,
-            url,
-            body=json.dumps(response),
-            status=200,
-            content_type='application/json')
-
-        with open(os.path.join(os.path.dirname(__file__),
-                               '../../resources/contract_A.pdf'), 'rb') as file:
-            service.classify_elements(
-                file,
-                model_id="contracts",
-                file_content_type="application/octet-stream")
-
-        assert len(responses.calls) == 2
-
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_extract_tables(self):
-        authenticator = IAMAuthenticator('bogusapikey')
-        service = ibm_watson.CompareComplyV1('2016-10-20', authenticator=authenticator)
+    def test_convert_to_html_empty(self):
+        check_empty_required_params(self, fake_response_HTMLReturn_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
 
-        url = "{0}{1}".format(base_url, '/v1/tables')
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/html_conversion'
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
 
-        response = {
-            "model_version":
-            "0.2.8-SNAPSHOT",
-            "model_id":
-            "tables",
-            "document": {
-                "hash": "0906a4721a59ffeaf2ec12997aa4f7f7",
-                "title": "Design and build accessible PDF tables, sample tables"
-            },
-            "tables": [{
-                "section_title": {
-                    "text": "Sample tables ",
-                    "location": {
-                        "begin": 2099,
-                        "end": 2113
-                    }
-                },
-                "text":
-                "Column header (TH) Column header (TH) Column header (TH) Row header (TH) Data cell (TD) Data cell (TD) Row header(TH) Data cell (TD) Data cell (TD) ",
-                "table_headers": [],
-                "row_headers": [],
-                "location": {
-                    "begin": 2832,
-                    "end": 4801
-                },
-                "body_cells": [],
-            }]
-        }
+    def add_mock_response(self, url, response):
+        responses.add(responses.POST,
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
 
-        responses.add(
-            responses.POST,
-            url,
-            body=json.dumps(response),
-            status=200,
-            content_type='application/json')
+    def call_service(self, body):
+        service = CompareComplyV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2018-10-15',
+        )
+        service.set_service_url(base_url)
+        output = service.convert_to_html(**body)
+        return output
 
-        with open(os.path.join(os.path.dirname(__file__),
-                               '../../resources/sample-tables.pdf'), 'rb') as file:
-            service.extract_tables(file)
+    def construct_full_body(self):
+        body = dict()
+        body['file'] = tempfile.NamedTemporaryFile()
+        body['file_content_type'] = "string1"
+        body['model'] = "string1"
+        return body
 
-        assert len(responses.calls) == 2
+    def construct_required_body(self):
+        body = dict()
+        body['file'] = tempfile.NamedTemporaryFile()
+        return body
 
+
+# endregion
+##############################################################################
+# End of Service: HTMLConversion
+##############################################################################
+
+##############################################################################
+# Start of Service: ElementClassification
+##############################################################################
+# region
+
+
+#-----------------------------------------------------------------------------
+# Test Class for classify_elements
+#-----------------------------------------------------------------------------
+class TestClassifyElements():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_compare_documents(self):
-        authenticator = IAMAuthenticator('bogusapikey')
-        service = ibm_watson.CompareComplyV1('2016-10-20', authenticator=authenticator)
+    def test_classify_elements_response(self):
+        body = self.construct_full_body()
+        response = fake_response_ClassifyReturn_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
 
-        url = "{0}{1}".format(base_url, '/v1/comparison')
-
-        response = {
-            "aligned_elements": [
-                {
-                    "element_pair": [{
-                        "text":
-                        "WITNESSETH: that the Owner and Contractor undertake and agree as follows:",
-                        "types": [],
-                        "document_label":
-                        "file_1",
-                        "attributes": [],
-                        "categories": [],
-                        "location": {
-                            "begin": 3845,
-                            "end": 4085
-                        }
-                    }, {
-                        "text":
-                        "WITNESSETH: that the Owner and Contractor undertake and agree as follows:",
-                        "types": [],
-                        "document_label":
-                        "file_2",
-                        "attributes": [],
-                        "categories": [],
-                        "location": {
-                            "begin": 3846,
-                            "end": 4086
-                        }
-                    }],
-                    "provenance_ids":
-                    ["1mSG/96z1wY4De35LAExJzhCo2t0DfvbYnTl+vbavjY="],
-                },
-            ],
-            "model_id":
-            "contracts",
-            "model_version":
-            "1.0.0"
-        }
-
-        responses.add(
-            responses.POST,
-            url,
-            body=json.dumps(response),
-            status=200,
-            content_type='application/json')
-
-        with open(os.path.join(os.path.dirname(__file__),
-                               '../../resources/contract_A.pdf'), 'rb') as file1:
-            with open(os.path.join(os.path.dirname(__file__),
-                                   '../../resources/contract_B.pdf'), 'rb') as file2:
-                service.compare_documents(file1, file2)
-
-        assert len(responses.calls) == 2
-
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_add_feedback(self):
-        authenticator = IAMAuthenticator('bogusapikey')
-        service = ibm_watson.CompareComplyV1('2016-10-20', authenticator=authenticator)
+    def test_classify_elements_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_ClassifyReturn_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
 
-        url = "{0}{1}".format(base_url, '/v1/feedback')
-
-        feedback_data = {
-            "feedback_type": "element_classification",
-            "document": {
-                "hash": "",
-                "title": "doc title"
-            },
-            "model_id": "contracts",
-            "model_version": "11.00",
-            "location": {
-                "begin": "214",
-                "end": "237"
-            },
-            "text": "1. IBM will provide a Senior Managing Consultant / expert resource, for up to 80 hours, to assist Florida Power & Light (FPL) with the creation of an IT infrastructure unit cost model for existing infrastructure.",
-            "original_labels": {
-                "types": [
-                    {
-                        "label": {
-                            "nature": "Obligation",
-                            "party": "IBM"
-                        },
-                        "provenance_ids": [
-                            "85f5981a-ba91-44f5-9efa-0bd22e64b7bc",
-                            "ce0480a1-5ef1-4c3e-9861-3743b5610795"
-                        ]
-                    },
-                    {
-                        "label": {
-                            "nature": "End User",
-                            "party": "Exclusion"
-                        },
-                        "provenance_ids": [
-                            "85f5981a-ba91-44f5-9efa-0bd22e64b7bc",
-                            "ce0480a1-5ef1-4c3e-9861-3743b5610795"
-                        ]
-                    }
-                ],
-                "categories": [
-                    {
-                        "label": "Responsibilities",
-                        "provenance_ids": []
-                    },
-                    {
-                        "label": "Amendments",
-                        "provenance_ids": []
-                    }
-                ]
-            },
-            "updated_labels": {
-                "types": [
-                    {
-                        "label": {
-                            "nature": "Obligation",
-                            "party": "IBM"
-                        }
-                    },
-                    {
-                        "label": {
-                            "nature": "Disclaimer",
-                            "party": "Buyer"
-                        }
-                    }
-                ],
-                "categories": [
-                    {
-                        "label": "Responsibilities"
-                    },
-                    {
-                        "label": "Audits"
-                    }
-                ]
-            }
-        }
-
-        responses.add(
-            responses.POST,
-            url,
-            body=json.dumps(feedback),
-            status=200,
-            content_type='application/json')
-
-        result = service.add_feedback(
-            feedback_data,
-            user_id="wonder woman",
-            comment="test commment").get_result()
-        assert result["feedback_id"] == "lala"
-
-        assert len(responses.calls) == 2
-
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_get_feedback(self):
-        authenticator = IAMAuthenticator('bogusapikey')
-        service = ibm_watson.CompareComplyV1('2016-10-20', authenticator=authenticator)
+    def test_classify_elements_empty(self):
+        check_empty_required_params(self, fake_response_ClassifyReturn_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
 
-        url = "{0}{1}".format(base_url, '/v1/feedback/xxx')
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/element_classification'
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
 
-        responses.add(
-            responses.GET,
-            url,
-            body=json.dumps(feedback),
-            status=200,
-            content_type='application/json')
+    def add_mock_response(self, url, response):
+        responses.add(responses.POST,
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
 
-        result = service.get_feedback("xxx").get_result()
-        assert result["feedback_id"] == "lala"
+    def call_service(self, body):
+        service = CompareComplyV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2018-10-15',
+        )
+        service.set_service_url(base_url)
+        output = service.classify_elements(**body)
+        return output
 
-        assert len(responses.calls) == 2
+    def construct_full_body(self):
+        body = dict()
+        body['file'] = tempfile.NamedTemporaryFile()
+        body['file_content_type'] = "string1"
+        body['model'] = "string1"
+        return body
 
+    def construct_required_body(self):
+        body = dict()
+        body['file'] = tempfile.NamedTemporaryFile()
+        return body
+
+
+# endregion
+##############################################################################
+# End of Service: ElementClassification
+##############################################################################
+
+##############################################################################
+# Start of Service: Tables
+##############################################################################
+# region
+
+
+#-----------------------------------------------------------------------------
+# Test Class for extract_tables
+#-----------------------------------------------------------------------------
+class TestExtractTables():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_list_feedback(self):
-        authenticator = IAMAuthenticator('bogusapikey')
-        service = ibm_watson.CompareComplyV1('2016-10-20', authenticator=authenticator)
+    def test_extract_tables_response(self):
+        body = self.construct_full_body()
+        response = fake_response_TableReturn_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
 
-        url = "{0}{1}".format(base_url, '/v1/feedback')
-
-        responses.add(
-            responses.GET,
-            url,
-            body=json.dumps({"feedback":[feedback]}),
-            status=200,
-            content_type='application/json')
-
-        result = service.list_feedback().get_result()
-        assert result["feedback"][0]["feedback_id"] == "lala"
-
-        assert len(responses.calls) == 2
-
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_delete_feedback(self):
-        authenticator = IAMAuthenticator('bogusapikey')
-        service = ibm_watson.CompareComplyV1('2016-10-20', authenticator=authenticator)
+    def test_extract_tables_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_TableReturn_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
 
-        url = "{0}{1}".format(base_url, '/v1/feedback/xxx')
-
-        response = {
-            "status": 200,
-            "message": "Successfully deleted the feedback with id  - 90ae2cb9-e6c5-43eb-a70f-199959f76019"
-        }
-
-        responses.add(
-            responses.DELETE,
-            url,
-            body=json.dumps(response),
-            status=200,
-            content_type='application/json')
-
-        result = service.delete_feedback("xxx").get_result()
-        assert result["status"] == 200
-
-        assert len(responses.calls) == 2
-
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_create_batch(self):
-        authenticator = IAMAuthenticator('bogusapikey')
-        service = ibm_watson.CompareComplyV1('2016-10-20', authenticator=authenticator)
+    def test_extract_tables_empty(self):
+        check_empty_required_params(self, fake_response_TableReturn_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
 
-        url = "{0}{1}".format(base_url, '/v1/batches')
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/tables'
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
 
-        responses.add(
-            responses.POST,
-            url,
-            body=json.dumps(batch),
-            status=200,
-            content_type='application/json')
+    def add_mock_response(self, url, response):
+        responses.add(responses.POST,
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
 
-        with open(os.path.join(os.path.dirname(__file__),
-                               '../../resources/dummy-storage-credentials.json'), 'rb') as input_credentials_file:
-            with open(os.path.join(os.path.dirname(__file__),
-                                   '../../resources/dummy-storage-credentials.json'), 'rb') as output_credentials_file:
-                result = service.create_batch(
-                    "html_conversion",
-                    input_credentials_file,
-                    "us-south",
-                    "compare-comply-integration-test-bucket-input",
-                    output_credentials_file,
-                    "us-south",
-                    "compare-comply-integration-test-bucket-output").get_result()
+    def call_service(self, body):
+        service = CompareComplyV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2018-10-15',
+        )
+        service.set_service_url(base_url)
+        output = service.extract_tables(**body)
+        return output
 
-        assert result["batch_id"] == "xxx"
-        assert len(responses.calls) == 2
+    def construct_full_body(self):
+        body = dict()
+        body['file'] = tempfile.NamedTemporaryFile()
+        body['file_content_type'] = "string1"
+        body['model'] = "string1"
+        return body
 
+    def construct_required_body(self):
+        body = dict()
+        body['file'] = tempfile.NamedTemporaryFile()
+        return body
+
+
+# endregion
+##############################################################################
+# End of Service: Tables
+##############################################################################
+
+##############################################################################
+# Start of Service: Comparison
+##############################################################################
+# region
+
+
+#-----------------------------------------------------------------------------
+# Test Class for compare_documents
+#-----------------------------------------------------------------------------
+class TestCompareDocuments():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_get_batch(self):
-        authenticator = IAMAuthenticator('bogusapikey')
-        service = ibm_watson.CompareComplyV1('2016-10-20', authenticator=authenticator)
+    def test_compare_documents_response(self):
+        body = self.construct_full_body()
+        response = fake_response_CompareReturn_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
 
-        url = "{0}{1}".format(base_url, '/v1/batches/xxx')
-
-        responses.add(
-            responses.GET,
-            url,
-            body=json.dumps(batch),
-            status=200,
-            content_type='application/json')
-
-        result = service.get_batch("xxx").get_result()
-        assert result["batch_id"] == "xxx"
-
-        assert len(responses.calls) == 2
-
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_list_batches(self):
-        authenticator = IAMAuthenticator('bogusapikey')
-        service = ibm_watson.CompareComplyV1('2016-10-20', authenticator=authenticator)
+    def test_compare_documents_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_CompareReturn_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
 
-        url = "{0}{1}".format(base_url, '/v1/batches')
-
-        responses.add(
-            responses.GET,
-            url,
-            body=json.dumps({"batches": [batch]}),
-            status=200,
-            content_type='application/json')
-
-        result = service.list_batches().get_result()
-        assert result["batches"][0]["batch_id"] == "xxx"
-
-        assert len(responses.calls) == 2
-
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_update_batch(self):
-        authenticator = IAMAuthenticator('bogusapikey')
-        service = ibm_watson.CompareComplyV1('2016-10-20', authenticator=authenticator)
+    def test_compare_documents_empty(self):
+        check_empty_required_params(self, fake_response_CompareReturn_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
 
-        url = "{0}{1}".format(base_url, '/v1/batches/xxx')
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/comparison'
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
 
-        responses.add(
-            responses.PUT,
-            url,
-            body=json.dumps(batch),
-            status=200,
-            content_type='application/json')
+    def add_mock_response(self, url, response):
+        responses.add(responses.POST,
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
 
-        result = service.update_batch("xxx", "rescan").get_result()
-        assert result["batch_id"] == "xxx"
-        assert len(responses.calls) == 2
+    def call_service(self, body):
+        service = CompareComplyV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2018-10-15',
+        )
+        service.set_service_url(base_url)
+        output = service.compare_documents(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['file_1'] = tempfile.NamedTemporaryFile()
+        body['file_2'] = tempfile.NamedTemporaryFile()
+        body['file_1_content_type'] = "string1"
+        body['file_2_content_type'] = "string1"
+        body['file_1_label'] = "string1"
+        body['file_2_label'] = "string1"
+        body['model'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['file_1'] = tempfile.NamedTemporaryFile()
+        body['file_2'] = tempfile.NamedTemporaryFile()
+        return body
+
+
+# endregion
+##############################################################################
+# End of Service: Comparison
+##############################################################################
+
+##############################################################################
+# Start of Service: Feedback
+##############################################################################
+# region
+
+
+#-----------------------------------------------------------------------------
+# Test Class for add_feedback
+#-----------------------------------------------------------------------------
+class TestAddFeedback():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_add_feedback_response(self):
+        body = self.construct_full_body()
+        response = fake_response_FeedbackReturn_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_add_feedback_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_FeedbackReturn_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_add_feedback_empty(self):
+        check_empty_required_params(self, fake_response_FeedbackReturn_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/feedback'
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.POST,
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
+    def call_service(self, body):
+        service = CompareComplyV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2018-10-15',
+        )
+        service.set_service_url(base_url)
+        output = service.add_feedback(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body.update({
+            "feedback_data":
+                FeedbackDataInput._from_dict(
+                    json.loads(
+                        """{"feedback_type": "fake_feedback_type", "document": {"title": "fake_title", "hash": "fake_hash"}, "model_id": "fake_model_id", "model_version": "fake_model_version", "location": {"begin": 5, "end": 3}, "text": "fake_text", "original_labels": {"types": [], "categories": []}, "updated_labels": {"types": [], "categories": []}}"""
+                    )),
+            "user_id":
+                "string1",
+            "comment":
+                "string1",
+        })
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body.update({
+            "feedback_data":
+                FeedbackDataInput._from_dict(
+                    json.loads(
+                        """{"feedback_type": "fake_feedback_type", "document": {"title": "fake_title", "hash": "fake_hash"}, "model_id": "fake_model_id", "model_version": "fake_model_version", "location": {"begin": 5, "end": 3}, "text": "fake_text", "original_labels": {"types": [], "categories": []}, "updated_labels": {"types": [], "categories": []}}"""
+                    )),
+            "user_id":
+                "string1",
+            "comment":
+                "string1",
+        })
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for list_feedback
+#-----------------------------------------------------------------------------
+class TestListFeedback():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_feedback_response(self):
+        body = self.construct_full_body()
+        response = fake_response_FeedbackList_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_feedback_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_FeedbackList_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_feedback_empty(self):
+        check_empty_response(self)
+        assert len(responses.calls) == 1
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/feedback'
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
+    def call_service(self, body):
+        service = CompareComplyV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2018-10-15',
+        )
+        service.set_service_url(base_url)
+        output = service.list_feedback(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['feedback_type'] = "string1"
+        body['before'] = datetime.now().date()
+        body['after'] = datetime.now().date()
+        body['document_title'] = "string1"
+        body['model_id'] = "string1"
+        body['model_version'] = "string1"
+        body['category_removed'] = "string1"
+        body['category_added'] = "string1"
+        body['category_not_changed'] = "string1"
+        body['type_removed'] = "string1"
+        body['type_added'] = "string1"
+        body['type_not_changed'] = "string1"
+        body['page_limit'] = 12345
+        body['cursor'] = "string1"
+        body['sort'] = "string1"
+        body['include_total'] = True
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for get_feedback
+#-----------------------------------------------------------------------------
+class TestGetFeedback():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_feedback_response(self):
+        body = self.construct_full_body()
+        response = fake_response_GetFeedback_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_feedback_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_GetFeedback_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_feedback_empty(self):
+        check_empty_required_params(self, fake_response_GetFeedback_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/feedback/{0}'.format(body['feedback_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
+    def call_service(self, body):
+        service = CompareComplyV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2018-10-15',
+        )
+        service.set_service_url(base_url)
+        output = service.get_feedback(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['feedback_id'] = "string1"
+        body['model'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['feedback_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for delete_feedback
+#-----------------------------------------------------------------------------
+class TestDeleteFeedback():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_feedback_response(self):
+        body = self.construct_full_body()
+        response = fake_response_FeedbackDeleted_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_feedback_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_FeedbackDeleted_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_feedback_empty(self):
+        check_empty_required_params(self, fake_response_FeedbackDeleted_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/feedback/{0}'.format(body['feedback_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.DELETE,
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
+    def call_service(self, body):
+        service = CompareComplyV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2018-10-15',
+        )
+        service.set_service_url(base_url)
+        output = service.delete_feedback(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['feedback_id'] = "string1"
+        body['model'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['feedback_id'] = "string1"
+        return body
+
+
+# endregion
+##############################################################################
+# End of Service: Feedback
+##############################################################################
+
+##############################################################################
+# Start of Service: Batches
+##############################################################################
+# region
+
+
+#-----------------------------------------------------------------------------
+# Test Class for create_batch
+#-----------------------------------------------------------------------------
+class TestCreateBatch():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_batch_response(self):
+        body = self.construct_full_body()
+        response = fake_response_BatchStatus_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_batch_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_BatchStatus_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_batch_empty(self):
+        check_empty_required_params(self, fake_response_BatchStatus_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/batches'
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.POST,
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
+    def call_service(self, body):
+        service = CompareComplyV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2018-10-15',
+        )
+        service.set_service_url(base_url)
+        output = service.create_batch(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['function'] = "string1"
+        body['input_credentials_file'] = tempfile.NamedTemporaryFile()
+        body['input_bucket_location'] = "string1"
+        body['input_bucket_name'] = "string1"
+        body['output_credentials_file'] = tempfile.NamedTemporaryFile()
+        body['output_bucket_location'] = "string1"
+        body['output_bucket_name'] = "string1"
+        body['model'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['function'] = "string1"
+        body['input_credentials_file'] = tempfile.NamedTemporaryFile()
+        body['input_bucket_location'] = "string1"
+        body['input_bucket_name'] = "string1"
+        body['output_credentials_file'] = tempfile.NamedTemporaryFile()
+        body['output_bucket_location'] = "string1"
+        body['output_bucket_name'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for list_batches
+#-----------------------------------------------------------------------------
+class TestListBatches():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_batches_response(self):
+        body = self.construct_full_body()
+        response = fake_response_Batches_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_batches_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_Batches_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_batches_empty(self):
+        check_empty_response(self)
+        assert len(responses.calls) == 1
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/batches'
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
+    def call_service(self, body):
+        service = CompareComplyV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2018-10-15',
+        )
+        service.set_service_url(base_url)
+        output = service.list_batches(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for get_batch
+#-----------------------------------------------------------------------------
+class TestGetBatch():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_batch_response(self):
+        body = self.construct_full_body()
+        response = fake_response_BatchStatus_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_batch_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_BatchStatus_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_batch_empty(self):
+        check_empty_required_params(self, fake_response_BatchStatus_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/batches/{0}'.format(body['batch_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
+    def call_service(self, body):
+        service = CompareComplyV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2018-10-15',
+        )
+        service.set_service_url(base_url)
+        output = service.get_batch(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['batch_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['batch_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for update_batch
+#-----------------------------------------------------------------------------
+class TestUpdateBatch():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_batch_response(self):
+        body = self.construct_full_body()
+        response = fake_response_BatchStatus_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_batch_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_BatchStatus_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_batch_empty(self):
+        check_empty_required_params(self, fake_response_BatchStatus_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/batches/{0}'.format(body['batch_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.PUT,
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
+    def call_service(self, body):
+        service = CompareComplyV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2018-10-15',
+        )
+        service.set_service_url(base_url)
+        output = service.update_batch(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['batch_id'] = "string1"
+        body['action'] = "string1"
+        body['model'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['batch_id'] = "string1"
+        body['action'] = "string1"
+        return body
+
+
+# endregion
+##############################################################################
+# End of Service: Batches
+##############################################################################
+
+
+def check_empty_required_params(obj, response):
+    """Test function to assert that the operation will throw an error when given empty required data
+
+    Args:
+        obj: The generated test function
+
+    """
+    body = obj.construct_full_body()
+    body = {k: None for k in body.keys()}
+    error = False
+    try:
+        send_request(obj, body, response)
+    except ValueError as e:
+        error = True
+    assert error
+
+
+def check_missing_required_params(obj):
+    """Test function to assert that the operation will throw an error when missing required data
+
+    Args:
+        obj: The generated test function
+
+    """
+    body = obj.construct_full_body()
+    url = obj.make_url(body)
+    error = False
+    try:
+        send_request(obj, {}, {}, url=url)
+    except TypeError as e:
+        error = True
+    assert error
+
+
+def check_empty_response(obj):
+    """Test function to assert that the operation will return an empty response when given an empty request
+
+    Args:
+        obj: The generated test function
+
+    """
+    body = obj.construct_full_body()
+    url = obj.make_url(body)
+    send_request(obj, {}, {}, url=url)
+
+
+def send_request(obj, body, response, url=None):
+    """Test function to create a request, send it, and assert its accuracy to the mock response
+
+    Args:
+        obj: The generated test function
+        body: Dict filled with fake data for calling the service
+        response_str: Mock response string
+
+    """
+    if not url:
+        url = obj.make_url(body)
+    obj.add_mock_response(url, response)
+    output = obj.call_service(body)
+    assert responses.calls[0].request.url.startswith(url)
+    assert output.get_result() == response
+
+
+####################
+## Mock Responses ##
+####################
+
+fake_response__json = None
+fake_response_HTMLReturn_json = """{"num_pages": "fake_num_pages", "author": "fake_author", "publication_date": "fake_publication_date", "title": "fake_title", "html": "fake_html"}"""
+fake_response_ClassifyReturn_json = """{"document": {"title": "fake_title", "html": "fake_html", "hash": "fake_hash", "label": "fake_label"}, "model_id": "fake_model_id", "model_version": "fake_model_version", "elements": [], "effective_dates": [], "contract_amounts": [], "termination_dates": [], "contract_types": [], "contract_terms": [], "payment_terms": [], "contract_currencies": [], "tables": [], "document_structure": {"section_titles": [], "leading_sentences": [], "paragraphs": []}, "parties": []}"""
+fake_response_TableReturn_json = """{"document": {"html": "fake_html", "title": "fake_title", "hash": "fake_hash"}, "model_id": "fake_model_id", "model_version": "fake_model_version", "tables": []}"""
+fake_response_CompareReturn_json = """{"model_id": "fake_model_id", "model_version": "fake_model_version", "documents": [], "aligned_elements": [], "unaligned_elements": []}"""
+fake_response_FeedbackReturn_json = """{"feedback_id": "fake_feedback_id", "user_id": "fake_user_id", "comment": "fake_comment", "created": "2017-05-16T13:56:54.957Z", "feedback_data": {"feedback_type": "fake_feedback_type", "document": {"title": "fake_title", "hash": "fake_hash"}, "model_id": "fake_model_id", "model_version": "fake_model_version", "location": {"begin": 5, "end": 3}, "text": "fake_text", "original_labels": {"types": [], "categories": [], "modification": "fake_modification"}, "updated_labels": {"types": [], "categories": [], "modification": "fake_modification"}, "pagination": {"refresh_cursor": "fake_refresh_cursor", "next_cursor": "fake_next_cursor", "refresh_url": "fake_refresh_url", "next_url": "fake_next_url", "total": 5}}}"""
+fake_response_FeedbackList_json = """{"feedback": []}"""
+fake_response_GetFeedback_json = """{"feedback_id": "fake_feedback_id", "created": "2017-05-16T13:56:54.957Z", "comment": "fake_comment", "feedback_data": {"feedback_type": "fake_feedback_type", "document": {"title": "fake_title", "hash": "fake_hash"}, "model_id": "fake_model_id", "model_version": "fake_model_version", "location": {"begin": 5, "end": 3}, "text": "fake_text", "original_labels": {"types": [], "categories": [], "modification": "fake_modification"}, "updated_labels": {"types": [], "categories": [], "modification": "fake_modification"}, "pagination": {"refresh_cursor": "fake_refresh_cursor", "next_cursor": "fake_next_cursor", "refresh_url": "fake_refresh_url", "next_url": "fake_next_url", "total": 5}}}"""
+fake_response_FeedbackDeleted_json = """{"status": 6, "message": "fake_message"}"""
+fake_response_BatchStatus_json = """{"function": "fake_function", "input_bucket_location": "fake_input_bucket_location", "input_bucket_name": "fake_input_bucket_name", "output_bucket_location": "fake_output_bucket_location", "output_bucket_name": "fake_output_bucket_name", "batch_id": "fake_batch_id", "document_counts": {"total": 5, "pending": 7, "successful": 10, "failed": 6}, "status": "fake_status", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z"}"""
+fake_response_Batches_json = """{"batches": []}"""
+fake_response_BatchStatus_json = """{"function": "fake_function", "input_bucket_location": "fake_input_bucket_location", "input_bucket_name": "fake_input_bucket_name", "output_bucket_location": "fake_output_bucket_location", "output_bucket_name": "fake_output_bucket_name", "batch_id": "fake_batch_id", "document_counts": {"total": 5, "pending": 7, "successful": 10, "failed": 6}, "status": "fake_status", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z"}"""
+fake_response_BatchStatus_json = """{"function": "fake_function", "input_bucket_location": "fake_input_bucket_location", "input_bucket_name": "fake_input_bucket_name", "output_bucket_location": "fake_output_bucket_location", "output_bucket_name": "fake_output_bucket_name", "batch_id": "fake_batch_id", "document_counts": {"total": 5, "pending": 7, "successful": 10, "failed": 6}, "status": "fake_status", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z"}"""

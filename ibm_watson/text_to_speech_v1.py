@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019.
+# (C) Copyright IBM Corp. 2015, 2020.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -31,11 +31,14 @@ Symbolic Phonetic Representation (SPR).
 """
 
 import json
+from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
 from .common import get_sdk_headers
 from enum import Enum
 from ibm_cloud_sdk_core import BaseService
-from ibm_cloud_sdk_core import get_authenticator_from_environment
-from ibm_cloud_sdk_core import read_external_sources
+from ibm_cloud_sdk_core import DetailedResponse
+from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
+from typing import Dict
+from typing import List
 
 ##############################################################################
 # Service
@@ -45,12 +48,14 @@ from ibm_cloud_sdk_core import read_external_sources
 class TextToSpeechV1(BaseService):
     """The Text to Speech V1 service."""
 
-    default_service_url = 'https://stream.watsonplatform.net/text-to-speech/api'
+    DEFAULT_SERVICE_URL = 'https://stream.watsonplatform.net/text-to-speech/api'
+    DEFAULT_SERVICE_NAME = 'text_to_speech'
 
     def __init__(
             self,
-            authenticator=None,
-    ):
+            authenticator: Authenticator = None,
+            service_name: str = DEFAULT_SERVICE_NAME,
+    ) -> None:
         """
         Construct a new client for the Text to Speech service.
 
@@ -58,29 +63,19 @@ class TextToSpeechV1(BaseService):
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
         """
-
-        service_url = self.default_service_url
-        disable_ssl_verification = False
-
-        config = read_external_sources('text_to_speech')
-        if config.get('URL'):
-            service_url = config.get('URL')
-        if config.get('DISABLE_SSL'):
-            disable_ssl_verification = config.get('DISABLE_SSL')
-
         if not authenticator:
-            authenticator = get_authenticator_from_environment('text_to_speech')
-
+            authenticator = get_authenticator_from_environment(service_name)
         BaseService.__init__(self,
-                             service_url=service_url,
+                             service_url=self.DEFAULT_SERVICE_URL,
                              authenticator=authenticator,
-                             disable_ssl_verification=disable_ssl_verification)
+                             disable_ssl_verification=False)
+        self.configure_service(service_name)
 
     #########################
     # Voices
     #########################
 
-    def list_voices(self, **kwargs):
+    def list_voices(self, **kwargs) -> 'DetailedResponse':
         """
         List voices.
 
@@ -88,7 +83,7 @@ class TextToSpeechV1(BaseService):
         name, language, gender, and other details about the voice. To see information
         about a specific voice, use the **Get a voice** method.
         **See also:** [Listing all available
-        voices](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-voices#listVoices).
+        voices](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices#listVoices).
 
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -98,18 +93,19 @@ class TextToSpeechV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('text_to_speech', 'V1', 'list_voices')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='list_voices')
         headers.update(sdk_headers)
 
         url = '/v1/voices'
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       accept_json=True)
+        request = self.prepare_request(method='GET', url=url, headers=headers)
+
         response = self.send(request)
         return response
 
-    def get_voice(self, voice, *, customization_id=None, **kwargs):
+    def get_voice(self, voice: str, *, customization_id: str = None,
+                  **kwargs) -> 'DetailedResponse':
         """
         Get a voice.
 
@@ -119,7 +115,7 @@ class TextToSpeechV1(BaseService):
         the specified voice. To list information about all available voices, use the
         **List voices** method.
         **See also:** [Listing a specific
-        voice](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-voices#listVoice).
+        voice](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices#listVoice).
 
         :param str voice: The voice for which information is to be returned.
         :param str customization_id: (optional) The customization ID (GUID) of a
@@ -138,7 +134,9 @@ class TextToSpeechV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('text_to_speech', 'V1', 'get_voice')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='get_voice')
         headers.update(sdk_headers)
 
         params = {'customization_id': customization_id}
@@ -147,8 +145,8 @@ class TextToSpeechV1(BaseService):
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=True)
+                                       params=params)
+
         response = self.send(request)
         return response
 
@@ -157,12 +155,12 @@ class TextToSpeechV1(BaseService):
     #########################
 
     def synthesize(self,
-                   text,
+                   text: str,
                    *,
-                   accept=None,
-                   voice=None,
-                   customization_id=None,
-                   **kwargs):
+                   accept: str = None,
+                   voice: str = None,
+                   customization_id: str = None,
+                   **kwargs) -> 'DetailedResponse':
         """
         Synthesize audio.
 
@@ -173,7 +171,7 @@ class TextToSpeechV1(BaseService):
         8 KB for the URL and headers. The 5 KB limit includes any SSML tags that you
         specify. The service returns the synthesized audio stream as an array of bytes.
         **See also:** [The HTTP
-        interface](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-usingHTTP#usingHTTP).
+        interface](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-usingHTTP#usingHTTP).
         ### Audio formats (accept types)
          The service can return audio in the following formats (MIME types).
         * Where indicated, you can optionally specify the sampling rate (`rate`) of the
@@ -216,7 +214,7 @@ class TextToSpeechV1(BaseService):
         The default sampling rate is 22,050 Hz.
         For more information about specifying an audio format, including additional
         details about some of the formats, see [Audio
-        formats](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-audioFormats#audioFormats).
+        formats](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-audioFormats#audioFormats).
         ### Warning messages
          If a request includes invalid query parameters, the service returns a `Warnings`
         response header that provides messages about the invalid parameters. The warning
@@ -248,7 +246,9 @@ class TextToSpeechV1(BaseService):
         headers = {'Accept': accept}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('text_to_speech', 'V1', 'synthesize')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='synthesize')
         headers.update(sdk_headers)
 
         params = {'voice': voice, 'customization_id': customization_id}
@@ -260,8 +260,8 @@ class TextToSpeechV1(BaseService):
                                        url=url,
                                        headers=headers,
                                        params=params,
-                                       data=data,
-                                       accept_json=False)
+                                       data=data)
+
         response = self.send(request)
         return response
 
@@ -270,12 +270,12 @@ class TextToSpeechV1(BaseService):
     #########################
 
     def get_pronunciation(self,
-                          text,
+                          text: str,
                           *,
-                          voice=None,
-                          format=None,
-                          customization_id=None,
-                          **kwargs):
+                          voice: str = None,
+                          format: str = None,
+                          customization_id: str = None,
+                          **kwargs) -> 'DetailedResponse':
         """
         Get pronunciation.
 
@@ -283,9 +283,10 @@ class TextToSpeechV1(BaseService):
         pronunciation for a specific format. You can also request the pronunciation for a
         specific voice to see the default translation for the language of that voice or
         for a specific custom voice model to see the translation for that voice model.
-        **Note:** This method is currently a beta release.
+        **Note:** This method is currently a beta release. The method does not support the
+        Arabic, Chinese, and Dutch languages.
         **See also:** [Querying a word from a
-        language](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customWords#cuWordsQueryLanguage).
+        language](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuWordsQueryLanguage).
 
         :param str text: The word for which the pronunciation is requested.
         :param str voice: (optional) A voice that specifies the language in which
@@ -313,8 +314,9 @@ class TextToSpeechV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('text_to_speech', 'V1',
-                                      'get_pronunciation')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='get_pronunciation')
         headers.update(sdk_headers)
 
         params = {
@@ -328,8 +330,8 @@ class TextToSpeechV1(BaseService):
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=True)
+                                       params=params)
+
         response = self.send(request)
         return response
 
@@ -338,11 +340,11 @@ class TextToSpeechV1(BaseService):
     #########################
 
     def create_voice_model(self,
-                           name,
+                           name: str,
                            *,
-                           language=None,
-                           description=None,
-                           **kwargs):
+                           language: str = None,
+                           description: str = None,
+                           **kwargs) -> 'DetailedResponse':
         """
         Create a custom model.
 
@@ -350,9 +352,10 @@ class TextToSpeechV1(BaseService):
         model. You can optionally specify the language and a description for the new
         model. The model is owned by the instance of the service whose credentials are
         used to create it.
-        **Note:** This method is currently a beta release.
+        **Note:** This method is currently a beta release. The service does not support
+        voice model customization for the Arabic, Chinese, and Dutch languages.
         **See also:** [Creating a custom
-        model](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customModels#cuModelsCreate).
+        model](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customModels#cuModelsCreate).
 
         :param str name: The name of the new custom voice model.
         :param str language: (optional) The language of the new custom voice model.
@@ -370,8 +373,9 @@ class TextToSpeechV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('text_to_speech', 'V1',
-                                      'create_voice_model')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='create_voice_model')
         headers.update(sdk_headers)
 
         data = {'name': name, 'language': language, 'description': description}
@@ -380,12 +384,13 @@ class TextToSpeechV1(BaseService):
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
-                                       data=data,
-                                       accept_json=True)
+                                       data=data)
+
         response = self.send(request)
         return response
 
-    def list_voice_models(self, *, language=None, **kwargs):
+    def list_voice_models(self, *, language: str = None,
+                          **kwargs) -> 'DetailedResponse':
         """
         List custom models.
 
@@ -397,7 +402,7 @@ class TextToSpeechV1(BaseService):
         about it.
         **Note:** This method is currently a beta release.
         **See also:** [Querying all custom
-        models](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customModels#cuModelsQueryAll).
+        models](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customModels#cuModelsQueryAll).
 
         :param str language: (optional) The language for which custom voice models
                that are owned by the requesting credentials are to be returned. Omit the
@@ -410,8 +415,9 @@ class TextToSpeechV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('text_to_speech', 'V1',
-                                      'list_voice_models')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='list_voice_models')
         headers.update(sdk_headers)
 
         params = {'language': language}
@@ -420,18 +426,18 @@ class TextToSpeechV1(BaseService):
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=True)
+                                       params=params)
+
         response = self.send(request)
         return response
 
     def update_voice_model(self,
-                           customization_id,
+                           customization_id: str,
                            *,
-                           name=None,
-                           description=None,
-                           words=None,
-                           **kwargs):
+                           name: str = None,
+                           description: str = None,
+                           words: List['Word'] = None,
+                           **kwargs) -> 'DetailedResponse':
         """
         Update a custom model.
 
@@ -454,11 +460,11 @@ class TextToSpeechV1(BaseService):
         **Note:** This method is currently a beta release.
         **See also:**
         * [Updating a custom
-        model](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customModels#cuModelsUpdate)
+        model](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customModels#cuModelsUpdate)
         * [Adding words to a Japanese custom
-        model](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customWords#cuJapaneseAdd)
+        model](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuJapaneseAdd)
         * [Understanding
-        customization](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customIntro#customIntro).
+        customization](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customIntro#customIntro).
 
         :param str customization_id: The customization ID (GUID) of the custom
                voice model. You must make the request with credentials for the instance of
@@ -466,7 +472,7 @@ class TextToSpeechV1(BaseService):
         :param str name: (optional) A new name for the custom voice model.
         :param str description: (optional) A new description for the custom voice
                model.
-        :param list[Word] words: (optional) An array of `Word` objects that
+        :param List[Word] words: (optional) An array of `Word` objects that
                provides the words and their translations that are to be added or updated
                for the custom voice model. Pass an empty array to make no additions or
                updates.
@@ -483,8 +489,9 @@ class TextToSpeechV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('text_to_speech', 'V1',
-                                      'update_voice_model')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='update_voice_model')
         headers.update(sdk_headers)
 
         data = {'name': name, 'description': description, 'words': words}
@@ -494,12 +501,13 @@ class TextToSpeechV1(BaseService):
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
-                                       data=data,
-                                       accept_json=True)
+                                       data=data)
+
         response = self.send(request)
         return response
 
-    def get_voice_model(self, customization_id, **kwargs):
+    def get_voice_model(self, customization_id: str,
+                        **kwargs) -> 'DetailedResponse':
         """
         Get a custom model.
 
@@ -509,7 +517,7 @@ class TextToSpeechV1(BaseService):
         voice model, use the **List custom models** method.
         **Note:** This method is currently a beta release.
         **See also:** [Querying a custom
-        model](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customModels#cuModelsQuery).
+        model](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customModels#cuModelsQuery).
 
         :param str customization_id: The customization ID (GUID) of the custom
                voice model. You must make the request with credentials for the instance of
@@ -525,19 +533,20 @@ class TextToSpeechV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('text_to_speech', 'V1', 'get_voice_model')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='get_voice_model')
         headers.update(sdk_headers)
 
         url = '/v1/customizations/{0}'.format(
             *self._encode_path_vars(customization_id))
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       accept_json=True)
+        request = self.prepare_request(method='GET', url=url, headers=headers)
+
         response = self.send(request)
         return response
 
-    def delete_voice_model(self, customization_id, **kwargs):
+    def delete_voice_model(self, customization_id: str,
+                           **kwargs) -> 'DetailedResponse':
         """
         Delete a custom model.
 
@@ -545,7 +554,7 @@ class TextToSpeechV1(BaseService):
         instance of the service that owns a model to delete it.
         **Note:** This method is currently a beta release.
         **See also:** [Deleting a custom
-        model](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customModels#cuModelsDelete).
+        model](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customModels#cuModelsDelete).
 
         :param str customization_id: The customization ID (GUID) of the custom
                voice model. You must make the request with credentials for the instance of
@@ -561,16 +570,17 @@ class TextToSpeechV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('text_to_speech', 'V1',
-                                      'delete_voice_model')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='delete_voice_model')
         headers.update(sdk_headers)
 
         url = '/v1/customizations/{0}'.format(
             *self._encode_path_vars(customization_id))
         request = self.prepare_request(method='DELETE',
                                        url=url,
-                                       headers=headers,
-                                       accept_json=False)
+                                       headers=headers)
+
         response = self.send(request)
         return response
 
@@ -578,7 +588,8 @@ class TextToSpeechV1(BaseService):
     # Custom words
     #########################
 
-    def add_words(self, customization_id, words, **kwargs):
+    def add_words(self, customization_id: str, words: List['Word'],
+                  **kwargs) -> 'DetailedResponse':
         """
         Add custom words.
 
@@ -600,16 +611,16 @@ class TextToSpeechV1(BaseService):
         **Note:** This method is currently a beta release.
         **See also:**
         * [Adding multiple words to a custom
-        model](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customWords#cuWordsAdd)
+        model](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuWordsAdd)
         * [Adding words to a Japanese custom
-        model](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customWords#cuJapaneseAdd)
+        model](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuJapaneseAdd)
         * [Understanding
-        customization](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customIntro#customIntro).
+        customization](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customIntro#customIntro).
 
         :param str customization_id: The customization ID (GUID) of the custom
                voice model. You must make the request with credentials for the instance of
                the service that owns the custom model.
-        :param list[Word] words: The **Add custom words** method accepts an array
+        :param List[Word] words: The **Add custom words** method accepts an array
                of `Word` objects. Each object provides a word that is to be added or
                updated for the custom voice model and the word's translation.
                The **List custom words** method returns an array of `Word` objects. Each
@@ -631,7 +642,9 @@ class TextToSpeechV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('text_to_speech', 'V1', 'add_words')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='add_words')
         headers.update(sdk_headers)
 
         data = {'words': words}
@@ -641,12 +654,12 @@ class TextToSpeechV1(BaseService):
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
-                                       data=data,
-                                       accept_json=True)
+                                       data=data)
+
         response = self.send(request)
         return response
 
-    def list_words(self, customization_id, **kwargs):
+    def list_words(self, customization_id: str, **kwargs) -> 'DetailedResponse':
         """
         List custom words.
 
@@ -656,7 +669,7 @@ class TextToSpeechV1(BaseService):
         words.
         **Note:** This method is currently a beta release.
         **See also:** [Querying all words from a custom
-        model](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customWords#cuWordsQueryModel).
+        model](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuWordsQueryModel).
 
         :param str customization_id: The customization ID (GUID) of the custom
                voice model. You must make the request with credentials for the instance of
@@ -672,25 +685,25 @@ class TextToSpeechV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('text_to_speech', 'V1', 'list_words')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='list_words')
         headers.update(sdk_headers)
 
         url = '/v1/customizations/{0}/words'.format(
             *self._encode_path_vars(customization_id))
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       accept_json=True)
+        request = self.prepare_request(method='GET', url=url, headers=headers)
+
         response = self.send(request)
         return response
 
     def add_word(self,
-                 customization_id,
-                 word,
-                 translation,
+                 customization_id: str,
+                 word: str,
+                 translation: str,
                  *,
-                 part_of_speech=None,
-                 **kwargs):
+                 part_of_speech: str = None,
+                 **kwargs) -> 'DetailedResponse':
         """
         Add a custom word.
 
@@ -712,11 +725,11 @@ class TextToSpeechV1(BaseService):
         **Note:** This method is currently a beta release.
         **See also:**
         * [Adding a single word to a custom
-        model](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customWords#cuWordAdd)
+        model](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuWordAdd)
         * [Adding words to a Japanese custom
-        model](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customWords#cuJapaneseAdd)
+        model](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuJapaneseAdd)
         * [Understanding
-        customization](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customIntro#customIntro).
+        customization](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customIntro#customIntro).
 
         :param str customization_id: The customization ID (GUID) of the custom
                voice model. You must make the request with credentials for the instance of
@@ -734,7 +747,7 @@ class TextToSpeechV1(BaseService):
                part of speech, for any word; you cannot create multiple entries with
                different parts of speech for the same word. For more information, see
                [Working with Japanese
-               entries](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-rules#jaNotes).
+               entries](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-rules#jaNotes).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -750,7 +763,9 @@ class TextToSpeechV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('text_to_speech', 'V1', 'add_word')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='add_word')
         headers.update(sdk_headers)
 
         data = {'translation': translation, 'part_of_speech': part_of_speech}
@@ -760,12 +775,13 @@ class TextToSpeechV1(BaseService):
         request = self.prepare_request(method='PUT',
                                        url=url,
                                        headers=headers,
-                                       data=data,
-                                       accept_json=False)
+                                       data=data)
+
         response = self.send(request)
         return response
 
-    def get_word(self, customization_id, word, **kwargs):
+    def get_word(self, customization_id: str, word: str,
+                 **kwargs) -> 'DetailedResponse':
         """
         Get a custom word.
 
@@ -774,7 +790,7 @@ class TextToSpeechV1(BaseService):
         the instance of the service that owns a model to list its words.
         **Note:** This method is currently a beta release.
         **See also:** [Querying a single word from a custom
-        model](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customWords#cuWordQueryModel).
+        model](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuWordQueryModel).
 
         :param str customization_id: The customization ID (GUID) of the custom
                voice model. You must make the request with credentials for the instance of
@@ -794,19 +810,20 @@ class TextToSpeechV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('text_to_speech', 'V1', 'get_word')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='get_word')
         headers.update(sdk_headers)
 
         url = '/v1/customizations/{0}/words/{1}'.format(
             *self._encode_path_vars(customization_id, word))
-        request = self.prepare_request(method='GET',
-                                       url=url,
-                                       headers=headers,
-                                       accept_json=True)
+        request = self.prepare_request(method='GET', url=url, headers=headers)
+
         response = self.send(request)
         return response
 
-    def delete_word(self, customization_id, word, **kwargs):
+    def delete_word(self, customization_id: str, word: str,
+                    **kwargs) -> 'DetailedResponse':
         """
         Delete a custom word.
 
@@ -814,7 +831,7 @@ class TextToSpeechV1(BaseService):
         credentials for the instance of the service that owns a model to delete its words.
         **Note:** This method is currently a beta release.
         **See also:** [Deleting a word from a custom
-        model](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customWords#cuWordDelete).
+        model](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuWordDelete).
 
         :param str customization_id: The customization ID (GUID) of the custom
                voice model. You must make the request with credentials for the instance of
@@ -834,15 +851,17 @@ class TextToSpeechV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('text_to_speech', 'V1', 'delete_word')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='delete_word')
         headers.update(sdk_headers)
 
         url = '/v1/customizations/{0}/words/{1}'.format(
             *self._encode_path_vars(customization_id, word))
         request = self.prepare_request(method='DELETE',
                                        url=url,
-                                       headers=headers,
-                                       accept_json=False)
+                                       headers=headers)
+
         response = self.send(request)
         return response
 
@@ -850,7 +869,8 @@ class TextToSpeechV1(BaseService):
     # User data
     #########################
 
-    def delete_user_data(self, customer_id, **kwargs):
+    def delete_user_data(self, customer_id: str,
+                         **kwargs) -> 'DetailedResponse':
         """
         Delete labeled data.
 
@@ -862,7 +882,7 @@ class TextToSpeechV1(BaseService):
         You associate a customer ID with data by passing the `X-Watson-Metadata` header
         with a request that passes the data.
         **See also:** [Information
-        security](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-information-security#information-security).
+        security](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-information-security#information-security).
 
         :param str customer_id: The customer ID for which all data is to be
                deleted.
@@ -877,8 +897,9 @@ class TextToSpeechV1(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('text_to_speech', 'V1',
-                                      'delete_user_data')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='delete_user_data')
         headers.update(sdk_headers)
 
         params = {'customer_id': customer_id}
@@ -887,8 +908,8 @@ class TextToSpeechV1(BaseService):
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=False)
+                                       params=params)
+
         response = self.send(request)
         return response
 
@@ -956,6 +977,7 @@ class SynthesizeEnums(object):
         """
         The voice to use for synthesis.
         """
+        AR_AR_OMARVOICE = 'ar-AR_OmarVoice'
         DE_DE_BIRGITVOICE = 'de-DE_BirgitVoice'
         DE_DE_BIRGITV3VOICE = 'de-DE_BirgitV3Voice'
         DE_DE_DIETERVOICE = 'de-DE_DieterVoice'
@@ -982,8 +1004,13 @@ class SynthesizeEnums(object):
         IT_IT_FRANCESCAV3VOICE = 'it-IT_FrancescaV3Voice'
         JA_JP_EMIVOICE = 'ja-JP_EmiVoice'
         JA_JP_EMIV3VOICE = 'ja-JP_EmiV3Voice'
+        NL_NL_EMMAVOICE = 'nl-NL_EmmaVoice'
+        NL_NL_LIAMVOICE = 'nl-NL_LiamVoice'
         PT_BR_ISABELAVOICE = 'pt-BR_IsabelaVoice'
         PT_BR_ISABELAV3VOICE = 'pt-BR_IsabelaV3Voice'
+        ZH_CN_LINAVOICE = 'zh-CN_LiNaVoice'
+        ZH_CN_WANGWEIVOICE = 'zh-CN_WangWeiVoice'
+        ZH_CN_ZHANGJINGVOICE = 'zh-CN_ZhangJingVoice'
 
 
 class GetPronunciationEnums(object):
@@ -1066,7 +1093,7 @@ class Pronunciation():
           pronunciation also reflects that custom voice.
     """
 
-    def __init__(self, pronunciation):
+    def __init__(self, pronunciation: str) -> None:
         """
         Initialize a Pronunciation object.
 
@@ -1077,7 +1104,7 @@ class Pronunciation():
         self.pronunciation = pronunciation
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Pronunciation':
         """Initialize a Pronunciation object from a json dictionary."""
         args = {}
         valid_keys = ['pronunciation']
@@ -1094,24 +1121,33 @@ class Pronunciation():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Pronunciation object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'pronunciation') and self.pronunciation is not None:
             _dict['pronunciation'] = self.pronunciation
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Pronunciation object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Pronunciation') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Pronunciation') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1127,7 +1163,8 @@ class SupportedFeatures():
           cannot be transformed.
     """
 
-    def __init__(self, custom_pronunciation, voice_transformation):
+    def __init__(self, custom_pronunciation: bool,
+                 voice_transformation: bool) -> None:
         """
         Initialize a SupportedFeatures object.
 
@@ -1141,7 +1178,7 @@ class SupportedFeatures():
         self.voice_transformation = voice_transformation
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'SupportedFeatures':
         """Initialize a SupportedFeatures object from a json dictionary."""
         args = {}
         valid_keys = ['custom_pronunciation', 'voice_transformation']
@@ -1164,7 +1201,12 @@ class SupportedFeatures():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SupportedFeatures object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'custom_pronunciation'
@@ -1175,17 +1217,21 @@ class SupportedFeatures():
             _dict['voice_transformation'] = self.voice_transformation
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this SupportedFeatures object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'SupportedFeatures') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'SupportedFeatures') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1203,10 +1249,10 @@ class Translation():
           word. You can create only a single entry, with or without a single part of
           speech, for any word; you cannot create multiple entries with different parts of
           speech for the same word. For more information, see [Working with Japanese
-          entries](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-rules#jaNotes).
+          entries](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-rules#jaNotes).
     """
 
-    def __init__(self, translation, *, part_of_speech=None):
+    def __init__(self, translation: str, *, part_of_speech: str = None) -> None:
         """
         Initialize a Translation object.
 
@@ -1221,13 +1267,13 @@ class Translation():
                part of speech, for any word; you cannot create multiple entries with
                different parts of speech for the same word. For more information, see
                [Working with Japanese
-               entries](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-rules#jaNotes).
+               entries](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-rules#jaNotes).
         """
         self.translation = translation
         self.part_of_speech = part_of_speech
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Translation':
         """Initialize a Translation object from a json dictionary."""
         args = {}
         valid_keys = ['translation', 'part_of_speech']
@@ -1246,7 +1292,12 @@ class Translation():
             args['part_of_speech'] = _dict.get('part_of_speech')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Translation object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'translation') and self.translation is not None:
@@ -1255,17 +1306,21 @@ class Translation():
             _dict['part_of_speech'] = self.part_of_speech
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Translation object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Translation') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Translation') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1276,7 +1331,7 @@ class Translation():
         with or without a single part of speech, for any word; you cannot create multiple
         entries with different parts of speech for the same word. For more information,
         see [Working with Japanese
-        entries](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-rules#jaNotes).
+        entries](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-rules#jaNotes).
         """
         DOSI = "Dosi"
         FUKU = "Fuku"
@@ -1318,15 +1373,15 @@ class Voice():
     """
 
     def __init__(self,
-                 url,
-                 gender,
-                 name,
-                 language,
-                 description,
-                 customizable,
-                 supported_features,
+                 url: str,
+                 gender: str,
+                 name: str,
+                 language: str,
+                 description: str,
+                 customizable: bool,
+                 supported_features: 'SupportedFeatures',
                  *,
-                 customization=None):
+                 customization: 'VoiceModel' = None) -> None:
         """
         Initialize a Voice object.
 
@@ -1357,7 +1412,7 @@ class Voice():
         self.customization = customization
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Voice':
         """Initialize a Voice object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -1411,7 +1466,12 @@ class Voice():
                 _dict.get('customization'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Voice object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'url') and self.url is not None:
@@ -1434,17 +1494,21 @@ class Voice():
             _dict['customization'] = self.customization._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Voice object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Voice') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Voice') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1470,7 +1534,7 @@ class VoiceModel():
           updated. The value is provided in full ISO 8601 format
           (`YYYY-MM-DDThh:mm:ss.sTZD`).
     :attr str description: (optional) The description of the custom voice model.
-    :attr list[Word] words: (optional) An array of `Word` objects that lists the
+    :attr List[Word] words: (optional) An array of `Word` objects that lists the
           words and their translations from the custom voice model. The words are listed
           in alphabetical order, with uppercase letters listed before lowercase letters.
           The array is empty if the custom model contains no words. This field is returned
@@ -1479,15 +1543,15 @@ class VoiceModel():
     """
 
     def __init__(self,
-                 customization_id,
+                 customization_id: str,
                  *,
-                 name=None,
-                 language=None,
-                 owner=None,
-                 created=None,
-                 last_modified=None,
-                 description=None,
-                 words=None):
+                 name: str = None,
+                 language: str = None,
+                 owner: str = None,
+                 created: str = None,
+                 last_modified: str = None,
+                 description: str = None,
+                 words: List['Word'] = None) -> None:
         """
         Initialize a VoiceModel object.
 
@@ -1509,7 +1573,7 @@ class VoiceModel():
                (`YYYY-MM-DDThh:mm:ss.sTZD`).
         :param str description: (optional) The description of the custom voice
                model.
-        :param list[Word] words: (optional) An array of `Word` objects that lists
+        :param List[Word] words: (optional) An array of `Word` objects that lists
                the words and their translations from the custom voice model. The words are
                listed in alphabetical order, with uppercase letters listed before
                lowercase letters. The array is empty if the custom model contains no
@@ -1526,7 +1590,7 @@ class VoiceModel():
         self.words = words
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'VoiceModel':
         """Initialize a VoiceModel object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -1560,7 +1624,12 @@ class VoiceModel():
             args['words'] = [Word._from_dict(x) for x in (_dict.get('words'))]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a VoiceModel object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self,
@@ -1582,17 +1651,21 @@ class VoiceModel():
             _dict['words'] = [x._to_dict() for x in self.words]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this VoiceModel object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'VoiceModel') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'VoiceModel') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1601,17 +1674,17 @@ class VoiceModels():
     """
     Information about existing custom voice models.
 
-    :attr list[VoiceModel] customizations: An array of `VoiceModel` objects that
+    :attr List[VoiceModel] customizations: An array of `VoiceModel` objects that
           provides information about each available custom voice model. The array is empty
           if the requesting credentials own no custom voice models (if no language is
           specified) or own no custom voice models for the specified language.
     """
 
-    def __init__(self, customizations):
+    def __init__(self, customizations: List['VoiceModel']) -> None:
         """
         Initialize a VoiceModels object.
 
-        :param list[VoiceModel] customizations: An array of `VoiceModel` objects
+        :param List[VoiceModel] customizations: An array of `VoiceModel` objects
                that provides information about each available custom voice model. The
                array is empty if the requesting credentials own no custom voice models (if
                no language is specified) or own no custom voice models for the specified
@@ -1620,7 +1693,7 @@ class VoiceModels():
         self.customizations = customizations
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'VoiceModels':
         """Initialize a VoiceModels object from a json dictionary."""
         args = {}
         valid_keys = ['customizations']
@@ -1639,7 +1712,12 @@ class VoiceModels():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a VoiceModels object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'customizations') and self.customizations is not None:
@@ -1648,17 +1726,21 @@ class VoiceModels():
             ]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this VoiceModels object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'VoiceModels') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'VoiceModels') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1667,19 +1749,19 @@ class Voices():
     """
     Information about all available voice models.
 
-    :attr list[Voice] voices: A list of available voices.
+    :attr List[Voice] voices: A list of available voices.
     """
 
-    def __init__(self, voices):
+    def __init__(self, voices: List['Voice']) -> None:
         """
         Initialize a Voices object.
 
-        :param list[Voice] voices: A list of available voices.
+        :param List[Voice] voices: A list of available voices.
         """
         self.voices = voices
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Voices':
         """Initialize a Voices object from a json dictionary."""
         args = {}
         valid_keys = ['voices']
@@ -1697,24 +1779,33 @@ class Voices():
                 'Required property \'voices\' not present in Voices JSON')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Voices object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'voices') and self.voices is not None:
             _dict['voices'] = [x._to_dict() for x in self.voices]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Voices object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Voices') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Voices') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1734,10 +1825,14 @@ class Word():
           word. You can create only a single entry, with or without a single part of
           speech, for any word; you cannot create multiple entries with different parts of
           speech for the same word. For more information, see [Working with Japanese
-          entries](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-rules#jaNotes).
+          entries](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-rules#jaNotes).
     """
 
-    def __init__(self, word, translation, *, part_of_speech=None):
+    def __init__(self,
+                 word: str,
+                 translation: str,
+                 *,
+                 part_of_speech: str = None) -> None:
         """
         Initialize a Word object.
 
@@ -1753,14 +1848,14 @@ class Word():
                part of speech, for any word; you cannot create multiple entries with
                different parts of speech for the same word. For more information, see
                [Working with Japanese
-               entries](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-rules#jaNotes).
+               entries](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-rules#jaNotes).
         """
         self.word = word
         self.translation = translation
         self.part_of_speech = part_of_speech
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Word':
         """Initialize a Word object from a json dictionary."""
         args = {}
         valid_keys = ['word', 'translation', 'part_of_speech']
@@ -1783,7 +1878,12 @@ class Word():
             args['part_of_speech'] = _dict.get('part_of_speech')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Word object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'word') and self.word is not None:
@@ -1794,17 +1894,21 @@ class Word():
             _dict['part_of_speech'] = self.part_of_speech
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Word object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Word') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Word') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1815,7 +1919,7 @@ class Word():
         with or without a single part of speech, for any word; you cannot create multiple
         entries with different parts of speech for the same word. For more information,
         see [Working with Japanese
-        entries](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-rules#jaNotes).
+        entries](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-rules#jaNotes).
         """
         DOSI = "Dosi"
         FUKU = "Fuku"
@@ -1843,7 +1947,7 @@ class Words():
     For the **List custom words** method, the words and their translations from the custom
     voice model.
 
-    :attr list[Word] words: The **Add custom words** method accepts an array of
+    :attr List[Word] words: The **Add custom words** method accepts an array of
           `Word` objects. Each object provides a word that is to be added or updated for
           the custom voice model and the word's translation.
           The **List custom words** method returns an array of `Word` objects. Each object
@@ -1852,11 +1956,11 @@ class Words():
           letters. The array is empty if the custom model contains no words.
     """
 
-    def __init__(self, words):
+    def __init__(self, words: List['Word']) -> None:
         """
         Initialize a Words object.
 
-        :param list[Word] words: The **Add custom words** method accepts an array
+        :param List[Word] words: The **Add custom words** method accepts an array
                of `Word` objects. Each object provides a word that is to be added or
                updated for the custom voice model and the word's translation.
                The **List custom words** method returns an array of `Word` objects. Each
@@ -1868,7 +1972,7 @@ class Words():
         self.words = words
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'Words':
         """Initialize a Words object from a json dictionary."""
         args = {}
         valid_keys = ['words']
@@ -1884,23 +1988,32 @@ class Words():
                 'Required property \'words\' not present in Words JSON')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Words object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'words') and self.words is not None:
             _dict['words'] = [x._to_dict() for x in self.words]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this Words object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'Words') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'Words') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other

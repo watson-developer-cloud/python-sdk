@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019.
+# (C) Copyright IBM Corp. 2019, 2020.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,11 +22,14 @@ input to an assistant and receive a response.
 """
 
 import json
+from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
 from .common import get_sdk_headers
 from enum import Enum
 from ibm_cloud_sdk_core import BaseService
-from ibm_cloud_sdk_core import get_authenticator_from_environment
-from ibm_cloud_sdk_core import read_external_sources
+from ibm_cloud_sdk_core import DetailedResponse
+from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
+from typing import Dict
+from typing import List
 
 ##############################################################################
 # Service
@@ -36,13 +39,15 @@ from ibm_cloud_sdk_core import read_external_sources
 class AssistantV2(BaseService):
     """The Assistant V2 service."""
 
-    default_service_url = 'https://gateway.watsonplatform.net/assistant/api'
+    DEFAULT_SERVICE_URL = 'https://gateway.watsonplatform.net/assistant/api'
+    DEFAULT_SERVICE_NAME = 'assistant'
 
     def __init__(
             self,
-            version,
-            authenticator=None,
-    ):
+            version: str,
+            authenticator: Authenticator = None,
+            service_name: str = DEFAULT_SERVICE_NAME,
+    ) -> None:
         """
         Construct a new client for the Assistant service.
 
@@ -61,30 +66,20 @@ class AssistantV2(BaseService):
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
         """
-
-        service_url = self.default_service_url
-        disable_ssl_verification = False
-
-        config = read_external_sources('assistant')
-        if config.get('URL'):
-            service_url = config.get('URL')
-        if config.get('DISABLE_SSL'):
-            disable_ssl_verification = config.get('DISABLE_SSL')
-
         if not authenticator:
-            authenticator = get_authenticator_from_environment('assistant')
-
+            authenticator = get_authenticator_from_environment(service_name)
         BaseService.__init__(self,
-                             service_url=service_url,
+                             service_url=self.DEFAULT_SERVICE_URL,
                              authenticator=authenticator,
-                             disable_ssl_verification=disable_ssl_verification)
+                             disable_ssl_verification=False)
         self.version = version
+        self.configure_service(service_name)
 
     #########################
     # Sessions
     #########################
 
-    def create_session(self, assistant_id, **kwargs):
+    def create_session(self, assistant_id: str, **kwargs) -> 'DetailedResponse':
         """
         Create a session.
 
@@ -92,13 +87,13 @@ class AssistantV2(BaseService):
         responses. It also maintains the state of the conversation. A session persists
         until it is deleted, or until it times out because of inactivity. (For more
         information, see the
-        [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-assistant-settings).
+        [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-assistant-settings).
 
         :param str assistant_id: Unique identifier of the assistant. To find the
                assistant ID in the Watson Assistant user interface, open the assistant
                settings and click **API Details**. For information about creating
                assistants, see the
-               [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-assistant-add#assistant-add-task).
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-assistant-add#assistant-add-task).
                **Note:** Currently, the v2 API does not support creating assistants.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -111,7 +106,9 @@ class AssistantV2(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('conversation', 'V2', 'create_session')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='create_session')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
@@ -121,24 +118,25 @@ class AssistantV2(BaseService):
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=True)
+                                       params=params)
+
         response = self.send(request)
         return response
 
-    def delete_session(self, assistant_id, session_id, **kwargs):
+    def delete_session(self, assistant_id: str, session_id: str,
+                       **kwargs) -> 'DetailedResponse':
         """
         Delete session.
 
         Deletes a session explicitly before it times out. (For more information about the
         session inactivity timeout, see the
-        [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-assistant-settings)).
+        [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-assistant-settings)).
 
         :param str assistant_id: Unique identifier of the assistant. To find the
                assistant ID in the Watson Assistant user interface, open the assistant
                settings and click **API Details**. For information about creating
                assistants, see the
-               [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-assistant-add#assistant-add-task).
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-assistant-add#assistant-add-task).
                **Note:** Currently, the v2 API does not support creating assistants.
         :param str session_id: Unique identifier of the session.
         :param dict headers: A `dict` containing the request headers
@@ -154,7 +152,9 @@ class AssistantV2(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('conversation', 'V2', 'delete_session')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='delete_session')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
@@ -164,8 +164,8 @@ class AssistantV2(BaseService):
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
-                                       params=params,
-                                       accept_json=True)
+                                       params=params)
+
         response = self.send(request)
         return response
 
@@ -174,12 +174,12 @@ class AssistantV2(BaseService):
     #########################
 
     def message(self,
-                assistant_id,
-                session_id,
+                assistant_id: str,
+                session_id: str,
                 *,
-                input=None,
-                context=None,
-                **kwargs):
+                input: 'MessageInput' = None,
+                context: 'MessageContext' = None,
+                **kwargs) -> 'DetailedResponse':
         """
         Send user input to assistant.
 
@@ -190,7 +190,7 @@ class AssistantV2(BaseService):
                assistant ID in the Watson Assistant user interface, open the assistant
                settings and click **API Details**. For information about creating
                assistants, see the
-               [documentation](https://cloud.ibm.com/docs/services/assistant?topic=assistant-assistant-add#assistant-add-task).
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-assistant-add#assistant-add-task).
                **Note:** Currently, the v2 API does not support creating assistants.
         :param str session_id: Unique identifier of the session.
         :param MessageInput input: (optional) An input object that includes the
@@ -216,7 +216,9 @@ class AssistantV2(BaseService):
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
-        sdk_headers = get_sdk_headers('conversation', 'V2', 'message')
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='message')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
@@ -229,8 +231,8 @@ class AssistantV2(BaseService):
                                        url=url,
                                        headers=headers,
                                        params=params,
-                                       data=data,
-                                       accept_json=True)
+                                       data=data)
+
         response = self.send(request)
         return response
 
@@ -245,23 +247,23 @@ class CaptureGroup():
     CaptureGroup.
 
     :attr str group: A recognized capture group for the entity.
-    :attr list[int] location: (optional) Zero-based character offsets that indicate
+    :attr List[int] location: (optional) Zero-based character offsets that indicate
           where the entity value begins and ends in the input text.
     """
 
-    def __init__(self, group, *, location=None):
+    def __init__(self, group: str, *, location: List[int] = None) -> None:
         """
         Initialize a CaptureGroup object.
 
         :param str group: A recognized capture group for the entity.
-        :param list[int] location: (optional) Zero-based character offsets that
+        :param List[int] location: (optional) Zero-based character offsets that
                indicate where the entity value begins and ends in the input text.
         """
         self.group = group
         self.location = location
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'CaptureGroup':
         """Initialize a CaptureGroup object from a json dictionary."""
         args = {}
         valid_keys = ['group', 'location']
@@ -279,7 +281,12 @@ class CaptureGroup():
             args['location'] = _dict.get('location')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CaptureGroup object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'group') and self.group is not None:
@@ -288,17 +295,21 @@ class CaptureGroup():
             _dict['location'] = self.location
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this CaptureGroup object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'CaptureGroup') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'CaptureGroup') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -311,7 +322,7 @@ class DialogLogMessage():
     :attr str message: The text of the log message.
     """
 
-    def __init__(self, level, message):
+    def __init__(self, level: str, message: str) -> None:
         """
         Initialize a DialogLogMessage object.
 
@@ -322,7 +333,7 @@ class DialogLogMessage():
         self.message = message
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'DialogLogMessage':
         """Initialize a DialogLogMessage object from a json dictionary."""
         args = {}
         valid_keys = ['level', 'message']
@@ -345,7 +356,12 @@ class DialogLogMessage():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DialogLogMessage object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'level') and self.level is not None:
@@ -354,17 +370,21 @@ class DialogLogMessage():
             _dict['message'] = self.message
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this DialogLogMessage object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'DialogLogMessage') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'DialogLogMessage') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -392,12 +412,12 @@ class DialogNodeAction():
     """
 
     def __init__(self,
-                 name,
-                 result_variable,
+                 name: str,
+                 result_variable: str,
                  *,
-                 type=None,
-                 parameters=None,
-                 credentials=None):
+                 type: str = None,
+                 parameters: dict = None,
+                 credentials: str = None) -> None:
         """
         Initialize a DialogNodeAction object.
 
@@ -417,7 +437,7 @@ class DialogNodeAction():
         self.credentials = credentials
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'DialogNodeAction':
         """Initialize a DialogNodeAction object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -448,7 +468,12 @@ class DialogNodeAction():
             args['credentials'] = _dict.get('credentials')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DialogNodeAction object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'name') and self.name is not None:
@@ -464,17 +489,21 @@ class DialogNodeAction():
             _dict['credentials'] = self.credentials
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this DialogNodeAction object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'DialogNodeAction') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'DialogNodeAction') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -497,7 +526,8 @@ class DialogNodeOutputOptionsElement():
           input to be sent to the assistant if the user selects the corresponding option.
     """
 
-    def __init__(self, label, value):
+    def __init__(self, label: str,
+                 value: 'DialogNodeOutputOptionsElementValue') -> None:
         """
         Initialize a DialogNodeOutputOptionsElement object.
 
@@ -510,7 +540,7 @@ class DialogNodeOutputOptionsElement():
         self.value = value
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'DialogNodeOutputOptionsElement':
         """Initialize a DialogNodeOutputOptionsElement object from a json dictionary."""
         args = {}
         valid_keys = ['label', 'value']
@@ -534,7 +564,12 @@ class DialogNodeOutputOptionsElement():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DialogNodeOutputOptionsElement object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'label') and self.label is not None:
@@ -543,17 +578,21 @@ class DialogNodeOutputOptionsElement():
             _dict['value'] = self.value._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this DialogNodeOutputOptionsElement object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'DialogNodeOutputOptionsElement') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'DialogNodeOutputOptionsElement') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -567,7 +606,7 @@ class DialogNodeOutputOptionsElementValue():
           text.
     """
 
-    def __init__(self, *, input=None):
+    def __init__(self, *, input: 'MessageInput' = None) -> None:
         """
         Initialize a DialogNodeOutputOptionsElementValue object.
 
@@ -577,7 +616,7 @@ class DialogNodeOutputOptionsElementValue():
         self.input = input
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'DialogNodeOutputOptionsElementValue':
         """Initialize a DialogNodeOutputOptionsElementValue object from a json dictionary."""
         args = {}
         valid_keys = ['input']
@@ -590,24 +629,33 @@ class DialogNodeOutputOptionsElementValue():
             args['input'] = MessageInput._from_dict(_dict.get('input'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DialogNodeOutputOptionsElementValue object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'input') and self.input is not None:
             _dict['input'] = self.input._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this DialogNodeOutputOptionsElementValue object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'DialogNodeOutputOptionsElementValue') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'DialogNodeOutputOptionsElementValue') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -622,7 +670,11 @@ class DialogNodesVisited():
     :attr str conditions: (optional) The conditions that trigger the dialog node.
     """
 
-    def __init__(self, *, dialog_node=None, title=None, conditions=None):
+    def __init__(self,
+                 *,
+                 dialog_node: str = None,
+                 title: str = None,
+                 conditions: str = None) -> None:
         """
         Initialize a DialogNodesVisited object.
 
@@ -637,7 +689,7 @@ class DialogNodesVisited():
         self.conditions = conditions
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'DialogNodesVisited':
         """Initialize a DialogNodesVisited object from a json dictionary."""
         args = {}
         valid_keys = ['dialog_node', 'title', 'conditions']
@@ -654,7 +706,12 @@ class DialogNodesVisited():
             args['conditions'] = _dict.get('conditions')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DialogNodesVisited object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'dialog_node') and self.dialog_node is not None:
@@ -665,17 +722,21 @@ class DialogNodesVisited():
             _dict['conditions'] = self.conditions
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this DialogNodesVisited object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'DialogNodesVisited') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'DialogNodesVisited') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -694,7 +755,11 @@ class DialogSuggestion():
           Watson Assistant service if the user selects the corresponding option.
     """
 
-    def __init__(self, label, value, *, output=None):
+    def __init__(self,
+                 label: str,
+                 value: 'DialogSuggestionValue',
+                 *,
+                 output: dict = None) -> None:
         """
         Initialize a DialogSuggestion object.
 
@@ -712,7 +777,7 @@ class DialogSuggestion():
         self.output = output
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'DialogSuggestion':
         """Initialize a DialogSuggestion object from a json dictionary."""
         args = {}
         valid_keys = ['label', 'value', 'output']
@@ -737,7 +802,12 @@ class DialogSuggestion():
             args['output'] = _dict.get('output')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DialogSuggestion object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'label') and self.label is not None:
@@ -748,17 +818,21 @@ class DialogSuggestion():
             _dict['output'] = self.output
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this DialogSuggestion object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'DialogSuggestion') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'DialogSuggestion') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -772,7 +846,7 @@ class DialogSuggestionValue():
           text.
     """
 
-    def __init__(self, *, input=None):
+    def __init__(self, *, input: 'MessageInput' = None) -> None:
         """
         Initialize a DialogSuggestionValue object.
 
@@ -782,7 +856,7 @@ class DialogSuggestionValue():
         self.input = input
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'DialogSuggestionValue':
         """Initialize a DialogSuggestionValue object from a json dictionary."""
         args = {}
         valid_keys = ['input']
@@ -795,24 +869,33 @@ class DialogSuggestionValue():
             args['input'] = MessageInput._from_dict(_dict.get('input'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DialogSuggestionValue object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'input') and self.input is not None:
             _dict['input'] = self.input._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this DialogSuggestionValue object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'DialogSuggestionValue') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'DialogSuggestionValue') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -830,7 +913,10 @@ class MessageContext():
           assistant.
     """
 
-    def __init__(self, *, global_=None, skills=None):
+    def __init__(self,
+                 *,
+                 global_: 'MessageContextGlobal' = None,
+                 skills: 'MessageContextSkills' = None) -> None:
         """
         Initialize a MessageContext object.
 
@@ -846,7 +932,7 @@ class MessageContext():
         self.skills = skills
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'MessageContext':
         """Initialize a MessageContext object from a json dictionary."""
         args = {}
         valid_keys = ['global_', 'global', 'skills']
@@ -863,7 +949,12 @@ class MessageContext():
                 _dict.get('skills'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageContext object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'global_') and self.global_ is not None:
@@ -872,17 +963,21 @@ class MessageContext():
             _dict['skills'] = self.skills._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this MessageContext object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'MessageContext') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'MessageContext') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -895,7 +990,7 @@ class MessageContextGlobal():
           that apply to all skills used by the assistant.
     """
 
-    def __init__(self, *, system=None):
+    def __init__(self, *, system: 'MessageContextGlobalSystem' = None) -> None:
         """
         Initialize a MessageContextGlobal object.
 
@@ -905,7 +1000,7 @@ class MessageContextGlobal():
         self.system = system
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'MessageContextGlobal':
         """Initialize a MessageContextGlobal object from a json dictionary."""
         args = {}
         valid_keys = ['system']
@@ -919,24 +1014,33 @@ class MessageContextGlobal():
                 _dict.get('system'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageContextGlobal object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'system') and self.system is not None:
             _dict['system'] = self.system._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this MessageContextGlobal object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'MessageContextGlobal') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'MessageContextGlobal') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -956,9 +1060,31 @@ class MessageContextGlobalSystem():
           with each turn of the conversation. A value of 1 indicates that this is the the
           first turn of a new conversation, which can affect the behavior of some skills
           (for example, triggering the start node of a dialog).
+    :attr str locale: (optional) The language code for localization in the user
+          input. The specified locale overrides the default for the assistant, and is used
+          for interpreting entity values in user input such as date values. For example,
+          `04/03/2018` might be interpreted either as April 3 or March 4, depending on the
+          locale.
+           This property is included only if the new system entities are enabled for the
+          skill.
+    :attr str reference_time: (optional) The base time for interpreting any relative
+          time mentions in the user input. The specified time overrides the current server
+          time, and is used to calculate times mentioned in relative terms such as `now`
+          or `tomorrow`. This can be useful for simulating past or future times for
+          testing purposes, or when analyzing documents such as news articles.
+          This value must be a UTC time value formatted according to ISO 8601 (for
+          example, `2019-06-26T12:00:00Z` for noon on 26 June 2019.
+          This property is included only if the new system entities are enabled for the
+          skill.
     """
 
-    def __init__(self, *, timezone=None, user_id=None, turn_count=None):
+    def __init__(self,
+                 *,
+                 timezone: str = None,
+                 user_id: str = None,
+                 turn_count: int = None,
+                 locale: str = None,
+                 reference_time: str = None) -> None:
         """
         Initialize a MessageContextGlobalSystem object.
 
@@ -975,16 +1101,37 @@ class MessageContextGlobalSystem():
                this is the the first turn of a new conversation, which can affect the
                behavior of some skills (for example, triggering the start node of a
                dialog).
+        :param str locale: (optional) The language code for localization in the
+               user input. The specified locale overrides the default for the assistant,
+               and is used for interpreting entity values in user input such as date
+               values. For example, `04/03/2018` might be interpreted either as April 3 or
+               March 4, depending on the locale.
+                This property is included only if the new system entities are enabled for
+               the skill.
+        :param str reference_time: (optional) The base time for interpreting any
+               relative time mentions in the user input. The specified time overrides the
+               current server time, and is used to calculate times mentioned in relative
+               terms such as `now` or `tomorrow`. This can be useful for simulating past
+               or future times for testing purposes, or when analyzing documents such as
+               news articles.
+               This value must be a UTC time value formatted according to ISO 8601 (for
+               example, `2019-06-26T12:00:00Z` for noon on 26 June 2019.
+               This property is included only if the new system entities are enabled for
+               the skill.
         """
         self.timezone = timezone
         self.user_id = user_id
         self.turn_count = turn_count
+        self.locale = locale
+        self.reference_time = reference_time
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'MessageContextGlobalSystem':
         """Initialize a MessageContextGlobalSystem object from a json dictionary."""
         args = {}
-        valid_keys = ['timezone', 'user_id', 'turn_count']
+        valid_keys = [
+            'timezone', 'user_id', 'turn_count', 'locale', 'reference_time'
+        ]
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
             raise ValueError(
@@ -996,9 +1143,18 @@ class MessageContextGlobalSystem():
             args['user_id'] = _dict.get('user_id')
         if 'turn_count' in _dict:
             args['turn_count'] = _dict.get('turn_count')
+        if 'locale' in _dict:
+            args['locale'] = _dict.get('locale')
+        if 'reference_time' in _dict:
+            args['reference_time'] = _dict.get('reference_time')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageContextGlobalSystem object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'timezone') and self.timezone is not None:
@@ -1007,21 +1163,54 @@ class MessageContextGlobalSystem():
             _dict['user_id'] = self.user_id
         if hasattr(self, 'turn_count') and self.turn_count is not None:
             _dict['turn_count'] = self.turn_count
+        if hasattr(self, 'locale') and self.locale is not None:
+            _dict['locale'] = self.locale
+        if hasattr(self, 'reference_time') and self.reference_time is not None:
+            _dict['reference_time'] = self.reference_time
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this MessageContextGlobalSystem object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'MessageContextGlobalSystem') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'MessageContextGlobalSystem') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
+
+    class LocaleEnum(Enum):
+        """
+        The language code for localization in the user input. The specified locale
+        overrides the default for the assistant, and is used for interpreting entity
+        values in user input such as date values. For example, `04/03/2018` might be
+        interpreted either as April 3 or March 4, depending on the locale.
+         This property is included only if the new system entities are enabled for the
+        skill.
+        """
+        EN_US = "en-us"
+        EN_CA = "en-ca"
+        EN_GB = "en-gb"
+        AR_AR = "ar-ar"
+        CS_CZ = "cs-cz"
+        DE_DE = "de-de"
+        ES_ES = "es-es"
+        FR_FR = "fr-fr"
+        IT_IT = "it-it"
+        JA_JP = "ja-jp"
+        KO_KR = "ko-kr"
+        NL_NL = "nl-nl"
+        PT_BR = "pt-br"
+        ZH_CN = "zh-cn"
+        ZH_TW = "zh-tw"
 
 
 class MessageContextSkill():
@@ -1030,22 +1219,26 @@ class MessageContextSkill():
 
     :attr dict user_defined: (optional) Arbitrary variables that can be read and
           written by a particular skill.
+    :attr dict system: (optional) For internal use only.
     """
 
-    def __init__(self, *, user_defined=None):
+    def __init__(self, *, user_defined: dict = None,
+                 system: dict = None) -> None:
         """
         Initialize a MessageContextSkill object.
 
         :param dict user_defined: (optional) Arbitrary variables that can be read
                and written by a particular skill.
+        :param dict system: (optional) For internal use only.
         """
         self.user_defined = user_defined
+        self.system = system
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'MessageContextSkill':
         """Initialize a MessageContextSkill object from a json dictionary."""
         args = {}
-        valid_keys = ['user_defined']
+        valid_keys = ['user_defined', 'system']
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
             raise ValueError(
@@ -1053,26 +1246,39 @@ class MessageContextSkill():
                 + ', '.join(bad_keys))
         if 'user_defined' in _dict:
             args['user_defined'] = _dict.get('user_defined')
+        if 'system' in _dict:
+            args['system'] = _dict.get('system')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageContextSkill object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'user_defined') and self.user_defined is not None:
             _dict['user_defined'] = self.user_defined
+        if hasattr(self, 'system') and self.system is not None:
+            _dict['system'] = self.system
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this MessageContextSkill object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'MessageContextSkill') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'MessageContextSkill') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1085,7 +1291,7 @@ class MessageContextSkills():
 
     """
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs) -> None:
         """
         Initialize a MessageContextSkills object.
 
@@ -1095,14 +1301,19 @@ class MessageContextSkills():
             setattr(self, _key, _value)
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'MessageContextSkills':
         """Initialize a MessageContextSkills object from a json dictionary."""
         args = {}
         xtra = _dict.copy()
         args.update(xtra)
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageContextSkills object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, '_additionalProperties'):
@@ -1112,7 +1323,11 @@ class MessageContextSkills():
                     _dict[_key] = _value
         return _dict
 
-    def __setattr__(self, name, value):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __setattr__(self, name: str, value: object) -> None:
         properties = {}
         if not hasattr(self, '_additionalProperties'):
             super(MessageContextSkills,
@@ -1121,17 +1336,17 @@ class MessageContextSkills():
             self._additionalProperties.add(name)
         super(MessageContextSkills, self).__setattr__(name, value)
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Return a `str` version of this MessageContextSkills object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'MessageContextSkills') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'MessageContextSkills') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1146,10 +1361,10 @@ class MessageInput():
           contain carriage return, newline, or tab characters.
     :attr MessageInputOptions options: (optional) Optional properties that control
           how the assistant responds.
-    :attr list[RuntimeIntent] intents: (optional) Intents to use when evaluating the
+    :attr List[RuntimeIntent] intents: (optional) Intents to use when evaluating the
           user input. Include intents from the previous response to continue using those
           intents rather than trying to recognize intents in the new input.
-    :attr list[RuntimeEntity] entities: (optional) Entities to use when evaluating
+    :attr List[RuntimeEntity] entities: (optional) Entities to use when evaluating
           the message. Include entities from the previous response to continue using those
           entities rather than detecting entities in the new input.
     :attr str suggestion_id: (optional) For internal use only.
@@ -1157,12 +1372,12 @@ class MessageInput():
 
     def __init__(self,
                  *,
-                 message_type=None,
-                 text=None,
-                 options=None,
-                 intents=None,
-                 entities=None,
-                 suggestion_id=None):
+                 message_type: str = None,
+                 text: str = None,
+                 options: 'MessageInputOptions' = None,
+                 intents: List['RuntimeIntent'] = None,
+                 entities: List['RuntimeEntity'] = None,
+                 suggestion_id: str = None) -> None:
         """
         Initialize a MessageInput object.
 
@@ -1172,11 +1387,11 @@ class MessageInput():
                contain carriage return, newline, or tab characters.
         :param MessageInputOptions options: (optional) Optional properties that
                control how the assistant responds.
-        :param list[RuntimeIntent] intents: (optional) Intents to use when
+        :param List[RuntimeIntent] intents: (optional) Intents to use when
                evaluating the user input. Include intents from the previous response to
                continue using those intents rather than trying to recognize intents in the
                new input.
-        :param list[RuntimeEntity] entities: (optional) Entities to use when
+        :param List[RuntimeEntity] entities: (optional) Entities to use when
                evaluating the message. Include entities from the previous response to
                continue using those entities rather than detecting entities in the new
                input.
@@ -1190,7 +1405,7 @@ class MessageInput():
         self.suggestion_id = suggestion_id
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'MessageInput':
         """Initialize a MessageInput object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -1221,7 +1436,12 @@ class MessageInput():
             args['suggestion_id'] = _dict.get('suggestion_id')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageInput object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'message_type') and self.message_type is not None:
@@ -1238,17 +1458,21 @@ class MessageInput():
             _dict['suggestion_id'] = self.suggestion_id
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this MessageInput object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'MessageInput') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'MessageInput') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1278,10 +1502,10 @@ class MessageInputOptions():
 
     def __init__(self,
                  *,
-                 debug=None,
-                 restart=None,
-                 alternate_intents=None,
-                 return_context=None):
+                 debug: bool = None,
+                 restart: bool = None,
+                 alternate_intents: bool = None,
+                 return_context: bool = None) -> None:
         """
         Initialize a MessageInputOptions object.
 
@@ -1303,7 +1527,7 @@ class MessageInputOptions():
         self.return_context = return_context
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'MessageInputOptions':
         """Initialize a MessageInputOptions object from a json dictionary."""
         args = {}
         valid_keys = ['debug', 'restart', 'alternate_intents', 'return_context']
@@ -1322,7 +1546,12 @@ class MessageInputOptions():
             args['return_context'] = _dict.get('return_context')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageInputOptions object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'debug') and self.debug is not None:
@@ -1336,17 +1565,21 @@ class MessageInputOptions():
             _dict['return_context'] = self.return_context
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this MessageInputOptions object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'MessageInputOptions') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'MessageInputOptions') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1355,14 +1588,14 @@ class MessageOutput():
     """
     Assistant output to be rendered or processed by the client.
 
-    :attr list[RuntimeResponseGeneric] generic: (optional) Output intended for any
+    :attr List[RuntimeResponseGeneric] generic: (optional) Output intended for any
           channel. It is the responsibility of the client application to implement the
           supported response types.
-    :attr list[RuntimeIntent] intents: (optional) An array of intents recognized in
+    :attr List[RuntimeIntent] intents: (optional) An array of intents recognized in
           the user input, sorted in descending order of confidence.
-    :attr list[RuntimeEntity] entities: (optional) An array of entities identified
+    :attr List[RuntimeEntity] entities: (optional) An array of entities identified
           in the user input.
-    :attr list[DialogNodeAction] actions: (optional) An array of objects describing
+    :attr List[DialogNodeAction] actions: (optional) An array of objects describing
           any actions requested by the dialog node.
     :attr MessageOutputDebug debug: (optional) Additional detailed information about
           a message response and how it was generated.
@@ -1373,23 +1606,23 @@ class MessageOutput():
 
     def __init__(self,
                  *,
-                 generic=None,
-                 intents=None,
-                 entities=None,
-                 actions=None,
-                 debug=None,
-                 user_defined=None):
+                 generic: List['RuntimeResponseGeneric'] = None,
+                 intents: List['RuntimeIntent'] = None,
+                 entities: List['RuntimeEntity'] = None,
+                 actions: List['DialogNodeAction'] = None,
+                 debug: 'MessageOutputDebug' = None,
+                 user_defined: dict = None) -> None:
         """
         Initialize a MessageOutput object.
 
-        :param list[RuntimeResponseGeneric] generic: (optional) Output intended for
+        :param List[RuntimeResponseGeneric] generic: (optional) Output intended for
                any channel. It is the responsibility of the client application to
                implement the supported response types.
-        :param list[RuntimeIntent] intents: (optional) An array of intents
+        :param List[RuntimeIntent] intents: (optional) An array of intents
                recognized in the user input, sorted in descending order of confidence.
-        :param list[RuntimeEntity] entities: (optional) An array of entities
+        :param List[RuntimeEntity] entities: (optional) An array of entities
                identified in the user input.
-        :param list[DialogNodeAction] actions: (optional) An array of objects
+        :param List[DialogNodeAction] actions: (optional) An array of objects
                describing any actions requested by the dialog node.
         :param MessageOutputDebug debug: (optional) Additional detailed information
                about a message response and how it was generated.
@@ -1406,7 +1639,7 @@ class MessageOutput():
         self.user_defined = user_defined
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'MessageOutput':
         """Initialize a MessageOutput object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -1440,7 +1673,12 @@ class MessageOutput():
             args['user_defined'] = _dict.get('user_defined')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageOutput object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'generic') and self.generic is not None:
@@ -1457,17 +1695,21 @@ class MessageOutput():
             _dict['user_defined'] = self.user_defined
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this MessageOutput object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'MessageOutput') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'MessageOutput') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1476,10 +1718,10 @@ class MessageOutputDebug():
     """
     Additional detailed information about a message response and how it was generated.
 
-    :attr list[DialogNodesVisited] nodes_visited: (optional) An array of objects
+    :attr List[DialogNodesVisited] nodes_visited: (optional) An array of objects
           containing detailed diagnostic information about the nodes that were triggered
           during processing of the input message.
-    :attr list[DialogLogMessage] log_messages: (optional) An array of up to 50
+    :attr List[DialogLogMessage] log_messages: (optional) An array of up to 50
           messages logged with the request.
     :attr bool branch_exited: (optional) Assistant sets this to true when this
           message response concludes or interrupts a dialog.
@@ -1490,17 +1732,17 @@ class MessageOutputDebug():
 
     def __init__(self,
                  *,
-                 nodes_visited=None,
-                 log_messages=None,
-                 branch_exited=None,
-                 branch_exited_reason=None):
+                 nodes_visited: List['DialogNodesVisited'] = None,
+                 log_messages: List['DialogLogMessage'] = None,
+                 branch_exited: bool = None,
+                 branch_exited_reason: str = None) -> None:
         """
         Initialize a MessageOutputDebug object.
 
-        :param list[DialogNodesVisited] nodes_visited: (optional) An array of
+        :param List[DialogNodesVisited] nodes_visited: (optional) An array of
                objects containing detailed diagnostic information about the nodes that
                were triggered during processing of the input message.
-        :param list[DialogLogMessage] log_messages: (optional) An array of up to 50
+        :param List[DialogLogMessage] log_messages: (optional) An array of up to 50
                messages logged with the request.
         :param bool branch_exited: (optional) Assistant sets this to true when this
                message response concludes or interrupts a dialog.
@@ -1514,7 +1756,7 @@ class MessageOutputDebug():
         self.branch_exited_reason = branch_exited_reason
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'MessageOutputDebug':
         """Initialize a MessageOutputDebug object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -1542,7 +1784,12 @@ class MessageOutputDebug():
             args['branch_exited_reason'] = _dict.get('branch_exited_reason')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageOutputDebug object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'nodes_visited') and self.nodes_visited is not None:
@@ -1556,17 +1803,21 @@ class MessageOutputDebug():
             _dict['branch_exited_reason'] = self.branch_exited_reason
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this MessageOutputDebug object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'MessageOutputDebug') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'MessageOutputDebug') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1592,7 +1843,10 @@ class MessageResponse():
           **return_context**=`true` in the message request.
     """
 
-    def __init__(self, output, *, context=None):
+    def __init__(self,
+                 output: 'MessageOutput',
+                 *,
+                 context: 'MessageContext' = None) -> None:
         """
         Initialize a MessageResponse object.
 
@@ -1608,7 +1862,7 @@ class MessageResponse():
         self.context = context
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'MessageResponse':
         """Initialize a MessageResponse object from a json dictionary."""
         args = {}
         valid_keys = ['output', 'context']
@@ -1627,7 +1881,12 @@ class MessageResponse():
             args['context'] = MessageContext._from_dict(_dict.get('context'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'output') and self.output is not None:
@@ -1636,17 +1895,21 @@ class MessageResponse():
             _dict['context'] = self.context._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this MessageResponse object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'MessageResponse') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'MessageResponse') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1656,38 +1919,75 @@ class RuntimeEntity():
     The entity value that was recognized in the user input.
 
     :attr str entity: An entity detected in the input.
-    :attr list[int] location: An array of zero-based character offsets that indicate
+    :attr List[int] location: An array of zero-based character offsets that indicate
           where the detected entity values begin and end in the input text.
     :attr str value: The term in the input text that was recognized as an entity
           value.
     :attr float confidence: (optional) A decimal percentage that represents Watson's
           confidence in the recognized entity.
     :attr dict metadata: (optional) Any metadata for the entity.
-    :attr list[CaptureGroup] groups: (optional) The recognized capture groups for
+    :attr List[CaptureGroup] groups: (optional) The recognized capture groups for
           the entity, as defined by the entity pattern.
+    :attr RuntimeEntityInterpretation interpretation: (optional) An object
+          containing detailed information about the entity recognized in the user input.
+          This property is included only if the new system entities are enabled for the
+          skill.
+          For more information about how the new system entities are interpreted, see the
+          [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-beta-system-entities).
+    :attr List[RuntimeEntityAlternative] alternatives: (optional) An array of
+          possible alternative values that the user might have intended instead of the
+          value returned in the **value** property. This property is returned only for
+          `@sys-time` and `@sys-date` entities when the user's input is ambiguous.
+          This property is included only if the new system entities are enabled for the
+          skill.
+    :attr RuntimeEntityRole role: (optional) An object describing the role played by
+          a system entity that is specifies the beginning or end of a range recognized in
+          the user input. This property is included only if the new system entities are
+          enabled for the skill.
     """
 
     def __init__(self,
-                 entity,
-                 location,
-                 value,
+                 entity: str,
+                 location: List[int],
+                 value: str,
                  *,
-                 confidence=None,
-                 metadata=None,
-                 groups=None):
+                 confidence: float = None,
+                 metadata: dict = None,
+                 groups: List['CaptureGroup'] = None,
+                 interpretation: 'RuntimeEntityInterpretation' = None,
+                 alternatives: List['RuntimeEntityAlternative'] = None,
+                 role: 'RuntimeEntityRole' = None) -> None:
         """
         Initialize a RuntimeEntity object.
 
         :param str entity: An entity detected in the input.
-        :param list[int] location: An array of zero-based character offsets that
+        :param List[int] location: An array of zero-based character offsets that
                indicate where the detected entity values begin and end in the input text.
         :param str value: The term in the input text that was recognized as an
                entity value.
         :param float confidence: (optional) A decimal percentage that represents
                Watson's confidence in the recognized entity.
         :param dict metadata: (optional) Any metadata for the entity.
-        :param list[CaptureGroup] groups: (optional) The recognized capture groups
+        :param List[CaptureGroup] groups: (optional) The recognized capture groups
                for the entity, as defined by the entity pattern.
+        :param RuntimeEntityInterpretation interpretation: (optional) An object
+               containing detailed information about the entity recognized in the user
+               input. This property is included only if the new system entities are
+               enabled for the skill.
+               For more information about how the new system entities are interpreted, see
+               the
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-beta-system-entities).
+        :param List[RuntimeEntityAlternative] alternatives: (optional) An array of
+               possible alternative values that the user might have intended instead of
+               the value returned in the **value** property. This property is returned
+               only for `@sys-time` and `@sys-date` entities when the user's input is
+               ambiguous.
+               This property is included only if the new system entities are enabled for
+               the skill.
+        :param RuntimeEntityRole role: (optional) An object describing the role
+               played by a system entity that is specifies the beginning or end of a range
+               recognized in the user input. This property is included only if the new
+               system entities are enabled for the skill.
         """
         self.entity = entity
         self.location = location
@@ -1695,13 +1995,17 @@ class RuntimeEntity():
         self.confidence = confidence
         self.metadata = metadata
         self.groups = groups
+        self.interpretation = interpretation
+        self.alternatives = alternatives
+        self.role = role
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'RuntimeEntity':
         """Initialize a RuntimeEntity object from a json dictionary."""
         args = {}
         valid_keys = [
-            'entity', 'location', 'value', 'confidence', 'metadata', 'groups'
+            'entity', 'location', 'value', 'confidence', 'metadata', 'groups',
+            'interpretation', 'alternatives', 'role'
         ]
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
@@ -1733,9 +2037,24 @@ class RuntimeEntity():
             args['groups'] = [
                 CaptureGroup._from_dict(x) for x in (_dict.get('groups'))
             ]
+        if 'interpretation' in _dict:
+            args['interpretation'] = RuntimeEntityInterpretation._from_dict(
+                _dict.get('interpretation'))
+        if 'alternatives' in _dict:
+            args['alternatives'] = [
+                RuntimeEntityAlternative._from_dict(x)
+                for x in (_dict.get('alternatives'))
+            ]
+        if 'role' in _dict:
+            args['role'] = RuntimeEntityRole._from_dict(_dict.get('role'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RuntimeEntity object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'entity') and self.entity is not None:
@@ -1750,21 +2069,559 @@ class RuntimeEntity():
             _dict['metadata'] = self.metadata
         if hasattr(self, 'groups') and self.groups is not None:
             _dict['groups'] = [x._to_dict() for x in self.groups]
+        if hasattr(self, 'interpretation') and self.interpretation is not None:
+            _dict['interpretation'] = self.interpretation._to_dict()
+        if hasattr(self, 'alternatives') and self.alternatives is not None:
+            _dict['alternatives'] = [x._to_dict() for x in self.alternatives]
+        if hasattr(self, 'role') and self.role is not None:
+            _dict['role'] = self.role._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this RuntimeEntity object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'RuntimeEntity') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'RuntimeEntity') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
+
+
+class RuntimeEntityAlternative():
+    """
+    An alternative value for the recognized entity.
+
+    :attr str value: (optional) The entity value that was recognized in the user
+          input.
+    :attr float confidence: (optional) A decimal percentage that represents Watson's
+          confidence in the recognized entity.
+    """
+
+    def __init__(self, *, value: str = None, confidence: float = None) -> None:
+        """
+        Initialize a RuntimeEntityAlternative object.
+
+        :param str value: (optional) The entity value that was recognized in the
+               user input.
+        :param float confidence: (optional) A decimal percentage that represents
+               Watson's confidence in the recognized entity.
+        """
+        self.value = value
+        self.confidence = confidence
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'RuntimeEntityAlternative':
+        """Initialize a RuntimeEntityAlternative object from a json dictionary."""
+        args = {}
+        valid_keys = ['value', 'confidence']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class RuntimeEntityAlternative: '
+                + ', '.join(bad_keys))
+        if 'value' in _dict:
+            args['value'] = _dict.get('value')
+        if 'confidence' in _dict:
+            args['confidence'] = _dict.get('confidence')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RuntimeEntityAlternative object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'value') and self.value is not None:
+            _dict['value'] = self.value
+        if hasattr(self, 'confidence') and self.confidence is not None:
+            _dict['confidence'] = self.confidence
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RuntimeEntityAlternative object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'RuntimeEntityAlternative') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'RuntimeEntityAlternative') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class RuntimeEntityInterpretation():
+    """
+    RuntimeEntityInterpretation.
+
+    :attr str calendar_type: (optional) The calendar used to represent a recognized
+          date (for example, `Gregorian`).
+    :attr str datetime_link: (optional) A unique identifier used to associate a
+          recognized time and date. If the user input contains a date and time that are
+          mentioned together (for example, `Today at 5`, the same **datetime_link** value
+          is returned for both the `@sys-date` and `@sys-time` entities).
+    :attr str festival: (optional) A locale-specific holiday name (such as
+          `thanksgiving` or `christmas`). This property is included when a `@sys-date`
+          entity is recognized based on a holiday name in the user input.
+    :attr str granularity: (optional) The precision or duration of a time range
+          specified by a recognized `@sys-time` or `@sys-date` entity.
+    :attr str range_link: (optional) A unique identifier used to associate multiple
+          recognized `@sys-date`, `@sys-time`, or `@sys-number` entities that are
+          recognized as a range of values in the user's input (for example, `from July 4
+          until July 14` or `from 20 to 25`).
+    :attr str range_modifier: (optional) The word in the user input that indicates
+          that a `sys-date` or `sys-time` entity is part of an implied range where only
+          one date or time is specified (for example, `since` or `until`).
+    :attr float relative_day: (optional) A recognized mention of a relative day,
+          represented numerically as an offset from the current date (for example, `-1`
+          for `yesterday` or `10` for `in ten days`).
+    :attr float relative_month: (optional) A recognized mention of a relative month,
+          represented numerically as an offset from the current month (for example, `1`
+          for `next month` or `-3` for `three months ago`).
+    :attr float relative_week: (optional) A recognized mention of a relative week,
+          represented numerically as an offset from the current week (for example, `2` for
+          `in two weeks` or `-1` for `last week).
+    :attr float relative_weekend: (optional) A recognized mention of a relative date
+          range for a weekend, represented numerically as an offset from the current
+          weekend (for example, `0` for `this weekend` or `-1` for `last weekend`).
+    :attr float relative_year: (optional) A recognized mention of a relative year,
+          represented numerically as an offset from the current year (for example, `1` for
+          `next year` or `-5` for `five years ago`).
+    :attr float specific_day: (optional) A recognized mention of a specific date,
+          represented numerically as the date within the month (for example, `30` for
+          `June 30`.).
+    :attr str specific_day_of_week: (optional) A recognized mention of a specific
+          day of the week as a lowercase string (for example, `monday`).
+    :attr float specific_month: (optional) A recognized mention of a specific month,
+          represented numerically (for example, `7` for `July`).
+    :attr float specific_quarter: (optional) A recognized mention of a specific
+          quarter, represented numerically (for example, `3` for `the third quarter`).
+    :attr float specific_year: (optional) A recognized mention of a specific year
+          (for example, `2016`).
+    :attr float numeric_value: (optional) A recognized numeric value, represented as
+          an integer or double.
+    :attr str subtype: (optional) The type of numeric value recognized in the user
+          input (`integer` or `rational`).
+    :attr str part_of_day: (optional) A recognized term for a time that was
+          mentioned as a part of the day in the user's input (for example, `morning` or
+          `afternoon`).
+    :attr float relative_hour: (optional) A recognized mention of a relative hour,
+          represented numerically as an offset from the current hour (for example, `3` for
+          `in three hours` or `-1` for `an hour ago`).
+    :attr float relative_minute: (optional) A recognized mention of a relative time,
+          represented numerically as an offset in minutes from the current time (for
+          example, `5` for `in five minutes` or `-15` for `fifteen minutes ago`).
+    :attr float relative_second: (optional) A recognized mention of a relative time,
+          represented numerically as an offset in seconds from the current time (for
+          example, `10` for `in ten seconds` or `-30` for `thirty seconds ago`).
+    :attr float specific_hour: (optional) A recognized specific hour mentioned as
+          part of a time value (for example, `10` for `10:15 AM`.).
+    :attr float specific_minute: (optional) A recognized specific minute mentioned
+          as part of a time value (for example, `15` for `10:15 AM`.).
+    :attr float specific_second: (optional) A recognized specific second mentioned
+          as part of a time value (for example, `30` for `10:15:30 AM`.).
+    :attr str timezone: (optional) A recognized time zone mentioned as part of a
+          time value (for example, `EST`).
+    """
+
+    def __init__(self,
+                 *,
+                 calendar_type: str = None,
+                 datetime_link: str = None,
+                 festival: str = None,
+                 granularity: str = None,
+                 range_link: str = None,
+                 range_modifier: str = None,
+                 relative_day: float = None,
+                 relative_month: float = None,
+                 relative_week: float = None,
+                 relative_weekend: float = None,
+                 relative_year: float = None,
+                 specific_day: float = None,
+                 specific_day_of_week: str = None,
+                 specific_month: float = None,
+                 specific_quarter: float = None,
+                 specific_year: float = None,
+                 numeric_value: float = None,
+                 subtype: str = None,
+                 part_of_day: str = None,
+                 relative_hour: float = None,
+                 relative_minute: float = None,
+                 relative_second: float = None,
+                 specific_hour: float = None,
+                 specific_minute: float = None,
+                 specific_second: float = None,
+                 timezone: str = None) -> None:
+        """
+        Initialize a RuntimeEntityInterpretation object.
+
+        :param str calendar_type: (optional) The calendar used to represent a
+               recognized date (for example, `Gregorian`).
+        :param str datetime_link: (optional) A unique identifier used to associate
+               a recognized time and date. If the user input contains a date and time that
+               are mentioned together (for example, `Today at 5`, the same
+               **datetime_link** value is returned for both the `@sys-date` and
+               `@sys-time` entities).
+        :param str festival: (optional) A locale-specific holiday name (such as
+               `thanksgiving` or `christmas`). This property is included when a
+               `@sys-date` entity is recognized based on a holiday name in the user input.
+        :param str granularity: (optional) The precision or duration of a time
+               range specified by a recognized `@sys-time` or `@sys-date` entity.
+        :param str range_link: (optional) A unique identifier used to associate
+               multiple recognized `@sys-date`, `@sys-time`, or `@sys-number` entities
+               that are recognized as a range of values in the user's input (for example,
+               `from July 4 until July 14` or `from 20 to 25`).
+        :param str range_modifier: (optional) The word in the user input that
+               indicates that a `sys-date` or `sys-time` entity is part of an implied
+               range where only one date or time is specified (for example, `since` or
+               `until`).
+        :param float relative_day: (optional) A recognized mention of a relative
+               day, represented numerically as an offset from the current date (for
+               example, `-1` for `yesterday` or `10` for `in ten days`).
+        :param float relative_month: (optional) A recognized mention of a relative
+               month, represented numerically as an offset from the current month (for
+               example, `1` for `next month` or `-3` for `three months ago`).
+        :param float relative_week: (optional) A recognized mention of a relative
+               week, represented numerically as an offset from the current week (for
+               example, `2` for `in two weeks` or `-1` for `last week).
+        :param float relative_weekend: (optional) A recognized mention of a
+               relative date range for a weekend, represented numerically as an offset
+               from the current weekend (for example, `0` for `this weekend` or `-1` for
+               `last weekend`).
+        :param float relative_year: (optional) A recognized mention of a relative
+               year, represented numerically as an offset from the current year (for
+               example, `1` for `next year` or `-5` for `five years ago`).
+        :param float specific_day: (optional) A recognized mention of a specific
+               date, represented numerically as the date within the month (for example,
+               `30` for `June 30`.).
+        :param str specific_day_of_week: (optional) A recognized mention of a
+               specific day of the week as a lowercase string (for example, `monday`).
+        :param float specific_month: (optional) A recognized mention of a specific
+               month, represented numerically (for example, `7` for `July`).
+        :param float specific_quarter: (optional) A recognized mention of a
+               specific quarter, represented numerically (for example, `3` for `the third
+               quarter`).
+        :param float specific_year: (optional) A recognized mention of a specific
+               year (for example, `2016`).
+        :param float numeric_value: (optional) A recognized numeric value,
+               represented as an integer or double.
+        :param str subtype: (optional) The type of numeric value recognized in the
+               user input (`integer` or `rational`).
+        :param str part_of_day: (optional) A recognized term for a time that was
+               mentioned as a part of the day in the user's input (for example, `morning`
+               or `afternoon`).
+        :param float relative_hour: (optional) A recognized mention of a relative
+               hour, represented numerically as an offset from the current hour (for
+               example, `3` for `in three hours` or `-1` for `an hour ago`).
+        :param float relative_minute: (optional) A recognized mention of a relative
+               time, represented numerically as an offset in minutes from the current time
+               (for example, `5` for `in five minutes` or `-15` for `fifteen minutes
+               ago`).
+        :param float relative_second: (optional) A recognized mention of a relative
+               time, represented numerically as an offset in seconds from the current time
+               (for example, `10` for `in ten seconds` or `-30` for `thirty seconds ago`).
+        :param float specific_hour: (optional) A recognized specific hour mentioned
+               as part of a time value (for example, `10` for `10:15 AM`.).
+        :param float specific_minute: (optional) A recognized specific minute
+               mentioned as part of a time value (for example, `15` for `10:15 AM`.).
+        :param float specific_second: (optional) A recognized specific second
+               mentioned as part of a time value (for example, `30` for `10:15:30 AM`.).
+        :param str timezone: (optional) A recognized time zone mentioned as part of
+               a time value (for example, `EST`).
+        """
+        self.calendar_type = calendar_type
+        self.datetime_link = datetime_link
+        self.festival = festival
+        self.granularity = granularity
+        self.range_link = range_link
+        self.range_modifier = range_modifier
+        self.relative_day = relative_day
+        self.relative_month = relative_month
+        self.relative_week = relative_week
+        self.relative_weekend = relative_weekend
+        self.relative_year = relative_year
+        self.specific_day = specific_day
+        self.specific_day_of_week = specific_day_of_week
+        self.specific_month = specific_month
+        self.specific_quarter = specific_quarter
+        self.specific_year = specific_year
+        self.numeric_value = numeric_value
+        self.subtype = subtype
+        self.part_of_day = part_of_day
+        self.relative_hour = relative_hour
+        self.relative_minute = relative_minute
+        self.relative_second = relative_second
+        self.specific_hour = specific_hour
+        self.specific_minute = specific_minute
+        self.specific_second = specific_second
+        self.timezone = timezone
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'RuntimeEntityInterpretation':
+        """Initialize a RuntimeEntityInterpretation object from a json dictionary."""
+        args = {}
+        valid_keys = [
+            'calendar_type', 'datetime_link', 'festival', 'granularity',
+            'range_link', 'range_modifier', 'relative_day', 'relative_month',
+            'relative_week', 'relative_weekend', 'relative_year',
+            'specific_day', 'specific_day_of_week', 'specific_month',
+            'specific_quarter', 'specific_year', 'numeric_value', 'subtype',
+            'part_of_day', 'relative_hour', 'relative_minute',
+            'relative_second', 'specific_hour', 'specific_minute',
+            'specific_second', 'timezone'
+        ]
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class RuntimeEntityInterpretation: '
+                + ', '.join(bad_keys))
+        if 'calendar_type' in _dict:
+            args['calendar_type'] = _dict.get('calendar_type')
+        if 'datetime_link' in _dict:
+            args['datetime_link'] = _dict.get('datetime_link')
+        if 'festival' in _dict:
+            args['festival'] = _dict.get('festival')
+        if 'granularity' in _dict:
+            args['granularity'] = _dict.get('granularity')
+        if 'range_link' in _dict:
+            args['range_link'] = _dict.get('range_link')
+        if 'range_modifier' in _dict:
+            args['range_modifier'] = _dict.get('range_modifier')
+        if 'relative_day' in _dict:
+            args['relative_day'] = _dict.get('relative_day')
+        if 'relative_month' in _dict:
+            args['relative_month'] = _dict.get('relative_month')
+        if 'relative_week' in _dict:
+            args['relative_week'] = _dict.get('relative_week')
+        if 'relative_weekend' in _dict:
+            args['relative_weekend'] = _dict.get('relative_weekend')
+        if 'relative_year' in _dict:
+            args['relative_year'] = _dict.get('relative_year')
+        if 'specific_day' in _dict:
+            args['specific_day'] = _dict.get('specific_day')
+        if 'specific_day_of_week' in _dict:
+            args['specific_day_of_week'] = _dict.get('specific_day_of_week')
+        if 'specific_month' in _dict:
+            args['specific_month'] = _dict.get('specific_month')
+        if 'specific_quarter' in _dict:
+            args['specific_quarter'] = _dict.get('specific_quarter')
+        if 'specific_year' in _dict:
+            args['specific_year'] = _dict.get('specific_year')
+        if 'numeric_value' in _dict:
+            args['numeric_value'] = _dict.get('numeric_value')
+        if 'subtype' in _dict:
+            args['subtype'] = _dict.get('subtype')
+        if 'part_of_day' in _dict:
+            args['part_of_day'] = _dict.get('part_of_day')
+        if 'relative_hour' in _dict:
+            args['relative_hour'] = _dict.get('relative_hour')
+        if 'relative_minute' in _dict:
+            args['relative_minute'] = _dict.get('relative_minute')
+        if 'relative_second' in _dict:
+            args['relative_second'] = _dict.get('relative_second')
+        if 'specific_hour' in _dict:
+            args['specific_hour'] = _dict.get('specific_hour')
+        if 'specific_minute' in _dict:
+            args['specific_minute'] = _dict.get('specific_minute')
+        if 'specific_second' in _dict:
+            args['specific_second'] = _dict.get('specific_second')
+        if 'timezone' in _dict:
+            args['timezone'] = _dict.get('timezone')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RuntimeEntityInterpretation object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'calendar_type') and self.calendar_type is not None:
+            _dict['calendar_type'] = self.calendar_type
+        if hasattr(self, 'datetime_link') and self.datetime_link is not None:
+            _dict['datetime_link'] = self.datetime_link
+        if hasattr(self, 'festival') and self.festival is not None:
+            _dict['festival'] = self.festival
+        if hasattr(self, 'granularity') and self.granularity is not None:
+            _dict['granularity'] = self.granularity
+        if hasattr(self, 'range_link') and self.range_link is not None:
+            _dict['range_link'] = self.range_link
+        if hasattr(self, 'range_modifier') and self.range_modifier is not None:
+            _dict['range_modifier'] = self.range_modifier
+        if hasattr(self, 'relative_day') and self.relative_day is not None:
+            _dict['relative_day'] = self.relative_day
+        if hasattr(self, 'relative_month') and self.relative_month is not None:
+            _dict['relative_month'] = self.relative_month
+        if hasattr(self, 'relative_week') and self.relative_week is not None:
+            _dict['relative_week'] = self.relative_week
+        if hasattr(self,
+                   'relative_weekend') and self.relative_weekend is not None:
+            _dict['relative_weekend'] = self.relative_weekend
+        if hasattr(self, 'relative_year') and self.relative_year is not None:
+            _dict['relative_year'] = self.relative_year
+        if hasattr(self, 'specific_day') and self.specific_day is not None:
+            _dict['specific_day'] = self.specific_day
+        if hasattr(self, 'specific_day_of_week'
+                  ) and self.specific_day_of_week is not None:
+            _dict['specific_day_of_week'] = self.specific_day_of_week
+        if hasattr(self, 'specific_month') and self.specific_month is not None:
+            _dict['specific_month'] = self.specific_month
+        if hasattr(self,
+                   'specific_quarter') and self.specific_quarter is not None:
+            _dict['specific_quarter'] = self.specific_quarter
+        if hasattr(self, 'specific_year') and self.specific_year is not None:
+            _dict['specific_year'] = self.specific_year
+        if hasattr(self, 'numeric_value') and self.numeric_value is not None:
+            _dict['numeric_value'] = self.numeric_value
+        if hasattr(self, 'subtype') and self.subtype is not None:
+            _dict['subtype'] = self.subtype
+        if hasattr(self, 'part_of_day') and self.part_of_day is not None:
+            _dict['part_of_day'] = self.part_of_day
+        if hasattr(self, 'relative_hour') and self.relative_hour is not None:
+            _dict['relative_hour'] = self.relative_hour
+        if hasattr(self,
+                   'relative_minute') and self.relative_minute is not None:
+            _dict['relative_minute'] = self.relative_minute
+        if hasattr(self,
+                   'relative_second') and self.relative_second is not None:
+            _dict['relative_second'] = self.relative_second
+        if hasattr(self, 'specific_hour') and self.specific_hour is not None:
+            _dict['specific_hour'] = self.specific_hour
+        if hasattr(self,
+                   'specific_minute') and self.specific_minute is not None:
+            _dict['specific_minute'] = self.specific_minute
+        if hasattr(self,
+                   'specific_second') and self.specific_second is not None:
+            _dict['specific_second'] = self.specific_second
+        if hasattr(self, 'timezone') and self.timezone is not None:
+            _dict['timezone'] = self.timezone
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RuntimeEntityInterpretation object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'RuntimeEntityInterpretation') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'RuntimeEntityInterpretation') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class GranularityEnum(Enum):
+        """
+        The precision or duration of a time range specified by a recognized `@sys-time` or
+        `@sys-date` entity.
+        """
+        DAY = "day"
+        FORTNIGHT = "fortnight"
+        HOUR = "hour"
+        INSTANT = "instant"
+        MINUTE = "minute"
+        MONTH = "month"
+        QUARTER = "quarter"
+        SECOND = "second"
+        WEEK = "week"
+        WEEKEND = "weekend"
+        YEAR = "year"
+
+
+class RuntimeEntityRole():
+    """
+    An object describing the role played by a system entity that is specifies the
+    beginning or end of a range recognized in the user input. This property is included
+    only if the new system entities are enabled for the skill.
+
+    :attr str type: (optional) The relationship of the entity to the range.
+    """
+
+    def __init__(self, *, type: str = None) -> None:
+        """
+        Initialize a RuntimeEntityRole object.
+
+        :param str type: (optional) The relationship of the entity to the range.
+        """
+        self.type = type
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'RuntimeEntityRole':
+        """Initialize a RuntimeEntityRole object from a json dictionary."""
+        args = {}
+        valid_keys = ['type']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class RuntimeEntityRole: '
+                + ', '.join(bad_keys))
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RuntimeEntityRole object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RuntimeEntityRole object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'RuntimeEntityRole') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'RuntimeEntityRole') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class TypeEnum(Enum):
+        """
+        The relationship of the entity to the range.
+        """
+        DATE_FROM = "date_from"
+        DATE_TO = "date_to"
+        NUMBER_FROM = "number_from"
+        NUMBER_TO = "number_to"
+        TIME_FROM = "time_from"
+        TIME_TO = "time_to"
 
 
 class RuntimeIntent():
@@ -1776,7 +2633,7 @@ class RuntimeIntent():
           in the intent.
     """
 
-    def __init__(self, intent, confidence):
+    def __init__(self, intent: str, confidence: float) -> None:
         """
         Initialize a RuntimeIntent object.
 
@@ -1788,7 +2645,7 @@ class RuntimeIntent():
         self.confidence = confidence
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'RuntimeIntent':
         """Initialize a RuntimeIntent object from a json dictionary."""
         args = {}
         valid_keys = ['intent', 'confidence']
@@ -1811,7 +2668,12 @@ class RuntimeIntent():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RuntimeIntent object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'intent') and self.intent is not None:
@@ -1820,17 +2682,21 @@ class RuntimeIntent():
             _dict['confidence'] = self.confidence
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this RuntimeIntent object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'RuntimeIntent') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'RuntimeIntent') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1852,38 +2718,38 @@ class RuntimeResponseGeneric():
           response.
     :attr str description: (optional) The description to show with the the response.
     :attr str preference: (optional) The preferred type of control to display.
-    :attr list[DialogNodeOutputOptionsElement] options: (optional) An array of
+    :attr List[DialogNodeOutputOptionsElement] options: (optional) An array of
           objects describing the options from which the user can choose.
     :attr str message_to_human_agent: (optional) A message to be sent to the human
           agent who will be taking over the conversation.
     :attr str topic: (optional) A label identifying the topic of the conversation,
           derived from the **user_label** property of the relevant node.
-    :attr list[DialogSuggestion] suggestions: (optional) An array of objects
+    :attr List[DialogSuggestion] suggestions: (optional) An array of objects
           describing the possible matching dialog nodes from which the user can choose.
           **Note:** The **suggestions** property is part of the disambiguation feature,
           which is only available for Premium users.
     :attr str header: (optional) The title or introductory text to show before the
           response. This text is defined in the search skill configuration.
-    :attr list[SearchResult] results: (optional) An array of objects containing
+    :attr List[SearchResult] results: (optional) An array of objects containing
           search results.
     """
 
     def __init__(self,
-                 response_type,
+                 response_type: str,
                  *,
-                 text=None,
-                 time=None,
-                 typing=None,
-                 source=None,
-                 title=None,
-                 description=None,
-                 preference=None,
-                 options=None,
-                 message_to_human_agent=None,
-                 topic=None,
-                 suggestions=None,
-                 header=None,
-                 results=None):
+                 text: str = None,
+                 time: int = None,
+                 typing: bool = None,
+                 source: str = None,
+                 title: str = None,
+                 description: str = None,
+                 preference: str = None,
+                 options: List['DialogNodeOutputOptionsElement'] = None,
+                 message_to_human_agent: str = None,
+                 topic: str = None,
+                 suggestions: List['DialogSuggestion'] = None,
+                 header: str = None,
+                 results: List['SearchResult'] = None) -> None:
         """
         Initialize a RuntimeResponseGeneric object.
 
@@ -1902,21 +2768,21 @@ class RuntimeResponseGeneric():
         :param str description: (optional) The description to show with the the
                response.
         :param str preference: (optional) The preferred type of control to display.
-        :param list[DialogNodeOutputOptionsElement] options: (optional) An array of
+        :param List[DialogNodeOutputOptionsElement] options: (optional) An array of
                objects describing the options from which the user can choose.
         :param str message_to_human_agent: (optional) A message to be sent to the
                human agent who will be taking over the conversation.
         :param str topic: (optional) A label identifying the topic of the
                conversation, derived from the **user_label** property of the relevant
                node.
-        :param list[DialogSuggestion] suggestions: (optional) An array of objects
+        :param List[DialogSuggestion] suggestions: (optional) An array of objects
                describing the possible matching dialog nodes from which the user can
                choose.
                **Note:** The **suggestions** property is part of the disambiguation
                feature, which is only available for Premium users.
         :param str header: (optional) The title or introductory text to show before
                the response. This text is defined in the search skill configuration.
-        :param list[SearchResult] results: (optional) An array of objects
+        :param List[SearchResult] results: (optional) An array of objects
                containing search results.
         """
         self.response_type = response_type
@@ -1935,7 +2801,7 @@ class RuntimeResponseGeneric():
         self.results = results
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'RuntimeResponseGeneric':
         """Initialize a RuntimeResponseGeneric object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -1990,7 +2856,12 @@ class RuntimeResponseGeneric():
             ]
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RuntimeResponseGeneric object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'response_type') and self.response_type is not None:
@@ -2024,17 +2895,21 @@ class RuntimeResponseGeneric():
             _dict['results'] = [x._to_dict() for x in self.results]
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this RuntimeResponseGeneric object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'RuntimeResponseGeneric') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'RuntimeResponseGeneric') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2085,13 +2960,13 @@ class SearchResult():
     """
 
     def __init__(self,
-                 id,
-                 result_metadata,
+                 id: str,
+                 result_metadata: 'SearchResultMetadata',
                  *,
-                 body=None,
-                 title=None,
-                 url=None,
-                 highlight=None):
+                 body: str = None,
+                 title: str = None,
+                 url: str = None,
+                 highlight: 'SearchResultHighlight' = None) -> None:
         """
         Initialize a SearchResult object.
 
@@ -2121,7 +2996,7 @@ class SearchResult():
         self.highlight = highlight
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'SearchResult':
         """Initialize a SearchResult object from a json dictionary."""
         args = {}
         valid_keys = [
@@ -2155,7 +3030,12 @@ class SearchResult():
                 _dict.get('highlight'))
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SearchResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'id') and self.id is not None:
@@ -2173,17 +3053,21 @@ class SearchResult():
             _dict['highlight'] = self.highlight._to_dict()
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this SearchResult object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'SearchResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'SearchResult') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2193,27 +3077,32 @@ class SearchResultHighlight():
     An object containing segments of text from search results with query-matching text
     highlighted using HTML <em> tags.
 
-    :attr list[str] body: (optional) An array of strings containing segments taken
+    :attr List[str] body: (optional) An array of strings containing segments taken
           from body text in the search results, with query-matching substrings
           highlighted.
-    :attr list[str] title: (optional) An array of strings containing segments taken
+    :attr List[str] title: (optional) An array of strings containing segments taken
           from title text in the search results, with query-matching substrings
           highlighted.
-    :attr list[str] url: (optional) An array of strings containing segments taken
+    :attr List[str] url: (optional) An array of strings containing segments taken
           from URLs in the search results, with query-matching substrings highlighted.
     """
 
-    def __init__(self, *, body=None, title=None, url=None, **kwargs):
+    def __init__(self,
+                 *,
+                 body: List[str] = None,
+                 title: List[str] = None,
+                 url: List[str] = None,
+                 **kwargs) -> None:
         """
         Initialize a SearchResultHighlight object.
 
-        :param list[str] body: (optional) An array of strings containing segments
+        :param List[str] body: (optional) An array of strings containing segments
                taken from body text in the search results, with query-matching substrings
                highlighted.
-        :param list[str] title: (optional) An array of strings containing segments
+        :param List[str] title: (optional) An array of strings containing segments
                taken from title text in the search results, with query-matching substrings
                highlighted.
-        :param list[str] url: (optional) An array of strings containing segments
+        :param List[str] url: (optional) An array of strings containing segments
                taken from URLs in the search results, with query-matching substrings
                highlighted.
         :param **kwargs: (optional) Any additional properties.
@@ -2225,7 +3114,7 @@ class SearchResultHighlight():
             setattr(self, _key, _value)
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'SearchResultHighlight':
         """Initialize a SearchResultHighlight object from a json dictionary."""
         args = {}
         xtra = _dict.copy()
@@ -2241,7 +3130,12 @@ class SearchResultHighlight():
         args.update(xtra)
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SearchResultHighlight object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'body') and self.body is not None:
@@ -2257,7 +3151,11 @@ class SearchResultHighlight():
                     _dict[_key] = _value
         return _dict
 
-    def __setattr__(self, name, value):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __setattr__(self, name: str, value: object) -> None:
         properties = {'body', 'title', 'url'}
         if not hasattr(self, '_additionalProperties'):
             super(SearchResultHighlight,
@@ -2266,17 +3164,17 @@ class SearchResultHighlight():
             self._additionalProperties.add(name)
         super(SearchResultHighlight, self).__setattr__(name, value)
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Return a `str` version of this SearchResultHighlight object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'SearchResultHighlight') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'SearchResultHighlight') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2293,7 +3191,8 @@ class SearchResultMetadata():
           indicates a greater match to the query parameters.
     """
 
-    def __init__(self, *, confidence=None, score=None):
+    def __init__(self, *, confidence: float = None,
+                 score: float = None) -> None:
         """
         Initialize a SearchResultMetadata object.
 
@@ -2308,7 +3207,7 @@ class SearchResultMetadata():
         self.score = score
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'SearchResultMetadata':
         """Initialize a SearchResultMetadata object from a json dictionary."""
         args = {}
         valid_keys = ['confidence', 'score']
@@ -2323,7 +3222,12 @@ class SearchResultMetadata():
             args['score'] = _dict.get('score')
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SearchResultMetadata object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'confidence') and self.confidence is not None:
@@ -2332,17 +3236,21 @@ class SearchResultMetadata():
             _dict['score'] = self.score
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this SearchResultMetadata object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'SearchResultMetadata') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'SearchResultMetadata') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2354,7 +3262,7 @@ class SessionResponse():
     :attr str session_id: The session ID.
     """
 
-    def __init__(self, session_id):
+    def __init__(self, session_id: str) -> None:
         """
         Initialize a SessionResponse object.
 
@@ -2363,7 +3271,7 @@ class SessionResponse():
         self.session_id = session_id
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def from_dict(cls, _dict: Dict) -> 'SessionResponse':
         """Initialize a SessionResponse object from a json dictionary."""
         args = {}
         valid_keys = ['session_id']
@@ -2380,23 +3288,32 @@ class SessionResponse():
             )
         return cls(**args)
 
-    def _to_dict(self):
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SessionResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'session_id') and self.session_id is not None:
             _dict['session_id'] = self.session_id
         return _dict
 
-    def __str__(self):
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
         """Return a `str` version of this SessionResponse object."""
         return json.dumps(self._to_dict(), indent=2)
 
-    def __eq__(self, other):
+    def __eq__(self, other: 'SessionResponse') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
         if not isinstance(other, self.__class__):
             return False
         return self.__dict__ == other.__dict__
 
-    def __ne__(self, other):
+    def __ne__(self, other: 'SessionResponse') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other

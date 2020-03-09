@@ -1,233 +1,717 @@
-# coding: utf-8
-import responses
-import ibm_watson
+# -*- coding: utf-8 -*-
+# (C) Copyright IBM Corp. 2016, 2020.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+from datetime import datetime
+from ibm_cloud_sdk_core.authenticators.no_auth_authenticator import NoAuthAuthenticator
+import inspect
 import json
-import os
-import jwt
-import time
+import pytest
+import responses
+import tempfile
+import ibm_watson.visual_recognition_v3
+from ibm_watson.visual_recognition_v3 import *
 
-from unittest import TestCase
-from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+base_url = 'https://gateway.watsonplatform.net/visual-recognition/api'
 
-base_url = "https://gateway.watsonplatform.net/visual-recognition/api/"
+##############################################################################
+# Start of Service: General
+##############################################################################
+# region
 
-def get_access_token():
-    access_token_layout = {
-        "username": "dummy",
-        "role": "Admin",
-        "permissions": [
-            "administrator",
-            "manage_catalog"
-        ],
-        "sub": "admin",
-        "iss": "sss",
-        "aud": "sss",
-        "uid": "sss",
-        "iat": 3600,
-        "exp": int(time.time())
-    }
 
-    access_token = jwt.encode(access_token_layout, 'secret', algorithm='HS256', headers={'kid': '230498151c214b788dd97f22b85410a5'})
-    return access_token.decode('utf-8')
+#-----------------------------------------------------------------------------
+# Test Class for classify
+#-----------------------------------------------------------------------------
+class TestClassify():
 
-class TestVisualRecognitionV3(TestCase):
-    @classmethod
-    def setUp(cls):
-        iam_url = "https://iam.cloud.ibm.com/identity/token"
-        iam_token_response = {
-            "access_token": get_access_token(),
-            "token_type": "Bearer",
-            "expires_in": 3600,
-            "expiration": 1524167011,
-            "refresh_token": "jy4gl91BQ"
-        }
-        responses.add(responses.POST, url=iam_url, body=json.dumps(iam_token_response), status=200)
-
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_get_classifier(self):
-        authenticator = IAMAuthenticator('bogusapikey')
-        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', authenticator=authenticator)
-        gc_url = "{0}{1}".format(base_url, 'v3/classifiers/bogusnumber')
+    def test_classify_response(self):
+        body = self.construct_full_body()
+        response = fake_response_ClassifiedImages_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
 
-        response = {
-            "classifier_id": "bogusnumber",
-            "name": "Dog Breeds",
-            "owner": "58b61352-678c-44d1-9f40-40edf4ea8d19",
-            "status": "failed",
-            "created": "2017-08-25T06:39:01.968Z",
-            "classes": [{"class": "goldenretriever"}]
-            }
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_classify_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_ClassifiedImages_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
 
-        responses.add(responses.GET,
-                      gc_url,
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_classify_empty(self):
+        check_empty_response(self)
+        assert len(responses.calls) == 1
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v3/classify'
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.POST,
+                      url,
                       body=json.dumps(response),
                       status=200,
                       content_type='application/json')
-        vr_service.get_classifier(classifier_id='bogusnumber')
 
-        assert len(responses.calls) == 2
+    def call_service(self, body):
+        service = VisualRecognitionV3(
+            authenticator=NoAuthAuthenticator(),
+            version='2018-03-19',
+        )
+        service.set_service_url(base_url)
+        output = service.classify(**body)
+        return output
 
+    def construct_full_body(self):
+        body = dict()
+        body['images_file'] = tempfile.NamedTemporaryFile()
+        body['images_filename'] = "string1"
+        body['images_file_content_type'] = "string1"
+        body['url'] = "string1"
+        body['threshold'] = 12345.0
+        body['owners'] = []
+        body['classifier_ids'] = []
+        body['accept_language'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        return body
+
+
+# endregion
+##############################################################################
+# End of Service: General
+##############################################################################
+
+##############################################################################
+# Start of Service: Custom
+##############################################################################
+# region
+
+
+#-----------------------------------------------------------------------------
+# Test Class for create_classifier
+#-----------------------------------------------------------------------------
+class TestCreateClassifier():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_delete_classifier(self):
-        authenticator = IAMAuthenticator('bogusapikey')
-        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', authenticator=authenticator)
+    def test_create_classifier_response(self):
+        body = self.construct_full_body()
+        response = fake_response_Classifier_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
 
-        gc_url = "{0}{1}".format(base_url, 'v3/classifiers/bogusnumber')
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_classifier_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_Classifier_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
 
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_classifier_empty(self):
+        check_empty_required_params(self, fake_response_Classifier_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v3/classifiers'
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.POST,
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
+    def call_service(self, body):
+        service = VisualRecognitionV3(
+            authenticator=NoAuthAuthenticator(),
+            version='2018-03-19',
+        )
+        service.set_service_url(base_url)
+        output = service.create_classifier(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['name'] = "string1"
+        body['positive_examples'] = {"mock": "data"}
+        body['negative_examples'] = tempfile.NamedTemporaryFile()
+        body['negative_examples_filename'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['name'] = "string1"
+        body['positive_examples'] = {"mock": "data"}
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for list_classifiers
+#-----------------------------------------------------------------------------
+class TestListClassifiers():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_classifiers_response(self):
+        body = self.construct_full_body()
+        response = fake_response_Classifiers_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_classifiers_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_Classifiers_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_classifiers_empty(self):
+        check_empty_response(self)
+        assert len(responses.calls) == 1
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v3/classifiers'
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
+    def call_service(self, body):
+        service = VisualRecognitionV3(
+            authenticator=NoAuthAuthenticator(),
+            version='2018-03-19',
+        )
+        service.set_service_url(base_url)
+        output = service.list_classifiers(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['verbose'] = True
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for get_classifier
+#-----------------------------------------------------------------------------
+class TestGetClassifier():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_classifier_response(self):
+        body = self.construct_full_body()
+        response = fake_response_Classifier_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_classifier_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_Classifier_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_classifier_empty(self):
+        check_empty_required_params(self, fake_response_Classifier_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v3/classifiers/{0}'.format(body['classifier_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
+    def call_service(self, body):
+        service = VisualRecognitionV3(
+            authenticator=NoAuthAuthenticator(),
+            version='2018-03-19',
+        )
+        service.set_service_url(base_url)
+        output = service.get_classifier(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['classifier_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['classifier_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for update_classifier
+#-----------------------------------------------------------------------------
+class TestUpdateClassifier():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_classifier_response(self):
+        body = self.construct_full_body()
+        response = fake_response_Classifier_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_classifier_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_Classifier_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_classifier_empty(self):
+        check_empty_required_params(self, fake_response_Classifier_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v3/classifiers/{0}'.format(body['classifier_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.POST,
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
+    def call_service(self, body):
+        service = VisualRecognitionV3(
+            authenticator=NoAuthAuthenticator(),
+            version='2018-03-19',
+        )
+        service.set_service_url(base_url)
+        output = service.update_classifier(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['classifier_id'] = "string1"
+        body['positive_examples'] = {"mock": "data"}
+        body['negative_examples'] = tempfile.NamedTemporaryFile()
+        body['negative_examples_filename'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['classifier_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for delete_classifier
+#-----------------------------------------------------------------------------
+class TestDeleteClassifier():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_classifier_response(self):
+        body = self.construct_full_body()
+        response = fake_response__json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_classifier_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response__json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_classifier_empty(self):
+        check_empty_required_params(self, fake_response__json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v3/classifiers/{0}'.format(body['classifier_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                      gc_url,
-                      body=json.dumps({'response': 200}),
+                      url,
+                      body=json.dumps(response),
                       status=200,
-                      content_type='application/json')
-        vr_service.delete_classifier(classifier_id='bogusnumber')
+                      content_type='')
 
-        assert len(responses.calls) == 2
+    def call_service(self, body):
+        service = VisualRecognitionV3(
+            authenticator=NoAuthAuthenticator(),
+            version='2018-03-19',
+        )
+        service.set_service_url(base_url)
+        output = service.delete_classifier(**body)
+        return output
 
+    def construct_full_body(self):
+        body = dict()
+        body['classifier_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['classifier_id'] = "string1"
+        return body
+
+
+# endregion
+##############################################################################
+# End of Service: Custom
+##############################################################################
+
+##############################################################################
+# Start of Service: CoreML
+##############################################################################
+# region
+
+
+#-----------------------------------------------------------------------------
+# Test Class for get_core_ml_model
+#-----------------------------------------------------------------------------
+class TestGetCoreMlModel():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_list_classifiers(self):
-        authenticator = IAMAuthenticator('bogusapikey')
-        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', authenticator=authenticator)
+    def test_get_core_ml_model_response(self):
+        body = self.construct_full_body()
+        response = fake_response_BinaryIO_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
 
-        gc_url = "{0}{1}".format(base_url, 'v3/classifiers')
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_core_ml_model_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_BinaryIO_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
 
-        response = {"classifiers": [
-            {
-                "classifier_id": "InsuranceClaims_1362331461",
-                "name": "Insurance Claims",
-                "status": "ready"
-            },
-            {
-                "classifier_id": "DogBreeds_1539707331",
-                "name": "Dog Breeds",
-                "status": "ready"
-            }
-        ]}
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_core_ml_model_empty(self):
+        check_empty_required_params(self, fake_response_BinaryIO_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
 
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v3/classifiers/{0}/core_ml_model'.format(
+            body['classifier_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      gc_url,
+                      url,
                       body=json.dumps(response),
                       status=200,
-                      content_type='application/json')
-        vr_service.list_classifiers()
+                      content_type='')
 
-        assert len(responses.calls) == 2
+    def call_service(self, body):
+        service = VisualRecognitionV3(
+            authenticator=NoAuthAuthenticator(),
+            version='2018-03-19',
+        )
+        service.set_service_url(base_url)
+        output = service.get_core_ml_model(**body)
+        return output
 
+    def construct_full_body(self):
+        body = dict()
+        body['classifier_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['classifier_id'] = "string1"
+        return body
+
+
+# endregion
+##############################################################################
+# End of Service: CoreML
+##############################################################################
+
+##############################################################################
+# Start of Service: UserData
+##############################################################################
+# region
+
+
+#-----------------------------------------------------------------------------
+# Test Class for delete_user_data
+#-----------------------------------------------------------------------------
+class TestDeleteUserData():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_create_classifier(self):
-        authenticator = IAMAuthenticator('bogusapikey')
-        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', authenticator=authenticator)
+    def test_delete_user_data_response(self):
+        body = self.construct_full_body()
+        response = fake_response__json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
 
-        gc_url = "{0}{1}".format(base_url, 'v3/classifiers')
-
-        response = {
-            "classifier_id": "DogBreeds_2014254824",
-            "name": "Dog Breeds",
-            "owner": "58b61352-678c-44d1-9f40-40edf4ea8d19",
-            "status": "failed",
-            "created": "2017-08-25T06:39:01.968Z",
-            "classes": [{"class": "goldenretriever"}]
-            }
-
-        responses.add(responses.POST,
-                      gc_url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
-        with open(os.path.join(os.path.dirname(__file__), '../../resources/cars.zip'), 'rb') as cars, \
-            open(os.path.join(os.path.dirname(__file__), '../../resources/trucks.zip'), 'rb') as trucks:
-            vr_service.create_classifier('Cars vs Trucks', positive_examples={'cars': cars}, negative_examples=trucks)
-
-        assert len(responses.calls) == 2
-
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_update_classifier(self):
-        authenticator = IAMAuthenticator('bogusapikey')
-        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', authenticator=authenticator)
+    def test_delete_user_data_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response__json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
 
-        gc_url = "{0}{1}".format(base_url, 'v3/classifiers/bogusid')
-
-        response = {
-            "classifier_id": "bogusid",
-            "name": "Insurance Claims",
-            "owner": "58b61352-678c-44d1-9f40-40edf4ea8d19",
-            "status": "ready",
-            "created": "2017-07-17T22:17:14.860Z",
-            "classes": [
-                {"class": "motorcycleaccident"},
-                {"class": "flattire"},
-                {"class": "brokenwinshield"}
-                ]
-            }
-
-        responses.add(responses.POST,
-                      gc_url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
-        vr_service.update_classifier(classifier_id="bogusid")
-        assert len(responses.calls) == 2
-
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
     @responses.activate
-    def test_classify(self):
-        authenticator = IAMAuthenticator('bogusapikey')
-        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', authenticator=authenticator)
+    def test_delete_user_data_empty(self):
+        check_empty_required_params(self, fake_response__json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
 
-        gc_url = "{0}{1}".format(base_url, 'v3/classify')
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v3/user_data'
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
 
-        response = {"images": [
-            {"image": "test.jpg",
-             "classifiers": [
-                 {"classes": [
-                     {"score": 0.95, "class": "tiger", "type_hierarchy": "/animal/mammal/carnivore/feline/big cat/tiger"},
-                     {"score": 0.997, "class": "big cat"},
-                     {"score": 0.998, "class": "feline"},
-                     {"score": 0.998, "class": "carnivore"},
-                     {"score": 0.998, "class": "mammal"},
-                     {"score": 0.999, "class": "animal"}
-                     ],
-                  "classifier_id": "default",
-                  "name": "default"}
-                 ]
-            }
-            ],
-                    "custom_classes": 0,
-                    "images_processed": 1
-                   }
-
-        responses.add(responses.GET,
-                      gc_url,
+    def add_mock_response(self, url, response):
+        responses.add(responses.DELETE,
+                      url,
                       body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-        responses.add(responses.POST,
-                      gc_url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
+                      status=202,
+                      content_type='')
 
-        vr_service.classify(parameters='{"url": "http://google.com"}')
+    def call_service(self, body):
+        service = VisualRecognitionV3(
+            authenticator=NoAuthAuthenticator(),
+            version='2018-03-19',
+        )
+        service.set_service_url(base_url)
+        output = service.delete_user_data(**body)
+        return output
 
-        vr_service.classify(parameters=json.dumps({'url': 'http://google.com', 'classifier_ids': ['one', 'two', 'three']}))
-        vr_service.classify(parameters=json.dumps({'url': 'http://google.com', 'owners': ['me', 'IBM']}))
+    def construct_full_body(self):
+        body = dict()
+        body['customer_id'] = "string1"
+        return body
 
-        with open(os.path.join(os.path.dirname(__file__), '../../resources/test.jpg'), 'rb') as image_file:
-            vr_service.classify(images_file=image_file)
-        assert len(responses.calls) == 8
+    def construct_required_body(self):
+        body = dict()
+        body['customer_id'] = "string1"
+        return body
 
-    @responses.activate
-    def test_delete_user_data(self):
-        url = "{0}{1}".format(base_url, 'v3/user_data')
-        responses.add(
-            responses.DELETE,
-            url,
-            body='{"description": "success" }',
-            status=204,
-            content_type='application_json')
 
-        authenticator = IAMAuthenticator('bogusapikey')
-        vr_service = ibm_watson.VisualRecognitionV3('2016-10-20', authenticator=authenticator)
-        response = vr_service.delete_user_data('id').get_result()
-        assert response is None
-        assert len(responses.calls) == 2
+# endregion
+##############################################################################
+# End of Service: UserData
+##############################################################################
+
+
+def check_empty_required_params(obj, response):
+    """Test function to assert that the operation will throw an error when given empty required data
+
+    Args:
+        obj: The generated test function
+
+    """
+    body = obj.construct_full_body()
+    body = {k: None for k in body.keys()}
+    error = False
+    try:
+        send_request(obj, body, response)
+    except ValueError as e:
+        error = True
+    assert error
+
+
+def check_missing_required_params(obj):
+    """Test function to assert that the operation will throw an error when missing required data
+
+    Args:
+        obj: The generated test function
+
+    """
+    body = obj.construct_full_body()
+    url = obj.make_url(body)
+    error = False
+    try:
+        send_request(obj, {}, {}, url=url)
+    except TypeError as e:
+        error = True
+    assert error
+
+
+def check_empty_response(obj):
+    """Test function to assert that the operation will return an empty response when given an empty request
+
+    Args:
+        obj: The generated test function
+
+    """
+    body = obj.construct_full_body()
+    url = obj.make_url(body)
+    send_request(obj, {}, {}, url=url)
+
+
+def send_request(obj, body, response, url=None):
+    """Test function to create a request, send it, and assert its accuracy to the mock response
+
+    Args:
+        obj: The generated test function
+        body: Dict filled with fake data for calling the service
+        response_str: Mock response string
+
+    """
+    if not url:
+        url = obj.make_url(body)
+    obj.add_mock_response(url, response)
+    output = obj.call_service(body)
+    assert responses.calls[0].request.url.startswith(url)
+    assert output.get_result() == response
+
+
+####################
+## Mock Responses ##
+####################
+
+fake_response__json = None
+fake_response_ClassifiedImages_json = """{"custom_classes": 14, "images_processed": 16, "images": [], "warnings": []}"""
+fake_response_Classifier_json = """{"classifier_id": "fake_classifier_id", "name": "fake_name", "owner": "fake_owner", "status": "fake_status", "core_ml_enabled": false, "explanation": "fake_explanation", "created": "2017-05-16T13:56:54.957Z", "classes": [], "retrained": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z"}"""
+fake_response_Classifiers_json = """{"classifiers": []}"""
+fake_response_Classifier_json = """{"classifier_id": "fake_classifier_id", "name": "fake_name", "owner": "fake_owner", "status": "fake_status", "core_ml_enabled": false, "explanation": "fake_explanation", "created": "2017-05-16T13:56:54.957Z", "classes": [], "retrained": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z"}"""
+fake_response_Classifier_json = """{"classifier_id": "fake_classifier_id", "name": "fake_name", "owner": "fake_owner", "status": "fake_status", "core_ml_enabled": false, "explanation": "fake_explanation", "created": "2017-05-16T13:56:54.957Z", "classes": [], "retrained": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z"}"""
+fake_response_BinaryIO_json = """Contents of response byte-stream..."""

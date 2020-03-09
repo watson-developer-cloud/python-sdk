@@ -5,8 +5,9 @@ import os
 from os.path import abspath
 from unittest import TestCase
 
-@pytest.mark.skipif(
-    os.getenv('VCAP_SERVICES') is None, reason='requires VCAP_SERVICES')
+
+@pytest.mark.skipif(os.getenv('VCAP_SERVICES') is None,
+                    reason='requires VCAP_SERVICES')
 class IntegrationTestVisualRecognitionV3(TestCase):
     visual_recognition = None
     classifier_id = None
@@ -15,10 +16,8 @@ class IntegrationTestVisualRecognitionV3(TestCase):
     def setup_class(cls):
         cls.visual_recognition = ibm_watson.VisualRecognitionV3('2018-03-19')
         cls.visual_recognition.set_default_headers({
-            'X-Watson-Learning-Opt-Out':
-            '1',
-            'X-Watson-Test':
-            '1'
+            'X-Watson-Learning-Opt-Out': '1',
+            'X-Watson-Test': '1'
         })
         cls.classifier_id = 'sdkxtestxclassifierxdoxnotxdel_1089651138'
 
@@ -37,19 +36,24 @@ class IntegrationTestVisualRecognitionV3(TestCase):
             open(abspath('resources/trucks.zip'), 'rb') as trucks:
             classifier = self.visual_recognition.create_classifier(
                 'CarsVsTrucks',
-                positive_examples={'cars': cars},
+                positive_examples={
+                    'cars': cars
+                },
                 negative_examples=trucks,
-                ).get_result()
+            ).get_result()
 
         assert classifier is not None
 
         classifier_id = classifier['classifier_id']
-        output = self.visual_recognition.get_classifier(classifier_id).get_result()
+        output = self.visual_recognition.get_classifier(
+            classifier_id).get_result()
         assert output is not None
 
-        output = self.visual_recognition.delete_classifier(classifier_id).get_result()
+        output = self.visual_recognition.delete_classifier(
+            classifier_id).get_result()
 
     @pytest.mark.skip(reason="temporay disable")
     def test_core_ml_model(self):
-        core_ml_model = self.visual_recognition.get_core_ml_model(self.classifier_id).get_result()
+        core_ml_model = self.visual_recognition.get_core_ml_model(
+            self.classifier_id).get_result()
         assert core_ml_model.ok

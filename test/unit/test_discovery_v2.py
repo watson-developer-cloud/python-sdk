@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2019.
+# (C) Copyright IBM Corp. 2019, 2020.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,10 +13,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from datetime import datetime
 from ibm_cloud_sdk_core.authenticators.no_auth_authenticator import NoAuthAuthenticator
+import inspect
 import json
+import pytest
 import responses
 import tempfile
+import ibm_watson.discovery_v2
 from ibm_watson.discovery_v2 import *
 
 base_url = 'https://fake'
@@ -79,8 +83,10 @@ class TestListCollections():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = DiscoveryV2(authenticator=NoAuthAuthenticator(),
-                              version='2019-11-22')
+        service = DiscoveryV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-11-22',
+        )
         service.set_service_url(base_url)
         output = service.list_collections(**body)
         return output
@@ -158,8 +164,10 @@ class TestQuery():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = DiscoveryV2(authenticator=NoAuthAuthenticator(),
-                              version='2019-11-22')
+        service = DiscoveryV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-11-22',
+        )
         service.set_service_url(base_url)
         output = service.query(**body)
         return output
@@ -259,8 +267,10 @@ class TestGetAutocompletion():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = DiscoveryV2(authenticator=NoAuthAuthenticator(),
-                              version='2019-11-22')
+        service = DiscoveryV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-11-22',
+        )
         service.set_service_url(base_url)
         output = service.get_autocompletion(**body)
         return output
@@ -333,8 +343,10 @@ class TestQueryNotices():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = DiscoveryV2(authenticator=NoAuthAuthenticator(),
-                              version='2019-11-22')
+        service = DiscoveryV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-11-22',
+        )
         service.set_service_url(base_url)
         output = service.query_notices(**body)
         return output
@@ -406,8 +418,10 @@ class TestListFields():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = DiscoveryV2(authenticator=NoAuthAuthenticator(),
-                              version='2019-11-22')
+        service = DiscoveryV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-11-22',
+        )
         service.set_service_url(base_url)
         output = service.list_fields(**body)
         return output
@@ -488,8 +502,10 @@ class TestGetComponentSettings():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = DiscoveryV2(authenticator=NoAuthAuthenticator(),
-                              version='2019-11-22')
+        service = DiscoveryV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-11-22',
+        )
         service.set_service_url(base_url)
         output = service.get_component_settings(**body)
         return output
@@ -568,8 +584,10 @@ class TestAddDocument():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = DiscoveryV2(authenticator=NoAuthAuthenticator(),
-                              version='2019-11-22')
+        service = DiscoveryV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-11-22',
+        )
         service.set_service_url(base_url)
         output = service.add_document(**body)
         return output
@@ -644,8 +662,10 @@ class TestUpdateDocument():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = DiscoveryV2(authenticator=NoAuthAuthenticator(),
-                              version='2019-11-22')
+        service = DiscoveryV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-11-22',
+        )
         service.set_service_url(base_url)
         output = service.update_document(**body)
         return output
@@ -723,8 +743,10 @@ class TestDeleteDocument():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = DiscoveryV2(authenticator=NoAuthAuthenticator(),
-                              version='2019-11-22')
+        service = DiscoveryV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-11-22',
+        )
         service.set_service_url(base_url)
         output = service.delete_document(**body)
         return output
@@ -808,8 +830,10 @@ class TestListTrainingQueries():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = DiscoveryV2(authenticator=NoAuthAuthenticator(),
-                              version='2019-11-22')
+        service = DiscoveryV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-11-22',
+        )
         service.set_service_url(base_url)
         output = service.list_training_queries(**body)
         return output
@@ -877,8 +901,10 @@ class TestDeleteTrainingQueries():
                       content_type='')
 
     def call_service(self, body):
-        service = DiscoveryV2(authenticator=NoAuthAuthenticator(),
-                              version='2019-11-22')
+        service = DiscoveryV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-11-22',
+        )
         service.set_service_url(base_url)
         output = service.delete_training_queries(**body)
         return output
@@ -946,8 +972,10 @@ class TestCreateTrainingQuery():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = DiscoveryV2(authenticator=NoAuthAuthenticator(),
-                              version='2019-11-22')
+        service = DiscoveryV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-11-22',
+        )
         service.set_service_url(base_url)
         output = service.create_training_query(**body)
         return output
@@ -968,6 +996,7 @@ class TestCreateTrainingQuery():
         body.update({
             "natural_language_query": "string1",
             "examples": [],
+            "filter": "string1",
         })
         return body
 
@@ -1024,8 +1053,10 @@ class TestGetTrainingQuery():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = DiscoveryV2(authenticator=NoAuthAuthenticator(),
-                              version='2019-11-22')
+        service = DiscoveryV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-11-22',
+        )
         service.set_service_url(base_url)
         output = service.get_training_query(**body)
         return output
@@ -1095,8 +1126,10 @@ class TestUpdateTrainingQuery():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = DiscoveryV2(authenticator=NoAuthAuthenticator(),
-                              version='2019-11-22')
+        service = DiscoveryV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-11-22',
+        )
         service.set_service_url(base_url)
         output = service.update_training_query(**body)
         return output
@@ -1208,6 +1241,6 @@ fake_response_DocumentAccepted_json = """{"document_id": "fake_document_id", "st
 fake_response_DocumentAccepted_json = """{"document_id": "fake_document_id", "status": "fake_status"}"""
 fake_response_DeleteDocumentResponse_json = """{"document_id": "fake_document_id", "status": "fake_status"}"""
 fake_response_TrainingQuerySet_json = """{"queries": []}"""
-fake_response_TrainingQuery_json = """{"query_id": "fake_query_id", "natural_language_query": "fake_natural_language_query", "filter": "fake_filter", "examples": []}"""
-fake_response_TrainingQuery_json = """{"query_id": "fake_query_id", "natural_language_query": "fake_natural_language_query", "filter": "fake_filter", "examples": []}"""
-fake_response_TrainingQuery_json = """{"query_id": "fake_query_id", "natural_language_query": "fake_natural_language_query", "filter": "fake_filter", "examples": []}"""
+fake_response_TrainingQuery_json = """{"query_id": "fake_query_id", "natural_language_query": "fake_natural_language_query", "filter": "fake_filter", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "examples": []}"""
+fake_response_TrainingQuery_json = """{"query_id": "fake_query_id", "natural_language_query": "fake_natural_language_query", "filter": "fake_filter", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "examples": []}"""
+fake_response_TrainingQuery_json = """{"query_id": "fake_query_id", "natural_language_query": "fake_natural_language_query", "filter": "fake_filter", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "examples": []}"""

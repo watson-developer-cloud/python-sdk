@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2019.
+# (C) Copyright IBM Corp. 2019, 2020.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,9 +13,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from datetime import datetime
 from ibm_cloud_sdk_core.authenticators.no_auth_authenticator import NoAuthAuthenticator
+import inspect
+import json
+import pytest
 import responses
 import tempfile
+import ibm_watson.visual_recognition_v4
 from ibm_watson.visual_recognition_v4 import *
 
 base_url = 'https://gateway.watsonplatform.net/visual-recognition/api'
@@ -77,25 +82,27 @@ class TestAnalyze():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = VisualRecognitionV4(authenticator=NoAuthAuthenticator(),
-                                      version='2019-02-11')
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
         service.set_service_url(base_url)
         output = service.analyze(**body)
         return output
 
     def construct_full_body(self):
         body = dict()
-        body['collection_ids'] = ['collection_id1, collection_id2']
-        body['features'] = ['test']
-        body['image_url'] = ['https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/American_Eskimo_Dog.jpg/1280px-American_Eskimo_Dog.jpg']
+        body['collection_ids'] = []
+        body['features'] = []
+        body['images_file'] = []
+        body['image_url'] = []
         body['threshold'] = 12345.0
-        body['images_file'] = [FileWithMetadata(tempfile.NamedTemporaryFile())]
         return body
 
     def construct_required_body(self):
         body = dict()
-        body['collection_ids'] = ['fake']
-        body['features'] = [AnalyzeEnums.Features.OBJECTS.value]
+        body['collection_ids'] = []
+        body['features'] = []
         return body
 
 
@@ -160,8 +167,10 @@ class TestCreateCollection():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = VisualRecognitionV4(authenticator=NoAuthAuthenticator(),
-                                      version='2019-02-11')
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
         service.set_service_url(base_url)
         output = service.create_collection(**body)
         return output
@@ -233,8 +242,10 @@ class TestListCollections():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = VisualRecognitionV4(authenticator=NoAuthAuthenticator(),
-                                      version='2019-02-11')
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
         service.set_service_url(base_url)
         output = service.list_collections(**body)
         return output
@@ -299,8 +310,10 @@ class TestGetCollection():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = VisualRecognitionV4(authenticator=NoAuthAuthenticator(),
-                                      version='2019-02-11')
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
         service.set_service_url(base_url)
         output = service.get_collection(**body)
         return output
@@ -367,8 +380,10 @@ class TestUpdateCollection():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = VisualRecognitionV4(authenticator=NoAuthAuthenticator(),
-                                      version='2019-02-11')
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
         service.set_service_url(base_url)
         output = service.update_collection(**body)
         return output
@@ -439,8 +454,10 @@ class TestDeleteCollection():
                       content_type='')
 
     def call_service(self, body):
-        service = VisualRecognitionV4(authenticator=NoAuthAuthenticator(),
-                                      version='2019-02-11')
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
         service.set_service_url(base_url)
         output = service.delete_collection(**body)
         return output
@@ -518,8 +535,10 @@ class TestAddImages():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = VisualRecognitionV4(authenticator=NoAuthAuthenticator(),
-                                      version='2019-02-11')
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
         service.set_service_url(base_url)
         output = service.add_images(**body)
         return output
@@ -589,8 +608,10 @@ class TestListImages():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = VisualRecognitionV4(authenticator=NoAuthAuthenticator(),
-                                      version='2019-02-11')
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
         service.set_service_url(base_url)
         output = service.list_images(**body)
         return output
@@ -658,8 +679,10 @@ class TestGetImageDetails():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = VisualRecognitionV4(authenticator=NoAuthAuthenticator(),
-                                      version='2019-02-11')
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
         service.set_service_url(base_url)
         output = service.get_image_details(**body)
         return output
@@ -729,8 +752,10 @@ class TestDeleteImage():
                       content_type='')
 
     def call_service(self, body):
-        service = VisualRecognitionV4(authenticator=NoAuthAuthenticator(),
-                                      version='2019-02-11')
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
         service.set_service_url(base_url)
         output = service.delete_image(**body)
         return output
@@ -800,8 +825,10 @@ class TestGetJpegImage():
                       content_type='')
 
     def call_service(self, body):
-        service = VisualRecognitionV4(authenticator=NoAuthAuthenticator(),
-                                      version='2019-02-11')
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
         service.set_service_url(base_url)
         output = service.get_jpeg_image(**body)
         return output
@@ -823,6 +850,313 @@ class TestGetJpegImage():
 # endregion
 ##############################################################################
 # End of Service: Images
+##############################################################################
+
+##############################################################################
+# Start of Service: Objects
+##############################################################################
+# region
+
+
+#-----------------------------------------------------------------------------
+# Test Class for list_object_metadata
+#-----------------------------------------------------------------------------
+class TestListObjectMetadata():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_object_metadata_response(self):
+        body = self.construct_full_body()
+        response = fake_response_ObjectMetadataList_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_object_metadata_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_ObjectMetadataList_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_object_metadata_empty(self):
+        check_empty_required_params(self, fake_response_ObjectMetadataList_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v4/collections/{0}/objects'.format(body['collection_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
+    def call_service(self, body):
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
+        service.set_service_url(base_url)
+        output = service.list_object_metadata(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['collection_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['collection_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for update_object_metadata
+#-----------------------------------------------------------------------------
+class TestUpdateObjectMetadata():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_object_metadata_response(self):
+        body = self.construct_full_body()
+        response = fake_response_UpdateObjectMetadata_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_object_metadata_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_UpdateObjectMetadata_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_object_metadata_empty(self):
+        check_empty_required_params(self,
+                                    fake_response_UpdateObjectMetadata_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v4/collections/{0}/objects/{1}'.format(
+            body['collection_id'], body['object'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.POST,
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
+    def call_service(self, body):
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
+        service.set_service_url(base_url)
+        output = service.update_object_metadata(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['collection_id'] = "string1"
+        body['object'] = "string1"
+        body.update({
+            "new_object": "string1",
+        })
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['collection_id'] = "string1"
+        body['object'] = "string1"
+        body.update({
+            "new_object": "string1",
+        })
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for get_object_metadata
+#-----------------------------------------------------------------------------
+class TestGetObjectMetadata():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_object_metadata_response(self):
+        body = self.construct_full_body()
+        response = fake_response_ObjectMetadata_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_object_metadata_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_ObjectMetadata_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_object_metadata_empty(self):
+        check_empty_required_params(self, fake_response_ObjectMetadata_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v4/collections/{0}/objects/{1}'.format(
+            body['collection_id'], body['object'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='application/json')
+
+    def call_service(self, body):
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
+        service.set_service_url(base_url)
+        output = service.get_object_metadata(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['collection_id'] = "string1"
+        body['object'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['collection_id'] = "string1"
+        body['object'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for delete_object
+#-----------------------------------------------------------------------------
+class TestDeleteObject():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_object_response(self):
+        body = self.construct_full_body()
+        response = fake_response__json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_object_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response__json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_object_empty(self):
+        check_empty_required_params(self, fake_response__json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v4/collections/{0}/objects/{1}'.format(
+            body['collection_id'], body['object'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.DELETE,
+                      url,
+                      body=json.dumps(response),
+                      status=200,
+                      content_type='')
+
+    def call_service(self, body):
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
+        service.set_service_url(base_url)
+        output = service.delete_object(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['collection_id'] = "string1"
+        body['object'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['collection_id'] = "string1"
+        body['object'] = "string1"
+        return body
+
+
+# endregion
+##############################################################################
+# End of Service: Objects
 ##############################################################################
 
 ##############################################################################
@@ -882,8 +1216,10 @@ class TestTrain():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = VisualRecognitionV4(authenticator=NoAuthAuthenticator(),
-                                      version='2019-02-11')
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
         service.set_service_url(base_url)
         output = service.train(**body)
         return output
@@ -952,8 +1288,10 @@ class TestAddImageTrainingData():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = VisualRecognitionV4(authenticator=NoAuthAuthenticator(),
-                                      version='2019-02-11')
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
         service.set_service_url(base_url)
         output = service.add_image_training_data(**body)
         return output
@@ -1027,8 +1365,10 @@ class TestGetTrainingUsage():
                       content_type='application/json')
 
     def call_service(self, body):
-        service = VisualRecognitionV4(authenticator=NoAuthAuthenticator(),
-                                      version='2019-02-11')
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
         service.set_service_url(base_url)
         output = service.get_training_usage(**body)
         return output
@@ -1106,8 +1446,10 @@ class TestDeleteUserData():
                       content_type='')
 
     def call_service(self, body):
-        service = VisualRecognitionV4(authenticator=NoAuthAuthenticator(),
-                                      version='2019-02-11')
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+        )
         service.set_service_url(base_url)
         output = service.delete_user_data(**body)
         return output
@@ -1206,6 +1548,9 @@ fake_response_ImageDetailsList_json = """{"images": [], "warnings": [], "trace":
 fake_response_ImageSummaryList_json = """{"images": []}"""
 fake_response_ImageDetails_json = """{"image_id": "fake_image_id", "updated": "2017-05-16T13:56:54.957Z", "created": "2017-05-16T13:56:54.957Z", "source": {"type": "fake_type", "filename": "fake_filename", "archive_filename": "fake_archive_filename", "source_url": "fake_source_url", "resolved_url": "fake_resolved_url"}, "dimensions": {"height": 6, "width": 5}, "errors": [], "training_data": {"objects": []}}"""
 fake_response_BinaryIO_json = """Contents of response byte-stream..."""
+fake_response_ObjectMetadataList_json = """{"object_count": 12, "objects": []}"""
+fake_response_UpdateObjectMetadata_json = """{"object": "fake_object", "count": 5}"""
+fake_response_ObjectMetadata_json = """{"object": "fake_object", "count": 5}"""
 fake_response_Collection_json = """{"collection_id": "fake_collection_id", "name": "fake_name", "description": "fake_description", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "description": "fake_description"}}}"""
 fake_response_TrainingDataObjects_json = """{"objects": []}"""
 fake_response_TrainingEvents_json = """{"start_time": "2017-05-16T13:56:54.957Z", "end_time": "2017-05-16T13:56:54.957Z", "completed_events": 16, "trained_images": 14, "events": []}"""
