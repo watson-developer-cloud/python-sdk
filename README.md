@@ -225,6 +225,10 @@ discovery.set_service_url('<url_as_per_region>')
 
 Tested on Python 3.5, 3.6, and 3.7.
 
+## Questions
+
+If you have issues with the APIs or have a question about the Watson services, see [Stack Overflow](https://stackoverflow.com/questions/tagged/ibm-watson+python).
+
 ## Changes for v1.0
 Version 1.0 focuses on the move to programmatically-generated code for many of the services. See the [changelog](https://github.com/watson-developer-cloud/python-sdk/wiki/Changelog) for the details.
 

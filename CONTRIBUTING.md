@@ -2,8 +2,7 @@
 
 ## Questions
 
-If you are having difficulties using the APIs or have a question about the IBM Watson Services,
-please ask a question on [dW Answers][dw] or [Stack Overflow][stackoverflow].
+If you have issues with the APIs or have a question about the Watson services, see [Stack Overflow](https://stackoverflow.com/questions/tagged/ibm-watson+python).
 
 ## Issues
 
