@@ -137,11 +137,10 @@ class VisualRecognitionV4(BaseService):
         params = {'version': self.version}
 
         form_data = []
-        for item in collection_ids:
-            form_data.append(
-                ('collection_ids', (None, item, 'application/json')))
-        for item in features:
-            form_data.append(('features', (None, item, 'application/json')))
+        collection_ids = self._convert_list(collection_ids)
+        form_data.append(('collection_ids', (None, collection_ids, 'text/plain')))
+        features = self._convert_list(features)
+        form_data.append(('features', (None, features, 'text/plain')))
         if images_file:
             for item in images_file:
                 form_data.append(('images_file', (item.filename, item.data,
@@ -3144,18 +3143,18 @@ class UpdateObjectMetadata():
     :attr str object: The updated name of the object. The name can contain
           alphanumeric, underscore, hyphen, space, and dot characters. It cannot begin
           with the reserved prefix `sys-`.
-    :attr int count: (optional) Number of bounding boxes in the collection with the
+    :attr int count: Number of bounding boxes in the collection with the
           updated object name.
     """
 
-    def __init__(self, object: str, *, count: int = None) -> None:
+    def __init__(self, object: str, count: int) -> None:
         """
         Initialize a UpdateObjectMetadata object.
 
         :param str object: The updated name of the object. The name can contain
                alphanumeric, underscore, hyphen, space, and dot characters. It cannot
                begin with the reserved prefix `sys-`.
-        :param int count: (optional) Number of bounding boxes in the collection
+        :param int count: Number of bounding boxes in the collection
                with the updated object name.
         """
         self.object = object
@@ -3179,6 +3178,10 @@ class UpdateObjectMetadata():
             )
         if 'count' in _dict:
             args['count'] = _dict.get('count')
+        else:
+            raise ValueError(
+                'Required property \'count\' not present in UpdateObjectMetadata JSON'
+            )
         return cls(**args)
 
     @classmethod
