@@ -29,7 +29,6 @@ base_url = 'https://stream.watsonplatform.net/speech-to-text/api'
 ##############################################################################
 # region
 
-
 #-----------------------------------------------------------------------------
 # Test Class for list_models
 #-----------------------------------------------------------------------------
@@ -74,13 +73,15 @@ class TestListModels():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.list_models(**body)
         return output
@@ -139,13 +140,15 @@ class TestGetModel():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.get_model(**body)
         return output
@@ -170,7 +173,6 @@ class TestGetModel():
 # Start of Service: Synchronous
 ##############################################################################
 # region
-
 
 #-----------------------------------------------------------------------------
 # Test Class for recognize
@@ -203,8 +205,7 @@ class TestRecognize():
     #--------------------------------------------------------
     @responses.activate
     def test_recognize_empty(self):
-        check_empty_required_params(
-            self, fake_response_SpeechRecognitionResults_json)
+        check_empty_required_params(self, fake_response_SpeechRecognitionResults_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -218,13 +219,15 @@ class TestRecognize():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.recognize(**body)
         return output
@@ -254,6 +257,8 @@ class TestRecognize():
         body['audio_metrics'] = True
         body['end_of_phrase_silence_time'] = 12345.0
         body['split_transcript_at_phrase_end'] = True
+        body['speech_detector_sensitivity'] = 12345.0
+        body['background_audio_suppression'] = 12345.0
         return body
 
     def construct_required_body(self):
@@ -271,7 +276,6 @@ class TestRecognize():
 # Start of Service: Asynchronous
 ##############################################################################
 # region
-
 
 #-----------------------------------------------------------------------------
 # Test Class for register_callback
@@ -318,13 +322,15 @@ class TestRegisterCallback():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.register_callback(**body)
         return output
@@ -386,13 +392,15 @@ class TestUnregisterCallback():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.unregister_callback(**body)
         return output
@@ -453,13 +461,15 @@ class TestCreateJob():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=201,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=201,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.create_job(**body)
         return output
@@ -495,6 +505,8 @@ class TestCreateJob():
         body['audio_metrics'] = True
         body['end_of_phrase_silence_time'] = 12345.0
         body['split_transcript_at_phrase_end'] = True
+        body['speech_detector_sensitivity'] = 12345.0
+        body['background_audio_suppression'] = 12345.0
         return body
 
     def construct_required_body(self):
@@ -547,13 +559,15 @@ class TestCheckJobs():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.check_jobs(**body)
         return output
@@ -612,13 +626,15 @@ class TestCheckJob():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.check_job(**body)
         return output
@@ -679,13 +695,15 @@ class TestDeleteJob():
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                      url,
-                      body=json.dumps(response),
-                      status=204,
-                      content_type='')
-
+                    url,
+                    body=json.dumps(response),
+                    status=204,
+                    content_type='')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.delete_job(**body)
         return output
@@ -710,7 +728,6 @@ class TestDeleteJob():
 # Start of Service: CustomLanguageModels
 ##############################################################################
 # region
-
 
 #-----------------------------------------------------------------------------
 # Test Class for create_language_model
@@ -757,35 +774,27 @@ class TestCreateLanguageModel():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=201,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=201,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.create_language_model(**body)
         return output
 
     def construct_full_body(self):
         body = dict()
-        body.update({
-            "name": "string1",
-            "base_model_name": "string1",
-            "dialect": "string1",
-            "description": "string1",
-        })
+        body.update({"name": "string1", "base_model_name": "string1", "dialect": "string1", "description": "string1", })
         return body
 
     def construct_required_body(self):
         body = dict()
-        body.update({
-            "name": "string1",
-            "base_model_name": "string1",
-            "dialect": "string1",
-            "description": "string1",
-        })
+        body.update({"name": "string1", "base_model_name": "string1", "dialect": "string1", "description": "string1", })
         return body
 
 
@@ -833,13 +842,15 @@ class TestListLanguageModels():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.list_language_models(**body)
         return output
@@ -899,13 +910,15 @@ class TestGetLanguageModel():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.get_language_model(**body)
         return output
@@ -966,13 +979,15 @@ class TestDeleteLanguageModel():
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.delete_language_model(**body)
         return output
@@ -1027,20 +1042,21 @@ class TestTrainLanguageModel():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/customizations/{0}/train'.format(
-            body['customization_id'])
+        endpoint = '/v1/customizations/{0}/train'.format(body['customization_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.train_language_model(**body)
         return output
@@ -1097,20 +1113,21 @@ class TestResetLanguageModel():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/customizations/{0}/reset'.format(
-            body['customization_id'])
+        endpoint = '/v1/customizations/{0}/reset'.format(body['customization_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.reset_language_model(**body)
         return output
@@ -1165,20 +1182,21 @@ class TestUpgradeLanguageModel():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/customizations/{0}/upgrade_model'.format(
-            body['customization_id'])
+        endpoint = '/v1/customizations/{0}/upgrade_model'.format(body['customization_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.upgrade_language_model(**body)
         return output
@@ -1203,7 +1221,6 @@ class TestUpgradeLanguageModel():
 # Start of Service: CustomCorpora
 ##############################################################################
 # region
-
 
 #-----------------------------------------------------------------------------
 # Test Class for list_corpora
@@ -1244,20 +1261,21 @@ class TestListCorpora():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/customizations/{0}/corpora'.format(
-            body['customization_id'])
+        endpoint = '/v1/customizations/{0}/corpora'.format(body['customization_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.list_corpora(**body)
         return output
@@ -1312,20 +1330,21 @@ class TestAddCorpus():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/customizations/{0}/corpora/{1}'.format(
-            body['customization_id'], body['corpus_name'])
+        endpoint = '/v1/customizations/{0}/corpora/{1}'.format(body['customization_id'], body['corpus_name'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=201,
-                      content_type='')
-
+                    url,
+                    body=json.dumps(response),
+                    status=201,
+                    content_type='')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.add_corpus(**body)
         return output
@@ -1385,20 +1404,21 @@ class TestGetCorpus():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/customizations/{0}/corpora/{1}'.format(
-            body['customization_id'], body['corpus_name'])
+        endpoint = '/v1/customizations/{0}/corpora/{1}'.format(body['customization_id'], body['corpus_name'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.get_corpus(**body)
         return output
@@ -1455,20 +1475,21 @@ class TestDeleteCorpus():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/customizations/{0}/corpora/{1}'.format(
-            body['customization_id'], body['corpus_name'])
+        endpoint = '/v1/customizations/{0}/corpora/{1}'.format(body['customization_id'], body['corpus_name'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.delete_corpus(**body)
         return output
@@ -1495,7 +1516,6 @@ class TestDeleteCorpus():
 # Start of Service: CustomWords
 ##############################################################################
 # region
-
 
 #-----------------------------------------------------------------------------
 # Test Class for list_words
@@ -1536,20 +1556,21 @@ class TestListWords():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/customizations/{0}/words'.format(
-            body['customization_id'])
+        endpoint = '/v1/customizations/{0}/words'.format(body['customization_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.list_words(**body)
         return output
@@ -1606,20 +1627,21 @@ class TestAddWords():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/customizations/{0}/words'.format(
-            body['customization_id'])
+        endpoint = '/v1/customizations/{0}/words'.format(body['customization_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=201,
-                      content_type='')
-
+                    url,
+                    body=json.dumps(response),
+                    status=201,
+                    content_type='')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.add_words(**body)
         return output
@@ -1627,17 +1649,13 @@ class TestAddWords():
     def construct_full_body(self):
         body = dict()
         body['customization_id'] = "string1"
-        body.update({
-            "words": [],
-        })
+        body.update({"words": [], })
         return body
 
     def construct_required_body(self):
         body = dict()
         body['customization_id'] = "string1"
-        body.update({
-            "words": [],
-        })
+        body.update({"words": [], })
         return body
 
 
@@ -1680,20 +1698,21 @@ class TestAddWord():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/customizations/{0}/words/{1}'.format(
-            body['customization_id'], body['word_name'])
+        endpoint = '/v1/customizations/{0}/words/{1}'.format(body['customization_id'], body['word_name'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.PUT,
-                      url,
-                      body=json.dumps(response),
-                      status=201,
-                      content_type='')
-
+                    url,
+                    body=json.dumps(response),
+                    status=201,
+                    content_type='')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.add_word(**body)
         return output
@@ -1702,22 +1721,14 @@ class TestAddWord():
         body = dict()
         body['customization_id'] = "string1"
         body['word_name'] = "string1"
-        body.update({
-            "word": "string1",
-            "sounds_like": [],
-            "display_as": "string1",
-        })
+        body.update({"word": "string1", "sounds_like": [], "display_as": "string1", })
         return body
 
     def construct_required_body(self):
         body = dict()
         body['customization_id'] = "string1"
         body['word_name'] = "string1"
-        body.update({
-            "word": "string1",
-            "sounds_like": [],
-            "display_as": "string1",
-        })
+        body.update({"word": "string1", "sounds_like": [], "display_as": "string1", })
         return body
 
 
@@ -1760,20 +1771,21 @@ class TestGetWord():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/customizations/{0}/words/{1}'.format(
-            body['customization_id'], body['word_name'])
+        endpoint = '/v1/customizations/{0}/words/{1}'.format(body['customization_id'], body['word_name'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.get_word(**body)
         return output
@@ -1830,20 +1842,21 @@ class TestDeleteWord():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/customizations/{0}/words/{1}'.format(
-            body['customization_id'], body['word_name'])
+        endpoint = '/v1/customizations/{0}/words/{1}'.format(body['customization_id'], body['word_name'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.delete_word(**body)
         return output
@@ -1870,7 +1883,6 @@ class TestDeleteWord():
 # Start of Service: CustomGrammars
 ##############################################################################
 # region
-
 
 #-----------------------------------------------------------------------------
 # Test Class for list_grammars
@@ -1911,20 +1923,21 @@ class TestListGrammars():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/customizations/{0}/grammars'.format(
-            body['customization_id'])
+        endpoint = '/v1/customizations/{0}/grammars'.format(body['customization_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.list_grammars(**body)
         return output
@@ -1979,20 +1992,21 @@ class TestAddGrammar():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/customizations/{0}/grammars/{1}'.format(
-            body['customization_id'], body['grammar_name'])
+        endpoint = '/v1/customizations/{0}/grammars/{1}'.format(body['customization_id'], body['grammar_name'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=201,
-                      content_type='')
-
+                    url,
+                    body=json.dumps(response),
+                    status=201,
+                    content_type='')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.add_grammar(**body)
         return output
@@ -2054,20 +2068,21 @@ class TestGetGrammar():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/customizations/{0}/grammars/{1}'.format(
-            body['customization_id'], body['grammar_name'])
+        endpoint = '/v1/customizations/{0}/grammars/{1}'.format(body['customization_id'], body['grammar_name'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.get_grammar(**body)
         return output
@@ -2124,20 +2139,21 @@ class TestDeleteGrammar():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/customizations/{0}/grammars/{1}'.format(
-            body['customization_id'], body['grammar_name'])
+        endpoint = '/v1/customizations/{0}/grammars/{1}'.format(body['customization_id'], body['grammar_name'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.delete_grammar(**body)
         return output
@@ -2164,7 +2180,6 @@ class TestDeleteGrammar():
 # Start of Service: CustomAcousticModels
 ##############################################################################
 # region
-
 
 #-----------------------------------------------------------------------------
 # Test Class for create_acoustic_model
@@ -2211,33 +2226,27 @@ class TestCreateAcousticModel():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=201,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=201,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.create_acoustic_model(**body)
         return output
 
     def construct_full_body(self):
         body = dict()
-        body.update({
-            "name": "string1",
-            "base_model_name": "string1",
-            "description": "string1",
-        })
+        body.update({"name": "string1", "base_model_name": "string1", "description": "string1", })
         return body
 
     def construct_required_body(self):
         body = dict()
-        body.update({
-            "name": "string1",
-            "base_model_name": "string1",
-            "description": "string1",
-        })
+        body.update({"name": "string1", "base_model_name": "string1", "description": "string1", })
         return body
 
 
@@ -2285,13 +2294,15 @@ class TestListAcousticModels():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.list_acoustic_models(**body)
         return output
@@ -2345,20 +2356,21 @@ class TestGetAcousticModel():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/acoustic_customizations/{0}'.format(
-            body['customization_id'])
+        endpoint = '/v1/acoustic_customizations/{0}'.format(body['customization_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.get_acoustic_model(**body)
         return output
@@ -2413,20 +2425,21 @@ class TestDeleteAcousticModel():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/acoustic_customizations/{0}'.format(
-            body['customization_id'])
+        endpoint = '/v1/acoustic_customizations/{0}'.format(body['customization_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.delete_acoustic_model(**body)
         return output
@@ -2481,20 +2494,21 @@ class TestTrainAcousticModel():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/acoustic_customizations/{0}/train'.format(
-            body['customization_id'])
+        endpoint = '/v1/acoustic_customizations/{0}/train'.format(body['customization_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.train_acoustic_model(**body)
         return output
@@ -2550,20 +2564,21 @@ class TestResetAcousticModel():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/acoustic_customizations/{0}/reset'.format(
-            body['customization_id'])
+        endpoint = '/v1/acoustic_customizations/{0}/reset'.format(body['customization_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.reset_acoustic_model(**body)
         return output
@@ -2618,20 +2633,21 @@ class TestUpgradeAcousticModel():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/acoustic_customizations/{0}/upgrade_model'.format(
-            body['customization_id'])
+        endpoint = '/v1/acoustic_customizations/{0}/upgrade_model'.format(body['customization_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.upgrade_acoustic_model(**body)
         return output
@@ -2658,7 +2674,6 @@ class TestUpgradeAcousticModel():
 # Start of Service: CustomAudioResources
 ##############################################################################
 # region
-
 
 #-----------------------------------------------------------------------------
 # Test Class for list_audio
@@ -2699,20 +2714,21 @@ class TestListAudio():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/acoustic_customizations/{0}/audio'.format(
-            body['customization_id'])
+        endpoint = '/v1/acoustic_customizations/{0}/audio'.format(body['customization_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.list_audio(**body)
         return output
@@ -2767,20 +2783,21 @@ class TestAddAudio():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/acoustic_customizations/{0}/audio/{1}'.format(
-            body['customization_id'], body['audio_name'])
+        endpoint = '/v1/acoustic_customizations/{0}/audio/{1}'.format(body['customization_id'], body['audio_name'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=201,
-                      content_type='')
-
+                    url,
+                    body=json.dumps(response),
+                    status=201,
+                    content_type='')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.add_audio(**body)
         return output
@@ -2842,20 +2859,21 @@ class TestGetAudio():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/acoustic_customizations/{0}/audio/{1}'.format(
-            body['customization_id'], body['audio_name'])
+        endpoint = '/v1/acoustic_customizations/{0}/audio/{1}'.format(body['customization_id'], body['audio_name'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.get_audio(**body)
         return output
@@ -2912,20 +2930,21 @@ class TestDeleteAudio():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/acoustic_customizations/{0}/audio/{1}'.format(
-            body['customization_id'], body['audio_name'])
+        endpoint = '/v1/acoustic_customizations/{0}/audio/{1}'.format(body['customization_id'], body['audio_name'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.delete_audio(**body)
         return output
@@ -2952,7 +2971,6 @@ class TestDeleteAudio():
 # Start of Service: UserData
 ##############################################################################
 # region
-
 
 #-----------------------------------------------------------------------------
 # Test Class for delete_user_data
@@ -2999,13 +3017,15 @@ class TestDeleteUserData():
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='')
+    
     def call_service(self, body):
-        service = SpeechToTextV1(authenticator=NoAuthAuthenticator(),)
+        service = SpeechToTextV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.delete_user_data(**body)
         return output
@@ -3043,7 +3063,6 @@ def check_empty_required_params(obj, response):
         error = True
     assert error
 
-
 def check_missing_required_params(obj):
     """Test function to assert that the operation will throw an error when missing required data
 
@@ -3060,7 +3079,6 @@ def check_missing_required_params(obj):
         error = True
     assert error
 
-
 def check_empty_response(obj):
     """Test function to assert that the operation will return an empty response when given an empty request
 
@@ -3071,7 +3089,6 @@ def check_empty_response(obj):
     body = obj.construct_full_body()
     url = obj.make_url(body)
     send_request(obj, {}, {}, url=url)
-
 
 def send_request(obj, body, response, url=None):
     """Test function to create a request, send it, and assert its accuracy to the mock response
@@ -3088,7 +3105,6 @@ def send_request(obj, body, response, url=None):
     output = obj.call_service(body)
     assert responses.calls[0].request.url.startswith(url)
     assert output.get_result() == response
-
 
 ####################
 ## Mock Responses ##

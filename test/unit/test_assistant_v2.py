@@ -28,7 +28,6 @@ base_url = 'https://gateway.watsonplatform.net/assistant/api'
 ##############################################################################
 # region
 
-
 #-----------------------------------------------------------------------------
 # Test Class for create_session
 #-----------------------------------------------------------------------------
@@ -74,16 +73,16 @@ class TestCreateSession():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=201,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=201,
+                    content_type='application/json')
+    
     def call_service(self, body):
         service = AssistantV2(
             authenticator=NoAuthAuthenticator(),
-            version='2019-02-28',
-        )
+            version='2020-04-01',
+            )
         service.set_service_url(base_url)
         output = service.create_session(**body)
         return output
@@ -138,23 +137,22 @@ class TestDeleteSession():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v2/assistants/{0}/sessions/{1}'.format(
-            body['assistant_id'], body['session_id'])
+        endpoint = '/v2/assistants/{0}/sessions/{1}'.format(body['assistant_id'], body['session_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='')
+    
     def call_service(self, body):
         service = AssistantV2(
             authenticator=NoAuthAuthenticator(),
-            version='2019-02-28',
-        )
+            version='2020-04-01',
+            )
         service.set_service_url(base_url)
         output = service.delete_session(**body)
         return output
@@ -181,7 +179,6 @@ class TestDeleteSession():
 # Start of Service: Message
 ##############################################################################
 # region
-
 
 #-----------------------------------------------------------------------------
 # Test Class for message
@@ -222,23 +219,22 @@ class TestMessage():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v2/assistants/{0}/sessions/{1}/message'.format(
-            body['assistant_id'], body['session_id'])
+        endpoint = '/v2/assistants/{0}/sessions/{1}/message'.format(body['assistant_id'], body['session_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
         service = AssistantV2(
             authenticator=NoAuthAuthenticator(),
-            version='2019-02-28',
-        )
+            version='2020-04-01',
+            )
         service.set_service_url(base_url)
         output = service.message(**body)
         return output
@@ -247,18 +243,7 @@ class TestMessage():
         body = dict()
         body['assistant_id'] = "string1"
         body['session_id'] = "string1"
-        body.update({
-            "input":
-                MessageInput._from_dict(
-                    json.loads(
-                        """{"message_type": "fake_message_type", "text": "fake_text", "options": {"debug": false, "restart": false, "alternate_intents": false, "return_context": true}, "intents": [], "entities": [], "suggestion_id": "fake_suggestion_id"}"""
-                    )),
-            "context":
-                MessageContext._from_dict(
-                    json.loads(
-                        """{"global": {"system": {"timezone": "fake_timezone", "user_id": "fake_user_id", "turn_count": 10, "locale": "fake_locale", "reference_time": "fake_reference_time"}}, "skills": {}}"""
-                    )),
-        })
+        body.update({"input": MessageInput._from_dict(json.loads("""{"message_type": "fake_message_type", "text": "fake_text", "options": {"debug": false, "restart": false, "alternate_intents": false, "return_context": true, "export": true}, "intents": [], "entities": [], "suggestion_id": "fake_suggestion_id"}""")), "context": MessageContext._from_dict(json.loads("""{"global": {"system": {"timezone": "fake_timezone", "user_id": "fake_user_id", "turn_count": 10, "locale": "fake_locale", "reference_time": "fake_reference_time"}}, "skills": {}}""")), })
         return body
 
     def construct_required_body(self):
@@ -290,7 +275,6 @@ def check_empty_required_params(obj, response):
         error = True
     assert error
 
-
 def check_missing_required_params(obj):
     """Test function to assert that the operation will throw an error when missing required data
 
@@ -307,7 +291,6 @@ def check_missing_required_params(obj):
         error = True
     assert error
 
-
 def check_empty_response(obj):
     """Test function to assert that the operation will return an empty response when given an empty request
 
@@ -318,7 +301,6 @@ def check_empty_response(obj):
     body = obj.construct_full_body()
     url = obj.make_url(body)
     send_request(obj, {}, {}, url=url)
-
 
 def send_request(obj, body, response, url=None):
     """Test function to create a request, send it, and assert its accuracy to the mock response
@@ -335,7 +317,6 @@ def send_request(obj, body, response, url=None):
     output = obj.call_service(body)
     assert responses.calls[0].request.url.startswith(url)
     assert output.get_result() == response
-
 
 ####################
 ## Mock Responses ##

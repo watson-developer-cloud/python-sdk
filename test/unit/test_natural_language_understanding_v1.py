@@ -29,7 +29,6 @@ base_url = 'https://gateway.watsonplatform.net/natural-language-understanding/ap
 ##############################################################################
 # region
 
-
 #-----------------------------------------------------------------------------
 # Test Class for analyze
 #-----------------------------------------------------------------------------
@@ -75,76 +74,28 @@ class TestAnalyze():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
         service = NaturalLanguageUnderstandingV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-07-12',
-        )
+            )
         service.set_service_url(base_url)
         output = service.analyze(**body)
         return output
 
     def construct_full_body(self):
         body = dict()
-        body.update({
-            "features":
-                Features._from_dict(
-                    json.loads(
-                        """{"concepts": {"limit": 5}, "emotion": {"document": true, "targets": []}, "entities": {"limit": 5, "mentions": true, "model": "fake_model", "sentiment": false, "emotion": false}, "keywords": {"limit": 5, "sentiment": false, "emotion": false}, "metadata": {}, "relations": {"model": "fake_model"}, "semantic_roles": {"limit": 5, "keywords": true, "entities": true}, "sentiment": {"document": true, "targets": []}, "categories": {"explanation": false, "limit": 5, "model": "fake_model"}, "syntax": {"tokens": {"lemma": false, "part_of_speech": true}, "sentences": false}}"""
-                    )),
-            "text":
-                "string1",
-            "html":
-                "string1",
-            "url":
-                "string1",
-            "clean":
-                True,
-            "xpath":
-                "string1",
-            "fallback_to_raw":
-                True,
-            "return_analyzed_text":
-                True,
-            "language":
-                "string1",
-            "limit_text_characters":
-                12345,
-        })
+        body.update({"features": Features._from_dict(json.loads("""{"concepts": {"limit": 5}, "emotion": {"document": true, "targets": []}, "entities": {"limit": 5, "mentions": true, "model": "fake_model", "sentiment": false, "emotion": false}, "keywords": {"limit": 5, "sentiment": false, "emotion": false}, "metadata": {}, "relations": {"model": "fake_model"}, "semantic_roles": {"limit": 5, "keywords": true, "entities": true}, "sentiment": {"document": true, "targets": []}, "categories": {"explanation": false, "limit": 5, "model": "fake_model"}, "syntax": {"tokens": {"lemma": false, "part_of_speech": true}, "sentences": false}}""")), "text": "string1", "html": "string1", "url": "string1", "clean": True, "xpath": "string1", "fallback_to_raw": True, "return_analyzed_text": True, "language": "string1", "limit_text_characters": 12345, })
         return body
 
     def construct_required_body(self):
         body = dict()
-        body.update({
-            "features":
-                Features._from_dict(
-                    json.loads(
-                        """{"concepts": {"limit": 5}, "emotion": {"document": true, "targets": []}, "entities": {"limit": 5, "mentions": true, "model": "fake_model", "sentiment": false, "emotion": false}, "keywords": {"limit": 5, "sentiment": false, "emotion": false}, "metadata": {}, "relations": {"model": "fake_model"}, "semantic_roles": {"limit": 5, "keywords": true, "entities": true}, "sentiment": {"document": true, "targets": []}, "categories": {"explanation": false, "limit": 5, "model": "fake_model"}, "syntax": {"tokens": {"lemma": false, "part_of_speech": true}, "sentences": false}}"""
-                    )),
-            "text":
-                "string1",
-            "html":
-                "string1",
-            "url":
-                "string1",
-            "clean":
-                True,
-            "xpath":
-                "string1",
-            "fallback_to_raw":
-                True,
-            "return_analyzed_text":
-                True,
-            "language":
-                "string1",
-            "limit_text_characters":
-                12345,
-        })
+        body.update({"features": Features._from_dict(json.loads("""{"concepts": {"limit": 5}, "emotion": {"document": true, "targets": []}, "entities": {"limit": 5, "mentions": true, "model": "fake_model", "sentiment": false, "emotion": false}, "keywords": {"limit": 5, "sentiment": false, "emotion": false}, "metadata": {}, "relations": {"model": "fake_model"}, "semantic_roles": {"limit": 5, "keywords": true, "entities": true}, "sentiment": {"document": true, "targets": []}, "categories": {"explanation": false, "limit": 5, "model": "fake_model"}, "syntax": {"tokens": {"lemma": false, "part_of_speech": true}, "sentences": false}}""")), "text": "string1", "html": "string1", "url": "string1", "clean": True, "xpath": "string1", "fallback_to_raw": True, "return_analyzed_text": True, "language": "string1", "limit_text_characters": 12345, })
         return body
 
 
@@ -157,7 +108,6 @@ class TestAnalyze():
 # Start of Service: ManageModels
 ##############################################################################
 # region
-
 
 #-----------------------------------------------------------------------------
 # Test Class for list_models
@@ -203,16 +153,16 @@ class TestListModels():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
         service = NaturalLanguageUnderstandingV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-07-12',
-        )
+            )
         service.set_service_url(base_url)
         output = service.list_models(**body)
         return output
@@ -271,16 +221,16 @@ class TestDeleteModel():
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
         service = NaturalLanguageUnderstandingV1(
             authenticator=NoAuthAuthenticator(),
             version='2019-07-12',
-        )
+            )
         service.set_service_url(base_url)
         output = service.delete_model(**body)
         return output
@@ -318,7 +268,6 @@ def check_empty_required_params(obj, response):
         error = True
     assert error
 
-
 def check_missing_required_params(obj):
     """Test function to assert that the operation will throw an error when missing required data
 
@@ -335,7 +284,6 @@ def check_missing_required_params(obj):
         error = True
     assert error
 
-
 def check_empty_response(obj):
     """Test function to assert that the operation will return an empty response when given an empty request
 
@@ -346,7 +294,6 @@ def check_empty_response(obj):
     body = obj.construct_full_body()
     url = obj.make_url(body)
     send_request(obj, {}, {}, url=url)
-
 
 def send_request(obj, body, response, url=None):
     """Test function to create a request, send it, and assert its accuracy to the mock response
@@ -363,7 +310,6 @@ def send_request(obj, body, response, url=None):
     output = obj.call_service(body)
     assert responses.calls[0].request.url.startswith(url)
     assert output.get_result() == response
-
 
 ####################
 ## Mock Responses ##

@@ -28,7 +28,6 @@ base_url = 'https://stream.watsonplatform.net/text-to-speech/api'
 ##############################################################################
 # region
 
-
 #-----------------------------------------------------------------------------
 # Test Class for list_voices
 #-----------------------------------------------------------------------------
@@ -73,13 +72,15 @@ class TestListVoices():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = TextToSpeechV1(authenticator=NoAuthAuthenticator(),)
+        service = TextToSpeechV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.list_voices(**body)
         return output
@@ -138,13 +139,15 @@ class TestGetVoice():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = TextToSpeechV1(authenticator=NoAuthAuthenticator(),)
+        service = TextToSpeechV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.get_voice(**body)
         return output
@@ -170,7 +173,6 @@ class TestGetVoice():
 # Start of Service: Synthesis
 ##############################################################################
 # region
-
 
 #-----------------------------------------------------------------------------
 # Test Class for synthesize
@@ -217,22 +219,22 @@ class TestSynthesize():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='')
+    
     def call_service(self, body):
-        service = TextToSpeechV1(authenticator=NoAuthAuthenticator(),)
+        service = TextToSpeechV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.synthesize(**body)
         return output
 
     def construct_full_body(self):
         body = dict()
-        body.update({
-            "text": "string1",
-        })
+        body.update({"text": "string1", })
         body['accept'] = "string1"
         body['voice'] = "string1"
         body['customization_id'] = "string1"
@@ -240,9 +242,7 @@ class TestSynthesize():
 
     def construct_required_body(self):
         body = dict()
-        body.update({
-            "text": "string1",
-        })
+        body.update({"text": "string1", })
         return body
 
 
@@ -255,7 +255,6 @@ class TestSynthesize():
 # Start of Service: Pronunciation
 ##############################################################################
 # region
-
 
 #-----------------------------------------------------------------------------
 # Test Class for get_pronunciation
@@ -302,13 +301,15 @@ class TestGetPronunciation():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = TextToSpeechV1(authenticator=NoAuthAuthenticator(),)
+        service = TextToSpeechV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.get_pronunciation(**body)
         return output
@@ -336,7 +337,6 @@ class TestGetPronunciation():
 # Start of Service: CustomModels
 ##############################################################################
 # region
-
 
 #-----------------------------------------------------------------------------
 # Test Class for create_voice_model
@@ -383,33 +383,27 @@ class TestCreateVoiceModel():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=201,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=201,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = TextToSpeechV1(authenticator=NoAuthAuthenticator(),)
+        service = TextToSpeechV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.create_voice_model(**body)
         return output
 
     def construct_full_body(self):
         body = dict()
-        body.update({
-            "name": "string1",
-            "language": "string1",
-            "description": "string1",
-        })
+        body.update({"name": "string1", "language": "string1", "description": "string1", })
         return body
 
     def construct_required_body(self):
         body = dict()
-        body.update({
-            "name": "string1",
-            "language": "string1",
-            "description": "string1",
-        })
+        body.update({"name": "string1", "language": "string1", "description": "string1", })
         return body
 
 
@@ -457,13 +451,15 @@ class TestListVoiceModels():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = TextToSpeechV1(authenticator=NoAuthAuthenticator(),)
+        service = TextToSpeechV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.list_voice_models(**body)
         return output
@@ -523,13 +519,15 @@ class TestUpdateVoiceModel():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='')
+    
     def call_service(self, body):
-        service = TextToSpeechV1(authenticator=NoAuthAuthenticator(),)
+        service = TextToSpeechV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.update_voice_model(**body)
         return output
@@ -537,21 +535,13 @@ class TestUpdateVoiceModel():
     def construct_full_body(self):
         body = dict()
         body['customization_id'] = "string1"
-        body.update({
-            "name": "string1",
-            "description": "string1",
-            "words": [],
-        })
+        body.update({"name": "string1", "description": "string1", "words": [], })
         return body
 
     def construct_required_body(self):
         body = dict()
         body['customization_id'] = "string1"
-        body.update({
-            "name": "string1",
-            "description": "string1",
-            "words": [],
-        })
+        body.update({"name": "string1", "description": "string1", "words": [], })
         return body
 
 
@@ -600,13 +590,15 @@ class TestGetVoiceModel():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = TextToSpeechV1(authenticator=NoAuthAuthenticator(),)
+        service = TextToSpeechV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.get_voice_model(**body)
         return output
@@ -667,13 +659,15 @@ class TestDeleteVoiceModel():
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                      url,
-                      body=json.dumps(response),
-                      status=204,
-                      content_type='')
-
+                    url,
+                    body=json.dumps(response),
+                    status=204,
+                    content_type='')
+    
     def call_service(self, body):
-        service = TextToSpeechV1(authenticator=NoAuthAuthenticator(),)
+        service = TextToSpeechV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.delete_voice_model(**body)
         return output
@@ -698,7 +692,6 @@ class TestDeleteVoiceModel():
 # Start of Service: CustomWords
 ##############################################################################
 # region
-
 
 #-----------------------------------------------------------------------------
 # Test Class for add_words
@@ -739,20 +732,21 @@ class TestAddWords():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/customizations/{0}/words'.format(
-            body['customization_id'])
+        endpoint = '/v1/customizations/{0}/words'.format(body['customization_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='')
+    
     def call_service(self, body):
-        service = TextToSpeechV1(authenticator=NoAuthAuthenticator(),)
+        service = TextToSpeechV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.add_words(**body)
         return output
@@ -760,17 +754,13 @@ class TestAddWords():
     def construct_full_body(self):
         body = dict()
         body['customization_id'] = "string1"
-        body.update({
-            "words": [],
-        })
+        body.update({"words": [], })
         return body
 
     def construct_required_body(self):
         body = dict()
         body['customization_id'] = "string1"
-        body.update({
-            "words": [],
-        })
+        body.update({"words": [], })
         return body
 
 
@@ -813,20 +803,21 @@ class TestListWords():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/customizations/{0}/words'.format(
-            body['customization_id'])
+        endpoint = '/v1/customizations/{0}/words'.format(body['customization_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = TextToSpeechV1(authenticator=NoAuthAuthenticator(),)
+        service = TextToSpeechV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.list_words(**body)
         return output
@@ -881,20 +872,21 @@ class TestAddWord():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/customizations/{0}/words/{1}'.format(
-            body['customization_id'], body['word'])
+        endpoint = '/v1/customizations/{0}/words/{1}'.format(body['customization_id'], body['word'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.PUT,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='')
+    
     def call_service(self, body):
-        service = TextToSpeechV1(authenticator=NoAuthAuthenticator(),)
+        service = TextToSpeechV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.add_word(**body)
         return output
@@ -903,20 +895,14 @@ class TestAddWord():
         body = dict()
         body['customization_id'] = "string1"
         body['word'] = "string1"
-        body.update({
-            "translation": "string1",
-            "part_of_speech": "string1",
-        })
+        body.update({"translation": "string1", "part_of_speech": "string1", })
         return body
 
     def construct_required_body(self):
         body = dict()
         body['customization_id'] = "string1"
         body['word'] = "string1"
-        body.update({
-            "translation": "string1",
-            "part_of_speech": "string1",
-        })
+        body.update({"translation": "string1", "part_of_speech": "string1", })
         return body
 
 
@@ -959,20 +945,21 @@ class TestGetWord():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/customizations/{0}/words/{1}'.format(
-            body['customization_id'], body['word'])
+        endpoint = '/v1/customizations/{0}/words/{1}'.format(body['customization_id'], body['word'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
-        service = TextToSpeechV1(authenticator=NoAuthAuthenticator(),)
+        service = TextToSpeechV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.get_word(**body)
         return output
@@ -1029,20 +1016,21 @@ class TestDeleteWord():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/customizations/{0}/words/{1}'.format(
-            body['customization_id'], body['word'])
+        endpoint = '/v1/customizations/{0}/words/{1}'.format(body['customization_id'], body['word'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                      url,
-                      body=json.dumps(response),
-                      status=204,
-                      content_type='')
-
+                    url,
+                    body=json.dumps(response),
+                    status=204,
+                    content_type='')
+    
     def call_service(self, body):
-        service = TextToSpeechV1(authenticator=NoAuthAuthenticator(),)
+        service = TextToSpeechV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.delete_word(**body)
         return output
@@ -1069,7 +1057,6 @@ class TestDeleteWord():
 # Start of Service: UserData
 ##############################################################################
 # region
-
 
 #-----------------------------------------------------------------------------
 # Test Class for delete_user_data
@@ -1116,13 +1103,15 @@ class TestDeleteUserData():
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='')
+    
     def call_service(self, body):
-        service = TextToSpeechV1(authenticator=NoAuthAuthenticator(),)
+        service = TextToSpeechV1(
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.delete_user_data(**body)
         return output
@@ -1160,7 +1149,6 @@ def check_empty_required_params(obj, response):
         error = True
     assert error
 
-
 def check_missing_required_params(obj):
     """Test function to assert that the operation will throw an error when missing required data
 
@@ -1177,7 +1165,6 @@ def check_missing_required_params(obj):
         error = True
     assert error
 
-
 def check_empty_response(obj):
     """Test function to assert that the operation will return an empty response when given an empty request
 
@@ -1188,7 +1175,6 @@ def check_empty_response(obj):
     body = obj.construct_full_body()
     url = obj.make_url(body)
     send_request(obj, {}, {}, url=url)
-
 
 def send_request(obj, body, response, url=None):
     """Test function to create a request, send it, and assert its accuracy to the mock response
@@ -1205,7 +1191,6 @@ def send_request(obj, body, response, url=None):
     output = obj.call_service(body)
     assert responses.calls[0].request.url.startswith(url)
     assert output.get_result() == response
-
 
 ####################
 ## Mock Responses ##
