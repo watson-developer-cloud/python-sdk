@@ -941,7 +941,7 @@ class AssistantV1(BaseService):
         Create user input example.
 
         Add a new user input example to an intent.
-        If you want to add multiple exaples with a single API call, consider using the
+        If you want to add multiple examples with a single API call, consider using the
         **[Update intent](#update-intent)** method instead.
         This operation is limited to 1000 requests per 30 minutes. For more information,
         see **Rate limiting**.
@@ -2623,7 +2623,8 @@ class AssistantV1(BaseService):
         :param str user_label: (optional) A label that can be displayed externally
                to describe the purpose of the node to users.
         :param bool disambiguation_opt_out: (optional) Whether the dialog node
-               should be excluded from disambiguation suggestions.
+               should be excluded from disambiguation suggestions. Valid only when
+               **type**=`standard` or `frame`.
         :param bool include_audit: (optional) Whether to include the audit
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
@@ -2809,7 +2810,8 @@ class AssistantV1(BaseService):
         :param str new_user_label: (optional) A label that can be displayed
                externally to describe the purpose of the node to users.
         :param bool new_disambiguation_opt_out: (optional) Whether the dialog node
-               should be excluded from disambiguation suggestions.
+               should be excluded from disambiguation suggestions. Valid only when
+               **type**=`standard` or `frame`.
         :param bool include_audit: (optional) Whether to include the audit
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
@@ -3978,7 +3980,8 @@ class DialogNode():
     :attr str user_label: (optional) A label that can be displayed externally to
           describe the purpose of the node to users.
     :attr bool disambiguation_opt_out: (optional) Whether the dialog node should be
-          excluded from disambiguation suggestions.
+          excluded from disambiguation suggestions. Valid only when **type**=`standard` or
+          `frame`.
     :attr bool disabled: (optional) For internal use only.
     :attr datetime created: (optional) The timestamp for creation of the object.
     :attr datetime updated: (optional) The timestamp for the most recent update to
@@ -4052,7 +4055,8 @@ class DialogNode():
         :param str user_label: (optional) A label that can be displayed externally
                to describe the purpose of the node to users.
         :param bool disambiguation_opt_out: (optional) Whether the dialog node
-               should be excluded from disambiguation suggestions.
+               should be excluded from disambiguation suggestions. Valid only when
+               **type**=`standard` or `frame`.
         :param bool disabled: (optional) For internal use only.
         :param datetime created: (optional) The timestamp for creation of the
                object.
@@ -4776,14 +4780,14 @@ class DialogNodeOutputGeneric():
           natural-language query or a query that uses the Discovery query language syntax,
           depending on the value of the **query_type** property. For more information, see
           the [Discovery service
-          documentation](https://cloud.ibm.com/docs/services/discovery/query-operators.html#query-operators).
+          documentation](https://cloud.ibm.com/docs/discovery/query-operators.html#query-operators).
           Required when **response_type**=`search_skill`.
     :attr str query_type: (optional) The type of the search query. Required when
           **response_type**=`search_skill`.
     :attr str filter: (optional) An optional filter that narrows the set of
           documents to be searched. For more information, see the [Discovery service
           documentation]([Discovery service
-          documentation](https://cloud.ibm.com/docs/services/discovery/query-parameters.html#filter).
+          documentation](https://cloud.ibm.com/docs/discovery/query-parameters.html#filter).
     :attr str discovery_version: (optional) The version of the Discovery service API
           to use for the query.
     """
@@ -4845,14 +4849,14 @@ class DialogNodeOutputGeneric():
                either a natural-language query or a query that uses the Discovery query
                language syntax, depending on the value of the **query_type** property. For
                more information, see the [Discovery service
-               documentation](https://cloud.ibm.com/docs/services/discovery/query-operators.html#query-operators).
+               documentation](https://cloud.ibm.com/docs/discovery/query-operators.html#query-operators).
                Required when **response_type**=`search_skill`.
         :param str query_type: (optional) The type of the search query. Required
                when **response_type**=`search_skill`.
         :param str filter: (optional) An optional filter that narrows the set of
                documents to be searched. For more information, see the [Discovery service
                documentation]([Discovery service
-               documentation](https://cloud.ibm.com/docs/services/discovery/query-parameters.html#filter).
+               documentation](https://cloud.ibm.com/docs/discovery/query-parameters.html#filter).
         :param str discovery_version: (optional) The version of the Discovery
                service API to use for the query.
         """
@@ -5694,10 +5698,10 @@ class DialogSuggestionResponseGeneric():
     :attr str message_to_human_agent: (optional) A message to be sent to the human
           agent who will be taking over the conversation.
     :attr str topic: (optional) A label identifying the topic of the conversation,
-          derived from the **user_label** property of the relevant node.
+          derived from the **title** property of the relevant node.
     :attr str dialog_node: (optional) The ID of the dialog node that the **topic**
           property is taken from. The **topic** property is populated using the value of
-          the dialog node's **user_label** property.
+          the dialog node's **title** property.
     """
 
     def __init__(self,
@@ -5739,11 +5743,10 @@ class DialogSuggestionResponseGeneric():
         :param str message_to_human_agent: (optional) A message to be sent to the
                human agent who will be taking over the conversation.
         :param str topic: (optional) A label identifying the topic of the
-               conversation, derived from the **user_label** property of the relevant
-               node.
+               conversation, derived from the **title** property of the relevant node.
         :param str dialog_node: (optional) The ID of the dialog node that the
                **topic** property is taken from. The **topic** property is populated using
-               the value of the dialog node's **user_label** property.
+               the value of the dialog node's **title** property.
         """
         self.response_type = response_type
         self.text = text
@@ -7921,6 +7924,12 @@ class RuntimeEntity():
           workspace.
           For more information about how the new system entities are interpreted, see the
           [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-beta-system-entities).
+    :attr List[RuntimeEntityAlternative] alternatives: (optional) An array of
+          possible alternative values that the user might have intended instead of the
+          value returned in the **value** property. This property is returned only for
+          `@sys-time` and `@sys-date` entities when the user's input is ambiguous.
+          This property is included only if the new system entities are enabled for the
+          workspace.
     :attr RuntimeEntityRole role: (optional) An object describing the role played by
           a system entity that is specifies the beginning or end of a range recognized in
           the user input. This property is included only if the new system entities are
@@ -7936,6 +7945,7 @@ class RuntimeEntity():
                  metadata: dict = None,
                  groups: List['CaptureGroup'] = None,
                  interpretation: 'RuntimeEntityInterpretation' = None,
+                 alternatives: List['RuntimeEntityAlternative'] = None,
                  role: 'RuntimeEntityRole' = None) -> None:
         """
         Initialize a RuntimeEntity object.
@@ -7956,6 +7966,13 @@ class RuntimeEntity():
                For more information about how the new system entities are interpreted, see
                the
                [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-beta-system-entities).
+        :param List[RuntimeEntityAlternative] alternatives: (optional) An array of
+               possible alternative values that the user might have intended instead of
+               the value returned in the **value** property. This property is returned
+               only for `@sys-time` and `@sys-date` entities when the user's input is
+               ambiguous.
+               This property is included only if the new system entities are enabled for
+               the workspace.
         :param RuntimeEntityRole role: (optional) An object describing the role
                played by a system entity that is specifies the beginning or end of a range
                recognized in the user input. This property is included only if the new
@@ -7968,6 +7985,7 @@ class RuntimeEntity():
         self.metadata = metadata
         self.groups = groups
         self.interpretation = interpretation
+        self.alternatives = alternatives
         self.role = role
 
     @classmethod
@@ -7976,7 +7994,7 @@ class RuntimeEntity():
         args = {}
         valid_keys = [
             'entity', 'location', 'value', 'confidence', 'metadata', 'groups',
-            'interpretation', 'role'
+            'interpretation', 'alternatives', 'role'
         ]
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
@@ -8011,6 +8029,11 @@ class RuntimeEntity():
         if 'interpretation' in _dict:
             args['interpretation'] = RuntimeEntityInterpretation._from_dict(
                 _dict.get('interpretation'))
+        if 'alternatives' in _dict:
+            args['alternatives'] = [
+                RuntimeEntityAlternative._from_dict(x)
+                for x in (_dict.get('alternatives'))
+            ]
         if 'role' in _dict:
             args['role'] = RuntimeEntityRole._from_dict(_dict.get('role'))
         return cls(**args)
@@ -8037,6 +8060,8 @@ class RuntimeEntity():
             _dict['groups'] = [x._to_dict() for x in self.groups]
         if hasattr(self, 'interpretation') and self.interpretation is not None:
             _dict['interpretation'] = self.interpretation._to_dict()
+        if hasattr(self, 'alternatives') and self.alternatives is not None:
+            _dict['alternatives'] = [x._to_dict() for x in self.alternatives]
         if hasattr(self, 'role') and self.role is not None:
             _dict['role'] = self.role._to_dict()
         return _dict
@@ -8056,6 +8081,77 @@ class RuntimeEntity():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'RuntimeEntity') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class RuntimeEntityAlternative():
+    """
+    An alternative value for the recognized entity.
+
+    :attr str value: (optional) The entity value that was recognized in the user
+          input.
+    :attr float confidence: (optional) A decimal percentage that represents Watson's
+          confidence in the recognized entity.
+    """
+
+    def __init__(self, *, value: str = None, confidence: float = None) -> None:
+        """
+        Initialize a RuntimeEntityAlternative object.
+
+        :param str value: (optional) The entity value that was recognized in the
+               user input.
+        :param float confidence: (optional) A decimal percentage that represents
+               Watson's confidence in the recognized entity.
+        """
+        self.value = value
+        self.confidence = confidence
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'RuntimeEntityAlternative':
+        """Initialize a RuntimeEntityAlternative object from a json dictionary."""
+        args = {}
+        valid_keys = ['value', 'confidence']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class RuntimeEntityAlternative: '
+                + ', '.join(bad_keys))
+        if 'value' in _dict:
+            args['value'] = _dict.get('value')
+        if 'confidence' in _dict:
+            args['confidence'] = _dict.get('confidence')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RuntimeEntityAlternative object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'value') and self.value is not None:
+            _dict['value'] = self.value
+        if hasattr(self, 'confidence') and self.confidence is not None:
+            _dict['confidence'] = self.confidence
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RuntimeEntityAlternative object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'RuntimeEntityAlternative') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'RuntimeEntityAlternative') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -8616,10 +8712,10 @@ class RuntimeResponseGeneric():
     :attr str message_to_human_agent: (optional) A message to be sent to the human
           agent who will be taking over the conversation.
     :attr str topic: (optional) A label identifying the topic of the conversation,
-          derived from the **user_label** property of the relevant node.
+          derived from the **title** property of the relevant node.
     :attr str dialog_node: (optional) The ID of the dialog node that the **topic**
           property is taken from. The **topic** property is populated using the value of
-          the dialog node's **user_label** property.
+          the dialog node's **title** property.
     :attr List[DialogSuggestion] suggestions: (optional) An array of objects
           describing the possible matching dialog nodes from which the user can choose.
           **Note:** The **suggestions** property is part of the disambiguation feature,
@@ -8664,11 +8760,10 @@ class RuntimeResponseGeneric():
         :param str message_to_human_agent: (optional) A message to be sent to the
                human agent who will be taking over the conversation.
         :param str topic: (optional) A label identifying the topic of the
-               conversation, derived from the **user_label** property of the relevant
-               node.
+               conversation, derived from the **title** property of the relevant node.
         :param str dialog_node: (optional) The ID of the dialog node that the
                **topic** property is taken from. The **topic** property is populated using
-               the value of the dialog node's **user_label** property.
+               the value of the dialog node's **title** property.
         :param List[DialogSuggestion] suggestions: (optional) An array of objects
                describing the possible matching dialog nodes from which the user can
                choose.

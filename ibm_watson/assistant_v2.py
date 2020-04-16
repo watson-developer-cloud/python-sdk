@@ -1219,17 +1219,21 @@ class MessageContextSkill():
 
     :attr dict user_defined: (optional) Arbitrary variables that can be read and
           written by a particular skill.
-    :attr dict system: (optional) For internal use only.
+    :attr MessageContextSkillSystem system: (optional) System context data used by
+          the skill.
     """
 
-    def __init__(self, *, user_defined: dict = None,
-                 system: dict = None) -> None:
+    def __init__(self,
+                 *,
+                 user_defined: dict = None,
+                 system: 'MessageContextSkillSystem' = None) -> None:
         """
         Initialize a MessageContextSkill object.
 
         :param dict user_defined: (optional) Arbitrary variables that can be read
                and written by a particular skill.
-        :param dict system: (optional) For internal use only.
+        :param MessageContextSkillSystem system: (optional) System context data
+               used by the skill.
         """
         self.user_defined = user_defined
         self.system = system
@@ -1247,7 +1251,8 @@ class MessageContextSkill():
         if 'user_defined' in _dict:
             args['user_defined'] = _dict.get('user_defined')
         if 'system' in _dict:
-            args['system'] = _dict.get('system')
+            args['system'] = MessageContextSkillSystem._from_dict(
+                _dict.get('system'))
         return cls(**args)
 
     @classmethod
@@ -1261,7 +1266,7 @@ class MessageContextSkill():
         if hasattr(self, 'user_defined') and self.user_defined is not None:
             _dict['user_defined'] = self.user_defined
         if hasattr(self, 'system') and self.system is not None:
-            _dict['system'] = self.system
+            _dict['system'] = self.system._to_dict()
         return _dict
 
     def _to_dict(self):
@@ -1279,6 +1284,89 @@ class MessageContextSkill():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'MessageContextSkill') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class MessageContextSkillSystem():
+    """
+    System context data used by the skill.
+
+    :attr str state: (optional) An encoded string representing the current
+          conversation state. By saving this value and then sending it in the context of a
+          subsequent message request, you can restore the conversation to the same state.
+          This can be useful if you need to return to an earlier point in the conversation
+          or resume a paused conversation after the session has expired.
+    """
+
+    def __init__(self, *, state: str = None, **kwargs) -> None:
+        """
+        Initialize a MessageContextSkillSystem object.
+
+        :param str state: (optional) An encoded string representing the current
+               conversation state. By saving this value and then sending it in the context
+               of a subsequent message request, you can restore the conversation to the
+               same state. This can be useful if you need to return to an earlier point in
+               the conversation or resume a paused conversation after the session has
+               expired.
+        :param **kwargs: (optional) Any additional properties.
+        """
+        self.state = state
+        for _key, _value in kwargs.items():
+            setattr(self, _key, _value)
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'MessageContextSkillSystem':
+        """Initialize a MessageContextSkillSystem object from a json dictionary."""
+        args = {}
+        xtra = _dict.copy()
+        if 'state' in _dict:
+            args['state'] = _dict.get('state')
+            del xtra['state']
+        args.update(xtra)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageContextSkillSystem object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'state') and self.state is not None:
+            _dict['state'] = self.state
+        if hasattr(self, '_additionalProperties'):
+            for _key in self._additionalProperties:
+                _value = getattr(self, _key, None)
+                if _value is not None:
+                    _dict[_key] = _value
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __setattr__(self, name: str, value: object) -> None:
+        properties = {'state'}
+        if not hasattr(self, '_additionalProperties'):
+            super(MessageContextSkillSystem,
+                  self).__setattr__('_additionalProperties', set())
+        if name not in properties:
+            self._additionalProperties.add(name)
+        super(MessageContextSkillSystem, self).__setattr__(name, value)
+
+    def __str__(self) -> str:
+        """Return a `str` version of this MessageContextSkillSystem object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'MessageContextSkillSystem') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'MessageContextSkillSystem') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1488,16 +1576,23 @@ class MessageInputOptions():
     Optional properties that control how the assistant responds.
 
     :attr bool debug: (optional) Whether to return additional diagnostic
-          information. Set to `true` to return additional information under the
-          `output.debug` key.
+          information. Set to `true` to return additional information in the
+          `output.debug` property. If you also specify **return_context**=`true`, the
+          returned skill context includes the `system.state` property.
     :attr bool restart: (optional) Whether to restart dialog processing at the root
           of the dialog, regardless of any previously visited nodes. **Note:** This does
           not affect `turn_count` or any other context variables.
     :attr bool alternate_intents: (optional) Whether to return more than one intent.
           Set to `true` to return all matching intents.
     :attr bool return_context: (optional) Whether to return session context with the
-          response. If you specify `true`, the response will include the `context`
-          property.
+          response. If you specify `true`, the response includes the `context` property.
+          If you also specify **debug**=`true`, the returned skill context includes the
+          `system.state` property.
+    :attr bool export: (optional) Whether to return session context, including full
+          conversation state. If you specify `true`, the response includes the `context`
+          property, and the skill context includes the `system.state` property.
+          **Note:** If **export**=`true`, the context is returned regardless of the value
+          of **return_context**.
     """
 
     def __init__(self,
@@ -1505,32 +1600,44 @@ class MessageInputOptions():
                  debug: bool = None,
                  restart: bool = None,
                  alternate_intents: bool = None,
-                 return_context: bool = None) -> None:
+                 return_context: bool = None,
+                 export: bool = None) -> None:
         """
         Initialize a MessageInputOptions object.
 
         :param bool debug: (optional) Whether to return additional diagnostic
-               information. Set to `true` to return additional information under the
-               `output.debug` key.
+               information. Set to `true` to return additional information in the
+               `output.debug` property. If you also specify **return_context**=`true`, the
+               returned skill context includes the `system.state` property.
         :param bool restart: (optional) Whether to restart dialog processing at the
                root of the dialog, regardless of any previously visited nodes. **Note:**
                This does not affect `turn_count` or any other context variables.
         :param bool alternate_intents: (optional) Whether to return more than one
                intent. Set to `true` to return all matching intents.
         :param bool return_context: (optional) Whether to return session context
-               with the response. If you specify `true`, the response will include the
-               `context` property.
+               with the response. If you specify `true`, the response includes the
+               `context` property. If you also specify **debug**=`true`, the returned
+               skill context includes the `system.state` property.
+        :param bool export: (optional) Whether to return session context, including
+               full conversation state. If you specify `true`, the response includes the
+               `context` property, and the skill context includes the `system.state`
+               property.
+               **Note:** If **export**=`true`, the context is returned regardless of the
+               value of **return_context**.
         """
         self.debug = debug
         self.restart = restart
         self.alternate_intents = alternate_intents
         self.return_context = return_context
+        self.export = export
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'MessageInputOptions':
         """Initialize a MessageInputOptions object from a json dictionary."""
         args = {}
-        valid_keys = ['debug', 'restart', 'alternate_intents', 'return_context']
+        valid_keys = [
+            'debug', 'restart', 'alternate_intents', 'return_context', 'export'
+        ]
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
             raise ValueError(
@@ -1544,6 +1651,8 @@ class MessageInputOptions():
             args['alternate_intents'] = _dict.get('alternate_intents')
         if 'return_context' in _dict:
             args['return_context'] = _dict.get('return_context')
+        if 'export' in _dict:
+            args['export'] = _dict.get('export')
         return cls(**args)
 
     @classmethod
@@ -1563,6 +1672,8 @@ class MessageInputOptions():
             _dict['alternate_intents'] = self.alternate_intents
         if hasattr(self, 'return_context') and self.return_context is not None:
             _dict['return_context'] = self.return_context
+        if hasattr(self, 'export') and self.export is not None:
+            _dict['export'] = self.export
         return _dict
 
     def _to_dict(self):
@@ -1836,8 +1947,8 @@ class MessageResponse():
 
     :attr MessageOutput output: Assistant output to be rendered or processed by the
           client.
-    :attr MessageContext context: (optional) State information for the conversation.
-          The context is stored by the assistant on a per-session basis. You can use this
+    :attr MessageContext context: (optional) Context data for the conversation. The
+          context is stored by the assistant on a per-session basis. You can use this
           property to access context variables.
           **Note:** The context is included in message responses only if
           **return_context**=`true` in the message request.
@@ -1852,7 +1963,7 @@ class MessageResponse():
 
         :param MessageOutput output: Assistant output to be rendered or processed
                by the client.
-        :param MessageContext context: (optional) State information for the
+        :param MessageContext context: (optional) Context data for the
                conversation. The context is stored by the assistant on a per-session
                basis. You can use this property to access context variables.
                **Note:** The context is included in message responses only if
@@ -3191,7 +3302,9 @@ class SearchResultMetadata():
           indicates a greater match to the query parameters.
     """
 
-    def __init__(self, *, confidence: float = None,
+    def __init__(self,
+                 *,
+                 confidence: float = None,
                  score: float = None) -> None:
         """
         Initialize a SearchResultMetadata object.

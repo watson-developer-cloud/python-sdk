@@ -487,7 +487,10 @@ class CompareComplyV1(BaseService):
         response = self.send(request)
         return response
 
-    def get_feedback(self, feedback_id: str, *, model: str = None,
+    def get_feedback(self,
+                     feedback_id: str,
+                     *,
+                     model: str = None,
                      **kwargs) -> 'DetailedResponse':
         """
         Get a specified feedback entry.
@@ -528,7 +531,10 @@ class CompareComplyV1(BaseService):
         response = self.send(request)
         return response
 
-    def delete_feedback(self, feedback_id: str, *, model: str = None,
+    def delete_feedback(self,
+                        feedback_id: str,
+                        *,
+                        model: str = None,
                         **kwargs) -> 'DetailedResponse':
         """
         Delete a specified feedback entry.
@@ -589,10 +595,10 @@ class CompareComplyV1(BaseService):
 
         Run Compare and Comply methods over a collection of input documents.
         **Important:** Batch processing requires the use of the [IBM Cloud Object Storage
-        service](https://cloud.ibm.com/docs/services/cloud-object-storage?topic=cloud-object-storage-about#about-ibm-cloud-object-storage).
+        service](https://cloud.ibm.com/docs/cloud-object-storage?topic=cloud-object-storage-about#about-ibm-cloud-object-storage).
         The use of IBM Cloud Object Storage with Compare and Comply is discussed at [Using
         batch
-        processing](https://cloud.ibm.com/docs/services/compare-comply?topic=compare-comply-batching#before-you-batch).
+        processing](https://cloud.ibm.com/docs/compare-comply?topic=compare-comply-batching#before-you-batch).
 
         :param str function: The Compare and Comply method to run across the
                submitted input documents.
@@ -996,7 +1002,9 @@ class Address():
           `end`.
     """
 
-    def __init__(self, *, text: str = None,
+    def __init__(self,
+                 *,
+                 text: str = None,
                  location: 'Location' = None) -> None:
         """
         Initialize a Address object.
@@ -1725,7 +1733,9 @@ class Category():
           IBM to provide feedback or receive support.
     """
 
-    def __init__(self, *, label: str = None,
+    def __init__(self,
+                 *,
+                 label: str = None,
                  provenance_ids: List[str] = None) -> None:
         """
         Initialize a Category object.
@@ -2502,7 +2512,9 @@ class Contexts():
           `end`.
     """
 
-    def __init__(self, *, text: str = None,
+    def __init__(self,
+                 *,
+                 text: str = None,
                  location: 'Location' = None) -> None:
         """
         Initialize a Contexts object.
@@ -3150,7 +3162,10 @@ class DocInfo():
     :attr str hash: (optional) The MD5 hash of the input document.
     """
 
-    def __init__(self, *, html: str = None, title: str = None,
+    def __init__(self,
+                 *,
+                 html: str = None,
+                 title: str = None,
                  hash: str = None) -> None:
         """
         Initialize a DocInfo object.
@@ -4761,7 +4776,9 @@ class KeyValuePair():
     :attr List[Value] value: (optional) A list of values in a key-value pair.
     """
 
-    def __init__(self, *, key: 'Key' = None,
+    def __init__(self,
+                 *,
+                 key: 'Key' = None,
                  value: List['Value'] = None) -> None:
         """
         Initialize a KeyValuePair object.
@@ -5070,7 +5087,9 @@ class Mention():
           `end`.
     """
 
-    def __init__(self, *, text: str = None,
+    def __init__(self,
+                 *,
+                 text: str = None,
                  location: 'Location' = None) -> None:
         """
         Initialize a Mention object.
@@ -5896,7 +5915,9 @@ class SectionTitle():
           `end`.
     """
 
-    def __init__(self, *, text: str = None,
+    def __init__(self,
+                 *,
+                 text: str = None,
                  location: 'Location' = None) -> None:
         """
         Initialize a SectionTitle object.
@@ -6369,7 +6390,9 @@ class TableTitle():
     :attr str text: (optional) The text of the identified table title or caption.
     """
 
-    def __init__(self, *, location: 'Location' = None,
+    def __init__(self,
+                 *,
+                 location: 'Location' = None,
                  text: str = None) -> None:
         """
         Initialize a TableTitle object.

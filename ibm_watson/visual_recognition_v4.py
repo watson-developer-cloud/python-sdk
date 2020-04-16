@@ -137,10 +137,11 @@ class VisualRecognitionV4(BaseService):
         params = {'version': self.version}
 
         form_data = []
-        collection_ids = self._convert_list(collection_ids)
-        form_data.append(('collection_ids', (None, collection_ids, 'text/plain')))
-        features = self._convert_list(features)
-        form_data.append(('features', (None, features, 'text/plain')))
+        for item in collection_ids:
+            form_data.append(
+                ('collection_ids', (None, item, 'application/json')))
+        for item in features:
+            form_data.append(('features', (None, item, 'application/json')))
         if images_file:
             for item in images_file:
                 form_data.append(('images_file', (item.filename, item.data,
@@ -148,7 +149,8 @@ class VisualRecognitionV4(BaseService):
                                                   'application/octet-stream')))
         if image_url:
             for item in image_url:
-                form_data.append(('image_url', (None, item, 'text/plain')))
+                form_data.append(
+                    ('image_url', (None, item, 'application/json')))
         if threshold:
             threshold = str(threshold)
             form_data.append(('threshold', (None, threshold, 'text/plain')))
@@ -1371,7 +1373,8 @@ class DetectedObjects():
           identified objects.
     """
 
-    def __init__(self, *,
+    def __init__(self,
+                 *,
                  collections: List['CollectionObjects'] = None) -> None:
         """
         Initialize a DetectedObjects object.
@@ -2121,7 +2124,9 @@ class ImageSummary():
           (UTC) that the image was most recently updated.
     """
 
-    def __init__(self, *, image_id: str = None,
+    def __init__(self,
+                 *,
+                 image_id: str = None,
                  updated: datetime = None) -> None:
         """
         Initialize a ImageSummary object.
@@ -2707,7 +2712,9 @@ class TrainingDataObject():
           around the object.
     """
 
-    def __init__(self, *, object: str = None,
+    def __init__(self,
+                 *,
+                 object: str = None,
                  location: 'Location' = None) -> None:
         """
         Initialize a TrainingDataObject object.
@@ -3137,19 +3144,19 @@ class UpdateObjectMetadata():
     :attr str object: The updated name of the object. The name can contain
           alphanumeric, underscore, hyphen, space, and dot characters. It cannot begin
           with the reserved prefix `sys-`.
-    :attr int count: Number of bounding boxes in the collection with the updated
-          object name.
+    :attr int count: (optional) Number of bounding boxes in the collection with the
+          updated object name.
     """
 
-    def __init__(self, object: str, count: int) -> None:
+    def __init__(self, object: str, *, count: int = None) -> None:
         """
         Initialize a UpdateObjectMetadata object.
 
         :param str object: The updated name of the object. The name can contain
                alphanumeric, underscore, hyphen, space, and dot characters. It cannot
                begin with the reserved prefix `sys-`.
-        :param int count: Number of bounding boxes in the collection with the
-               updated object name.
+        :param int count: (optional) Number of bounding boxes in the collection
+               with the updated object name.
         """
         self.object = object
         self.count = count
@@ -3172,10 +3179,6 @@ class UpdateObjectMetadata():
             )
         if 'count' in _dict:
             args['count'] = _dict.get('count')
-        else:
-            raise ValueError(
-                'Required property \'count\' not present in UpdateObjectMetadata JSON'
-            )
         return cls(**args)
 
     @classmethod
@@ -3220,7 +3223,10 @@ class Warning():
     :attr str more_info: (optional) A URL for more information about the solution.
     """
 
-    def __init__(self, code: str, message: str, *,
+    def __init__(self,
+                 code: str,
+                 message: str,
+                 *,
                  more_info: str = None) -> None:
         """
         Initialize a Warning object.

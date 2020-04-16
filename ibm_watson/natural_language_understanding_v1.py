@@ -19,7 +19,7 @@ and IBM Watson Natural Language Understanding will give you results for the feat
 request. The service cleans HTML content before analysis by default, so the results can
 ignore most advertisements and other unwanted content.
 You can create [custom
-models](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing)
+models](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-customizing)
 with Watson Knowledge Studio to detect custom entities and relations in Natural Language
 Understanding.
 """
@@ -113,7 +113,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
         - Syntax (Experimental).
         If a language for the input text is not specified with the `language` parameter,
         the service [automatically detects the
-        language](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-detectable-languages).
+        language](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-detectable-languages).
 
         :param Features features: Specific features to analyze the document for.
         :param str text: (optional) The plain text to analyze. One of the `text`,
@@ -124,10 +124,10 @@ class NaturalLanguageUnderstandingV1(BaseService):
                `html`, or `url` parameters is required.
         :param bool clean: (optional) Set this to `false` to disable webpage
                cleaning. To learn more about webpage cleaning, see the [Analyzing
-               webpages](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-analyzing-webpages)
+               webpages](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-analyzing-webpages)
                documentation.
         :param str xpath: (optional) An [XPath
-               query](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-analyzing-webpages#xpath)
+               query](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-analyzing-webpages#xpath)
                to perform on `html` or `url` input. Results of the query will be appended
                to the cleaned webpage text before it is analyzed. To analyze only the
                results of the XPath query, set the `clean` parameter to `false`.
@@ -139,7 +139,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
                of your text. This overrides automatic language detection. Language support
                differs depending on the features you include in your analysis. See
                [Language
-               support](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-language-support)
+               support](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-language-support)
                for more information.
         :param int limit_text_characters: (optional) Sets the maximum number of
                characters that are processed by the service.
@@ -194,7 +194,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
         List models.
 
         Lists Watson Knowledge Studio [custom entities and relations
-        models](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing)
+        models](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-customizing)
         that are deployed to your Natural Language Understanding service.
 
         :param dict headers: A `dict` containing the request headers
@@ -718,7 +718,7 @@ class CategoriesOptions():
           each categorization. **This is available only for English categories.**.
     :attr int limit: (optional) Maximum number of categories to return.
     :attr str model: (optional) Enter a [custom
-          model](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing)
+          model](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-customizing)
           ID to override the standard categories model.
           The custom categories experimental feature will be retired on 19 December 2019.
           On that date, deployed custom categories models will no longer be accessible in
@@ -740,7 +740,7 @@ class CategoriesOptions():
                categories.**.
         :param int limit: (optional) Maximum number of categories to return.
         :param str model: (optional) Enter a [custom
-               model](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing)
+               model](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-customizing)
                ID to override the standard categories model.
                The custom categories experimental feature will be retired on 19 December
                2019. On that date, deployed custom categories models will no longer be
@@ -873,7 +873,7 @@ class CategoriesResult():
 
     :attr str label: (optional) The path to the category through the 5-level
           taxonomy hierarchy. For the complete list of categories, see the [Categories
-          hierarchy](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-categories#categories-hierarchy)
+          hierarchy](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-categories#categories-hierarchy)
           documentation.
     :attr float score: (optional) Confidence score for the category classification.
           Higher values indicate greater confidence.
@@ -892,7 +892,7 @@ class CategoriesResult():
         :param str label: (optional) The path to the category through the 5-level
                taxonomy hierarchy. For the complete list of categories, see the
                [Categories
-               hierarchy](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-categories#categories-hierarchy)
+               hierarchy](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-categories#categories-hierarchy)
                documentation.
         :param float score: (optional) Confidence score for the category
                classification. Higher values indicate greater confidence.
@@ -967,7 +967,8 @@ class CategoriesResultExplanation():
           followed by phrases that were less and less impactful.
     """
 
-    def __init__(self, *,
+    def __init__(self,
+                 *,
                  relevant_text: List['CategoriesRelevantText'] = None) -> None:
         """
         Initialize a CategoriesResultExplanation object.
@@ -1462,7 +1463,9 @@ class EmotionOptions():
           target string that is found in the document.
     """
 
-    def __init__(self, *, document: bool = None,
+    def __init__(self,
+                 *,
+                 document: bool = None,
                  targets: List[str] = None) -> None:
         """
         Initialize a EmotionOptions object.
@@ -1712,7 +1715,7 @@ class EntitiesOptions():
     """
     Identifies people, cities, organizations, and other entities in the content. See
     [Entity types and
-    subtypes](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-entity-types).
+    subtypes](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-entity-types).
     Supported languages: English, French, German, Italian, Japanese, Korean, Portuguese,
     Russian, Spanish, Swedish. Arabic, Chinese, and Dutch are supported only through
     custom models.
@@ -1721,7 +1724,7 @@ class EntitiesOptions():
     :attr bool mentions: (optional) Set this to `true` to return locations of entity
           mentions.
     :attr str model: (optional) Enter a [custom
-          model](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing)
+          model](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-customizing)
           ID to override the standard entity detection model.
     :attr bool sentiment: (optional) Set this to `true` to return sentiment
           information for detected entities.
@@ -1743,7 +1746,7 @@ class EntitiesOptions():
         :param bool mentions: (optional) Set this to `true` to return locations of
                entity mentions.
         :param str model: (optional) Enter a [custom
-               model](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing)
+               model](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-customizing)
                ID to override the standard entity detection model.
         :param bool sentiment: (optional) Set this to `true` to return sentiment
                information for detected entities.
@@ -2131,7 +2134,7 @@ class Features():
           Supported languages: English.
     :attr EntitiesOptions entities: (optional) Identifies people, cities,
           organizations, and other entities in the content. See [Entity types and
-          subtypes](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-entity-types).
+          subtypes](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-entity-types).
           Supported languages: English, French, German, Italian, Japanese, Korean,
           Portuguese, Russian, Spanish, Swedish. Arabic, Chinese, and Dutch are supported
           only through custom models.
@@ -2146,7 +2149,7 @@ class Features():
           related and identifies the type of relation. For example, an `awardedTo`
           relation might connect the entities "Nobel Prize" and "Albert Einstein". See
           [Relation
-          types](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-relations).
+          types](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-relations).
           Supported languages: Arabic, English, German, Japanese, Korean, Spanish.
           Chinese, Dutch, French, Italian, and Portuguese custom models are also
           supported.
@@ -2195,7 +2198,7 @@ class Features():
                Supported languages: English.
         :param EntitiesOptions entities: (optional) Identifies people, cities,
                organizations, and other entities in the content. See [Entity types and
-               subtypes](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-entity-types).
+               subtypes](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-entity-types).
                Supported languages: English, French, German, Italian, Japanese, Korean,
                Portuguese, Russian, Spanish, Swedish. Arabic, Chinese, and Dutch are
                supported only through custom models.
@@ -2210,7 +2213,7 @@ class Features():
                are related and identifies the type of relation. For example, an
                `awardedTo` relation might connect the entities "Nobel Prize" and "Albert
                Einstein". See [Relation
-               types](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-relations).
+               types](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-relations).
                Supported languages: Arabic, English, German, Japanese, Korean, Spanish.
                Chinese, Dutch, French, Italian, and Portuguese custom models are also
                supported.
@@ -2976,12 +2979,12 @@ class RelationsOptions():
     Recognizes when two entities are related and identifies the type of relation. For
     example, an `awardedTo` relation might connect the entities "Nobel Prize" and "Albert
     Einstein". See [Relation
-    types](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-relations).
+    types](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-relations).
     Supported languages: Arabic, English, German, Japanese, Korean, Spanish. Chinese,
     Dutch, French, Italian, and Portuguese custom models are also supported.
 
     :attr str model: (optional) Enter a [custom
-          model](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing)
+          model](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-customizing)
           ID to override the default model.
     """
 
@@ -2990,7 +2993,7 @@ class RelationsOptions():
         Initialize a RelationsOptions object.
 
         :param str model: (optional) Enter a [custom
-               model](https://cloud.ibm.com/docs/services/natural-language-understanding?topic=natural-language-understanding-customizing)
+               model](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-customizing)
                ID to override the default model.
         """
         self.model = model
@@ -3831,7 +3834,9 @@ class SentimentOptions():
           target string that is found in the document.
     """
 
-    def __init__(self, *, document: bool = None,
+    def __init__(self,
+                 *,
+                 document: bool = None,
                  targets: List[str] = None) -> None:
         """
         Initialize a SentimentOptions object.
@@ -4053,7 +4058,9 @@ class SyntaxOptionsTokens():
           speech for each token.
     """
 
-    def __init__(self, *, lemma: bool = None,
+    def __init__(self,
+                 *,
+                 lemma: bool = None,
                  part_of_speech: bool = None) -> None:
         """
         Initialize a SyntaxOptionsTokens object.
@@ -4197,7 +4204,9 @@ class TargetedEmotionResults():
     :attr EmotionScores emotion: (optional) The emotion results for the target.
     """
 
-    def __init__(self, *, text: str = None,
+    def __init__(self,
+                 *,
+                 text: str = None,
                  emotion: 'EmotionScores' = None) -> None:
         """
         Initialize a TargetedEmotionResults object.

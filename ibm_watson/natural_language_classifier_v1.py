@@ -491,7 +491,9 @@ class ClassifiedClass():
     :attr str class_name: (optional) Class label.
     """
 
-    def __init__(self, *, confidence: float = None,
+    def __init__(self,
+                 *,
+                 confidence: float = None,
                  class_name: str = None) -> None:
         """
         Initialize a ClassifiedClass object.
