@@ -53,6 +53,8 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
                                   audio_metrics=None,
                                   end_of_phrase_silence_time=None,
                                   split_transcript_at_phrase_end=None,
+                                  speech_detector_sensitivity = None,
+                                  background_audio_suppression = None,
                                   **kwargs):
         """
         Sends audio for speech recognition using web sockets.
@@ -72,7 +74,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
         `model` parameter. You must make the request with service credentials created for
         the instance of the service that owns the custom model. By default, no custom
         language model is used. See [Custom
-        models](https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-input#custom).
+        models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-input#custom).
         **Note:** Use this parameter instead of the deprecated `customization_id`
         parameter.
         :param str acoustic_customization_id: The customization ID (GUID) of a custom
@@ -102,16 +104,23 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
         models that have been upgraded for a new base model. The default value depends on
         whether the parameter is used with or without a custom model. For more
         information, see [Base model
-        version](https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-input#version).
+        version](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-input#version).
         :param int inactivity_timeout: The time in seconds after which, if only silence
         (no speech) is detected in submitted audio, the connection is closed with a 400
         error. Useful for stopping audio submission from a live microphone when a user
         simply walks away. Use `-1` for infinity.
-        :param list[str] keywords: An array of keyword strings to spot in the audio. Each
-        keyword string can include one or more tokens. Keywords are spotted only in the
-        final hypothesis, not in interim results. If you specify any keywords, you must
-        also specify a keywords threshold. You can spot a maximum of 1000 keywords. Omit
-        the parameter or specify an empty array if you do not need to spot keywords.
+        :param List[str] keywords: (optional) An array of keyword strings to spot
+        in the audio. Each keyword string can include one or more string tokens.
+        Keywords are spotted only in the final results, not in interim hypotheses.
+        If you specify any keywords, you must also specify a keywords threshold.
+        Omit the parameter or specify an empty array if you do not need to spot
+        keywords.
+        You can spot a maximum of 1000 keywords with a single request. A single
+        keyword can have a maximum length of 1024 characters, though the maximum
+        effective length for double-byte languages might be shorter. Keywords are
+        case-insensitive.
+        See [Keyword
+        spotting](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#keyword_spotting).
         :param float keywords_threshold: A confidence value that is the lower bound for
         spotting a keyword. A word is considered to match a keyword if its confidence is
         greater than or equal to the threshold. Specify a probability between 0 and 1
@@ -138,15 +147,18 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
         request. For US English, also converts certain keyword strings to punctuation
         symbols. By default, no smart formatting is performed. Applies to US English and
         Spanish transcription only.
-        :param bool speaker_labels: If `true`, the response includes labels that identify
-        which words were spoken by which participants in a multi-person exchange. By
-        default, no speaker labels are returned. Setting `speaker_labels` to `true` forces
-        the `timestamps` parameter to be `true`, regardless of whether you specify `false`
-        for the parameter.
-        To determine whether a language model supports speaker labels, use the **Get
-        models** method and check that the attribute `speaker_labels` is set to `true`.
-        You can also refer to [Speaker
-        labels](https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-output#speaker_labels).
+        :param bool speaker_labels: (optional) If `true`, the response includes
+        labels that identify which words were spoken by which participants in a
+        multi-person exchange. By default, the service returns no speaker labels.
+        Setting `speaker_labels` to `true` forces the `timestamps` parameter to be
+        `true`, regardless of whether you specify `false` for the parameter.
+        **Note:** Applies to US English, German, Japanese, Korean, and Spanish
+        (both broadband and narrowband models) and UK English (narrowband model)
+        transcription only. To determine whether a language model supports speaker
+        labels, you can also use the **Get a model** method and check that the
+        attribute `speaker_labels` is set to `true`.
+        See [Speaker
+        labels](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#speaker_labels).
         :param str http_proxy_host: http proxy host name.
         :param str http_proxy_port: http proxy port. If not set, set to 80.
         :param str customization_id: **Deprecated.** Use the `language_customization_id`
@@ -159,7 +171,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
         model for which the grammar is defined. The service recognizes only strings that
         are recognized by the specified grammar; it does not recognize other custom words
         from the model's words resource. See
-        [Grammars](https://cloud.ibm.com/docs/services/speech-to-text/output.html).
+        [Grammars](https://cloud.ibm.com/docs/speech-to-text/output.html).
         :param bool redaction: If `true`, the service redacts, or masks, numeric data from
         final transcripts. The feature redacts any number that has three or more
         consecutive digits by replacing each digit with an `X` character. It is intended
@@ -172,7 +184,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
         (forces the `max_alternatives` parameter to be `1`).
         **Note:** Applies to US English, Japanese, and Korean transcription only.
         See [Numeric
-        redaction](https://cloud.ibm.com/docs/services/speech-to-text/output.html#redaction).
+        redaction](https://cloud.ibm.com/docs/speech-to-text/output.html#redaction).
         :param bool processing_metrics: If `true`, requests processing metrics about the
         service's transcription of the input audio. The service returns processing metrics
         at the interval specified by the `processing_metrics_interval` parameter. It also
@@ -204,7 +216,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
         The default pause interval for most languages is 0.8 seconds; the default
         for Chinese is 0.6 seconds.
         See [End of phrase silence
-        time](https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-output#silence_time). 
+        time](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#silence_time).
         :param bool split_transcript_at_phrase_end: (optional) If `true`, directs
         the service to split the transcript into multiple final results based on
         semantic features of the input, for example, at the conclusion of
@@ -214,7 +226,31 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
         where the service splits a transcript. By default, the service splits
         transcripts based solely on the pause interval.
         See [Split transcript at phrase
-        end](https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-output#split_transcript).
+        end](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#split_transcript).
+        :param float speech_detector_sensitivity: (optional) The sensitivity of
+        speech activity detection that the service is to perform. Use the parameter
+        to suppress word insertions from music, coughing, and other non-speech
+        events. The service biases the audio it passes for speech recognition by
+        evaluating the input audio against prior models of speech and non-speech
+        activity.
+        Specify a value between 0.0 and 1.0:
+        * 0.0 suppresses all audio (no speech is transcribed).
+        * 0.5 (the default) provides a reasonable compromise for the level of
+        sensitivity.
+        * 1.0 suppresses no audio (speech detection sensitivity is disabled).
+        The values increase on a monotonic curve. See [Speech Activity
+        Detection](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-input#detection).
+        :param float background_audio_suppression: (optional) The level to which
+        the service is to suppress background audio based on its volume to prevent
+        it from being transcribed as speech. Use the parameter to suppress side
+        conversations or background noise.
+        Specify a value in the range of 0.0 to 1.0:
+        * 0.0 (the default) provides no suppression (background audio suppression
+        is disabled).
+        * 0.5 provides a reasonable level of audio suppression for general usage.
+        * 1.0 suppresses all audio (no audio is transcribed).
+        The values increase on a monotonic curve. See [Speech Activity
+        Detection](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-input#detection).
         :param dict headers: A `dict` containing the request headers
         :return: A `dict` containing the `SpeechRecognitionResults` response.
         :rtype: dict
@@ -276,7 +312,11 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
             'redaction': redaction,
             'processing_metrics': processing_metrics,
             'processing_metrics_interval': processing_metrics_interval,
-            'audio_metrics': audio_metrics
+            'audio_metrics': audio_metrics,
+            'end_of_phrase_silence_time': end_of_phrase_silence_time,
+            'split_transcript_at_phrase_end': split_transcript_at_phrase_end,
+            'speech_detector_sensitivity': speech_detector_sensitivity,
+            'background_audio_suppression': background_audio_suppression
         }
         options = {k: v for k, v in options.items() if v is not None}
         request['options'] = options
