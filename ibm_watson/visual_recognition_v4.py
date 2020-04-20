@@ -138,7 +138,8 @@ class VisualRecognitionV4(BaseService):
 
         form_data = []
         collection_ids = self._convert_list(collection_ids)
-        form_data.append(('collection_ids', (None, collection_ids, 'text/plain')))
+        form_data.append(
+            ('collection_ids', (None, collection_ids, 'text/plain')))
         features = self._convert_list(features)
         form_data.append(('features', (None, features, 'text/plain')))
         if images_file:

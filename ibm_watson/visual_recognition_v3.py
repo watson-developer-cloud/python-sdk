@@ -170,7 +170,8 @@ class VisualRecognitionV3(BaseService):
             form_data.append(('owners', (None, owners, 'text/plain')))
         if classifier_ids:
             classifier_ids = self._convert_list(classifier_ids)
-            form_data.append(('classifier_ids', (None, classifier_ids, 'text/plain')))
+            form_data.append(
+                ('classifier_ids', (None, classifier_ids, 'text/plain')))
 
         url = '/v3/classify'
         request = self.prepare_request(method='POST',

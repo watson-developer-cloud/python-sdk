@@ -1219,21 +1219,19 @@ class MessageContextSkill():
 
     :attr dict user_defined: (optional) Arbitrary variables that can be read and
           written by a particular skill.
-    :attr MessageContextSkillSystem system: (optional) System context data used by
-          the skill.
+    :attr dict system: (optional) System context data used by the skill.
     """
 
     def __init__(self,
                  *,
                  user_defined: dict = None,
-                 system: 'MessageContextSkillSystem' = None) -> None:
+                 system: dict = None) -> None:
         """
         Initialize a MessageContextSkill object.
 
         :param dict user_defined: (optional) Arbitrary variables that can be read
                and written by a particular skill.
-        :param MessageContextSkillSystem system: (optional) System context data
-               used by the skill.
+        :param dict system: (optional) System context data used by the skill.
         """
         self.user_defined = user_defined
         self.system = system
@@ -1251,8 +1249,7 @@ class MessageContextSkill():
         if 'user_defined' in _dict:
             args['user_defined'] = _dict.get('user_defined')
         if 'system' in _dict:
-            args['system'] = MessageContextSkillSystem._from_dict(
-                _dict.get('system'))
+            args['system'] = _dict.get('system')
         return cls(**args)
 
     @classmethod
@@ -1266,7 +1263,7 @@ class MessageContextSkill():
         if hasattr(self, 'user_defined') and self.user_defined is not None:
             _dict['user_defined'] = self.user_defined
         if hasattr(self, 'system') and self.system is not None:
-            _dict['system'] = self.system._to_dict()
+            _dict['system'] = self.system
         return _dict
 
     def _to_dict(self):
@@ -1284,89 +1281,6 @@ class MessageContextSkill():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'MessageContextSkill') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class MessageContextSkillSystem():
-    """
-    System context data used by the skill.
-
-    :attr str state: (optional) An encoded string representing the current
-          conversation state. By saving this value and then sending it in the context of a
-          subsequent message request, you can restore the conversation to the same state.
-          This can be useful if you need to return to an earlier point in the conversation
-          or resume a paused conversation after the session has expired.
-    """
-
-    def __init__(self, *, state: str = None, **kwargs) -> None:
-        """
-        Initialize a MessageContextSkillSystem object.
-
-        :param str state: (optional) An encoded string representing the current
-               conversation state. By saving this value and then sending it in the context
-               of a subsequent message request, you can restore the conversation to the
-               same state. This can be useful if you need to return to an earlier point in
-               the conversation or resume a paused conversation after the session has
-               expired.
-        :param **kwargs: (optional) Any additional properties.
-        """
-        self.state = state
-        for _key, _value in kwargs.items():
-            setattr(self, _key, _value)
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'MessageContextSkillSystem':
-        """Initialize a MessageContextSkillSystem object from a json dictionary."""
-        args = {}
-        xtra = _dict.copy()
-        if 'state' in _dict:
-            args['state'] = _dict.get('state')
-            del xtra['state']
-        args.update(xtra)
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a MessageContextSkillSystem object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'state') and self.state is not None:
-            _dict['state'] = self.state
-        if hasattr(self, '_additionalProperties'):
-            for _key in self._additionalProperties:
-                _value = getattr(self, _key, None)
-                if _value is not None:
-                    _dict[_key] = _value
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __setattr__(self, name: str, value: object) -> None:
-        properties = {'state'}
-        if not hasattr(self, '_additionalProperties'):
-            super(MessageContextSkillSystem,
-                  self).__setattr__('_additionalProperties', set())
-        if name not in properties:
-            self._additionalProperties.add(name)
-        super(MessageContextSkillSystem, self).__setattr__(name, value)
-
-    def __str__(self) -> str:
-        """Return a `str` version of this MessageContextSkillSystem object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other: 'MessageContextSkillSystem') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'MessageContextSkillSystem') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
