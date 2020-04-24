@@ -1,0 +1,1626 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>ibm_watson.visual_recognition_v4 module &#8212; Watson Developer Cloud Python SDK 4.4.0 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ibm_watson.websocket package" href="ibm_watson.websocket.html" />
+    <link rel="prev" title="ibm_watson.visual_recognition_v3 module" href="ibm_watson.visual_recognition_v3.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-ibm_watson.visual_recognition_v4">
+<span id="ibm-watson-visual-recognition-v4-module"></span><h1>ibm_watson.visual_recognition_v4 module<a class="headerlink" href="#module-ibm_watson.visual_recognition_v4" title="Permalink to this headline">¶</a></h1>
+<p>Provide images to the IBM Watson&amp;trade; Visual Recognition service for analysis. The
+service detects objects based on a set of images with training data.</p>
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.VisualRecognitionV4">
+<em class="property">class </em><code class="sig-name descname">VisualRecognitionV4</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">version</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">authenticator</span><span class="p">:</span> <span class="n">ibm_cloud_sdk_core.authenticators.authenticator.Authenticator</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">service_name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">'visual_recognition'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#VisualRecognitionV4"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.VisualRecognitionV4" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ibm_cloud_sdk_core.base_service.BaseService</span></code></p>
+<p>The Visual Recognition V4 service.</p>
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v4.VisualRecognitionV4.DEFAULT_SERVICE_URL">
+<code class="sig-name descname">DEFAULT_SERVICE_URL</code><em class="property"> = 'https://gateway.watsonplatform.net/visual-recognition/api'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v4.VisualRecognitionV4.DEFAULT_SERVICE_URL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v4.VisualRecognitionV4.DEFAULT_SERVICE_NAME">
+<code class="sig-name descname">DEFAULT_SERVICE_NAME</code><em class="property"> = 'visual_recognition'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v4.VisualRecognitionV4.DEFAULT_SERVICE_NAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.VisualRecognitionV4.analyze">
+<code class="sig-name descname">analyze</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">collection_ids</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">features</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">images_file</span><span class="p">:</span> <span class="n">BinaryIO</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">image_url</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">threshold</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#VisualRecognitionV4.analyze"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.VisualRecognitionV4.analyze" title="Permalink to this definition">¶</a></dt>
+<dd><p>Analyze images.</p>
+<p>Analyze images by URL, by file, or both against your own collection. Make sure
+that <strong>training_status.objects.ready</strong> is <cite>true</cite> for the feature before you use a
+collection to analyze images.
+Encode the image and .zip file names in UTF-8 if they contain non-ASCII
+characters. The service assumes UTF-8 encoding if it encounters non-ASCII
+characters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>collection_ids</strong> (<em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>]</em>) – The IDs of the collections to analyze.</p></li>
+<li><p><strong>features</strong> (<em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>]</em>) – The features to analyze.</p></li>
+<li><p><strong>images_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference internal" href="#ibm_watson.visual_recognition_v4.FileWithMetadata" title="ibm_watson.visual_recognition_v4.FileWithMetadata"><em>FileWithMetadata</em></a><em>]</em>) – (optional) An array of image
+files (.jpg or .png) or .zip files with images.
+- Include a maximum of 20 images in a request.
+- Limit the .zip file to 100 MB.
+- Limit each image file to 10 MB.
+You can also include an image with the <strong>image_url</strong> parameter.</p></li>
+<li><p><strong>image_url</strong> (<em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>]</em>) – (optional) An array of URLs of image files
+(.jpg or .png).
+- Include a maximum of 20 images in a request.
+- Limit each image file to 10 MB.
+- Minimum width and height is 30 pixels, but the service tends to perform
+better with images that are at least 300 x 300 pixels. Maximum is 5400
+pixels for either height or width.
+You can also include images with the <strong>images_file</strong> parameter.</p></li>
+<li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – (optional) The minimum score a feature must have to
+be returned.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.VisualRecognitionV4.create_collection">
+<code class="sig-name descname">create_collection</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">description</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#VisualRecognitionV4.create_collection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.VisualRecognitionV4.create_collection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a collection.</p>
+<p>Create a collection that can be used to store images.
+To create a collection without specifying a name and description, include an empty
+JSON object in the request body.
+Encode the name and description in UTF-8 if they contain non-ASCII characters. The
+service assumes UTF-8 encoding if it encounters non-ASCII characters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – (optional) The name of the collection. The name can
+contain alphanumeric, underscore, hyphen, and dot characters. It cannot
+begin with the reserved prefix <cite>sys-</cite>.</p></li>
+<li><p><strong>description</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – (optional) The description of the collection.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.VisualRecognitionV4.list_collections">
+<code class="sig-name descname">list_collections</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#VisualRecognitionV4.list_collections"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.VisualRecognitionV4.list_collections" title="Permalink to this definition">¶</a></dt>
+<dd><p>List collections.</p>
+<p>Retrieves a list of collections for the service instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.VisualRecognitionV4.get_collection">
+<code class="sig-name descname">get_collection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">collection_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#VisualRecognitionV4.get_collection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.VisualRecognitionV4.get_collection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get collection details.</p>
+<p>Get details of one collection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The identifier of the collection.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.VisualRecognitionV4.update_collection">
+<code class="sig-name descname">update_collection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">collection_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">description</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#VisualRecognitionV4.update_collection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.VisualRecognitionV4.update_collection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update a collection.</p>
+<p>Update the name or description of a collection.
+Encode the name and description in UTF-8 if they contain non-ASCII characters. The
+service assumes UTF-8 encoding if it encounters non-ASCII characters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The identifier of the collection.</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – (optional) The name of the collection. The name can
+contain alphanumeric, underscore, hyphen, and dot characters. It cannot
+begin with the reserved prefix <cite>sys-</cite>.</p></li>
+<li><p><strong>description</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – (optional) The description of the collection.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.VisualRecognitionV4.delete_collection">
+<code class="sig-name descname">delete_collection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">collection_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#VisualRecognitionV4.delete_collection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.VisualRecognitionV4.delete_collection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a collection.</p>
+<p>Delete a collection from the service instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The identifier of the collection.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.VisualRecognitionV4.add_images">
+<code class="sig-name descname">add_images</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">collection_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">images_file</span><span class="p">:</span> <span class="n">BinaryIO</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">image_url</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">training_data</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#VisualRecognitionV4.add_images"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.VisualRecognitionV4.add_images" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add images.</p>
+<p>Add images to a collection by URL, by file, or both.
+Encode the image and .zip file names in UTF-8 if they contain non-ASCII
+characters. The service assumes UTF-8 encoding if it encounters non-ASCII
+characters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The identifier of the collection.</p></li>
+<li><p><strong>images_file</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>[</em><a class="reference internal" href="#ibm_watson.visual_recognition_v4.FileWithMetadata" title="ibm_watson.visual_recognition_v4.FileWithMetadata"><em>FileWithMetadata</em></a><em>]</em>) – (optional) An array of image
+files (.jpg or .png) or .zip files with images.
+- Include a maximum of 20 images in a request.
+- Limit the .zip file to 100 MB.
+- Limit each image file to 10 MB.
+You can also include an image with the <strong>image_url</strong> parameter.</p></li>
+<li><p><strong>image_url</strong> (<em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>]</em>) – (optional) The array of URLs of image files
+(.jpg or .png).
+- Include a maximum of 20 images in a request.
+- Limit each image file to 10 MB.
+- Minimum width and height is 30 pixels, but the service tends to perform
+better with images that are at least 300 x 300 pixels. Maximum is 5400
+pixels for either height or width.
+You can also include images with the <strong>images_file</strong> parameter.</p></li>
+<li><p><strong>training_data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – (optional) Training data for a single image.
+Include training data only if you add one image with the request.
+The <cite>object</cite> property can contain alphanumeric, underscore, hyphen, space,
+and dot characters. It cannot begin with the reserved prefix <cite>sys-</cite> and
+must be no longer than 32 characters.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.VisualRecognitionV4.list_images">
+<code class="sig-name descname">list_images</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">collection_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#VisualRecognitionV4.list_images"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.VisualRecognitionV4.list_images" title="Permalink to this definition">¶</a></dt>
+<dd><p>List images.</p>
+<p>Retrieves a list of images in a collection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The identifier of the collection.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.VisualRecognitionV4.get_image_details">
+<code class="sig-name descname">get_image_details</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">collection_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">image_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#VisualRecognitionV4.get_image_details"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.VisualRecognitionV4.get_image_details" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get image details.</p>
+<p>Get the details of an image in a collection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The identifier of the collection.</p></li>
+<li><p><strong>image_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The identifier of the image.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.VisualRecognitionV4.delete_image">
+<code class="sig-name descname">delete_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">collection_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">image_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#VisualRecognitionV4.delete_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.VisualRecognitionV4.delete_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete an image.</p>
+<p>Delete one image from a collection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The identifier of the collection.</p></li>
+<li><p><strong>image_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The identifier of the image.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.VisualRecognitionV4.get_jpeg_image">
+<code class="sig-name descname">get_jpeg_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">collection_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">image_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">size</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#VisualRecognitionV4.get_jpeg_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.VisualRecognitionV4.get_jpeg_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a JPEG file of an image.</p>
+<p>Download a JPEG representation of an image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The identifier of the collection.</p></li>
+<li><p><strong>image_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The identifier of the image.</p></li>
+<li><p><strong>size</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – (optional) The image size. Specify <cite>thumbnail</cite> to return a
+version that maintains the original aspect ratio but is no larger than 200
+pixels in the larger dimension. For example, an original 800 x 1000 image
+is resized to 160 x 200 pixels.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.VisualRecognitionV4.list_object_metadata">
+<code class="sig-name descname">list_object_metadata</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">collection_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#VisualRecognitionV4.list_object_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.VisualRecognitionV4.list_object_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>List object metadata.</p>
+<p>Retrieves a list of object names in a collection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The identifier of the collection.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.VisualRecognitionV4.update_object_metadata">
+<code class="sig-name descname">update_object_metadata</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">collection_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">object</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">new_object</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#VisualRecognitionV4.update_object_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.VisualRecognitionV4.update_object_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update an object name.</p>
+<p>Update the name of an object. A successful request updates the training data for
+all images that use the object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The identifier of the collection.</p></li>
+<li><p><strong>object</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The name of the object.</p></li>
+<li><p><strong>new_object</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The updated name of the object. The name can contain
+alphanumeric, underscore, hyphen, space, and dot characters. It cannot
+begin with the reserved prefix <cite>sys-</cite>.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.VisualRecognitionV4.get_object_metadata">
+<code class="sig-name descname">get_object_metadata</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">collection_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">object</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#VisualRecognitionV4.get_object_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.VisualRecognitionV4.get_object_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get object metadata.</p>
+<p>Get the number of bounding boxes for a single object in a collection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The identifier of the collection.</p></li>
+<li><p><strong>object</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The name of the object.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.VisualRecognitionV4.delete_object">
+<code class="sig-name descname">delete_object</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">collection_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">object</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#VisualRecognitionV4.delete_object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.VisualRecognitionV4.delete_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete an object.</p>
+<p>Delete one object from a collection. A successful request deletes the training
+data from all images that use the object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The identifier of the collection.</p></li>
+<li><p><strong>object</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The name of the object.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.VisualRecognitionV4.train">
+<code class="sig-name descname">train</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">collection_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#VisualRecognitionV4.train"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.VisualRecognitionV4.train" title="Permalink to this definition">¶</a></dt>
+<dd><p>Train a collection.</p>
+<p>Start training on images in a collection. The collection must have enough training
+data and untrained data (the <strong>training_status.objects.data_changed</strong> is <cite>true</cite>).
+If training is in progress, the request queues the next training job.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The identifier of the collection.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.VisualRecognitionV4.add_image_training_data">
+<code class="sig-name descname">add_image_training_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">collection_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">image_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">objects</span><span class="p">:</span> <span class="n">List<span class="p">[</span>TrainingDataObject<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#VisualRecognitionV4.add_image_training_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.VisualRecognitionV4.add_image_training_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add training data to an image.</p>
+<p>Add, update, or delete training data for an image. Encode the object name in UTF-8
+if it contains non-ASCII characters. The service assumes UTF-8 encoding if it
+encounters non-ASCII characters.
+Elements in the request replace the existing elements.
+- To update the training data, provide both the unchanged and the new or changed
+values.
+- To delete the training data, provide an empty value for the training data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>collection_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The identifier of the collection.</p></li>
+<li><p><strong>image_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The identifier of the image.</p></li>
+<li><p><strong>objects</strong> (<em>List</em><em>[</em><a class="reference internal" href="#ibm_watson.visual_recognition_v4.TrainingDataObject" title="ibm_watson.visual_recognition_v4.TrainingDataObject"><em>TrainingDataObject</em></a><em>]</em>) – (optional) Training data for
+specific objects.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.VisualRecognitionV4.get_training_usage">
+<code class="sig-name descname">get_training_usage</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">start_time</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">end_time</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#VisualRecognitionV4.get_training_usage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.VisualRecognitionV4.get_training_usage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get training usage.</p>
+<p>Information about the completed training events. You can use this information to
+determine how close you are to the training limits for the month.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start_time</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – (optional) The earliest day to include training
+events. Specify dates in YYYY-MM-DD format. If empty or not specified, the
+earliest training event is included.</p></li>
+<li><p><strong>end_time</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – (optional) The most recent day to include training
+events. Specify dates in YYYY-MM-DD format. All events for the day are
+included. If empty or not specified, the current day is used. Specify the
+same value as <cite>start_time</cite> to request events for a single day.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.VisualRecognitionV4.delete_user_data">
+<code class="sig-name descname">delete_user_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">customer_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#VisualRecognitionV4.delete_user_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.VisualRecognitionV4.delete_user_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete labeled data.</p>
+<p>Deletes all data associated with a specified customer ID. The method has no effect
+if no data is associated with the customer ID.
+You associate a customer ID with data by passing the <cite>X-Watson-Metadata</cite> header
+with a request that passes data. For more information about personal data and
+customer IDs, see [Information
+security](<a class="reference external" href="https://cloud.ibm.com/docs/visual-recognition?topic=visual-recognition-information-security">https://cloud.ibm.com/docs/visual-recognition?topic=visual-recognition-information-security</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>customer_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The customer ID for which all data is to be
+deleted.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.AnalyzeEnums">
+<em class="property">class </em><code class="sig-name descname">AnalyzeEnums</code><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#AnalyzeEnums"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.AnalyzeEnums" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.AnalyzeEnums.Features">
+<em class="property">class </em><code class="sig-name descname">Features</code><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#AnalyzeEnums.Features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.AnalyzeEnums.Features" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>The features to analyze.</p>
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v4.AnalyzeEnums.Features.OBJECTS">
+<code class="sig-name descname">OBJECTS</code><em class="property"> = 'objects'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v4.AnalyzeEnums.Features.OBJECTS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.GetJpegImageEnums">
+<em class="property">class </em><code class="sig-name descname">GetJpegImageEnums</code><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#GetJpegImageEnums"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.GetJpegImageEnums" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.GetJpegImageEnums.Size">
+<em class="property">class </em><code class="sig-name descname">Size</code><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#GetJpegImageEnums.Size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.GetJpegImageEnums.Size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>The image size. Specify <cite>thumbnail</cite> to return a version that maintains the
+original aspect ratio but is no larger than 200 pixels in the larger dimension.
+For example, an original 800 x 1000 image is resized to 160 x 200 pixels.</p>
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v4.GetJpegImageEnums.Size.FULL">
+<code class="sig-name descname">FULL</code><em class="property"> = 'full'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v4.GetJpegImageEnums.Size.FULL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v4.GetJpegImageEnums.Size.THUMBNAIL">
+<code class="sig-name descname">THUMBNAIL</code><em class="property"> = 'thumbnail'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v4.GetJpegImageEnums.Size.THUMBNAIL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.AnalyzeResponse">
+<em class="property">class </em><code class="sig-name descname">AnalyzeResponse</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">images</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Image<span class="p">]</span></span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">warnings</span><span class="p">:</span> <span class="n">List<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Warning" title="(in Python v3.8)">Warning</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">trace</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#AnalyzeResponse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.AnalyzeResponse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Results for all images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr List[Image] images</dt>
+<dd class="field-odd"><p>Analyzed images.</p>
+</dd>
+<dt class="field-even">Attr List[Warning] warnings</dt>
+<dd class="field-even"><p>(optional) Information about what might cause less
+than optimal output.</p>
+</dd>
+<dt class="field-odd">Attr str trace</dt>
+<dd class="field-odd"><p>(optional) A unique identifier of the request. Included only
+when an error or warning is returned.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.AnalyzeResponse.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v4.AnalyzeResponse" title="ibm_watson.visual_recognition_v4.AnalyzeResponse">ibm_watson.visual_recognition_v4.AnalyzeResponse</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#AnalyzeResponse.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.AnalyzeResponse.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a AnalyzeResponse object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.AnalyzeResponse.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#AnalyzeResponse.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.AnalyzeResponse.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.Collection">
+<em class="property">class </em><code class="sig-name descname">Collection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">collection_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">description</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">created</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.8)">datetime.datetime</a></span></em>, <em class="sig-param"><span class="n">updated</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.8)">datetime.datetime</a></span></em>, <em class="sig-param"><span class="n">image_count</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span></em>, <em class="sig-param"><span class="n">training_status</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#ibm_watson.visual_recognition_v4.TrainingStatus" title="ibm_watson.visual_recognition_v4.TrainingStatus">ibm_watson.visual_recognition_v4.TrainingStatus</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#Collection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.Collection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Details about a collection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str collection_id</dt>
+<dd class="field-odd"><p>The identifier of the collection.</p>
+</dd>
+<dt class="field-even">Attr str name</dt>
+<dd class="field-even"><p>The name of the collection.</p>
+</dd>
+<dt class="field-odd">Attr str description</dt>
+<dd class="field-odd"><p>The description of the collection.</p>
+</dd>
+<dt class="field-even">Attr datetime created</dt>
+<dd class="field-even"><p>Date and time in Coordinated Universal Time (UTC) that
+the collection was created.</p>
+</dd>
+<dt class="field-odd">Attr datetime updated</dt>
+<dd class="field-odd"><p>Date and time in Coordinated Universal Time (UTC) that
+the collection was most recently updated.</p>
+</dd>
+<dt class="field-even">Attr int image_count</dt>
+<dd class="field-even"><p>Number of images in the collection.</p>
+</dd>
+<dt class="field-odd">Attr TrainingStatus training_status</dt>
+<dd class="field-odd"><p>Training status information for the
+collection.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.Collection.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v4.Collection" title="ibm_watson.visual_recognition_v4.Collection">ibm_watson.visual_recognition_v4.Collection</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#Collection.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.Collection.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a Collection object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.Collection.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#Collection.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.Collection.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.CollectionObjects">
+<em class="property">class </em><code class="sig-name descname">CollectionObjects</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">collection_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">objects</span><span class="p">:</span> <span class="n">List<span class="p">[</span>ObjectDetail<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#CollectionObjects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.CollectionObjects" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The objects in a collection that are detected in an image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str collection_id</dt>
+<dd class="field-odd"><p>The identifier of the collection.</p>
+</dd>
+<dt class="field-even">Attr List[ObjectDetail] objects</dt>
+<dd class="field-even"><p>The identified objects in a collection.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.CollectionObjects.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v4.CollectionObjects" title="ibm_watson.visual_recognition_v4.CollectionObjects">ibm_watson.visual_recognition_v4.CollectionObjects</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#CollectionObjects.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.CollectionObjects.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a CollectionObjects object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.CollectionObjects.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#CollectionObjects.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.CollectionObjects.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.CollectionsList">
+<em class="property">class </em><code class="sig-name descname">CollectionsList</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">collections</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Collection<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#CollectionsList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.CollectionsList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A container for the list of collections.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr List[Collection] collections</dt>
+<dd class="field-odd"><p>The collections in this service instance.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.CollectionsList.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v4.CollectionsList" title="ibm_watson.visual_recognition_v4.CollectionsList">ibm_watson.visual_recognition_v4.CollectionsList</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#CollectionsList.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.CollectionsList.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a CollectionsList object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.CollectionsList.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#CollectionsList.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.CollectionsList.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.DetectedObjects">
+<em class="property">class </em><code class="sig-name descname">DetectedObjects</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">collections</span><span class="p">:</span> <span class="n">List<span class="p">[</span>CollectionObjects<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#DetectedObjects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.DetectedObjects" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Container for the list of collections that have objects detected in an image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr List[CollectionObjects] collections</dt>
+<dd class="field-odd"><p>(optional) The collections with
+identified objects.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.DetectedObjects.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v4.DetectedObjects" title="ibm_watson.visual_recognition_v4.DetectedObjects">ibm_watson.visual_recognition_v4.DetectedObjects</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#DetectedObjects.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.DetectedObjects.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a DetectedObjects object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.DetectedObjects.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#DetectedObjects.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.DetectedObjects.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.Error">
+<em class="property">class </em><code class="sig-name descname">Error</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">code</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">message</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">more_info</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">target</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="#ibm_watson.visual_recognition_v4.ErrorTarget" title="ibm_watson.visual_recognition_v4.ErrorTarget">ibm_watson.visual_recognition_v4.ErrorTarget</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#Error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.Error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Details about an error.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str code</dt>
+<dd class="field-odd"><p>Identifier of the problem.</p>
+</dd>
+<dt class="field-even">Attr str message</dt>
+<dd class="field-even"><p>An explanation of the problem with possible solutions.</p>
+</dd>
+<dt class="field-odd">Attr str more_info</dt>
+<dd class="field-odd"><p>(optional) A URL for more information about the solution.</p>
+</dd>
+<dt class="field-even">Attr ErrorTarget target</dt>
+<dd class="field-even"><p>(optional) Details about the specific area of the
+problem.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.Error.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v4.Error" title="ibm_watson.visual_recognition_v4.Error">ibm_watson.visual_recognition_v4.Error</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#Error.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.Error.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a Error object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.Error.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#Error.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.Error.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.Error.CodeEnum">
+<em class="property">class </em><code class="sig-name descname">CodeEnum</code><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#Error.CodeEnum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.Error.CodeEnum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>Identifier of the problem.</p>
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v4.Error.CodeEnum.INVALID_FIELD">
+<code class="sig-name descname">INVALID_FIELD</code><em class="property"> = 'invalid_field'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v4.Error.CodeEnum.INVALID_FIELD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v4.Error.CodeEnum.INVALID_HEADER">
+<code class="sig-name descname">INVALID_HEADER</code><em class="property"> = 'invalid_header'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v4.Error.CodeEnum.INVALID_HEADER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v4.Error.CodeEnum.INVALID_METHOD">
+<code class="sig-name descname">INVALID_METHOD</code><em class="property"> = 'invalid_method'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v4.Error.CodeEnum.INVALID_METHOD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v4.Error.CodeEnum.MISSING_FIELD">
+<code class="sig-name descname">MISSING_FIELD</code><em class="property"> = 'missing_field'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v4.Error.CodeEnum.MISSING_FIELD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v4.Error.CodeEnum.SERVER_ERROR">
+<code class="sig-name descname">SERVER_ERROR</code><em class="property"> = 'server_error'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v4.Error.CodeEnum.SERVER_ERROR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.ErrorTarget">
+<em class="property">class </em><code class="sig-name descname">ErrorTarget</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">type</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ErrorTarget"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ErrorTarget" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Details about the specific area of the problem.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str type</dt>
+<dd class="field-odd"><p>The parameter or property that is the focus of the problem.</p>
+</dd>
+<dt class="field-even">Attr str name</dt>
+<dd class="field-even"><p>The property that is identified with the problem.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.ErrorTarget.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v4.ErrorTarget" title="ibm_watson.visual_recognition_v4.ErrorTarget">ibm_watson.visual_recognition_v4.ErrorTarget</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ErrorTarget.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ErrorTarget.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a ErrorTarget object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.ErrorTarget.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ErrorTarget.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ErrorTarget.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.ErrorTarget.TypeEnum">
+<em class="property">class </em><code class="sig-name descname">TypeEnum</code><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ErrorTarget.TypeEnum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ErrorTarget.TypeEnum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>The parameter or property that is the focus of the problem.</p>
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v4.ErrorTarget.TypeEnum.FIELD">
+<code class="sig-name descname">FIELD</code><em class="property"> = 'field'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ErrorTarget.TypeEnum.FIELD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v4.ErrorTarget.TypeEnum.PARAMETER">
+<code class="sig-name descname">PARAMETER</code><em class="property"> = 'parameter'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ErrorTarget.TypeEnum.PARAMETER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v4.ErrorTarget.TypeEnum.HEADER">
+<code class="sig-name descname">HEADER</code><em class="property"> = 'header'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ErrorTarget.TypeEnum.HEADER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.Image">
+<em class="property">class </em><code class="sig-name descname">Image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">source</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#ibm_watson.visual_recognition_v4.ImageSource" title="ibm_watson.visual_recognition_v4.ImageSource">ibm_watson.visual_recognition_v4.ImageSource</a></span></em>, <em class="sig-param"><span class="n">dimensions</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#ibm_watson.visual_recognition_v4.ImageDimensions" title="ibm_watson.visual_recognition_v4.ImageDimensions">ibm_watson.visual_recognition_v4.ImageDimensions</a></span></em>, <em class="sig-param"><span class="n">objects</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#ibm_watson.visual_recognition_v4.DetectedObjects" title="ibm_watson.visual_recognition_v4.DetectedObjects">ibm_watson.visual_recognition_v4.DetectedObjects</a></span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">errors</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Error<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#Image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.Image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Details about an image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr ImageSource source</dt>
+<dd class="field-odd"><p>The source type of the image.</p>
+</dd>
+<dt class="field-even">Attr ImageDimensions dimensions</dt>
+<dd class="field-even"><p>Height and width of an image.</p>
+</dd>
+<dt class="field-odd">Attr DetectedObjects objects</dt>
+<dd class="field-odd"><p>Container for the list of collections that have
+objects detected in an image.</p>
+</dd>
+<dt class="field-even">Attr List[Error] errors</dt>
+<dd class="field-even"><p>(optional) A container for the problems in the
+request.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.Image.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v4.Image" title="ibm_watson.visual_recognition_v4.Image">ibm_watson.visual_recognition_v4.Image</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#Image.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.Image.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a Image object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.Image.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#Image.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.Image.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.ImageDetails">
+<em class="property">class </em><code class="sig-name descname">ImageDetails</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">source</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#ibm_watson.visual_recognition_v4.ImageSource" title="ibm_watson.visual_recognition_v4.ImageSource">ibm_watson.visual_recognition_v4.ImageSource</a></span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">image_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">updated</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.8)">datetime.datetime</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">created</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.8)">datetime.datetime</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dimensions</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="#ibm_watson.visual_recognition_v4.ImageDimensions" title="ibm_watson.visual_recognition_v4.ImageDimensions">ibm_watson.visual_recognition_v4.ImageDimensions</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">errors</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Error<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">training_data</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="#ibm_watson.visual_recognition_v4.TrainingDataObjects" title="ibm_watson.visual_recognition_v4.TrainingDataObjects">ibm_watson.visual_recognition_v4.TrainingDataObjects</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ImageDetails"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ImageDetails" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Details about an image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str image_id</dt>
+<dd class="field-odd"><p>(optional) The identifier of the image.</p>
+</dd>
+<dt class="field-even">Attr datetime updated</dt>
+<dd class="field-even"><p>(optional) Date and time in Coordinated Universal Time
+(UTC) that the image was most recently updated.</p>
+</dd>
+<dt class="field-odd">Attr datetime created</dt>
+<dd class="field-odd"><p>(optional) Date and time in Coordinated Universal Time
+(UTC) that the image was created.</p>
+</dd>
+<dt class="field-even">Attr ImageSource source</dt>
+<dd class="field-even"><p>The source type of the image.</p>
+</dd>
+<dt class="field-odd">Attr ImageDimensions dimensions</dt>
+<dd class="field-odd"><p>(optional) Height and width of an image.</p>
+</dd>
+<dt class="field-even">Attr List[Error] errors</dt>
+<dd class="field-even"><p>(optional)</p>
+</dd>
+<dt class="field-odd">Attr TrainingDataObjects training_data</dt>
+<dd class="field-odd"><p>(optional) Training data for all
+objects.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.ImageDetails.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v4.ImageDetails" title="ibm_watson.visual_recognition_v4.ImageDetails">ibm_watson.visual_recognition_v4.ImageDetails</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ImageDetails.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ImageDetails.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a ImageDetails object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.ImageDetails.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ImageDetails.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ImageDetails.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.ImageDetailsList">
+<em class="property">class </em><code class="sig-name descname">ImageDetailsList</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">images</span><span class="p">:</span> <span class="n">List<span class="p">[</span>ImageDetails<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">warnings</span><span class="p">:</span> <span class="n">List<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Warning" title="(in Python v3.8)">Warning</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">trace</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ImageDetailsList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ImageDetailsList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>List of information about the images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr List[ImageDetails] images</dt>
+<dd class="field-odd"><p>(optional) The images in the collection.</p>
+</dd>
+<dt class="field-even">Attr List[Warning] warnings</dt>
+<dd class="field-even"><p>(optional) Information about what might cause less
+than optimal output.</p>
+</dd>
+<dt class="field-odd">Attr str trace</dt>
+<dd class="field-odd"><p>(optional) A unique identifier of the request. Included only
+when an error or warning is returned.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.ImageDetailsList.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v4.ImageDetailsList" title="ibm_watson.visual_recognition_v4.ImageDetailsList">ibm_watson.visual_recognition_v4.ImageDetailsList</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ImageDetailsList.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ImageDetailsList.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a ImageDetailsList object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.ImageDetailsList.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ImageDetailsList.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ImageDetailsList.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.ImageDimensions">
+<em class="property">class </em><code class="sig-name descname">ImageDimensions</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">height</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">width</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ImageDimensions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ImageDimensions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Height and width of an image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr int height</dt>
+<dd class="field-odd"><p>(optional) Height in pixels of the image.</p>
+</dd>
+<dt class="field-even">Attr int width</dt>
+<dd class="field-even"><p>(optional) Width in pixels of the image.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.ImageDimensions.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v4.ImageDimensions" title="ibm_watson.visual_recognition_v4.ImageDimensions">ibm_watson.visual_recognition_v4.ImageDimensions</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ImageDimensions.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ImageDimensions.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a ImageDimensions object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.ImageDimensions.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ImageDimensions.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ImageDimensions.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.ImageSource">
+<em class="property">class </em><code class="sig-name descname">ImageSource</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">type</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">archive_filename</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">source_url</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">resolved_url</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ImageSource"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ImageSource" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The source type of the image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str type</dt>
+<dd class="field-odd"><p>The source type of the image.</p>
+</dd>
+<dt class="field-even">Attr str filename</dt>
+<dd class="field-even"><p>(optional) Name of the image file if uploaded. Not returned
+when the image is passed by URL.</p>
+</dd>
+<dt class="field-odd">Attr str archive_filename</dt>
+<dd class="field-odd"><p>(optional) Name of the .zip file of images if
+uploaded. Not returned when the image is passed directly or by URL.</p>
+</dd>
+<dt class="field-even">Attr str source_url</dt>
+<dd class="field-even"><p>(optional) Source of the image before any redirects. Not
+returned when the image is uploaded.</p>
+</dd>
+<dt class="field-odd">Attr str resolved_url</dt>
+<dd class="field-odd"><p>(optional) Fully resolved URL of the image after
+redirects are followed. Not returned when the image is uploaded.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.ImageSource.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v4.ImageSource" title="ibm_watson.visual_recognition_v4.ImageSource">ibm_watson.visual_recognition_v4.ImageSource</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ImageSource.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ImageSource.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a ImageSource object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.ImageSource.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ImageSource.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ImageSource.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.ImageSource.TypeEnum">
+<em class="property">class </em><code class="sig-name descname">TypeEnum</code><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ImageSource.TypeEnum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ImageSource.TypeEnum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>The source type of the image.</p>
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v4.ImageSource.TypeEnum.FILE">
+<code class="sig-name descname">FILE</code><em class="property"> = 'file'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ImageSource.TypeEnum.FILE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v4.ImageSource.TypeEnum.URL">
+<code class="sig-name descname">URL</code><em class="property"> = 'url'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ImageSource.TypeEnum.URL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.ImageSummary">
+<em class="property">class </em><code class="sig-name descname">ImageSummary</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">image_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">updated</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.8)">datetime.datetime</a></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ImageSummary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ImageSummary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Basic information about an image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str image_id</dt>
+<dd class="field-odd"><p>(optional) The identifier of the image.</p>
+</dd>
+<dt class="field-even">Attr datetime updated</dt>
+<dd class="field-even"><p>(optional) Date and time in Coordinated Universal Time
+(UTC) that the image was most recently updated.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.ImageSummary.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v4.ImageSummary" title="ibm_watson.visual_recognition_v4.ImageSummary">ibm_watson.visual_recognition_v4.ImageSummary</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ImageSummary.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ImageSummary.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a ImageSummary object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.ImageSummary.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ImageSummary.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ImageSummary.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.ImageSummaryList">
+<em class="property">class </em><code class="sig-name descname">ImageSummaryList</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">images</span><span class="p">:</span> <span class="n">List<span class="p">[</span>ImageSummary<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ImageSummaryList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ImageSummaryList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>List of images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr List[ImageSummary] images</dt>
+<dd class="field-odd"><p>The images in the collection.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.ImageSummaryList.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v4.ImageSummaryList" title="ibm_watson.visual_recognition_v4.ImageSummaryList">ibm_watson.visual_recognition_v4.ImageSummaryList</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ImageSummaryList.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ImageSummaryList.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a ImageSummaryList object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.ImageSummaryList.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ImageSummaryList.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ImageSummaryList.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.Location">
+<em class="property">class </em><code class="sig-name descname">Location</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">top</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span></em>, <em class="sig-param"><span class="n">left</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span></em>, <em class="sig-param"><span class="n">width</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span></em>, <em class="sig-param"><span class="n">height</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#Location"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.Location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Defines the location of the bounding box around the object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr int top</dt>
+<dd class="field-odd"><p>Y-position of top-left pixel of the bounding box.</p>
+</dd>
+<dt class="field-even">Attr int left</dt>
+<dd class="field-even"><p>X-position of top-left pixel of the bounding box.</p>
+</dd>
+<dt class="field-odd">Attr int width</dt>
+<dd class="field-odd"><p>Width in pixels of of the bounding box.</p>
+</dd>
+<dt class="field-even">Attr int height</dt>
+<dd class="field-even"><p>Height in pixels of the bounding box.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.Location.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v4.Location" title="ibm_watson.visual_recognition_v4.Location">ibm_watson.visual_recognition_v4.Location</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#Location.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.Location.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a Location object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.Location.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#Location.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.Location.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.ObjectDetail">
+<em class="property">class </em><code class="sig-name descname">ObjectDetail</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">object</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">location</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#ibm_watson.visual_recognition_v4.Location" title="ibm_watson.visual_recognition_v4.Location">ibm_watson.visual_recognition_v4.Location</a></span></em>, <em class="sig-param"><span class="n">score</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ObjectDetail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ObjectDetail" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Details about an object in the collection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str object</dt>
+<dd class="field-odd"><p>The label for the object.</p>
+</dd>
+<dt class="field-even">Attr Location location</dt>
+<dd class="field-even"><p>Defines the location of the bounding box around the
+object.</p>
+</dd>
+<dt class="field-odd">Attr float score</dt>
+<dd class="field-odd"><p>Confidence score for the object in the range of 0 to 1. A
+higher score indicates greater likelihood that the object is depicted at this
+location in the image.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.ObjectDetail.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v4.ObjectDetail" title="ibm_watson.visual_recognition_v4.ObjectDetail">ibm_watson.visual_recognition_v4.ObjectDetail</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ObjectDetail.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ObjectDetail.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a ObjectDetail object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.ObjectDetail.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ObjectDetail.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ObjectDetail.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.ObjectMetadata">
+<em class="property">class </em><code class="sig-name descname">ObjectMetadata</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">object</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">count</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ObjectMetadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ObjectMetadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Basic information about an object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str object</dt>
+<dd class="field-odd"><p>(optional) The name of the object.</p>
+</dd>
+<dt class="field-even">Attr int count</dt>
+<dd class="field-even"><p>(optional) Number of bounding boxes with this object name in
+the collection.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.ObjectMetadata.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v4.ObjectMetadata" title="ibm_watson.visual_recognition_v4.ObjectMetadata">ibm_watson.visual_recognition_v4.ObjectMetadata</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ObjectMetadata.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ObjectMetadata.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a ObjectMetadata object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.ObjectMetadata.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ObjectMetadata.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ObjectMetadata.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.ObjectMetadataList">
+<em class="property">class </em><code class="sig-name descname">ObjectMetadataList</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">object_count</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">objects</span><span class="p">:</span> <span class="n">List<span class="p">[</span>ObjectMetadata<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ObjectMetadataList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ObjectMetadataList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>List of objects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr int object_count</dt>
+<dd class="field-odd"><p>Number of unique named objects in the collection.</p>
+</dd>
+<dt class="field-even">Attr List[ObjectMetadata] objects</dt>
+<dd class="field-even"><p>(optional) The objects in the collection.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.ObjectMetadataList.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v4.ObjectMetadataList" title="ibm_watson.visual_recognition_v4.ObjectMetadataList">ibm_watson.visual_recognition_v4.ObjectMetadataList</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ObjectMetadataList.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ObjectMetadataList.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a ObjectMetadataList object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.ObjectMetadataList.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ObjectMetadataList.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ObjectMetadataList.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.ObjectTrainingStatus">
+<em class="property">class </em><code class="sig-name descname">ObjectTrainingStatus</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ready</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span></em>, <em class="sig-param"><span class="n">in_progress</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span></em>, <em class="sig-param"><span class="n">data_changed</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span></em>, <em class="sig-param"><span class="n">latest_failed</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span></em>, <em class="sig-param"><span class="n">description</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ObjectTrainingStatus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ObjectTrainingStatus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Training status for the objects in the collection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr bool ready</dt>
+<dd class="field-odd"><p>Whether you can analyze images in the collection with the
+<strong>objects</strong> feature.</p>
+</dd>
+<dt class="field-even">Attr bool in_progress</dt>
+<dd class="field-even"><p>Whether training is in progress.</p>
+</dd>
+<dt class="field-odd">Attr bool data_changed</dt>
+<dd class="field-odd"><p>Whether there are changes to the training data since
+the most recent training.</p>
+</dd>
+<dt class="field-even">Attr bool latest_failed</dt>
+<dd class="field-even"><p>Whether the most recent training failed.</p>
+</dd>
+<dt class="field-odd">Attr str description</dt>
+<dd class="field-odd"><p>Details about the training. If training is in progress,
+includes information about the status. If training is not in progress, includes
+a success message or information about why training failed.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.ObjectTrainingStatus.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v4.ObjectTrainingStatus" title="ibm_watson.visual_recognition_v4.ObjectTrainingStatus">ibm_watson.visual_recognition_v4.ObjectTrainingStatus</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ObjectTrainingStatus.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ObjectTrainingStatus.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a ObjectTrainingStatus object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.ObjectTrainingStatus.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#ObjectTrainingStatus.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.ObjectTrainingStatus.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.TrainingDataObject">
+<em class="property">class </em><code class="sig-name descname">TrainingDataObject</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">object</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">location</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="#ibm_watson.visual_recognition_v4.Location" title="ibm_watson.visual_recognition_v4.Location">ibm_watson.visual_recognition_v4.Location</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#TrainingDataObject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.TrainingDataObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Details about the training data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str object</dt>
+<dd class="field-odd"><p>(optional) The name of the object.</p>
+</dd>
+<dt class="field-even">Attr Location location</dt>
+<dd class="field-even"><p>(optional) Defines the location of the bounding box
+around the object.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.TrainingDataObject.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v4.TrainingDataObject" title="ibm_watson.visual_recognition_v4.TrainingDataObject">ibm_watson.visual_recognition_v4.TrainingDataObject</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#TrainingDataObject.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.TrainingDataObject.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a TrainingDataObject object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.TrainingDataObject.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#TrainingDataObject.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.TrainingDataObject.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.TrainingDataObjects">
+<em class="property">class </em><code class="sig-name descname">TrainingDataObjects</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">objects</span><span class="p">:</span> <span class="n">List<span class="p">[</span>TrainingDataObject<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#TrainingDataObjects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.TrainingDataObjects" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Training data for all objects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr List[TrainingDataObject] objects</dt>
+<dd class="field-odd"><p>(optional) Training data for specific
+objects.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.TrainingDataObjects.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v4.TrainingDataObjects" title="ibm_watson.visual_recognition_v4.TrainingDataObjects">ibm_watson.visual_recognition_v4.TrainingDataObjects</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#TrainingDataObjects.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.TrainingDataObjects.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a TrainingDataObjects object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.TrainingDataObjects.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#TrainingDataObjects.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.TrainingDataObjects.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.TrainingEvent">
+<em class="property">class </em><code class="sig-name descname">TrainingEvent</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">type</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">collection_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">completion_time</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.8)">datetime.datetime</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">status</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">image_count</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#TrainingEvent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.TrainingEvent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Details about the training event.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str type</dt>
+<dd class="field-odd"><p>(optional) Trained object type. Only <cite>objects</cite> is currently
+supported.</p>
+</dd>
+<dt class="field-even">Attr str collection_id</dt>
+<dd class="field-even"><p>(optional) Identifier of the trained collection.</p>
+</dd>
+<dt class="field-odd">Attr datetime completion_time</dt>
+<dd class="field-odd"><p>(optional) Date and time in Coordinated
+Universal Time (UTC) that training on the collection finished.</p>
+</dd>
+<dt class="field-even">Attr str status</dt>
+<dd class="field-even"><p>(optional) Training status of the training event.</p>
+</dd>
+<dt class="field-odd">Attr int image_count</dt>
+<dd class="field-odd"><p>(optional) The total number of images that were used in
+training for this training event.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.TrainingEvent.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v4.TrainingEvent" title="ibm_watson.visual_recognition_v4.TrainingEvent">ibm_watson.visual_recognition_v4.TrainingEvent</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#TrainingEvent.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.TrainingEvent.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a TrainingEvent object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.TrainingEvent.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#TrainingEvent.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.TrainingEvent.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.TrainingEvent.TypeEnum">
+<em class="property">class </em><code class="sig-name descname">TypeEnum</code><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#TrainingEvent.TypeEnum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.TrainingEvent.TypeEnum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>Trained object type. Only <cite>objects</cite> is currently supported.</p>
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v4.TrainingEvent.TypeEnum.OBJECTS">
+<code class="sig-name descname">OBJECTS</code><em class="property"> = 'objects'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v4.TrainingEvent.TypeEnum.OBJECTS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.TrainingEvent.StatusEnum">
+<em class="property">class </em><code class="sig-name descname">StatusEnum</code><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#TrainingEvent.StatusEnum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.TrainingEvent.StatusEnum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>Training status of the training event.</p>
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v4.TrainingEvent.StatusEnum.FAILED">
+<code class="sig-name descname">FAILED</code><em class="property"> = 'failed'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v4.TrainingEvent.StatusEnum.FAILED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v4.TrainingEvent.StatusEnum.SUCCEEDED">
+<code class="sig-name descname">SUCCEEDED</code><em class="property"> = 'succeeded'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v4.TrainingEvent.StatusEnum.SUCCEEDED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.TrainingEvents">
+<em class="property">class </em><code class="sig-name descname">TrainingEvents</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">start_time</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.8)">datetime.datetime</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">end_time</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.8)">datetime.datetime</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">completed_events</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">trained_images</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">events</span><span class="p">:</span> <span class="n">List<span class="p">[</span>TrainingEvent<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#TrainingEvents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.TrainingEvents" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Details about the training events.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr datetime start_time</dt>
+<dd class="field-odd"><p>(optional) The starting day for the returned training
+events in Coordinated Universal Time (UTC). If not specified in the request, it
+identifies the earliest training event.</p>
+</dd>
+<dt class="field-even">Attr datetime end_time</dt>
+<dd class="field-even"><p>(optional) The ending day for the returned training
+events in Coordinated Universal Time (UTC). If not specified in the request, it
+lists the current time.</p>
+</dd>
+<dt class="field-odd">Attr int completed_events</dt>
+<dd class="field-odd"><p>(optional) The total number of training events in
+the response for the start and end times.</p>
+</dd>
+<dt class="field-even">Attr int trained_images</dt>
+<dd class="field-even"><p>(optional) The total number of images that were used
+in training for the start and end times.</p>
+</dd>
+<dt class="field-odd">Attr List[TrainingEvent] events</dt>
+<dd class="field-odd"><p>(optional) The completed training events for
+the start and end time.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.TrainingEvents.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v4.TrainingEvents" title="ibm_watson.visual_recognition_v4.TrainingEvents">ibm_watson.visual_recognition_v4.TrainingEvents</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#TrainingEvents.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.TrainingEvents.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a TrainingEvents object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.TrainingEvents.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#TrainingEvents.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.TrainingEvents.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.TrainingStatus">
+<em class="property">class </em><code class="sig-name descname">TrainingStatus</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">objects</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#ibm_watson.visual_recognition_v4.ObjectTrainingStatus" title="ibm_watson.visual_recognition_v4.ObjectTrainingStatus">ibm_watson.visual_recognition_v4.ObjectTrainingStatus</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#TrainingStatus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.TrainingStatus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Training status information for the collection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr ObjectTrainingStatus objects</dt>
+<dd class="field-odd"><p>Training status for the objects in the
+collection.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.TrainingStatus.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v4.TrainingStatus" title="ibm_watson.visual_recognition_v4.TrainingStatus">ibm_watson.visual_recognition_v4.TrainingStatus</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#TrainingStatus.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.TrainingStatus.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a TrainingStatus object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.TrainingStatus.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#TrainingStatus.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.TrainingStatus.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.UpdateObjectMetadata">
+<em class="property">class </em><code class="sig-name descname">UpdateObjectMetadata</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">object</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">count</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#UpdateObjectMetadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.UpdateObjectMetadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Basic information about an updated object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str object</dt>
+<dd class="field-odd"><p>The updated name of the object. The name can contain
+alphanumeric, underscore, hyphen, space, and dot characters. It cannot begin
+with the reserved prefix <cite>sys-</cite>.</p>
+</dd>
+<dt class="field-even">Attr int count</dt>
+<dd class="field-even"><p>Number of bounding boxes in the collection with the
+updated object name.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.UpdateObjectMetadata.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v4.UpdateObjectMetadata" title="ibm_watson.visual_recognition_v4.UpdateObjectMetadata">ibm_watson.visual_recognition_v4.UpdateObjectMetadata</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#UpdateObjectMetadata.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.UpdateObjectMetadata.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a UpdateObjectMetadata object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.UpdateObjectMetadata.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#UpdateObjectMetadata.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.UpdateObjectMetadata.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.Warning">
+<em class="property">class </em><code class="sig-name descname">Warning</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">code</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">message</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">more_info</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#Warning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.Warning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Details about a problem.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str code</dt>
+<dd class="field-odd"><p>Identifier of the problem.</p>
+</dd>
+<dt class="field-even">Attr str message</dt>
+<dd class="field-even"><p>An explanation of the problem with possible solutions.</p>
+</dd>
+<dt class="field-odd">Attr str more_info</dt>
+<dd class="field-odd"><p>(optional) A URL for more information about the solution.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.Warning.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v4.Warning" title="ibm_watson.visual_recognition_v4.Warning">ibm_watson.visual_recognition_v4.Warning</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#Warning.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.Warning.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a Warning object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.Warning.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#Warning.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.Warning.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.Warning.CodeEnum">
+<em class="property">class </em><code class="sig-name descname">CodeEnum</code><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#Warning.CodeEnum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.Warning.CodeEnum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>Identifier of the problem.</p>
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v4.Warning.CodeEnum.INVALID_FIELD">
+<code class="sig-name descname">INVALID_FIELD</code><em class="property"> = 'invalid_field'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v4.Warning.CodeEnum.INVALID_FIELD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v4.Warning.CodeEnum.INVALID_HEADER">
+<code class="sig-name descname">INVALID_HEADER</code><em class="property"> = 'invalid_header'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v4.Warning.CodeEnum.INVALID_HEADER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v4.Warning.CodeEnum.INVALID_METHOD">
+<code class="sig-name descname">INVALID_METHOD</code><em class="property"> = 'invalid_method'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v4.Warning.CodeEnum.INVALID_METHOD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v4.Warning.CodeEnum.MISSING_FIELD">
+<code class="sig-name descname">MISSING_FIELD</code><em class="property"> = 'missing_field'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v4.Warning.CodeEnum.MISSING_FIELD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v4.Warning.CodeEnum.SERVER_ERROR">
+<code class="sig-name descname">SERVER_ERROR</code><em class="property"> = 'server_error'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v4.Warning.CodeEnum.SERVER_ERROR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v4.FileWithMetadata">
+<em class="property">class </em><code class="sig-name descname">FileWithMetadata</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">BinaryIO</span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">filename</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">content_type</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#FileWithMetadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.FileWithMetadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A file with its associated metadata.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr BinaryIO data</dt>
+<dd class="field-odd"><p>The data / content for the file.</p>
+</dd>
+<dt class="field-even">Attr str filename</dt>
+<dd class="field-even"><p>(optional) The filename of the file.</p>
+</dd>
+<dt class="field-odd">Attr str content_type</dt>
+<dd class="field-odd"><p>(optional) The content type of the file.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.FileWithMetadata.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v4.FileWithMetadata" title="ibm_watson.visual_recognition_v4.FileWithMetadata">ibm_watson.visual_recognition_v4.FileWithMetadata</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#FileWithMetadata.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.FileWithMetadata.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a FileWithMetadata object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v4.FileWithMetadata.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v4.html#FileWithMetadata.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v4.FileWithMetadata.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="ibm_watson.visual_recognition_v3.html" title="previous chapter">ibm_watson.visual_recognition_v3 module</a></li>
+      <li>Next: <a href="ibm_watson.websocket.html" title="next chapter">ibm_watson.websocket package</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
