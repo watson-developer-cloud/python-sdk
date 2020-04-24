@@ -171,7 +171,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
         model for which the grammar is defined. The service recognizes only strings that
         are recognized by the specified grammar; it does not recognize other custom words
         from the model's words resource. See
-        [Grammars](https://cloud.ibm.com/docs/speech-to-text/output.html).
+        [Grammars](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output).
         :param bool redaction: If `true`, the service redacts, or masks, numeric data from
         final transcripts. The feature redacts any number that has three or more
         consecutive digits by replacing each digit with an `X` character. It is intended
@@ -184,7 +184,7 @@ class SpeechToTextV1Adapter(SpeechToTextV1):
         (forces the `max_alternatives` parameter to be `1`).
         **Note:** Applies to US English, Japanese, and Korean transcription only.
         See [Numeric
-        redaction](https://cloud.ibm.com/docs/speech-to-text/output.html#redaction).
+        redaction](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#redaction).
         :param bool processing_metrics: If `true`, requests processing metrics about the
         service's transcription of the input audio. The service returns processing metrics
         at the interval specified by the `processing_metrics_interval` parameter. It also
