@@ -1,3 +1,13 @@
+# [4.4.0](https://github.com/watson-developer-cloud/python-sdk/compare/v4.3.0...v4.4.0) (2020-04-24)
+
+
+### Features
+
+* **AssistantV2:** regenerate based on current API def ([46a812c](https://github.com/watson-developer-cloud/python-sdk/commit/46a812c6f74a9d32a96ad566e2d25d883c24d2f7))
+* regenerate services using current API def ([e9ea20c](https://github.com/watson-developer-cloud/python-sdk/commit/e9ea20cc68a09da4e948c0622e254c31b27b481b))
+* **LanguageTranslator:** add support for auto correct ([230878a](https://github.com/watson-developer-cloud/python-sdk/commit/230878a256d375c92cef0647e2f5efa51b8a5cf0))
+* **SpeechToText:** add support for speech_detector_sensitivity and background_audio_suppression in ([9aa13e9](https://github.com/watson-developer-cloud/python-sdk/commit/9aa13e94558c37ca815d61ff36d0988943c55bf7))
+
 # [4.3.0](https://github.com/watson-developer-cloud/python-sdk/compare/v4.2.1...v4.3.0) (2020-02-13)
 
 
