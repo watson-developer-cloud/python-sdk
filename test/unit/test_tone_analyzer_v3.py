@@ -28,7 +28,6 @@ base_url = 'https://gateway.watsonplatform.net/tone-analyzer/api'
 ##############################################################################
 # region
 
-
 #-----------------------------------------------------------------------------
 # Test Class for tone
 #-----------------------------------------------------------------------------
@@ -74,16 +73,16 @@ class TestTone():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
         service = ToneAnalyzerV3(
             authenticator=NoAuthAuthenticator(),
             version='2017-09-21',
-        )
+            )
         service.set_service_url(base_url)
         output = service.tone(**body)
         return output
@@ -149,34 +148,30 @@ class TestToneChat():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
         service = ToneAnalyzerV3(
             authenticator=NoAuthAuthenticator(),
             version='2017-09-21',
-        )
+            )
         service.set_service_url(base_url)
         output = service.tone_chat(**body)
         return output
 
     def construct_full_body(self):
         body = dict()
-        body.update({
-            "utterances": [],
-        })
+        body.update({"utterances": [], })
         body['content_language'] = "string1"
         body['accept_language'] = "string1"
         return body
 
     def construct_required_body(self):
         body = dict()
-        body.update({
-            "utterances": [],
-        })
+        body.update({"utterances": [], })
         return body
 
 
@@ -202,7 +197,6 @@ def check_empty_required_params(obj, response):
         error = True
     assert error
 
-
 def check_missing_required_params(obj):
     """Test function to assert that the operation will throw an error when missing required data
 
@@ -219,7 +213,6 @@ def check_missing_required_params(obj):
         error = True
     assert error
 
-
 def check_empty_response(obj):
     """Test function to assert that the operation will return an empty response when given an empty request
 
@@ -230,7 +223,6 @@ def check_empty_response(obj):
     body = obj.construct_full_body()
     url = obj.make_url(body)
     send_request(obj, {}, {}, url=url)
-
 
 def send_request(obj, body, response, url=None):
     """Test function to create a request, send it, and assert its accuracy to the mock response
@@ -247,7 +239,6 @@ def send_request(obj, body, response, url=None):
     output = obj.call_service(body)
     assert responses.calls[0].request.url.startswith(url)
     assert output.get_result() == response
-
 
 ####################
 ## Mock Responses ##

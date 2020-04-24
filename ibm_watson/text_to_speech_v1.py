@@ -27,7 +27,8 @@ sounds-like or phonetic translations for words. A sounds-like translation consis
 or more words that, when combined, sound like the word. A phonetic translation is based on
 the SSML phoneme format for representing a word. You can specify a phonetic translation in
 standard International Phonetic Alphabet (IPA) representation or in the proprietary IBM
-Symbolic Phonetic Representation (SPR).
+Symbolic Phonetic Representation (SPR). The Arabic, Chinese, Dutch, and Korean languages
+support only IPA.
 """
 
 import json
@@ -104,7 +105,10 @@ class TextToSpeechV1(BaseService):
         response = self.send(request)
         return response
 
-    def get_voice(self, voice: str, *, customization_id: str = None,
+    def get_voice(self,
+                  voice: str,
+                  *,
+                  customization_id: str = None,
                   **kwargs) -> 'DetailedResponse':
         """
         Get a voice.
@@ -231,10 +235,10 @@ class TextToSpeechV1(BaseService):
         :param str voice: (optional) The voice to use for synthesis.
         :param str customization_id: (optional) The customization ID (GUID) of a
                custom voice model to use for the synthesis. If a custom voice model is
-               specified, it is guaranteed to work only if it matches the language of the
-               indicated voice. You must make the request with credentials for the
-               instance of the service that owns the custom model. Omit the parameter to
-               use the specified voice with no customization.
+               specified, it works only if it matches the language of the indicated voice.
+               You must make the request with credentials for the instance of the service
+               that owns the custom model. Omit the parameter to use the specified voice
+               with no customization.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -283,8 +287,7 @@ class TextToSpeechV1(BaseService):
         pronunciation for a specific format. You can also request the pronunciation for a
         specific voice to see the default translation for the language of that voice or
         for a specific custom voice model to see the translation for that voice model.
-        **Note:** This method is currently a beta release. The method does not support the
-        Arabic, Chinese, and Dutch languages.
+        **Note:** This method is currently a beta release.
         **See also:** [Querying a word from a
         language](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuWordsQueryLanguage).
 
@@ -293,8 +296,9 @@ class TextToSpeechV1(BaseService):
                the pronunciation is to be returned. All voices for the same language (for
                example, `en-US`) return the same translation.
         :param str format: (optional) The phoneme format in which to return the
-               pronunciation. Omit the parameter to obtain the pronunciation in the
-               default format.
+               pronunciation. The Arabic, Chinese, Dutch, and Korean languages support
+               only IPA. Omit the parameter to obtain the pronunciation in the default
+               format.
         :param str customization_id: (optional) The customization ID (GUID) of a
                custom voice model for which the pronunciation is to be returned. The
                language of a specified custom model must match the language of the
@@ -352,14 +356,16 @@ class TextToSpeechV1(BaseService):
         model. You can optionally specify the language and a description for the new
         model. The model is owned by the instance of the service whose credentials are
         used to create it.
-        **Note:** This method is currently a beta release. The service does not support
-        voice model customization for the Arabic, Chinese, and Dutch languages.
+        **Note:** This method is currently a beta release.
         **See also:** [Creating a custom
         model](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customModels#cuModelsCreate).
 
         :param str name: The name of the new custom voice model.
         :param str language: (optional) The language of the new custom voice model.
-               Omit the parameter to use the the default language, `en-US`.
+               You create a custom voice model for a specific language, not for a specific
+               voice. A custom model can be used with any voice, standard or neural, for
+               its specified language. Omit the parameter to use the the default language,
+               `en-US`.
         :param str description: (optional) A description of the new custom voice
                model. Specifying a description is recommended.
         :param dict headers: A `dict` containing the request headers
@@ -389,7 +395,9 @@ class TextToSpeechV1(BaseService):
         response = self.send(request)
         return response
 
-    def list_voice_models(self, *, language: str = None,
+    def list_voice_models(self,
+                          *,
+                          language: str = None,
                           **kwargs) -> 'DetailedResponse':
         """
         List custom models.
@@ -739,8 +747,9 @@ class TextToSpeechV1(BaseService):
         :param str translation: The phonetic or sounds-like translation for the
                word. A phonetic translation is based on the SSML format for representing
                the phonetic string of a word either as an IPA translation or as an IBM SPR
-               translation. A sounds-like is one or more words that, when combined, sound
-               like the word.
+               translation. The Arabic, Chinese, Dutch, and Korean languages support only
+               IPA. A sounds-like is one or more words that, when combined, sound like the
+               word.
         :param str part_of_speech: (optional) **Japanese only.** The part of speech
                for the word. The service uses the value to produce the correct intonation
                for the word. You can create only a single entry, with or without a single
@@ -920,18 +929,24 @@ class GetVoiceEnums(object):
         """
         The voice for which information is to be returned.
         """
+        AR_AR_OMARVOICE = 'ar-AR_OmarVoice'
         DE_DE_BIRGITVOICE = 'de-DE_BirgitVoice'
         DE_DE_BIRGITV3VOICE = 'de-DE_BirgitV3Voice'
         DE_DE_DIETERVOICE = 'de-DE_DieterVoice'
         DE_DE_DIETERV3VOICE = 'de-DE_DieterV3Voice'
+        DE_DE_ERIKAV3VOICE = 'de-DE_ErikaV3Voice'
         EN_GB_KATEVOICE = 'en-GB_KateVoice'
         EN_GB_KATEV3VOICE = 'en-GB_KateV3Voice'
         EN_US_ALLISONVOICE = 'en-US_AllisonVoice'
         EN_US_ALLISONV3VOICE = 'en-US_AllisonV3Voice'
+        EN_US_EMILYV3VOICE = 'en-US_EmilyV3Voice'
+        EN_US_HENRYV3VOICE = 'en-US_HenryV3Voice'
+        EN_US_KEVINV3VOICE = 'en-US_KevinV3Voice'
         EN_US_LISAVOICE = 'en-US_LisaVoice'
         EN_US_LISAV3VOICE = 'en-US_LisaV3Voice'
         EN_US_MICHAELVOICE = 'en-US_MichaelVoice'
         EN_US_MICHAELV3VOICE = 'en-US_MichaelV3Voice'
+        EN_US_OLIVIAV3VOICE = 'en-US_OliviaV3Voice'
         ES_ES_ENRIQUEVOICE = 'es-ES_EnriqueVoice'
         ES_ES_ENRIQUEV3VOICE = 'es-ES_EnriqueV3Voice'
         ES_ES_LAURAVOICE = 'es-ES_LauraVoice'
@@ -946,8 +961,15 @@ class GetVoiceEnums(object):
         IT_IT_FRANCESCAV3VOICE = 'it-IT_FrancescaV3Voice'
         JA_JP_EMIVOICE = 'ja-JP_EmiVoice'
         JA_JP_EMIV3VOICE = 'ja-JP_EmiV3Voice'
+        KO_KR_YOUNGMIVOICE = 'ko-KR_YoungmiVoice'
+        KO_KR_YUNAVOICE = 'ko-KR_YunaVoice'
+        NL_NL_EMMAVOICE = 'nl-NL_EmmaVoice'
+        NL_NL_LIAMVOICE = 'nl-NL_LiamVoice'
         PT_BR_ISABELAVOICE = 'pt-BR_IsabelaVoice'
         PT_BR_ISABELAV3VOICE = 'pt-BR_IsabelaV3Voice'
+        ZH_CN_LINAVOICE = 'zh-CN_LiNaVoice'
+        ZH_CN_WANGWEIVOICE = 'zh-CN_WangWeiVoice'
+        ZH_CN_ZHANGJINGVOICE = 'zh-CN_ZhangJingVoice'
 
 
 class SynthesizeEnums(object):
@@ -982,14 +1004,19 @@ class SynthesizeEnums(object):
         DE_DE_BIRGITV3VOICE = 'de-DE_BirgitV3Voice'
         DE_DE_DIETERVOICE = 'de-DE_DieterVoice'
         DE_DE_DIETERV3VOICE = 'de-DE_DieterV3Voice'
+        DE_DE_ERIKAV3VOICE = 'de-DE_ErikaV3Voice'
         EN_GB_KATEVOICE = 'en-GB_KateVoice'
         EN_GB_KATEV3VOICE = 'en-GB_KateV3Voice'
         EN_US_ALLISONVOICE = 'en-US_AllisonVoice'
         EN_US_ALLISONV3VOICE = 'en-US_AllisonV3Voice'
+        EN_US_EMILYV3VOICE = 'en-US_EmilyV3Voice'
+        EN_US_HENRYV3VOICE = 'en-US_HenryV3Voice'
+        EN_US_KEVINV3VOICE = 'en-US_KevinV3Voice'
         EN_US_LISAVOICE = 'en-US_LisaVoice'
         EN_US_LISAV3VOICE = 'en-US_LisaV3Voice'
         EN_US_MICHAELVOICE = 'en-US_MichaelVoice'
         EN_US_MICHAELV3VOICE = 'en-US_MichaelV3Voice'
+        EN_US_OLIVIAV3VOICE = 'en-US_OliviaV3Voice'
         ES_ES_ENRIQUEVOICE = 'es-ES_EnriqueVoice'
         ES_ES_ENRIQUEV3VOICE = 'es-ES_EnriqueV3Voice'
         ES_ES_LAURAVOICE = 'es-ES_LauraVoice'
@@ -1004,6 +1031,8 @@ class SynthesizeEnums(object):
         IT_IT_FRANCESCAV3VOICE = 'it-IT_FrancescaV3Voice'
         JA_JP_EMIVOICE = 'ja-JP_EmiVoice'
         JA_JP_EMIV3VOICE = 'ja-JP_EmiV3Voice'
+        KO_KR_YOUNGMIVOICE = 'ko-KR_YoungmiVoice'
+        KO_KR_YUNAVOICE = 'ko-KR_YunaVoice'
         NL_NL_EMMAVOICE = 'nl-NL_EmmaVoice'
         NL_NL_LIAMVOICE = 'nl-NL_LiamVoice'
         PT_BR_ISABELAVOICE = 'pt-BR_IsabelaVoice'
@@ -1021,18 +1050,24 @@ class GetPronunciationEnums(object):
         All voices for the same language (for example, `en-US`) return the same
         translation.
         """
+        AR_AR_OMARVOICE = 'ar-AR_OmarVoice'
         DE_DE_BIRGITVOICE = 'de-DE_BirgitVoice'
         DE_DE_BIRGITV3VOICE = 'de-DE_BirgitV3Voice'
         DE_DE_DIETERVOICE = 'de-DE_DieterVoice'
         DE_DE_DIETERV3VOICE = 'de-DE_DieterV3Voice'
+        DE_DE_ERIKAV3VOICE = 'de-DE_ErikaV3Voice'
         EN_GB_KATEVOICE = 'en-GB_KateVoice'
         EN_GB_KATEV3VOICE = 'en-GB_KateV3Voice'
         EN_US_ALLISONVOICE = 'en-US_AllisonVoice'
         EN_US_ALLISONV3VOICE = 'en-US_AllisonV3Voice'
+        EN_US_EMILYV3VOICE = 'en-US_EmilyV3Voice'
+        EN_US_HENRYV3VOICE = 'en-US_HenryV3Voice'
+        EN_US_KEVINV3VOICE = 'en-US_KevinV3Voice'
         EN_US_LISAVOICE = 'en-US_LisaVoice'
         EN_US_LISAV3VOICE = 'en-US_LisaV3Voice'
         EN_US_MICHAELVOICE = 'en-US_MichaelVoice'
         EN_US_MICHAELV3VOICE = 'en-US_MichaelV3Voice'
+        EN_US_OLIVIAV3VOICE = 'en-US_OliviaV3Voice'
         ES_ES_ENRIQUEVOICE = 'es-ES_EnriqueVoice'
         ES_ES_ENRIQUEV3VOICE = 'es-ES_EnriqueV3Voice'
         ES_ES_LAURAVOICE = 'es-ES_LauraVoice'
@@ -1047,13 +1082,21 @@ class GetPronunciationEnums(object):
         IT_IT_FRANCESCAV3VOICE = 'it-IT_FrancescaV3Voice'
         JA_JP_EMIVOICE = 'ja-JP_EmiVoice'
         JA_JP_EMIV3VOICE = 'ja-JP_EmiV3Voice'
+        KO_KR_YOUNGMIVOICE = 'ko-KR_YoungmiVoice'
+        KO_KR_YUNAVOICE = 'ko-KR_YunaVoice'
+        NL_NL_EMMAVOICE = 'nl-NL_EmmaVoice'
+        NL_NL_LIAMVOICE = 'nl-NL_LiamVoice'
         PT_BR_ISABELAVOICE = 'pt-BR_IsabelaVoice'
         PT_BR_ISABELAV3VOICE = 'pt-BR_IsabelaV3Voice'
+        ZH_CN_LINAVOICE = 'zh-CN_LiNaVoice'
+        ZH_CN_WANGWEIVOICE = 'zh-CN_WangWeiVoice'
+        ZH_CN_ZHANGJINGVOICE = 'zh-CN_ZhangJingVoice'
 
     class Format(Enum):
         """
-        The phoneme format in which to return the pronunciation. Omit the parameter to
-        obtain the pronunciation in the default format.
+        The phoneme format in which to return the pronunciation. The Arabic, Chinese,
+        Dutch, and Korean languages support only IPA. Omit the parameter to obtain the
+        pronunciation in the default format.
         """
         IBM = 'ibm'
         IPA = 'ipa'
@@ -1067,6 +1110,7 @@ class ListVoiceModelsEnums(object):
         credentials are to be returned. Omit the parameter to see all custom voice models
         that are owned by the requester.
         """
+        AR_AR = 'ar-AR'
         DE_DE = 'de-DE'
         EN_GB = 'en-GB'
         EN_US = 'en-US'
@@ -1076,7 +1120,10 @@ class ListVoiceModelsEnums(object):
         FR_FR = 'fr-FR'
         IT_IT = 'it-IT'
         JA_JP = 'ja-JP'
+        KO_KR = 'ko-KR'
+        NL_NL = 'nl-NL'
         PT_BR = 'pt-BR'
+        ZH_CN = 'zh-CN'
 
 
 ##############################################################################
@@ -1242,8 +1289,9 @@ class Translation():
 
     :attr str translation: The phonetic or sounds-like translation for the word. A
           phonetic translation is based on the SSML format for representing the phonetic
-          string of a word either as an IPA translation or as an IBM SPR translation. A
-          sounds-like is one or more words that, when combined, sound like the word.
+          string of a word either as an IPA translation or as an IBM SPR translation. The
+          Arabic, Chinese, Dutch, and Korean languages support only IPA. A sounds-like is
+          one or more words that, when combined, sound like the word.
     :attr str part_of_speech: (optional) **Japanese only.** The part of speech for
           the word. The service uses the value to produce the correct intonation for the
           word. You can create only a single entry, with or without a single part of
@@ -1259,8 +1307,9 @@ class Translation():
         :param str translation: The phonetic or sounds-like translation for the
                word. A phonetic translation is based on the SSML format for representing
                the phonetic string of a word either as an IPA translation or as an IBM SPR
-               translation. A sounds-like is one or more words that, when combined, sound
-               like the word.
+               translation. The Arabic, Chinese, Dutch, and Korean languages support only
+               IPA. A sounds-like is one or more words that, when combined, sound like the
+               word.
         :param str part_of_speech: (optional) **Japanese only.** The part of speech
                for the word. The service uses the value to produce the correct intonation
                for the word. You can create only a single entry, with or without a single
@@ -1814,12 +1863,14 @@ class Word():
     """
     Information about a word for the custom voice model.
 
-    :attr str word: The word for the custom voice model.
+    :attr str word: The word for the custom voice model. The maximum length of a
+          word is 49 characters.
     :attr str translation: The phonetic or sounds-like translation for the word. A
           phonetic translation is based on the SSML format for representing the phonetic
-          string of a word either as an IPA or IBM SPR translation. A sounds-like
-          translation consists of one or more words that, when combined, sound like the
-          word.
+          string of a word either as an IPA or IBM SPR translation. The Arabic, Chinese,
+          Dutch, and Korean languages support only IPA. A sounds-like translation consists
+          of one or more words that, when combined, sound like the word. The maximum
+          length of a translation is 499 characters.
     :attr str part_of_speech: (optional) **Japanese only.** The part of speech for
           the word. The service uses the value to produce the correct intonation for the
           word. You can create only a single entry, with or without a single part of
@@ -1836,12 +1887,14 @@ class Word():
         """
         Initialize a Word object.
 
-        :param str word: The word for the custom voice model.
+        :param str word: The word for the custom voice model. The maximum length of
+               a word is 49 characters.
         :param str translation: The phonetic or sounds-like translation for the
                word. A phonetic translation is based on the SSML format for representing
-               the phonetic string of a word either as an IPA or IBM SPR translation. A
+               the phonetic string of a word either as an IPA or IBM SPR translation. The
+               Arabic, Chinese, Dutch, and Korean languages support only IPA. A
                sounds-like translation consists of one or more words that, when combined,
-               sound like the word.
+               sound like the word. The maximum length of a translation is 499 characters.
         :param str part_of_speech: (optional) **Japanese only.** The part of speech
                for the word. The service uses the value to produce the correct intonation
                for the word. You can create only a single entry, with or without a single

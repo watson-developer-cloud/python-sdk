@@ -93,14 +93,21 @@ class LanguageTranslatorV3(BaseService):
         """
         Translate.
 
-        Translates the input text from the source language to the target language.
+        Translates the input text from the source language to the target language. A
+        target language or translation model ID is required. The service attempts to
+        detect the language of the source text if it is not specified.
 
         :param List[str] text: Input text in UTF-8 encoding. Multiple entries will
                result in multiple translations in the response.
-        :param str model_id: (optional) A globally unique string that identifies
-               the underlying model that is used for translation.
-        :param str source: (optional) Translation source language code.
-        :param str target: (optional) Translation target language code.
+        :param str model_id: (optional) The model to use for translation. For
+               example, `en-de` selects the IBM provided base model for English to German
+               translation. A model ID overrides the source and target parameters and is
+               required if you use a custom model. If no model ID is specified, you must
+               specify a target language.
+        :param str source: (optional) Language code that specifies the language of
+               the source document.
+        :param str target: (optional) Language code that specifies the target
+               language for translation. Required if model ID is not specified.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -469,16 +476,19 @@ class LanguageTranslatorV3(BaseService):
 
         :param TextIO file: The contents of the source file to translate.
                [Supported file
-               types](https://cloud.ibm.com/docs/services/language-translator?topic=language-translator-document-translator-tutorial#supported-file-formats)
+               types](https://cloud.ibm.com/docs/language-translator?topic=language-translator-document-translator-tutorial#supported-file-formats)
                Maximum file size: **20 MB**.
         :param str filename: (optional) The filename for file.
         :param str file_content_type: (optional) The content type of file.
-        :param str model_id: (optional) The model to use for translation.
-               `model_id` or both `source` and `target` are required.
+        :param str model_id: (optional) The model to use for translation. For
+               example, `en-de` selects the IBM provided base model for English to German
+               translation. A model ID overrides the source and target parameters and is
+               required if you use a custom model. If no model ID is specified, you must
+               specify a target language.
         :param str source: (optional) Language code that specifies the language of
                the source document.
         :param str target: (optional) Language code that specifies the target
-               language for translation.
+               language for translation. Required if model ID is not specified.
         :param str document_id: (optional) To use a previously submitted document
                as the source for a new translation, enter the `document_id` of the
                document.
@@ -879,6 +889,10 @@ class DocumentStatus():
           customize the model. If the model is not a custom model, this will be absent or
           an empty string.
     :attr str source: Translation source language code.
+    :attr float detected_language_confidence: (optional) A score between 0 and 1
+          indicating the confidence of source language detection. A higher value indicates
+          greater confidence. This is returned only when the service automatically detects
+          the source language.
     :attr str target: Translation target language code.
     :attr datetime created: The time when the document was submitted.
     :attr datetime completed: (optional) The time when the translation completed.
@@ -898,6 +912,7 @@ class DocumentStatus():
                  created: datetime,
                  *,
                  base_model_id: str = None,
+                 detected_language_confidence: float = None,
                  completed: datetime = None,
                  word_count: int = None,
                  character_count: int = None) -> None:
@@ -918,6 +933,10 @@ class DocumentStatus():
         :param str base_model_id: (optional) Model ID of the base model that was
                used to customize the model. If the model is not a custom model, this will
                be absent or an empty string.
+        :param float detected_language_confidence: (optional) A score between 0 and
+               1 indicating the confidence of source language detection. A higher value
+               indicates greater confidence. This is returned only when the service
+               automatically detects the source language.
         :param datetime completed: (optional) The time when the translation
                completed.
         :param int word_count: (optional) An estimate of the number of words in the
@@ -931,6 +950,7 @@ class DocumentStatus():
         self.model_id = model_id
         self.base_model_id = base_model_id
         self.source = source
+        self.detected_language_confidence = detected_language_confidence
         self.target = target
         self.created = created
         self.completed = completed
@@ -943,8 +963,8 @@ class DocumentStatus():
         args = {}
         valid_keys = [
             'document_id', 'filename', 'status', 'model_id', 'base_model_id',
-            'source', 'target', 'created', 'completed', 'word_count',
-            'character_count'
+            'source', 'detected_language_confidence', 'target', 'created',
+            'completed', 'word_count', 'character_count'
         ]
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
@@ -983,6 +1003,9 @@ class DocumentStatus():
             raise ValueError(
                 'Required property \'source\' not present in DocumentStatus JSON'
             )
+        if 'detected_language_confidence' in _dict:
+            args['detected_language_confidence'] = _dict.get(
+                'detected_language_confidence')
         if 'target' in _dict:
             args['target'] = _dict.get('target')
         else:
@@ -1023,6 +1046,10 @@ class DocumentStatus():
             _dict['base_model_id'] = self.base_model_id
         if hasattr(self, 'source') and self.source is not None:
             _dict['source'] = self.source
+        if hasattr(self, 'detected_language_confidence'
+                  ) and self.detected_language_confidence is not None:
+            _dict[
+                'detected_language_confidence'] = self.detected_language_confidence
         if hasattr(self, 'target') and self.target is not None:
             _dict['target'] = self.target
         if hasattr(self, 'created') and self.created is not None:
@@ -1663,12 +1690,23 @@ class TranslationResult():
 
     :attr int word_count: An estimate of the number of words in the input text.
     :attr int character_count: Number of characters in the input text.
+    :attr str detected_language: (optional) The language code of the source text if
+          the source language was automatically detected.
+    :attr float detected_language_confidence: (optional) A score between 0 and 1
+          indicating the confidence of source language detection. A higher value indicates
+          greater confidence. This is returned only when the service automatically detects
+          the source language.
     :attr List[Translation] translations: List of translation output in UTF-8,
           corresponding to the input text entries.
     """
 
-    def __init__(self, word_count: int, character_count: int,
-                 translations: List['Translation']) -> None:
+    def __init__(self,
+                 word_count: int,
+                 character_count: int,
+                 translations: List['Translation'],
+                 *,
+                 detected_language: str = None,
+                 detected_language_confidence: float = None) -> None:
         """
         Initialize a TranslationResult object.
 
@@ -1677,16 +1715,27 @@ class TranslationResult():
         :param int character_count: Number of characters in the input text.
         :param List[Translation] translations: List of translation output in UTF-8,
                corresponding to the input text entries.
+        :param str detected_language: (optional) The language code of the source
+               text if the source language was automatically detected.
+        :param float detected_language_confidence: (optional) A score between 0 and
+               1 indicating the confidence of source language detection. A higher value
+               indicates greater confidence. This is returned only when the service
+               automatically detects the source language.
         """
         self.word_count = word_count
         self.character_count = character_count
+        self.detected_language = detected_language
+        self.detected_language_confidence = detected_language_confidence
         self.translations = translations
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'TranslationResult':
         """Initialize a TranslationResult object from a json dictionary."""
         args = {}
-        valid_keys = ['word_count', 'character_count', 'translations']
+        valid_keys = [
+            'word_count', 'character_count', 'detected_language',
+            'detected_language_confidence', 'translations'
+        ]
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
             raise ValueError(
@@ -1704,6 +1753,11 @@ class TranslationResult():
             raise ValueError(
                 'Required property \'character_count\' not present in TranslationResult JSON'
             )
+        if 'detected_language' in _dict:
+            args['detected_language'] = _dict.get('detected_language')
+        if 'detected_language_confidence' in _dict:
+            args['detected_language_confidence'] = _dict.get(
+                'detected_language_confidence')
         if 'translations' in _dict:
             args['translations'] = [
                 Translation._from_dict(x) for x in (_dict.get('translations'))
@@ -1727,6 +1781,13 @@ class TranslationResult():
         if hasattr(self,
                    'character_count') and self.character_count is not None:
             _dict['character_count'] = self.character_count
+        if hasattr(self,
+                   'detected_language') and self.detected_language is not None:
+            _dict['detected_language'] = self.detected_language
+        if hasattr(self, 'detected_language_confidence'
+                  ) and self.detected_language_confidence is not None:
+            _dict[
+                'detected_language_confidence'] = self.detected_language_confidence
         if hasattr(self, 'translations') and self.translations is not None:
             _dict['translations'] = [x._to_dict() for x in self.translations]
         return _dict

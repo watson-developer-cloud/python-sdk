@@ -30,7 +30,6 @@ base_url = 'https://gateway.watsonplatform.net/natural-language-classifier/api'
 ##############################################################################
 # region
 
-
 #-----------------------------------------------------------------------------
 # Test Class for classify
 #-----------------------------------------------------------------------------
@@ -76,14 +75,15 @@ class TestClassify():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
         service = NaturalLanguageClassifierV1(
-            authenticator=NoAuthAuthenticator(),)
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.classify(**body)
         return output
@@ -91,17 +91,13 @@ class TestClassify():
     def construct_full_body(self):
         body = dict()
         body['classifier_id'] = "string1"
-        body.update({
-            "text": "string1",
-        })
+        body.update({"text": "string1", })
         return body
 
     def construct_required_body(self):
         body = dict()
         body['classifier_id'] = "string1"
-        body.update({
-            "text": "string1",
-        })
+        body.update({"text": "string1", })
         return body
 
 
@@ -136,8 +132,7 @@ class TestClassifyCollection():
     #--------------------------------------------------------
     @responses.activate
     def test_classify_collection_empty(self):
-        check_empty_required_params(
-            self, fake_response_ClassificationCollection_json)
+        check_empty_required_params(self, fake_response_ClassificationCollection_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -145,21 +140,21 @@ class TestClassifyCollection():
     #- Helpers -
     #-----------
     def make_url(self, body):
-        endpoint = '/v1/classifiers/{0}/classify_collection'.format(
-            body['classifier_id'])
+        endpoint = '/v1/classifiers/{0}/classify_collection'.format(body['classifier_id'])
         url = '{0}{1}'.format(base_url, endpoint)
         return url
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
         service = NaturalLanguageClassifierV1(
-            authenticator=NoAuthAuthenticator(),)
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.classify_collection(**body)
         return output
@@ -167,17 +162,13 @@ class TestClassifyCollection():
     def construct_full_body(self):
         body = dict()
         body['classifier_id'] = "string1"
-        body.update({
-            "collection": [],
-        })
+        body.update({"collection": [], })
         return body
 
     def construct_required_body(self):
         body = dict()
         body['classifier_id'] = "string1"
-        body.update({
-            "collection": [],
-        })
+        body.update({"collection": [], })
         return body
 
 
@@ -190,7 +181,6 @@ class TestClassifyCollection():
 # Start of Service: ManageClassifiers
 ##############################################################################
 # region
-
 
 #-----------------------------------------------------------------------------
 # Test Class for create_classifier
@@ -237,14 +227,15 @@ class TestCreateClassifier():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
         service = NaturalLanguageClassifierV1(
-            authenticator=NoAuthAuthenticator(),)
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.create_classifier(**body)
         return output
@@ -306,14 +297,15 @@ class TestListClassifiers():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
         service = NaturalLanguageClassifierV1(
-            authenticator=NoAuthAuthenticator(),)
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.list_classifiers(**body)
         return output
@@ -372,14 +364,15 @@ class TestGetClassifier():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
         service = NaturalLanguageClassifierV1(
-            authenticator=NoAuthAuthenticator(),)
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.get_classifier(**body)
         return output
@@ -440,14 +433,15 @@ class TestDeleteClassifier():
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='')
+    
     def call_service(self, body):
         service = NaturalLanguageClassifierV1(
-            authenticator=NoAuthAuthenticator(),)
+            authenticator=NoAuthAuthenticator(),
+            )
         service.set_service_url(base_url)
         output = service.delete_classifier(**body)
         return output
@@ -485,7 +479,6 @@ def check_empty_required_params(obj, response):
         error = True
     assert error
 
-
 def check_missing_required_params(obj):
     """Test function to assert that the operation will throw an error when missing required data
 
@@ -502,7 +495,6 @@ def check_missing_required_params(obj):
         error = True
     assert error
 
-
 def check_empty_response(obj):
     """Test function to assert that the operation will return an empty response when given an empty request
 
@@ -513,7 +505,6 @@ def check_empty_response(obj):
     body = obj.construct_full_body()
     url = obj.make_url(body)
     send_request(obj, {}, {}, url=url)
-
 
 def send_request(obj, body, response, url=None):
     """Test function to create a request, send it, and assert its accuracy to the mock response
@@ -530,7 +521,6 @@ def send_request(obj, body, response, url=None):
     output = obj.call_service(body)
     assert responses.calls[0].request.url.startswith(url)
     assert output.get_result() == response
-
 
 ####################
 ## Mock Responses ##

@@ -69,3 +69,6 @@ test/__init__.py
 # ignore detect secrets files
 .pre-commit-config.yaml
 .secrets.baseline
+
+.openapi-generator-ignore
+.openapi-generator/

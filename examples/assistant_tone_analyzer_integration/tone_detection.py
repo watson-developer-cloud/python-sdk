@@ -15,7 +15,7 @@
  * Thresholds for identifying meaningful tones returned by the Watson Tone
  Analyzer.  Current values are
  * based on the recommendations made by the Watson Tone Analyzer at
- * https://cloud.ibm.com/docs/services/tone-analyzer?topic=tone-analyzer-utgpe
+ * https://cloud.ibm.com/docs/tone-analyzer?topic=tone-analyzer-utgpe
  * These thresholds can be adjusted to client/domain requirements.
 """
 

@@ -41,25 +41,25 @@ class TextToSpeechV1Adapter(TextToSpeechV1):
 
         :param str text: Provides the text that is to be synthesized. The client can pass plain
         text or text that is annotated with the Speech Synthesis Markup Language (SSML). For more
-        information, see [Specifying input text](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-usingHTTP#input).
+        information, see [Specifying input text](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-usingHTTP#input).
         SSML input can also include the <mark> element;
-        see [Specifying an SSML mark](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-timing#mark).
+        see [Specifying an SSML mark](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-timing#mark).
         The client can pass a maximum of 5 KB of text with the request.
         :param SynthesizeCallback synthesize_callback: The callback method for the websocket.
         :param str accept: Specifies the requested format (MIME type) of the audio. For more information, see [Specifying
-        an audio format](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-usingHTTP#format). In addition to the
+        an audio format](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-usingHTTP#format). In addition to the
         supported specifications, you can use */* to specify the default audio format, audio/ogg;codecs=opus.
         :param str voice: The voice to use for synthesis.
         :param list[str] timings: Specifies that the service is to return word timing information for all strings of the
         input text. The service returns the start and end time of each string of the input. Specify words as the lone element
         of the array to request word timings. Specify an empty array or omit the parameter to receive no word timings. For
-        more information, see [Obtaining word timings](https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-timing#timing).
+        more information, see [Obtaining word timings](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-timing#timing).
         Not supported for Japanese input text.
         :param str customization_id: Specifies the globally unique identifier (GUID) for a custom voice model that is to be used for the
         synthesis. A custom voice model is guaranteed to work only if it matches the language of the voice that is used for the synthesis.
         If you include a customization ID, you must call the method with the service credentials of the custom model's owner. Omit the
         parameter to use the specified voice with no customization. For more information, see [Understanding customization]
-        (https://cloud.ibm.com/docs/services/text-to-speech?topic=text-to-speech-customIntro#customIntro).
+        (https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customIntro#customIntro).
         :param str http_proxy_host: http proxy host name.
         :param str http_proxy_port: http proxy port. If not set, set to 80.
         :param dict headers: A `dict` containing the request headers

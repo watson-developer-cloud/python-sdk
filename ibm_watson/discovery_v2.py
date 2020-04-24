@@ -146,7 +146,7 @@ class DiscoveryV2(BaseService):
         Query a project.
 
         By using this method, you can construct queries. For details, see the [Discovery
-        documentation](https://cloud.ibm.com/docs/services/discovery-data?topic=discovery-data-query-concepts).
+        documentation](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-query-concepts).
 
         :param str project_id: The ID of the project. This information can be found
                from the deploy page of the Discovery administrative tooling.
@@ -1432,14 +1432,14 @@ class ComponentSettingsResponse():
           component setting aggregations.
     """
 
-    def __init__(self,
-                 *,
-                 fields_shown: 'ComponentSettingsFieldsShown' = None,
-                 autocomplete: bool = None,
-                 structured_search: bool = None,
-                 results_per_page: int = None,
-                 aggregations: List['ComponentSettingsAggregation'] = None
-                ) -> None:
+    def __init__(
+            self,
+            *,
+            fields_shown: 'ComponentSettingsFieldsShown' = None,
+            autocomplete: bool = None,
+            structured_search: bool = None,
+            results_per_page: int = None,
+            aggregations: List['ComponentSettingsAggregation'] = None) -> None:
         """
         Initialize a ComponentSettingsResponse object.
 
@@ -3543,7 +3543,9 @@ class QueryTopHitsAggregationResult():
     :attr List[dict] hits: (optional) An array of the document results.
     """
 
-    def __init__(self, matching_results: int, *,
+    def __init__(self,
+                 matching_results: int,
+                 *,
                  hits: List[dict] = None) -> None:
         """
         Initialize a QueryTopHitsAggregationResult object.
@@ -5817,17 +5819,20 @@ class QueryHistogramAggregation(QueryAggregation):
 
     :attr str field: The numeric field name used to create the histogram.
     :attr int interval: The size of the sections the results are split into.
+    :attr str name: (optional) Identifier specified in the query request of this
+          aggregation.
     :attr List[QueryHistogramAggregationResult] results: (optional) Array of numeric
           intervals.
     """
 
-    def __init__(self,
-                 type: str,
-                 field: str,
-                 interval: int,
-                 *,
-                 results: List['QueryHistogramAggregationResult'] = None
-                ) -> None:
+    def __init__(
+            self,
+            type: str,
+            field: str,
+            interval: int,
+            *,
+            name: str = None,
+            results: List['QueryHistogramAggregationResult'] = None) -> None:
         """
         Initialize a QueryHistogramAggregation object.
 
@@ -5836,19 +5841,22 @@ class QueryHistogramAggregation(QueryAggregation):
                unique_count, and top_hits.
         :param str field: The numeric field name used to create the histogram.
         :param int interval: The size of the sections the results are split into.
+        :param str name: (optional) Identifier specified in the query request of
+               this aggregation.
         :param List[QueryHistogramAggregationResult] results: (optional) Array of
                numeric intervals.
         """
         self.type = type
         self.field = field
         self.interval = interval
+        self.name = name
         self.results = results
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'QueryHistogramAggregation':
         """Initialize a QueryHistogramAggregation object from a json dictionary."""
         args = {}
-        valid_keys = ['type', 'field', 'interval', 'results']
+        valid_keys = ['type', 'field', 'interval', 'name', 'results']
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
             raise ValueError(
@@ -5872,6 +5880,8 @@ class QueryHistogramAggregation(QueryAggregation):
             raise ValueError(
                 'Required property \'interval\' not present in QueryHistogramAggregation JSON'
             )
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
         if 'results' in _dict:
             args['results'] = [
                 QueryHistogramAggregationResult._from_dict(x)
@@ -5893,6 +5903,8 @@ class QueryHistogramAggregation(QueryAggregation):
             _dict['field'] = self.field
         if hasattr(self, 'interval') and self.interval is not None:
             _dict['interval'] = self.interval
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
         if hasattr(self, 'results') and self.results is not None:
             _dict['results'] = [x._to_dict() for x in self.results]
         return _dict
@@ -6031,6 +6043,8 @@ class QueryTermAggregation(QueryAggregation):
 
     :attr str field: The field in the document used to generate top values from.
     :attr int count: (optional) The number of top values returned.
+    :attr str name: (optional) Identifier specified in the query request of this
+          aggregation.
     :attr List[QueryTermAggregationResult] results: (optional) Array of top values
           for the field.
     """
@@ -6040,6 +6054,7 @@ class QueryTermAggregation(QueryAggregation):
                  field: str,
                  *,
                  count: int = None,
+                 name: str = None,
                  results: List['QueryTermAggregationResult'] = None) -> None:
         """
         Initialize a QueryTermAggregation object.
@@ -6050,19 +6065,22 @@ class QueryTermAggregation(QueryAggregation):
         :param str field: The field in the document used to generate top values
                from.
         :param int count: (optional) The number of top values returned.
+        :param str name: (optional) Identifier specified in the query request of
+               this aggregation.
         :param List[QueryTermAggregationResult] results: (optional) Array of top
                values for the field.
         """
         self.type = type
         self.field = field
         self.count = count
+        self.name = name
         self.results = results
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'QueryTermAggregation':
         """Initialize a QueryTermAggregation object from a json dictionary."""
         args = {}
-        valid_keys = ['type', 'field', 'count', 'results']
+        valid_keys = ['type', 'field', 'count', 'name', 'results']
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
             raise ValueError(
@@ -6082,6 +6100,8 @@ class QueryTermAggregation(QueryAggregation):
             )
         if 'count' in _dict:
             args['count'] = _dict.get('count')
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
         if 'results' in _dict:
             args['results'] = [
                 QueryTermAggregationResult._from_dict(x)
@@ -6103,6 +6123,8 @@ class QueryTermAggregation(QueryAggregation):
             _dict['field'] = self.field
         if hasattr(self, 'count') and self.count is not None:
             _dict['count'] = self.count
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
         if hasattr(self, 'results') and self.results is not None:
             _dict['results'] = [x._to_dict() for x in self.results]
         return _dict
@@ -6133,17 +6155,20 @@ class QueryTimesliceAggregation(QueryAggregation):
     :attr str field: The date field name used to create the timeslice.
     :attr str interval: The date interval value. Valid values are seconds, minutes,
           hours, days, weeks, and years.
+    :attr str name: (optional) Identifier specified in the query request of this
+          aggregation.
     :attr List[QueryTimesliceAggregationResult] results: (optional) Array of
           aggregation results.
     """
 
-    def __init__(self,
-                 type: str,
-                 field: str,
-                 interval: str,
-                 *,
-                 results: List['QueryTimesliceAggregationResult'] = None
-                ) -> None:
+    def __init__(
+            self,
+            type: str,
+            field: str,
+            interval: str,
+            *,
+            name: str = None,
+            results: List['QueryTimesliceAggregationResult'] = None) -> None:
         """
         Initialize a QueryTimesliceAggregation object.
 
@@ -6153,19 +6178,22 @@ class QueryTimesliceAggregation(QueryAggregation):
         :param str field: The date field name used to create the timeslice.
         :param str interval: The date interval value. Valid values are seconds,
                minutes, hours, days, weeks, and years.
+        :param str name: (optional) Identifier specified in the query request of
+               this aggregation.
         :param List[QueryTimesliceAggregationResult] results: (optional) Array of
                aggregation results.
         """
         self.type = type
         self.field = field
         self.interval = interval
+        self.name = name
         self.results = results
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'QueryTimesliceAggregation':
         """Initialize a QueryTimesliceAggregation object from a json dictionary."""
         args = {}
-        valid_keys = ['type', 'field', 'interval', 'results']
+        valid_keys = ['type', 'field', 'interval', 'name', 'results']
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
             raise ValueError(
@@ -6189,6 +6217,8 @@ class QueryTimesliceAggregation(QueryAggregation):
             raise ValueError(
                 'Required property \'interval\' not present in QueryTimesliceAggregation JSON'
             )
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
         if 'results' in _dict:
             args['results'] = [
                 QueryTimesliceAggregationResult._from_dict(x)
@@ -6210,6 +6240,8 @@ class QueryTimesliceAggregation(QueryAggregation):
             _dict['field'] = self.field
         if hasattr(self, 'interval') and self.interval is not None:
             _dict['interval'] = self.interval
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
         if hasattr(self, 'results') and self.results is not None:
             _dict['results'] = [x._to_dict() for x in self.results]
         return _dict
@@ -6238,6 +6270,8 @@ class QueryTopHitsAggregation(QueryAggregation):
     Returns the top documents ranked by the score of the query.
 
     :attr int size: The number of documents to return.
+    :attr str name: (optional) Identifier specified in the query request of this
+          aggregation.
     :attr QueryTopHitsAggregationResult hits: (optional)
     """
 
@@ -6245,6 +6279,7 @@ class QueryTopHitsAggregation(QueryAggregation):
                  type: str,
                  size: int,
                  *,
+                 name: str = None,
                  hits: 'QueryTopHitsAggregationResult' = None) -> None:
         """
         Initialize a QueryTopHitsAggregation object.
@@ -6253,17 +6288,20 @@ class QueryTopHitsAggregation(QueryAggregation):
                term, histogram, timeslice, nested, filter, min, max, sum, average,
                unique_count, and top_hits.
         :param int size: The number of documents to return.
+        :param str name: (optional) Identifier specified in the query request of
+               this aggregation.
         :param QueryTopHitsAggregationResult hits: (optional)
         """
         self.type = type
         self.size = size
+        self.name = name
         self.hits = hits
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'QueryTopHitsAggregation':
         """Initialize a QueryTopHitsAggregation object from a json dictionary."""
         args = {}
-        valid_keys = ['type', 'size', 'hits']
+        valid_keys = ['type', 'size', 'name', 'hits']
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
             raise ValueError(
@@ -6281,6 +6319,8 @@ class QueryTopHitsAggregation(QueryAggregation):
             raise ValueError(
                 'Required property \'size\' not present in QueryTopHitsAggregation JSON'
             )
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
         if 'hits' in _dict:
             args['hits'] = QueryTopHitsAggregationResult._from_dict(
                 _dict.get('hits'))
@@ -6298,6 +6338,8 @@ class QueryTopHitsAggregation(QueryAggregation):
             _dict['type'] = self.type
         if hasattr(self, 'size') and self.size is not None:
             _dict['size'] = self.size
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
         if hasattr(self, 'hits') and self.hits is not None:
             _dict['hits'] = self.hits._to_dict()
         return _dict

@@ -30,7 +30,6 @@ base_url = 'https://gateway.watsonplatform.net/compare-comply/api'
 ##############################################################################
 # region
 
-
 #-----------------------------------------------------------------------------
 # Test Class for convert_to_html
 #-----------------------------------------------------------------------------
@@ -76,16 +75,16 @@ class TestConvertToHtml():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
         service = CompareComplyV1(
             authenticator=NoAuthAuthenticator(),
             version='2018-10-15',
-        )
+            )
         service.set_service_url(base_url)
         output = service.convert_to_html(**body)
         return output
@@ -112,7 +111,6 @@ class TestConvertToHtml():
 # Start of Service: ElementClassification
 ##############################################################################
 # region
-
 
 #-----------------------------------------------------------------------------
 # Test Class for classify_elements
@@ -159,16 +157,16 @@ class TestClassifyElements():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
         service = CompareComplyV1(
             authenticator=NoAuthAuthenticator(),
             version='2018-10-15',
-        )
+            )
         service.set_service_url(base_url)
         output = service.classify_elements(**body)
         return output
@@ -195,7 +193,6 @@ class TestClassifyElements():
 # Start of Service: Tables
 ##############################################################################
 # region
-
 
 #-----------------------------------------------------------------------------
 # Test Class for extract_tables
@@ -242,16 +239,16 @@ class TestExtractTables():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
         service = CompareComplyV1(
             authenticator=NoAuthAuthenticator(),
             version='2018-10-15',
-        )
+            )
         service.set_service_url(base_url)
         output = service.extract_tables(**body)
         return output
@@ -278,7 +275,6 @@ class TestExtractTables():
 # Start of Service: Comparison
 ##############################################################################
 # region
-
 
 #-----------------------------------------------------------------------------
 # Test Class for compare_documents
@@ -325,16 +321,16 @@ class TestCompareDocuments():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
         service = CompareComplyV1(
             authenticator=NoAuthAuthenticator(),
             version='2018-10-15',
-        )
+            )
         service.set_service_url(base_url)
         output = service.compare_documents(**body)
         return output
@@ -366,7 +362,6 @@ class TestCompareDocuments():
 # Start of Service: Feedback
 ##############################################################################
 # region
-
 
 #-----------------------------------------------------------------------------
 # Test Class for add_feedback
@@ -413,48 +408,28 @@ class TestAddFeedback():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
         service = CompareComplyV1(
             authenticator=NoAuthAuthenticator(),
             version='2018-10-15',
-        )
+            )
         service.set_service_url(base_url)
         output = service.add_feedback(**body)
         return output
 
     def construct_full_body(self):
         body = dict()
-        body.update({
-            "feedback_data":
-                FeedbackDataInput._from_dict(
-                    json.loads(
-                        """{"feedback_type": "fake_feedback_type", "document": {"title": "fake_title", "hash": "fake_hash"}, "model_id": "fake_model_id", "model_version": "fake_model_version", "location": {"begin": 5, "end": 3}, "text": "fake_text", "original_labels": {"types": [], "categories": []}, "updated_labels": {"types": [], "categories": []}}"""
-                    )),
-            "user_id":
-                "string1",
-            "comment":
-                "string1",
-        })
+        body.update({"feedback_data": FeedbackDataInput._from_dict(json.loads("""{"feedback_type": "fake_feedback_type", "document": {"title": "fake_title", "hash": "fake_hash"}, "model_id": "fake_model_id", "model_version": "fake_model_version", "location": {"begin": 5, "end": 3}, "text": "fake_text", "original_labels": {"types": [], "categories": []}, "updated_labels": {"types": [], "categories": []}}""")), "user_id": "string1", "comment": "string1", })
         return body
 
     def construct_required_body(self):
         body = dict()
-        body.update({
-            "feedback_data":
-                FeedbackDataInput._from_dict(
-                    json.loads(
-                        """{"feedback_type": "fake_feedback_type", "document": {"title": "fake_title", "hash": "fake_hash"}, "model_id": "fake_model_id", "model_version": "fake_model_version", "location": {"begin": 5, "end": 3}, "text": "fake_text", "original_labels": {"types": [], "categories": []}, "updated_labels": {"types": [], "categories": []}}"""
-                    )),
-            "user_id":
-                "string1",
-            "comment":
-                "string1",
-        })
+        body.update({"feedback_data": FeedbackDataInput._from_dict(json.loads("""{"feedback_type": "fake_feedback_type", "document": {"title": "fake_title", "hash": "fake_hash"}, "model_id": "fake_model_id", "model_version": "fake_model_version", "location": {"begin": 5, "end": 3}, "text": "fake_text", "original_labels": {"types": [], "categories": []}, "updated_labels": {"types": [], "categories": []}}""")), "user_id": "string1", "comment": "string1", })
         return body
 
 
@@ -502,16 +477,16 @@ class TestListFeedback():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
         service = CompareComplyV1(
             authenticator=NoAuthAuthenticator(),
             version='2018-10-15',
-        )
+            )
         service.set_service_url(base_url)
         output = service.list_feedback(**body)
         return output
@@ -586,16 +561,16 @@ class TestGetFeedback():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
         service = CompareComplyV1(
             authenticator=NoAuthAuthenticator(),
             version='2018-10-15',
-        )
+            )
         service.set_service_url(base_url)
         output = service.get_feedback(**body)
         return output
@@ -657,16 +632,16 @@ class TestDeleteFeedback():
 
     def add_mock_response(self, url, response):
         responses.add(responses.DELETE,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
         service = CompareComplyV1(
             authenticator=NoAuthAuthenticator(),
             version='2018-10-15',
-        )
+            )
         service.set_service_url(base_url)
         output = service.delete_feedback(**body)
         return output
@@ -692,7 +667,6 @@ class TestDeleteFeedback():
 # Start of Service: Batches
 ##############################################################################
 # region
-
 
 #-----------------------------------------------------------------------------
 # Test Class for create_batch
@@ -739,16 +713,16 @@ class TestCreateBatch():
 
     def add_mock_response(self, url, response):
         responses.add(responses.POST,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
         service = CompareComplyV1(
             authenticator=NoAuthAuthenticator(),
             version='2018-10-15',
-        )
+            )
         service.set_service_url(base_url)
         output = service.create_batch(**body)
         return output
@@ -821,16 +795,16 @@ class TestListBatches():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
         service = CompareComplyV1(
             authenticator=NoAuthAuthenticator(),
             version='2018-10-15',
-        )
+            )
         service.set_service_url(base_url)
         output = service.list_batches(**body)
         return output
@@ -889,16 +863,16 @@ class TestGetBatch():
 
     def add_mock_response(self, url, response):
         responses.add(responses.GET,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
         service = CompareComplyV1(
             authenticator=NoAuthAuthenticator(),
             version='2018-10-15',
-        )
+            )
         service.set_service_url(base_url)
         output = service.get_batch(**body)
         return output
@@ -959,16 +933,16 @@ class TestUpdateBatch():
 
     def add_mock_response(self, url, response):
         responses.add(responses.PUT,
-                      url,
-                      body=json.dumps(response),
-                      status=200,
-                      content_type='application/json')
-
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
     def call_service(self, body):
         service = CompareComplyV1(
             authenticator=NoAuthAuthenticator(),
             version='2018-10-15',
-        )
+            )
         service.set_service_url(base_url)
         output = service.update_batch(**body)
         return output
@@ -1009,7 +983,6 @@ def check_empty_required_params(obj, response):
         error = True
     assert error
 
-
 def check_missing_required_params(obj):
     """Test function to assert that the operation will throw an error when missing required data
 
@@ -1026,7 +999,6 @@ def check_missing_required_params(obj):
         error = True
     assert error
 
-
 def check_empty_response(obj):
     """Test function to assert that the operation will return an empty response when given an empty request
 
@@ -1037,7 +1009,6 @@ def check_empty_response(obj):
     body = obj.construct_full_body()
     url = obj.make_url(body)
     send_request(obj, {}, {}, url=url)
-
 
 def send_request(obj, body, response, url=None):
     """Test function to create a request, send it, and assert its accuracy to the mock response
@@ -1054,7 +1025,6 @@ def send_request(obj, body, response, url=None):
     output = obj.call_service(body)
     assert responses.calls[0].request.url.startswith(url)
     assert output.get_result() == response
-
 
 ####################
 ## Mock Responses ##

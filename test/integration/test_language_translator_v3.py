@@ -19,6 +19,9 @@ class TestIntegrationLanguageTranslatorV3(unittest.TestCase):
         translation = self.language_translator.translate(
             text='Hello', model_id='en-es').get_result()
         assert translation is not None
+        translation = self.language_translator.translate(
+            text='Hello, how are you?', target='es').get_result()
+        assert translation is not None
 
     def test_document_translation(self):
         with open(join(dirname(__file__), '../../resources/hello_world.txt'),

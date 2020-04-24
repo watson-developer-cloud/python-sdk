@@ -138,7 +138,8 @@ class VisualRecognitionV4(BaseService):
 
         form_data = []
         collection_ids = self._convert_list(collection_ids)
-        form_data.append(('collection_ids', (None, collection_ids, 'text/plain')))
+        form_data.append(
+            ('collection_ids', (None, collection_ids, 'text/plain')))
         features = self._convert_list(features)
         form_data.append(('features', (None, features, 'text/plain')))
         if images_file:
@@ -148,7 +149,8 @@ class VisualRecognitionV4(BaseService):
                                                   'application/octet-stream')))
         if image_url:
             for item in image_url:
-                form_data.append(('image_url', (None, item, 'text/plain')))
+                form_data.append(
+                    ('image_url', (None, item, 'application/json')))
         if threshold:
             threshold = str(threshold)
             form_data.append(('threshold', (None, threshold, 'text/plain')))
@@ -1371,7 +1373,8 @@ class DetectedObjects():
           identified objects.
     """
 
-    def __init__(self, *,
+    def __init__(self,
+                 *,
                  collections: List['CollectionObjects'] = None) -> None:
         """
         Initialize a DetectedObjects object.
@@ -2121,7 +2124,9 @@ class ImageSummary():
           (UTC) that the image was most recently updated.
     """
 
-    def __init__(self, *, image_id: str = None,
+    def __init__(self,
+                 *,
+                 image_id: str = None,
                  updated: datetime = None) -> None:
         """
         Initialize a ImageSummary object.
@@ -2707,7 +2712,9 @@ class TrainingDataObject():
           around the object.
     """
 
-    def __init__(self, *, object: str = None,
+    def __init__(self,
+                 *,
+                 object: str = None,
                  location: 'Location' = None) -> None:
         """
         Initialize a TrainingDataObject object.
@@ -3137,8 +3144,8 @@ class UpdateObjectMetadata():
     :attr str object: The updated name of the object. The name can contain
           alphanumeric, underscore, hyphen, space, and dot characters. It cannot begin
           with the reserved prefix `sys-`.
-    :attr int count: Number of bounding boxes in the collection with the updated
-          object name.
+    :attr int count: Number of bounding boxes in the collection with the
+          updated object name.
     """
 
     def __init__(self, object: str, count: int) -> None:
@@ -3148,8 +3155,8 @@ class UpdateObjectMetadata():
         :param str object: The updated name of the object. The name can contain
                alphanumeric, underscore, hyphen, space, and dot characters. It cannot
                begin with the reserved prefix `sys-`.
-        :param int count: Number of bounding boxes in the collection with the
-               updated object name.
+        :param int count: Number of bounding boxes in the collection
+               with the updated object name.
         """
         self.object = object
         self.count = count
@@ -3220,7 +3227,10 @@ class Warning():
     :attr str more_info: (optional) A URL for more information about the solution.
     """
 
-    def __init__(self, code: str, message: str, *,
+    def __init__(self,
+                 code: str,
+                 message: str,
+                 *,
                  more_info: str = None) -> None:
         """
         Initialize a Warning object.

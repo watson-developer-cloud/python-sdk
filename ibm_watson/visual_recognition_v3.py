@@ -170,7 +170,8 @@ class VisualRecognitionV3(BaseService):
             form_data.append(('owners', (None, owners, 'text/plain')))
         if classifier_ids:
             classifier_ids = self._convert_list(classifier_ids)
-            form_data.append(('classifier_ids', (None, classifier_ids, 'text/plain')))
+            form_data.append(
+                ('classifier_ids', (None, classifier_ids, 'text/plain')))
 
         url = '/v3/classify'
         request = self.prepare_request(method='POST',
@@ -279,7 +280,9 @@ class VisualRecognitionV3(BaseService):
         response = self.send(request)
         return response
 
-    def list_classifiers(self, *, verbose: bool = None,
+    def list_classifiers(self,
+                         *,
+                         verbose: bool = None,
                          **kwargs) -> 'DetailedResponse':
         """
         Retrieve a list of classifiers.
@@ -666,7 +669,10 @@ class ClassResult():
           identified.
     """
 
-    def __init__(self, class_: str, score: float, *,
+    def __init__(self,
+                 class_: str,
+                 score: float,
+                 *,
                  type_hierarchy: str = None) -> None:
         """
         Initialize a ClassResult object.

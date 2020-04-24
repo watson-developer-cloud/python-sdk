@@ -164,7 +164,7 @@ IBM Cloud has migrated to token-based Identity and Access Management (IAM) authe
 You supply either an IAM service **API key** or a **bearer token**:
 
 - Use the API key to have the SDK manage the lifecycle of the access token. The SDK requests an access token, ensures that the access token is valid, and refreshes it if necessary.
-- Use the access token if you want to manage the lifecycle yourself. For details, see [Authenticating with IAM tokens](https://cloud.ibm.com/docs/services/watson?topic=watson-iam).
+- Use the access token if you want to manage the lifecycle yourself. For details, see [Authenticating with IAM tokens](https://cloud.ibm.com/docs/watson?topic=watson-iam).
 - Use a server-side to generate access tokens using your IAM API key for untrusted environments like client-side scripts. The generated access tokens will be valid for one hour and can be refreshed.
 
 #### Supplying the API key
@@ -513,5 +513,5 @@ This library is licensed under the [Apache 2.0 license][license].
 [examples]: https://github.com/watson-developer-cloud/python-sdk/tree/master/examples
 [CONTRIBUTING]: https://github.com/watson-developer-cloud/python-sdk/blob/master/CONTRIBUTING.md
 [license]: http://www.apache.org/licenses/LICENSE-2.0
-[vcap_services]: https://cloud.ibm.com/docs/services/watson?topic=watson-vcapServices
+[vcap_services]: https://cloud.ibm.com/docs/watson?topic=watson-vcapServices
 [ibm-cloud-onboarding]: https://cloud.ibm.com/registration?target=/developer/watson&cm_sp=WatsonPlatform-WatsonServices-_-OnPageNavLink-IBMWatson_SDKs-_-Python

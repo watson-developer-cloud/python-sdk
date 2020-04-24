@@ -507,9 +507,9 @@ class ConsumptionPreferencesCategory():
           inferred from the input text for the individual preferences of the category.
     """
 
-    def __init__(self, consumption_preference_category_id: str, name: str,
-                 consumption_preferences: List['ConsumptionPreferences']
-                ) -> None:
+    def __init__(
+            self, consumption_preference_category_id: str, name: str,
+            consumption_preferences: List['ConsumptionPreferences']) -> None:
         """
         Initialize a ConsumptionPreferencesCategory object.
 
@@ -903,18 +903,19 @@ class Profile():
           no warnings.
     """
 
-    def __init__(self,
-                 processed_language: str,
-                 word_count: int,
-                 personality: List['Trait'],
-                 needs: List['Trait'],
-                 values: List['Trait'],
-                 warnings: List['Warning'],
-                 *,
-                 word_count_message: str = None,
-                 behavior: List['Behavior'] = None,
-                 consumption_preferences: List[
-                     'ConsumptionPreferencesCategory'] = None) -> None:
+    def __init__(
+        self,
+        processed_language: str,
+        word_count: int,
+        personality: List['Trait'],
+        needs: List['Trait'],
+        values: List['Trait'],
+        warnings: List['Warning'],
+        *,
+        word_count_message: str = None,
+        behavior: List['Behavior'] = None,
+        consumption_preferences: List['ConsumptionPreferencesCategory'] = None
+    ) -> None:
         """
         Initialize a Profile object.
 
