@@ -196,16 +196,20 @@ class RecognizeListener(object):
         elif 'results' in json_object or 'speaker_labels' in json_object:
             hypothesis = ''
             if 'results' in json_object:
-                hypothesis = json_object['results'][0]['alternatives'][0][
-                    'transcript']
-                b_final = (json_object['results'][0]['final'] is True)
-                transcripts = self.extract_transcripts(
-                    json_object['results'][0]['alternatives'])
+                if len(json_object['results']) != 0:
+                    # Handling for noisy/silent utterances
+                    print(json_object['results'])
 
-                if b_final:
-                    self.callback.on_transcription(transcripts)
+                    hypothesis = json_object['results'][0]['alternatives'][0][
+                        'transcript']
+                    b_final = (json_object['results'][0]['final'] is True)
+                    transcripts = self.extract_transcripts(
+                        json_object['results'][0]['alternatives'])
 
-                self.callback.on_hypothesis(hypothesis)
+                    if b_final:
+                        self.callback.on_transcription(transcripts)
+
+                    self.callback.on_hypothesis(hypothesis)
             self.callback.on_data(json_object)
 
     def on_error(self, ws, error):
