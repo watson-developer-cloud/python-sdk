@@ -1,0 +1,788 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>ibm_watson.visual_recognition_v3 module &#8212; Watson Developer Cloud Python SDK 4.4.1 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ibm_watson.visual_recognition_v4 module" href="ibm_watson.visual_recognition_v4.html" />
+    <link rel="prev" title="ibm_watson.tone_analyzer_v3 module" href="ibm_watson.tone_analyzer_v3.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-ibm_watson.visual_recognition_v3">
+<span id="ibm-watson-visual-recognition-v3-module"></span><h1>ibm_watson.visual_recognition_v3 module<a class="headerlink" href="#module-ibm_watson.visual_recognition_v3" title="Permalink to this headline">¶</a></h1>
+<p>The IBM Watson&amp;trade; Visual Recognition service uses deep learning algorithms to identify
+scenes and objects in images that you upload to the service. You can create and train a
+custom classifier to identify subjects that suit your needs.</p>
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v3.VisualRecognitionV3">
+<em class="property">class </em><code class="sig-name descname">VisualRecognitionV3</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">version</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">authenticator</span><span class="p">:</span> <span class="n">ibm_cloud_sdk_core.authenticators.authenticator.Authenticator</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">service_name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">'visual_recognition'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#VisualRecognitionV3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.VisualRecognitionV3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ibm_cloud_sdk_core.base_service.BaseService</span></code></p>
+<p>The Visual Recognition V3 service.</p>
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v3.VisualRecognitionV3.DEFAULT_SERVICE_URL">
+<code class="sig-name descname">DEFAULT_SERVICE_URL</code><em class="property"> = 'https://gateway.watsonplatform.net/visual-recognition/api'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v3.VisualRecognitionV3.DEFAULT_SERVICE_URL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v3.VisualRecognitionV3.DEFAULT_SERVICE_NAME">
+<code class="sig-name descname">DEFAULT_SERVICE_NAME</code><em class="property"> = 'visual_recognition'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v3.VisualRecognitionV3.DEFAULT_SERVICE_NAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v3.VisualRecognitionV3.classify">
+<code class="sig-name descname">classify</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">images_file</span><span class="p">:</span> <span class="n">BinaryIO</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">images_filename</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">images_file_content_type</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">url</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">threshold</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">owners</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">classifier_ids</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">accept_language</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#VisualRecognitionV3.classify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.VisualRecognitionV3.classify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Classify images.</p>
+<p>Classify images with built-in or custom classifiers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>images_file</strong> (<em>TextIO</em>) – (optional) An image file (.gif, .jpg, .png,
+.tif) or .zip file with images. Maximum image size is 10 MB. Include no
+more than 20 images and limit the .zip file to 100 MB. Encode the image and
+.zip file names in UTF-8 if they contain non-ASCII characters. The service
+assumes UTF-8 encoding if it encounters non-ASCII characters.
+You can also include an image with the <strong>url</strong> parameter.</p></li>
+<li><p><strong>images_filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – (optional) The filename for images_file.</p></li>
+<li><p><strong>images_file_content_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – (optional) The content type of
+images_file.</p></li>
+<li><p><strong>url</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – (optional) The URL of an image (.gif, .jpg, .png, .tif) to
+analyze. The minimum recommended pixel density is 32X32 pixels, but the
+service tends to perform better with images that are at least 224 x 224
+pixels. The maximum image size is 10 MB.
+You can also include images with the <strong>images_file</strong> parameter.</p></li>
+<li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – (optional) The minimum score a class must have to
+be displayed in the response. Set the threshold to <cite>0.0</cite> to return all
+identified classes.</p></li>
+<li><p><strong>owners</strong> (<em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>]</em>) – (optional) The categories of classifiers to apply.
+The <strong>classifier_ids</strong> parameter overrides <strong>owners</strong>, so make sure that
+<strong>classifier_ids</strong> is empty.
+- Use <cite>IBM</cite> to classify against the <cite>default</cite> general classifier. You get
+the same result if both <strong>classifier_ids</strong> and <strong>owners</strong> parameters are
+empty.
+- Use <cite>me</cite> to classify against all your custom classifiers. However, for
+better performance use <strong>classifier_ids</strong> to specify the specific custom
+classifiers to apply.
+- Use both <cite>IBM</cite> and <cite>me</cite> to analyze the image against both classifier
+categories.</p></li>
+<li><p><strong>classifier_ids</strong> (<em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>]</em>) – (optional) Which classifiers to apply.
+Overrides the <strong>owners</strong> parameter. You can specify both custom and
+built-in classifier IDs. The built-in <cite>default</cite> classifier is used if both
+<strong>classifier_ids</strong> and <strong>owners</strong> parameters are empty.
+The following built-in classifier IDs require no training:
+- <cite>default</cite>: Returns classes from thousands of general tags.
+- <cite>food</cite>: Enhances specificity and accuracy for images of food items.
+- <cite>explicit</cite>: Evaluates whether the image might be pornographic.</p></li>
+<li><p><strong>accept_language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – (optional) The desired language of parts of the
+response. See the response for details.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v3.VisualRecognitionV3.create_classifier">
+<code class="sig-name descname">create_classifier</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">positive_examples</span><span class="p">:</span> <span class="n">BinaryIO</span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">negative_examples</span><span class="p">:</span> <span class="n">BinaryIO</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">negative_examples_filename</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#VisualRecognitionV3.create_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.VisualRecognitionV3.create_classifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a classifier.</p>
+<p>Train a new multi-faceted classifier on the uploaded image data. Create your
+custom classifier with positive or negative example training images. Include at
+least two sets of examples, either two positive example files or one positive and
+one negative file. You can upload a maximum of 256 MB per call.
+<strong>Tips when creating:</strong>
+- If you set the <strong>X-Watson-Learning-Opt-Out</strong> header parameter to <cite>true</cite> when you
+create a classifier, the example training images are not stored. Save your
+training images locally. For more information, see [Data
+collection](#data-collection).
+- Encode all names in UTF-8 if they contain non-ASCII characters (.zip and image
+file names, and classifier and class names). The service assumes UTF-8 encoding if
+it encounters non-ASCII characters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The name of the new classifier. Encode special characters
+in UTF-8.</p></li>
+<li><p><strong>positive_examples</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A dictionary that contains the value for
+each classname. The value is a .zip file of images that depict the visual
+subject of a class in the new classifier. You can include more than one
+positive example file in a call.
+Specify the parameter name by appending <cite>_positive_examples</cite> to the class
+name. For example, <cite>goldenretriever_positive_examples</cite> creates the class
+<strong>goldenretriever</strong>. The string cannot contain the following characters:
+<code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">*</span> <span class="pre">-</span> <span class="pre">{</span> <span class="pre">}</span> <span class="pre">\</span> <span class="pre">|</span> <span class="pre">/</span> <span class="pre">'</span> <span class="pre">&quot;</span> <span class="pre">`</span> <span class="pre">[</span> <span class="pre">]</span></code>.
+Include at least 10 images in .jpg or .png format. The minimum recommended
+image resolution is 32X32 pixels. The maximum number of images is 10,000
+images or 100 MB per .zip file.
+Encode special characters in the file name in UTF-8.</p></li>
+<li><p><strong>negative_examples</strong> (<em>TextIO</em>) – (optional) A .zip file of images that do
+not depict the visual subject of any of the classes of the new classifier.
+Must contain a minimum of 10 images.
+Encode special characters in the file name in UTF-8.</p></li>
+<li><p><strong>negative_examples_filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – (optional) The filename for
+negative_examples.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v3.VisualRecognitionV3.list_classifiers">
+<code class="sig-name descname">list_classifiers</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#VisualRecognitionV3.list_classifiers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.VisualRecognitionV3.list_classifiers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve a list of classifiers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – (optional) Specify <cite>true</cite> to return details about the
+classifiers. Omit this parameter to return a brief list of classifiers.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v3.VisualRecognitionV3.get_classifier">
+<code class="sig-name descname">get_classifier</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">classifier_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#VisualRecognitionV3.get_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.VisualRecognitionV3.get_classifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve classifier details.</p>
+<p>Retrieve information about a custom classifier.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>classifier_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The ID of the classifier.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v3.VisualRecognitionV3.update_classifier">
+<code class="sig-name descname">update_classifier</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">classifier_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">positive_examples</span><span class="p">:</span> <span class="n">BinaryIO</span> <span class="o">=</span> <span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">negative_examples</span><span class="p">:</span> <span class="n">BinaryIO</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">negative_examples_filename</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#VisualRecognitionV3.update_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.VisualRecognitionV3.update_classifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update a classifier.</p>
+<p>Update a custom classifier by adding new positive or negative classes or by adding
+new images to existing classes. You must supply at least one set of positive or
+negative examples. For details, see [Updating custom
+classifiers](<a class="reference external" href="https://cloud.ibm.com/docs/visual-recognition?topic=visual-recognition-customizing#updating-custom-classifiers">https://cloud.ibm.com/docs/visual-recognition?topic=visual-recognition-customizing#updating-custom-classifiers</a>).
+Encode all names in UTF-8 if they contain non-ASCII characters (.zip and image
+file names, and classifier and class names). The service assumes UTF-8 encoding if
+it encounters non-ASCII characters.
+<strong>Tips about retraining:</strong>
+- You can’t update the classifier if the <strong>X-Watson-Learning-Opt-Out</strong> header
+parameter was set to <cite>true</cite> when the classifier was created. Training images are
+not stored in that case. Instead, create another classifier. For more information,
+see [Data collection](#data-collection).
+- Don’t make retraining calls on a classifier until the status is ready. When you
+submit retraining requests in parallel, the last request overwrites the previous
+requests. The <cite>retrained</cite> property shows the last time the classifier retraining
+finished.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>classifier_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The ID of the classifier.</p></li>
+<li><p><strong>positive_examples</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – (optional) A dictionary that contains the
+value for each classname. The value is a .zip file of images that depict
+the visual subject of a class in the classifier. The positive examples
+create or update classes in the classifier. You can include more than one
+positive example file in a call.
+Specify the parameter name by appending <cite>_positive_examples</cite> to the class
+name. For example, <cite>goldenretriever_positive_examples</cite> creates the class
+<cite>goldenretriever</cite>. The string cannot contain the following characters: <code class="docutils literal notranslate"><span class="pre">$</span>
+<span class="pre">*</span> <span class="pre">-</span> <span class="pre">{</span> <span class="pre">}</span> <span class="pre">\</span> <span class="pre">|</span> <span class="pre">/</span> <span class="pre">'</span> <span class="pre">&quot;</span> <span class="pre">`</span> <span class="pre">[</span> <span class="pre">]</span></code>.
+Include at least 10 images in .jpg or .png format. The minimum recommended
+image resolution is 32X32 pixels. The maximum number of images is 10,000
+images or 100 MB per .zip file.
+Encode special characters in the file name in UTF-8.</p></li>
+<li><p><strong>negative_examples</strong> (<em>TextIO</em>) – (optional) A .zip file of images that do
+not depict the visual subject of any of the classes of the new classifier.
+Must contain a minimum of 10 images.
+Encode special characters in the file name in UTF-8.</p></li>
+<li><p><strong>negative_examples_filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – (optional) The filename for
+negative_examples.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v3.VisualRecognitionV3.delete_classifier">
+<code class="sig-name descname">delete_classifier</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">classifier_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#VisualRecognitionV3.delete_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.VisualRecognitionV3.delete_classifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a classifier.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>classifier_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The ID of the classifier.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v3.VisualRecognitionV3.get_core_ml_model">
+<code class="sig-name descname">get_core_ml_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">classifier_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#VisualRecognitionV3.get_core_ml_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.VisualRecognitionV3.get_core_ml_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve a Core ML model of a classifier.</p>
+<p>Download a Core ML model file (.mlmodel) of a custom classifier that returns
+&lt;tt&gt;”core_ml_enabled”: true&lt;/tt&gt; in the classifier details.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>classifier_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The ID of the classifier.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v3.VisualRecognitionV3.delete_user_data">
+<code class="sig-name descname">delete_user_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">customer_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#VisualRecognitionV3.delete_user_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.VisualRecognitionV3.delete_user_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete labeled data.</p>
+<p>Deletes all data associated with a specified customer ID. The method has no effect
+if no data is associated with the customer ID.
+You associate a customer ID with data by passing the <cite>X-Watson-Metadata</cite> header
+with a request that passes data. For more information about personal data and
+customer IDs, see [Information
+security](<a class="reference external" href="https://cloud.ibm.com/docs/visual-recognition?topic=visual-recognition-information-security">https://cloud.ibm.com/docs/visual-recognition?topic=visual-recognition-information-security</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>customer_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The customer ID for which all data is to be
+deleted.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v3.ClassifyEnums">
+<em class="property">class </em><code class="sig-name descname">ClassifyEnums</code><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#ClassifyEnums"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.ClassifyEnums" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v3.ClassifyEnums.AcceptLanguage">
+<em class="property">class </em><code class="sig-name descname">AcceptLanguage</code><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#ClassifyEnums.AcceptLanguage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.ClassifyEnums.AcceptLanguage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>The desired language of parts of the response. See the response for details.</p>
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v3.ClassifyEnums.AcceptLanguage.EN">
+<code class="sig-name descname">EN</code><em class="property"> = 'en'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v3.ClassifyEnums.AcceptLanguage.EN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v3.ClassifyEnums.AcceptLanguage.AR">
+<code class="sig-name descname">AR</code><em class="property"> = 'ar'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v3.ClassifyEnums.AcceptLanguage.AR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v3.ClassifyEnums.AcceptLanguage.DE">
+<code class="sig-name descname">DE</code><em class="property"> = 'de'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v3.ClassifyEnums.AcceptLanguage.DE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v3.ClassifyEnums.AcceptLanguage.ES">
+<code class="sig-name descname">ES</code><em class="property"> = 'es'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v3.ClassifyEnums.AcceptLanguage.ES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v3.ClassifyEnums.AcceptLanguage.FR">
+<code class="sig-name descname">FR</code><em class="property"> = 'fr'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v3.ClassifyEnums.AcceptLanguage.FR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v3.ClassifyEnums.AcceptLanguage.IT">
+<code class="sig-name descname">IT</code><em class="property"> = 'it'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v3.ClassifyEnums.AcceptLanguage.IT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v3.ClassifyEnums.AcceptLanguage.JA">
+<code class="sig-name descname">JA</code><em class="property"> = 'ja'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v3.ClassifyEnums.AcceptLanguage.JA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v3.ClassifyEnums.AcceptLanguage.KO">
+<code class="sig-name descname">KO</code><em class="property"> = 'ko'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v3.ClassifyEnums.AcceptLanguage.KO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v3.ClassifyEnums.AcceptLanguage.PT_BR">
+<code class="sig-name descname">PT_BR</code><em class="property"> = 'pt-br'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v3.ClassifyEnums.AcceptLanguage.PT_BR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v3.ClassifyEnums.AcceptLanguage.ZH_CN">
+<code class="sig-name descname">ZH_CN</code><em class="property"> = 'zh-cn'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v3.ClassifyEnums.AcceptLanguage.ZH_CN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v3.ClassifyEnums.AcceptLanguage.ZH_TW">
+<code class="sig-name descname">ZH_TW</code><em class="property"> = 'zh-tw'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v3.ClassifyEnums.AcceptLanguage.ZH_TW" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v3.Class">
+<em class="property">class </em><code class="sig-name descname">Class</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">class_</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#Class"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.Class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A category within a classifier.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str class<a href="#id1"><span class="problematic" id="id2">class_</span></a></dt>
+<dd class="field-odd"><p>The name of the class.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v3.Class.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v3.Class" title="ibm_watson.visual_recognition_v3.Class">ibm_watson.visual_recognition_v3.Class</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#Class.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.Class.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a Class object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v3.Class.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#Class.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.Class.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v3.ClassResult">
+<em class="property">class </em><code class="sig-name descname">ClassResult</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">class_</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">score</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">type_hierarchy</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#ClassResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.ClassResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Result of a class within a classifier.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str class<a href="#id3"><span class="problematic" id="id4">class_</span></a></dt>
+<dd class="field-odd"><p>Name of the class.
+Class names are translated in the language defined by the <strong>Accept-Language</strong>
+request header for the build-in classifier IDs (<cite>default</cite>, <cite>food</cite>, and
+<cite>explicit</cite>). Class names of custom classifiers are not translated. The response
+might not be in the specified language when the requested language is not
+supported or when there is no translation for the class name.</p>
+</dd>
+<dt class="field-even">Attr float score</dt>
+<dd class="field-even"><p>Confidence score for the property in the range of 0 to 1. A
+higher score indicates greater likelihood that the class is depicted in the
+image. The default threshold for returning scores from a classifier is 0.5.</p>
+</dd>
+<dt class="field-odd">Attr str type_hierarchy</dt>
+<dd class="field-odd"><p>(optional) Knowledge graph of the property. For
+example, <cite>/fruit/pome/apple/eating apple/Granny Smith</cite>. Included only if
+identified.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v3.ClassResult.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v3.ClassResult" title="ibm_watson.visual_recognition_v3.ClassResult">ibm_watson.visual_recognition_v3.ClassResult</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#ClassResult.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.ClassResult.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a ClassResult object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v3.ClassResult.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#ClassResult.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.ClassResult.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v3.ClassifiedImage">
+<em class="property">class </em><code class="sig-name descname">ClassifiedImage</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">classifiers</span><span class="p">:</span> <span class="n">List<span class="p">[</span>ClassifierResult<span class="p">]</span></span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">source_url</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">resolved_url</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">image</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">error</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="#ibm_watson.visual_recognition_v3.ErrorInfo" title="ibm_watson.visual_recognition_v3.ErrorInfo">ibm_watson.visual_recognition_v3.ErrorInfo</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#ClassifiedImage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.ClassifiedImage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Results for one image.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str source_url</dt>
+<dd class="field-odd"><p>(optional) Source of the image before any redirects. Not
+returned when the image is uploaded.</p>
+</dd>
+<dt class="field-even">Attr str resolved_url</dt>
+<dd class="field-even"><p>(optional) Fully resolved URL of the image after
+redirects are followed. Not returned when the image is uploaded.</p>
+</dd>
+<dt class="field-odd">Attr str image</dt>
+<dd class="field-odd"><p>(optional) Relative path of the image file if uploaded
+directly. Not returned when the image is passed by URL.</p>
+</dd>
+<dt class="field-even">Attr ErrorInfo error</dt>
+<dd class="field-even"><p>(optional) Information about what might have caused a
+failure, such as an image that is too large. Not returned when there is no
+error.</p>
+</dd>
+<dt class="field-odd">Attr List[ClassifierResult] classifiers</dt>
+<dd class="field-odd"><p>The classifiers.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v3.ClassifiedImage.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v3.ClassifiedImage" title="ibm_watson.visual_recognition_v3.ClassifiedImage">ibm_watson.visual_recognition_v3.ClassifiedImage</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#ClassifiedImage.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.ClassifiedImage.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a ClassifiedImage object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v3.ClassifiedImage.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#ClassifiedImage.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.ClassifiedImage.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v3.ClassifiedImages">
+<em class="property">class </em><code class="sig-name descname">ClassifiedImages</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">images</span><span class="p">:</span> <span class="n">List<span class="p">[</span>ClassifiedImage<span class="p">]</span></span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">custom_classes</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">images_processed</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">warnings</span><span class="p">:</span> <span class="n">List<span class="p">[</span>WarningInfo<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#ClassifiedImages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.ClassifiedImages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Results for all images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr int custom_classes</dt>
+<dd class="field-odd"><p>(optional) Number of custom classes identified in the
+images.</p>
+</dd>
+<dt class="field-even">Attr int images_processed</dt>
+<dd class="field-even"><p>(optional) Number of images processed for the API
+call.</p>
+</dd>
+<dt class="field-odd">Attr List[ClassifiedImage] images</dt>
+<dd class="field-odd"><p>Classified images.</p>
+</dd>
+<dt class="field-even">Attr List[WarningInfo] warnings</dt>
+<dd class="field-even"><p>(optional) Information about what might cause
+less than optimal output. For example, a request sent with a corrupt .zip file
+and a list of image URLs will still complete, but does not return the expected
+output. Not returned when there is no warning.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v3.ClassifiedImages.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v3.ClassifiedImages" title="ibm_watson.visual_recognition_v3.ClassifiedImages">ibm_watson.visual_recognition_v3.ClassifiedImages</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#ClassifiedImages.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.ClassifiedImages.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a ClassifiedImages object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v3.ClassifiedImages.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#ClassifiedImages.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.ClassifiedImages.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v3.Classifier">
+<em class="property">class </em><code class="sig-name descname">Classifier</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">classifier_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">owner</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">status</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">core_ml_enabled</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">explanation</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">created</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.8)">datetime.datetime</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">classes</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Class<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">retrained</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.8)">datetime.datetime</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">updated</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.8)">datetime.datetime</a></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#Classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.Classifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Information about a classifier.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str classifier_id</dt>
+<dd class="field-odd"><p>ID of a classifier identified in the image.</p>
+</dd>
+<dt class="field-even">Attr str name</dt>
+<dd class="field-even"><p>Name of the classifier.</p>
+</dd>
+<dt class="field-odd">Attr str owner</dt>
+<dd class="field-odd"><p>(optional) Unique ID of the account who owns the classifier.
+Might not be returned by some requests.</p>
+</dd>
+<dt class="field-even">Attr str status</dt>
+<dd class="field-even"><p>(optional) Training status of classifier.</p>
+</dd>
+<dt class="field-odd">Attr bool core_ml_enabled</dt>
+<dd class="field-odd"><p>(optional) Whether the classifier can be downloaded
+as a Core ML model after the training status is <cite>ready</cite>.</p>
+</dd>
+<dt class="field-even">Attr str explanation</dt>
+<dd class="field-even"><p>(optional) If classifier training has failed, this field
+might explain why.</p>
+</dd>
+<dt class="field-odd">Attr datetime created</dt>
+<dd class="field-odd"><p>(optional) Date and time in Coordinated Universal Time
+(UTC) that the classifier was created.</p>
+</dd>
+<dt class="field-even">Attr List[Class] classes</dt>
+<dd class="field-even"><p>(optional) Classes that define a classifier.</p>
+</dd>
+<dt class="field-odd">Attr datetime retrained</dt>
+<dd class="field-odd"><p>(optional) Date and time in Coordinated Universal Time
+(UTC) that the classifier was updated. Might not be returned by some requests.
+Identical to <cite>updated</cite> and retained for backward compatibility.</p>
+</dd>
+<dt class="field-even">Attr datetime updated</dt>
+<dd class="field-even"><p>(optional) Date and time in Coordinated Universal Time
+(UTC) that the classifier was most recently updated. The field matches either
+<cite>retrained</cite> or <cite>created</cite>. Might not be returned by some requests.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v3.Classifier.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v3.Classifier" title="ibm_watson.visual_recognition_v3.Classifier">ibm_watson.visual_recognition_v3.Classifier</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#Classifier.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.Classifier.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a Classifier object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v3.Classifier.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#Classifier.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.Classifier.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v3.Classifier.StatusEnum">
+<em class="property">class </em><code class="sig-name descname">StatusEnum</code><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#Classifier.StatusEnum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.Classifier.StatusEnum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>Training status of classifier.</p>
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v3.Classifier.StatusEnum.READY">
+<code class="sig-name descname">READY</code><em class="property"> = 'ready'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v3.Classifier.StatusEnum.READY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v3.Classifier.StatusEnum.TRAINING">
+<code class="sig-name descname">TRAINING</code><em class="property"> = 'training'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v3.Classifier.StatusEnum.TRAINING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v3.Classifier.StatusEnum.RETRAINING">
+<code class="sig-name descname">RETRAINING</code><em class="property"> = 'retraining'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v3.Classifier.StatusEnum.RETRAINING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.visual_recognition_v3.Classifier.StatusEnum.FAILED">
+<code class="sig-name descname">FAILED</code><em class="property"> = 'failed'</em><a class="headerlink" href="#ibm_watson.visual_recognition_v3.Classifier.StatusEnum.FAILED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v3.ClassifierResult">
+<em class="property">class </em><code class="sig-name descname">ClassifierResult</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">classifier_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">classes</span><span class="p">:</span> <span class="n">List<span class="p">[</span>ClassResult<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#ClassifierResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.ClassifierResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Classifier and score combination.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str name</dt>
+<dd class="field-odd"><p>Name of the classifier.</p>
+</dd>
+<dt class="field-even">Attr str classifier_id</dt>
+<dd class="field-even"><p>ID of a classifier identified in the image.</p>
+</dd>
+<dt class="field-odd">Attr List[ClassResult] classes</dt>
+<dd class="field-odd"><p>Classes within the classifier.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v3.ClassifierResult.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v3.ClassifierResult" title="ibm_watson.visual_recognition_v3.ClassifierResult">ibm_watson.visual_recognition_v3.ClassifierResult</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#ClassifierResult.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.ClassifierResult.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a ClassifierResult object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v3.ClassifierResult.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#ClassifierResult.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.ClassifierResult.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v3.Classifiers">
+<em class="property">class </em><code class="sig-name descname">Classifiers</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">classifiers</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Classifier<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#Classifiers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.Classifiers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A container for the list of classifiers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr List[Classifier] classifiers</dt>
+<dd class="field-odd"><p>List of classifiers.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v3.Classifiers.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v3.Classifiers" title="ibm_watson.visual_recognition_v3.Classifiers">ibm_watson.visual_recognition_v3.Classifiers</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#Classifiers.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.Classifiers.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a Classifiers object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v3.Classifiers.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#Classifiers.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.Classifiers.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v3.ErrorInfo">
+<em class="property">class </em><code class="sig-name descname">ErrorInfo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">code</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></span></em>, <em class="sig-param"><span class="n">description</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">error_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#ErrorInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.ErrorInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Information about what might have caused a failure, such as an image that is too
+large. Not returned when there is no error.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr int code</dt>
+<dd class="field-odd"><p>HTTP status code.</p>
+</dd>
+<dt class="field-even">Attr str description</dt>
+<dd class="field-even"><p>Human-readable error description. For example, <cite>File size
+limit exceeded</cite>.</p>
+</dd>
+<dt class="field-odd">Attr str error_id</dt>
+<dd class="field-odd"><p>Codified error string. For example, <cite>limit_exceeded</cite>.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v3.ErrorInfo.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v3.ErrorInfo" title="ibm_watson.visual_recognition_v3.ErrorInfo">ibm_watson.visual_recognition_v3.ErrorInfo</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#ErrorInfo.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.ErrorInfo.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a ErrorInfo object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v3.ErrorInfo.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#ErrorInfo.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.ErrorInfo.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.visual_recognition_v3.WarningInfo">
+<em class="property">class </em><code class="sig-name descname">WarningInfo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">warning_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em>, <em class="sig-param"><span class="n">description</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#WarningInfo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.WarningInfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Information about something that went wrong.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str warning_id</dt>
+<dd class="field-odd"><p>Codified warning string, such as <cite>limit_reached</cite>.</p>
+</dd>
+<dt class="field-even">Attr str description</dt>
+<dd class="field-even"><p>Information about the error.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v3.WarningInfo.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.visual_recognition_v3.WarningInfo" title="ibm_watson.visual_recognition_v3.WarningInfo">ibm_watson.visual_recognition_v3.WarningInfo</a><a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#WarningInfo.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.WarningInfo.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a WarningInfo object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.visual_recognition_v3.WarningInfo.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/visual_recognition_v3.html#WarningInfo.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.visual_recognition_v3.WarningInfo.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="ibm_watson.tone_analyzer_v3.html" title="previous chapter">ibm_watson.tone_analyzer_v3 module</a></li>
+      <li>Next: <a href="ibm_watson.visual_recognition_v4.html" title="next chapter">ibm_watson.visual_recognition_v4 module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

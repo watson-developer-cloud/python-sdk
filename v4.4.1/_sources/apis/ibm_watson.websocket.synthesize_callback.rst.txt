@@ -1,0 +1,7 @@
+ibm\_watson.websocket.synthesize\_callback module
+=================================================
+
+.. automodule:: ibm_watson.websocket.synthesize_callback
+   :members:
+   :undoc-members:
+   :show-inheritance:
