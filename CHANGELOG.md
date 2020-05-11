@@ -1,3 +1,10 @@
+## [4.4.1](https://github.com/watson-developer-cloud/python-sdk/compare/v4.4.0...v4.4.1) (2020-05-11)
+
+
+### Bug Fixes
+
+* loading creds from top level directory ([03a3509](https://github.com/watson-developer-cloud/python-sdk/commit/03a3509f497dca9a534fc19cc59498ce80f2f51e))
+
 # [4.4.0](https://github.com/watson-developer-cloud/python-sdk/compare/v4.3.0...v4.4.0) (2020-04-24)
 
 
