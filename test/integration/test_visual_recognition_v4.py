@@ -48,17 +48,15 @@ class IntegrationTestVisualRecognitionV3(TestCase):
         #     name='my_collection', description='just for fun').get_result()
         # collection_id = collection.get('collection_id')
 
-        # add_images = self.visual_recognition.add_images(
-        #     self.collection_id,
-        #     image_url=[
-        #         "https://upload.wikimedia.org/wikipedia/commons/3/33/KokoniPurebredDogsGreeceGreekCreamWhiteAdult.jpg",
-        #         "https://upload.wikimedia.org/wikipedia/commons/0/07/K%C3%B6nigspudel_Apricot.JPG"
-        #     ],
-        # ).get_result()
-        # assert add_images is not None
-        # image_id = add_images.get('images')[0].get('image_id')
+        add_images = self.visual_recognition.add_images(
+            self.collection_id,
+            image_url=[
+                "https://upload.wikimedia.org/wikipedia/commons/0/07/K%C3%B6nigspudel_Apricot.JPG"
+            ],
+        ).get_result()
+        assert add_images is not None
+        image_id = add_images.get('images')[0].get('image_id')
 
-        image_id = 'giraffe_00_202349062c2307571a3f7edc71fe819f'
         list_images = self.visual_recognition.list_images(
             self.collection_id).get_result()
         print(list_images)
@@ -72,7 +70,7 @@ class IntegrationTestVisualRecognitionV3(TestCase):
             self.collection_id, image_id).get_result()
         assert response.content is not None
 
-        # self.visual_recognition.delete_image(self.collection_id, image_id)
+        self.visual_recognition.delete_image(self.collection_id, image_id)
         # self.visual_recognition.delete_collection(collection_id)
 
     def test_03_analyze(self):
@@ -105,19 +103,18 @@ class IntegrationTestVisualRecognitionV3(TestCase):
         # assert collection_id is not None
 
         # add images
-        # with open(
-        #         os.path.join(
-        #             os.path.dirname(__file__),
-        #             '../../resources/South_Africa_Luca_Galuzzi_2004.jpeg'),
-        #         'rb') as giraffe_info:
-        #     add_images_result = self.visual_recognition.add_images(
-        #         self.collection_id,
-        #         images_file=[FileWithMetadata(giraffe_info)],
-        #     ).get_result()
-        # assert add_images_result is not None
-        # image_id = add_images_result.get('images')[0].get('image_id')
-        # assert image_id is not None
-        image_id = 'giraffe_00_202349062c2307571a3f7edc71fe819f'
+        with open(
+                os.path.join(
+                    os.path.dirname(__file__),
+                    '../../resources/South_Africa_Luca_Galuzzi_2004.jpeg'),
+                'rb') as giraffe_info:
+            add_images_result = self.visual_recognition.add_images(
+                self.collection_id,
+                images_file=[FileWithMetadata(giraffe_info)],
+            ).get_result()
+        assert add_images_result is not None
+        image_id = add_images_result.get('images')[0].get('image_id')
+        assert image_id is not None
 
         # add image training data
         training_data = self.visual_recognition.add_image_training_data(
@@ -163,6 +160,8 @@ class IntegrationTestVisualRecognitionV3(TestCase):
         # delete object
         self.visual_recognition.delete_object(
             self.collection_id, object='updated giraffe training data')
+
+        self.visual_recognition.delete_image(self.collection_id, image_id)
 
         # delete collection
         # self.visual_recognition.delete_collection(collection_id)

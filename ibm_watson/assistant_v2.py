@@ -1368,14 +1368,13 @@ class MessageContextSkill():
 
     :attr dict user_defined: (optional) Arbitrary variables that can be read and
           written by a particular skill.
-    :attr MessageContextSkillSystem system: (optional) System context data used by
-          the skill.
+    :attr dict system: (optional) System context data used by the skill.
     """
 
     def __init__(self,
                  *,
                  user_defined: dict = None,
-                 system: 'MessageContextSkillSystem' = None) -> None:
+                 system: dict = None) -> None:
         """
         Initialize a MessageContextSkill object.
 
