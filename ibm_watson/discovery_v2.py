@@ -585,6 +585,8 @@ class DiscoveryV2(BaseService):
         **Note:** This operation only works on collections created to accept direct file
         uploads. It cannot be used to modify a collection that connects to an external
         source such as Microsoft SharePoint.
+        **Note:** If an uploaded document is segmented, all segments will be overwritten,
+        even if the updated version of the document has fewer segments.
 
         :param str project_id: The ID of the project. This information can be found
                from the deploy page of the Discovery administrative tooling.
@@ -665,6 +667,8 @@ class DiscoveryV2(BaseService):
         **Note:** This operation only works on collections created to accept direct file
         uploads. It cannot be used to modify a collection that connects to an external
         source such as Microsoft SharePoint.
+        **Note:** Segments of an uploaded document cannot be deleted individually. Delete
+        all segments by deleting using the `parent_document_id` of a segment result.
 
         :param str project_id: The ID of the project. This information can be found
                from the deploy page of the Discovery administrative tooling.

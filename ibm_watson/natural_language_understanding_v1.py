@@ -2701,8 +2701,10 @@ class Model():
     :attr str description: (optional) Model description.
     :attr str workspace_id: (optional) ID of the Watson Knowledge Studio workspace
           that deployed this model to Natural Language Understanding.
-    :attr str version: (optional) The model version, if it was manually provided in
-          Watson Knowledge Studio.
+    :attr str model_version: (optional) The model version, if it was manually
+          provided in Watson Knowledge Studio.
+    :attr str version: (optional) (Deprecated — use `model_version`) The model
+          version, if it was manually provided in Watson Knowledge Studio.
     :attr str version_description: (optional) The description of the version, if it
           was manually provided in Watson Knowledge Studio.
     :attr datetime created: (optional) A dateTime indicating when the model was
@@ -2716,6 +2718,7 @@ class Model():
                  language: str = None,
                  description: str = None,
                  workspace_id: str = None,
+                 model_version: str = None,
                  version: str = None,
                  version_description: str = None,
                  created: datetime = None) -> None:
@@ -2730,8 +2733,10 @@ class Model():
         :param str description: (optional) Model description.
         :param str workspace_id: (optional) ID of the Watson Knowledge Studio
                workspace that deployed this model to Natural Language Understanding.
-        :param str version: (optional) The model version, if it was manually
+        :param str model_version: (optional) The model version, if it was manually
                provided in Watson Knowledge Studio.
+        :param str version: (optional) (Deprecated — use `model_version`) The model
+               version, if it was manually provided in Watson Knowledge Studio.
         :param str version_description: (optional) The description of the version,
                if it was manually provided in Watson Knowledge Studio.
         :param datetime created: (optional) A dateTime indicating when the model
@@ -2742,6 +2747,7 @@ class Model():
         self.language = language
         self.description = description
         self.workspace_id = workspace_id
+        self.model_version = model_version
         self.version = version
         self.version_description = version_description
         self.created = created
@@ -2752,7 +2758,7 @@ class Model():
         args = {}
         valid_keys = [
             'status', 'model_id', 'language', 'description', 'workspace_id',
-            'version', 'version_description', 'created'
+            'model_version', 'version', 'version_description', 'created'
         ]
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
@@ -2769,6 +2775,8 @@ class Model():
             args['description'] = _dict.get('description')
         if 'workspace_id' in _dict:
             args['workspace_id'] = _dict.get('workspace_id')
+        if 'model_version' in _dict:
+            args['model_version'] = _dict.get('model_version')
         if 'version' in _dict:
             args['version'] = _dict.get('version')
         if 'version_description' in _dict:
@@ -2795,6 +2803,8 @@ class Model():
             _dict['description'] = self.description
         if hasattr(self, 'workspace_id') and self.workspace_id is not None:
             _dict['workspace_id'] = self.workspace_id
+        if hasattr(self, 'model_version') and self.model_version is not None:
+            _dict['model_version'] = self.model_version
         if hasattr(self, 'version') and self.version is not None:
             _dict['version'] = self.version
         if hasattr(
