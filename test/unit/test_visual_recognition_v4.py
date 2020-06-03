@@ -462,6 +462,80 @@ class TestDeleteCollection():
         return body
 
 
+#-----------------------------------------------------------------------------
+# Test Class for get_model_file
+#-----------------------------------------------------------------------------
+class TestGetModelFile():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_model_file_response(self):
+        body = self.construct_full_body()
+        response = fake_response_BinaryIO_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_model_file_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_BinaryIO_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_model_file_empty(self):
+        check_empty_required_params(self, fake_response_BinaryIO_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v4/collections/{0}/model'.format(body['collection_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='')
+    
+    def call_service(self, body):
+        service = VisualRecognitionV4(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-02-11',
+            )
+        service.set_service_url(base_url)
+        output = service.get_model_file(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['collection_id'] = "string1"
+        body['feature'] = "string1"
+        body['model_format'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['collection_id'] = "string1"
+        body['feature'] = "string1"
+        body['model_format'] = "string1"
+        return body
+
+
 # endregion
 ##############################################################################
 # End of Service: Collections
@@ -1504,10 +1578,11 @@ def send_request(obj, body, response, url=None):
 
 fake_response__json = None
 fake_response_AnalyzeResponse_json = """{"images": [], "warnings": [], "trace": "fake_trace"}"""
-fake_response_Collection_json = """{"collection_id": "fake_collection_id", "name": "fake_name", "description": "fake_description", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "description": "fake_description"}}}"""
+fake_response_Collection_json = """{"collection_id": "fake_collection_id", "name": "fake_name", "description": "fake_description", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "rscnn_ready": false, "description": "fake_description"}}}"""
 fake_response_CollectionsList_json = """{"collections": []}"""
-fake_response_Collection_json = """{"collection_id": "fake_collection_id", "name": "fake_name", "description": "fake_description", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "description": "fake_description"}}}"""
-fake_response_Collection_json = """{"collection_id": "fake_collection_id", "name": "fake_name", "description": "fake_description", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "description": "fake_description"}}}"""
+fake_response_Collection_json = """{"collection_id": "fake_collection_id", "name": "fake_name", "description": "fake_description", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "rscnn_ready": false, "description": "fake_description"}}}"""
+fake_response_Collection_json = """{"collection_id": "fake_collection_id", "name": "fake_name", "description": "fake_description", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "rscnn_ready": false, "description": "fake_description"}}}"""
+fake_response_BinaryIO_json = """Contents of response byte-stream..."""
 fake_response_ImageDetailsList_json = """{"images": [], "warnings": [], "trace": "fake_trace"}"""
 fake_response_ImageSummaryList_json = """{"images": []}"""
 fake_response_ImageDetails_json = """{"image_id": "fake_image_id", "updated": "2017-05-16T13:56:54.957Z", "created": "2017-05-16T13:56:54.957Z", "source": {"type": "fake_type", "filename": "fake_filename", "archive_filename": "fake_archive_filename", "source_url": "fake_source_url", "resolved_url": "fake_resolved_url"}, "dimensions": {"height": 6, "width": 5}, "errors": [], "training_data": {"objects": []}}"""
@@ -1515,6 +1590,6 @@ fake_response_BinaryIO_json = """Contents of response byte-stream..."""
 fake_response_ObjectMetadataList_json = """{"object_count": 12, "objects": []}"""
 fake_response_UpdateObjectMetadata_json = """{"object": "fake_object", "count": 5}"""
 fake_response_ObjectMetadata_json = """{"object": "fake_object", "count": 5}"""
-fake_response_Collection_json = """{"collection_id": "fake_collection_id", "name": "fake_name", "description": "fake_description", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "description": "fake_description"}}}"""
+fake_response_Collection_json = """{"collection_id": "fake_collection_id", "name": "fake_name", "description": "fake_description", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "rscnn_ready": false, "description": "fake_description"}}}"""
 fake_response_TrainingDataObjects_json = """{"objects": []}"""
 fake_response_TrainingEvents_json = """{"start_time": "2017-05-16T13:56:54.957Z", "end_time": "2017-05-16T13:56:54.957Z", "completed_events": 16, "trained_images": 14, "events": []}"""

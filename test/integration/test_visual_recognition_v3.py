@@ -19,7 +19,7 @@ class IntegrationTestVisualRecognitionV3(TestCase):
             'X-Watson-Learning-Opt-Out': '1',
             'X-Watson-Test': '1'
         })
-        cls.classifier_id = 'sdkxtestxclassifierxdoxnotxdel_1089651138'
+        cls.classifier_id = 'sdk-classifier-do-not-delete_1118105040'
 
     def test_classify(self):
         dog_path = abspath('resources/dog.jpg')

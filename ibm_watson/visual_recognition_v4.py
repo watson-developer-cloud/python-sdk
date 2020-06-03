@@ -365,6 +365,58 @@ class VisualRecognitionV4(BaseService):
         response = self.send(request)
         return response
 
+    def get_model_file(self, collection_id: str, feature: str,
+                       model_format: str, **kwargs) -> 'DetailedResponse':
+        """
+        Get a model.
+
+        Download a model that you can deploy to detect objects in images. The collection
+        must include a generated model, which is indicated in the response for the
+        collection details as `"rscnn_ready": true`. If the value is `false`, train or
+        retrain the collection to generate the model.
+        Currently, the model format is specific to Android apps. For more information
+        about how to deploy the model to your app, see the [Watson Visual Recognition on
+        Android](https://github.com/matt-ny/rscnn) project in GitHub.
+
+        :param str collection_id: The identifier of the collection.
+        :param str feature: The feature for the model.
+        :param str model_format: The format of the returned model.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        if feature is None:
+            raise ValueError('feature must be provided')
+        if model_format is None:
+            raise ValueError('model_format must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V4',
+                                      operation_id='get_model_file')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+            'feature': feature,
+            'model_format': model_format
+        }
+
+        url = '/v4/collections/{0}/model'.format(
+            *self._encode_path_vars(collection_id))
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
     #########################
     # Images
     #########################
@@ -971,6 +1023,21 @@ class AnalyzeEnums(object):
         The features to analyze.
         """
         OBJECTS = 'objects'
+
+
+class GetModelFileEnums(object):
+
+    class Feature(Enum):
+        """
+        The feature for the model.
+        """
+        OBJECTS = 'objects'
+
+    class ModelFormat(Enum):
+        """
+        The format of the returned model.
+        """
+        RSCNN = 'rscnn'
 
 
 class GetJpegImageEnums(object):
@@ -1732,7 +1799,7 @@ class ImageDetails():
           (UTC) that the image was created.
     :attr ImageSource source: The source type of the image.
     :attr ImageDimensions dimensions: (optional) Height and width of an image.
-    :attr List[Error] errors: (optional)
+    :attr List[Error] errors: (optional) Details about the errors.
     :attr TrainingDataObjects training_data: (optional) Training data for all
           objects.
     """
@@ -1756,7 +1823,7 @@ class ImageDetails():
         :param datetime created: (optional) Date and time in Coordinated Universal
                Time (UTC) that the image was created.
         :param ImageDimensions dimensions: (optional) Height and width of an image.
-        :param List[Error] errors: (optional)
+        :param List[Error] errors: (optional) Details about the errors.
         :param TrainingDataObjects training_data: (optional) Training data for all
                objects.
         """
@@ -2592,13 +2659,16 @@ class ObjectTrainingStatus():
     :attr bool data_changed: Whether there are changes to the training data since
           the most recent training.
     :attr bool latest_failed: Whether the most recent training failed.
+    :attr bool rscnn_ready: Whether the model can be downloaded after the training
+          status is `ready`.
     :attr str description: Details about the training. If training is in progress,
           includes information about the status. If training is not in progress, includes
           a success message or information about why training failed.
     """
 
     def __init__(self, ready: bool, in_progress: bool, data_changed: bool,
-                 latest_failed: bool, description: str) -> None:
+                 latest_failed: bool, rscnn_ready: bool,
+                 description: str) -> None:
         """
         Initialize a ObjectTrainingStatus object.
 
@@ -2608,6 +2678,8 @@ class ObjectTrainingStatus():
         :param bool data_changed: Whether there are changes to the training data
                since the most recent training.
         :param bool latest_failed: Whether the most recent training failed.
+        :param bool rscnn_ready: Whether the model can be downloaded after the
+               training status is `ready`.
         :param str description: Details about the training. If training is in
                progress, includes information about the status. If training is not in
                progress, includes a success message or information about why training
@@ -2617,6 +2689,7 @@ class ObjectTrainingStatus():
         self.in_progress = in_progress
         self.data_changed = data_changed
         self.latest_failed = latest_failed
+        self.rscnn_ready = rscnn_ready
         self.description = description
 
     @classmethod
@@ -2625,7 +2698,7 @@ class ObjectTrainingStatus():
         args = {}
         valid_keys = [
             'ready', 'in_progress', 'data_changed', 'latest_failed',
-            'description'
+            'rscnn_ready', 'description'
         ]
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
@@ -2656,6 +2729,12 @@ class ObjectTrainingStatus():
             raise ValueError(
                 'Required property \'latest_failed\' not present in ObjectTrainingStatus JSON'
             )
+        if 'rscnn_ready' in _dict:
+            args['rscnn_ready'] = _dict.get('rscnn_ready')
+        else:
+            raise ValueError(
+                'Required property \'rscnn_ready\' not present in ObjectTrainingStatus JSON'
+            )
         if 'description' in _dict:
             args['description'] = _dict.get('description')
         else:
@@ -2680,6 +2759,8 @@ class ObjectTrainingStatus():
             _dict['data_changed'] = self.data_changed
         if hasattr(self, 'latest_failed') and self.latest_failed is not None:
             _dict['latest_failed'] = self.latest_failed
+        if hasattr(self, 'rscnn_ready') and self.rscnn_ready is not None:
+            _dict['rscnn_ready'] = self.rscnn_ready
         if hasattr(self, 'description') and self.description is not None:
             _dict['description'] = self.description
         return _dict
