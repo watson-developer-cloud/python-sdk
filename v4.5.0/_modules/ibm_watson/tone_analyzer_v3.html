@@ -1,0 +1,1437 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>ibm_watson.tone_analyzer_v3 &#8212; Watson Developer Cloud Python SDK 4.5.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for ibm_watson.tone_analyzer_v3</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+<span class="c1"># (C) Copyright IBM Corp. 2016, 2020.</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">The IBM Watson&amp;trade; Tone Analyzer service uses linguistic analysis to detect emotional</span>
+<span class="sd">and language tones in written text. The service can analyze tone at both the document and</span>
+<span class="sd">sentence levels. You can use the service to understand how your written communications are</span>
+<span class="sd">perceived and then to improve the tone of your communications. Businesses can use the</span>
+<span class="sd">service to learn the tone of their customers&#39; communications and to respond to each</span>
+<span class="sd">customer appropriately, or to understand and improve their customer conversations.</span>
+<span class="sd">**Note:** Request logging is disabled for the Tone Analyzer service. Regardless of whether</span>
+<span class="sd">you set the `X-Watson-Learning-Opt-Out` request header, the service does not log or retain</span>
+<span class="sd">data from requests and responses.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">ibm_cloud_sdk_core.authenticators.authenticator</span> <span class="kn">import</span> <span class="n">Authenticator</span>
+<span class="kn">from</span> <span class="nn">.common</span> <span class="kn">import</span> <span class="n">get_sdk_headers</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">ibm_cloud_sdk_core</span> <span class="kn">import</span> <span class="n">BaseService</span>
+<span class="kn">from</span> <span class="nn">ibm_cloud_sdk_core</span> <span class="kn">import</span> <span class="n">DetailedResponse</span>
+<span class="kn">from</span> <span class="nn">ibm_cloud_sdk_core.get_authenticator</span> <span class="kn">import</span> <span class="n">get_authenticator_from_environment</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+
+<span class="c1">##############################################################################</span>
+<span class="c1"># Service</span>
+<span class="c1">##############################################################################</span>
+
+
+<div class="viewcode-block" id="ToneAnalyzerV3"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.ToneAnalyzerV3">[docs]</a><span class="k">class</span> <span class="nc">ToneAnalyzerV3</span><span class="p">(</span><span class="n">BaseService</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The Tone Analyzer V3 service.&quot;&quot;&quot;</span>
+
+    <span class="n">DEFAULT_SERVICE_URL</span> <span class="o">=</span> <span class="s1">&#39;https://gateway.watsonplatform.net/tone-analyzer/api&#39;</span>
+    <span class="n">DEFAULT_SERVICE_NAME</span> <span class="o">=</span> <span class="s1">&#39;tone_analyzer&#39;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">version</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+            <span class="n">authenticator</span><span class="p">:</span> <span class="n">Authenticator</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">service_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DEFAULT_SERVICE_NAME</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Construct a new client for the Tone Analyzer service.</span>
+
+<span class="sd">        :param str version: The API version date to use with the service, in</span>
+<span class="sd">               &quot;YYYY-MM-DD&quot; format. Whenever the API is changed in a backwards</span>
+<span class="sd">               incompatible way, a new minor version of the API is released.</span>
+<span class="sd">               The service uses the API version for the date you specify, or</span>
+<span class="sd">               the most recent version before that date. Note that you should</span>
+<span class="sd">               not programmatically specify the current date at runtime, in</span>
+<span class="sd">               case the API has been updated since your application&#39;s release.</span>
+<span class="sd">               Instead, specify a version date that is compatible with your</span>
+<span class="sd">               application, and don&#39;t change it until your application is</span>
+<span class="sd">               ready for a later version.</span>
+
+<span class="sd">        :param Authenticator authenticator: The authenticator specifies the authentication mechanism.</span>
+<span class="sd">               Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md</span>
+<span class="sd">               about initializing the authenticator of your choice.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">authenticator</span><span class="p">:</span>
+            <span class="n">authenticator</span> <span class="o">=</span> <span class="n">get_authenticator_from_environment</span><span class="p">(</span><span class="n">service_name</span><span class="p">)</span>
+        <span class="n">BaseService</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                             <span class="n">service_url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_SERVICE_URL</span><span class="p">,</span>
+                             <span class="n">authenticator</span><span class="o">=</span><span class="n">authenticator</span><span class="p">,</span>
+                             <span class="n">disable_ssl_verification</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">version</span> <span class="o">=</span> <span class="n">version</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">configure_service</span><span class="p">(</span><span class="n">service_name</span><span class="p">)</span>
+
+    <span class="c1">#########################</span>
+    <span class="c1"># Methods</span>
+    <span class="c1">#########################</span>
+
+<div class="viewcode-block" id="ToneAnalyzerV3.tone"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.ToneAnalyzerV3.tone">[docs]</a>    <span class="k">def</span> <span class="nf">tone</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+             <span class="n">tone_input</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span>
+             <span class="o">*</span><span class="p">,</span>
+             <span class="n">content_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+             <span class="n">sentences</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+             <span class="n">tones</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+             <span class="n">content_language</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+             <span class="n">accept_language</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+             <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;DetailedResponse&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Analyze general tone.</span>
+
+<span class="sd">        Use the general-purpose endpoint to analyze the tone of your input content. The</span>
+<span class="sd">        service analyzes the content for emotional and language tones. The method always</span>
+<span class="sd">        analyzes the tone of the full document; by default, it also analyzes the tone of</span>
+<span class="sd">        each individual sentence of the content.</span>
+<span class="sd">        You can submit no more than 128 KB of total input content and no more than 1000</span>
+<span class="sd">        individual sentences in JSON, plain text, or HTML format. The service analyzes the</span>
+<span class="sd">        first 1000 sentences for document-level analysis and only the first 100 sentences</span>
+<span class="sd">        for sentence-level analysis.</span>
+<span class="sd">        Per the JSON specification, the default character encoding for JSON content is</span>
+<span class="sd">        effectively always UTF-8; per the HTTP specification, the default encoding for</span>
+<span class="sd">        plain text and HTML is ISO-8859-1 (effectively, the ASCII character set). When</span>
+<span class="sd">        specifying a content type of plain text or HTML, include the `charset` parameter</span>
+<span class="sd">        to indicate the character encoding of the input text; for example: `Content-Type:</span>
+<span class="sd">        text/plain;charset=utf-8`. For `text/html`, the service removes HTML tags and</span>
+<span class="sd">        analyzes only the textual content.</span>
+<span class="sd">        **See also:** [Using the general-purpose</span>
+<span class="sd">        endpoint](https://cloud.ibm.com/docs/tone-analyzer?topic=tone-analyzer-utgpe#utgpe).</span>
+
+<span class="sd">        :param ToneInput tone_input: JSON, plain text, or HTML input that contains</span>
+<span class="sd">               the content to be analyzed. For JSON input, provide an object of type</span>
+<span class="sd">               `ToneInput`.</span>
+<span class="sd">        :param str content_type: (optional) The type of the input. A character</span>
+<span class="sd">               encoding can be specified by including a `charset` parameter. For example,</span>
+<span class="sd">               &#39;text/plain;charset=utf-8&#39;.</span>
+<span class="sd">        :param bool sentences: (optional) Indicates whether the service is to</span>
+<span class="sd">               return an analysis of each individual sentence in addition to its analysis</span>
+<span class="sd">               of the full document. If `true` (the default), the service returns results</span>
+<span class="sd">               for each sentence.</span>
+<span class="sd">        :param List[str] tones: (optional) **`2017-09-21`:** Deprecated. The</span>
+<span class="sd">               service continues to accept the parameter for backward-compatibility, but</span>
+<span class="sd">               the parameter no longer affects the response.</span>
+<span class="sd">               **`2016-05-19`:** A comma-separated list of tones for which the service is</span>
+<span class="sd">               to return its analysis of the input; the indicated tones apply both to the</span>
+<span class="sd">               full document and to individual sentences of the document. You can specify</span>
+<span class="sd">               one or more of the valid values. Omit the parameter to request results for</span>
+<span class="sd">               all three tones.</span>
+<span class="sd">        :param str content_language: (optional) The language of the input text for</span>
+<span class="sd">               the request: English or French. Regional variants are treated as their</span>
+<span class="sd">               parent language; for example, `en-US` is interpreted as `en`. The input</span>
+<span class="sd">               content must match the specified language. Do not submit content that</span>
+<span class="sd">               contains both languages. You can use different languages for</span>
+<span class="sd">               **Content-Language** and **Accept-Language**.</span>
+<span class="sd">               * **`2017-09-21`:** Accepts `en` or `fr`.</span>
+<span class="sd">               * **`2016-05-19`:** Accepts only `en`.</span>
+<span class="sd">        :param str accept_language: (optional) The desired language of the</span>
+<span class="sd">               response. For two-character arguments, regional variants are treated as</span>
+<span class="sd">               their parent language; for example, `en-US` is interpreted as `en`. You can</span>
+<span class="sd">               use different languages for **Content-Language** and **Accept-Language**.</span>
+<span class="sd">        :param dict headers: A `dict` containing the request headers</span>
+<span class="sd">        :return: A `DetailedResponse` containing the result, headers and HTTP status code.</span>
+<span class="sd">        :rtype: DetailedResponse</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">tone_input</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;tone_input must be provided&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tone_input</span><span class="p">,</span> <span class="n">ToneInput</span><span class="p">):</span>
+            <span class="n">tone_input</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">tone_input</span><span class="p">)</span>
+
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="n">content_type</span><span class="p">,</span>
+            <span class="s1">&#39;Content-Language&#39;</span><span class="p">:</span> <span class="n">content_language</span><span class="p">,</span>
+            <span class="s1">&#39;Accept-Language&#39;</span><span class="p">:</span> <span class="n">accept_language</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="s1">&#39;headers&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;headers&#39;</span><span class="p">))</span>
+        <span class="n">sdk_headers</span> <span class="o">=</span> <span class="n">get_sdk_headers</span><span class="p">(</span><span class="n">service_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_SERVICE_NAME</span><span class="p">,</span>
+                                      <span class="n">service_version</span><span class="o">=</span><span class="s1">&#39;V3&#39;</span><span class="p">,</span>
+                                      <span class="n">operation_id</span><span class="o">=</span><span class="s1">&#39;tone&#39;</span><span class="p">)</span>
+        <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">sdk_headers</span><span class="p">)</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">,</span>
+            <span class="s1">&#39;sentences&#39;</span><span class="p">:</span> <span class="n">sentences</span><span class="p">,</span>
+            <span class="s1">&#39;tones&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_convert_list</span><span class="p">(</span><span class="n">tones</span><span class="p">)</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">content_type</span> <span class="o">==</span> <span class="s1">&#39;application/json&#39;</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tone_input</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">tone_input</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">tone_input</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v3/tone&#39;</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prepare_request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+                                       <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+                                       <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+                                       <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                                       <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div>
+
+<div class="viewcode-block" id="ToneAnalyzerV3.tone_chat"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.ToneAnalyzerV3.tone_chat">[docs]</a>    <span class="k">def</span> <span class="nf">tone_chat</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                  <span class="n">utterances</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;Utterance&#39;</span><span class="p">],</span>
+                  <span class="o">*</span><span class="p">,</span>
+                  <span class="n">content_language</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                  <span class="n">accept_language</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                  <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;DetailedResponse&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Analyze customer-engagement tone.</span>
+
+<span class="sd">        Use the customer-engagement endpoint to analyze the tone of customer service and</span>
+<span class="sd">        customer support conversations. For each utterance of a conversation, the method</span>
+<span class="sd">        reports the most prevalent subset of the following seven tones: sad, frustrated,</span>
+<span class="sd">        satisfied, excited, polite, impolite, and sympathetic.</span>
+<span class="sd">        If you submit more than 50 utterances, the service returns a warning for the</span>
+<span class="sd">        overall content and analyzes only the first 50 utterances. If you submit a single</span>
+<span class="sd">        utterance that contains more than 500 characters, the service returns an error for</span>
+<span class="sd">        that utterance and does not analyze the utterance. The request fails if all</span>
+<span class="sd">        utterances have more than 500 characters. Per the JSON specification, the default</span>
+<span class="sd">        character encoding for JSON content is effectively always UTF-8.</span>
+<span class="sd">        **See also:** [Using the customer-engagement</span>
+<span class="sd">        endpoint](https://cloud.ibm.com/docs/tone-analyzer?topic=tone-analyzer-utco#utco).</span>
+
+<span class="sd">        :param List[Utterance] utterances: An array of `Utterance` objects that</span>
+<span class="sd">               provides the input content that the service is to analyze.</span>
+<span class="sd">        :param str content_language: (optional) The language of the input text for</span>
+<span class="sd">               the request: English or French. Regional variants are treated as their</span>
+<span class="sd">               parent language; for example, `en-US` is interpreted as `en`. The input</span>
+<span class="sd">               content must match the specified language. Do not submit content that</span>
+<span class="sd">               contains both languages. You can use different languages for</span>
+<span class="sd">               **Content-Language** and **Accept-Language**.</span>
+<span class="sd">               * **`2017-09-21`:** Accepts `en` or `fr`.</span>
+<span class="sd">               * **`2016-05-19`:** Accepts only `en`.</span>
+<span class="sd">        :param str accept_language: (optional) The desired language of the</span>
+<span class="sd">               response. For two-character arguments, regional variants are treated as</span>
+<span class="sd">               their parent language; for example, `en-US` is interpreted as `en`. You can</span>
+<span class="sd">               use different languages for **Content-Language** and **Accept-Language**.</span>
+<span class="sd">        :param dict headers: A `dict` containing the request headers</span>
+<span class="sd">        :return: A `DetailedResponse` containing the result, headers and HTTP status code.</span>
+<span class="sd">        :rtype: DetailedResponse</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">utterances</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;utterances must be provided&#39;</span><span class="p">)</span>
+        <span class="n">utterances</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_convert_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">utterances</span><span class="p">]</span>
+
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;Content-Language&#39;</span><span class="p">:</span> <span class="n">content_language</span><span class="p">,</span>
+            <span class="s1">&#39;Accept-Language&#39;</span><span class="p">:</span> <span class="n">accept_language</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="s1">&#39;headers&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;headers&#39;</span><span class="p">))</span>
+        <span class="n">sdk_headers</span> <span class="o">=</span> <span class="n">get_sdk_headers</span><span class="p">(</span><span class="n">service_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_SERVICE_NAME</span><span class="p">,</span>
+                                      <span class="n">service_version</span><span class="o">=</span><span class="s1">&#39;V3&#39;</span><span class="p">,</span>
+                                      <span class="n">operation_id</span><span class="o">=</span><span class="s1">&#39;tone_chat&#39;</span><span class="p">)</span>
+        <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">sdk_headers</span><span class="p">)</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">version</span><span class="p">}</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;utterances&#39;</span><span class="p">:</span> <span class="n">utterances</span><span class="p">}</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="s1">&#39;/v3/tone_chat&#39;</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prepare_request</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+                                       <span class="n">url</span><span class="o">=</span><span class="n">url</span><span class="p">,</span>
+                                       <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span>
+                                       <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                                       <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span></div></div>
+
+
+<div class="viewcode-block" id="ToneEnums"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.ToneEnums">[docs]</a><span class="k">class</span> <span class="nc">ToneEnums</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ToneEnums.ContentType"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.ToneEnums.ContentType">[docs]</a>    <span class="k">class</span> <span class="nc">ContentType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The type of the input. A character encoding can be specified by including a</span>
+<span class="sd">        `charset` parameter. For example, &#39;text/plain;charset=utf-8&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">APPLICATION_JSON</span> <span class="o">=</span> <span class="s1">&#39;application/json&#39;</span>
+        <span class="n">TEXT_PLAIN</span> <span class="o">=</span> <span class="s1">&#39;text/plain&#39;</span>
+        <span class="n">TEXT_HTML</span> <span class="o">=</span> <span class="s1">&#39;text/html&#39;</span></div>
+
+<div class="viewcode-block" id="ToneEnums.Tones"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.ToneEnums.Tones">[docs]</a>    <span class="k">class</span> <span class="nc">Tones</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        **`2017-09-21`:** Deprecated. The service continues to accept the parameter for</span>
+<span class="sd">        backward-compatibility, but the parameter no longer affects the response.</span>
+<span class="sd">        **`2016-05-19`:** A comma-separated list of tones for which the service is to</span>
+<span class="sd">        return its analysis of the input; the indicated tones apply both to the full</span>
+<span class="sd">        document and to individual sentences of the document. You can specify one or more</span>
+<span class="sd">        of the valid values. Omit the parameter to request results for all three tones.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">EMOTION</span> <span class="o">=</span> <span class="s1">&#39;emotion&#39;</span>
+        <span class="n">LANGUAGE</span> <span class="o">=</span> <span class="s1">&#39;language&#39;</span>
+        <span class="n">SOCIAL</span> <span class="o">=</span> <span class="s1">&#39;social&#39;</span></div>
+
+<div class="viewcode-block" id="ToneEnums.ContentLanguage"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.ToneEnums.ContentLanguage">[docs]</a>    <span class="k">class</span> <span class="nc">ContentLanguage</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The language of the input text for the request: English or French. Regional</span>
+<span class="sd">        variants are treated as their parent language; for example, `en-US` is interpreted</span>
+<span class="sd">        as `en`. The input content must match the specified language. Do not submit</span>
+<span class="sd">        content that contains both languages. You can use different languages for</span>
+<span class="sd">        **Content-Language** and **Accept-Language**.</span>
+<span class="sd">        * **`2017-09-21`:** Accepts `en` or `fr`.</span>
+<span class="sd">        * **`2016-05-19`:** Accepts only `en`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">EN</span> <span class="o">=</span> <span class="s1">&#39;en&#39;</span>
+        <span class="n">FR</span> <span class="o">=</span> <span class="s1">&#39;fr&#39;</span></div>
+
+<div class="viewcode-block" id="ToneEnums.AcceptLanguage"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.ToneEnums.AcceptLanguage">[docs]</a>    <span class="k">class</span> <span class="nc">AcceptLanguage</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The desired language of the response. For two-character arguments, regional</span>
+<span class="sd">        variants are treated as their parent language; for example, `en-US` is interpreted</span>
+<span class="sd">        as `en`. You can use different languages for **Content-Language** and</span>
+<span class="sd">        **Accept-Language**.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">AR</span> <span class="o">=</span> <span class="s1">&#39;ar&#39;</span>
+        <span class="n">DE</span> <span class="o">=</span> <span class="s1">&#39;de&#39;</span>
+        <span class="n">EN</span> <span class="o">=</span> <span class="s1">&#39;en&#39;</span>
+        <span class="n">ES</span> <span class="o">=</span> <span class="s1">&#39;es&#39;</span>
+        <span class="n">FR</span> <span class="o">=</span> <span class="s1">&#39;fr&#39;</span>
+        <span class="n">IT</span> <span class="o">=</span> <span class="s1">&#39;it&#39;</span>
+        <span class="n">JA</span> <span class="o">=</span> <span class="s1">&#39;ja&#39;</span>
+        <span class="n">KO</span> <span class="o">=</span> <span class="s1">&#39;ko&#39;</span>
+        <span class="n">PT_BR</span> <span class="o">=</span> <span class="s1">&#39;pt-br&#39;</span>
+        <span class="n">ZH_CN</span> <span class="o">=</span> <span class="s1">&#39;zh-cn&#39;</span>
+        <span class="n">ZH_TW</span> <span class="o">=</span> <span class="s1">&#39;zh-tw&#39;</span></div></div>
+
+
+<div class="viewcode-block" id="ToneChatEnums"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.ToneChatEnums">[docs]</a><span class="k">class</span> <span class="nc">ToneChatEnums</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ToneChatEnums.ContentLanguage"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.ToneChatEnums.ContentLanguage">[docs]</a>    <span class="k">class</span> <span class="nc">ContentLanguage</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The language of the input text for the request: English or French. Regional</span>
+<span class="sd">        variants are treated as their parent language; for example, `en-US` is interpreted</span>
+<span class="sd">        as `en`. The input content must match the specified language. Do not submit</span>
+<span class="sd">        content that contains both languages. You can use different languages for</span>
+<span class="sd">        **Content-Language** and **Accept-Language**.</span>
+<span class="sd">        * **`2017-09-21`:** Accepts `en` or `fr`.</span>
+<span class="sd">        * **`2016-05-19`:** Accepts only `en`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">EN</span> <span class="o">=</span> <span class="s1">&#39;en&#39;</span>
+        <span class="n">FR</span> <span class="o">=</span> <span class="s1">&#39;fr&#39;</span></div>
+
+<div class="viewcode-block" id="ToneChatEnums.AcceptLanguage"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.ToneChatEnums.AcceptLanguage">[docs]</a>    <span class="k">class</span> <span class="nc">AcceptLanguage</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The desired language of the response. For two-character arguments, regional</span>
+<span class="sd">        variants are treated as their parent language; for example, `en-US` is interpreted</span>
+<span class="sd">        as `en`. You can use different languages for **Content-Language** and</span>
+<span class="sd">        **Accept-Language**.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">AR</span> <span class="o">=</span> <span class="s1">&#39;ar&#39;</span>
+        <span class="n">DE</span> <span class="o">=</span> <span class="s1">&#39;de&#39;</span>
+        <span class="n">EN</span> <span class="o">=</span> <span class="s1">&#39;en&#39;</span>
+        <span class="n">ES</span> <span class="o">=</span> <span class="s1">&#39;es&#39;</span>
+        <span class="n">FR</span> <span class="o">=</span> <span class="s1">&#39;fr&#39;</span>
+        <span class="n">IT</span> <span class="o">=</span> <span class="s1">&#39;it&#39;</span>
+        <span class="n">JA</span> <span class="o">=</span> <span class="s1">&#39;ja&#39;</span>
+        <span class="n">KO</span> <span class="o">=</span> <span class="s1">&#39;ko&#39;</span>
+        <span class="n">PT_BR</span> <span class="o">=</span> <span class="s1">&#39;pt-br&#39;</span>
+        <span class="n">ZH_CN</span> <span class="o">=</span> <span class="s1">&#39;zh-cn&#39;</span>
+        <span class="n">ZH_TW</span> <span class="o">=</span> <span class="s1">&#39;zh-tw&#39;</span></div></div>
+
+
+<span class="c1">##############################################################################</span>
+<span class="c1"># Models</span>
+<span class="c1">##############################################################################</span>
+
+
+<div class="viewcode-block" id="DocumentAnalysis"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.DocumentAnalysis">[docs]</a><span class="k">class</span> <span class="nc">DocumentAnalysis</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The results of the analysis for the full input content.</span>
+
+<span class="sd">    :attr List[ToneScore] tones: (optional) **`2017-09-21`:** An array of</span>
+<span class="sd">          `ToneScore` objects that provides the results of the analysis for each</span>
+<span class="sd">          qualifying tone of the document. The array includes results for any tone whose</span>
+<span class="sd">          score is at least 0.5. The array is empty if no tone has a score that meets this</span>
+<span class="sd">          threshold. **`2016-05-19`:** Not returned.</span>
+<span class="sd">    :attr List[ToneCategory] tone_categories: (optional) **`2017-09-21`:** Not</span>
+<span class="sd">          returned. **`2016-05-19`:** An array of `ToneCategory` objects that provides the</span>
+<span class="sd">          results of the tone analysis for the full document of the input content. The</span>
+<span class="sd">          service returns results only for the tones specified with the `tones` parameter</span>
+<span class="sd">          of the request.</span>
+<span class="sd">    :attr str warning: (optional) **`2017-09-21`:** A warning message if the overall</span>
+<span class="sd">          content exceeds 128 KB or contains more than 1000 sentences. The service</span>
+<span class="sd">          analyzes only the first 1000 sentences for document-level analysis and the first</span>
+<span class="sd">          100 sentences for sentence-level analysis. **`2016-05-19`:** Not returned.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="o">*</span><span class="p">,</span>
+                 <span class="n">tones</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;ToneScore&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">tone_categories</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;ToneCategory&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">warning</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a DocumentAnalysis object.</span>
+
+<span class="sd">        :param List[ToneScore] tones: (optional) **`2017-09-21`:** An array of</span>
+<span class="sd">               `ToneScore` objects that provides the results of the analysis for each</span>
+<span class="sd">               qualifying tone of the document. The array includes results for any tone</span>
+<span class="sd">               whose score is at least 0.5. The array is empty if no tone has a score that</span>
+<span class="sd">               meets this threshold. **`2016-05-19`:** Not returned.</span>
+<span class="sd">        :param List[ToneCategory] tone_categories: (optional) **`2017-09-21`:** Not</span>
+<span class="sd">               returned. **`2016-05-19`:** An array of `ToneCategory` objects that</span>
+<span class="sd">               provides the results of the tone analysis for the full document of the</span>
+<span class="sd">               input content. The service returns results only for the tones specified</span>
+<span class="sd">               with the `tones` parameter of the request.</span>
+<span class="sd">        :param str warning: (optional) **`2017-09-21`:** A warning message if the</span>
+<span class="sd">               overall content exceeds 128 KB or contains more than 1000 sentences. The</span>
+<span class="sd">               service analyzes only the first 1000 sentences for document-level analysis</span>
+<span class="sd">               and the first 100 sentences for sentence-level analysis. **`2016-05-19`:**</span>
+<span class="sd">               Not returned.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tones</span> <span class="o">=</span> <span class="n">tones</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tone_categories</span> <span class="o">=</span> <span class="n">tone_categories</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">warning</span> <span class="o">=</span> <span class="n">warning</span>
+
+<div class="viewcode-block" id="DocumentAnalysis.from_dict"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.DocumentAnalysis.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;DocumentAnalysis&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a DocumentAnalysis object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">valid_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;tones&#39;</span><span class="p">,</span> <span class="s1">&#39;tone_categories&#39;</span><span class="p">,</span> <span class="s1">&#39;warning&#39;</span><span class="p">]</span>
+        <span class="n">bad_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">valid_keys</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">bad_keys</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Unrecognized keys detected in dictionary for class DocumentAnalysis: &#39;</span>
+                <span class="o">+</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bad_keys</span><span class="p">))</span>
+        <span class="k">if</span> <span class="s1">&#39;tones&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;tones&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">ToneScore</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tones&#39;</span><span class="p">))</span>
+            <span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;tone_categories&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;tone_categories&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">ToneCategory</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tone_categories&#39;</span><span class="p">))</span>
+            <span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;warning&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;warning&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;warning&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span></div>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a DocumentAnalysis object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">_dict</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DocumentAnalysis.to_dict"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.DocumentAnalysis.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;tones&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">tones</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;tones&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tones</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                   <span class="s1">&#39;tone_categories&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">tone_categories</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;tone_categories&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tone_categories</span>
+            <span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;warning&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">warning</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;warning&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">warning</span>
+        <span class="k">return</span> <span class="n">_dict</span></div>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return a `str` version of this DocumentAnalysis object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;DocumentAnalysis&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;DocumentAnalysis&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
+
+
+<div class="viewcode-block" id="SentenceAnalysis"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.SentenceAnalysis">[docs]</a><span class="k">class</span> <span class="nc">SentenceAnalysis</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The results of the analysis for the individual sentences of the input content.</span>
+
+<span class="sd">    :attr int sentence_id: The unique identifier of a sentence of the input content.</span>
+<span class="sd">          The first sentence has ID 0, and the ID of each subsequent sentence is</span>
+<span class="sd">          incremented by one.</span>
+<span class="sd">    :attr str text: The text of the input sentence.</span>
+<span class="sd">    :attr List[ToneScore] tones: (optional) **`2017-09-21`:** An array of</span>
+<span class="sd">          `ToneScore` objects that provides the results of the analysis for each</span>
+<span class="sd">          qualifying tone of the sentence. The array includes results for any tone whose</span>
+<span class="sd">          score is at least 0.5. The array is empty if no tone has a score that meets this</span>
+<span class="sd">          threshold. **`2016-05-19`:** Not returned.</span>
+<span class="sd">    :attr List[ToneCategory] tone_categories: (optional) **`2017-09-21`:** Not</span>
+<span class="sd">          returned. **`2016-05-19`:** An array of `ToneCategory` objects that provides the</span>
+<span class="sd">          results of the tone analysis for the sentence. The service returns results only</span>
+<span class="sd">          for the tones specified with the `tones` parameter of the request.</span>
+<span class="sd">    :attr int input_from: (optional) **`2017-09-21`:** Not returned.</span>
+<span class="sd">          **`2016-05-19`:** The offset of the first character of the sentence in the</span>
+<span class="sd">          overall input content.</span>
+<span class="sd">    :attr int input_to: (optional) **`2017-09-21`:** Not returned. **`2016-05-19`:**</span>
+<span class="sd">          The offset of the last character of the sentence in the overall input content.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">sentence_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                 <span class="o">*</span><span class="p">,</span>
+                 <span class="n">tones</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;ToneScore&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">tone_categories</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;ToneCategory&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">input_from</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">input_to</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a SentenceAnalysis object.</span>
+
+<span class="sd">        :param int sentence_id: The unique identifier of a sentence of the input</span>
+<span class="sd">               content. The first sentence has ID 0, and the ID of each subsequent</span>
+<span class="sd">               sentence is incremented by one.</span>
+<span class="sd">        :param str text: The text of the input sentence.</span>
+<span class="sd">        :param List[ToneScore] tones: (optional) **`2017-09-21`:** An array of</span>
+<span class="sd">               `ToneScore` objects that provides the results of the analysis for each</span>
+<span class="sd">               qualifying tone of the sentence. The array includes results for any tone</span>
+<span class="sd">               whose score is at least 0.5. The array is empty if no tone has a score that</span>
+<span class="sd">               meets this threshold. **`2016-05-19`:** Not returned.</span>
+<span class="sd">        :param List[ToneCategory] tone_categories: (optional) **`2017-09-21`:** Not</span>
+<span class="sd">               returned. **`2016-05-19`:** An array of `ToneCategory` objects that</span>
+<span class="sd">               provides the results of the tone analysis for the sentence. The service</span>
+<span class="sd">               returns results only for the tones specified with the `tones` parameter of</span>
+<span class="sd">               the request.</span>
+<span class="sd">        :param int input_from: (optional) **`2017-09-21`:** Not returned.</span>
+<span class="sd">               **`2016-05-19`:** The offset of the first character of the sentence in the</span>
+<span class="sd">               overall input content.</span>
+<span class="sd">        :param int input_to: (optional) **`2017-09-21`:** Not returned.</span>
+<span class="sd">               **`2016-05-19`:** The offset of the last character of the sentence in the</span>
+<span class="sd">               overall input content.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sentence_id</span> <span class="o">=</span> <span class="n">sentence_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tones</span> <span class="o">=</span> <span class="n">tones</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tone_categories</span> <span class="o">=</span> <span class="n">tone_categories</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_from</span> <span class="o">=</span> <span class="n">input_from</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_to</span> <span class="o">=</span> <span class="n">input_to</span>
+
+<div class="viewcode-block" id="SentenceAnalysis.from_dict"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.SentenceAnalysis.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;SentenceAnalysis&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a SentenceAnalysis object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">valid_keys</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s1">&#39;sentence_id&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="s1">&#39;tones&#39;</span><span class="p">,</span> <span class="s1">&#39;tone_categories&#39;</span><span class="p">,</span> <span class="s1">&#39;input_from&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;input_to&#39;</span>
+        <span class="p">]</span>
+        <span class="n">bad_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">valid_keys</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">bad_keys</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Unrecognized keys detected in dictionary for class SentenceAnalysis: &#39;</span>
+                <span class="o">+</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bad_keys</span><span class="p">))</span>
+        <span class="k">if</span> <span class="s1">&#39;sentence_id&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;sentence_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sentence_id&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">sentence_id</span><span class="se">\&#39;</span><span class="s1"> not present in SentenceAnalysis JSON&#39;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;text&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">text</span><span class="se">\&#39;</span><span class="s1"> not present in SentenceAnalysis JSON&#39;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;tones&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;tones&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">ToneScore</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tones&#39;</span><span class="p">))</span>
+            <span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;tone_categories&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;tone_categories&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">ToneCategory</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tone_categories&#39;</span><span class="p">))</span>
+            <span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;input_from&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;input_from&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;input_from&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;input_to&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;input_to&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;input_to&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span></div>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a SentenceAnalysis object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">_dict</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SentenceAnalysis.to_dict"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.SentenceAnalysis.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;sentence_id&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">sentence_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;sentence_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sentence_id</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;tones&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">tones</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;tones&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tones</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                   <span class="s1">&#39;tone_categories&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">tone_categories</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;tone_categories&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tone_categories</span>
+            <span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;input_from&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_from</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;input_from&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_from</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;input_to&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_to</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;input_to&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_to</span>
+        <span class="k">return</span> <span class="n">_dict</span></div>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return a `str` version of this SentenceAnalysis object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;SentenceAnalysis&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;SentenceAnalysis&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
+
+
+<div class="viewcode-block" id="ToneAnalysis"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.ToneAnalysis">[docs]</a><span class="k">class</span> <span class="nc">ToneAnalysis</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The tone analysis results for the input from the general-purpose endpoint.</span>
+
+<span class="sd">    :attr DocumentAnalysis document_tone: The results of the analysis for the full</span>
+<span class="sd">          input content.</span>
+<span class="sd">    :attr List[SentenceAnalysis] sentences_tone: (optional) An array of</span>
+<span class="sd">          `SentenceAnalysis` objects that provides the results of the analysis for the</span>
+<span class="sd">          individual sentences of the input content. The service returns results only for</span>
+<span class="sd">          the first 100 sentences of the input. The field is omitted if the `sentences`</span>
+<span class="sd">          parameter of the request is set to `false`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">document_tone</span><span class="p">:</span> <span class="s1">&#39;DocumentAnalysis&#39;</span><span class="p">,</span>
+                 <span class="o">*</span><span class="p">,</span>
+                 <span class="n">sentences_tone</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;SentenceAnalysis&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a ToneAnalysis object.</span>
+
+<span class="sd">        :param DocumentAnalysis document_tone: The results of the analysis for the</span>
+<span class="sd">               full input content.</span>
+<span class="sd">        :param List[SentenceAnalysis] sentences_tone: (optional) An array of</span>
+<span class="sd">               `SentenceAnalysis` objects that provides the results of the analysis for</span>
+<span class="sd">               the individual sentences of the input content. The service returns results</span>
+<span class="sd">               only for the first 100 sentences of the input. The field is omitted if the</span>
+<span class="sd">               `sentences` parameter of the request is set to `false`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">document_tone</span> <span class="o">=</span> <span class="n">document_tone</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sentences_tone</span> <span class="o">=</span> <span class="n">sentences_tone</span>
+
+<div class="viewcode-block" id="ToneAnalysis.from_dict"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.ToneAnalysis.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ToneAnalysis&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a ToneAnalysis object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">valid_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;document_tone&#39;</span><span class="p">,</span> <span class="s1">&#39;sentences_tone&#39;</span><span class="p">]</span>
+        <span class="n">bad_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">valid_keys</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">bad_keys</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Unrecognized keys detected in dictionary for class ToneAnalysis: &#39;</span>
+                <span class="o">+</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bad_keys</span><span class="p">))</span>
+        <span class="k">if</span> <span class="s1">&#39;document_tone&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;document_tone&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">DocumentAnalysis</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span>
+                <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;document_tone&#39;</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">document_tone</span><span class="se">\&#39;</span><span class="s1"> not present in ToneAnalysis JSON&#39;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;sentences_tone&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;sentences_tone&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">SentenceAnalysis</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;sentences_tone&#39;</span><span class="p">))</span>
+            <span class="p">]</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span></div>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a ToneAnalysis object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">_dict</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ToneAnalysis.to_dict"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.ToneAnalysis.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;document_tone&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">document_tone</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;document_tone&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">document_tone</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;sentences_tone&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">sentences_tone</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;sentences_tone&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">sentences_tone</span>
+            <span class="p">]</span>
+        <span class="k">return</span> <span class="n">_dict</span></div>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return a `str` version of this ToneAnalysis object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;ToneAnalysis&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;ToneAnalysis&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
+
+
+<div class="viewcode-block" id="ToneCategory"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.ToneCategory">[docs]</a><span class="k">class</span> <span class="nc">ToneCategory</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The category for a tone from the input content.</span>
+
+<span class="sd">    :attr List[ToneScore] tones: An array of `ToneScore` objects that provides the</span>
+<span class="sd">          results for the tones of the category.</span>
+<span class="sd">    :attr str category_id: The unique, non-localized identifier of the category for</span>
+<span class="sd">          the results. The service can return results for the following category IDs:</span>
+<span class="sd">          `emotion_tone`, `language_tone`, and `social_tone`.</span>
+<span class="sd">    :attr str category_name: The user-visible, localized name of the category.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tones</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;ToneScore&#39;</span><span class="p">],</span> <span class="n">category_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                 <span class="n">category_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a ToneCategory object.</span>
+
+<span class="sd">        :param List[ToneScore] tones: An array of `ToneScore` objects that provides</span>
+<span class="sd">               the results for the tones of the category.</span>
+<span class="sd">        :param str category_id: The unique, non-localized identifier of the</span>
+<span class="sd">               category for the results. The service can return results for the following</span>
+<span class="sd">               category IDs: `emotion_tone`, `language_tone`, and `social_tone`.</span>
+<span class="sd">        :param str category_name: The user-visible, localized name of the category.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tones</span> <span class="o">=</span> <span class="n">tones</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">category_id</span> <span class="o">=</span> <span class="n">category_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">category_name</span> <span class="o">=</span> <span class="n">category_name</span>
+
+<div class="viewcode-block" id="ToneCategory.from_dict"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.ToneCategory.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ToneCategory&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a ToneCategory object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">valid_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;tones&#39;</span><span class="p">,</span> <span class="s1">&#39;category_id&#39;</span><span class="p">,</span> <span class="s1">&#39;category_name&#39;</span><span class="p">]</span>
+        <span class="n">bad_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">valid_keys</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">bad_keys</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Unrecognized keys detected in dictionary for class ToneCategory: &#39;</span>
+                <span class="o">+</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bad_keys</span><span class="p">))</span>
+        <span class="k">if</span> <span class="s1">&#39;tones&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;tones&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">ToneScore</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tones&#39;</span><span class="p">))</span>
+            <span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">tones</span><span class="se">\&#39;</span><span class="s1"> not present in ToneCategory JSON&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;category_id&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;category_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;category_id&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">category_id</span><span class="se">\&#39;</span><span class="s1"> not present in ToneCategory JSON&#39;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;category_name&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;category_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;category_name&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">category_name</span><span class="se">\&#39;</span><span class="s1"> not present in ToneCategory JSON&#39;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span></div>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a ToneCategory object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">_dict</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ToneCategory.to_dict"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.ToneCategory.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;tones&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">tones</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;tones&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tones</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;category_id&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">category_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;category_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">category_id</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;category_name&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">category_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;category_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">category_name</span>
+        <span class="k">return</span> <span class="n">_dict</span></div>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return a `str` version of this ToneCategory object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;ToneCategory&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;ToneCategory&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
+
+
+<div class="viewcode-block" id="ToneChatScore"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.ToneChatScore">[docs]</a><span class="k">class</span> <span class="nc">ToneChatScore</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The score for an utterance from the input content.</span>
+
+<span class="sd">    :attr float score: The score for the tone in the range of 0.5 to 1. A score</span>
+<span class="sd">          greater than 0.75 indicates a high likelihood that the tone is perceived in the</span>
+<span class="sd">          utterance.</span>
+<span class="sd">    :attr str tone_id: The unique, non-localized identifier of the tone for the</span>
+<span class="sd">          results. The service returns results only for tones whose scores meet a minimum</span>
+<span class="sd">          threshold of 0.5.</span>
+<span class="sd">    :attr str tone_name: The user-visible, localized name of the tone.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">score</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">tone_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tone_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a ToneChatScore object.</span>
+
+<span class="sd">        :param float score: The score for the tone in the range of 0.5 to 1. A</span>
+<span class="sd">               score greater than 0.75 indicates a high likelihood that the tone is</span>
+<span class="sd">               perceived in the utterance.</span>
+<span class="sd">        :param str tone_id: The unique, non-localized identifier of the tone for</span>
+<span class="sd">               the results. The service returns results only for tones whose scores meet a</span>
+<span class="sd">               minimum threshold of 0.5.</span>
+<span class="sd">        :param str tone_name: The user-visible, localized name of the tone.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="n">score</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tone_id</span> <span class="o">=</span> <span class="n">tone_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tone_name</span> <span class="o">=</span> <span class="n">tone_name</span>
+
+<div class="viewcode-block" id="ToneChatScore.from_dict"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.ToneChatScore.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ToneChatScore&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a ToneChatScore object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">valid_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">,</span> <span class="s1">&#39;tone_id&#39;</span><span class="p">,</span> <span class="s1">&#39;tone_name&#39;</span><span class="p">]</span>
+        <span class="n">bad_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">valid_keys</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">bad_keys</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Unrecognized keys detected in dictionary for class ToneChatScore: &#39;</span>
+                <span class="o">+</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bad_keys</span><span class="p">))</span>
+        <span class="k">if</span> <span class="s1">&#39;score&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;score&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">score</span><span class="se">\&#39;</span><span class="s1"> not present in ToneChatScore JSON&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;tone_id&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;tone_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tone_id&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">tone_id</span><span class="se">\&#39;</span><span class="s1"> not present in ToneChatScore JSON&#39;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;tone_name&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;tone_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tone_name&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">tone_name</span><span class="se">\&#39;</span><span class="s1"> not present in ToneChatScore JSON&#39;</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span></div>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a ToneChatScore object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">_dict</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ToneChatScore.to_dict"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.ToneChatScore.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">score</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">score</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;tone_id&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">tone_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;tone_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tone_id</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;tone_name&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">tone_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;tone_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tone_name</span>
+        <span class="k">return</span> <span class="n">_dict</span></div>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return a `str` version of this ToneChatScore object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;ToneChatScore&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;ToneChatScore&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span>
+
+<div class="viewcode-block" id="ToneChatScore.ToneIdEnum"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.ToneChatScore.ToneIdEnum">[docs]</a>    <span class="k">class</span> <span class="nc">ToneIdEnum</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The unique, non-localized identifier of the tone for the results. The service</span>
+<span class="sd">        returns results only for tones whose scores meet a minimum threshold of 0.5.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">EXCITED</span> <span class="o">=</span> <span class="s2">&quot;excited&quot;</span>
+        <span class="n">FRUSTRATED</span> <span class="o">=</span> <span class="s2">&quot;frustrated&quot;</span>
+        <span class="n">IMPOLITE</span> <span class="o">=</span> <span class="s2">&quot;impolite&quot;</span>
+        <span class="n">POLITE</span> <span class="o">=</span> <span class="s2">&quot;polite&quot;</span>
+        <span class="n">SAD</span> <span class="o">=</span> <span class="s2">&quot;sad&quot;</span>
+        <span class="n">SATISFIED</span> <span class="o">=</span> <span class="s2">&quot;satisfied&quot;</span>
+        <span class="n">SYMPATHETIC</span> <span class="o">=</span> <span class="s2">&quot;sympathetic&quot;</span></div></div>
+
+
+<div class="viewcode-block" id="ToneInput"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.ToneInput">[docs]</a><span class="k">class</span> <span class="nc">ToneInput</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Input for the general-purpose endpoint.</span>
+
+<span class="sd">    :attr str text: The input content that the service is to analyze.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a ToneInput object.</span>
+
+<span class="sd">        :param str text: The input content that the service is to analyze.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
+
+<div class="viewcode-block" id="ToneInput.from_dict"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.ToneInput.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ToneInput&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a ToneInput object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">valid_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span>
+        <span class="n">bad_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">valid_keys</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">bad_keys</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Unrecognized keys detected in dictionary for class ToneInput: &#39;</span>
+                <span class="o">+</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bad_keys</span><span class="p">))</span>
+        <span class="k">if</span> <span class="s1">&#39;text&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">text</span><span class="se">\&#39;</span><span class="s1"> not present in ToneInput JSON&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span></div>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a ToneInput object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">_dict</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ToneInput.to_dict"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.ToneInput.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span>
+        <span class="k">return</span> <span class="n">_dict</span></div>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return a `str` version of this ToneInput object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;ToneInput&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;ToneInput&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
+
+
+<div class="viewcode-block" id="ToneScore"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.ToneScore">[docs]</a><span class="k">class</span> <span class="nc">ToneScore</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The score for a tone from the input content.</span>
+
+<span class="sd">    :attr float score: The score for the tone.</span>
+<span class="sd">          * **`2017-09-21`:** The score that is returned lies in the range of 0.5 to 1. A</span>
+<span class="sd">          score greater than 0.75 indicates a high likelihood that the tone is perceived</span>
+<span class="sd">          in the content.</span>
+<span class="sd">          * **`2016-05-19`:** The score that is returned lies in the range of 0 to 1. A</span>
+<span class="sd">          score less than 0.5 indicates that the tone is unlikely to be perceived in the</span>
+<span class="sd">          content; a score greater than 0.75 indicates a high likelihood that the tone is</span>
+<span class="sd">          perceived.</span>
+<span class="sd">    :attr str tone_id: The unique, non-localized identifier of the tone.</span>
+<span class="sd">          * **`2017-09-21`:** The service can return results for the following tone IDs:</span>
+<span class="sd">          `anger`, `fear`, `joy`, and `sadness` (emotional tones); `analytical`,</span>
+<span class="sd">          `confident`, and `tentative` (language tones). The service returns results only</span>
+<span class="sd">          for tones whose scores meet a minimum threshold of 0.5.</span>
+<span class="sd">          * **`2016-05-19`:** The service can return results for the following tone IDs of</span>
+<span class="sd">          the different categories: for the `emotion` category: `anger`, `disgust`,</span>
+<span class="sd">          `fear`, `joy`, and `sadness`; for the `language` category: `analytical`,</span>
+<span class="sd">          `confident`, and `tentative`; for the `social` category: `openness_big5`,</span>
+<span class="sd">          `conscientiousness_big5`, `extraversion_big5`, `agreeableness_big5`, and</span>
+<span class="sd">          `emotional_range_big5`. The service returns scores for all tones of a category,</span>
+<span class="sd">          regardless of their values.</span>
+<span class="sd">    :attr str tone_name: The user-visible, localized name of the tone.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">score</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">tone_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tone_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a ToneScore object.</span>
+
+<span class="sd">        :param float score: The score for the tone.</span>
+<span class="sd">               * **`2017-09-21`:** The score that is returned lies in the range of 0.5 to</span>
+<span class="sd">               1. A score greater than 0.75 indicates a high likelihood that the tone is</span>
+<span class="sd">               perceived in the content.</span>
+<span class="sd">               * **`2016-05-19`:** The score that is returned lies in the range of 0 to 1.</span>
+<span class="sd">               A score less than 0.5 indicates that the tone is unlikely to be perceived</span>
+<span class="sd">               in the content; a score greater than 0.75 indicates a high likelihood that</span>
+<span class="sd">               the tone is perceived.</span>
+<span class="sd">        :param str tone_id: The unique, non-localized identifier of the tone.</span>
+<span class="sd">               * **`2017-09-21`:** The service can return results for the following tone</span>
+<span class="sd">               IDs: `anger`, `fear`, `joy`, and `sadness` (emotional tones); `analytical`,</span>
+<span class="sd">               `confident`, and `tentative` (language tones). The service returns results</span>
+<span class="sd">               only for tones whose scores meet a minimum threshold of 0.5.</span>
+<span class="sd">               * **`2016-05-19`:** The service can return results for the following tone</span>
+<span class="sd">               IDs of the different categories: for the `emotion` category: `anger`,</span>
+<span class="sd">               `disgust`, `fear`, `joy`, and `sadness`; for the `language` category:</span>
+<span class="sd">               `analytical`, `confident`, and `tentative`; for the `social` category:</span>
+<span class="sd">               `openness_big5`, `conscientiousness_big5`, `extraversion_big5`,</span>
+<span class="sd">               `agreeableness_big5`, and `emotional_range_big5`. The service returns</span>
+<span class="sd">               scores for all tones of a category, regardless of their values.</span>
+<span class="sd">        :param str tone_name: The user-visible, localized name of the tone.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="n">score</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tone_id</span> <span class="o">=</span> <span class="n">tone_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tone_name</span> <span class="o">=</span> <span class="n">tone_name</span>
+
+<div class="viewcode-block" id="ToneScore.from_dict"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.ToneScore.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ToneScore&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a ToneScore object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">valid_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">,</span> <span class="s1">&#39;tone_id&#39;</span><span class="p">,</span> <span class="s1">&#39;tone_name&#39;</span><span class="p">]</span>
+        <span class="n">bad_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">valid_keys</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">bad_keys</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Unrecognized keys detected in dictionary for class ToneScore: &#39;</span>
+                <span class="o">+</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bad_keys</span><span class="p">))</span>
+        <span class="k">if</span> <span class="s1">&#39;score&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;score&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">score</span><span class="se">\&#39;</span><span class="s1"> not present in ToneScore JSON&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;tone_id&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;tone_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tone_id&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">tone_id</span><span class="se">\&#39;</span><span class="s1"> not present in ToneScore JSON&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;tone_name&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;tone_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tone_name&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">tone_name</span><span class="se">\&#39;</span><span class="s1"> not present in ToneScore JSON&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span></div>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a ToneScore object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">_dict</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ToneScore.to_dict"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.ToneScore.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">score</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">score</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;tone_id&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">tone_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;tone_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tone_id</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;tone_name&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">tone_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;tone_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tone_name</span>
+        <span class="k">return</span> <span class="n">_dict</span></div>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return a `str` version of this ToneScore object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;ToneScore&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;ToneScore&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
+
+
+<div class="viewcode-block" id="Utterance"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.Utterance">[docs]</a><span class="k">class</span> <span class="nc">Utterance</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    An utterance for the input of the general-purpose endpoint.</span>
+
+<span class="sd">    :attr str text: An utterance contributed by a user in the conversation that is</span>
+<span class="sd">          to be analyzed. The utterance can contain multiple sentences.</span>
+<span class="sd">    :attr str user: (optional) A string that identifies the user who contributed the</span>
+<span class="sd">          utterance specified by the `text` parameter.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a Utterance object.</span>
+
+<span class="sd">        :param str text: An utterance contributed by a user in the conversation</span>
+<span class="sd">               that is to be analyzed. The utterance can contain multiple sentences.</span>
+<span class="sd">        :param str user: (optional) A string that identifies the user who</span>
+<span class="sd">               contributed the utterance specified by the `text` parameter.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="o">=</span> <span class="n">user</span>
+
+<div class="viewcode-block" id="Utterance.from_dict"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.Utterance.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Utterance&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a Utterance object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">valid_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="s1">&#39;user&#39;</span><span class="p">]</span>
+        <span class="n">bad_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">valid_keys</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">bad_keys</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Unrecognized keys detected in dictionary for class Utterance: &#39;</span>
+                <span class="o">+</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bad_keys</span><span class="p">))</span>
+        <span class="k">if</span> <span class="s1">&#39;text&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">text</span><span class="se">\&#39;</span><span class="s1"> not present in Utterance JSON&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;user&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span></div>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a Utterance object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">_dict</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Utterance.to_dict"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.Utterance.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;user&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;user&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">user</span>
+        <span class="k">return</span> <span class="n">_dict</span></div>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return a `str` version of this Utterance object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;Utterance&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;Utterance&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
+
+
+<div class="viewcode-block" id="UtteranceAnalyses"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.UtteranceAnalyses">[docs]</a><span class="k">class</span> <span class="nc">UtteranceAnalyses</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The results of the analysis for the utterances of the input content.</span>
+
+<span class="sd">    :attr List[UtteranceAnalysis] utterances_tone: An array of `UtteranceAnalysis`</span>
+<span class="sd">          objects that provides the results for each utterance of the input.</span>
+<span class="sd">    :attr str warning: (optional) **`2017-09-21`:** A warning message if the content</span>
+<span class="sd">          contains more than 50 utterances. The service analyzes only the first 50</span>
+<span class="sd">          utterances. **`2016-05-19`:** Not returned.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">utterances_tone</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;UtteranceAnalysis&#39;</span><span class="p">],</span>
+                 <span class="o">*</span><span class="p">,</span>
+                 <span class="n">warning</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a UtteranceAnalyses object.</span>
+
+<span class="sd">        :param List[UtteranceAnalysis] utterances_tone: An array of</span>
+<span class="sd">               `UtteranceAnalysis` objects that provides the results for each utterance of</span>
+<span class="sd">               the input.</span>
+<span class="sd">        :param str warning: (optional) **`2017-09-21`:** A warning message if the</span>
+<span class="sd">               content contains more than 50 utterances. The service analyzes only the</span>
+<span class="sd">               first 50 utterances. **`2016-05-19`:** Not returned.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">utterances_tone</span> <span class="o">=</span> <span class="n">utterances_tone</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">warning</span> <span class="o">=</span> <span class="n">warning</span>
+
+<div class="viewcode-block" id="UtteranceAnalyses.from_dict"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.UtteranceAnalyses.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;UtteranceAnalyses&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a UtteranceAnalyses object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">valid_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;utterances_tone&#39;</span><span class="p">,</span> <span class="s1">&#39;warning&#39;</span><span class="p">]</span>
+        <span class="n">bad_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">valid_keys</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">bad_keys</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Unrecognized keys detected in dictionary for class UtteranceAnalyses: &#39;</span>
+                <span class="o">+</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bad_keys</span><span class="p">))</span>
+        <span class="k">if</span> <span class="s1">&#39;utterances_tone&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;utterances_tone&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">UtteranceAnalysis</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;utterances_tone&#39;</span><span class="p">))</span>
+            <span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">utterances_tone</span><span class="se">\&#39;</span><span class="s1"> not present in UtteranceAnalyses JSON&#39;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;warning&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;warning&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;warning&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span></div>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a UtteranceAnalyses object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">_dict</span><span class="p">)</span>
+
+<div class="viewcode-block" id="UtteranceAnalyses.to_dict"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.UtteranceAnalyses.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                   <span class="s1">&#39;utterances_tone&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">utterances_tone</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;utterances_tone&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">utterances_tone</span>
+            <span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;warning&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">warning</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;warning&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">warning</span>
+        <span class="k">return</span> <span class="n">_dict</span></div>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return a `str` version of this UtteranceAnalyses object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;UtteranceAnalyses&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;UtteranceAnalyses&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
+
+
+<div class="viewcode-block" id="UtteranceAnalysis"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.UtteranceAnalysis">[docs]</a><span class="k">class</span> <span class="nc">UtteranceAnalysis</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The results of the analysis for an utterance of the input content.</span>
+
+<span class="sd">    :attr int utterance_id: The unique identifier of the utterance. The first</span>
+<span class="sd">          utterance has ID 0, and the ID of each subsequent utterance is incremented by</span>
+<span class="sd">          one.</span>
+<span class="sd">    :attr str utterance_text: The text of the utterance.</span>
+<span class="sd">    :attr List[ToneChatScore] tones: An array of `ToneChatScore` objects that</span>
+<span class="sd">          provides results for the most prevalent tones of the utterance. The array</span>
+<span class="sd">          includes results for any tone whose score is at least 0.5. The array is empty if</span>
+<span class="sd">          no tone has a score that meets this threshold.</span>
+<span class="sd">    :attr str error: (optional) **`2017-09-21`:** An error message if the utterance</span>
+<span class="sd">          contains more than 500 characters. The service does not analyze the utterance.</span>
+<span class="sd">          **`2016-05-19`:** Not returned.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">utterance_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                 <span class="n">utterance_text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                 <span class="n">tones</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="s1">&#39;ToneChatScore&#39;</span><span class="p">],</span>
+                 <span class="o">*</span><span class="p">,</span>
+                 <span class="n">error</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initialize a UtteranceAnalysis object.</span>
+
+<span class="sd">        :param int utterance_id: The unique identifier of the utterance. The first</span>
+<span class="sd">               utterance has ID 0, and the ID of each subsequent utterance is incremented</span>
+<span class="sd">               by one.</span>
+<span class="sd">        :param str utterance_text: The text of the utterance.</span>
+<span class="sd">        :param List[ToneChatScore] tones: An array of `ToneChatScore` objects that</span>
+<span class="sd">               provides results for the most prevalent tones of the utterance. The array</span>
+<span class="sd">               includes results for any tone whose score is at least 0.5. The array is</span>
+<span class="sd">               empty if no tone has a score that meets this threshold.</span>
+<span class="sd">        :param str error: (optional) **`2017-09-21`:** An error message if the</span>
+<span class="sd">               utterance contains more than 500 characters. The service does not analyze</span>
+<span class="sd">               the utterance. **`2016-05-19`:** Not returned.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">utterance_id</span> <span class="o">=</span> <span class="n">utterance_id</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">utterance_text</span> <span class="o">=</span> <span class="n">utterance_text</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tones</span> <span class="o">=</span> <span class="n">tones</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">error</span> <span class="o">=</span> <span class="n">error</span>
+
+<div class="viewcode-block" id="UtteranceAnalysis.from_dict"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.UtteranceAnalysis.from_dict">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;UtteranceAnalysis&#39;</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a UtteranceAnalysis object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">valid_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;utterance_id&#39;</span><span class="p">,</span> <span class="s1">&#39;utterance_text&#39;</span><span class="p">,</span> <span class="s1">&#39;tones&#39;</span><span class="p">,</span> <span class="s1">&#39;error&#39;</span><span class="p">]</span>
+        <span class="n">bad_keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">valid_keys</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">bad_keys</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Unrecognized keys detected in dictionary for class UtteranceAnalysis: &#39;</span>
+                <span class="o">+</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">bad_keys</span><span class="p">))</span>
+        <span class="k">if</span> <span class="s1">&#39;utterance_id&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;utterance_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;utterance_id&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">utterance_id</span><span class="se">\&#39;</span><span class="s1"> not present in UtteranceAnalysis JSON&#39;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;utterance_text&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;utterance_text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;utterance_text&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">utterance_text</span><span class="se">\&#39;</span><span class="s1"> not present in UtteranceAnalysis JSON&#39;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;tones&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;tones&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">ToneChatScore</span><span class="o">.</span><span class="n">_from_dict</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tones&#39;</span><span class="p">))</span>
+            <span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Required property </span><span class="se">\&#39;</span><span class="s1">tones</span><span class="se">\&#39;</span><span class="s1"> not present in UtteranceAnalysis JSON&#39;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="s1">&#39;error&#39;</span> <span class="ow">in</span> <span class="n">_dict</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;error&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span></div>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">_dict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a UtteranceAnalysis object from a json dictionary.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">_dict</span><span class="p">)</span>
+
+<div class="viewcode-block" id="UtteranceAnalysis.to_dict"><a class="viewcode-back" href="../../apis/ibm_watson.tone_analyzer_v3.html#ibm_watson.tone_analyzer_v3.UtteranceAnalysis.to_dict">[docs]</a>    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="n">_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;utterance_id&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">utterance_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;utterance_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">utterance_id</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;utterance_text&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">utterance_text</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;utterance_text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">utterance_text</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;tones&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">tones</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;tones&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tones</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;error&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">error</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_dict</span><span class="p">[</span><span class="s1">&#39;error&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">error</span>
+        <span class="k">return</span> <span class="n">_dict</span></div>
+
+    <span class="k">def</span> <span class="nf">_to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a json dictionary representing this model.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return a `str` version of this UtteranceAnalysis object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_to_dict</span><span class="p">(),</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;UtteranceAnalysis&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="vm">__dict__</span>
+
+    <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="s1">&#39;UtteranceAnalysis&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return `true` when self and other are not equal, false otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">other</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

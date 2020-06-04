@@ -1,0 +1,22 @@
+ibm\_watson.websocket package
+=============================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   ibm_watson.websocket.audio_source
+   ibm_watson.websocket.recognize_abstract_callback
+   ibm_watson.websocket.recognize_listener
+   ibm_watson.websocket.synthesize_callback
+   ibm_watson.websocket.synthesize_listener
+
+Module contents
+---------------
+
+.. automodule:: ibm_watson.websocket
+   :members:
+   :undoc-members:
+   :show-inheritance:
