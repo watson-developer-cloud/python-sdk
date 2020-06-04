@@ -1,3 +1,13 @@
+# [4.5.0](https://github.com/watson-developer-cloud/python-sdk/compare/v4.4.1...v4.5.0) (2020-06-04)
+
+
+### Features
+
+* regenerate services based on current API def ([c538bd2](https://github.com/watson-developer-cloud/python-sdk/commit/c538bd23b28c220cec2261e9d2a770ebedbba860))
+* **AssistantV1:** add support for spelling suggestions ([858af78](https://github.com/watson-developer-cloud/python-sdk/commit/858af780c60edcff5e6c47281f23d3d9c5011861))
+* **AssistantV2:** add support for stateless messages ([c57f248](https://github.com/watson-developer-cloud/python-sdk/commit/c57f248ea920c12bb439b5571ae78fcce144707b))
+* **VisualRecognitionV4:** add support for downloading a model file ([fa2cd1b](https://github.com/watson-developer-cloud/python-sdk/commit/fa2cd1b8e8c0a867e6c509875418d8c32e9e4d06))
+
 ## [4.4.1](https://github.com/watson-developer-cloud/python-sdk/compare/v4.4.0...v4.4.1) (2020-05-11)
 
 
