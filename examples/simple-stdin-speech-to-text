@@ -1,0 +1,90 @@
+from ibm_watson import SpeechToTextV1
+from ibm_watson.websocket import RecognizeCallback, AudioSource
+from threading import Thread
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+import sys
+
+try:
+    from Queue import Queue, Full
+except ImportError:
+    from queue import Queue, Full
+
+###############################################
+#### Initalize queue to store the recordings ##
+###############################################
+CHUNK = 1024
+# Note: It will discard if the websocket client can't consume fast enough
+# So, increase the max size as per your choice
+BUF_MAX_SIZE = CHUNK * 1000000000
+# Buffer to store audio
+q = Queue(maxsize=int(round(BUF_MAX_SIZE / CHUNK)))
+
+# Create an instance of AudioSource
+audio_source = AudioSource(q, True, True)
+
+###############################################
+#### Prepare Speech to Text Service ########
+###############################################
+
+# initialize speech to text service
+authenticator = IAMAuthenticator('your_api_key-Aa')
+speech_to_text = SpeechToTextV1(authenticator=authenticator)
+
+# define callback for the speech to text service
+class MyRecognizeCallback(RecognizeCallback):
+    def __init__(self):
+        RecognizeCallback.__init__(self)
+
+    def on_transcription(self, transcript):
+        print(transcript)
+
+    def on_connected(self):
+        print('Connection was successful')
+
+    def on_error(self, error):
+        print('Error received: {}'.format(error))
+
+    def on_inactivity_timeout(self, error):
+        print('Inactivity timeout: {}'.format(error))
+
+    def on_listening(self):
+        print('Service is listening')
+
+    def on_hypothesis(self, hypothesis):
+        print(hypothesis)
+
+    def on_data(self, data):
+        print(data)
+
+    def on_close(self):
+        print("Connection closed")
+
+# this function will initiate the recognize service and pass in the AudioSource
+def recognize_using_websocket(*args):
+    mycallback = MyRecognizeCallback()
+    speech_to_text.recognize_using_websocket(audio=audio_source,
+                                             content_type='audio/wav; rate=44100',
+                                             recognize_callback=mycallback,
+                                             interim_results=True,
+                                             profanity_filter=False,
+                                             inactivity_timeout=-1)
+
+
+#########################################################################
+#### Start the recording and start service to recognize the stream ######
+#########################################################################
+
+print("Enter CTRL+C to end recording...")
+
+
+try:
+    recognize_thread = Thread(target=recognize_using_websocket, args=())
+    recognize_thread.start()
+
+    while True:
+        data = sys.stdin.buffer.read(44100*2)
+        q.put(data)
+        pass
+except KeyboardInterrupt:
+    # stop recording
+    audio_source.completed_recording()
