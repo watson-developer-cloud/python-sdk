@@ -170,7 +170,7 @@ You supply either an IAM service **API key** or a **bearer token**:
 #### Supplying the API key
 ```python
 from ibm_watson import DiscoveryV1
-import from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 # In the constructor, letting the SDK manage the token
 authenticator = IAMAuthenticator('apikey',
