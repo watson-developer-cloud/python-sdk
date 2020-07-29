@@ -7275,17 +7275,61 @@ class MessageInput():
 
     :attr str text: (optional) The text of the user input. This string cannot
           contain carriage return, newline, or tab characters.
+    :attr bool spelling_suggestions: (optional) Whether to use spelling correction
+          when processing the input. This property overrides the value of the
+          **spelling_suggestions** property in the workspace settings.
+    :attr bool spelling_auto_correct: (optional) Whether to use autocorrection when
+          processing the input. If spelling correction is used and this property is
+          `false`, any suggested corrections are returned in the **suggested_text**
+          property of the message response. If this property is `true`, any corrections
+          are automatically applied to the user input, and the original text is returned
+          in the **original_text** property of the message response. This property
+          overrides the value of the **spelling_auto_correct** property in the workspace
+          settings.
+    :attr str suggested_text: (optional) Any suggested corrections of the input
+          text. This property is returned only if spelling correction is enabled and
+          autocorrection is disabled.
+    :attr str original_text: (optional) The original user input text. This property
+          is returned only if autocorrection is enabled and the user input was corrected.
     """
 
-    def __init__(self, *, text: str = None, **kwargs) -> None:
+    def __init__(self,
+                 *,
+                 text: str = None,
+                 spelling_suggestions: bool = None,
+                 spelling_auto_correct: bool = None,
+                 suggested_text: str = None,
+                 original_text: str = None,
+                 **kwargs) -> None:
         """
         Initialize a MessageInput object.
 
         :param str text: (optional) The text of the user input. This string cannot
                contain carriage return, newline, or tab characters.
+        :param bool spelling_suggestions: (optional) Whether to use spelling
+               correction when processing the input. This property overrides the value of
+               the **spelling_suggestions** property in the workspace settings.
+        :param bool spelling_auto_correct: (optional) Whether to use autocorrection
+               when processing the input. If spelling correction is used and this property
+               is `false`, any suggested corrections are returned in the
+               **suggested_text** property of the message response. If this property is
+               `true`, any corrections are automatically applied to the user input, and
+               the original text is returned in the **original_text** property of the
+               message response. This property overrides the value of the
+               **spelling_auto_correct** property in the workspace settings.
+        :param str suggested_text: (optional) Any suggested corrections of the
+               input text. This property is returned only if spelling correction is
+               enabled and autocorrection is disabled.
+        :param str original_text: (optional) The original user input text. This
+               property is returned only if autocorrection is enabled and the user input
+               was corrected.
         :param **kwargs: (optional) Any additional properties.
         """
         self.text = text
+        self.spelling_suggestions = spelling_suggestions
+        self.spelling_auto_correct = spelling_auto_correct
+        self.suggested_text = suggested_text
+        self.original_text = original_text
         for _key, _value in kwargs.items():
             setattr(self, _key, _value)
 
@@ -7297,6 +7341,18 @@ class MessageInput():
         if 'text' in _dict:
             args['text'] = _dict.get('text')
             del xtra['text']
+        if 'spelling_suggestions' in _dict:
+            args['spelling_suggestions'] = _dict.get('spelling_suggestions')
+            del xtra['spelling_suggestions']
+        if 'spelling_auto_correct' in _dict:
+            args['spelling_auto_correct'] = _dict.get('spelling_auto_correct')
+            del xtra['spelling_auto_correct']
+        if 'suggested_text' in _dict:
+            args['suggested_text'] = _dict.get('suggested_text')
+            del xtra['suggested_text']
+        if 'original_text' in _dict:
+            args['original_text'] = _dict.get('original_text')
+            del xtra['original_text']
         args.update(xtra)
         return cls(**args)
 
@@ -7310,6 +7366,16 @@ class MessageInput():
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
+        if hasattr(self, 'spelling_suggestions'
+                  ) and self.spelling_suggestions is not None:
+            _dict['spelling_suggestions'] = self.spelling_suggestions
+        if hasattr(self, 'spelling_auto_correct'
+                  ) and self.spelling_auto_correct is not None:
+            _dict['spelling_auto_correct'] = self.spelling_auto_correct
+        if hasattr(self, 'suggested_text') and self.suggested_text is not None:
+            _dict['suggested_text'] = self.suggested_text
+        if hasattr(self, 'original_text') and self.original_text is not None:
+            _dict['original_text'] = self.original_text
         if hasattr(self, '_additionalProperties'):
             for _key in self._additionalProperties:
                 _value = getattr(self, _key, None)
@@ -7322,7 +7388,10 @@ class MessageInput():
         return self.to_dict()
 
     def __setattr__(self, name: str, value: object) -> None:
-        properties = {'text'}
+        properties = {
+            'text', 'spelling_suggestions', 'spelling_auto_correct',
+            'suggested_text', 'original_text'
+        }
         if not hasattr(self, '_additionalProperties'):
             super(MessageInput, self).__setattr__('_additionalProperties',
                                                   set())
@@ -9872,6 +9941,14 @@ class WorkspaceSystemSettings():
           settings related to the disambiguation feature.
           **Note:** This feature is available only to Plus and Premium users.
     :attr dict human_agent_assist: (optional) For internal use only.
+    :attr bool spelling_suggestions: (optional) Whether spelling correction is
+          enabled for the workspace.
+    :attr bool spelling_auto_correct: (optional) Whether autocorrection is enabled
+          for the workspace. If spelling correction is enabled and this property is
+          `false`, any suggested corrections are returned in the **suggested_text**
+          property of the message response. If this property is `true`, any corrections
+          are automatically applied to the user input, and the original text is returned
+          in the **original_text** property of the message response.
     :attr WorkspaceSystemSettingsSystemEntities system_entities: (optional)
           Workspace settings related to the behavior of system entities.
     :attr WorkspaceSystemSettingsOffTopic off_topic: (optional) Workspace settings
@@ -9884,6 +9961,8 @@ class WorkspaceSystemSettings():
             tooling: 'WorkspaceSystemSettingsTooling' = None,
             disambiguation: 'WorkspaceSystemSettingsDisambiguation' = None,
             human_agent_assist: dict = None,
+            spelling_suggestions: bool = None,
+            spelling_auto_correct: bool = None,
             system_entities: 'WorkspaceSystemSettingsSystemEntities' = None,
             off_topic: 'WorkspaceSystemSettingsOffTopic' = None) -> None:
         """
@@ -9895,6 +9974,15 @@ class WorkspaceSystemSettings():
                Workspace settings related to the disambiguation feature.
                **Note:** This feature is available only to Plus and Premium users.
         :param dict human_agent_assist: (optional) For internal use only.
+        :param bool spelling_suggestions: (optional) Whether spelling correction is
+               enabled for the workspace.
+        :param bool spelling_auto_correct: (optional) Whether autocorrection is
+               enabled for the workspace. If spelling correction is enabled and this
+               property is `false`, any suggested corrections are returned in the
+               **suggested_text** property of the message response. If this property is
+               `true`, any corrections are automatically applied to the user input, and
+               the original text is returned in the **original_text** property of the
+               message response.
         :param WorkspaceSystemSettingsSystemEntities system_entities: (optional)
                Workspace settings related to the behavior of system entities.
         :param WorkspaceSystemSettingsOffTopic off_topic: (optional) Workspace
@@ -9903,6 +9991,8 @@ class WorkspaceSystemSettings():
         self.tooling = tooling
         self.disambiguation = disambiguation
         self.human_agent_assist = human_agent_assist
+        self.spelling_suggestions = spelling_suggestions
+        self.spelling_auto_correct = spelling_auto_correct
         self.system_entities = system_entities
         self.off_topic = off_topic
 
@@ -9912,7 +10002,8 @@ class WorkspaceSystemSettings():
         args = {}
         valid_keys = [
             'tooling', 'disambiguation', 'human_agent_assist',
-            'system_entities', 'off_topic'
+            'spelling_suggestions', 'spelling_auto_correct', 'system_entities',
+            'off_topic'
         ]
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
@@ -9928,6 +10019,10 @@ class WorkspaceSystemSettings():
                     _dict.get('disambiguation'))
         if 'human_agent_assist' in _dict:
             args['human_agent_assist'] = _dict.get('human_agent_assist')
+        if 'spelling_suggestions' in _dict:
+            args['spelling_suggestions'] = _dict.get('spelling_suggestions')
+        if 'spelling_auto_correct' in _dict:
+            args['spelling_auto_correct'] = _dict.get('spelling_auto_correct')
         if 'system_entities' in _dict:
             args[
                 'system_entities'] = WorkspaceSystemSettingsSystemEntities._from_dict(
@@ -9953,6 +10048,12 @@ class WorkspaceSystemSettings():
                 self,
                 'human_agent_assist') and self.human_agent_assist is not None:
             _dict['human_agent_assist'] = self.human_agent_assist
+        if hasattr(self, 'spelling_suggestions'
+                  ) and self.spelling_suggestions is not None:
+            _dict['spelling_suggestions'] = self.spelling_suggestions
+        if hasattr(self, 'spelling_auto_correct'
+                  ) and self.spelling_auto_correct is not None:
+            _dict['spelling_auto_correct'] = self.spelling_auto_correct
         if hasattr(self,
                    'system_entities') and self.system_entities is not None:
             _dict['system_entities'] = self.system_entities._to_dict()
