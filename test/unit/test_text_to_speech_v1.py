@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2015, 2020.
+# (C) Copyright IBM Corp. 2020.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import responses
 import ibm_watson.text_to_speech_v1
 from ibm_watson.text_to_speech_v1 import *
 
-base_url = 'https://stream.watsonplatform.net/text-to-speech/api'
+base_url = 'https://api.us-south.text-to-speech.watson.cloud.ibm.com'
 
 ##############################################################################
 # Start of Service: Voices

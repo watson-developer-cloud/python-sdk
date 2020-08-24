@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2018, 2020.
+# (C) Copyright IBM Corp. 2020.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,7 +23,84 @@ import tempfile
 import ibm_watson.language_translator_v3
 from ibm_watson.language_translator_v3 import *
 
-base_url = 'https://gateway.watsonplatform.net/language-translator/api'
+base_url = 'https://api.us-south.language-translator.watson.cloud.ibm.com'
+
+##############################################################################
+# Start of Service: Languages
+##############################################################################
+# region
+
+#-----------------------------------------------------------------------------
+# Test Class for list_languages
+#-----------------------------------------------------------------------------
+class TestListLanguages():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_languages_response(self):
+        body = self.construct_full_body()
+        response = fake_response_Languages_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_languages_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_Languages_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_languages_empty(self):
+        check_empty_response(self)
+        assert len(responses.calls) == 1
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v3/languages'
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = LanguageTranslatorV3(
+            authenticator=NoAuthAuthenticator(),
+            version='2018-05-01',
+            )
+        service.set_service_url(base_url)
+        output = service.list_languages(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        return body
+
+
+# endregion
+##############################################################################
+# End of Service: Languages
+##############################################################################
 
 ##############################################################################
 # Start of Service: Translation
@@ -974,6 +1051,7 @@ def send_request(obj, body, response, url=None):
 ####################
 
 fake_response__json = None
+fake_response_Languages_json = """{"languages": []}"""
 fake_response_TranslationResult_json = """{"word_count": 10, "character_count": 15, "detected_language": "fake_detected_language", "detected_language_confidence": 28, "translations": []}"""
 fake_response_IdentifiableLanguages_json = """{"languages": []}"""
 fake_response_IdentifiedLanguages_json = """{"languages": []}"""

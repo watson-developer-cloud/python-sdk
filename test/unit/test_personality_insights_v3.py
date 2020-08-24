@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2018, 2020.
+# (C) Copyright IBM Corp. 2020.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import responses
 import ibm_watson.personality_insights_v3
 from ibm_watson.personality_insights_v3 import *
 
-base_url = 'https://gateway.watsonplatform.net/personality-insights/api'
+base_url = 'https://api.us-south.personality-insights.watson.cloud.ibm.com'
 
 ##############################################################################
 # Start of Service: Methods

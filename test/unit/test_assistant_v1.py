@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2018, 2020.
+# (C) Copyright IBM Corp. 2020.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@ import responses
 import ibm_watson.assistant_v1
 from ibm_watson.assistant_v1 import *
 
-base_url = 'https://gateway.watsonplatform.net/assistant/api'
+base_url = 'https://api.us-south.assistant.watson.cloud.ibm.com'
 
 ##############################################################################
 # Start of Service: Message

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2018, 2020.
+# (C) Copyright IBM Corp. 2020.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import responses
 import ibm_watson.assistant_v2
 from ibm_watson.assistant_v2 import *
 
-base_url = 'https://gateway.watsonplatform.net/assistant/api'
+base_url = 'https://api.us-south.assistant.watson.cloud.ibm.com'
 
 ##############################################################################
 # Start of Service: Sessions
@@ -329,6 +329,170 @@ class TestMessageStateless():
 # End of Service: Message
 ##############################################################################
 
+##############################################################################
+# Start of Service: Logs
+##############################################################################
+# region
+
+#-----------------------------------------------------------------------------
+# Test Class for list_logs
+#-----------------------------------------------------------------------------
+class TestListLogs():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_logs_response(self):
+        body = self.construct_full_body()
+        response = fake_response_LogCollection_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_logs_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_LogCollection_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_logs_empty(self):
+        check_empty_required_params(self, fake_response_LogCollection_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v2/assistants/{0}/logs'.format(body['assistant_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = AssistantV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2020-04-01',
+            )
+        service.set_service_url(base_url)
+        output = service.list_logs(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['assistant_id'] = "string1"
+        body['sort'] = "string1"
+        body['filter'] = "string1"
+        body['page_limit'] = 12345
+        body['cursor'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['assistant_id'] = "string1"
+        return body
+
+
+# endregion
+##############################################################################
+# End of Service: Logs
+##############################################################################
+
+##############################################################################
+# Start of Service: UserData
+##############################################################################
+# region
+
+#-----------------------------------------------------------------------------
+# Test Class for delete_user_data
+#-----------------------------------------------------------------------------
+class TestDeleteUserData():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_user_data_response(self):
+        body = self.construct_full_body()
+        response = fake_response__json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_user_data_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response__json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_user_data_empty(self):
+        check_empty_required_params(self, fake_response__json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v2/user_data'
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.DELETE,
+                    url,
+                    body=json.dumps(response),
+                    status=202,
+                    content_type='')
+    
+    def call_service(self, body):
+        service = AssistantV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2020-04-01',
+            )
+        service.set_service_url(base_url)
+        output = service.delete_user_data(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['customer_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['customer_id'] = "string1"
+        return body
+
+
+# endregion
+##############################################################################
+# End of Service: UserData
+##############################################################################
+
 
 def check_empty_required_params(obj, response):
     """Test function to assert that the operation will throw an error when given empty required data
@@ -397,3 +561,4 @@ fake_response__json = None
 fake_response_SessionResponse_json = """{"session_id": "fake_session_id"}"""
 fake_response_MessageResponse_json = """{"output": {"generic": [], "intents": [], "entities": [], "actions": [], "debug": {"nodes_visited": [], "log_messages": [], "branch_exited": false, "branch_exited_reason": "fake_branch_exited_reason"}, "spelling": {"text": "fake_text", "original_text": "fake_original_text", "suggested_text": "fake_suggested_text"}}, "context": {"global": {"system": {"timezone": "fake_timezone", "user_id": "fake_user_id", "turn_count": 10, "locale": "fake_locale", "reference_time": "fake_reference_time"}, "session_id": "fake_session_id"}, "skills": {}}}"""
 fake_response_MessageResponseStateless_json = """{"output": {"generic": [], "intents": [], "entities": [], "actions": [], "debug": {"nodes_visited": [], "log_messages": [], "branch_exited": false, "branch_exited_reason": "fake_branch_exited_reason"}, "spelling": {"text": "fake_text", "original_text": "fake_original_text", "suggested_text": "fake_suggested_text"}}, "context": {"global": {"system": {"timezone": "fake_timezone", "user_id": "fake_user_id", "turn_count": 10, "locale": "fake_locale", "reference_time": "fake_reference_time"}, "session_id": "fake_session_id"}, "skills": {}}}"""
+fake_response_LogCollection_json = """{"logs": [], "pagination": {"next_url": "fake_next_url", "matched": 7, "next_cursor": "fake_next_cursor"}}"""
