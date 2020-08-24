@@ -51,7 +51,7 @@ from typing import List
 class PersonalityInsightsV3(BaseService):
     """The Personality Insights V3 service."""
 
-    DEFAULT_SERVICE_URL = 'https://gateway.watsonplatform.net/personality-insights/api'
+    DEFAULT_SERVICE_URL = 'https://api.us-south.personality-insights.watson.cloud.ibm.com'
     DEFAULT_SERVICE_NAME = 'personality_insights'
 
     def __init__(

@@ -14,12 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-The IBM&reg; Speech to Text service provides APIs that use IBM's speech-recognition
-capabilities to produce transcripts of spoken audio. The service can transcribe speech
-from various languages and audio formats. In addition to basic transcription, the service
-can produce detailed information about many different aspects of the audio. For most
-languages, the service supports two sampling rates, broadband and narrowband. It returns
-all JSON response content in the UTF-8 character set.
+The IBM Watson&trade; Speech to Text service provides APIs that use IBM's
+speech-recognition capabilities to produce transcripts of spoken audio. The service can
+transcribe speech from various languages and audio formats. In addition to basic
+transcription, the service can produce detailed information about many different aspects
+of the audio. For most languages, the service supports two sampling rates, broadband and
+narrowband. It returns all JSON response content in the UTF-8 character set.
 For speech recognition, the service supports synchronous and asynchronous HTTP
 Representational State Transfer (REST) interfaces. It also supports a WebSocket interface
 that provides a full-duplex, low-latency communication channel: Clients send requests and
@@ -53,7 +53,7 @@ from typing import List
 class SpeechToTextV1(BaseService):
     """The Speech to Text V1 service."""
 
-    DEFAULT_SERVICE_URL = 'https://stream.watsonplatform.net/speech-to-text/api'
+    DEFAULT_SERVICE_URL = 'https://api.us-south.speech-to-text.watson.cloud.ibm.com'
     DEFAULT_SERVICE_NAME = 'speech_to_text'
 
     def __init__(
@@ -86,7 +86,8 @@ class SpeechToTextV1(BaseService):
 
         Lists all language models that are available for use with the service. The
         information includes the name of the model and its minimum sampling rate in Hertz,
-        among other things.
+        among other things. The ordering of the list of models can change from call to
+        call; do not rely on an alphabetized or static list of models.
         **See also:** [Languages and
         models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models#models).
 
@@ -358,11 +359,9 @@ class SpeechToTextV1(BaseService):
                multi-person exchange. By default, the service returns no speaker labels.
                Setting `speaker_labels` to `true` forces the `timestamps` parameter to be
                `true`, regardless of whether you specify `false` for the parameter.
-               **Note:** Applies to US English, German, Japanese, Korean, and Spanish
-               (both broadband and narrowband models) and UK English (narrowband model)
-               transcription only. To determine whether a language model supports speaker
-               labels, you can also use the **Get a model** method and check that the
-               attribute `speaker_labels` is set to `true`.
+               **Note:** Applies to US English, Australian English, German, Japanese,
+               Korean, and Spanish (both broadband and narrowband models) and UK English
+               (narrowband model) transcription only.
                See [Speaker
                labels](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#speaker_labels).
         :param str customization_id: (optional) **Deprecated.** Use the
@@ -512,9 +511,9 @@ class SpeechToTextV1(BaseService):
         Register a callback.
 
         Registers a callback URL with the service for use with subsequent asynchronous
-        recognition requests. The service attempts to register, or white-list, the
-        callback URL if it is not already registered by sending a `GET` request to the
-        callback URL. The service passes a random alphanumeric challenge string via the
+        recognition requests. The service attempts to register, or allowlist, the callback
+        URL if it is not already registered by sending a `GET` request to the callback
+        URL. The service passes a random alphanumeric challenge string via the
         `challenge_string` parameter of the request. The request includes an `Accept`
         header that specifies `text/plain` as the required response type.
         To be registered successfully, the callback URL must respond to the `GET` request
@@ -524,9 +523,9 @@ class SpeechToTextV1(BaseService):
         registration request with response code 201.
         The service sends only a single `GET` request to the callback URL. If the service
         does not receive a reply with a response code of 200 and a body that echoes the
-        challenge string sent by the service within five seconds, it does not white-list
+        challenge string sent by the service within five seconds, it does not allowlist
         the URL; it instead sends status code 400 in response to the **Register a
-        callback** request. If the requested callback URL is already white-listed, the
+        callback** request. If the requested callback URL is already allowlisted, the
         service responds to the initial registration request with response code 200.
         If you specify a user secret with the request, the service uses it as a key to
         calculate an HMAC-SHA1 signature of the challenge string in its response to the
@@ -542,7 +541,7 @@ class SpeechToTextV1(BaseService):
         URL](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-async#register).
 
         :param str callback_url: An HTTP or HTTPS URL to which callback
-               notifications are to be sent. To be white-listed, the URL must successfully
+               notifications are to be sent. To be allowlisted, the URL must successfully
                echo the challenge string during URL verification. During verification, the
                client can also check the signature that the service sends in the
                `X-Callback-Signature` header to verify the origin of the request.
@@ -584,7 +583,7 @@ class SpeechToTextV1(BaseService):
         """
         Unregister a callback.
 
-        Unregisters a callback URL that was previously white-listed with a **Register a
+        Unregisters a callback URL that was previously allowlisted with a **Register a
         callback** request for use with the asynchronous interface. Once unregistered, the
         URL can no longer be used with asynchronous recognition requests.
         **See also:** [Unregistering a callback
@@ -746,7 +745,7 @@ class SpeechToTextV1(BaseService):
                for the recognition request. See [Languages and
                models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models#models).
         :param str callback_url: (optional) A URL to which callback notifications
-               are to be sent. The URL must already be successfully white-listed by using
+               are to be sent. The URL must already be successfully allowlisted by using
                the **Register a callback** method. You can include the same callback URL
                with any number of job creation requests. Omit the parameter to poll the
                service for job completion and results.
@@ -884,11 +883,9 @@ class SpeechToTextV1(BaseService):
                multi-person exchange. By default, the service returns no speaker labels.
                Setting `speaker_labels` to `true` forces the `timestamps` parameter to be
                `true`, regardless of whether you specify `false` for the parameter.
-               **Note:** Applies to US English, German, Japanese, Korean, and Spanish
-               (both broadband and narrowband models) and UK English (narrowband model)
-               transcription only. To determine whether a language model supports speaker
-               labels, you can also use the **Get a model** method and check that the
-               attribute `speaker_labels` is set to `true`.
+               **Note:** Applies to US English, Australian English, German, Japanese,
+               Korean, and Spanish (both broadband and narrowband models) and UK English
+               (narrowband model) transcription only.
                See [Speaker
                labels](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#speaker_labels).
         :param str customization_id: (optional) **Deprecated.** Use the
@@ -1277,9 +1274,11 @@ class SpeechToTextV1(BaseService):
         models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-manageLanguageModels#listModels-language).
 
         :param str language: (optional) The identifier of the language for which
-               custom language or custom acoustic models are to be returned (for example,
-               `en-US`). Omit the parameter to see all custom language or custom acoustic
-               models that are owned by the requesting credentials.
+               custom language or custom acoustic models are to be returned. Omit the
+               parameter to see all custom language or custom acoustic models that are
+               owned by the requesting credentials. **Note:** The `ar-AR` (Modern Standard
+               Arabic) and `zh-CN` (Mandarin Chinese) languages are not available for
+               language model customization.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2540,9 +2539,11 @@ class SpeechToTextV1(BaseService):
         models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-manageAcousticModels#listModels-acoustic).
 
         :param str language: (optional) The identifier of the language for which
-               custom language or custom acoustic models are to be returned (for example,
-               `en-US`). Omit the parameter to see all custom language or custom acoustic
-               models that are owned by the requesting credentials.
+               custom language or custom acoustic models are to be returned. Omit the
+               parameter to see all custom language or custom acoustic models that are
+               owned by the requesting credentials. **Note:** The `ar-AR` (Modern Standard
+               Arabic) and `zh-CN` (Mandarin Chinese) languages are not available for
+               language model customization.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -3212,9 +3213,14 @@ class SpeechToTextV1(BaseService):
         deletes all data for the customer ID, regardless of the method by which the
         information was added. The method has no effect if no data is associated with the
         customer ID. You must issue the request with credentials for the same instance of
-        the service that was used to associate the customer ID with the data.
-        You associate a customer ID with data by passing the `X-Watson-Metadata` header
-        with a request that passes the data.
+        the service that was used to associate the customer ID with the data. You
+        associate a customer ID with data by passing the `X-Watson-Metadata` header with a
+        request that passes the data.
+        **Note:** If you delete an instance of the service from the service console, all
+        data associated with that service instance is automatically deleted. This includes
+        all custom language models, corpora, grammars, and words; all custom acoustic
+        models and audio resources; all registered endpoints for the asynchronous HTTP
+        interface; and all data related to speech recognition requests.
         **See also:** [Information
         security](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-information-security#information-security).
 
@@ -3258,6 +3264,8 @@ class GetModelEnums(object):
         AR_AR_BROADBANDMODEL = 'ar-AR_BroadbandModel'
         DE_DE_BROADBANDMODEL = 'de-DE_BroadbandModel'
         DE_DE_NARROWBANDMODEL = 'de-DE_NarrowbandModel'
+        EN_AU_BROADBANDMODEL = 'en-AU_BroadbandModel'
+        EN_AU_NARROWBANDMODEL = 'en-AU_NarrowbandModel'
         EN_GB_BROADBANDMODEL = 'en-GB_BroadbandModel'
         EN_GB_NARROWBANDMODEL = 'en-GB_NarrowbandModel'
         EN_US_BROADBANDMODEL = 'en-US_BroadbandModel'
@@ -3324,6 +3332,8 @@ class RecognizeEnums(object):
         AR_AR_BROADBANDMODEL = 'ar-AR_BroadbandModel'
         DE_DE_BROADBANDMODEL = 'de-DE_BroadbandModel'
         DE_DE_NARROWBANDMODEL = 'de-DE_NarrowbandModel'
+        EN_AU_BROADBANDMODEL = 'en-AU_BroadbandModel'
+        EN_AU_NARROWBANDMODEL = 'en-AU_NarrowbandModel'
         EN_GB_BROADBANDMODEL = 'en-GB_BroadbandModel'
         EN_GB_NARROWBANDMODEL = 'en-GB_NarrowbandModel'
         EN_US_BROADBANDMODEL = 'en-US_BroadbandModel'
@@ -3390,6 +3400,8 @@ class CreateJobEnums(object):
         AR_AR_BROADBANDMODEL = 'ar-AR_BroadbandModel'
         DE_DE_BROADBANDMODEL = 'de-DE_BroadbandModel'
         DE_DE_NARROWBANDMODEL = 'de-DE_NarrowbandModel'
+        EN_AU_BROADBANDMODEL = 'en-AU_BroadbandModel'
+        EN_AU_NARROWBANDMODEL = 'en-AU_NarrowbandModel'
         EN_GB_BROADBANDMODEL = 'en-GB_BroadbandModel'
         EN_GB_NARROWBANDMODEL = 'en-GB_NarrowbandModel'
         EN_US_BROADBANDMODEL = 'en-US_BroadbandModel'
@@ -3446,6 +3458,35 @@ class CreateJobEnums(object):
         RECOGNITIONS_COMPLETED = 'recognitions.completed'
         RECOGNITIONS_COMPLETED_WITH_RESULTS = 'recognitions.completed_with_results'
         RECOGNITIONS_FAILED = 'recognitions.failed'
+
+
+class ListLanguageModelsEnums(object):
+
+    class Language(Enum):
+        """
+        The identifier of the language for which custom language or custom acoustic models
+        are to be returned. Omit the parameter to see all custom language or custom
+        acoustic models that are owned by the requesting credentials. **Note:** The
+        `ar-AR` (Modern Standard Arabic) and `zh-CN` (Mandarin Chinese) languages are not
+        available for language model customization.
+        """
+        AR_AR = 'ar-AR'
+        DE_DE = 'de-DE'
+        EN_GB = 'en-GB'
+        EN_US = 'en-US'
+        ES_AR = 'es-AR'
+        ES_ES = 'es-ES'
+        ES_CL = 'es-CL'
+        ES_CO = 'es-CO'
+        ES_MX = 'es-MX'
+        ES_PE = 'es-PE'
+        FR_FR = 'fr-FR'
+        IT_IT = 'it-IT'
+        JA_JP = 'ja-JP'
+        KO_KR = 'ko-KR'
+        NL_NL = 'nl-NL'
+        PT_BR = 'pt-BR'
+        ZH_CN = 'zh-CN'
 
 
 class TrainLanguageModelEnums(object):
@@ -3506,6 +3547,35 @@ class AddGrammarEnums(object):
         """
         APPLICATION_SRGS = 'application/srgs'
         APPLICATION_SRGS_XML = 'application/srgs+xml'
+
+
+class ListAcousticModelsEnums(object):
+
+    class Language(Enum):
+        """
+        The identifier of the language for which custom language or custom acoustic models
+        are to be returned. Omit the parameter to see all custom language or custom
+        acoustic models that are owned by the requesting credentials. **Note:** The
+        `ar-AR` (Modern Standard Arabic) and `zh-CN` (Mandarin Chinese) languages are not
+        available for language model customization.
+        """
+        AR_AR = 'ar-AR'
+        DE_DE = 'de-DE'
+        EN_GB = 'en-GB'
+        EN_US = 'en-US'
+        ES_AR = 'es-AR'
+        ES_ES = 'es-ES'
+        ES_CL = 'es-CL'
+        ES_CO = 'es-CO'
+        ES_MX = 'es-MX'
+        ES_PE = 'es-PE'
+        FR_FR = 'fr-FR'
+        IT_IT = 'it-IT'
+        JA_JP = 'ja-JP'
+        KO_KR = 'ko-KR'
+        NL_NL = 'nl-NL'
+        PT_BR = 'pt-BR'
+        ZH_CN = 'zh-CN'
 
 
 class AddAudioEnums(object):
@@ -6397,9 +6467,9 @@ class RegisterStatus():
     recognition.
 
     :attr str status: The current status of the job:
-          * `created`: The service successfully white-listed the callback URL as a result
+          * `created`: The service successfully allowlisted the callback URL as a result
           of the call.
-          * `already created`: The URL was already white-listed.
+          * `already created`: The URL was already allowlisted.
     :attr str url: The callback URL that is successfully registered.
     """
 
@@ -6408,9 +6478,9 @@ class RegisterStatus():
         Initialize a RegisterStatus object.
 
         :param str status: The current status of the job:
-               * `created`: The service successfully white-listed the callback URL as a
+               * `created`: The service successfully allowlisted the callback URL as a
                result of the call.
-               * `already created`: The URL was already white-listed.
+               * `already created`: The URL was already allowlisted.
         :param str url: The callback URL that is successfully registered.
         """
         self.status = status
@@ -6474,9 +6544,9 @@ class RegisterStatus():
     class StatusEnum(Enum):
         """
         The current status of the job:
-        * `created`: The service successfully white-listed the callback URL as a result of
+        * `created`: The service successfully allowlisted the callback URL as a result of
         the call.
-        * `already created`: The URL was already white-listed.
+        * `already created`: The URL was already allowlisted.
         """
         CREATED = "created"
         ALREADY_CREATED = "already created"
@@ -7290,6 +7360,10 @@ class SupportedFeatures():
           can be used to create a custom language model based on the language model.
     :attr bool speaker_labels: Indicates whether the `speaker_labels` parameter can
           be used with the language model.
+          **Note:** The field returns `true` for all models. However, speaker labels are
+          supported only for US English, Australian English, German, Japanese, Korean, and
+          Spanish (both broadband and narrowband models) and UK English (narrowband model
+          only). Speaker labels are not supported for any other models.
     """
 
     def __init__(self, custom_language_model: bool,
@@ -7302,6 +7376,11 @@ class SupportedFeatures():
                language model.
         :param bool speaker_labels: Indicates whether the `speaker_labels`
                parameter can be used with the language model.
+               **Note:** The field returns `true` for all models. However, speaker labels
+               are supported only for US English, Australian English, German, Japanese,
+               Korean, and Spanish (both broadband and narrowband models) and UK English
+               (narrowband model only). Speaker labels are not supported for any other
+               models.
         """
         self.custom_language_model = custom_language_model
         self.speaker_labels = speaker_labels

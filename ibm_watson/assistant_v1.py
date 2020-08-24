@@ -41,7 +41,7 @@ from typing import List
 class AssistantV1(BaseService):
     """The Assistant V1 service."""
 
-    DEFAULT_SERVICE_URL = 'https://gateway.watsonplatform.net/assistant/api'
+    DEFAULT_SERVICE_URL = 'https://api.us-south.assistant.watson.cloud.ibm.com'
     DEFAULT_SERVICE_NAME = 'assistant'
 
     def __init__(
@@ -100,7 +100,6 @@ class AssistantV1(BaseService):
         API offers significant advantages, including ease of deployment, automatic state
         management, versioning, and search capabilities. For more information, see the
         [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-api-overview).
-        There is no rate limit for this operation.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param MessageInput input: (optional) An input object that includes the
@@ -189,8 +188,6 @@ class AssistantV1(BaseService):
         List workspaces.
 
         List the workspaces associated with a Watson Assistant service instance.
-        This operation is limited to 500 requests per 30 minutes. For more information,
-        see **Rate limiting**.
 
         :param int page_limit: (optional) The number of records to return in each
                page of results.
@@ -251,8 +248,6 @@ class AssistantV1(BaseService):
 
         Create a workspace based on component objects. You must provide workspace
         components defining the content of the new workspace.
-        This operation is limited to 30 requests per 30 minutes. For more information, see
-        **Rate limiting**.
 
         :param str name: (optional) The name of the workspace. This string cannot
                contain carriage return, newline, or tab characters.
@@ -340,9 +335,6 @@ class AssistantV1(BaseService):
         Get information about a workspace.
 
         Get information about a workspace, optionally including all workspace content.
-        With **export**=`false`, this operation is limited to 6000 requests per 5 minutes.
-        With **export**=`true`, the limit is 20 requests per 30 minutes. For more
-        information, see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param bool export: (optional) Whether to include all element content in
@@ -409,8 +401,6 @@ class AssistantV1(BaseService):
 
         Update an existing workspace with new or modified data. You must provide component
         objects defining the content of the updated workspace.
-        This operation is limited to 30 request per 30 minutes. For more information, see
-        **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str name: (optional) The name of the workspace. This string cannot
@@ -509,8 +499,6 @@ class AssistantV1(BaseService):
         Delete workspace.
 
         Delete a workspace from the service instance.
-        This operation is limited to 30 requests per 30 minutes. For more information, see
-        **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param dict headers: A `dict` containing the request headers
@@ -557,9 +545,6 @@ class AssistantV1(BaseService):
         List intents.
 
         List the intents for a workspace.
-        With **export**=`false`, this operation is limited to 2000 requests per 30
-        minutes. With **export**=`true`, the limit is 400 requests per 30 minutes. For
-        more information, see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param bool export: (optional) Whether to include all element content in
@@ -624,8 +609,6 @@ class AssistantV1(BaseService):
         Create a new intent.
         If you want to create multiple intents with a single API call, consider using the
         **[Update workspace](#update-workspace)** method instead.
-        This operation is limited to 2000 requests per 30 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str intent: The name of the intent. This string must conform to the
@@ -689,9 +672,6 @@ class AssistantV1(BaseService):
         Get intent.
 
         Get information about an intent, optionally including all intent content.
-        With **export**=`false`, this operation is limited to 6000 requests per 5 minutes.
-        With **export**=`true`, the limit is 400 requests per 30 minutes. For more
-        information, see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str intent: The intent name.
@@ -752,8 +732,6 @@ class AssistantV1(BaseService):
         objects defining the content of the updated intent.
         If you want to update multiple intents with a single API call, consider using the
         **[Update workspace](#update-workspace)** method instead.
-        This operation is limited to 2000 requests per 30 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str intent: The intent name.
@@ -826,8 +804,6 @@ class AssistantV1(BaseService):
         Delete intent.
 
         Delete an intent from a workspace.
-        This operation is limited to 2000 requests per 30 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str intent: The intent name.
@@ -879,8 +855,6 @@ class AssistantV1(BaseService):
 
         List the user input examples for an intent, optionally including contextual entity
         mentions.
-        This operation is limited to 2500 requests per 30 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str intent: The intent name.
@@ -943,8 +917,6 @@ class AssistantV1(BaseService):
         Add a new user input example to an intent.
         If you want to add multiple examples with a single API call, consider using the
         **[Update intent](#update-intent)** method instead.
-        This operation is limited to 1000 requests per 30 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str intent: The intent name.
@@ -1004,8 +976,6 @@ class AssistantV1(BaseService):
         Get user input example.
 
         Get information about a user input example.
-        This operation is limited to 6000 requests per 5 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str intent: The intent name.
@@ -1059,8 +1029,6 @@ class AssistantV1(BaseService):
         Update the text of a user input example.
         If you want to update multiple examples with a single API call, consider using the
         **[Update intent](#update-intent)** method instead.
-        This operation is limited to 1000 requests per 30 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str intent: The intent name.
@@ -1116,8 +1084,6 @@ class AssistantV1(BaseService):
         Delete user input example.
 
         Delete a user input example from an intent.
-        This operation is limited to 1000 requests per 30 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str intent: The intent name.
@@ -1171,8 +1137,6 @@ class AssistantV1(BaseService):
 
         List the counterexamples for a workspace. Counterexamples are examples that have
         been marked as irrelevant input.
-        This operation is limited to 2500 requests per 30 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param int page_limit: (optional) The number of records to return in each
@@ -1231,8 +1195,6 @@ class AssistantV1(BaseService):
         been marked as irrelevant input.
         If you want to add multiple counterexamples with a single API call, consider using
         the **[Update workspace](#update-workspace)** method instead.
-        This operation is limited to 1000 requests per 30 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str text: The text of a user input marked as irrelevant input. This
@@ -1285,8 +1247,6 @@ class AssistantV1(BaseService):
 
         Get information about a counterexample. Counterexamples are examples that have
         been marked as irrelevant input.
-        This operation is limited to 6000 requests per 5 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str text: The text of a user input counterexample (for example,
@@ -1335,10 +1295,6 @@ class AssistantV1(BaseService):
 
         Update the text of a counterexample. Counterexamples are examples that have been
         marked as irrelevant input.
-        If you want to update multiple counterexamples with a single API call, consider
-        using the **[Update workspace](#update-workspace)** method instead.
-        This operation is limited to 1000 requests per 30 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str text: The text of a user input counterexample (for example,
@@ -1389,8 +1345,6 @@ class AssistantV1(BaseService):
 
         Delete a counterexample from a workspace. Counterexamples are examples that have
         been marked as irrelevant input.
-        This operation is limited to 1000 requests per 30 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str text: The text of a user input counterexample (for example,
@@ -1442,9 +1396,6 @@ class AssistantV1(BaseService):
         List entities.
 
         List the entities for a workspace.
-        With **export**=`false`, this operation is limited to 1000 requests per 30
-        minutes. With **export**=`true`, the limit is 200 requests per 30 minutes. For
-        more information, see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param bool export: (optional) Whether to include all element content in
@@ -1511,8 +1462,6 @@ class AssistantV1(BaseService):
         Create a new entity, or enable a system entity.
         If you want to create multiple entities with a single API call, consider using the
         **[Update workspace](#update-workspace)** method instead.
-        This operation is limited to 1000 requests per 30 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity. This string must conform to the
@@ -1583,9 +1532,6 @@ class AssistantV1(BaseService):
         Get entity.
 
         Get information about an entity, optionally including all entity content.
-        With **export**=`false`, this operation is limited to 6000 requests per 5 minutes.
-        With **export**=`true`, the limit is 200 requests per 30 minutes. For more
-        information, see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
@@ -1648,8 +1594,6 @@ class AssistantV1(BaseService):
         objects defining the content of the updated entity.
         If you want to update multiple entities with a single API call, consider using the
         **[Update workspace](#update-workspace)** method instead.
-        This operation is limited to 1000 requests per 30 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
@@ -1727,8 +1671,6 @@ class AssistantV1(BaseService):
         Delete entity.
 
         Delete an entity from a workspace, or disable a system entity.
-        This operation is limited to 1000 requests per 30 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
@@ -1778,8 +1720,6 @@ class AssistantV1(BaseService):
 
         List mentions for a contextual entity. An entity mention is an occurrence of a
         contextual entity in the context of an intent user input example.
-        This operation is limited to 200 requests per 30 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
@@ -1841,8 +1781,6 @@ class AssistantV1(BaseService):
         List entity values.
 
         List the values for an entity.
-        This operation is limited to 2500 requests per 30 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
@@ -1913,8 +1851,6 @@ class AssistantV1(BaseService):
         Create a new value for an entity.
         If you want to create multiple entity values with a single API call, consider
         using the **[Update entity](#update-entity)** method instead.
-        This operation is limited to 1000 requests per 30 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
@@ -1990,8 +1926,6 @@ class AssistantV1(BaseService):
         Get entity value.
 
         Get information about an entity value.
-        This operation is limited to 6000 requests per 5 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
@@ -2058,8 +1992,6 @@ class AssistantV1(BaseService):
         component objects defining the content of the updated entity value.
         If you want to update multiple entity values with a single API call, consider
         using the **[Update entity](#update-entity)** method instead.
-        This operation is limited to 1000 requests per 30 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
@@ -2145,8 +2077,6 @@ class AssistantV1(BaseService):
         Delete entity value.
 
         Delete a value from an entity.
-        This operation is limited to 1000 requests per 30 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
@@ -2201,8 +2131,6 @@ class AssistantV1(BaseService):
         List entity value synonyms.
 
         List the synonyms for an entity value.
-        This operation is limited to 2500 requests per 30 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
@@ -2269,8 +2197,6 @@ class AssistantV1(BaseService):
         If you want to create multiple synonyms with a single API call, consider using the
         **[Update entity](#update-entity)** or **[Update entity
         value](#update-entity-value)** method instead.
-        This operation is limited to 1000 requests per 30 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
@@ -2330,8 +2256,6 @@ class AssistantV1(BaseService):
         Get entity value synonym.
 
         Get information about a synonym of an entity value.
-        This operation is limited to 6000 requests per 5 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
@@ -2389,8 +2313,6 @@ class AssistantV1(BaseService):
         If you want to update multiple synonyms with a single API call, consider using the
         **[Update entity](#update-entity)** or **[Update entity
         value](#update-entity-value)** method instead.
-        This operation is limited to 1000 requests per 30 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
@@ -2445,8 +2367,6 @@ class AssistantV1(BaseService):
         Delete entity value synonym.
 
         Delete a synonym from an entity value.
-        This operation is limited to 1000 requests per 30 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str entity: The name of the entity.
@@ -2502,8 +2422,6 @@ class AssistantV1(BaseService):
         List dialog nodes.
 
         List the dialog nodes for a workspace.
-        This operation is limited to 2500 requests per 30 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param int page_limit: (optional) The number of records to return in each
@@ -2579,8 +2497,6 @@ class AssistantV1(BaseService):
         Create a new dialog node.
         If you want to create multiple dialog nodes with a single API call, consider using
         the **[Update workspace](#update-workspace)** method instead.
-        This operation is limited to 500 requests per 30 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str dialog_node: The dialog node ID. This string must conform to the
@@ -2696,8 +2612,6 @@ class AssistantV1(BaseService):
         Get dialog node.
 
         Get information about a dialog node.
-        This operation is limited to 6000 requests per 5 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str dialog_node: The dialog node ID (for example, `get_order`).
@@ -2764,8 +2678,6 @@ class AssistantV1(BaseService):
         Update an existing dialog node with new or modified data.
         If you want to update multiple dialog nodes with a single API call, consider using
         the **[Update workspace](#update-workspace)** method instead.
-        This operation is limited to 500 requests per 30 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str dialog_node: The dialog node ID (for example, `get_order`).
@@ -2879,8 +2791,6 @@ class AssistantV1(BaseService):
         Delete dialog node.
 
         Delete a dialog node from a workspace.
-        This operation is limited to 500 requests per 30 minutes. For more information,
-        see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str dialog_node: The dialog node ID (for example, `get_order`).
@@ -2930,9 +2840,6 @@ class AssistantV1(BaseService):
         List log events in a workspace.
 
         List the events from the log of a specific workspace.
-        If **cursor** is not specified, this operation is limited to 40 requests per 30
-        minutes. If **cursor** is specified, the limit is 120 requests per minute. For
-        more information, see **Rate limiting**.
 
         :param str workspace_id: Unique identifier of the workspace.
         :param str sort: (optional) How to sort the returned log events. You can
@@ -2990,9 +2897,6 @@ class AssistantV1(BaseService):
         List log events in all workspaces.
 
         List the events from the logs of all workspaces in the service instance.
-        If **cursor** is not specified, this operation is limited to 40 requests per 30
-        minutes. If **cursor** is specified, the limit is 120 requests per minute. For
-        more information, see **Rate limiting**.
 
         :param str filter: A cacheable parameter that limits the results to those
                matching the specified filter. You must specify a filter query that
@@ -3055,8 +2959,6 @@ class AssistantV1(BaseService):
         with a request that passes data. For more information about personal data and
         customer IDs, see [Information
         security](https://cloud.ibm.com/docs/assistant?topic=assistant-information-security#information-security).
-        This operation is limited to 4 requests per minute. For more information, see
-        **Rate limiting**.
 
         :param str customer_id: The customer ID for which all data is to be
                deleted.
@@ -4748,8 +4650,7 @@ class DialogNodeOutputGeneric():
 
     :attr str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
-          **Note:** The **search_skill** response type is available only for Plus and
-          Premium users, and is used only by the v2 runtime API.
+          **Note:** The **search_skill** response type is used only by the v2 runtime API.
     :attr List[DialogNodeOutputTextValuesElement] values: (optional) A list of one
           or more objects defining text responses. Required when **response_type**=`text`.
     :attr str selection_policy: (optional) How a response is selected from the list,
@@ -4816,8 +4717,8 @@ class DialogNodeOutputGeneric():
         :param str response_type: The type of response returned by the dialog node.
                The specified response type must be supported by the client application or
                channel.
-               **Note:** The **search_skill** response type is available only for Plus and
-               Premium users, and is used only by the v2 runtime API.
+               **Note:** The **search_skill** response type is used only by the v2 runtime
+               API.
         :param List[DialogNodeOutputTextValuesElement] values: (optional) A list of
                one or more objects defining text responses. Required when
                **response_type**=`text`.
@@ -5003,8 +4904,7 @@ class DialogNodeOutputGeneric():
         """
         The type of response returned by the dialog node. The specified response type must
         be supported by the client application or channel.
-        **Note:** The **search_skill** response type is available only for Plus and
-        Premium users, and is used only by the v2 runtime API.
+        **Note:** The **search_skill** response type is used only by the v2 runtime API.
         """
         TEXT = "text"
         PAUSE = "pause"
@@ -5680,10 +5580,8 @@ class DialogSuggestionResponseGeneric():
 
     :attr str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
-          **Note:** The **suggestion** response type is part of the disambiguation
-          feature, which is only available for Plus and Premium users. The
-          **search_skill** response type is available only for Plus and Premium users, and
-          is used only by the v2 runtime API.
+          **Note:** The **search_skill** response type is is used only by the v2 runtime
+          API.
     :attr str text: (optional) The text of the response.
     :attr int time: (optional) How long to pause, in milliseconds.
     :attr bool typing: (optional) Whether to send a "user is typing" event during
@@ -5724,10 +5622,8 @@ class DialogSuggestionResponseGeneric():
         :param str response_type: The type of response returned by the dialog node.
                The specified response type must be supported by the client application or
                channel.
-               **Note:** The **suggestion** response type is part of the disambiguation
-               feature, which is only available for Plus and Premium users. The
-               **search_skill** response type is available only for Plus and Premium
-               users, and is used only by the v2 runtime API.
+               **Note:** The **search_skill** response type is is used only by the v2
+               runtime API.
         :param str text: (optional) The text of the response.
         :param int time: (optional) How long to pause, in milliseconds.
         :param bool typing: (optional) Whether to send a "user is typing" event
@@ -5865,10 +5761,8 @@ class DialogSuggestionResponseGeneric():
         """
         The type of response returned by the dialog node. The specified response type must
         be supported by the client application or channel.
-        **Note:** The **suggestion** response type is part of the disambiguation feature,
-        which is only available for Plus and Premium users. The **search_skill** response
-        type is available only for Plus and Premium users, and is used only by the v2
-        runtime API.
+        **Note:** The **search_skill** response type is is used only by the v2 runtime
+        API.
         """
         TEXT = "text"
         PAUSE = "pause"
@@ -8765,8 +8659,6 @@ class RuntimeResponseGeneric():
 
     :attr str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
-          **Note:** The **suggestion** response type is part of the disambiguation
-          feature, which is only available for Plus and Premium users.
     :attr str text: (optional) The text of the response.
     :attr int time: (optional) How long to pause, in milliseconds.
     :attr bool typing: (optional) Whether to send a "user is typing" event during
@@ -8787,8 +8679,6 @@ class RuntimeResponseGeneric():
           the dialog node's **title** property.
     :attr List[DialogSuggestion] suggestions: (optional) An array of objects
           describing the possible matching dialog nodes from which the user can choose.
-          **Note:** The **suggestions** property is part of the disambiguation feature,
-          which is only available for Plus and Premium users.
     """
 
     def __init__(self,
@@ -8812,8 +8702,6 @@ class RuntimeResponseGeneric():
         :param str response_type: The type of response returned by the dialog node.
                The specified response type must be supported by the client application or
                channel.
-               **Note:** The **suggestion** response type is part of the disambiguation
-               feature, which is only available for Plus and Premium users.
         :param str text: (optional) The text of the response.
         :param int time: (optional) How long to pause, in milliseconds.
         :param bool typing: (optional) Whether to send a "user is typing" event
@@ -8836,8 +8724,6 @@ class RuntimeResponseGeneric():
         :param List[DialogSuggestion] suggestions: (optional) An array of objects
                describing the possible matching dialog nodes from which the user can
                choose.
-               **Note:** The **suggestions** property is part of the disambiguation
-               feature, which is only available for Plus and Premium users.
         """
         self.response_type = response_type
         self.text = text
@@ -8964,8 +8850,6 @@ class RuntimeResponseGeneric():
         """
         The type of response returned by the dialog node. The specified response type must
         be supported by the client application or channel.
-        **Note:** The **suggestion** response type is part of the disambiguation feature,
-        which is only available for Plus and Premium users.
         """
         TEXT = "text"
         PAUSE = "pause"
@@ -9939,7 +9823,6 @@ class WorkspaceSystemSettings():
           related to the Watson Assistant user interface.
     :attr WorkspaceSystemSettingsDisambiguation disambiguation: (optional) Workspace
           settings related to the disambiguation feature.
-          **Note:** This feature is available only to Plus and Premium users.
     :attr dict human_agent_assist: (optional) For internal use only.
     :attr bool spelling_suggestions: (optional) Whether spelling correction is
           enabled for the workspace.
@@ -9972,7 +9855,6 @@ class WorkspaceSystemSettings():
                settings related to the Watson Assistant user interface.
         :param WorkspaceSystemSettingsDisambiguation disambiguation: (optional)
                Workspace settings related to the disambiguation feature.
-               **Note:** This feature is available only to Plus and Premium users.
         :param dict human_agent_assist: (optional) For internal use only.
         :param bool spelling_suggestions: (optional) Whether spelling correction is
                enabled for the workspace.
@@ -10083,7 +9965,6 @@ class WorkspaceSystemSettings():
 class WorkspaceSystemSettingsDisambiguation():
     """
     Workspace settings related to the disambiguation feature.
-    **Note:** This feature is available only to Plus and Premium users.
 
     :attr str prompt: (optional) The text of the introductory prompt that
           accompanies disambiguation options presented to the user.
