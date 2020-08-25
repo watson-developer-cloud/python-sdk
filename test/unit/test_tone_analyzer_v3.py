@@ -21,7 +21,7 @@ import responses
 import ibm_watson.tone_analyzer_v3
 from ibm_watson.tone_analyzer_v3 import *
 
-base_url = 'https://gateway.watsonplatform.net/tone-analyzer/api'
+base_url = 'https://api.us-south.tone-analyzer.watson.cloud.ibm.com'
 
 ##############################################################################
 # Start of Service: Methods

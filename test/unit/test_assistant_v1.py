@@ -22,7 +22,7 @@ import responses
 import ibm_watson.assistant_v1
 from ibm_watson.assistant_v1 import *
 
-base_url = 'https://gateway.watsonplatform.net/assistant/api'
+base_url = 'https://api.us-south.assistant.watson.cloud.ibm.com'
 
 ##############################################################################
 # Start of Service: Message

@@ -23,7 +23,7 @@ import tempfile
 import ibm_watson.compare_comply_v1
 from ibm_watson.compare_comply_v1 import *
 
-base_url = 'https://gateway.watsonplatform.net/compare-comply/api'
+base_url = 'https://api.us-south.compare-comply.watson.cloud.ibm.com'
 
 ##############################################################################
 # Start of Service: HTMLConversion

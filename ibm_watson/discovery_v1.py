@@ -45,7 +45,7 @@ import sys
 class DiscoveryV1(BaseService):
     """The Discovery V1 service."""
 
-    DEFAULT_SERVICE_URL = 'https://gateway.watsonplatform.net/discovery/api'
+    DEFAULT_SERVICE_URL = 'https://api.us-south.discovery.watson.cloud.ibm.com'
     DEFAULT_SERVICE_NAME = 'discovery'
 
     def __init__(

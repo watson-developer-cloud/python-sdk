@@ -31,3 +31,8 @@ message = assistant.message(
         }
     }).get_result()
 print(json.dumps(message, indent=2))
+
+# logs = assistant.list_logs(
+#     "<YOUR ASSISTANT ID>"
+# )
+# print(json.dumps(logs, indent=2))

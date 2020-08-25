@@ -39,7 +39,7 @@ from typing import List
 class AssistantV2(BaseService):
     """The Assistant V2 service."""
 
-    DEFAULT_SERVICE_URL = 'https://gateway.watsonplatform.net/assistant/api'
+    DEFAULT_SERVICE_URL = 'https://api.us-south.assistant.watson.cloud.ibm.com'
     DEFAULT_SERVICE_NAME = 'assistant'
 
     def __init__(
@@ -186,7 +186,6 @@ class AssistantV2(BaseService):
         Send user input to an assistant and receive a response, with conversation state
         (including context data) stored by Watson Assistant for the duration of the
         session.
-        There is no rate limit for this operation.
 
         :param str assistant_id: Unique identifier of the assistant. To find the
                assistant ID in the Watson Assistant user interface, open the assistant
@@ -251,7 +250,6 @@ class AssistantV2(BaseService):
 
         Send user input to an assistant and receive a response, with conversation state
         (including context data) managed by your application.
-        There is no rate limit for this operation.
 
         :param str assistant_id: Unique identifier of the assistant. To find the
                assistant ID in the Watson Assistant user interface, open the assistant
@@ -299,6 +297,121 @@ class AssistantV2(BaseService):
                                        headers=headers,
                                        params=params,
                                        data=data)
+
+        response = self.send(request)
+        return response
+
+    #########################
+    # Logs
+    #########################
+
+    def list_logs(self,
+                  assistant_id: str,
+                  *,
+                  sort: str = None,
+                  filter: str = None,
+                  page_limit: int = None,
+                  cursor: str = None,
+                  **kwargs) -> 'DetailedResponse':
+        """
+        List log events for an assistant.
+
+        List the events from the log of an assistant.
+        This method is available only with Premium plans.
+
+        :param str assistant_id: Unique identifier of the assistant. To find the
+               assistant ID in the Watson Assistant user interface, open the assistant
+               settings and click **API Details**. For information about creating
+               assistants, see the
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-assistant-add#assistant-add-task).
+               **Note:** Currently, the v2 API does not support creating assistants.
+        :param str sort: (optional) How to sort the returned log events. You can
+               sort by **request_timestamp**. To reverse the sort order, prefix the
+               parameter value with a minus sign (`-`).
+        :param str filter: (optional) A cacheable parameter that limits the results
+               to those matching the specified filter. For more information, see the
+               [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-filter-reference#filter-reference).
+        :param int page_limit: (optional) The number of records to return in each
+               page of results.
+        :param str cursor: (optional) A token identifying the page of results to
+               retrieve.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if assistant_id is None:
+            raise ValueError('assistant_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='list_logs')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+            'sort': sort,
+            'filter': filter,
+            'page_limit': page_limit,
+            'cursor': cursor
+        }
+
+        url = '/v2/assistants/{0}/logs'.format(
+            *self._encode_path_vars(assistant_id))
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
+    #########################
+    # User data
+    #########################
+
+    def delete_user_data(self, customer_id: str,
+                         **kwargs) -> 'DetailedResponse':
+        """
+        Delete labeled data.
+
+        Deletes all data associated with a specified customer ID. The method has no effect
+        if no data is associated with the customer ID.
+        You associate a customer ID with data by passing the `X-Watson-Metadata` header
+        with a request that passes data. For more information about personal data and
+        customer IDs, see [Information
+        security](https://cloud.ibm.com/docs/assistant?topic=assistant-information-security#information-security).
+        This operation is limited to 4 requests per minute. For more information, see
+        **Rate limiting**.
+
+        :param str customer_id: The customer ID for which all data is to be
+               deleted.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if customer_id is None:
+            raise ValueError('customer_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='delete_user_data')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version, 'customer_id': customer_id}
+
+        url = '/v2/user_data'
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
 
         response = self.send(request)
         return response
@@ -812,9 +925,9 @@ class DialogSuggestion():
     """
     DialogSuggestion.
 
-    :attr str label: The user-facing label for the disambiguation option. This label
-          is taken from the **title** or **user_label** property of the corresponding
-          dialog node, depending on the disambiguation options.
+    :attr str label: The user-facing label for the suggestion. This label is taken
+          from the **title** or **user_label** property of the corresponding dialog node,
+          depending on the disambiguation options.
     :attr DialogSuggestionValue value: An object defining the message input to be
           sent to the assistant if the user selects the corresponding disambiguation
           option.
@@ -830,9 +943,9 @@ class DialogSuggestion():
         """
         Initialize a DialogSuggestion object.
 
-        :param str label: The user-facing label for the disambiguation option. This
-               label is taken from the **title** or **user_label** property of the
-               corresponding dialog node, depending on the disambiguation options.
+        :param str label: The user-facing label for the suggestion. This label is
+               taken from the **title** or **user_label** property of the corresponding
+               dialog node, depending on the disambiguation options.
         :param DialogSuggestionValue value: An object defining the message input to
                be sent to the assistant if the user selects the corresponding
                disambiguation option.
@@ -963,6 +1076,357 @@ class DialogSuggestionValue():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'DialogSuggestionValue') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class Log():
+    """
+    Log.
+
+    :attr str log_id: A unique identifier for the logged event.
+    :attr MessageRequest request: A stateful message request formatted for the
+          Watson Assistant service.
+    :attr MessageResponse response: A response from the Watson Assistant service.
+    :attr str assistant_id: Unique identifier of the assistant.
+    :attr str session_id: The ID of the session the message was part of.
+    :attr str skill_id: The unique identifier of the skill that responded to the
+          message.
+    :attr str snapshot: The name of the snapshot (dialog skill version) that
+          responded to the message (for example, `draft`).
+    :attr str request_timestamp: The timestamp for receipt of the message.
+    :attr str response_timestamp: The timestamp for the system response to the
+          message.
+    :attr str language: The language of the assistant to which the message request
+          was made.
+    :attr str customer_id: (optional) The customer ID specified for the message, if
+          any.
+    """
+
+    def __init__(self,
+                 log_id: str,
+                 request: 'MessageRequest',
+                 response: 'MessageResponse',
+                 assistant_id: str,
+                 session_id: str,
+                 skill_id: str,
+                 snapshot: str,
+                 request_timestamp: str,
+                 response_timestamp: str,
+                 language: str,
+                 *,
+                 customer_id: str = None) -> None:
+        """
+        Initialize a Log object.
+
+        :param str log_id: A unique identifier for the logged event.
+        :param MessageRequest request: A stateful message request formatted for the
+               Watson Assistant service.
+        :param MessageResponse response: A response from the Watson Assistant
+               service.
+        :param str assistant_id: Unique identifier of the assistant.
+        :param str session_id: The ID of the session the message was part of.
+        :param str skill_id: The unique identifier of the skill that responded to
+               the message.
+        :param str snapshot: The name of the snapshot (dialog skill version) that
+               responded to the message (for example, `draft`).
+        :param str request_timestamp: The timestamp for receipt of the message.
+        :param str response_timestamp: The timestamp for the system response to the
+               message.
+        :param str language: The language of the assistant to which the message
+               request was made.
+        :param str customer_id: (optional) The customer ID specified for the
+               message, if any.
+        """
+        self.log_id = log_id
+        self.request = request
+        self.response = response
+        self.assistant_id = assistant_id
+        self.session_id = session_id
+        self.skill_id = skill_id
+        self.snapshot = snapshot
+        self.request_timestamp = request_timestamp
+        self.response_timestamp = response_timestamp
+        self.language = language
+        self.customer_id = customer_id
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'Log':
+        """Initialize a Log object from a json dictionary."""
+        args = {}
+        valid_keys = [
+            'log_id', 'request', 'response', 'assistant_id', 'session_id',
+            'skill_id', 'snapshot', 'request_timestamp', 'response_timestamp',
+            'language', 'customer_id'
+        ]
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Log: ' +
+                ', '.join(bad_keys))
+        if 'log_id' in _dict:
+            args['log_id'] = _dict.get('log_id')
+        else:
+            raise ValueError(
+                'Required property \'log_id\' not present in Log JSON')
+        if 'request' in _dict:
+            args['request'] = MessageRequest._from_dict(_dict.get('request'))
+        else:
+            raise ValueError(
+                'Required property \'request\' not present in Log JSON')
+        if 'response' in _dict:
+            args['response'] = MessageResponse._from_dict(_dict.get('response'))
+        else:
+            raise ValueError(
+                'Required property \'response\' not present in Log JSON')
+        if 'assistant_id' in _dict:
+            args['assistant_id'] = _dict.get('assistant_id')
+        else:
+            raise ValueError(
+                'Required property \'assistant_id\' not present in Log JSON')
+        if 'session_id' in _dict:
+            args['session_id'] = _dict.get('session_id')
+        else:
+            raise ValueError(
+                'Required property \'session_id\' not present in Log JSON')
+        if 'skill_id' in _dict:
+            args['skill_id'] = _dict.get('skill_id')
+        else:
+            raise ValueError(
+                'Required property \'skill_id\' not present in Log JSON')
+        if 'snapshot' in _dict:
+            args['snapshot'] = _dict.get('snapshot')
+        else:
+            raise ValueError(
+                'Required property \'snapshot\' not present in Log JSON')
+        if 'request_timestamp' in _dict:
+            args['request_timestamp'] = _dict.get('request_timestamp')
+        else:
+            raise ValueError(
+                'Required property \'request_timestamp\' not present in Log JSON'
+            )
+        if 'response_timestamp' in _dict:
+            args['response_timestamp'] = _dict.get('response_timestamp')
+        else:
+            raise ValueError(
+                'Required property \'response_timestamp\' not present in Log JSON'
+            )
+        if 'language' in _dict:
+            args['language'] = _dict.get('language')
+        else:
+            raise ValueError(
+                'Required property \'language\' not present in Log JSON')
+        if 'customer_id' in _dict:
+            args['customer_id'] = _dict.get('customer_id')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Log object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'log_id') and self.log_id is not None:
+            _dict['log_id'] = self.log_id
+        if hasattr(self, 'request') and self.request is not None:
+            _dict['request'] = self.request._to_dict()
+        if hasattr(self, 'response') and self.response is not None:
+            _dict['response'] = self.response._to_dict()
+        if hasattr(self, 'assistant_id') and self.assistant_id is not None:
+            _dict['assistant_id'] = self.assistant_id
+        if hasattr(self, 'session_id') and self.session_id is not None:
+            _dict['session_id'] = self.session_id
+        if hasattr(self, 'skill_id') and self.skill_id is not None:
+            _dict['skill_id'] = self.skill_id
+        if hasattr(self, 'snapshot') and self.snapshot is not None:
+            _dict['snapshot'] = self.snapshot
+        if hasattr(self,
+                   'request_timestamp') and self.request_timestamp is not None:
+            _dict['request_timestamp'] = self.request_timestamp
+        if hasattr(
+                self,
+                'response_timestamp') and self.response_timestamp is not None:
+            _dict['response_timestamp'] = self.response_timestamp
+        if hasattr(self, 'language') and self.language is not None:
+            _dict['language'] = self.language
+        if hasattr(self, 'customer_id') and self.customer_id is not None:
+            _dict['customer_id'] = self.customer_id
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this Log object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'Log') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'Log') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class LogCollection():
+    """
+    LogCollection.
+
+    :attr List[Log] logs: An array of objects describing log events.
+    :attr LogPagination pagination: The pagination data for the returned objects.
+    """
+
+    def __init__(self, logs: List['Log'], pagination: 'LogPagination') -> None:
+        """
+        Initialize a LogCollection object.
+
+        :param List[Log] logs: An array of objects describing log events.
+        :param LogPagination pagination: The pagination data for the returned
+               objects.
+        """
+        self.logs = logs
+        self.pagination = pagination
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'LogCollection':
+        """Initialize a LogCollection object from a json dictionary."""
+        args = {}
+        valid_keys = ['logs', 'pagination']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class LogCollection: '
+                + ', '.join(bad_keys))
+        if 'logs' in _dict:
+            args['logs'] = [Log._from_dict(x) for x in (_dict.get('logs'))]
+        else:
+            raise ValueError(
+                'Required property \'logs\' not present in LogCollection JSON')
+        if 'pagination' in _dict:
+            args['pagination'] = LogPagination._from_dict(
+                _dict.get('pagination'))
+        else:
+            raise ValueError(
+                'Required property \'pagination\' not present in LogCollection JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a LogCollection object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'logs') and self.logs is not None:
+            _dict['logs'] = [x._to_dict() for x in self.logs]
+        if hasattr(self, 'pagination') and self.pagination is not None:
+            _dict['pagination'] = self.pagination._to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this LogCollection object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'LogCollection') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'LogCollection') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class LogPagination():
+    """
+    The pagination data for the returned objects.
+
+    :attr str next_url: (optional) The URL that will return the next page of
+          results, if any.
+    :attr int matched: (optional) Reserved for future use.
+    :attr str next_cursor: (optional) A token identifying the next page of results.
+    """
+
+    def __init__(self,
+                 *,
+                 next_url: str = None,
+                 matched: int = None,
+                 next_cursor: str = None) -> None:
+        """
+        Initialize a LogPagination object.
+
+        :param str next_url: (optional) The URL that will return the next page of
+               results, if any.
+        :param int matched: (optional) Reserved for future use.
+        :param str next_cursor: (optional) A token identifying the next page of
+               results.
+        """
+        self.next_url = next_url
+        self.matched = matched
+        self.next_cursor = next_cursor
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'LogPagination':
+        """Initialize a LogPagination object from a json dictionary."""
+        args = {}
+        valid_keys = ['next_url', 'matched', 'next_cursor']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class LogPagination: '
+                + ', '.join(bad_keys))
+        if 'next_url' in _dict:
+            args['next_url'] = _dict.get('next_url')
+        if 'matched' in _dict:
+            args['matched'] = _dict.get('matched')
+        if 'next_cursor' in _dict:
+            args['next_cursor'] = _dict.get('next_cursor')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a LogPagination object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'next_url') and self.next_url is not None:
+            _dict['next_url'] = self.next_url
+        if hasattr(self, 'matched') and self.matched is not None:
+            _dict['matched'] = self.matched
+        if hasattr(self, 'next_cursor') and self.next_cursor is not None:
+            _dict['next_cursor'] = self.next_cursor
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this LogPagination object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'LogPagination') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'LogPagination') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2611,6 +3075,88 @@ class MessageOutputSpelling():
         return not self == other
 
 
+class MessageRequest():
+    """
+    A stateful message request formatted for the Watson Assistant service.
+
+    :attr MessageInput input: (optional) An input object that includes the input
+          text.
+    :attr MessageContext context: (optional) Context data for the conversation. You
+          can use this property to set or modify context variables, which can also be
+          accessed by dialog nodes. The context is stored by the assistant on a
+          per-session basis.
+          **Note:** The total size of the context data stored for a stateful session
+          cannot exceed 100KB.
+    """
+
+    def __init__(self,
+                 *,
+                 input: 'MessageInput' = None,
+                 context: 'MessageContext' = None) -> None:
+        """
+        Initialize a MessageRequest object.
+
+        :param MessageInput input: (optional) An input object that includes the
+               input text.
+        :param MessageContext context: (optional) Context data for the
+               conversation. You can use this property to set or modify context variables,
+               which can also be accessed by dialog nodes. The context is stored by the
+               assistant on a per-session basis.
+               **Note:** The total size of the context data stored for a stateful session
+               cannot exceed 100KB.
+        """
+        self.input = input
+        self.context = context
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'MessageRequest':
+        """Initialize a MessageRequest object from a json dictionary."""
+        args = {}
+        valid_keys = ['input', 'context']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class MessageRequest: '
+                + ', '.join(bad_keys))
+        if 'input' in _dict:
+            args['input'] = MessageInput._from_dict(_dict.get('input'))
+        if 'context' in _dict:
+            args['context'] = MessageContext._from_dict(_dict.get('context'))
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MessageRequest object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'input') and self.input is not None:
+            _dict['input'] = self.input._to_dict()
+        if hasattr(self, 'context') and self.context is not None:
+            _dict['context'] = self.context._to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this MessageRequest object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'MessageRequest') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'MessageRequest') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class MessageResponse():
     """
     A response from the Watson Assistant service.
@@ -2621,7 +3167,8 @@ class MessageResponse():
           can use this property to access context variables. The context is stored by the
           assistant on a per-session basis.
           **Note:** The context is included in message responses only if
-          **return_context**=`true` in the message request.
+          **return_context**=`true` in the message request. Full context is always
+          included in logs.
     """
 
     def __init__(self,
@@ -2637,7 +3184,8 @@ class MessageResponse():
                conversation. You can use this property to access context variables. The
                context is stored by the assistant on a per-session basis.
                **Note:** The context is included in message responses only if
-               **return_context**=`true` in the message request.
+               **return_context**=`true` in the message request. Full context is always
+               included in logs.
         """
         self.output = output
         self.context = context
@@ -3573,8 +4121,6 @@ class RuntimeResponseGeneric():
 
     :attr str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
-          **Note:** The **suggestion** response type is part of the disambiguation
-          feature, which is only available for Premium users.
     :attr str text: (optional) The text of the response.
     :attr int time: (optional) How long to pause, in milliseconds.
     :attr bool typing: (optional) Whether to send a "user is typing" event during
@@ -3592,8 +4138,6 @@ class RuntimeResponseGeneric():
           derived from the **user_label** property of the relevant node.
     :attr List[DialogSuggestion] suggestions: (optional) An array of objects
           describing the possible matching dialog nodes from which the user can choose.
-          **Note:** The **suggestions** property is part of the disambiguation feature,
-          which is only available for Premium users.
     :attr str header: (optional) The title or introductory text to show before the
           response. This text is defined in the search skill configuration.
     :attr List[SearchResult] results: (optional) An array of objects containing
@@ -3622,8 +4166,6 @@ class RuntimeResponseGeneric():
         :param str response_type: The type of response returned by the dialog node.
                The specified response type must be supported by the client application or
                channel.
-               **Note:** The **suggestion** response type is part of the disambiguation
-               feature, which is only available for Premium users.
         :param str text: (optional) The text of the response.
         :param int time: (optional) How long to pause, in milliseconds.
         :param bool typing: (optional) Whether to send a "user is typing" event
@@ -3644,8 +4186,6 @@ class RuntimeResponseGeneric():
         :param List[DialogSuggestion] suggestions: (optional) An array of objects
                describing the possible matching dialog nodes from which the user can
                choose.
-               **Note:** The **suggestions** property is part of the disambiguation
-               feature, which is only available for Premium users.
         :param str header: (optional) The title or introductory text to show before
                the response. This text is defined in the search skill configuration.
         :param List[SearchResult] results: (optional) An array of objects
@@ -3783,8 +4323,6 @@ class RuntimeResponseGeneric():
         """
         The type of response returned by the dialog node. The specified response type must
         be supported by the client application or channel.
-        **Note:** The **suggestion** response type is part of the disambiguation feature,
-        which is only available for Premium users.
         """
         TEXT = "text"
         PAUSE = "pause"
@@ -3808,8 +4346,8 @@ class SearchResult():
 
     :attr str id: The unique identifier of the document in the Discovery service
           collection.
-          This property is included in responses from search skills, which are a beta
-          feature available only to Plus or Premium plan users.
+          This property is included in responses from search skills, which are available
+          only to Plus or Premium plan users.
     :attr SearchResultMetadata result_metadata: An object containing search result
           metadata from the Discovery service.
     :attr str body: (optional) A description of the search result. This is taken
@@ -3838,8 +4376,8 @@ class SearchResult():
 
         :param str id: The unique identifier of the document in the Discovery
                service collection.
-               This property is included in responses from search skills, which are a beta
-               feature available only to Plus or Premium plan users.
+               This property is included in responses from search skills, which are
+               available only to Plus or Premium plan users.
         :param SearchResultMetadata result_metadata: An object containing search
                result metadata from the Discovery service.
         :param str body: (optional) A description of the search result. This is

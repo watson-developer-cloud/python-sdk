@@ -44,7 +44,7 @@ from typing import List
 class NaturalLanguageUnderstandingV1(BaseService):
     """The Natural Language Understanding V1 service."""
 
-    DEFAULT_SERVICE_URL = 'https://gateway.watsonplatform.net/natural-language-understanding/api'
+    DEFAULT_SERVICE_URL = 'https://api.us-south.natural-language-understanding.watson.cloud.ibm.com'
     DEFAULT_SERVICE_NAME = 'natural-language-understanding'
 
     def __init__(
@@ -110,7 +110,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
         - Relations
         - Semantic roles
         - Sentiment
-        - Syntax (Experimental).
+        - Syntax.
         If a language for the input text is not specified with the `language` parameter,
         the service [automatically detects the
         language](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-detectable-languages).
@@ -123,9 +123,8 @@ class NaturalLanguageUnderstandingV1(BaseService):
         :param str url: (optional) The webpage to analyze. One of the `text`,
                `html`, or `url` parameters is required.
         :param bool clean: (optional) Set this to `false` to disable webpage
-               cleaning. To learn more about webpage cleaning, see the [Analyzing
-               webpages](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-analyzing-webpages)
-               documentation.
+               cleaning. For more information about webpage cleaning, see [Analyzing
+               webpages](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-analyzing-webpages).
         :param str xpath: (optional) An [XPath
                query](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-analyzing-webpages#xpath)
                to perform on `html` or `url` input. Results of the query will be appended
@@ -137,10 +136,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
                analyzed text.
         :param str language: (optional) ISO 639-1 code that specifies the language
                of your text. This overrides automatic language detection. Language support
-               differs depending on the features you include in your analysis. See
-               [Language
-               support](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-language-support)
-               for more information.
+               differs depending on the features you include in your analysis. For more
+               information, see [Language
+               support](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-language-support).
         :param int limit_text_characters: (optional) Sets the maximum number of
                characters that are processed by the service.
         :param dict headers: A `dict` containing the request headers
@@ -872,9 +870,8 @@ class CategoriesResult():
     A categorization of the analyzed text.
 
     :attr str label: (optional) The path to the category through the 5-level
-          taxonomy hierarchy. For the complete list of categories, see the [Categories
-          hierarchy](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-categories#categories-hierarchy)
-          documentation.
+          taxonomy hierarchy. For more information about the categories, see [Categories
+          hierarchy](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-categories#categories-hierarchy).
     :attr float score: (optional) Confidence score for the category classification.
           Higher values indicate greater confidence.
     :attr CategoriesResultExplanation explanation: (optional) Information that helps
@@ -890,10 +887,9 @@ class CategoriesResult():
         Initialize a CategoriesResult object.
 
         :param str label: (optional) The path to the category through the 5-level
-               taxonomy hierarchy. For the complete list of categories, see the
+               taxonomy hierarchy. For more information about the categories, see
                [Categories
-               hierarchy](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-categories#categories-hierarchy)
-               documentation.
+               hierarchy](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-categories#categories-hierarchy).
         :param float score: (optional) Confidence score for the category
                classification. Higher values indicate greater confidence.
         :param CategoriesResultExplanation explanation: (optional) Information that
@@ -1713,8 +1709,8 @@ class EmotionScores():
 
 class EntitiesOptions():
     """
-    Identifies people, cities, organizations, and other entities in the content. See
-    [Entity types and
+    Identifies people, cities, organizations, and other entities in the content. For more
+    information, see [Entity types and
     subtypes](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-entity-types).
     Supported languages: English, French, German, Italian, Japanese, Korean, Portuguese,
     Russian, Spanish, Swedish. Arabic, Chinese, and Dutch are supported only through
@@ -2133,7 +2129,8 @@ class Features():
           entities with `entities.emotion` and for keywords with `keywords.emotion`.
           Supported languages: English.
     :attr EntitiesOptions entities: (optional) Identifies people, cities,
-          organizations, and other entities in the content. See [Entity types and
+          organizations, and other entities in the content. For more information, see
+          [Entity types and
           subtypes](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-entity-types).
           Supported languages: English, French, German, Italian, Japanese, Korean,
           Portuguese, Russian, Spanish, Swedish. Arabic, Chinese, and Dutch are supported
@@ -2147,8 +2144,8 @@ class Features():
           and publication date. Supports URL and HTML input types only.
     :attr RelationsOptions relations: (optional) Recognizes when two entities are
           related and identifies the type of relation. For example, an `awardedTo`
-          relation might connect the entities "Nobel Prize" and "Albert Einstein". See
-          [Relation
+          relation might connect the entities "Nobel Prize" and "Albert Einstein". For
+          more information, see [Relation
           types](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-relations).
           Supported languages: Arabic, English, German, Japanese, Korean, Spanish.
           Chinese, Dutch, French, Italian, and Portuguese custom models are also
@@ -2197,7 +2194,8 @@ class Features():
                `keywords.emotion`.
                Supported languages: English.
         :param EntitiesOptions entities: (optional) Identifies people, cities,
-               organizations, and other entities in the content. See [Entity types and
+               organizations, and other entities in the content. For more information, see
+               [Entity types and
                subtypes](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-entity-types).
                Supported languages: English, French, German, Italian, Japanese, Korean,
                Portuguese, Russian, Spanish, Swedish. Arabic, Chinese, and Dutch are
@@ -2212,7 +2210,7 @@ class Features():
         :param RelationsOptions relations: (optional) Recognizes when two entities
                are related and identifies the type of relation. For example, an
                `awardedTo` relation might connect the entities "Nobel Prize" and "Albert
-               Einstein". See [Relation
+               Einstein". For more information, see [Relation
                types](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-relations).
                Supported languages: Arabic, English, German, Japanese, Korean, Spanish.
                Chinese, Dutch, French, Italian, and Portuguese custom models are also
@@ -2696,7 +2694,7 @@ class Model():
     :attr str status: (optional) When the status is `available`, the model is ready
           to use.
     :attr str model_id: (optional) Unique model ID.
-    :attr str language: (optional) ISO 639-1 code indicating the language of the
+    :attr str language: (optional) ISO 639-1 code that indicates the language of the
           model.
     :attr str description: (optional) Model description.
     :attr str workspace_id: (optional) ID of the Watson Knowledge Studio workspace
@@ -2728,8 +2726,8 @@ class Model():
         :param str status: (optional) When the status is `available`, the model is
                ready to use.
         :param str model_id: (optional) Unique model ID.
-        :param str language: (optional) ISO 639-1 code indicating the language of
-               the model.
+        :param str language: (optional) ISO 639-1 code that indicates the language
+               of the model.
         :param str description: (optional) Model description.
         :param str workspace_id: (optional) ID of the Watson Knowledge Studio
                workspace that deployed this model to Natural Language Understanding.
@@ -2832,6 +2830,17 @@ class Model():
     def __ne__(self, other: 'Model') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
+
+    class StatusEnum(Enum):
+        """
+        When the status is `available`, the model is ready to use.
+        """
+        STARTING = "starting"
+        TRAINING = "training"
+        DEPLOYING = "deploying"
+        AVAILABLE = "available"
+        ERROR = "error"
+        DELETED = "deleted"
 
 
 class RelationArgument():
@@ -2988,7 +2997,7 @@ class RelationsOptions():
     """
     Recognizes when two entities are related and identifies the type of relation. For
     example, an `awardedTo` relation might connect the entities "Nobel Prize" and "Albert
-    Einstein". See [Relation
+    Einstein". For more information, see [Relation
     types](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-relations).
     Supported languages: Arabic, English, German, Japanese, Korean, Spanish. Chinese,
     Dutch, French, Italian, and Portuguese custom models are also supported.
@@ -4351,8 +4360,8 @@ class TokenResult():
     TokenResult.
 
     :attr str text: (optional) The token as it appears in the analyzed text.
-    :attr str part_of_speech: (optional) The part of speech of the token. For
-          descriptions of the values, see [Universal Dependencies POS
+    :attr str part_of_speech: (optional) The part of speech of the token. For more
+          information about the values, see [Universal Dependencies POS
           tags](https://universaldependencies.org/u/pos/).
     :attr List[int] location: (optional) Character offsets indicating the beginning
           and end of the token in the analyzed text.
@@ -4371,7 +4380,7 @@ class TokenResult():
 
         :param str text: (optional) The token as it appears in the analyzed text.
         :param str part_of_speech: (optional) The part of speech of the token. For
-               descriptions of the values, see [Universal Dependencies POS
+               more information about the values, see [Universal Dependencies POS
                tags](https://universaldependencies.org/u/pos/).
         :param List[int] location: (optional) Character offsets indicating the
                beginning and end of the token in the analyzed text.
@@ -4441,8 +4450,8 @@ class TokenResult():
 
     class PartOfSpeechEnum(Enum):
         """
-        The part of speech of the token. For descriptions of the values, see [Universal
-        Dependencies POS tags](https://universaldependencies.org/u/pos/).
+        The part of speech of the token. For more information about the values, see
+        [Universal Dependencies POS tags](https://universaldependencies.org/u/pos/).
         """
         ADJ = "ADJ"
         ADP = "ADP"

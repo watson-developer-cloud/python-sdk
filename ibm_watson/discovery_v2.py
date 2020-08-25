@@ -14,11 +14,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-IBM Watson&trade; Discovery for IBM Cloud Pak for Data is a cognitive search and content
-analytics engine that you can add to applications to identify patterns, trends and
-actionable insights to drive better decision-making. Securely unify structured and
-unstructured data with pre-enriched content, and use a simplified query language to
-eliminate the need for manual filtering of results.
+IBM Watson&trade; Discovery is a cognitive search and content analytics engine that you
+can add to applications to identify patterns, trends and actionable insights to drive
+better decision-making. Securely unify structured and unstructured data with pre-enriched
+content, and use a simplified query language to eliminate the need for manual filtering of
+results.
 """
 
 import json
@@ -44,7 +44,7 @@ import sys
 class DiscoveryV2(BaseService):
     """The Discovery V2 service."""
 
-    DEFAULT_SERVICE_URL = None
+    DEFAULT_SERVICE_URL = 'https://api.us-south.discovery.watson.cloud.ibm.com'
     DEFAULT_SERVICE_NAME = 'discovery'
 
     def __init__(
@@ -120,6 +120,206 @@ class DiscoveryV2(BaseService):
         response = self.send(request)
         return response
 
+    def create_collection(self,
+                          project_id: str,
+                          name: str,
+                          *,
+                          description: str = None,
+                          language: str = None,
+                          enrichments: List['CollectionEnrichment'] = None,
+                          **kwargs) -> 'DetailedResponse':
+        """
+        Create a collection.
+
+        Create a new collection in the specified project.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the deploy page of the Discovery administrative tooling.
+        :param str name: The name of the collection.
+        :param str description: (optional) A description of the collection.
+        :param str language: (optional) The language of the collection.
+        :param List[CollectionEnrichment] enrichments: (optional) An array of
+               enrichments that are applied to this collection.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        if name is None:
+            raise ValueError('name must be provided')
+        if enrichments is not None:
+            enrichments = [self._convert_model(x) for x in enrichments]
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='create_collection')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        data = {
+            'name': name,
+            'description': description,
+            'language': language,
+            'enrichments': enrichments
+        }
+
+        url = '/v2/projects/{0}/collections'.format(
+            *self._encode_path_vars(project_id))
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data)
+
+        response = self.send(request)
+        return response
+
+    def get_collection(self, project_id: str, collection_id: str,
+                       **kwargs) -> 'DetailedResponse':
+        """
+        Get collection.
+
+        Get details about the specified collection.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the deploy page of the Discovery administrative tooling.
+        :param str collection_id: The ID of the collection.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='get_collection')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v2/projects/{0}/collections/{1}'.format(
+            *self._encode_path_vars(project_id, collection_id))
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
+    def update_collection(self,
+                          project_id: str,
+                          collection_id: str,
+                          *,
+                          name: str = None,
+                          description: str = None,
+                          enrichments: List['CollectionEnrichment'] = None,
+                          **kwargs) -> 'DetailedResponse':
+        """
+        Update a collection.
+
+        Updates the specified collection's name, description, and enrichments.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the deploy page of the Discovery administrative tooling.
+        :param str collection_id: The ID of the collection.
+        :param str name: (optional) The name of the collection.
+        :param str description: (optional) A description of the collection.
+        :param List[CollectionEnrichment] enrichments: (optional) An array of
+               enrichments that are applied to this collection.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        if enrichments is not None:
+            enrichments = [self._convert_model(x) for x in enrichments]
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='update_collection')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        data = {
+            'name': name,
+            'description': description,
+            'enrichments': enrichments
+        }
+
+        url = '/v2/projects/{0}/collections/{1}'.format(
+            *self._encode_path_vars(project_id, collection_id))
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data)
+
+        response = self.send(request)
+        return response
+
+    def delete_collection(self, project_id: str, collection_id: str,
+                          **kwargs) -> 'DetailedResponse':
+        """
+        Delete a collection.
+
+        Deletes the specified collection from the project. All documents stored in the
+        specified collection and not shared is also deleted.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the deploy page of the Discovery administrative tooling.
+        :param str collection_id: The ID of the collection.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='delete_collection')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v2/projects/{0}/collections/{1}'.format(
+            *self._encode_path_vars(project_id, collection_id))
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
     #########################
     # Queries
     #########################
@@ -147,6 +347,12 @@ class DiscoveryV2(BaseService):
 
         By using this method, you can construct queries. For details, see the [Discovery
         documentation](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-query-concepts).
+        The default query parameters are defined by the settings for this project, see the
+        [Discovery
+        documentation](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-project-defaults)
+        for an overview of the standard default settings, and see [the Projects API
+        documentation](#create-project) for details about how to set custom default query
+        settings.
 
         :param str project_id: The ID of the project. This information can be found
                from the deploy page of the Discovery administrative tooling.
@@ -427,7 +633,7 @@ class DiscoveryV2(BaseService):
     def get_component_settings(self, project_id: str,
                                **kwargs) -> 'DetailedResponse':
         """
-        Configuration settings for components.
+        List component settings.
 
         Returns default configuration settings for components.
 
@@ -512,7 +718,8 @@ class DiscoveryV2(BaseService):
         :param str filename: (optional) The filename for file.
         :param str file_content_type: (optional) The content type of file.
         :param str metadata: (optional) The maximum supported metadata file size is
-               1 MB. Metadata parts larger than 1 MB are rejected. Example:  ``` {
+               1 MB. Metadata parts larger than 1 MB are rejected.
+               Example:  ``` {
                  "Creator": "Johnny Appleseed",
                  "Subject": "Apples"
                } ```.
@@ -599,7 +806,8 @@ class DiscoveryV2(BaseService):
         :param str filename: (optional) The filename for file.
         :param str file_content_type: (optional) The content type of file.
         :param str metadata: (optional) The maximum supported metadata file size is
-               1 MB. Metadata parts larger than 1 MB are rejected. Example:  ``` {
+               1 MB. Metadata parts larger than 1 MB are rejected.
+               Example:  ``` {
                  "Creator": "Johnny Appleseed",
                  "Subject": "Apples"
                } ```.
@@ -951,6 +1159,480 @@ class DiscoveryV2(BaseService):
         response = self.send(request)
         return response
 
+    #########################
+    # enrichments
+    #########################
+
+    def list_enrichments(self, project_id: str, **kwargs) -> 'DetailedResponse':
+        """
+        List Enrichments.
+
+        List the enrichments available to this project.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the deploy page of the Discovery administrative tooling.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='list_enrichments')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v2/projects/{0}/enrichments'.format(
+            *self._encode_path_vars(project_id))
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
+    def create_enrichment(self,
+                          project_id: str,
+                          enrichment: 'CreateEnrichment',
+                          *,
+                          file: BinaryIO = None,
+                          **kwargs) -> 'DetailedResponse':
+        """
+        Create an enrichment.
+
+        Create an enrichment for use with the specified project/.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the deploy page of the Discovery administrative tooling.
+        :param CreateEnrichment enrichment:
+        :param TextIO file: (optional) The enrichment file to upload.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        if enrichment is None:
+            raise ValueError('enrichment must be provided')
+
+        print(enrichment)
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='create_enrichment')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        form_data = []
+        form_data.append(('enrichment', (None, json.dumps(enrichment), 'application/json')))
+        if file:
+            form_data.append(('file', (None, file, 'application/octet-stream')))
+
+        url = '/v2/projects/{0}/enrichments'.format(
+            *self._encode_path_vars(project_id))
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data)
+
+        response = self.send(request)
+        return response
+
+    def get_enrichment(self, project_id: str, enrichment_id: str,
+                       **kwargs) -> 'DetailedResponse':
+        """
+        Get enrichment.
+
+        Get details about a specific enrichment.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the deploy page of the Discovery administrative tooling.
+        :param str enrichment_id: The ID of the enrichment.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        if enrichment_id is None:
+            raise ValueError('enrichment_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='get_enrichment')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v2/projects/{0}/enrichments/{1}'.format(
+            *self._encode_path_vars(project_id, enrichment_id))
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
+    def update_enrichment(self,
+                          project_id: str,
+                          enrichment_id: str,
+                          name: str,
+                          *,
+                          description: str = None,
+                          **kwargs) -> 'DetailedResponse':
+        """
+        Update an enrichment.
+
+        Updates an existing enrichment's name and description.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the deploy page of the Discovery administrative tooling.
+        :param str enrichment_id: The ID of the enrichment.
+        :param str name: A new name for the enrichment.
+        :param str description: (optional) A new description for the enrichment.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        if enrichment_id is None:
+            raise ValueError('enrichment_id must be provided')
+        if name is None:
+            raise ValueError('name must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='update_enrichment')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        data = {'name': name, 'description': description}
+
+        url = '/v2/projects/{0}/enrichments/{1}'.format(
+            *self._encode_path_vars(project_id, enrichment_id))
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data)
+
+        response = self.send(request)
+        return response
+
+    def delete_enrichment(self, project_id: str, enrichment_id: str,
+                          **kwargs) -> 'DetailedResponse':
+        """
+        Delete an enrichment.
+
+        Deletes an existing enrichment from the specified project.
+        **Note:** Only enrichments that have been manually created can be deleted.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the deploy page of the Discovery administrative tooling.
+        :param str enrichment_id: The ID of the enrichment.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        if enrichment_id is None:
+            raise ValueError('enrichment_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='delete_enrichment')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v2/projects/{0}/enrichments/{1}'.format(
+            *self._encode_path_vars(project_id, enrichment_id))
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
+    #########################
+    # projects
+    #########################
+
+    def list_projects(self, **kwargs) -> 'DetailedResponse':
+        """
+        List projects.
+
+        Lists existing projects for this instance.
+
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='list_projects')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v2/projects'
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
+    def create_project(self,
+                       name: str,
+                       type: str,
+                       *,
+                       default_query_parameters: 'DefaultQueryParams' = None,
+                       **kwargs) -> 'DetailedResponse':
+        """
+        Create a Project.
+
+        Create a new project for this instance.
+
+        :param str name: The human readable name of this project.
+        :param str type: The project type of this project.
+        :param DefaultQueryParams default_query_parameters: (optional) Default
+               query parameters for this project.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if name is None:
+            raise ValueError('name must be provided')
+        if type is None:
+            raise ValueError('type must be provided')
+        if default_query_parameters is not None:
+            default_query_parameters = self._convert_model(
+                default_query_parameters)
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='create_project')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        data = {
+            'name': name,
+            'type': type,
+            'default_query_parameters': default_query_parameters
+        }
+
+        url = '/v2/projects'
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data)
+
+        response = self.send(request)
+        return response
+
+    def get_project(self, project_id: str, **kwargs) -> 'DetailedResponse':
+        """
+        Get project.
+
+        Get details on the specified project.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the deploy page of the Discovery administrative tooling.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='get_project')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v2/projects/{0}'.format(*self._encode_path_vars(project_id))
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
+    def update_project(self,
+                       project_id: str,
+                       *,
+                       name: str = None,
+                       **kwargs) -> 'DetailedResponse':
+        """
+        Update a project.
+
+        Update the specified project's name.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the deploy page of the Discovery administrative tooling.
+        :param str name: (optional) The new name to give this project.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='update_project')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        data = {'name': name}
+
+        url = '/v2/projects/{0}'.format(*self._encode_path_vars(project_id))
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data)
+
+        response = self.send(request)
+        return response
+
+    def delete_project(self, project_id: str, **kwargs) -> 'DetailedResponse':
+        """
+        Delete a project.
+
+        Deletes the specified project.
+        **Important:** Deleting a project deletes everything that is part of the specified
+        project, including all collections.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the deploy page of the Discovery administrative tooling.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='delete_project')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v2/projects/{0}'.format(*self._encode_path_vars(project_id))
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
+    #########################
+    # userData
+    #########################
+
+    def delete_user_data(self, customer_id: str,
+                         **kwargs) -> 'DetailedResponse':
+        """
+        Delete labeled data.
+
+        Deletes all data associated with a specified customer ID. The method has no effect
+        if no data is associated with the customer ID.
+        You associate a customer ID with data by passing the **X-Watson-Metadata** header
+        with a request that passes data. For more information about personal data and
+        customer IDs, see [Information
+        security](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-information-security#information-security).
+        **Note:** This method is only supported on IBM Cloud instances of Discovery.
+
+        :param str customer_id: The customer ID for which all data is to be
+               deleted.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if customer_id is None:
+            raise ValueError('customer_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='delete_user_data')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version, 'customer_id': customer_id}
+
+        url = '/v2/user_data'
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
 
 class AddDocumentEnums(object):
 
@@ -1049,6 +1731,195 @@ class Collection():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'Collection') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class CollectionDetails():
+    """
+    A collection for storing documents.
+
+    :attr str collection_id: (optional) The unique identifier of the collection.
+    :attr str name: The name of the collection.
+    :attr str description: (optional) A description of the collection.
+    :attr datetime created: (optional) The date that the collection was created.
+    :attr str language: (optional) The language of the collection.
+    :attr List[CollectionEnrichment] enrichments: (optional) An array of enrichments
+          that are applied to this collection.
+    """
+
+    def __init__(self,
+                 name: str,
+                 *,
+                 collection_id: str = None,
+                 description: str = None,
+                 created: datetime = None,
+                 language: str = None,
+                 enrichments: List['CollectionEnrichment'] = None) -> None:
+        """
+        Initialize a CollectionDetails object.
+
+        :param str name: The name of the collection.
+        :param str collection_id: (optional) The unique identifier of the
+               collection.
+        :param str description: (optional) A description of the collection.
+        :param datetime created: (optional) The date that the collection was
+               created.
+        :param str language: (optional) The language of the collection.
+        :param List[CollectionEnrichment] enrichments: (optional) An array of
+               enrichments that are applied to this collection.
+        """
+        self.collection_id = collection_id
+        self.name = name
+        self.description = description
+        self.created = created
+        self.language = language
+        self.enrichments = enrichments
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'CollectionDetails':
+        """Initialize a CollectionDetails object from a json dictionary."""
+        args = {}
+        valid_keys = [
+            'collection_id', 'name', 'description', 'created', 'language',
+            'enrichments'
+        ]
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class CollectionDetails: '
+                + ', '.join(bad_keys))
+        if 'collection_id' in _dict:
+            args['collection_id'] = _dict.get('collection_id')
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        else:
+            raise ValueError(
+                'Required property \'name\' not present in CollectionDetails JSON'
+            )
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'created' in _dict:
+            args['created'] = string_to_datetime(_dict.get('created'))
+        if 'language' in _dict:
+            args['language'] = _dict.get('language')
+        if 'enrichments' in _dict:
+            args['enrichments'] = [
+                CollectionEnrichment._from_dict(x)
+                for x in (_dict.get('enrichments'))
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CollectionDetails object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'collection_id') and self.collection_id is not None:
+            _dict['collection_id'] = self.collection_id
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'created') and self.created is not None:
+            _dict['created'] = datetime_to_string(self.created)
+        if hasattr(self, 'language') and self.language is not None:
+            _dict['language'] = self.language
+        if hasattr(self, 'enrichments') and self.enrichments is not None:
+            _dict['enrichments'] = [x._to_dict() for x in self.enrichments]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this CollectionDetails object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'CollectionDetails') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'CollectionDetails') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class CollectionEnrichment():
+    """
+    An object describing an Enrichment for a collection.
+
+    :attr str enrichment_id: (optional) The unique identifier of this enrichment.
+    :attr List[str] fields: (optional) An array of field names that the enrichment
+          is applied to.
+    """
+
+    def __init__(self,
+                 *,
+                 enrichment_id: str = None,
+                 fields: List[str] = None) -> None:
+        """
+        Initialize a CollectionEnrichment object.
+
+        :param str enrichment_id: (optional) The unique identifier of this
+               enrichment.
+        :param List[str] fields: (optional) An array of field names that the
+               enrichment is applied to.
+        """
+        self.enrichment_id = enrichment_id
+        self.fields = fields
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'CollectionEnrichment':
+        """Initialize a CollectionEnrichment object from a json dictionary."""
+        args = {}
+        valid_keys = ['enrichment_id', 'fields']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class CollectionEnrichment: '
+                + ', '.join(bad_keys))
+        if 'enrichment_id' in _dict:
+            args['enrichment_id'] = _dict.get('enrichment_id')
+        if 'fields' in _dict:
+            args['fields'] = _dict.get('fields')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CollectionEnrichment object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'enrichment_id') and self.enrichment_id is not None:
+            _dict['enrichment_id'] = self.enrichment_id
+        if hasattr(self, 'fields') and self.fields is not None:
+            _dict['fields'] = self.fields
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this CollectionEnrichment object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'CollectionEnrichment') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'CollectionEnrichment') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1424,7 +2295,7 @@ class ComponentSettingsFieldsShownTitle():
 
 class ComponentSettingsResponse():
     """
-    A response containing the default component settings.
+    The default component settings for this project.
 
     :attr ComponentSettingsFieldsShown fields_shown: (optional) Fields shown in the
           results section of the UI.
@@ -1529,6 +2400,544 @@ class ComponentSettingsResponse():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'ComponentSettingsResponse') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class CreateEnrichment():
+    """
+    Information about a specific enrichment.
+
+    :attr str name: (optional) The human readable name for this enrichment.
+    :attr str description: (optional) The description of this enrichment.
+    :attr str type: (optional) The type of this enrichment.
+    :attr EnrichmentOptions options: (optional) A object containing options for the
+          current enrichment.
+    """
+
+    def __init__(self,
+                 *,
+                 name: str = None,
+                 description: str = None,
+                 type: str = None,
+                 options: 'EnrichmentOptions' = None) -> None:
+        """
+        Initialize a CreateEnrichment object.
+
+        :param str name: (optional) The human readable name for this enrichment.
+        :param str description: (optional) The description of this enrichment.
+        :param str type: (optional) The type of this enrichment.
+        :param EnrichmentOptions options: (optional) A object containing options
+               for the current enrichment.
+        """
+        self.name = name
+        self.description = description
+        self.type = type
+        self.options = options
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'CreateEnrichment':
+        """Initialize a CreateEnrichment object from a json dictionary."""
+        args = {}
+        valid_keys = ['name', 'description', 'type', 'options']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class CreateEnrichment: '
+                + ', '.join(bad_keys))
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        if 'options' in _dict:
+            args['options'] = EnrichmentOptions._from_dict(_dict.get('options'))
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CreateEnrichment object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'options') and self.options is not None:
+            _dict['options'] = self.options._to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this CreateEnrichment object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'CreateEnrichment') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'CreateEnrichment') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class TypeEnum(Enum):
+        """
+        The type of this enrichment.
+        """
+        DICTIONARY = "dictionary"
+        REGULAR_EXPRESSION = "regular_expression"
+        UIMA_ANNOTATOR = "uima_annotator"
+        RULE_BASED = "rule_based"
+        WATSON_KNOWLEDGE_STUDIO_MODEL = "watson_knowledge_studio_model"
+
+
+class DefaultQueryParams():
+    """
+    Default query parameters for this project.
+
+    :attr List[str] collection_ids: (optional) An array of collection identifiers to
+          query. If empty or omitted all collections in the project are queried.
+    :attr DefaultQueryParamsPassages passages: (optional) Default settings
+          configuration for passage search options.
+    :attr DefaultQueryParamsTableResults table_results: (optional) Default project
+          query settings for table results.
+    :attr str aggregation: (optional) A string representing the default aggregation
+          query for the project.
+    :attr DefaultQueryParamsSuggestedRefinements suggested_refinements: (optional)
+          Object containing suggested refinement settings.
+    :attr bool spelling_suggestions: (optional) When `true`, a spelling suggestions
+          for the query are retuned by default.
+    :attr bool highlight: (optional) When `true`, a highlights for the query are
+          retuned by default.
+    :attr int count: (optional) The number of document results returned by default.
+    :attr str sort: (optional) A comma separated list of document fields to sort
+          results by default.
+    :attr List[str] return_: (optional) An array of field names to return in
+          document results if present by default.
+    """
+
+    def __init__(self,
+                 *,
+                 collection_ids: List[str] = None,
+                 passages: 'DefaultQueryParamsPassages' = None,
+                 table_results: 'DefaultQueryParamsTableResults' = None,
+                 aggregation: str = None,
+                 suggested_refinements:
+                 'DefaultQueryParamsSuggestedRefinements' = None,
+                 spelling_suggestions: bool = None,
+                 highlight: bool = None,
+                 count: int = None,
+                 sort: str = None,
+                 return_: List[str] = None) -> None:
+        """
+        Initialize a DefaultQueryParams object.
+
+        :param List[str] collection_ids: (optional) An array of collection
+               identifiers to query. If empty or omitted all collections in the project
+               are queried.
+        :param DefaultQueryParamsPassages passages: (optional) Default settings
+               configuration for passage search options.
+        :param DefaultQueryParamsTableResults table_results: (optional) Default
+               project query settings for table results.
+        :param str aggregation: (optional) A string representing the default
+               aggregation query for the project.
+        :param DefaultQueryParamsSuggestedRefinements suggested_refinements:
+               (optional) Object containing suggested refinement settings.
+        :param bool spelling_suggestions: (optional) When `true`, a spelling
+               suggestions for the query are retuned by default.
+        :param bool highlight: (optional) When `true`, a highlights for the query
+               are retuned by default.
+        :param int count: (optional) The number of document results returned by
+               default.
+        :param str sort: (optional) A comma separated list of document fields to
+               sort results by default.
+        :param List[str] return_: (optional) An array of field names to return in
+               document results if present by default.
+        """
+        self.collection_ids = collection_ids
+        self.passages = passages
+        self.table_results = table_results
+        self.aggregation = aggregation
+        self.suggested_refinements = suggested_refinements
+        self.spelling_suggestions = spelling_suggestions
+        self.highlight = highlight
+        self.count = count
+        self.sort = sort
+        self.return_ = return_
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'DefaultQueryParams':
+        """Initialize a DefaultQueryParams object from a json dictionary."""
+        args = {}
+        valid_keys = [
+            'collection_ids', 'passages', 'table_results', 'aggregation',
+            'suggested_refinements', 'spelling_suggestions', 'highlight',
+            'count', 'sort', 'return_', 'return'
+        ]
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class DefaultQueryParams: '
+                + ', '.join(bad_keys))
+        if 'collection_ids' in _dict:
+            args['collection_ids'] = _dict.get('collection_ids')
+        if 'passages' in _dict:
+            args['passages'] = DefaultQueryParamsPassages._from_dict(
+                _dict.get('passages'))
+        if 'table_results' in _dict:
+            args['table_results'] = DefaultQueryParamsTableResults._from_dict(
+                _dict.get('table_results'))
+        if 'aggregation' in _dict:
+            args['aggregation'] = _dict.get('aggregation')
+        if 'suggested_refinements' in _dict:
+            args[
+                'suggested_refinements'] = DefaultQueryParamsSuggestedRefinements._from_dict(
+                    _dict.get('suggested_refinements'))
+        if 'spelling_suggestions' in _dict:
+            args['spelling_suggestions'] = _dict.get('spelling_suggestions')
+        if 'highlight' in _dict:
+            args['highlight'] = _dict.get('highlight')
+        if 'count' in _dict:
+            args['count'] = _dict.get('count')
+        if 'sort' in _dict:
+            args['sort'] = _dict.get('sort')
+        if 'return' in _dict:
+            args['return_'] = _dict.get('return')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DefaultQueryParams object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'collection_ids') and self.collection_ids is not None:
+            _dict['collection_ids'] = self.collection_ids
+        if hasattr(self, 'passages') and self.passages is not None:
+            _dict['passages'] = self.passages._to_dict()
+        if hasattr(self, 'table_results') and self.table_results is not None:
+            _dict['table_results'] = self.table_results._to_dict()
+        if hasattr(self, 'aggregation') and self.aggregation is not None:
+            _dict['aggregation'] = self.aggregation
+        if hasattr(self, 'suggested_refinements'
+                  ) and self.suggested_refinements is not None:
+            _dict[
+                'suggested_refinements'] = self.suggested_refinements._to_dict(
+                )
+        if hasattr(self, 'spelling_suggestions'
+                  ) and self.spelling_suggestions is not None:
+            _dict['spelling_suggestions'] = self.spelling_suggestions
+        if hasattr(self, 'highlight') and self.highlight is not None:
+            _dict['highlight'] = self.highlight
+        if hasattr(self, 'count') and self.count is not None:
+            _dict['count'] = self.count
+        if hasattr(self, 'sort') and self.sort is not None:
+            _dict['sort'] = self.sort
+        if hasattr(self, 'return_') and self.return_ is not None:
+            _dict['return'] = self.return_
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this DefaultQueryParams object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'DefaultQueryParams') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'DefaultQueryParams') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class DefaultQueryParamsPassages():
+    """
+    Default settings configuration for passage search options.
+
+    :attr bool enabled: (optional) When `true`, a passage search is performed by
+          default.
+    :attr int count: (optional) The number of passages to return.
+    :attr List[str] fields: (optional) An array of field names to perfom the passage
+          search on.
+    :attr int characters: (optional) The approximate number of characters that each
+          returned passage will contain.
+    :attr bool per_document: (optional) When `true` the number of passages that can
+          be returned from a single document is restricted to the *max_per_document*
+          value.
+    :attr int max_per_document: (optional) The default maximum number of passages
+          that can be taken from a single document as the result of a passage query.
+    """
+
+    def __init__(self,
+                 *,
+                 enabled: bool = None,
+                 count: int = None,
+                 fields: List[str] = None,
+                 characters: int = None,
+                 per_document: bool = None,
+                 max_per_document: int = None) -> None:
+        """
+        Initialize a DefaultQueryParamsPassages object.
+
+        :param bool enabled: (optional) When `true`, a passage search is performed
+               by default.
+        :param int count: (optional) The number of passages to return.
+        :param List[str] fields: (optional) An array of field names to perfom the
+               passage search on.
+        :param int characters: (optional) The approximate number of characters that
+               each returned passage will contain.
+        :param bool per_document: (optional) When `true` the number of passages
+               that can be returned from a single document is restricted to the
+               *max_per_document* value.
+        :param int max_per_document: (optional) The default maximum number of
+               passages that can be taken from a single document as the result of a
+               passage query.
+        """
+        self.enabled = enabled
+        self.count = count
+        self.fields = fields
+        self.characters = characters
+        self.per_document = per_document
+        self.max_per_document = max_per_document
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'DefaultQueryParamsPassages':
+        """Initialize a DefaultQueryParamsPassages object from a json dictionary."""
+        args = {}
+        valid_keys = [
+            'enabled', 'count', 'fields', 'characters', 'per_document',
+            'max_per_document'
+        ]
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class DefaultQueryParamsPassages: '
+                + ', '.join(bad_keys))
+        if 'enabled' in _dict:
+            args['enabled'] = _dict.get('enabled')
+        if 'count' in _dict:
+            args['count'] = _dict.get('count')
+        if 'fields' in _dict:
+            args['fields'] = _dict.get('fields')
+        if 'characters' in _dict:
+            args['characters'] = _dict.get('characters')
+        if 'per_document' in _dict:
+            args['per_document'] = _dict.get('per_document')
+        if 'max_per_document' in _dict:
+            args['max_per_document'] = _dict.get('max_per_document')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DefaultQueryParamsPassages object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'enabled') and self.enabled is not None:
+            _dict['enabled'] = self.enabled
+        if hasattr(self, 'count') and self.count is not None:
+            _dict['count'] = self.count
+        if hasattr(self, 'fields') and self.fields is not None:
+            _dict['fields'] = self.fields
+        if hasattr(self, 'characters') and self.characters is not None:
+            _dict['characters'] = self.characters
+        if hasattr(self, 'per_document') and self.per_document is not None:
+            _dict['per_document'] = self.per_document
+        if hasattr(self,
+                   'max_per_document') and self.max_per_document is not None:
+            _dict['max_per_document'] = self.max_per_document
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this DefaultQueryParamsPassages object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'DefaultQueryParamsPassages') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'DefaultQueryParamsPassages') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class DefaultQueryParamsSuggestedRefinements():
+    """
+    Object containing suggested refinement settings.
+
+    :attr bool enabled: (optional) When `true`, a suggested refinements for the
+          query are retuned by default.
+    :attr int count: (optional) The number of suggested refinements to return by
+          default.
+    """
+
+    def __init__(self, *, enabled: bool = None, count: int = None) -> None:
+        """
+        Initialize a DefaultQueryParamsSuggestedRefinements object.
+
+        :param bool enabled: (optional) When `true`, a suggested refinements for
+               the query are retuned by default.
+        :param int count: (optional) The number of suggested refinements to return
+               by default.
+        """
+        self.enabled = enabled
+        self.count = count
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'DefaultQueryParamsSuggestedRefinements':
+        """Initialize a DefaultQueryParamsSuggestedRefinements object from a json dictionary."""
+        args = {}
+        valid_keys = ['enabled', 'count']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class DefaultQueryParamsSuggestedRefinements: '
+                + ', '.join(bad_keys))
+        if 'enabled' in _dict:
+            args['enabled'] = _dict.get('enabled')
+        if 'count' in _dict:
+            args['count'] = _dict.get('count')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DefaultQueryParamsSuggestedRefinements object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'enabled') and self.enabled is not None:
+            _dict['enabled'] = self.enabled
+        if hasattr(self, 'count') and self.count is not None:
+            _dict['count'] = self.count
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this DefaultQueryParamsSuggestedRefinements object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'DefaultQueryParamsSuggestedRefinements') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'DefaultQueryParamsSuggestedRefinements') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class DefaultQueryParamsTableResults():
+    """
+    Default project query settings for table results.
+
+    :attr bool enabled: (optional) When `true`, a table results for the query are
+          retuned by default.
+    :attr int count: (optional) The number of table results to return by default.
+    :attr int per_document: (optional) The number of table results to include in
+          each result document.
+    """
+
+    def __init__(self,
+                 *,
+                 enabled: bool = None,
+                 count: int = None,
+                 per_document: int = None) -> None:
+        """
+        Initialize a DefaultQueryParamsTableResults object.
+
+        :param bool enabled: (optional) When `true`, a table results for the query
+               are retuned by default.
+        :param int count: (optional) The number of table results to return by
+               default.
+        :param int per_document: (optional) The number of table results to include
+               in each result document.
+        """
+        self.enabled = enabled
+        self.count = count
+        self.per_document = per_document
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'DefaultQueryParamsTableResults':
+        """Initialize a DefaultQueryParamsTableResults object from a json dictionary."""
+        args = {}
+        valid_keys = ['enabled', 'count', 'per_document']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class DefaultQueryParamsTableResults: '
+                + ', '.join(bad_keys))
+        if 'enabled' in _dict:
+            args['enabled'] = _dict.get('enabled')
+        if 'count' in _dict:
+            args['count'] = _dict.get('count')
+        if 'per_document' in _dict:
+            args['per_document'] = _dict.get('per_document')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DefaultQueryParamsTableResults object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'enabled') and self.enabled is not None:
+            _dict['enabled'] = self.enabled
+        if hasattr(self, 'count') and self.count is not None:
+            _dict['count'] = self.count
+        if hasattr(self, 'per_document') and self.per_document is not None:
+            _dict['per_document'] = self.per_document
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this DefaultQueryParamsTableResults object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'DefaultQueryParamsTableResults') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'DefaultQueryParamsTableResults') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1775,6 +3184,285 @@ class DocumentAttribute():
         return not self == other
 
 
+class Enrichment():
+    """
+    Information about a specific enrichment.
+
+    :attr str enrichment_id: (optional) The unique identifier of this enrichment.
+    :attr str name: (optional) The human readable name for this enrichment.
+    :attr str description: (optional) The description of this enrichment.
+    :attr str type: (optional) The type of this enrichment.
+    :attr EnrichmentOptions options: (optional) A object containing options for the
+          current enrichment.
+    """
+
+    def __init__(self,
+                 *,
+                 enrichment_id: str = None,
+                 name: str = None,
+                 description: str = None,
+                 type: str = None,
+                 options: 'EnrichmentOptions' = None) -> None:
+        """
+        Initialize a Enrichment object.
+
+        :param str enrichment_id: (optional) The unique identifier of this
+               enrichment.
+        :param str name: (optional) The human readable name for this enrichment.
+        :param str description: (optional) The description of this enrichment.
+        :param str type: (optional) The type of this enrichment.
+        :param EnrichmentOptions options: (optional) A object containing options
+               for the current enrichment.
+        """
+        self.enrichment_id = enrichment_id
+        self.name = name
+        self.description = description
+        self.type = type
+        self.options = options
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'Enrichment':
+        """Initialize a Enrichment object from a json dictionary."""
+        args = {}
+        valid_keys = ['enrichment_id', 'name', 'description', 'type', 'options']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Enrichment: '
+                + ', '.join(bad_keys))
+        if 'enrichment_id' in _dict:
+            args['enrichment_id'] = _dict.get('enrichment_id')
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        if 'options' in _dict:
+            args['options'] = EnrichmentOptions._from_dict(_dict.get('options'))
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Enrichment object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'enrichment_id') and self.enrichment_id is not None:
+            _dict['enrichment_id'] = self.enrichment_id
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'options') and self.options is not None:
+            _dict['options'] = self.options._to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this Enrichment object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'Enrichment') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'Enrichment') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class TypeEnum(Enum):
+        """
+        The type of this enrichment.
+        """
+        PART_OF_SPEECH = "part_of_speech"
+        SENTIMENT = "sentiment"
+        NATURAL_LANGUAGE_UNDERSTANDING = "natural_language_understanding"
+        DICTIONARY = "dictionary"
+        REGULAR_EXPRESSION = "regular_expression"
+        UIMA_ANNOTATOR = "uima_annotator"
+        RULE_BASED = "rule_based"
+        WATSON_KNOWLEDGE_STUDIO_MODEL = "watson_knowledge_studio_model"
+
+
+class EnrichmentOptions():
+    """
+    A object containing options for the current enrichment.
+
+    :attr List[str] languages: (optional) An array of supported languages for this
+          enrichment.
+    :attr str entity_type: (optional) The type of entity. Required when creating
+          `dictionary` and `regular_expression` **type** enrichment. Not valid when
+          creating any other type of enrichment.
+    :attr str regular_expression: (optional) The regular expression to apply for
+          this enrichment. Required only when the **type** of enrichment being created is
+          a `regular_expression`. Not valid when creating any other type of enrichment.
+    :attr str result_field: (optional) The name of the result document field that
+          this enrichment creates. Required only when the enrichment **type** is
+          `rule_based`. Not valid when creating any other type of enrichment.
+    """
+
+    def __init__(self,
+                 *,
+                 languages: List[str] = None,
+                 entity_type: str = None,
+                 regular_expression: str = None,
+                 result_field: str = None) -> None:
+        """
+        Initialize a EnrichmentOptions object.
+
+        :param List[str] languages: (optional) An array of supported languages for
+               this enrichment.
+        :param str entity_type: (optional) The type of entity. Required when
+               creating `dictionary` and `regular_expression` **type** enrichment. Not
+               valid when creating any other type of enrichment.
+        :param str regular_expression: (optional) The regular expression to apply
+               for this enrichment. Required only when the **type** of enrichment being
+               created is a `regular_expression`. Not valid when creating any other type
+               of enrichment.
+        :param str result_field: (optional) The name of the result document field
+               that this enrichment creates. Required only when the enrichment **type** is
+               `rule_based`. Not valid when creating any other type of enrichment.
+        """
+        self.languages = languages
+        self.entity_type = entity_type
+        self.regular_expression = regular_expression
+        self.result_field = result_field
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'EnrichmentOptions':
+        """Initialize a EnrichmentOptions object from a json dictionary."""
+        args = {}
+        valid_keys = [
+            'languages', 'entity_type', 'regular_expression', 'result_field'
+        ]
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class EnrichmentOptions: '
+                + ', '.join(bad_keys))
+        if 'languages' in _dict:
+            args['languages'] = _dict.get('languages')
+        if 'entity_type' in _dict:
+            args['entity_type'] = _dict.get('entity_type')
+        if 'regular_expression' in _dict:
+            args['regular_expression'] = _dict.get('regular_expression')
+        if 'result_field' in _dict:
+            args['result_field'] = _dict.get('result_field')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a EnrichmentOptions object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'languages') and self.languages is not None:
+            _dict['languages'] = self.languages
+        if hasattr(self, 'entity_type') and self.entity_type is not None:
+            _dict['entity_type'] = self.entity_type
+        if hasattr(
+                self,
+                'regular_expression') and self.regular_expression is not None:
+            _dict['regular_expression'] = self.regular_expression
+        if hasattr(self, 'result_field') and self.result_field is not None:
+            _dict['result_field'] = self.result_field
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this EnrichmentOptions object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'EnrichmentOptions') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'EnrichmentOptions') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class Enrichments():
+    """
+    An object containing an array of enrichment definitions.
+
+    :attr List[Enrichment] enrichments: (optional) An array of enrichment
+          definitions.
+    """
+
+    def __init__(self, *, enrichments: List['Enrichment'] = None) -> None:
+        """
+        Initialize a Enrichments object.
+
+        :param List[Enrichment] enrichments: (optional) An array of enrichment
+               definitions.
+        """
+        self.enrichments = enrichments
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'Enrichments':
+        """Initialize a Enrichments object from a json dictionary."""
+        args = {}
+        valid_keys = ['enrichments']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Enrichments: '
+                + ', '.join(bad_keys))
+        if 'enrichments' in _dict:
+            args['enrichments'] = [
+                Enrichment._from_dict(x) for x in (_dict.get('enrichments'))
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Enrichments object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'enrichments') and self.enrichments is not None:
+            _dict['enrichments'] = [x._to_dict() for x in self.enrichments]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this Enrichments object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'Enrichments') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'Enrichments') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class Field():
     """
     Object containing field details.
@@ -2005,6 +3693,70 @@ class ListFieldsResponse():
         return not self == other
 
 
+class ListProjectsResponse():
+    """
+    A list of projects in this instance.
+
+    :attr List[ProjectListDetails] projects: (optional) An array of project details.
+    """
+
+    def __init__(self, *, projects: List['ProjectListDetails'] = None) -> None:
+        """
+        Initialize a ListProjectsResponse object.
+
+        :param List[ProjectListDetails] projects: (optional) An array of project
+               details.
+        """
+        self.projects = projects
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ListProjectsResponse':
+        """Initialize a ListProjectsResponse object from a json dictionary."""
+        args = {}
+        valid_keys = ['projects']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ListProjectsResponse: '
+                + ', '.join(bad_keys))
+        if 'projects' in _dict:
+            args['projects'] = [
+                ProjectListDetails._from_dict(x)
+                for x in (_dict.get('projects'))
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ListProjectsResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'projects') and self.projects is not None:
+            _dict['projects'] = [x._to_dict() for x in self.projects]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ListProjectsResponse object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'ListProjectsResponse') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ListProjectsResponse') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class Notice():
     """
     A notice produced for the collection.
@@ -2165,6 +3917,407 @@ class Notice():
         ERROR = "error"
 
 
+class ProjectDetails():
+    """
+    Detailed information about the specified project.
+
+    :attr str project_id: (optional) The unique identifier of this project.
+    :attr str name: (optional) The human readable name of this project.
+    :attr str type: (optional) The project type of this project.
+    :attr ProjectListDetailsRelevancyTrainingStatus relevancy_training_status:
+          (optional) Relevancy training status information for this project.
+    :attr int collection_count: (optional) The number of collections configured in
+          this project.
+    :attr DefaultQueryParams default_query_parameters: (optional) Default query
+          parameters for this project.
+    """
+
+    def __init__(self,
+                 *,
+                 project_id: str = None,
+                 name: str = None,
+                 type: str = None,
+                 relevancy_training_status:
+                 'ProjectListDetailsRelevancyTrainingStatus' = None,
+                 collection_count: int = None,
+                 default_query_parameters: 'DefaultQueryParams' = None) -> None:
+        """
+        Initialize a ProjectDetails object.
+
+        :param str project_id: (optional) The unique identifier of this project.
+        :param str name: (optional) The human readable name of this project.
+        :param str type: (optional) The project type of this project.
+        :param ProjectListDetailsRelevancyTrainingStatus relevancy_training_status:
+               (optional) Relevancy training status information for this project.
+        :param int collection_count: (optional) The number of collections
+               configured in this project.
+        :param DefaultQueryParams default_query_parameters: (optional) Default
+               query parameters for this project.
+        """
+        self.project_id = project_id
+        self.name = name
+        self.type = type
+        self.relevancy_training_status = relevancy_training_status
+        self.collection_count = collection_count
+        self.default_query_parameters = default_query_parameters
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ProjectDetails':
+        """Initialize a ProjectDetails object from a json dictionary."""
+        args = {}
+        valid_keys = [
+            'project_id', 'name', 'type', 'relevancy_training_status',
+            'collection_count', 'default_query_parameters'
+        ]
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ProjectDetails: '
+                + ', '.join(bad_keys))
+        if 'project_id' in _dict:
+            args['project_id'] = _dict.get('project_id')
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        if 'relevancy_training_status' in _dict:
+            args[
+                'relevancy_training_status'] = ProjectListDetailsRelevancyTrainingStatus._from_dict(
+                    _dict.get('relevancy_training_status'))
+        if 'collection_count' in _dict:
+            args['collection_count'] = _dict.get('collection_count')
+        if 'default_query_parameters' in _dict:
+            args['default_query_parameters'] = DefaultQueryParams._from_dict(
+                _dict.get('default_query_parameters'))
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProjectDetails object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'project_id') and self.project_id is not None:
+            _dict['project_id'] = self.project_id
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'relevancy_training_status'
+                  ) and self.relevancy_training_status is not None:
+            _dict[
+                'relevancy_training_status'] = self.relevancy_training_status._to_dict(
+                )
+        if hasattr(self,
+                   'collection_count') and self.collection_count is not None:
+            _dict['collection_count'] = self.collection_count
+        if hasattr(self, 'default_query_parameters'
+                  ) and self.default_query_parameters is not None:
+            _dict[
+                'default_query_parameters'] = self.default_query_parameters._to_dict(
+                )
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ProjectDetails object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'ProjectDetails') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ProjectDetails') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class TypeEnum(Enum):
+        """
+        The project type of this project.
+        """
+        DOCUMENT_RETRIEVAL = "document_retrieval"
+        ANSWER_RETRIEVAL = "answer_retrieval"
+        CONTENT_MINING = "content_mining"
+        OTHER = "other"
+
+
+class ProjectListDetails():
+    """
+    Details about a specific project.
+
+    :attr str project_id: (optional) The unique identifier of this project.
+    :attr str name: (optional) The human readable name of this project.
+    :attr str type: (optional) The project type of this project.
+    :attr ProjectListDetailsRelevancyTrainingStatus relevancy_training_status:
+          (optional) Relevancy training status information for this project.
+    :attr int collection_count: (optional) The number of collections configured in
+          this project.
+    """
+
+    def __init__(self,
+                 *,
+                 project_id: str = None,
+                 name: str = None,
+                 type: str = None,
+                 relevancy_training_status:
+                 'ProjectListDetailsRelevancyTrainingStatus' = None,
+                 collection_count: int = None) -> None:
+        """
+        Initialize a ProjectListDetails object.
+
+        :param str project_id: (optional) The unique identifier of this project.
+        :param str name: (optional) The human readable name of this project.
+        :param str type: (optional) The project type of this project.
+        :param ProjectListDetailsRelevancyTrainingStatus relevancy_training_status:
+               (optional) Relevancy training status information for this project.
+        :param int collection_count: (optional) The number of collections
+               configured in this project.
+        """
+        self.project_id = project_id
+        self.name = name
+        self.type = type
+        self.relevancy_training_status = relevancy_training_status
+        self.collection_count = collection_count
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ProjectListDetails':
+        """Initialize a ProjectListDetails object from a json dictionary."""
+        args = {}
+        valid_keys = [
+            'project_id', 'name', 'type', 'relevancy_training_status',
+            'collection_count'
+        ]
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ProjectListDetails: '
+                + ', '.join(bad_keys))
+        if 'project_id' in _dict:
+            args['project_id'] = _dict.get('project_id')
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        if 'relevancy_training_status' in _dict:
+            args[
+                'relevancy_training_status'] = ProjectListDetailsRelevancyTrainingStatus._from_dict(
+                    _dict.get('relevancy_training_status'))
+        if 'collection_count' in _dict:
+            args['collection_count'] = _dict.get('collection_count')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProjectListDetails object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'project_id') and self.project_id is not None:
+            _dict['project_id'] = self.project_id
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'relevancy_training_status'
+                  ) and self.relevancy_training_status is not None:
+            _dict[
+                'relevancy_training_status'] = self.relevancy_training_status._to_dict(
+                )
+        if hasattr(self,
+                   'collection_count') and self.collection_count is not None:
+            _dict['collection_count'] = self.collection_count
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ProjectListDetails object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'ProjectListDetails') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ProjectListDetails') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class TypeEnum(Enum):
+        """
+        The project type of this project.
+        """
+        DOCUMENT_RETRIEVAL = "document_retrieval"
+        ANSWER_RETRIEVAL = "answer_retrieval"
+        CONTENT_MINING = "content_mining"
+        OTHER = "other"
+
+
+class ProjectListDetailsRelevancyTrainingStatus():
+    """
+    Relevancy training status information for this project.
+
+    :attr str data_updated: (optional) When the training data was updated.
+    :attr int total_examples: (optional) The total number of examples.
+    :attr bool sufficient_label_diversity: (optional) When `true`, sufficent label
+          diversity is present to allow training for this project.
+    :attr bool processing: (optional) When `true`, the relevancy training is in
+          processing.
+    :attr bool minimum_examples_added: (optional) When `true`, the minimum number of
+          examples required to train has been met.
+    :attr str successfully_trained: (optional) The time that the most recent
+          successful training occured.
+    :attr bool available: (optional) When `true`, relevancy training is available
+          when querying collections in the project.
+    :attr int notices: (optional) The number of notices generated during the
+          relevancy training.
+    :attr bool minimum_queries_added: (optional) When `true`, the minimum number of
+          queries required to train has been met.
+    """
+
+    def __init__(self,
+                 *,
+                 data_updated: str = None,
+                 total_examples: int = None,
+                 sufficient_label_diversity: bool = None,
+                 processing: bool = None,
+                 minimum_examples_added: bool = None,
+                 successfully_trained: str = None,
+                 available: bool = None,
+                 notices: int = None,
+                 minimum_queries_added: bool = None) -> None:
+        """
+        Initialize a ProjectListDetailsRelevancyTrainingStatus object.
+
+        :param str data_updated: (optional) When the training data was updated.
+        :param int total_examples: (optional) The total number of examples.
+        :param bool sufficient_label_diversity: (optional) When `true`, sufficent
+               label diversity is present to allow training for this project.
+        :param bool processing: (optional) When `true`, the relevancy training is
+               in processing.
+        :param bool minimum_examples_added: (optional) When `true`, the minimum
+               number of examples required to train has been met.
+        :param str successfully_trained: (optional) The time that the most recent
+               successful training occured.
+        :param bool available: (optional) When `true`, relevancy training is
+               available when querying collections in the project.
+        :param int notices: (optional) The number of notices generated during the
+               relevancy training.
+        :param bool minimum_queries_added: (optional) When `true`, the minimum
+               number of queries required to train has been met.
+        """
+        self.data_updated = data_updated
+        self.total_examples = total_examples
+        self.sufficient_label_diversity = sufficient_label_diversity
+        self.processing = processing
+        self.minimum_examples_added = minimum_examples_added
+        self.successfully_trained = successfully_trained
+        self.available = available
+        self.notices = notices
+        self.minimum_queries_added = minimum_queries_added
+
+    @classmethod
+    def from_dict(cls,
+                  _dict: Dict) -> 'ProjectListDetailsRelevancyTrainingStatus':
+        """Initialize a ProjectListDetailsRelevancyTrainingStatus object from a json dictionary."""
+        args = {}
+        valid_keys = [
+            'data_updated', 'total_examples', 'sufficient_label_diversity',
+            'processing', 'minimum_examples_added', 'successfully_trained',
+            'available', 'notices', 'minimum_queries_added'
+        ]
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class ProjectListDetailsRelevancyTrainingStatus: '
+                + ', '.join(bad_keys))
+        if 'data_updated' in _dict:
+            args['data_updated'] = _dict.get('data_updated')
+        if 'total_examples' in _dict:
+            args['total_examples'] = _dict.get('total_examples')
+        if 'sufficient_label_diversity' in _dict:
+            args['sufficient_label_diversity'] = _dict.get(
+                'sufficient_label_diversity')
+        if 'processing' in _dict:
+            args['processing'] = _dict.get('processing')
+        if 'minimum_examples_added' in _dict:
+            args['minimum_examples_added'] = _dict.get('minimum_examples_added')
+        if 'successfully_trained' in _dict:
+            args['successfully_trained'] = _dict.get('successfully_trained')
+        if 'available' in _dict:
+            args['available'] = _dict.get('available')
+        if 'notices' in _dict:
+            args['notices'] = _dict.get('notices')
+        if 'minimum_queries_added' in _dict:
+            args['minimum_queries_added'] = _dict.get('minimum_queries_added')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ProjectListDetailsRelevancyTrainingStatus object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'data_updated') and self.data_updated is not None:
+            _dict['data_updated'] = self.data_updated
+        if hasattr(self, 'total_examples') and self.total_examples is not None:
+            _dict['total_examples'] = self.total_examples
+        if hasattr(self, 'sufficient_label_diversity'
+                  ) and self.sufficient_label_diversity is not None:
+            _dict[
+                'sufficient_label_diversity'] = self.sufficient_label_diversity
+        if hasattr(self, 'processing') and self.processing is not None:
+            _dict['processing'] = self.processing
+        if hasattr(self, 'minimum_examples_added'
+                  ) and self.minimum_examples_added is not None:
+            _dict['minimum_examples_added'] = self.minimum_examples_added
+        if hasattr(self, 'successfully_trained'
+                  ) and self.successfully_trained is not None:
+            _dict['successfully_trained'] = self.successfully_trained
+        if hasattr(self, 'available') and self.available is not None:
+            _dict['available'] = self.available
+        if hasattr(self, 'notices') and self.notices is not None:
+            _dict['notices'] = self.notices
+        if hasattr(self, 'minimum_queries_added'
+                  ) and self.minimum_queries_added is not None:
+            _dict['minimum_queries_added'] = self.minimum_queries_added
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ProjectListDetailsRelevancyTrainingStatus object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self,
+               other: 'ProjectListDetailsRelevancyTrainingStatus') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self,
+               other: 'ProjectListDetailsRelevancyTrainingStatus') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class QueryAggregation():
     """
     An abstract aggregation type produced by Discovery to analyze the input provided.
@@ -2249,6 +4402,7 @@ class QueryAggregation():
         mapping['average'] = 'QueryCalculationAggregation'
         mapping['unique_count'] = 'QueryCalculationAggregation'
         mapping['top_hits'] = 'QueryTopHitsAggregation'
+        mapping['group_by'] = 'QueryGroupByAggregation'
         disc_value = _dict.get('type')
         if disc_value is None:
             raise ValueError(
@@ -2262,6 +4416,140 @@ class QueryAggregation():
         if isinstance(disc_class, object):
             return disc_class
         raise TypeError('%s is not a discriminator class' % class_name)
+
+
+class QueryGroupByAggregationResult():
+    """
+    Top value result for the term aggregation.
+
+    :attr str key: Value of the field with a non-zero frequency in the document set.
+    :attr int matching_results: Number of documents containing the 'key'.
+    :attr float relevancy: (optional) The relevancy for this group.
+    :attr int total_matching_documents: (optional) The number of documents which
+          have the group as the value of specified field in the whole set of documents in
+          this collection. Returned only when the `relevancy` parameter is set to `true`.
+    :attr int estimated_matching_documents: (optional) The estimated number of
+          documents which would match the query and also meet the condition. Returned only
+          when the `relevancy` parameter is set to `true`.
+    :attr List[QueryAggregation] aggregations: (optional) An array of sub
+          aggregations.
+    """
+
+    def __init__(self,
+                 key: str,
+                 matching_results: int,
+                 *,
+                 relevancy: float = None,
+                 total_matching_documents: int = None,
+                 estimated_matching_documents: int = None,
+                 aggregations: List['QueryAggregation'] = None) -> None:
+        """
+        Initialize a QueryGroupByAggregationResult object.
+
+        :param str key: Value of the field with a non-zero frequency in the
+               document set.
+        :param int matching_results: Number of documents containing the 'key'.
+        :param float relevancy: (optional) The relevancy for this group.
+        :param int total_matching_documents: (optional) The number of documents
+               which have the group as the value of specified field in the whole set of
+               documents in this collection. Returned only when the `relevancy` parameter
+               is set to `true`.
+        :param int estimated_matching_documents: (optional) The estimated number of
+               documents which would match the query and also meet the condition. Returned
+               only when the `relevancy` parameter is set to `true`.
+        :param List[QueryAggregation] aggregations: (optional) An array of sub
+               aggregations.
+        """
+        self.key = key
+        self.matching_results = matching_results
+        self.relevancy = relevancy
+        self.total_matching_documents = total_matching_documents
+        self.estimated_matching_documents = estimated_matching_documents
+        self.aggregations = aggregations
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'QueryGroupByAggregationResult':
+        """Initialize a QueryGroupByAggregationResult object from a json dictionary."""
+        args = {}
+        valid_keys = [
+            'key', 'matching_results', 'relevancy', 'total_matching_documents',
+            'estimated_matching_documents', 'aggregations'
+        ]
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class QueryGroupByAggregationResult: '
+                + ', '.join(bad_keys))
+        if 'key' in _dict:
+            args['key'] = _dict.get('key')
+        else:
+            raise ValueError(
+                'Required property \'key\' not present in QueryGroupByAggregationResult JSON'
+            )
+        if 'matching_results' in _dict:
+            args['matching_results'] = _dict.get('matching_results')
+        else:
+            raise ValueError(
+                'Required property \'matching_results\' not present in QueryGroupByAggregationResult JSON'
+            )
+        if 'relevancy' in _dict:
+            args['relevancy'] = _dict.get('relevancy')
+        if 'total_matching_documents' in _dict:
+            args['total_matching_documents'] = _dict.get(
+                'total_matching_documents')
+        if 'estimated_matching_documents' in _dict:
+            args['estimated_matching_documents'] = _dict.get(
+                'estimated_matching_documents')
+        if 'aggregations' in _dict:
+            args['aggregations'] = [
+                QueryAggregation._from_dict(x)
+                for x in (_dict.get('aggregations'))
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryGroupByAggregationResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'key') and self.key is not None:
+            _dict['key'] = self.key
+        if hasattr(self,
+                   'matching_results') and self.matching_results is not None:
+            _dict['matching_results'] = self.matching_results
+        if hasattr(self, 'relevancy') and self.relevancy is not None:
+            _dict['relevancy'] = self.relevancy
+        if hasattr(self, 'total_matching_documents'
+                  ) and self.total_matching_documents is not None:
+            _dict['total_matching_documents'] = self.total_matching_documents
+        if hasattr(self, 'estimated_matching_documents'
+                  ) and self.estimated_matching_documents is not None:
+            _dict[
+                'estimated_matching_documents'] = self.estimated_matching_documents
+        if hasattr(self, 'aggregations') and self.aggregations is not None:
+            _dict['aggregations'] = [x._to_dict() for x in self.aggregations]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this QueryGroupByAggregationResult object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'QueryGroupByAggregationResult') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'QueryGroupByAggregationResult') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
 
 
 class QueryHistogramAggregationResult():
@@ -2371,8 +4659,8 @@ class QueryLargePassages():
     :attr List[str] fields: (optional) A list of fields that passages are drawn
           from. If this parameter not specified, then all top-level fields are included.
     :attr int count: (optional) The maximum number of passages to return. The search
-          returns fewer passages if the requested total is not found. The default is `10`.
-          The maximum is `100`.
+          returns fewer passages if the requested total is not found. The maximum is
+          `100`.
     :attr int characters: (optional) The approximate number of characters that any
           one passage will have.
     """
@@ -2399,7 +4687,7 @@ class QueryLargePassages():
                included.
         :param int count: (optional) The maximum number of passages to return. The
                search returns fewer passages if the requested total is not found. The
-               default is `10`. The maximum is `100`.
+               maximum is `100`.
         :param int characters: (optional) The approximate number of characters that
                any one passage will have.
         """
@@ -2485,7 +4773,7 @@ class QueryLargeSuggestedRefinements():
 
     :attr bool enabled: (optional) Whether to perform suggested refinements.
     :attr int count: (optional) Maximum number of suggested refinements texts to be
-          returned. The default is `10`. The maximum is `100`.
+          returned. The maximum is `100`.
     """
 
     def __init__(self, *, enabled: bool = None, count: int = None) -> None:
@@ -2494,7 +4782,7 @@ class QueryLargeSuggestedRefinements():
 
         :param bool enabled: (optional) Whether to perform suggested refinements.
         :param int count: (optional) Maximum number of suggested refinements texts
-               to be returned. The default is `10`. The maximum is `100`.
+               to be returned. The maximum is `100`.
         """
         self.enabled = enabled
         self.count = count
@@ -3340,6 +5628,13 @@ class QueryTermAggregationResult():
 
     :attr str key: Value of the field with a non-zero frequency in the document set.
     :attr int matching_results: Number of documents containing the 'key'.
+    :attr float relevancy: (optional) The relevancy for this term.
+    :attr int total_matching_documents: (optional) The number of documents which
+          have the term as the value of specified field in the whole set of documents in
+          this collection. Returned only when the `relevancy` parameter is set to `true`.
+    :attr int estimated_matching_documents: (optional) The estimated number of
+          documents which would match the query and also meet the condition. Returned only
+          when the `relevancy` parameter is set to `true`.
     :attr List[QueryAggregation] aggregations: (optional) An array of sub
           aggregations.
     """
@@ -3348,6 +5643,9 @@ class QueryTermAggregationResult():
                  key: str,
                  matching_results: int,
                  *,
+                 relevancy: float = None,
+                 total_matching_documents: int = None,
+                 estimated_matching_documents: int = None,
                  aggregations: List['QueryAggregation'] = None) -> None:
         """
         Initialize a QueryTermAggregationResult object.
@@ -3355,18 +5653,32 @@ class QueryTermAggregationResult():
         :param str key: Value of the field with a non-zero frequency in the
                document set.
         :param int matching_results: Number of documents containing the 'key'.
+        :param float relevancy: (optional) The relevancy for this term.
+        :param int total_matching_documents: (optional) The number of documents
+               which have the term as the value of specified field in the whole set of
+               documents in this collection. Returned only when the `relevancy` parameter
+               is set to `true`.
+        :param int estimated_matching_documents: (optional) The estimated number of
+               documents which would match the query and also meet the condition. Returned
+               only when the `relevancy` parameter is set to `true`.
         :param List[QueryAggregation] aggregations: (optional) An array of sub
                aggregations.
         """
         self.key = key
         self.matching_results = matching_results
+        self.relevancy = relevancy
+        self.total_matching_documents = total_matching_documents
+        self.estimated_matching_documents = estimated_matching_documents
         self.aggregations = aggregations
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'QueryTermAggregationResult':
         """Initialize a QueryTermAggregationResult object from a json dictionary."""
         args = {}
-        valid_keys = ['key', 'matching_results', 'aggregations']
+        valid_keys = [
+            'key', 'matching_results', 'relevancy', 'total_matching_documents',
+            'estimated_matching_documents', 'aggregations'
+        ]
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
             raise ValueError(
@@ -3384,6 +5696,14 @@ class QueryTermAggregationResult():
             raise ValueError(
                 'Required property \'matching_results\' not present in QueryTermAggregationResult JSON'
             )
+        if 'relevancy' in _dict:
+            args['relevancy'] = _dict.get('relevancy')
+        if 'total_matching_documents' in _dict:
+            args['total_matching_documents'] = _dict.get(
+                'total_matching_documents')
+        if 'estimated_matching_documents' in _dict:
+            args['estimated_matching_documents'] = _dict.get(
+                'estimated_matching_documents')
         if 'aggregations' in _dict:
             args['aggregations'] = [
                 QueryAggregation._from_dict(x)
@@ -3404,6 +5724,15 @@ class QueryTermAggregationResult():
         if hasattr(self,
                    'matching_results') and self.matching_results is not None:
             _dict['matching_results'] = self.matching_results
+        if hasattr(self, 'relevancy') and self.relevancy is not None:
+            _dict['relevancy'] = self.relevancy
+        if hasattr(self, 'total_matching_documents'
+                  ) and self.total_matching_documents is not None:
+            _dict['total_matching_documents'] = self.total_matching_documents
+        if hasattr(self, 'estimated_matching_documents'
+                  ) and self.estimated_matching_documents is not None:
+            _dict[
+                'estimated_matching_documents'] = self.estimated_matching_documents
         if hasattr(self, 'aggregations') and self.aggregations is not None:
             _dict['aggregations'] = [x._to_dict() for x in self.aggregations]
         return _dict
@@ -5812,6 +8141,86 @@ class QueryFilterAggregation(QueryAggregation):
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'QueryFilterAggregation') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class QueryGroupByAggregation(QueryAggregation):
+    """
+    Returns the top values for the field specified.
+
+    :attr List[QueryGroupByAggregationResult] results: (optional) Array of top
+          values for the field.
+    """
+
+    def __init__(self,
+                 type: str,
+                 *,
+                 results: List['QueryGroupByAggregationResult'] = None) -> None:
+        """
+        Initialize a QueryGroupByAggregation object.
+
+        :param str type: The type of aggregation command used. Options include:
+               term, histogram, timeslice, nested, filter, min, max, sum, average,
+               unique_count, and top_hits.
+        :param List[QueryGroupByAggregationResult] results: (optional) Array of top
+               values for the field.
+        """
+        self.type = type
+        self.results = results
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'QueryGroupByAggregation':
+        """Initialize a QueryGroupByAggregation object from a json dictionary."""
+        args = {}
+        valid_keys = ['type', 'results']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class QueryGroupByAggregation: '
+                + ', '.join(bad_keys))
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        else:
+            raise ValueError(
+                'Required property \'type\' not present in QueryGroupByAggregation JSON'
+            )
+        if 'results' in _dict:
+            args['results'] = [
+                QueryGroupByAggregationResult._from_dict(x)
+                for x in (_dict.get('results'))
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryGroupByAggregation object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'results') and self.results is not None:
+            _dict['results'] = [x._to_dict() for x in self.results]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this QueryGroupByAggregation object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'QueryGroupByAggregation') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'QueryGroupByAggregation') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 

@@ -41,7 +41,7 @@ from typing import List
 class NaturalLanguageClassifierV1(BaseService):
     """The Natural Language Classifier V1 service."""
 
-    DEFAULT_SERVICE_URL = 'https://gateway.watsonplatform.net/natural-language-classifier/api'
+    DEFAULT_SERVICE_URL = 'https://api.us-south.natural-language-classifier.watson.cloud.ibm.com'
     DEFAULT_SERVICE_NAME = 'natural_language_classifier'
 
     def __init__(

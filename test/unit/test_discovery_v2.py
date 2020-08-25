@@ -23,7 +23,7 @@ import tempfile
 import ibm_watson.discovery_v2
 from ibm_watson.discovery_v2 import *
 
-base_url = 'https://fake'
+base_url = 'https://api.us-south.discovery.watson.cloud.ibm.com'
 
 ##############################################################################
 # Start of Service: Collections
@@ -97,6 +97,296 @@ class TestListCollections():
     def construct_required_body(self):
         body = dict()
         body['project_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for create_collection
+#-----------------------------------------------------------------------------
+class TestCreateCollection():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_collection_response(self):
+        body = self.construct_full_body()
+        response = fake_response_CollectionDetails_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_collection_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_CollectionDetails_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_collection_empty(self):
+        check_empty_required_params(self, fake_response_CollectionDetails_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v2/projects/{0}/collections'.format(body['project_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.POST,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-11-22',
+            )
+        service.set_service_url(base_url)
+        output = service.create_collection(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['project_id'] = "string1"
+        body.update({"name": "string1", "description": "string1", "language": "string1", "enrichments": [], })
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['project_id'] = "string1"
+        body.update({"name": "string1", "description": "string1", "language": "string1", "enrichments": [], })
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for get_collection
+#-----------------------------------------------------------------------------
+class TestGetCollection():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_collection_response(self):
+        body = self.construct_full_body()
+        response = fake_response_CollectionDetails_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_collection_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_CollectionDetails_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_collection_empty(self):
+        check_empty_required_params(self, fake_response_CollectionDetails_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v2/projects/{0}/collections/{1}'.format(body['project_id'], body['collection_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-11-22',
+            )
+        service.set_service_url(base_url)
+        output = service.get_collection(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['project_id'] = "string1"
+        body['collection_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['project_id'] = "string1"
+        body['collection_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for update_collection
+#-----------------------------------------------------------------------------
+class TestUpdateCollection():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_collection_response(self):
+        body = self.construct_full_body()
+        response = fake_response_CollectionDetails_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_collection_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_CollectionDetails_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_collection_empty(self):
+        check_empty_required_params(self, fake_response_CollectionDetails_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v2/projects/{0}/collections/{1}'.format(body['project_id'], body['collection_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.POST,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-11-22',
+            )
+        service.set_service_url(base_url)
+        output = service.update_collection(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['project_id'] = "string1"
+        body['collection_id'] = "string1"
+        body.update({"name": "string1", "description": "string1", "enrichments": [], })
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['project_id'] = "string1"
+        body['collection_id'] = "string1"
+        body.update({"name": "string1", "description": "string1", "enrichments": [], })
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for delete_collection
+#-----------------------------------------------------------------------------
+class TestDeleteCollection():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_collection_response(self):
+        body = self.construct_full_body()
+        response = fake_response__json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_collection_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response__json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_collection_empty(self):
+        check_empty_required_params(self, fake_response__json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v2/projects/{0}/collections/{1}'.format(body['project_id'], body['collection_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.DELETE,
+                    url,
+                    body=json.dumps(response),
+                    status=204,
+                    content_type='')
+    
+    def call_service(self, body):
+        service = DiscoveryV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-11-22',
+            )
+        service.set_service_url(base_url)
+        output = service.delete_collection(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['project_id'] = "string1"
+        body['collection_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['project_id'] = "string1"
+        body['collection_id'] = "string1"
         return body
 
 
@@ -1096,6 +1386,815 @@ class TestUpdateTrainingQuery():
 # End of Service: TrainingData
 ##############################################################################
 
+##############################################################################
+# Start of Service: Enrichments
+##############################################################################
+# region
+
+#-----------------------------------------------------------------------------
+# Test Class for list_enrichments
+#-----------------------------------------------------------------------------
+class TestListEnrichments():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_enrichments_response(self):
+        body = self.construct_full_body()
+        response = fake_response_Enrichments_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_enrichments_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_Enrichments_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_enrichments_empty(self):
+        check_empty_required_params(self, fake_response_Enrichments_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v2/projects/{0}/enrichments'.format(body['project_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-11-22',
+            )
+        service.set_service_url(base_url)
+        output = service.list_enrichments(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['project_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['project_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for create_enrichment
+#-----------------------------------------------------------------------------
+class TestCreateEnrichment():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_enrichment_response(self):
+        body = self.construct_full_body()
+        response = fake_response_Enrichment_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_enrichment_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_Enrichment_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_enrichment_empty(self):
+        check_empty_required_params(self, fake_response_Enrichment_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v2/projects/{0}/enrichments'.format(body['project_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.POST,
+                    url,
+                    body=json.dumps(response),
+                    status=201,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-11-22',
+            )
+        service.set_service_url(base_url)
+        output = service.create_enrichment(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['project_id'] = "string1"
+        body['enrichment'] = {"enrichment": {"mock": "data"}}
+        body['file'] = tempfile.NamedTemporaryFile()
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['project_id'] = "string1"
+        body['enrichment'] = {"enrichment": {"mock": "data"}}
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for get_enrichment
+#-----------------------------------------------------------------------------
+class TestGetEnrichment():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_enrichment_response(self):
+        body = self.construct_full_body()
+        response = fake_response_Enrichment_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_enrichment_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_Enrichment_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_enrichment_empty(self):
+        check_empty_required_params(self, fake_response_Enrichment_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v2/projects/{0}/enrichments/{1}'.format(body['project_id'], body['enrichment_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-11-22',
+            )
+        service.set_service_url(base_url)
+        output = service.get_enrichment(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['project_id'] = "string1"
+        body['enrichment_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['project_id'] = "string1"
+        body['enrichment_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for update_enrichment
+#-----------------------------------------------------------------------------
+class TestUpdateEnrichment():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_enrichment_response(self):
+        body = self.construct_full_body()
+        response = fake_response_Enrichment_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_enrichment_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_Enrichment_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_enrichment_empty(self):
+        check_empty_required_params(self, fake_response_Enrichment_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v2/projects/{0}/enrichments/{1}'.format(body['project_id'], body['enrichment_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.POST,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-11-22',
+            )
+        service.set_service_url(base_url)
+        output = service.update_enrichment(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['project_id'] = "string1"
+        body['enrichment_id'] = "string1"
+        body.update({"name": "string1", "description": "string1", })
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['project_id'] = "string1"
+        body['enrichment_id'] = "string1"
+        body.update({"name": "string1", "description": "string1", })
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for delete_enrichment
+#-----------------------------------------------------------------------------
+class TestDeleteEnrichment():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_enrichment_response(self):
+        body = self.construct_full_body()
+        response = fake_response__json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_enrichment_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response__json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_enrichment_empty(self):
+        check_empty_required_params(self, fake_response__json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v2/projects/{0}/enrichments/{1}'.format(body['project_id'], body['enrichment_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.DELETE,
+                    url,
+                    body=json.dumps(response),
+                    status=204,
+                    content_type='')
+    
+    def call_service(self, body):
+        service = DiscoveryV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-11-22',
+            )
+        service.set_service_url(base_url)
+        output = service.delete_enrichment(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['project_id'] = "string1"
+        body['enrichment_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['project_id'] = "string1"
+        body['enrichment_id'] = "string1"
+        return body
+
+
+# endregion
+##############################################################################
+# End of Service: Enrichments
+##############################################################################
+
+##############################################################################
+# Start of Service: Projects
+##############################################################################
+# region
+
+#-----------------------------------------------------------------------------
+# Test Class for list_projects
+#-----------------------------------------------------------------------------
+class TestListProjects():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_projects_response(self):
+        body = self.construct_full_body()
+        response = fake_response_ListProjectsResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_projects_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_ListProjectsResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_list_projects_empty(self):
+        check_empty_response(self)
+        assert len(responses.calls) == 1
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v2/projects'
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-11-22',
+            )
+        service.set_service_url(base_url)
+        output = service.list_projects(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for create_project
+#-----------------------------------------------------------------------------
+class TestCreateProject():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_project_response(self):
+        body = self.construct_full_body()
+        response = fake_response_ProjectDetails_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_project_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_ProjectDetails_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_create_project_empty(self):
+        check_empty_required_params(self, fake_response_ProjectDetails_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v2/projects'
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.POST,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-11-22',
+            )
+        service.set_service_url(base_url)
+        output = service.create_project(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body.update({"name": "string1", "type": "string1", "default_query_parameters": DefaultQueryParams._from_dict(json.loads("""{"collection_ids": [], "passages": {"enabled": false, "count": 5, "fields": [], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 12}, "aggregation": "fake_aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "fake_sort", "return": []}""")), })
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body.update({"name": "string1", "type": "string1", "default_query_parameters": DefaultQueryParams._from_dict(json.loads("""{"collection_ids": [], "passages": {"enabled": false, "count": 5, "fields": [], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 12}, "aggregation": "fake_aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "fake_sort", "return": []}""")), })
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for get_project
+#-----------------------------------------------------------------------------
+class TestGetProject():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_project_response(self):
+        body = self.construct_full_body()
+        response = fake_response_ProjectDetails_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_project_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_ProjectDetails_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_get_project_empty(self):
+        check_empty_required_params(self, fake_response_ProjectDetails_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v2/projects/{0}'.format(body['project_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.GET,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-11-22',
+            )
+        service.set_service_url(base_url)
+        output = service.get_project(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['project_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['project_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for update_project
+#-----------------------------------------------------------------------------
+class TestUpdateProject():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_project_response(self):
+        body = self.construct_full_body()
+        response = fake_response_ProjectDetails_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_project_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_ProjectDetails_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_update_project_empty(self):
+        check_empty_required_params(self, fake_response_ProjectDetails_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v2/projects/{0}'.format(body['project_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.POST,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-11-22',
+            )
+        service.set_service_url(base_url)
+        output = service.update_project(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['project_id'] = "string1"
+        body.update({"name": "string1", })
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['project_id'] = "string1"
+        return body
+
+
+#-----------------------------------------------------------------------------
+# Test Class for delete_project
+#-----------------------------------------------------------------------------
+class TestDeleteProject():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_project_response(self):
+        body = self.construct_full_body()
+        response = fake_response__json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_project_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response__json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_project_empty(self):
+        check_empty_required_params(self, fake_response__json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v2/projects/{0}'.format(body['project_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.DELETE,
+                    url,
+                    body=json.dumps(response),
+                    status=204,
+                    content_type='')
+    
+    def call_service(self, body):
+        service = DiscoveryV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-11-22',
+            )
+        service.set_service_url(base_url)
+        output = service.delete_project(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['project_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['project_id'] = "string1"
+        return body
+
+
+# endregion
+##############################################################################
+# End of Service: Projects
+##############################################################################
+
+##############################################################################
+# Start of Service: UserData
+##############################################################################
+# region
+
+#-----------------------------------------------------------------------------
+# Test Class for delete_user_data
+#-----------------------------------------------------------------------------
+class TestDeleteUserData():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_user_data_response(self):
+        body = self.construct_full_body()
+        response = fake_response__json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_user_data_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response__json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_delete_user_data_empty(self):
+        check_empty_required_params(self, fake_response__json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v2/user_data'
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.DELETE,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='')
+    
+    def call_service(self, body):
+        service = DiscoveryV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-11-22',
+            )
+        service.set_service_url(base_url)
+        output = service.delete_user_data(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['customer_id'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['customer_id'] = "string1"
+        return body
+
+
+# endregion
+##############################################################################
+# End of Service: UserData
+##############################################################################
+
 
 def check_empty_required_params(obj, response):
     """Test function to assert that the operation will throw an error when given empty required data
@@ -1162,6 +2261,9 @@ def send_request(obj, body, response, url=None):
 
 fake_response__json = None
 fake_response_ListCollectionsResponse_json = """{"collections": []}"""
+fake_response_CollectionDetails_json = """{"collection_id": "fake_collection_id", "name": "fake_name", "description": "fake_description", "created": "2017-05-16T13:56:54.957Z", "language": "fake_language", "enrichments": []}"""
+fake_response_CollectionDetails_json = """{"collection_id": "fake_collection_id", "name": "fake_name", "description": "fake_description", "created": "2017-05-16T13:56:54.957Z", "language": "fake_language", "enrichments": []}"""
+fake_response_CollectionDetails_json = """{"collection_id": "fake_collection_id", "name": "fake_name", "description": "fake_description", "created": "2017-05-16T13:56:54.957Z", "language": "fake_language", "enrichments": []}"""
 fake_response_QueryResponse_json = """{"matching_results": 16, "results": [], "aggregations": [], "retrieval_details": {"document_retrieval_strategy": "fake_document_retrieval_strategy"}, "suggested_query": "fake_suggested_query", "suggested_refinements": [], "table_results": []}"""
 fake_response_Completions_json = """{"completions": []}"""
 fake_response_QueryNoticesResponse_json = """{"matching_results": 16, "notices": []}"""
@@ -1174,3 +2276,11 @@ fake_response_TrainingQuerySet_json = """{"queries": []}"""
 fake_response_TrainingQuery_json = """{"query_id": "fake_query_id", "natural_language_query": "fake_natural_language_query", "filter": "fake_filter", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "examples": []}"""
 fake_response_TrainingQuery_json = """{"query_id": "fake_query_id", "natural_language_query": "fake_natural_language_query", "filter": "fake_filter", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "examples": []}"""
 fake_response_TrainingQuery_json = """{"query_id": "fake_query_id", "natural_language_query": "fake_natural_language_query", "filter": "fake_filter", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "examples": []}"""
+fake_response_Enrichments_json = """{"enrichments": []}"""
+fake_response_Enrichment_json = """{"enrichment_id": "fake_enrichment_id", "name": "fake_name", "description": "fake_description", "type": "fake_type", "options": {"languages": [], "entity_type": "fake_entity_type", "regular_expression": "fake_regular_expression", "result_field": "fake_result_field"}}"""
+fake_response_Enrichment_json = """{"enrichment_id": "fake_enrichment_id", "name": "fake_name", "description": "fake_description", "type": "fake_type", "options": {"languages": [], "entity_type": "fake_entity_type", "regular_expression": "fake_regular_expression", "result_field": "fake_result_field"}}"""
+fake_response_Enrichment_json = """{"enrichment_id": "fake_enrichment_id", "name": "fake_name", "description": "fake_description", "type": "fake_type", "options": {"languages": [], "entity_type": "fake_entity_type", "regular_expression": "fake_regular_expression", "result_field": "fake_result_field"}}"""
+fake_response_ListProjectsResponse_json = """{"projects": []}"""
+fake_response_ProjectDetails_json = """{"project_id": "fake_project_id", "name": "fake_name", "type": "fake_type", "relevancy_training_status": {"data_updated": "fake_data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "fake_successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": [], "passages": {"enabled": false, "count": 5, "fields": [], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 12}, "aggregation": "fake_aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "fake_sort", "return": []}}"""
+fake_response_ProjectDetails_json = """{"project_id": "fake_project_id", "name": "fake_name", "type": "fake_type", "relevancy_training_status": {"data_updated": "fake_data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "fake_successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": [], "passages": {"enabled": false, "count": 5, "fields": [], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 12}, "aggregation": "fake_aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "fake_sort", "return": []}}"""
+fake_response_ProjectDetails_json = """{"project_id": "fake_project_id", "name": "fake_name", "type": "fake_type", "relevancy_training_status": {"data_updated": "fake_data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "fake_successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": [], "passages": {"enabled": false, "count": 5, "fields": [], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 12}, "aggregation": "fake_aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "fake_sort", "return": []}}"""
