@@ -43,7 +43,7 @@ from typing import List
 class ToneAnalyzerV3(BaseService):
     """The Tone Analyzer V3 service."""
 
-    DEFAULT_SERVICE_URL = 'https://gateway.watsonplatform.net/tone-analyzer/api'
+    DEFAULT_SERVICE_URL = 'https://api.us-south.tone-analyzer.watson.cloud.ibm.com'
     DEFAULT_SERVICE_NAME = 'tone_analyzer'
 
     def __init__(

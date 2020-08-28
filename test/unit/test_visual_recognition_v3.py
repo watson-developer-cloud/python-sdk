@@ -23,7 +23,7 @@ import tempfile
 import ibm_watson.visual_recognition_v3
 from ibm_watson.visual_recognition_v3 import *
 
-base_url = 'https://gateway.watsonplatform.net/visual-recognition/api'
+base_url = 'https://api.us-south.visual-recognition.watson.cloud.ibm.com'
 
 ##############################################################################
 # Start of Service: General

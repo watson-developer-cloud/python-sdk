@@ -15,7 +15,7 @@
 # limitations under the License.
 """
 IBM Watson&trade; Language Translator translates text from one language to another. The
-service offers multiple IBM provided translation models that you can customize based on
+service offers multiple IBM-provided translation models that you can customize based on
 your unique terminology and language. Use Language Translator to take news from across the
 globe and present it in your language, communicate with your customers in their own
 language, and more.
@@ -43,7 +43,7 @@ from typing import List
 class LanguageTranslatorV3(BaseService):
     """The Language Translator V3 service."""
 
-    DEFAULT_SERVICE_URL = 'https://gateway.watsonplatform.net/language-translator/api'
+    DEFAULT_SERVICE_URL = 'https://api.us-south.language-translator.watson.cloud.ibm.com'
     DEFAULT_SERVICE_NAME = 'language_translator'
 
     def __init__(
@@ -80,6 +80,42 @@ class LanguageTranslatorV3(BaseService):
         self.configure_service(service_name)
 
     #########################
+    # Languages
+    #########################
+
+    def list_languages(self, **kwargs) -> 'DetailedResponse':
+        """
+        List supported languages.
+
+        Lists all supported languages. The method returns an array of supported languages
+        with information about each language. Languages are listed in alphabetical order
+        by language code (for example, `af`, `ar`).
+
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V3',
+                                      operation_id='list_languages')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        url = '/v3/languages'
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
+    #########################
     # Translation
     #########################
 
@@ -93,19 +129,24 @@ class LanguageTranslatorV3(BaseService):
         """
         Translate.
 
-        Translates the input text from the source language to the target language. A
-        target language or translation model ID is required. The service attempts to
-        detect the language of the source text if it is not specified.
+        Translates the input text from the source language to the target language. Specify
+        a model ID that indicates the source and target languages, or specify the source
+        and target languages individually. You can omit the source language to have the
+        service attempt to detect the language from the input text. If you omit the source
+        language, the request must contain sufficient input text for the service to
+        identify the source language.
 
-        :param List[str] text: Input text in UTF-8 encoding. Multiple entries will
+        :param List[str] text: Input text in UTF-8 encoding. Multiple entries
                result in multiple translations in the response.
         :param str model_id: (optional) The model to use for translation. For
-               example, `en-de` selects the IBM provided base model for English to German
-               translation. A model ID overrides the source and target parameters and is
-               required if you use a custom model. If no model ID is specified, you must
-               specify a target language.
+               example, `en-de` selects the IBM-provided base model for English-to-German
+               translation. A model ID overrides the `source` and `target` parameters and
+               is required if you use a custom model. If no model ID is specified, you
+               must specify at least a target language.
         :param str source: (optional) Language code that specifies the language of
-               the source document.
+               the input text. If omitted, the service derives the source language from
+               the input text. The input must contain sufficient text for the service to
+               identify the language reliably.
         :param str target: (optional) Language code that specifies the target
                language for translation. Required if model ID is not specified.
         :param dict headers: A `dict` containing the request headers
@@ -236,11 +277,11 @@ class LanguageTranslatorV3(BaseService):
                source language.
         :param str target: (optional) Specify a language code to filter results by
                target language.
-        :param bool default: (optional) If the default parameter isn't specified,
-               the service will return all models (default and non-default) for each
-               language pair. To return only default models, set this to `true`. To return
-               only non-default models, set this to `false`. There is exactly one default
-               model per language pair, the IBM provided base model.
+        :param bool default: (optional) If the `default` parameter isn't specified,
+               the service returns all models (default and non-default) for each language
+               pair. To return only default models, set this parameter to `true`. To
+               return only non-default models, set this parameter to `false`. There is
+               exactly one default model, the IBM-provided base model, per language pair.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -280,39 +321,90 @@ class LanguageTranslatorV3(BaseService):
         """
         Create model.
 
-        Uploads Translation Memory eXchange (TMX) files to customize a translation model.
-        You can either customize a model with a forced glossary or with a corpus that
-        contains parallel sentences. To create a model that is customized with a parallel
-        corpus <b>and</b> a forced glossary, proceed in two steps: customize with a
-        parallel corpus first and then customize the resulting model with a glossary.
-        Depending on the type of customization and the size of the uploaded corpora,
-        training can range from minutes for a glossary to several hours for a large
-        parallel corpus. You can upload a single forced glossary file and this file must
-        be less than <b>10 MB</b>. You can upload multiple parallel corpora tmx files. The
-        cumulative file size of all uploaded files is limited to <b>250 MB</b>. To
-        successfully train with a parallel corpus you must have at least <b>5,000 parallel
-        sentences</b> in your corpus.
-        You can have a <b>maximum of 10 custom models per language pair</b>.
+        Uploads training files to customize a translation model. You can customize a model
+        with a forced glossary or with a parallel corpus:
+        * Use a *forced glossary* to force certain terms and phrases to be translated in a
+        specific way. You can upload only a single forced glossary file for a model. The
+        size of a forced glossary file for a custom model is limited to 10 MB.
+        * Use a *parallel corpus* when you want your custom model to learn from general
+        translation patterns in parallel sentences in your samples. What your model learns
+        from a parallel corpus can improve translation results for input text that the
+        model has not been trained on. You can upload multiple parallel corpora files with
+        a request. To successfully train with parallel corpora, the corpora files must
+        contain a cumulative total of at least 5000 parallel sentences. The cumulative
+        size of all uploaded corpus files for a custom model is limited to 250 MB.
+        Depending on the type of customization and the size of the uploaded files,
+        training time can range from minutes for a glossary to several hours for a large
+        parallel corpus. To create a model that is customized with a parallel corpus and a
+        forced glossary, customize the model with a parallel corpus first and then
+        customize the resulting model with a forced glossary.
+        You can create a maximum of 10 custom models per language pair. For more
+        information about customizing a translation model, including the formatting and
+        character restrictions for data files, see [Customizing your
+        model](https://cloud.ibm.com/docs/language-translator?topic=language-translator-customizing).
+        #### Supported file formats
+         You can provide your training data for customization in the following document
+        formats:
+        * **TMX** (`.tmx`) - Translation Memory eXchange (TMX) is an XML specification for
+        the exchange of translation memories.
+        * **XLIFF** (`.xliff`) - XML Localization Interchange File Format (XLIFF) is an
+        XML specification for the exchange of translation memories.
+        * **CSV** (`.csv`) - Comma-separated values (CSV) file with two columns for
+        aligned sentences and phrases. The first row contains the language code.
+        * **TSV** (`.tsv` or `.tab`) - Tab-separated values (TSV) file with two columns
+        for aligned sentences and phrases. The first row contains the language code.
+        * **JSON** (`.json`) - Custom JSON format for specifying aligned sentences and
+        phrases.
+        * **Microsoft Excel** (`.xls` or `.xlsx`) - Excel file with the first two columns
+        for aligned sentences and phrases. The first row contains the language code.
+        You must encode all text data in UTF-8 format. For more information, see
+        [Supported document formats for training
+        data](https://cloud.ibm.com/docs/language-translator?topic=language-translator-customizing#supported-document-formats-for-training-data).
+        #### Specifying file formats
+         You can indicate the format of a file by including the file extension with the
+        file name. Use the file extensions shown in **Supported file formats**.
+        Alternatively, you can omit the file extension and specify one of the following
+        `content-type` specifications for the file:
+        * **TMX** - `application/x-tmx+xml`
+        * **XLIFF** - `application/xliff+xml`
+        * **CSV** - `text/csv`
+        * **TSV** - `text/tab-separated-values`
+        * **JSON** - `application/json`
+        * **Microsoft Excel** -
+        `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet`
+        For example, with `curl`, use the following `content-type` specification to
+        indicate the format of a CSV file named **glossary**:
+        `--form "forced_glossary=@glossary;type=text/csv"`.
 
-        :param str base_model_id: The model ID of the model to use as the base for
-               customization. To see available models, use the `List models` method.
-               Usually all IBM provided models are customizable. In addition, all your
-               models that have been created via parallel corpus customization, can be
-               further customized with a forced glossary.
-        :param TextIO forced_glossary: (optional) A TMX file with your
-               customizations. The customizations in the file completely overwrite the
-               domain translaton data, including high frequency or high confidence phrase
-               translations. You can upload only one glossary with a file size less than
-               10 MB per call. A forced glossary should contain single words or short
-               phrases.
-        :param TextIO parallel_corpus: (optional) A TMX file with parallel
-               sentences for source and target language. You can upload multiple
-               parallel_corpus files in one request. All uploaded parallel_corpus files
-               combined, your parallel corpus must contain at least 5,000 parallel
-               sentences to train successfully.
+        :param str base_model_id: The ID of the translation model to use as the
+               base for customization. To see available models and IDs, use the `List
+               models` method. Most models that are provided with the service are
+               customizable. In addition, all models that you create with parallel corpora
+               customization can be further customized with a forced glossary.
+        :param TextIO forced_glossary: (optional) A file with forced glossary terms
+               for the source and target languages. The customizations in the file
+               completely overwrite the domain translation data, including high frequency
+               or high confidence phrase translations.
+               You can upload only one glossary file for a custom model, and the glossary
+               can have a maximum size of 10 MB. A forced glossary must contain single
+               words or short phrases. For more information, see **Supported file
+               formats** in the method description.
+               *With `curl`, use `--form forced_glossary=@{filename}`.*.
+        :param TextIO parallel_corpus: (optional) A file with parallel sentences
+               for the source and target languages. You can upload multiple parallel
+               corpus files in one request by repeating the parameter. All uploaded
+               parallel corpus files combined must contain at least 5000 parallel
+               sentences to train successfully. You can provide a maximum of 500,000
+               parallel sentences across all corpora.
+               A single entry in a corpus file can contain a maximum of 80 words. All
+               corpora files for a custom model can have a cumulative maximum size of 250
+               MB. For more information, see **Supported file formats** in the method
+               description.
+               *With `curl`, use `--form parallel_corpus=@{filename}`.*.
         :param str name: (optional) An optional model name that you can use to
                identify the model. Valid characters are letters, numbers, dashes,
-               underscores, spaces and apostrophes. The maximum length is 32 characters.
+               underscores, spaces, and apostrophes. The maximum length of the name is 32
+               characters.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -393,7 +485,7 @@ class LanguageTranslatorV3(BaseService):
 
         Gets information about a translation model, including training status for custom
         models. Use this API call to poll the status of your customization request. A
-        successfully completed training will have a status of `available`.
+        successfully completed training has a status of `available`.
 
         :param str model_id: Model ID of the model to get.
         :param dict headers: A `dict` containing the request headers
@@ -481,12 +573,14 @@ class LanguageTranslatorV3(BaseService):
         :param str filename: (optional) The filename for file.
         :param str file_content_type: (optional) The content type of file.
         :param str model_id: (optional) The model to use for translation. For
-               example, `en-de` selects the IBM provided base model for English to German
-               translation. A model ID overrides the source and target parameters and is
-               required if you use a custom model. If no model ID is specified, you must
-               specify a target language.
+               example, `en-de` selects the IBM-provided base model for English-to-German
+               translation. A model ID overrides the `source` and `target` parameters and
+               is required if you use a custom model. If no model ID is specified, you
+               must specify at least a target language.
         :param str source: (optional) Language code that specifies the language of
-               the source document.
+               the source document. If omitted, the service derives the source language
+               from the input text. The input must contain sufficient text for the service
+               to identify the language reliably.
         :param str target: (optional) Language code that specifies the target
                language for translation. Required if model ID is not specified.
         :param str document_id: (optional) To use a previously submitted document
@@ -1374,6 +1468,235 @@ class IdentifiedLanguages():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'IdentifiedLanguages') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class Language():
+    """
+    Response payload for languages.
+
+    :attr str language: (optional) The language code for the language (for example,
+          `af`).
+    :attr str language_name: (optional) The name of the language in English (for
+          example, `Afrikaans`).
+    :attr str native_language_name: (optional) The native name of the language (for
+          example, `Afrikaans`).
+    :attr str country_code: (optional) The country code for the language (for
+          example, `ZA` for South Africa).
+    :attr bool words_separated: (optional) Indicates whether words of the language
+          are separated by whitespace: `true` if the words are separated; `false`
+          otherwise.
+    :attr str direction: (optional) Indicates the direction of the language:
+          `right_to_left` or `left_to_right`.
+    :attr bool supported_as_source: (optional) Indicates whether the language can be
+          used as the source for translation: `true` if the language can be used as the
+          source; `false` otherwise.
+    :attr bool supported_as_target: (optional) Indicates whether the language can be
+          used as the target for translation: `true` if the language can be used as the
+          target; `false` otherwise.
+    :attr bool identifiable: (optional) Indicates whether the language supports
+          automatic detection: `true` if the language can be detected automatically;
+          `false` otherwise.
+    """
+
+    def __init__(self,
+                 *,
+                 language: str = None,
+                 language_name: str = None,
+                 native_language_name: str = None,
+                 country_code: str = None,
+                 words_separated: bool = None,
+                 direction: str = None,
+                 supported_as_source: bool = None,
+                 supported_as_target: bool = None,
+                 identifiable: bool = None) -> None:
+        """
+        Initialize a Language object.
+
+        :param str language: (optional) The language code for the language (for
+               example, `af`).
+        :param str language_name: (optional) The name of the language in English
+               (for example, `Afrikaans`).
+        :param str native_language_name: (optional) The native name of the language
+               (for example, `Afrikaans`).
+        :param str country_code: (optional) The country code for the language (for
+               example, `ZA` for South Africa).
+        :param bool words_separated: (optional) Indicates whether words of the
+               language are separated by whitespace: `true` if the words are separated;
+               `false` otherwise.
+        :param str direction: (optional) Indicates the direction of the language:
+               `right_to_left` or `left_to_right`.
+        :param bool supported_as_source: (optional) Indicates whether the language
+               can be used as the source for translation: `true` if the language can be
+               used as the source; `false` otherwise.
+        :param bool supported_as_target: (optional) Indicates whether the language
+               can be used as the target for translation: `true` if the language can be
+               used as the target; `false` otherwise.
+        :param bool identifiable: (optional) Indicates whether the language
+               supports automatic detection: `true` if the language can be detected
+               automatically; `false` otherwise.
+        """
+        self.language = language
+        self.language_name = language_name
+        self.native_language_name = native_language_name
+        self.country_code = country_code
+        self.words_separated = words_separated
+        self.direction = direction
+        self.supported_as_source = supported_as_source
+        self.supported_as_target = supported_as_target
+        self.identifiable = identifiable
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'Language':
+        """Initialize a Language object from a json dictionary."""
+        args = {}
+        valid_keys = [
+            'language', 'language_name', 'native_language_name', 'country_code',
+            'words_separated', 'direction', 'supported_as_source',
+            'supported_as_target', 'identifiable'
+        ]
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Language: '
+                + ', '.join(bad_keys))
+        if 'language' in _dict:
+            args['language'] = _dict.get('language')
+        if 'language_name' in _dict:
+            args['language_name'] = _dict.get('language_name')
+        if 'native_language_name' in _dict:
+            args['native_language_name'] = _dict.get('native_language_name')
+        if 'country_code' in _dict:
+            args['country_code'] = _dict.get('country_code')
+        if 'words_separated' in _dict:
+            args['words_separated'] = _dict.get('words_separated')
+        if 'direction' in _dict:
+            args['direction'] = _dict.get('direction')
+        if 'supported_as_source' in _dict:
+            args['supported_as_source'] = _dict.get('supported_as_source')
+        if 'supported_as_target' in _dict:
+            args['supported_as_target'] = _dict.get('supported_as_target')
+        if 'identifiable' in _dict:
+            args['identifiable'] = _dict.get('identifiable')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Language object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'language') and self.language is not None:
+            _dict['language'] = self.language
+        if hasattr(self, 'language_name') and self.language_name is not None:
+            _dict['language_name'] = self.language_name
+        if hasattr(self, 'native_language_name'
+                  ) and self.native_language_name is not None:
+            _dict['native_language_name'] = self.native_language_name
+        if hasattr(self, 'country_code') and self.country_code is not None:
+            _dict['country_code'] = self.country_code
+        if hasattr(self,
+                   'words_separated') and self.words_separated is not None:
+            _dict['words_separated'] = self.words_separated
+        if hasattr(self, 'direction') and self.direction is not None:
+            _dict['direction'] = self.direction
+        if hasattr(
+                self,
+                'supported_as_source') and self.supported_as_source is not None:
+            _dict['supported_as_source'] = self.supported_as_source
+        if hasattr(
+                self,
+                'supported_as_target') and self.supported_as_target is not None:
+            _dict['supported_as_target'] = self.supported_as_target
+        if hasattr(self, 'identifiable') and self.identifiable is not None:
+            _dict['identifiable'] = self.identifiable
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this Language object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'Language') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'Language') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class Languages():
+    """
+    The response type for listing supported languages.
+
+    :attr List[Language] languages: An array of supported languages with information
+          about each language.
+    """
+
+    def __init__(self, languages: List['Language']) -> None:
+        """
+        Initialize a Languages object.
+
+        :param List[Language] languages: An array of supported languages with
+               information about each language.
+        """
+        self.languages = languages
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'Languages':
+        """Initialize a Languages object from a json dictionary."""
+        args = {}
+        valid_keys = ['languages']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class Languages: '
+                + ', '.join(bad_keys))
+        if 'languages' in _dict:
+            args['languages'] = [
+                Language._from_dict(x) for x in (_dict.get('languages'))
+            ]
+        else:
+            raise ValueError(
+                'Required property \'languages\' not present in Languages JSON')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Languages object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'languages') and self.languages is not None:
+            _dict['languages'] = [x._to_dict() for x in self.languages]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this Languages object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'Languages') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'Languages') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 

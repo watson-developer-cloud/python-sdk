@@ -23,7 +23,7 @@ import tempfile
 import ibm_watson.natural_language_classifier_v1
 from ibm_watson.natural_language_classifier_v1 import *
 
-base_url = 'https://gateway.watsonplatform.net/natural-language-classifier/api'
+base_url = 'https://api.us-south.natural-language-classifier.watson.cloud.ibm.com'
 
 ##############################################################################
 # Start of Service: ClassifyText

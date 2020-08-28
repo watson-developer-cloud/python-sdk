@@ -1,3 +1,14 @@
+# [4.6.0](https://github.com/watson-developer-cloud/python-sdk/compare/v4.5.0...v4.6.0) (2020-08-25)
+
+
+### Features
+
+* generate unit tests using current api defs ([99555f0](https://github.com/watson-developer-cloud/python-sdk/commit/99555f017a08fa42457fbebdaf4d03a854482683))
+* regenrate all services using current api def ([9ef3c6e](https://github.com/watson-developer-cloud/python-sdk/commit/9ef3c6e2df323a2bb7403bef417ddbd34ca6b462))
+* **AssistantV2:** add support for list logs and delete user data ([6b87f9b](https://github.com/watson-developer-cloud/python-sdk/commit/6b87f9bc834f9b23e62a1d7047e8024839a50e36))
+* **discoV2:** add new apis for enrichments, collections and projects ([4388ea2](https://github.com/watson-developer-cloud/python-sdk/commit/4388ea276b5473b13249592127a51e2004a1d82c))
+* **languageTranslatorV3:** add support for list languages ([de83e96](https://github.com/watson-developer-cloud/python-sdk/commit/de83e96e5d4b0a9f2221fc48ca38ef66b0a0c68d))
+
 # [4.5.0](https://github.com/watson-developer-cloud/python-sdk/compare/v4.4.1...v4.5.0) (2020-06-04)
 
 

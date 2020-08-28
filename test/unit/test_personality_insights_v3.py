@@ -21,7 +21,7 @@ import responses
 import ibm_watson.personality_insights_v3
 from ibm_watson.personality_insights_v3 import *
 
-base_url = 'https://gateway.watsonplatform.net/personality-insights/api'
+base_url = 'https://api.us-south.personality-insights.watson.cloud.ibm.com'
 
 ##############################################################################
 # Start of Service: Methods

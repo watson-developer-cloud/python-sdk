@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-The IBM&reg; Text to Speech service provides APIs that use IBM's speech-synthesis
+The IBM Watson&trade; Text to Speech service provides APIs that use IBM's speech-synthesis
 capabilities to synthesize text into natural-sounding speech in a variety of languages,
 dialects, and voices. The service supports at least one male or female voice, sometimes
 both, for each language. The audio is streamed back to the client with minimal delay.
@@ -50,7 +50,7 @@ from typing import List
 class TextToSpeechV1(BaseService):
     """The Text to Speech V1 service."""
 
-    DEFAULT_SERVICE_URL = 'https://stream.watsonplatform.net/text-to-speech/api'
+    DEFAULT_SERVICE_URL = 'https://api.us-south.text-to-speech.watson.cloud.ibm.com'
     DEFAULT_SERVICE_NAME = 'text_to_speech'
 
     def __init__(
@@ -82,8 +82,10 @@ class TextToSpeechV1(BaseService):
         List voices.
 
         Lists all voices available for use with the service. The information includes the
-        name, language, gender, and other details about the voice. To see information
-        about a specific voice, use the **Get a voice** method.
+        name, language, gender, and other details about the voice. The ordering of the
+        list of voices can change from call to call; do not rely on an alphabetized or
+        static list of voices. To see information about a specific voice, use the **Get a
+        voice** method.
         **See also:** [Listing all available
         voices](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices#listVoices).
 
@@ -888,9 +890,13 @@ class TextToSpeechV1(BaseService):
         deletes all data for the customer ID, regardless of the method by which the
         information was added. The method has no effect if no data is associated with the
         customer ID. You must issue the request with credentials for the same instance of
-        the service that was used to associate the customer ID with the data.
-        You associate a customer ID with data by passing the `X-Watson-Metadata` header
-        with a request that passes the data.
+        the service that was used to associate the customer ID with the data. You
+        associate a customer ID with data by passing the `X-Watson-Metadata` header with a
+        request that passes the data.
+        **Note:** If you delete an instance of the service from the service console, all
+        data associated with that service instance is automatically deleted. This includes
+        all custom voice models and word/translation pairs, and all data related to speech
+        synthesis requests.
         **See also:** [Information
         security](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-information-security#information-security).
 
@@ -936,6 +942,8 @@ class GetVoiceEnums(object):
         DE_DE_DIETERVOICE = 'de-DE_DieterVoice'
         DE_DE_DIETERV3VOICE = 'de-DE_DieterV3Voice'
         DE_DE_ERIKAV3VOICE = 'de-DE_ErikaV3Voice'
+        EN_GB_CHARLOTTEV3VOICE = 'en-GB_CharlotteV3Voice'
+        EN_GB_JAMESV3VOICE = 'en-GB_JamesV3Voice'
         EN_GB_KATEVOICE = 'en-GB_KateVoice'
         EN_GB_KATEV3VOICE = 'en-GB_KateV3Voice'
         EN_US_ALLISONVOICE = 'en-US_AllisonVoice'
@@ -956,6 +964,7 @@ class GetVoiceEnums(object):
         ES_LA_SOFIAV3VOICE = 'es-LA_SofiaV3Voice'
         ES_US_SOFIAVOICE = 'es-US_SofiaVoice'
         ES_US_SOFIAV3VOICE = 'es-US_SofiaV3Voice'
+        FR_FR_NICOLASV3VOICE = 'fr-FR_NicolasV3Voice'
         FR_FR_RENEEVOICE = 'fr-FR_ReneeVoice'
         FR_FR_RENEEV3VOICE = 'fr-FR_ReneeV3Voice'
         IT_IT_FRANCESCAVOICE = 'it-IT_FrancescaVoice'
@@ -1006,6 +1015,8 @@ class SynthesizeEnums(object):
         DE_DE_DIETERVOICE = 'de-DE_DieterVoice'
         DE_DE_DIETERV3VOICE = 'de-DE_DieterV3Voice'
         DE_DE_ERIKAV3VOICE = 'de-DE_ErikaV3Voice'
+        EN_GB_CHARLOTTEV3VOICE = 'en-GB_CharlotteV3Voice'
+        EN_GB_JAMESV3VOICE = 'en-GB_JamesV3Voice'
         EN_GB_KATEVOICE = 'en-GB_KateVoice'
         EN_GB_KATEV3VOICE = 'en-GB_KateV3Voice'
         EN_US_ALLISONVOICE = 'en-US_AllisonVoice'
@@ -1026,6 +1037,7 @@ class SynthesizeEnums(object):
         ES_LA_SOFIAV3VOICE = 'es-LA_SofiaV3Voice'
         ES_US_SOFIAVOICE = 'es-US_SofiaVoice'
         ES_US_SOFIAV3VOICE = 'es-US_SofiaV3Voice'
+        FR_FR_NICOLASV3VOICE = 'fr-FR_NicolasV3Voice'
         FR_FR_RENEEVOICE = 'fr-FR_ReneeVoice'
         FR_FR_RENEEV3VOICE = 'fr-FR_ReneeV3Voice'
         IT_IT_FRANCESCAVOICE = 'it-IT_FrancescaVoice'
@@ -1057,6 +1069,8 @@ class GetPronunciationEnums(object):
         DE_DE_DIETERVOICE = 'de-DE_DieterVoice'
         DE_DE_DIETERV3VOICE = 'de-DE_DieterV3Voice'
         DE_DE_ERIKAV3VOICE = 'de-DE_ErikaV3Voice'
+        EN_GB_CHARLOTTEV3VOICE = 'en-GB_CharlotteV3Voice'
+        EN_GB_JAMESV3VOICE = 'en-GB_JamesV3Voice'
         EN_GB_KATEVOICE = 'en-GB_KateVoice'
         EN_GB_KATEV3VOICE = 'en-GB_KateV3Voice'
         EN_US_ALLISONVOICE = 'en-US_AllisonVoice'
@@ -1077,6 +1091,7 @@ class GetPronunciationEnums(object):
         ES_LA_SOFIAV3VOICE = 'es-LA_SofiaV3Voice'
         ES_US_SOFIAVOICE = 'es-US_SofiaVoice'
         ES_US_SOFIAV3VOICE = 'es-US_SofiaV3Voice'
+        FR_FR_NICOLASV3VOICE = 'fr-FR_NicolasV3Voice'
         FR_FR_RENEEVOICE = 'fr-FR_ReneeVoice'
         FR_FR_RENEEV3VOICE = 'fr-FR_ReneeV3Voice'
         IT_IT_FRANCESCAVOICE = 'it-IT_FrancescaVoice'

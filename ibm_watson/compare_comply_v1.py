@@ -40,7 +40,7 @@ from typing import List
 class CompareComplyV1(BaseService):
     """The Compare Comply V1 service."""
 
-    DEFAULT_SERVICE_URL = 'https://gateway.watsonplatform.net/compare-comply/api'
+    DEFAULT_SERVICE_URL = 'https://api.us-south.compare-comply.watson.cloud.ibm.com'
     DEFAULT_SERVICE_NAME = 'compare_comply'
 
     def __init__(
