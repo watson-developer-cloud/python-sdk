@@ -1387,6 +1387,92 @@ class TestUpdateTrainingQuery():
 ##############################################################################
 
 ##############################################################################
+# Start of Service: Analyze
+##############################################################################
+# region
+
+#-----------------------------------------------------------------------------
+# Test Class for analyze_document
+#-----------------------------------------------------------------------------
+class TestAnalyzeDocument():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_analyze_document_response(self):
+        body = self.construct_full_body()
+        response = fake_response_AnalyzedDocument_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_analyze_document_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_AnalyzedDocument_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_analyze_document_empty(self):
+        check_empty_required_params(self, fake_response_AnalyzedDocument_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v2/projects/{0}/collections/{1}/analyze'.format(body['project_id'], body['collection_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.POST,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = DiscoveryV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2019-11-22',
+            )
+        service.set_service_url(base_url)
+        output = service.analyze_document(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['project_id'] = "string1"
+        body['collection_id'] = "string1"
+        body['file'] = tempfile.NamedTemporaryFile()
+        body['filename'] = "string1"
+        body['file_content_type'] = "string1"
+        body['metadata'] = "string1"
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['project_id'] = "string1"
+        body['collection_id'] = "string1"
+        return body
+
+
+# endregion
+##############################################################################
+# End of Service: Analyze
+##############################################################################
+
+##############################################################################
 # Start of Service: Enrichments
 ##############################################################################
 # region
@@ -2276,6 +2362,7 @@ fake_response_TrainingQuerySet_json = """{"queries": []}"""
 fake_response_TrainingQuery_json = """{"query_id": "fake_query_id", "natural_language_query": "fake_natural_language_query", "filter": "fake_filter", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "examples": []}"""
 fake_response_TrainingQuery_json = """{"query_id": "fake_query_id", "natural_language_query": "fake_natural_language_query", "filter": "fake_filter", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "examples": []}"""
 fake_response_TrainingQuery_json = """{"query_id": "fake_query_id", "natural_language_query": "fake_natural_language_query", "filter": "fake_filter", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "examples": []}"""
+fake_response_AnalyzedDocument_json = """{"notices": [], "result": {}}"""
 fake_response_Enrichments_json = """{"enrichments": []}"""
 fake_response_Enrichment_json = """{"enrichment_id": "fake_enrichment_id", "name": "fake_name", "description": "fake_description", "type": "fake_type", "options": {"languages": [], "entity_type": "fake_entity_type", "regular_expression": "fake_regular_expression", "result_field": "fake_result_field"}}"""
 fake_response_Enrichment_json = """{"enrichment_id": "fake_enrichment_id", "name": "fake_name", "description": "fake_description", "type": "fake_type", "options": {"languages": [], "entity_type": "fake_entity_type", "regular_expression": "fake_regular_expression", "result_field": "fake_result_field"}}"""
