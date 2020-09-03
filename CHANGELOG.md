@@ -1,3 +1,10 @@
+# [4.7.0](https://github.com/watson-developer-cloud/python-sdk/compare/v4.6.0...v4.7.0) (2020-09-03)
+
+
+### Features
+
+* **DiscoveryV2:** add support for analyze document ([6353f53](https://github.com/watson-developer-cloud/python-sdk/commit/6353f53361f0c1998b746308a7713f1c0dbc172d))
+
 # [4.6.0](https://github.com/watson-developer-cloud/python-sdk/compare/v4.5.0...v4.6.0) (2020-08-25)
 
 
