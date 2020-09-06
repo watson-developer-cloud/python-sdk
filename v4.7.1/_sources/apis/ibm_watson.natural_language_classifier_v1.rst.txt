@@ -1,0 +1,7 @@
+ibm\_watson.natural\_language\_classifier\_v1 module
+====================================================
+
+.. automodule:: ibm_watson.natural_language_classifier_v1
+   :members:
+   :undoc-members:
+   :show-inheritance:
