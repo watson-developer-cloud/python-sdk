@@ -22,7 +22,7 @@ import tempfile
 import ibm_watson.speech_to_text_v1
 from ibm_watson.speech_to_text_v1 import *
 
-base_url = 'https://stream.watsonplatform.net/speech-to-text/api'
+base_url = 'https://api.us-south.speech-to-text.watson.cloud.ibm.com'
 
 ##############################################################################
 # Start of Service: Models

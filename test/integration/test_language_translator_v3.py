@@ -23,6 +23,10 @@ class TestIntegrationLanguageTranslatorV3(unittest.TestCase):
             text='Hello, how are you?', target='es').get_result()
         assert translation is not None
 
+    def test_list_languages(self):
+        languages = self.language_translator.list_languages()
+        assert languages is not None
+
     def test_document_translation(self):
         with open(join(dirname(__file__), '../../resources/hello_world.txt'),
                   'r') as fileinfo:

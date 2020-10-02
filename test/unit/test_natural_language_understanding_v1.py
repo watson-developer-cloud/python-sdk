@@ -22,7 +22,7 @@ import responses
 import ibm_watson.natural_language_understanding_v1
 from ibm_watson.natural_language_understanding_v1 import *
 
-base_url = 'https://gateway.watsonplatform.net/natural-language-understanding/api'
+base_url = 'https://api.us-south.natural-language-understanding.watson.cloud.ibm.com'
 
 ##############################################################################
 # Start of Service: Analyze

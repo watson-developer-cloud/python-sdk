@@ -23,7 +23,7 @@ import tempfile
 import ibm_watson.discovery_v1
 from ibm_watson.discovery_v1 import *
 
-base_url = 'https://gateway.watsonplatform.net/discovery/api'
+base_url = 'https://api.us-south.discovery.watson.cloud.ibm.com'
 
 ##############################################################################
 # Start of Service: Environments

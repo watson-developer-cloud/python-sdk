@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2020.
+# (C) Copyright IBM Corp. 2019, 2020.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import tempfile
 import ibm_watson.visual_recognition_v4
 from ibm_watson.visual_recognition_v4 import *
 
-base_url = 'https://gateway.watsonplatform.net/visual-recognition/api'
+base_url = 'https://api.us-south.visual-recognition.watson.cloud.ibm.com'
 
 ##############################################################################
 # Start of Service: Analysis

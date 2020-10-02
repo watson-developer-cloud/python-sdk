@@ -21,7 +21,7 @@ import responses
 import ibm_watson.text_to_speech_v1
 from ibm_watson.text_to_speech_v1 import *
 
-base_url = 'https://stream.watsonplatform.net/text-to-speech/api'
+base_url = 'https://api.us-south.text-to-speech.watson.cloud.ibm.com'
 
 ##############################################################################
 # Start of Service: Voices
