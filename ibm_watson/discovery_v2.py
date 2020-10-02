@@ -1160,6 +1160,87 @@ class DiscoveryV2(BaseService):
         return response
 
     #########################
+    # analyze
+    #########################
+
+    def analyze_document(self,
+                         project_id: str,
+                         collection_id: str,
+                         *,
+                         file: BinaryIO = None,
+                         filename: str = None,
+                         file_content_type: str = None,
+                         metadata: str = None,
+                         **kwargs) -> 'DetailedResponse':
+        """
+        Analyze a Document.
+
+        Process a document using the specified collection's settings and return it for
+        realtime use.
+        **Note:** Documents processed using this method are not added to the specified
+        collection.
+        **Note:** This method is only supported on IBM Cloud Pak for Data instances of
+        Discovery.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the deploy page of the Discovery administrative tooling.
+        :param str collection_id: The ID of the collection.
+        :param TextIO file: (optional) The content of the document to ingest. The
+               maximum supported file size when adding a file to a collection is 50
+               megabytes, the maximum supported file size when testing a configuration is
+               1 megabyte. Files larger than the supported size are rejected.
+        :param str filename: (optional) The filename for file.
+        :param str file_content_type: (optional) The content type of file.
+        :param str metadata: (optional) The maximum supported metadata file size is
+               1 MB. Metadata parts larger than 1 MB are rejected.
+               Example:  ``` {
+                 "Creator": "Johnny Appleseed",
+                 "Subject": "Apples"
+               } ```.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='analyze_document')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        form_data = []
+        if file:
+            if not filename and hasattr(file, 'name'):
+                filename = basename(file.name)
+            if not filename:
+                raise ValueError('filename must be provided')
+            form_data.append(('file', (filename, file, file_content_type or
+                                       'application/octet-stream')))
+        if metadata:
+            metadata = str(metadata)
+            form_data.append(('metadata', (None, metadata, 'text/plain')))
+
+        url = '/v2/projects/{0}/collections/{1}/analyze'.format(
+            *self._encode_path_vars(project_id, collection_id))
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data)
+
+        response = self.send(request)
+        return response
+
+    #########################
     # enrichments
     #########################
 
@@ -1224,7 +1305,6 @@ class DiscoveryV2(BaseService):
         if enrichment is None:
             raise ValueError('enrichment must be provided')
 
-        print(enrichment)
         headers = {}
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
@@ -1662,9 +1742,171 @@ class UpdateDocumentEnums(object):
         APPLICATION_XHTML_XML = 'application/xhtml+xml'
 
 
+class AnalyzeDocumentEnums(object):
+
+    class FileContentType(Enum):
+        """
+        The content type of file.
+        """
+        APPLICATION_JSON = 'application/json'
+        APPLICATION_MSWORD = 'application/msword'
+        APPLICATION_VND_OPENXMLFORMATS_OFFICEDOCUMENT_WORDPROCESSINGML_DOCUMENT = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        APPLICATION_PDF = 'application/pdf'
+        TEXT_HTML = 'text/html'
+        APPLICATION_XHTML_XML = 'application/xhtml+xml'
+
+
 ##############################################################################
 # Models
 ##############################################################################
+
+
+class AnalyzedDocument():
+    """
+    An object containing the converted document and any identifed enrichments.
+
+    :attr List[Notice] notices: (optional) Array of document results that match the
+          query.
+    :attr AnalyzedResult result: (optional) Result of the document analysis.
+    """
+
+    def __init__(self,
+                 *,
+                 notices: List['Notice'] = None,
+                 result: 'AnalyzedResult' = None) -> None:
+        """
+        Initialize a AnalyzedDocument object.
+
+        :param List[Notice] notices: (optional) Array of document results that
+               match the query.
+        :param AnalyzedResult result: (optional) Result of the document analysis.
+        """
+        self.notices = notices
+        self.result = result
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'AnalyzedDocument':
+        """Initialize a AnalyzedDocument object from a json dictionary."""
+        args = {}
+        valid_keys = ['notices', 'result']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class AnalyzedDocument: '
+                + ', '.join(bad_keys))
+        if 'notices' in _dict:
+            args['notices'] = [
+                Notice._from_dict(x) for x in (_dict.get('notices'))
+            ]
+        if 'result' in _dict:
+            args['result'] = AnalyzedResult._from_dict(_dict.get('result'))
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AnalyzedDocument object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'notices') and self.notices is not None:
+            _dict['notices'] = [x._to_dict() for x in self.notices]
+        if hasattr(self, 'result') and self.result is not None:
+            _dict['result'] = self.result._to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this AnalyzedDocument object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'AnalyzedDocument') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'AnalyzedDocument') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class AnalyzedResult():
+    """
+    Result of the document analysis.
+
+    :attr dict metadata: (optional) Metadata of the document.
+    """
+
+    def __init__(self, *, metadata: dict = None, **kwargs) -> None:
+        """
+        Initialize a AnalyzedResult object.
+
+        :param dict metadata: (optional) Metadata of the document.
+        :param **kwargs: (optional) Any additional properties.
+        """
+        self.metadata = metadata
+        for _key, _value in kwargs.items():
+            setattr(self, _key, _value)
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'AnalyzedResult':
+        """Initialize a AnalyzedResult object from a json dictionary."""
+        args = {}
+        xtra = _dict.copy()
+        if 'metadata' in _dict:
+            args['metadata'] = _dict.get('metadata')
+            del xtra['metadata']
+        args.update(xtra)
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AnalyzedResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'metadata') and self.metadata is not None:
+            _dict['metadata'] = self.metadata
+        if hasattr(self, '_additionalProperties'):
+            for _key in self._additionalProperties:
+                _value = getattr(self, _key, None)
+                if _value is not None:
+                    _dict[_key] = _value
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __setattr__(self, name: str, value: object) -> None:
+        properties = {'metadata'}
+        if not hasattr(self, '_additionalProperties'):
+            super(AnalyzedResult, self).__setattr__('_additionalProperties',
+                                                    set())
+        if name not in properties:
+            self._additionalProperties.add(name)
+        super(AnalyzedResult, self).__setattr__(name, value)
+
+    def __str__(self) -> str:
+        """Return a `str` version of this AnalyzedResult object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'AnalyzedResult') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'AnalyzedResult') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
 
 
 class Collection():

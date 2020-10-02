@@ -1,7 +1,8 @@
 # coding: utf-8
 from unittest import TestCase
-from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator, BearerTokenAuthenticator
 from ibm_watson.discovery_v2 import CreateEnrichment, EnrichmentOptions
+from os.path import abspath
 import os
 import ibm_watson
 import pytest
@@ -108,3 +109,23 @@ class Discoveryv2(TestCase):
                 self.project_id,
                 enrichment_id
             )
+
+    # can only test in CPD
+    def test_analyze(self):
+        authenticator = BearerTokenAuthenticator('<bearer_token>')
+        discovery_cpd = ibm_watson.DiscoveryV2(
+            version='2020-08-12',
+            authenticator=authenticator
+        )
+        discovery_cpd.service_url = "<url>"
+        discovery_cpd.set_disable_ssl_verification(True)
+        test_file = abspath('resources/problem.json')
+        with open(test_file, 'rb') as file:
+            result = discovery_cpd.analyze_document(
+                project_id="<project_id>",
+                collection_id="<collection_id>",
+                file=file,
+                file_content_type="application/json"
+            ).get_result()
+            assert result is not None
+
