@@ -392,7 +392,7 @@ except ApiException as e:
     print(e.http_response.headers.get('X-Global-Transaction-Id'))
 ```
 
-However, the transaction ID isn't available when the API doesn't return a response for some reason. In that case, you can set your own transaction ID in the request. For example, replace <my-unique-transaction-id> in the following example with a unique transaction ID.
+However, the transaction ID isn't available when the API doesn't return a response for some reason. In that case, you can set your own transaction ID in the request. For example, replace `<my-unique-transaction-id>` in the following example with a unique transaction ID.
 
 ```python
 from ibm_watson import MyService
