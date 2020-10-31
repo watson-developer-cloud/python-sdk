@@ -124,7 +124,7 @@ The file downloaded will be called `ibm-credentials.env`. This is the name the S
 As long as you set that up correctly, you don't have to worry about setting any authentication options in your code. So, for example, if you created and downloaded the credential file for your Discovery instance, you just need to do the following:
 
 ```python
-discovery = DiscoveryV1(version='2018-08-01')
+discovery = DiscoveryV1(version='2019-04-30')
 ```
 
 And that's it!
@@ -175,7 +175,7 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 # In the constructor, letting the SDK manage the token
 authenticator = IAMAuthenticator('apikey',
                                  url='<iam_url>') # optional - the default value is https://iam.cloud.ibm.com/identity/token
-discovery = DiscoveryV1(version='2018-08-01',
+discovery = DiscoveryV1(version='2019-04-30',
                         authenticator=authenticator)
 discovery.set_service_url('<url_as_per_region>')
 ```
@@ -196,7 +196,7 @@ from ibm_cloud_sdk_core.authenticators import BearerTokenAuthenticator
 
 # in the constructor, assuming control of managing the token
 authenticator = BearerTokenAuthenticator('your bearer token')
-discovery = DiscoveryV1(version='2018-08-01',
+discovery = DiscoveryV1(version='2019-04-30',
                         authenticator=authenticator)
 discovery.set_service_url('<url_as_per_region>')
 ```
@@ -207,7 +207,7 @@ from ibm_watson import DiscoveryV1
 from ibm_cloud_sdk_core.authenticators import BasicAuthenticator
 
 authenticator = BasicAuthenticator('username', 'password')
-discovery = DiscoveryV1(version='2018-08-01', authenticator=authenticator)
+discovery = DiscoveryV1(version='2019-04-30', authenticator=authenticator)
 discovery.set_service_url('<url_as_per_region>')
 ```
 
@@ -217,7 +217,7 @@ from ibm_watson import DiscoveryV1
 from ibm_cloud_sdk_core.authenticators import NoAuthAuthenticator
 
 authenticator = NoAuthAuthenticator()
-discovery = DiscoveryV1(version='2018-08-01', authenticator=authenticator)
+discovery = DiscoveryV1(version='2019-04-30', authenticator=authenticator)
 discovery.set_service_url('<url_as_per_region>')
 ```
 
