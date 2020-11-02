@@ -368,14 +368,15 @@ This would give an output of `DetailedResponse` having the structure:
 You can use the `get_result()`, `get_headers()` and get_status_code() to return the result, headers and status code respectively.
 
 ## Getting the transaction ID
-Every SDK call returns a response with a transaction ID in the x-global-transaction-id header. This transaction ID is useful for troubleshooting and accessing relevant logs from your service instance.
+Every SDK call returns a response with a transaction ID in the `X-Global-Transaction-Id` header. Together the service instance region, this ID helps support teams troubleshoot issues from relevant logs.
+
 ### Suceess
 ```python
 from ibm_watson import MyService
 
 service = MyService(authenticator=my_authenticator)
 response_headers = service.my_service_call().get_headers()
-print(response_headers.get('x-global-transaction-id'))
+print(response_headers.get('X-Global-Transaction-Id'))
 ```
 
 ### Failure
@@ -388,7 +389,16 @@ try:
 except ApiException as e:
     print(e.global_transaction_id)
     # OR
-    print(e.http_response.headers.get('x-global-transaction-id'))
+    print(e.http_response.headers.get('X-Global-Transaction-Id'))
+```
+
+However, the transaction ID isn't available when the API doesn't return a response for some reason. In that case, you can set your own transaction ID in the request. For example, replace `<my-unique-transaction-id>` in the following example with a unique transaction ID.
+
+```python
+from ibm_watson import MyService
+
+service = MyService(authenticator=my_authenticator)
+service.my_service_call(headers={'X-Global-Transaction-Id': '<my-unique-transaction-id>'})
 ```
 
 ## Using Websockets
