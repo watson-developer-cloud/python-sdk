@@ -42,6 +42,12 @@ Python client library to quickly get started with the various [Watson APIs][wdc]
 
 </details>
 
+## ANNOUNCEMENTS!
+### Personality Insights Deprecation
+IBM® will begin sunsetting IBM Watson™ Personality Insights on 1 December 2020. For a period of one year from this date, you will still be able to use Watson Personality Insights. However, as of 1 December 2021, the offering will no longer be available.
+
+As an alternative, we encourage you to consider migrating to IBM Watson™ [Natural Language Understanding](https://cloud.ibm.com/docs/natural-language-understanding), a service on IBM Cloud® that uses deep learning to extract data and insights from text such as keywords, categories, sentiment, emotion, and syntax to provide insights for your business or industry. For more information, see About Natural Language Understanding.
+
 ## Before you begin
 * You need an [IBM Cloud][ibm-cloud-onboarding] account. We now only support `python 3.5` and above
 
@@ -124,7 +130,7 @@ The file downloaded will be called `ibm-credentials.env`. This is the name the S
 As long as you set that up correctly, you don't have to worry about setting any authentication options in your code. So, for example, if you created and downloaded the credential file for your Discovery instance, you just need to do the following:
 
 ```python
-discovery = DiscoveryV1(version='2018-08-01')
+discovery = DiscoveryV1(version='2019-04-30')
 ```
 
 And that's it!
@@ -175,7 +181,7 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 # In the constructor, letting the SDK manage the token
 authenticator = IAMAuthenticator('apikey',
                                  url='<iam_url>') # optional - the default value is https://iam.cloud.ibm.com/identity/token
-discovery = DiscoveryV1(version='2018-08-01',
+discovery = DiscoveryV1(version='2019-04-30',
                         authenticator=authenticator)
 discovery.set_service_url('<url_as_per_region>')
 ```
@@ -196,7 +202,7 @@ from ibm_cloud_sdk_core.authenticators import BearerTokenAuthenticator
 
 # in the constructor, assuming control of managing the token
 authenticator = BearerTokenAuthenticator('your bearer token')
-discovery = DiscoveryV1(version='2018-08-01',
+discovery = DiscoveryV1(version='2019-04-30',
                         authenticator=authenticator)
 discovery.set_service_url('<url_as_per_region>')
 ```
@@ -207,7 +213,7 @@ from ibm_watson import DiscoveryV1
 from ibm_cloud_sdk_core.authenticators import BasicAuthenticator
 
 authenticator = BasicAuthenticator('username', 'password')
-discovery = DiscoveryV1(version='2018-08-01', authenticator=authenticator)
+discovery = DiscoveryV1(version='2019-04-30', authenticator=authenticator)
 discovery.set_service_url('<url_as_per_region>')
 ```
 
@@ -217,7 +223,7 @@ from ibm_watson import DiscoveryV1
 from ibm_cloud_sdk_core.authenticators import NoAuthAuthenticator
 
 authenticator = NoAuthAuthenticator()
-discovery = DiscoveryV1(version='2018-08-01', authenticator=authenticator)
+discovery = DiscoveryV1(version='2019-04-30', authenticator=authenticator)
 discovery.set_service_url('<url_as_per_region>')
 ```
 
@@ -368,14 +374,15 @@ This would give an output of `DetailedResponse` having the structure:
 You can use the `get_result()`, `get_headers()` and get_status_code() to return the result, headers and status code respectively.
 
 ## Getting the transaction ID
-Every SDK call returns a response with a transaction ID in the x-global-transaction-id header. This transaction ID is useful for troubleshooting and accessing relevant logs from your service instance.
+Every SDK call returns a response with a transaction ID in the `X-Global-Transaction-Id` header. Together the service instance region, this ID helps support teams troubleshoot issues from relevant logs.
+
 ### Suceess
 ```python
 from ibm_watson import MyService
 
 service = MyService(authenticator=my_authenticator)
 response_headers = service.my_service_call().get_headers()
-print(response_headers.get('x-global-transaction-id'))
+print(response_headers.get('X-Global-Transaction-Id'))
 ```
 
 ### Failure
@@ -388,7 +395,16 @@ try:
 except ApiException as e:
     print(e.global_transaction_id)
     # OR
-    print(e.http_response.headers.get('x-global-transaction-id'))
+    print(e.http_response.headers.get('X-Global-Transaction-Id'))
+```
+
+However, the transaction ID isn't available when the API doesn't return a response for some reason. In that case, you can set your own transaction ID in the request. For example, replace `<my-unique-transaction-id>` in the following example with a unique transaction ID.
+
+```python
+from ibm_watson import MyService
+
+service = MyService(authenticator=my_authenticator)
+service.my_service_call(headers={'X-Global-Transaction-Id': '<my-unique-transaction-id>'})
 ```
 
 ## Using Websockets
