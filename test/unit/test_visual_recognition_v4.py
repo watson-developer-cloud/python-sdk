@@ -1418,8 +1418,8 @@ class TestGetTrainingUsage():
 
     def construct_full_body(self):
         body = dict()
-        body['start_time'] = "string1"
-        body['end_time'] = "string1"
+        body['start_time'] = datetime.now().date()
+        body['end_time'] = datetime.now().date()
         return body
 
     def construct_required_body(self):
