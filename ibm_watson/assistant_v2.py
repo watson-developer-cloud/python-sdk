@@ -30,6 +30,7 @@ from ibm_cloud_sdk_core import DetailedResponse
 from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
 from typing import Dict
 from typing import List
+import sys
 
 ##############################################################################
 # Service
@@ -43,10 +44,10 @@ class AssistantV2(BaseService):
     DEFAULT_SERVICE_NAME = 'assistant'
 
     def __init__(
-            self,
-            version: str,
-            authenticator: Authenticator = None,
-            service_name: str = DEFAULT_SERVICE_NAME,
+        self,
+        version: str,
+        authenticator: Authenticator = None,
+        service_name: str = DEFAULT_SERVICE_NAME,
     ) -> None:
         """
         Construct a new client for the Assistant service.
@@ -416,10 +417,282 @@ class AssistantV2(BaseService):
         response = self.send(request)
         return response
 
+    #########################
+    # bulkClassify
+    #########################
+
+    def bulk_classify(self,
+                      skill_id: str,
+                      *,
+                      input: List['BulkClassifyUtterance'] = None,
+                      **kwargs) -> 'DetailedResponse':
+        """
+        Identify intents and entities in multiple user utterances.
+
+        Send multiple user inputs to a dialog skill in a single request and receive
+        information about the intents and entities recognized in each input. This method
+        is useful for testing and comparing the performance of different skills or skill
+        versions.
+        This method is available only with Premium plans.
+
+        :param str skill_id: Unique identifier of the skill. To find the skill ID
+               in the Watson Assistant user interface, open the skill settings and click
+               **API Details**.
+        :param List[BulkClassifyUtterance] input: (optional) An array of input
+               utterances to classify.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if skill_id is None:
+            raise ValueError('skill_id must be provided')
+        if input is not None:
+            input = [self._convert_model(x) for x in input]
+
+        headers = {}
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='bulk_classify')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        data = {'input': input}
+
+        url = '/v2/skills/{0}/workspace/bulk_classify'.format(
+            *self._encode_path_vars(skill_id))
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data)
+
+        response = self.send(request)
+        return response
+
 
 ##############################################################################
 # Models
 ##############################################################################
+
+
+class BulkClassifyOutput():
+    """
+    BulkClassifyOutput.
+
+    :attr BulkClassifyUtterance input: (optional) The user input utterance to
+          classify.
+    :attr List[RuntimeEntity] entities: (optional) An array of entities identified
+          in the utterance.
+    :attr List[RuntimeIntent] intents: (optional) An array of intents recognized in
+          the utterance.
+    """
+
+    def __init__(self,
+                 *,
+                 input: 'BulkClassifyUtterance' = None,
+                 entities: List['RuntimeEntity'] = None,
+                 intents: List['RuntimeIntent'] = None) -> None:
+        """
+        Initialize a BulkClassifyOutput object.
+
+        :param BulkClassifyUtterance input: (optional) The user input utterance to
+               classify.
+        :param List[RuntimeEntity] entities: (optional) An array of entities
+               identified in the utterance.
+        :param List[RuntimeIntent] intents: (optional) An array of intents
+               recognized in the utterance.
+        """
+        self.input = input
+        self.entities = entities
+        self.intents = intents
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'BulkClassifyOutput':
+        """Initialize a BulkClassifyOutput object from a json dictionary."""
+        args = {}
+        valid_keys = ['input', 'entities', 'intents']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class BulkClassifyOutput: '
+                + ', '.join(bad_keys))
+        if 'input' in _dict:
+            args['input'] = BulkClassifyUtterance._from_dict(_dict.get('input'))
+        if 'entities' in _dict:
+            args['entities'] = [
+                RuntimeEntity._from_dict(x) for x in (_dict.get('entities'))
+            ]
+        if 'intents' in _dict:
+            args['intents'] = [
+                RuntimeIntent._from_dict(x) for x in (_dict.get('intents'))
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a BulkClassifyOutput object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'input') and self.input is not None:
+            _dict['input'] = self.input._to_dict()
+        if hasattr(self, 'entities') and self.entities is not None:
+            _dict['entities'] = [x._to_dict() for x in self.entities]
+        if hasattr(self, 'intents') and self.intents is not None:
+            _dict['intents'] = [x._to_dict() for x in self.intents]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this BulkClassifyOutput object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'BulkClassifyOutput') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'BulkClassifyOutput') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class BulkClassifyResponse():
+    """
+    BulkClassifyResponse.
+
+    :attr List[BulkClassifyOutput] output: (optional) An array of objects that
+          contain classification information for the submitted input utterances.
+    """
+
+    def __init__(self, *, output: List['BulkClassifyOutput'] = None) -> None:
+        """
+        Initialize a BulkClassifyResponse object.
+
+        :param List[BulkClassifyOutput] output: (optional) An array of objects that
+               contain classification information for the submitted input utterances.
+        """
+        self.output = output
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'BulkClassifyResponse':
+        """Initialize a BulkClassifyResponse object from a json dictionary."""
+        args = {}
+        valid_keys = ['output']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class BulkClassifyResponse: '
+                + ', '.join(bad_keys))
+        if 'output' in _dict:
+            args['output'] = [
+                BulkClassifyOutput._from_dict(x) for x in (_dict.get('output'))
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a BulkClassifyResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'output') and self.output is not None:
+            _dict['output'] = [x._to_dict() for x in self.output]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this BulkClassifyResponse object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'BulkClassifyResponse') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'BulkClassifyResponse') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class BulkClassifyUtterance():
+    """
+    The user input utterance to classify.
+
+    :attr str text: The text of the input utterance.
+    """
+
+    def __init__(self, text: str) -> None:
+        """
+        Initialize a BulkClassifyUtterance object.
+
+        :param str text: The text of the input utterance.
+        """
+        self.text = text
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'BulkClassifyUtterance':
+        """Initialize a BulkClassifyUtterance object from a json dictionary."""
+        args = {}
+        valid_keys = ['text']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class BulkClassifyUtterance: '
+                + ', '.join(bad_keys))
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        else:
+            raise ValueError(
+                'Required property \'text\' not present in BulkClassifyUtterance JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a BulkClassifyUtterance object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this BulkClassifyUtterance object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'BulkClassifyUtterance') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'BulkClassifyUtterance') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
 
 
 class CaptureGroup():
@@ -695,6 +968,69 @@ class DialogNodeAction():
         SERVER = "server"
         WEB_ACTION = "web-action"
         CLOUD_FUNCTION = "cloud-function"
+
+
+class DialogNodeOutputConnectToAgentTransferInfo():
+    """
+    Routing or other contextual information to be used by target service desk systems.
+
+    :attr dict target: (optional)
+    """
+
+    def __init__(self, *, target: dict = None) -> None:
+        """
+        Initialize a DialogNodeOutputConnectToAgentTransferInfo object.
+
+        :param dict target: (optional)
+        """
+        self.target = target
+
+    @classmethod
+    def from_dict(cls,
+                  _dict: Dict) -> 'DialogNodeOutputConnectToAgentTransferInfo':
+        """Initialize a DialogNodeOutputConnectToAgentTransferInfo object from a json dictionary."""
+        args = {}
+        valid_keys = ['target']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class DialogNodeOutputConnectToAgentTransferInfo: '
+                + ', '.join(bad_keys))
+        if 'target' in _dict:
+            args['target'] = _dict.get('target')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a DialogNodeOutputConnectToAgentTransferInfo object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'target') and self.target is not None:
+            _dict['target'] = self.target
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this DialogNodeOutputConnectToAgentTransferInfo object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self,
+               other: 'DialogNodeOutputConnectToAgentTransferInfo') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self,
+               other: 'DialogNodeOutputConnectToAgentTransferInfo') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
 
 
 class DialogNodeOutputOptionsElement():
@@ -1832,19 +2168,21 @@ class MessageContextSkill():
 
     :attr dict user_defined: (optional) Arbitrary variables that can be read and
           written by a particular skill.
-    :attr dict system: (optional) System context data used by the skill.
+    :attr MessageContextSkillSystem system: (optional) System context data used by
+          the skill.
     """
 
     def __init__(self,
                  *,
                  user_defined: dict = None,
-                 system: dict = None) -> None:
+                 system: 'MessageContextSkillSystem' = None) -> None:
         """
         Initialize a MessageContextSkill object.
 
         :param dict user_defined: (optional) Arbitrary variables that can be read
                and written by a particular skill.
-        :param dict system: (optional) System context data used by the skill.
+        :param MessageContextSkillSystem system: (optional) System context data
+               used by the skill.
         """
         self.user_defined = user_defined
         self.system = system
@@ -1862,7 +2200,8 @@ class MessageContextSkill():
         if 'user_defined' in _dict:
             args['user_defined'] = _dict.get('user_defined')
         if 'system' in _dict:
-            args['system'] = _dict.get('system')
+            args['system'] = MessageContextSkillSystem._from_dict(
+                _dict.get('system'))
         return cls(**args)
 
     @classmethod
@@ -1876,7 +2215,7 @@ class MessageContextSkill():
         if hasattr(self, 'user_defined') and self.user_defined is not None:
             _dict['user_defined'] = self.user_defined
         if hasattr(self, 'system') and self.system is not None:
-            _dict['system'] = self.system
+            _dict['system'] = self.system._to_dict()
         return _dict
 
     def _to_dict(self):
@@ -1902,25 +2241,22 @@ class MessageContextSkillSystem():
     """
     System context data used by the skill.
 
-    :attr str state: (optional) An encoded string representing the current
+    :attr str state: (optional) An encoded string that represents the current
           conversation state. By saving this value and then sending it in the context of a
-          subsequent message request, you can restore the conversation to the same state.
-          This can be useful if you need to return to an earlier point in the
+          subsequent message request, you can return to an earlier point in the
           conversation. If you are using stateful sessions, you can also use a stored
-          state value to restore a paused conversation whose session has expired.
+          state value to restore a paused conversation whose session is expired.
     """
 
     def __init__(self, *, state: str = None, **kwargs) -> None:
         """
         Initialize a MessageContextSkillSystem object.
 
-        :param str state: (optional) An encoded string representing the current
+        :param str state: (optional) An encoded string that represents the current
                conversation state. By saving this value and then sending it in the context
-               of a subsequent message request, you can restore the conversation to the
-               same state. This can be useful if you need to return to an earlier point in
-               the conversation. If you are using stateful sessions, you can also use a
-               stored state value to restore a paused conversation whose session has
-               expired.
+               of a subsequent message request, you can return to an earlier point in the
+               conversation. If you are using stateful sessions, you can also use a stored
+               state value to restore a paused conversation whose session is expired.
         :param **kwargs: (optional) Any additional properties.
         """
         self.state = state
@@ -4119,225 +4455,73 @@ class RuntimeResponseGeneric():
     """
     RuntimeResponseGeneric.
 
-    :attr str response_type: The type of response returned by the dialog node. The
-          specified response type must be supported by the client application or channel.
-    :attr str text: (optional) The text of the response.
-    :attr int time: (optional) How long to pause, in milliseconds.
-    :attr bool typing: (optional) Whether to send a "user is typing" event during
-          the pause.
-    :attr str source: (optional) The URL of the image.
-    :attr str title: (optional) The title or introductory text to show before the
-          response.
-    :attr str description: (optional) The description to show with the the response.
-    :attr str preference: (optional) The preferred type of control to display.
-    :attr List[DialogNodeOutputOptionsElement] options: (optional) An array of
-          objects describing the options from which the user can choose.
-    :attr str message_to_human_agent: (optional) A message to be sent to the human
-          agent who will be taking over the conversation.
-    :attr str topic: (optional) A label identifying the topic of the conversation,
-          derived from the **user_label** property of the relevant node.
-    :attr List[DialogSuggestion] suggestions: (optional) An array of objects
-          describing the possible matching dialog nodes from which the user can choose.
-    :attr str header: (optional) The title or introductory text to show before the
-          response. This text is defined in the search skill configuration.
-    :attr List[SearchResult] results: (optional) An array of objects containing
-          search results.
     """
 
-    def __init__(self,
-                 response_type: str,
-                 *,
-                 text: str = None,
-                 time: int = None,
-                 typing: bool = None,
-                 source: str = None,
-                 title: str = None,
-                 description: str = None,
-                 preference: str = None,
-                 options: List['DialogNodeOutputOptionsElement'] = None,
-                 message_to_human_agent: str = None,
-                 topic: str = None,
-                 suggestions: List['DialogSuggestion'] = None,
-                 header: str = None,
-                 results: List['SearchResult'] = None) -> None:
+    def __init__(self) -> None:
         """
         Initialize a RuntimeResponseGeneric object.
 
-        :param str response_type: The type of response returned by the dialog node.
-               The specified response type must be supported by the client application or
-               channel.
-        :param str text: (optional) The text of the response.
-        :param int time: (optional) How long to pause, in milliseconds.
-        :param bool typing: (optional) Whether to send a "user is typing" event
-               during the pause.
-        :param str source: (optional) The URL of the image.
-        :param str title: (optional) The title or introductory text to show before
-               the response.
-        :param str description: (optional) The description to show with the the
-               response.
-        :param str preference: (optional) The preferred type of control to display.
-        :param List[DialogNodeOutputOptionsElement] options: (optional) An array of
-               objects describing the options from which the user can choose.
-        :param str message_to_human_agent: (optional) A message to be sent to the
-               human agent who will be taking over the conversation.
-        :param str topic: (optional) A label identifying the topic of the
-               conversation, derived from the **user_label** property of the relevant
-               node.
-        :param List[DialogSuggestion] suggestions: (optional) An array of objects
-               describing the possible matching dialog nodes from which the user can
-               choose.
-        :param str header: (optional) The title or introductory text to show before
-               the response. This text is defined in the search skill configuration.
-        :param List[SearchResult] results: (optional) An array of objects
-               containing search results.
         """
-        self.response_type = response_type
-        self.text = text
-        self.time = time
-        self.typing = typing
-        self.source = source
-        self.title = title
-        self.description = description
-        self.preference = preference
-        self.options = options
-        self.message_to_human_agent = message_to_human_agent
-        self.topic = topic
-        self.suggestions = suggestions
-        self.header = header
-        self.results = results
+        msg = "Cannot instantiate base class. Instead, instantiate one of the defined subclasses: {0}".format(
+            ", ".join([
+                'RuntimeResponseGenericRuntimeResponseTypeText',
+                'RuntimeResponseGenericRuntimeResponseTypePause',
+                'RuntimeResponseGenericRuntimeResponseTypeImage',
+                'RuntimeResponseGenericRuntimeResponseTypeOption',
+                'RuntimeResponseGenericRuntimeResponseTypeConnectToAgent',
+                'RuntimeResponseGenericRuntimeResponseTypeSuggestion',
+                'RuntimeResponseGenericRuntimeResponseTypeSearch'
+            ]))
+        raise Exception(msg)
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'RuntimeResponseGeneric':
         """Initialize a RuntimeResponseGeneric object from a json dictionary."""
-        args = {}
-        valid_keys = [
-            'response_type', 'text', 'time', 'typing', 'source', 'title',
-            'description', 'preference', 'options', 'message_to_human_agent',
-            'topic', 'suggestions', 'header', 'results'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RuntimeResponseGeneric: '
-                + ', '.join(bad_keys))
-        if 'response_type' in _dict:
-            args['response_type'] = _dict.get('response_type')
-        else:
-            raise ValueError(
-                'Required property \'response_type\' not present in RuntimeResponseGeneric JSON'
-            )
-        if 'text' in _dict:
-            args['text'] = _dict.get('text')
-        if 'time' in _dict:
-            args['time'] = _dict.get('time')
-        if 'typing' in _dict:
-            args['typing'] = _dict.get('typing')
-        if 'source' in _dict:
-            args['source'] = _dict.get('source')
-        if 'title' in _dict:
-            args['title'] = _dict.get('title')
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'preference' in _dict:
-            args['preference'] = _dict.get('preference')
-        if 'options' in _dict:
-            args['options'] = [
-                DialogNodeOutputOptionsElement._from_dict(x)
-                for x in (_dict.get('options'))
-            ]
-        if 'message_to_human_agent' in _dict:
-            args['message_to_human_agent'] = _dict.get('message_to_human_agent')
-        if 'topic' in _dict:
-            args['topic'] = _dict.get('topic')
-        if 'suggestions' in _dict:
-            args['suggestions'] = [
-                DialogSuggestion._from_dict(x)
-                for x in (_dict.get('suggestions'))
-            ]
-        if 'header' in _dict:
-            args['header'] = _dict.get('header')
-        if 'results' in _dict:
-            args['results'] = [
-                SearchResult._from_dict(x) for x in (_dict.get('results'))
-            ]
-        return cls(**args)
+        disc_class = cls._get_class_by_discriminator(_dict)
+        if disc_class != cls:
+            return disc_class.from_dict(_dict)
+        msg = "Cannot convert dictionary into an instance of base class '{0}'. The discriminator value should map to a valid subclass: {1}".format(
+            cls.__name__, ", ".join([
+                'RuntimeResponseGenericRuntimeResponseTypeText',
+                'RuntimeResponseGenericRuntimeResponseTypePause',
+                'RuntimeResponseGenericRuntimeResponseTypeImage',
+                'RuntimeResponseGenericRuntimeResponseTypeOption',
+                'RuntimeResponseGenericRuntimeResponseTypeConnectToAgent',
+                'RuntimeResponseGenericRuntimeResponseTypeSuggestion',
+                'RuntimeResponseGenericRuntimeResponseTypeSearch'
+            ]))
+        raise Exception(msg)
 
     @classmethod
-    def _from_dict(cls, _dict):
+    def _from_dict(cls, _dict: Dict):
         """Initialize a RuntimeResponseGeneric object from a json dictionary."""
         return cls.from_dict(_dict)
 
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'response_type') and self.response_type is not None:
-            _dict['response_type'] = self.response_type
-        if hasattr(self, 'text') and self.text is not None:
-            _dict['text'] = self.text
-        if hasattr(self, 'time') and self.time is not None:
-            _dict['time'] = self.time
-        if hasattr(self, 'typing') and self.typing is not None:
-            _dict['typing'] = self.typing
-        if hasattr(self, 'source') and self.source is not None:
-            _dict['source'] = self.source
-        if hasattr(self, 'title') and self.title is not None:
-            _dict['title'] = self.title
-        if hasattr(self, 'description') and self.description is not None:
-            _dict['description'] = self.description
-        if hasattr(self, 'preference') and self.preference is not None:
-            _dict['preference'] = self.preference
-        if hasattr(self, 'options') and self.options is not None:
-            _dict['options'] = [x._to_dict() for x in self.options]
-        if hasattr(self, 'message_to_human_agent'
-                  ) and self.message_to_human_agent is not None:
-            _dict['message_to_human_agent'] = self.message_to_human_agent
-        if hasattr(self, 'topic') and self.topic is not None:
-            _dict['topic'] = self.topic
-        if hasattr(self, 'suggestions') and self.suggestions is not None:
-            _dict['suggestions'] = [x._to_dict() for x in self.suggestions]
-        if hasattr(self, 'header') and self.header is not None:
-            _dict['header'] = self.header
-        if hasattr(self, 'results') and self.results is not None:
-            _dict['results'] = [x._to_dict() for x in self.results]
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this RuntimeResponseGeneric object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other: 'RuntimeResponseGeneric') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'RuntimeResponseGeneric') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-    class ResponseTypeEnum(Enum):
-        """
-        The type of response returned by the dialog node. The specified response type must
-        be supported by the client application or channel.
-        """
-        TEXT = "text"
-        PAUSE = "pause"
-        IMAGE = "image"
-        OPTION = "option"
-        CONNECT_TO_AGENT = "connect_to_agent"
-        SUGGESTION = "suggestion"
-        SEARCH = "search"
-
-    class PreferenceEnum(Enum):
-        """
-        The preferred type of control to display.
-        """
-        DROPDOWN = "dropdown"
-        BUTTON = "button"
+    @classmethod
+    def _get_class_by_discriminator(cls, _dict: Dict) -> object:
+        mapping = {}
+        mapping[
+            'connect_to_agent'] = 'RuntimeResponseGenericRuntimeResponseTypeConnectToAgent'
+        mapping['image'] = 'RuntimeResponseGenericRuntimeResponseTypeImage'
+        mapping['option'] = 'RuntimeResponseGenericRuntimeResponseTypeOption'
+        mapping[
+            'suggestion'] = 'RuntimeResponseGenericRuntimeResponseTypeSuggestion'
+        mapping['pause'] = 'RuntimeResponseGenericRuntimeResponseTypePause'
+        mapping['search'] = 'RuntimeResponseGenericRuntimeResponseTypeSearch'
+        mapping['text'] = 'RuntimeResponseGenericRuntimeResponseTypeText'
+        disc_value = _dict.get('response_type')
+        if disc_value is None:
+            raise ValueError(
+                'Discriminator property \'response_type\' not found in RuntimeResponseGeneric JSON'
+            )
+        class_name = mapping.get(disc_value, disc_value)
+        try:
+            disc_class = getattr(sys.modules[__name__], class_name)
+        except AttributeError:
+            disc_class = cls
+        if isinstance(disc_class, object):
+            return disc_class
+        raise TypeError('%s is not a discriminator class' % class_name)
 
 
 class SearchResult():
@@ -4723,3 +4907,839 @@ class SessionResponse():
     def __ne__(self, other: 'SessionResponse') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
+
+
+class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
+        RuntimeResponseGeneric):
+    """
+    An object that describes a response with response type `connect_to_agent`.
+
+    :attr str response_type: The type of response returned by the dialog node. The
+          specified response type must be supported by the client application or channel.
+    :attr str message_to_human_agent: (optional) A message to be sent to the human
+          agent who will be taking over the conversation.
+    :attr str agent_available: (optional) An optional message to be displayed to the
+          user to indicate that the conversation will be transferred to the next available
+          agent.
+    :attr str agent_unavailable: (optional) An optional message to be displayed to
+          the user to indicate that no online agent is available to take over the
+          conversation.
+    :attr DialogNodeOutputConnectToAgentTransferInfo transfer_info: (optional)
+          Routing or other contextual information to be used by target service desk
+          systems.
+    :attr str topic: (optional) A label identifying the topic of the conversation,
+          derived from the **title** property of the relevant node or the **topic**
+          property of the dialog node response.
+    """
+
+    def __init__(
+            self,
+            response_type: str,
+            *,
+            message_to_human_agent: str = None,
+            agent_available: str = None,
+            agent_unavailable: str = None,
+            transfer_info: 'DialogNodeOutputConnectToAgentTransferInfo' = None,
+            topic: str = None) -> None:
+        """
+        Initialize a RuntimeResponseGenericRuntimeResponseTypeConnectToAgent object.
+
+        :param str response_type: The type of response returned by the dialog node.
+               The specified response type must be supported by the client application or
+               channel.
+        :param str message_to_human_agent: (optional) A message to be sent to the
+               human agent who will be taking over the conversation.
+        :param str agent_available: (optional) An optional message to be displayed
+               to the user to indicate that the conversation will be transferred to the
+               next available agent.
+        :param str agent_unavailable: (optional) An optional message to be
+               displayed to the user to indicate that no online agent is available to take
+               over the conversation.
+        :param DialogNodeOutputConnectToAgentTransferInfo transfer_info: (optional)
+               Routing or other contextual information to be used by target service desk
+               systems.
+        :param str topic: (optional) A label identifying the topic of the
+               conversation, derived from the **title** property of the relevant node or
+               the **topic** property of the dialog node response.
+        """
+        self.response_type = response_type
+        self.message_to_human_agent = message_to_human_agent
+        self.agent_available = agent_available
+        self.agent_unavailable = agent_unavailable
+        self.transfer_info = transfer_info
+        self.topic = topic
+
+    @classmethod
+    def from_dict(
+        cls, _dict: Dict
+    ) -> 'RuntimeResponseGenericRuntimeResponseTypeConnectToAgent':
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeConnectToAgent object from a json dictionary."""
+        args = {}
+        valid_keys = [
+            'response_type', 'message_to_human_agent', 'agent_available',
+            'agent_unavailable', 'transfer_info', 'topic'
+        ]
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent: '
+                + ', '.join(bad_keys))
+        if 'response_type' in _dict:
+            args['response_type'] = _dict.get('response_type')
+        else:
+            raise ValueError(
+                'Required property \'response_type\' not present in RuntimeResponseGenericRuntimeResponseTypeConnectToAgent JSON'
+            )
+        if 'message_to_human_agent' in _dict:
+            args['message_to_human_agent'] = _dict.get('message_to_human_agent')
+        if 'agent_available' in _dict:
+            args['agent_available'] = _dict.get('agent_available')
+        if 'agent_unavailable' in _dict:
+            args['agent_unavailable'] = _dict.get('agent_unavailable')
+        if 'transfer_info' in _dict:
+            args[
+                'transfer_info'] = DialogNodeOutputConnectToAgentTransferInfo._from_dict(
+                    _dict.get('transfer_info'))
+        if 'topic' in _dict:
+            args['topic'] = _dict.get('topic')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeConnectToAgent object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'response_type') and self.response_type is not None:
+            _dict['response_type'] = self.response_type
+        if hasattr(self, 'message_to_human_agent'
+                  ) and self.message_to_human_agent is not None:
+            _dict['message_to_human_agent'] = self.message_to_human_agent
+        if hasattr(self,
+                   'agent_available') and self.agent_available is not None:
+            _dict['agent_available'] = self.agent_available
+        if hasattr(self,
+                   'agent_unavailable') and self.agent_unavailable is not None:
+            _dict['agent_unavailable'] = self.agent_unavailable
+        if hasattr(self, 'transfer_info') and self.transfer_info is not None:
+            _dict['transfer_info'] = self.transfer_info._to_dict()
+        if hasattr(self, 'topic') and self.topic is not None:
+            _dict['topic'] = self.topic
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypeConnectToAgent object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(
+        self, other: 'RuntimeResponseGenericRuntimeResponseTypeConnectToAgent'
+    ) -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+        self, other: 'RuntimeResponseGenericRuntimeResponseTypeConnectToAgent'
+    ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class ResponseTypeEnum(Enum):
+        """
+        The type of response returned by the dialog node. The specified response type must
+        be supported by the client application or channel.
+        """
+        CONNECT_TO_AGENT = "connect_to_agent"
+
+
+class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
+    """
+    An object that describes a response with response type `image`.
+
+    :attr str response_type: The type of response returned by the dialog node. The
+          specified response type must be supported by the client application or channel.
+    :attr str source: The URL of the image.
+    :attr str title: (optional) The title to show before the response.
+    :attr str description: (optional) The description to show with the the response.
+    """
+
+    def __init__(self,
+                 response_type: str,
+                 source: str,
+                 *,
+                 title: str = None,
+                 description: str = None) -> None:
+        """
+        Initialize a RuntimeResponseGenericRuntimeResponseTypeImage object.
+
+        :param str response_type: The type of response returned by the dialog node.
+               The specified response type must be supported by the client application or
+               channel.
+        :param str source: The URL of the image.
+        :param str title: (optional) The title to show before the response.
+        :param str description: (optional) The description to show with the the
+               response.
+        """
+        self.response_type = response_type
+        self.source = source
+        self.title = title
+        self.description = description
+
+    @classmethod
+    def from_dict(
+            cls,
+            _dict: Dict) -> 'RuntimeResponseGenericRuntimeResponseTypeImage':
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeImage object from a json dictionary."""
+        args = {}
+        valid_keys = ['response_type', 'source', 'title', 'description']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class RuntimeResponseGenericRuntimeResponseTypeImage: '
+                + ', '.join(bad_keys))
+        if 'response_type' in _dict:
+            args['response_type'] = _dict.get('response_type')
+        else:
+            raise ValueError(
+                'Required property \'response_type\' not present in RuntimeResponseGenericRuntimeResponseTypeImage JSON'
+            )
+        if 'source' in _dict:
+            args['source'] = _dict.get('source')
+        else:
+            raise ValueError(
+                'Required property \'source\' not present in RuntimeResponseGenericRuntimeResponseTypeImage JSON'
+            )
+        if 'title' in _dict:
+            args['title'] = _dict.get('title')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeImage object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'response_type') and self.response_type is not None:
+            _dict['response_type'] = self.response_type
+        if hasattr(self, 'source') and self.source is not None:
+            _dict['source'] = self.source
+        if hasattr(self, 'title') and self.title is not None:
+            _dict['title'] = self.title
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypeImage object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self,
+               other: 'RuntimeResponseGenericRuntimeResponseTypeImage') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self,
+               other: 'RuntimeResponseGenericRuntimeResponseTypeImage') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class ResponseTypeEnum(Enum):
+        """
+        The type of response returned by the dialog node. The specified response type must
+        be supported by the client application or channel.
+        """
+        IMAGE = "image"
+
+
+class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
+    """
+    An object that describes a response with response type `option`.
+
+    :attr str response_type: The type of response returned by the dialog node. The
+          specified response type must be supported by the client application or channel.
+    :attr str title: The title or introductory text to show before the response.
+    :attr str description: (optional) The description to show with the the response.
+    :attr str preference: (optional) The preferred type of control to display.
+    :attr List[DialogNodeOutputOptionsElement] options: An array of objects
+          describing the options from which the user can choose.
+    """
+
+    def __init__(self,
+                 response_type: str,
+                 title: str,
+                 options: List['DialogNodeOutputOptionsElement'],
+                 *,
+                 description: str = None,
+                 preference: str = None) -> None:
+        """
+        Initialize a RuntimeResponseGenericRuntimeResponseTypeOption object.
+
+        :param str response_type: The type of response returned by the dialog node.
+               The specified response type must be supported by the client application or
+               channel.
+        :param str title: The title or introductory text to show before the
+               response.
+        :param List[DialogNodeOutputOptionsElement] options: An array of objects
+               describing the options from which the user can choose.
+        :param str description: (optional) The description to show with the the
+               response.
+        :param str preference: (optional) The preferred type of control to display.
+        """
+        self.response_type = response_type
+        self.title = title
+        self.description = description
+        self.preference = preference
+        self.options = options
+
+    @classmethod
+    def from_dict(
+            cls,
+            _dict: Dict) -> 'RuntimeResponseGenericRuntimeResponseTypeOption':
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeOption object from a json dictionary."""
+        args = {}
+        valid_keys = [
+            'response_type', 'title', 'description', 'preference', 'options'
+        ]
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class RuntimeResponseGenericRuntimeResponseTypeOption: '
+                + ', '.join(bad_keys))
+        if 'response_type' in _dict:
+            args['response_type'] = _dict.get('response_type')
+        else:
+            raise ValueError(
+                'Required property \'response_type\' not present in RuntimeResponseGenericRuntimeResponseTypeOption JSON'
+            )
+        if 'title' in _dict:
+            args['title'] = _dict.get('title')
+        else:
+            raise ValueError(
+                'Required property \'title\' not present in RuntimeResponseGenericRuntimeResponseTypeOption JSON'
+            )
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'preference' in _dict:
+            args['preference'] = _dict.get('preference')
+        if 'options' in _dict:
+            args['options'] = [
+                DialogNodeOutputOptionsElement._from_dict(x)
+                for x in (_dict.get('options'))
+            ]
+        else:
+            raise ValueError(
+                'Required property \'options\' not present in RuntimeResponseGenericRuntimeResponseTypeOption JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeOption object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'response_type') and self.response_type is not None:
+            _dict['response_type'] = self.response_type
+        if hasattr(self, 'title') and self.title is not None:
+            _dict['title'] = self.title
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'preference') and self.preference is not None:
+            _dict['preference'] = self.preference
+        if hasattr(self, 'options') and self.options is not None:
+            _dict['options'] = [x._to_dict() for x in self.options]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypeOption object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(
+            self,
+            other: 'RuntimeResponseGenericRuntimeResponseTypeOption') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+            self,
+            other: 'RuntimeResponseGenericRuntimeResponseTypeOption') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class ResponseTypeEnum(Enum):
+        """
+        The type of response returned by the dialog node. The specified response type must
+        be supported by the client application or channel.
+        """
+        OPTION = "option"
+
+    class PreferenceEnum(Enum):
+        """
+        The preferred type of control to display.
+        """
+        DROPDOWN = "dropdown"
+        BUTTON = "button"
+
+
+class RuntimeResponseGenericRuntimeResponseTypePause(RuntimeResponseGeneric):
+    """
+    An object that describes a response with response type `pause`.
+
+    :attr str response_type: The type of response returned by the dialog node. The
+          specified response type must be supported by the client application or channel.
+    :attr int time: How long to pause, in milliseconds.
+    :attr bool typing: (optional) Whether to send a "user is typing" event during
+          the pause.
+    """
+
+    def __init__(self,
+                 response_type: str,
+                 time: int,
+                 *,
+                 typing: bool = None) -> None:
+        """
+        Initialize a RuntimeResponseGenericRuntimeResponseTypePause object.
+
+        :param str response_type: The type of response returned by the dialog node.
+               The specified response type must be supported by the client application or
+               channel.
+        :param int time: How long to pause, in milliseconds.
+        :param bool typing: (optional) Whether to send a "user is typing" event
+               during the pause.
+        """
+        self.response_type = response_type
+        self.time = time
+        self.typing = typing
+
+    @classmethod
+    def from_dict(
+            cls,
+            _dict: Dict) -> 'RuntimeResponseGenericRuntimeResponseTypePause':
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypePause object from a json dictionary."""
+        args = {}
+        valid_keys = ['response_type', 'time', 'typing']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class RuntimeResponseGenericRuntimeResponseTypePause: '
+                + ', '.join(bad_keys))
+        if 'response_type' in _dict:
+            args['response_type'] = _dict.get('response_type')
+        else:
+            raise ValueError(
+                'Required property \'response_type\' not present in RuntimeResponseGenericRuntimeResponseTypePause JSON'
+            )
+        if 'time' in _dict:
+            args['time'] = _dict.get('time')
+        else:
+            raise ValueError(
+                'Required property \'time\' not present in RuntimeResponseGenericRuntimeResponseTypePause JSON'
+            )
+        if 'typing' in _dict:
+            args['typing'] = _dict.get('typing')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypePause object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'response_type') and self.response_type is not None:
+            _dict['response_type'] = self.response_type
+        if hasattr(self, 'time') and self.time is not None:
+            _dict['time'] = self.time
+        if hasattr(self, 'typing') and self.typing is not None:
+            _dict['typing'] = self.typing
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypePause object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self,
+               other: 'RuntimeResponseGenericRuntimeResponseTypePause') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self,
+               other: 'RuntimeResponseGenericRuntimeResponseTypePause') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class ResponseTypeEnum(Enum):
+        """
+        The type of response returned by the dialog node. The specified response type must
+        be supported by the client application or channel.
+        """
+        PAUSE = "pause"
+
+
+class RuntimeResponseGenericRuntimeResponseTypeSearch(RuntimeResponseGeneric):
+    """
+    An object that describes a response with response type `search`.
+
+    :attr str response_type: The type of response returned by the dialog node. The
+          specified response type must be supported by the client application or channel.
+    :attr str header: The title or introductory text to show before the response.
+          This text is defined in the search skill configuration.
+    :attr List[SearchResult] primary_results: An array of objects that contains the
+          search results to be displayed in the initial response to the user.
+    :attr List[SearchResult] additional_results: An array of objects that contains
+          additional search results that can be displayed to the user upon request.
+    """
+
+    def __init__(self, response_type: str, header: str,
+                 primary_results: List['SearchResult'],
+                 additional_results: List['SearchResult']) -> None:
+        """
+        Initialize a RuntimeResponseGenericRuntimeResponseTypeSearch object.
+
+        :param str response_type: The type of response returned by the dialog node.
+               The specified response type must be supported by the client application or
+               channel.
+        :param str header: The title or introductory text to show before the
+               response. This text is defined in the search skill configuration.
+        :param List[SearchResult] primary_results: An array of objects that
+               contains the search results to be displayed in the initial response to the
+               user.
+        :param List[SearchResult] additional_results: An array of objects that
+               contains additional search results that can be displayed to the user upon
+               request.
+        """
+        self.response_type = response_type
+        self.header = header
+        self.primary_results = primary_results
+        self.additional_results = additional_results
+
+    @classmethod
+    def from_dict(
+            cls,
+            _dict: Dict) -> 'RuntimeResponseGenericRuntimeResponseTypeSearch':
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeSearch object from a json dictionary."""
+        args = {}
+        valid_keys = [
+            'response_type', 'header', 'primary_results', 'additional_results'
+        ]
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class RuntimeResponseGenericRuntimeResponseTypeSearch: '
+                + ', '.join(bad_keys))
+        if 'response_type' in _dict:
+            args['response_type'] = _dict.get('response_type')
+        else:
+            raise ValueError(
+                'Required property \'response_type\' not present in RuntimeResponseGenericRuntimeResponseTypeSearch JSON'
+            )
+        if 'header' in _dict:
+            args['header'] = _dict.get('header')
+        else:
+            raise ValueError(
+                'Required property \'header\' not present in RuntimeResponseGenericRuntimeResponseTypeSearch JSON'
+            )
+        if 'primary_results' in _dict:
+            args['primary_results'] = [
+                SearchResult._from_dict(x)
+                for x in (_dict.get('primary_results'))
+            ]
+        else:
+            raise ValueError(
+                'Required property \'primary_results\' not present in RuntimeResponseGenericRuntimeResponseTypeSearch JSON'
+            )
+        if 'additional_results' in _dict:
+            args['additional_results'] = [
+                SearchResult._from_dict(x)
+                for x in (_dict.get('additional_results'))
+            ]
+        else:
+            raise ValueError(
+                'Required property \'additional_results\' not present in RuntimeResponseGenericRuntimeResponseTypeSearch JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeSearch object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'response_type') and self.response_type is not None:
+            _dict['response_type'] = self.response_type
+        if hasattr(self, 'header') and self.header is not None:
+            _dict['header'] = self.header
+        if hasattr(self,
+                   'primary_results') and self.primary_results is not None:
+            _dict['primary_results'] = [
+                x._to_dict() for x in self.primary_results
+            ]
+        if hasattr(
+                self,
+                'additional_results') and self.additional_results is not None:
+            _dict['additional_results'] = [
+                x._to_dict() for x in self.additional_results
+            ]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypeSearch object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(
+            self,
+            other: 'RuntimeResponseGenericRuntimeResponseTypeSearch') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+            self,
+            other: 'RuntimeResponseGenericRuntimeResponseTypeSearch') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class ResponseTypeEnum(Enum):
+        """
+        The type of response returned by the dialog node. The specified response type must
+        be supported by the client application or channel.
+        """
+        SEARCH = "search"
+
+
+class RuntimeResponseGenericRuntimeResponseTypeSuggestion(
+        RuntimeResponseGeneric):
+    """
+    An object that describes a response with response type `suggestion`.
+
+    :attr str response_type: The type of response returned by the dialog node. The
+          specified response type must be supported by the client application or channel.
+    :attr str title: The title or introductory text to show before the response.
+    :attr List[DialogSuggestion] suggestions: An array of objects describing the
+          possible matching dialog nodes from which the user can choose.
+    """
+
+    def __init__(self, response_type: str, title: str,
+                 suggestions: List['DialogSuggestion']) -> None:
+        """
+        Initialize a RuntimeResponseGenericRuntimeResponseTypeSuggestion object.
+
+        :param str response_type: The type of response returned by the dialog node.
+               The specified response type must be supported by the client application or
+               channel.
+        :param str title: The title or introductory text to show before the
+               response.
+        :param List[DialogSuggestion] suggestions: An array of objects describing
+               the possible matching dialog nodes from which the user can choose.
+        """
+        self.response_type = response_type
+        self.title = title
+        self.suggestions = suggestions
+
+    @classmethod
+    def from_dict(
+            cls, _dict: Dict
+    ) -> 'RuntimeResponseGenericRuntimeResponseTypeSuggestion':
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeSuggestion object from a json dictionary."""
+        args = {}
+        valid_keys = ['response_type', 'title', 'suggestions']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class RuntimeResponseGenericRuntimeResponseTypeSuggestion: '
+                + ', '.join(bad_keys))
+        if 'response_type' in _dict:
+            args['response_type'] = _dict.get('response_type')
+        else:
+            raise ValueError(
+                'Required property \'response_type\' not present in RuntimeResponseGenericRuntimeResponseTypeSuggestion JSON'
+            )
+        if 'title' in _dict:
+            args['title'] = _dict.get('title')
+        else:
+            raise ValueError(
+                'Required property \'title\' not present in RuntimeResponseGenericRuntimeResponseTypeSuggestion JSON'
+            )
+        if 'suggestions' in _dict:
+            args['suggestions'] = [
+                DialogSuggestion._from_dict(x)
+                for x in (_dict.get('suggestions'))
+            ]
+        else:
+            raise ValueError(
+                'Required property \'suggestions\' not present in RuntimeResponseGenericRuntimeResponseTypeSuggestion JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeSuggestion object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'response_type') and self.response_type is not None:
+            _dict['response_type'] = self.response_type
+        if hasattr(self, 'title') and self.title is not None:
+            _dict['title'] = self.title
+        if hasattr(self, 'suggestions') and self.suggestions is not None:
+            _dict['suggestions'] = [x._to_dict() for x in self.suggestions]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypeSuggestion object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(
+            self, other: 'RuntimeResponseGenericRuntimeResponseTypeSuggestion'
+    ) -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+            self, other: 'RuntimeResponseGenericRuntimeResponseTypeSuggestion'
+    ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class ResponseTypeEnum(Enum):
+        """
+        The type of response returned by the dialog node. The specified response type must
+        be supported by the client application or channel.
+        """
+        SUGGESTION = "suggestion"
+
+
+class RuntimeResponseGenericRuntimeResponseTypeText(RuntimeResponseGeneric):
+    """
+    An object that describes a response with response type `text`.
+
+    :attr str response_type: The type of response returned by the dialog node. The
+          specified response type must be supported by the client application or channel.
+    :attr str text: The text of the response.
+    """
+
+    def __init__(self, response_type: str, text: str) -> None:
+        """
+        Initialize a RuntimeResponseGenericRuntimeResponseTypeText object.
+
+        :param str response_type: The type of response returned by the dialog node.
+               The specified response type must be supported by the client application or
+               channel.
+        :param str text: The text of the response.
+        """
+        self.response_type = response_type
+        self.text = text
+
+    @classmethod
+    def from_dict(
+            cls,
+            _dict: Dict) -> 'RuntimeResponseGenericRuntimeResponseTypeText':
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeText object from a json dictionary."""
+        args = {}
+        valid_keys = ['response_type', 'text']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class RuntimeResponseGenericRuntimeResponseTypeText: '
+                + ', '.join(bad_keys))
+        if 'response_type' in _dict:
+            args['response_type'] = _dict.get('response_type')
+        else:
+            raise ValueError(
+                'Required property \'response_type\' not present in RuntimeResponseGenericRuntimeResponseTypeText JSON'
+            )
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        else:
+            raise ValueError(
+                'Required property \'text\' not present in RuntimeResponseGenericRuntimeResponseTypeText JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeText object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'response_type') and self.response_type is not None:
+            _dict['response_type'] = self.response_type
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypeText object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self,
+               other: 'RuntimeResponseGenericRuntimeResponseTypeText') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self,
+               other: 'RuntimeResponseGenericRuntimeResponseTypeText') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class ResponseTypeEnum(Enum):
+        """
+        The type of response returned by the dialog node. The specified response type must
+        be supported by the client application or channel.
+        """
+        TEXT = "text"

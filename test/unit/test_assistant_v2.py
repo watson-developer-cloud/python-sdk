@@ -81,7 +81,7 @@ class TestCreateSession():
     def call_service(self, body):
         service = AssistantV2(
             authenticator=NoAuthAuthenticator(),
-            version='2020-04-01',
+            version='2020-09-24',
             )
         service.set_service_url(base_url)
         output = service.create_session(**body)
@@ -151,7 +151,7 @@ class TestDeleteSession():
     def call_service(self, body):
         service = AssistantV2(
             authenticator=NoAuthAuthenticator(),
-            version='2020-04-01',
+            version='2020-09-24',
             )
         service.set_service_url(base_url)
         output = service.delete_session(**body)
@@ -233,7 +233,7 @@ class TestMessage():
     def call_service(self, body):
         service = AssistantV2(
             authenticator=NoAuthAuthenticator(),
-            version='2020-04-01',
+            version='2020-09-24',
             )
         service.set_service_url(base_url)
         output = service.message(**body)
@@ -306,7 +306,7 @@ class TestMessageStateless():
     def call_service(self, body):
         service = AssistantV2(
             authenticator=NoAuthAuthenticator(),
-            version='2020-04-01',
+            version='2020-09-24',
             )
         service.set_service_url(base_url)
         output = service.message_stateless(**body)
@@ -387,7 +387,7 @@ class TestListLogs():
     def call_service(self, body):
         service = AssistantV2(
             authenticator=NoAuthAuthenticator(),
-            version='2020-04-01',
+            version='2020-09-24',
             )
         service.set_service_url(base_url)
         output = service.list_logs(**body)
@@ -471,7 +471,7 @@ class TestDeleteUserData():
     def call_service(self, body):
         service = AssistantV2(
             authenticator=NoAuthAuthenticator(),
-            version='2020-04-01',
+            version='2020-09-24',
             )
         service.set_service_url(base_url)
         output = service.delete_user_data(**body)
@@ -491,6 +491,87 @@ class TestDeleteUserData():
 # endregion
 ##############################################################################
 # End of Service: UserData
+##############################################################################
+
+##############################################################################
+# Start of Service: BulkClassify
+##############################################################################
+# region
+
+#-----------------------------------------------------------------------------
+# Test Class for bulk_classify
+#-----------------------------------------------------------------------------
+class TestBulkClassify():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_bulk_classify_response(self):
+        body = self.construct_full_body()
+        response = fake_response_BulkClassifyResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_bulk_classify_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_BulkClassifyResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_bulk_classify_empty(self):
+        check_empty_required_params(self, fake_response_BulkClassifyResponse_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v2/skills/{0}/workspace/bulk_classify'.format(body['skill_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.POST,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = AssistantV2(
+            authenticator=NoAuthAuthenticator(),
+            version='2020-09-24',
+            )
+        service.set_service_url(base_url)
+        output = service.bulk_classify(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['skill_id'] = "string1"
+        body.update({"input": [], })
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['skill_id'] = "string1"
+        return body
+
+
+# endregion
+##############################################################################
+# End of Service: BulkClassify
 ##############################################################################
 
 
@@ -562,3 +643,4 @@ fake_response_SessionResponse_json = """{"session_id": "fake_session_id"}"""
 fake_response_MessageResponse_json = """{"output": {"generic": [], "intents": [], "entities": [], "actions": [], "debug": {"nodes_visited": [], "log_messages": [], "branch_exited": false, "branch_exited_reason": "fake_branch_exited_reason"}, "spelling": {"text": "fake_text", "original_text": "fake_original_text", "suggested_text": "fake_suggested_text"}}, "context": {"global": {"system": {"timezone": "fake_timezone", "user_id": "fake_user_id", "turn_count": 10, "locale": "fake_locale", "reference_time": "fake_reference_time"}, "session_id": "fake_session_id"}, "skills": {}}}"""
 fake_response_MessageResponseStateless_json = """{"output": {"generic": [], "intents": [], "entities": [], "actions": [], "debug": {"nodes_visited": [], "log_messages": [], "branch_exited": false, "branch_exited_reason": "fake_branch_exited_reason"}, "spelling": {"text": "fake_text", "original_text": "fake_original_text", "suggested_text": "fake_suggested_text"}}, "context": {"global": {"system": {"timezone": "fake_timezone", "user_id": "fake_user_id", "turn_count": 10, "locale": "fake_locale", "reference_time": "fake_reference_time"}, "session_id": "fake_session_id"}, "skills": {}}}"""
 fake_response_LogCollection_json = """{"logs": [], "pagination": {"next_url": "fake_next_url", "matched": 7, "next_cursor": "fake_next_cursor"}}"""
+fake_response_BulkClassifyResponse_json = """{"output": []}"""
