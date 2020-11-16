@@ -14,8 +14,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-The IBM Watson&trade; Personality Insights service enables applications to derive insights
-from social media, enterprise data, or other digital communications. The service uses
+IBM&reg; will begin sunsetting IBM Watson&trade; Personality Insights on 1 December 2020.
+For a period of one year from this date, you will still be able to use Watson Personality
+Insights. However, as of 1 December 2021, the offering will no longer be
+available.<br/><br/>As an alternative, we encourage you to consider migrating to IBM
+Watson&trade; Natural Language Understanding, a service on IBM Cloud&reg; that uses deep
+learning to extract data and insights from text such as keywords, categories, sentiment,
+emotion, and syntax to provide insights for your business or industry. For more
+information, see [About Natural Language
+Understanding](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-about).
+{: deprecated}
+The IBM Watson Personality Insights service enables applications to derive insights from
+social media, enterprise data, or other digital communications. The service uses
 linguistic analytics to infer individuals' intrinsic personality characteristics,
 including Big Five, Needs, and Values, from digital communications such as email, text
 messages, tweets, and forum posts.
@@ -55,10 +65,10 @@ class PersonalityInsightsV3(BaseService):
     DEFAULT_SERVICE_NAME = 'personality_insights'
 
     def __init__(
-            self,
-            version: str,
-            authenticator: Authenticator = None,
-            service_name: str = DEFAULT_SERVICE_NAME,
+        self,
+        version: str,
+        authenticator: Authenticator = None,
+        service_name: str = DEFAULT_SERVICE_NAME,
     ) -> None:
         """
         Construct a new client for the Personality Insights service.

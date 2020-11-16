@@ -49,10 +49,10 @@ class DiscoveryV1(BaseService):
     DEFAULT_SERVICE_NAME = 'discovery'
 
     def __init__(
-            self,
-            version: str,
-            authenticator: Authenticator = None,
-            service_name: str = DEFAULT_SERVICE_NAME,
+        self,
+        version: str,
+        authenticator: Authenticator = None,
+        service_name: str = DEFAULT_SERVICE_NAME,
     ) -> None:
         """
         Construct a new client for the Discovery service.
