@@ -172,6 +172,7 @@ class TestListWorkspaces():
     def construct_full_body(self):
         body = dict()
         body['page_limit'] = 12345
+        body['include_count'] = True
         body['sort'] = "string1"
         body['cursor'] = "string1"
         body['include_audit'] = True
@@ -242,7 +243,7 @@ class TestCreateWorkspace():
 
     def construct_full_body(self):
         body = dict()
-        body.update({"name": "string1", "description": "string1", "language": "string1", "metadata": {"mock": "data"}, "learning_opt_out": True, "system_settings": WorkspaceSystemSettings._from_dict(json.loads("""{"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "fake_prompt", "none_of_the_above_prompt": "fake_none_of_the_above_prompt", "enabled": false, "sensitivity": "fake_sensitivity", "randomize": false, "max_suggestions": 15, "suggestion_text_policy": "fake_suggestion_text_policy"}, "spelling_suggestions": true, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}""")), "intents": [], "entities": [], "dialog_nodes": [], "counterexamples": [], "webhooks": [], })
+        body.update({"name": "string1", "description": "string1", "language": "string1", "dialog_nodes": [], "counterexamples": [], "metadata": {"mock": "data"}, "learning_opt_out": True, "system_settings": WorkspaceSystemSettings._from_dict(json.loads("""{"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "fake_prompt", "none_of_the_above_prompt": "fake_none_of_the_above_prompt", "enabled": false, "sensitivity": "fake_sensitivity", "randomize": false, "max_suggestions": 15, "suggestion_text_policy": "fake_suggestion_text_policy"}, "spelling_suggestions": true, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}""")), "webhooks": [], "intents": [], "entities": [], })
         body['include_audit'] = True
         return body
 
@@ -386,7 +387,7 @@ class TestUpdateWorkspace():
     def construct_full_body(self):
         body = dict()
         body['workspace_id'] = "string1"
-        body.update({"name": "string1", "description": "string1", "language": "string1", "metadata": {"mock": "data"}, "learning_opt_out": True, "system_settings": WorkspaceSystemSettings._from_dict(json.loads("""{"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "fake_prompt", "none_of_the_above_prompt": "fake_none_of_the_above_prompt", "enabled": false, "sensitivity": "fake_sensitivity", "randomize": false, "max_suggestions": 15, "suggestion_text_policy": "fake_suggestion_text_policy"}, "spelling_suggestions": true, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}""")), "intents": [], "entities": [], "dialog_nodes": [], "counterexamples": [], "webhooks": [], })
+        body.update({"name": "string1", "description": "string1", "language": "string1", "dialog_nodes": [], "counterexamples": [], "metadata": {"mock": "data"}, "learning_opt_out": True, "system_settings": WorkspaceSystemSettings._from_dict(json.loads("""{"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "fake_prompt", "none_of_the_above_prompt": "fake_none_of_the_above_prompt", "enabled": false, "sensitivity": "fake_sensitivity", "randomize": false, "max_suggestions": 15, "suggestion_text_policy": "fake_suggestion_text_policy"}, "spelling_suggestions": true, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}""")), "webhooks": [], "intents": [], "entities": [], })
         body['append'] = True
         body['include_audit'] = True
         return body
@@ -541,6 +542,7 @@ class TestListIntents():
         body['workspace_id'] = "string1"
         body['export'] = True
         body['page_limit'] = 12345
+        body['include_count'] = True
         body['sort'] = "string1"
         body['cursor'] = "string1"
         body['include_audit'] = True
@@ -921,6 +923,7 @@ class TestListExamples():
         body['workspace_id'] = "string1"
         body['intent'] = "string1"
         body['page_limit'] = 12345
+        body['include_count'] = True
         body['sort'] = "string1"
         body['cursor'] = "string1"
         body['include_audit'] = True
@@ -1307,6 +1310,7 @@ class TestListCounterexamples():
         body = dict()
         body['workspace_id'] = "string1"
         body['page_limit'] = 12345
+        body['include_count'] = True
         body['sort'] = "string1"
         body['cursor'] = "string1"
         body['include_audit'] = True
@@ -1685,6 +1689,7 @@ class TestListEntities():
         body['workspace_id'] = "string1"
         body['export'] = True
         body['page_limit'] = 12345
+        body['include_count'] = True
         body['sort'] = "string1"
         body['cursor'] = "string1"
         body['include_audit'] = True
@@ -2150,6 +2155,7 @@ class TestListValues():
         body['entity'] = "string1"
         body['export'] = True
         body['page_limit'] = 12345
+        body['include_count'] = True
         body['sort'] = "string1"
         body['cursor'] = "string1"
         body['include_audit'] = True
@@ -2540,6 +2546,7 @@ class TestListSynonyms():
         body['entity'] = "string1"
         body['value'] = "string1"
         body['page_limit'] = 12345
+        body['include_count'] = True
         body['sort'] = "string1"
         body['cursor'] = "string1"
         body['include_audit'] = True
@@ -2935,6 +2942,7 @@ class TestListDialogNodes():
         body = dict()
         body['workspace_id'] = "string1"
         body['page_limit'] = 12345
+        body['include_count'] = True
         body['sort'] = "string1"
         body['cursor'] = "string1"
         body['include_audit'] = True
@@ -3008,14 +3016,14 @@ class TestCreateDialogNode():
     def construct_full_body(self):
         body = dict()
         body['workspace_id'] = "string1"
-        body.update({"dialog_node": "string1", "description": "string1", "conditions": "string1", "parent": "string1", "previous_sibling": "string1", "output": DialogNodeOutput._from_dict(json.loads("""{"generic": [], "modifiers": {"overwrite": false}}""")), "context": {"mock": "data"}, "metadata": {"mock": "data"}, "next_step": DialogNodeNextStep._from_dict(json.loads("""{"behavior": "fake_behavior", "dialog_node": "fake_dialog_node", "selector": "fake_selector"}""")), "title": "string1", "type": "string1", "event_name": "string1", "variable": "string1", "actions": [], "digress_in": "string1", "digress_out": "string1", "digress_out_slots": "string1", "user_label": "string1", "disambiguation_opt_out": True, })
+        body.update({"dialog_node": "string1", "description": "string1", "conditions": "string1", "parent": "string1", "previous_sibling": "string1", "output": DialogNodeOutput._from_dict(json.loads("""{"generic": [], "modifiers": {"overwrite": false}}""")), "context": DialogNodeContext._from_dict(json.loads("""{}""")), "metadata": {"mock": "data"}, "next_step": DialogNodeNextStep._from_dict(json.loads("""{"behavior": "fake_behavior", "dialog_node": "fake_dialog_node", "selector": "fake_selector"}""")), "title": "string1", "type": "string1", "event_name": "string1", "variable": "string1", "actions": [], "digress_in": "string1", "digress_out": "string1", "digress_out_slots": "string1", "user_label": "string1", "disambiguation_opt_out": True, })
         body['include_audit'] = True
         return body
 
     def construct_required_body(self):
         body = dict()
         body['workspace_id'] = "string1"
-        body.update({"dialog_node": "string1", "description": "string1", "conditions": "string1", "parent": "string1", "previous_sibling": "string1", "output": DialogNodeOutput._from_dict(json.loads("""{"generic": [], "modifiers": {"overwrite": false}}""")), "context": {"mock": "data"}, "metadata": {"mock": "data"}, "next_step": DialogNodeNextStep._from_dict(json.loads("""{"behavior": "fake_behavior", "dialog_node": "fake_dialog_node", "selector": "fake_selector"}""")), "title": "string1", "type": "string1", "event_name": "string1", "variable": "string1", "actions": [], "digress_in": "string1", "digress_out": "string1", "digress_out_slots": "string1", "user_label": "string1", "disambiguation_opt_out": True, })
+        body.update({"dialog_node": "string1", "description": "string1", "conditions": "string1", "parent": "string1", "previous_sibling": "string1", "output": DialogNodeOutput._from_dict(json.loads("""{"generic": [], "modifiers": {"overwrite": false}}""")), "context": DialogNodeContext._from_dict(json.loads("""{}""")), "metadata": {"mock": "data"}, "next_step": DialogNodeNextStep._from_dict(json.loads("""{"behavior": "fake_behavior", "dialog_node": "fake_dialog_node", "selector": "fake_selector"}""")), "title": "string1", "type": "string1", "event_name": "string1", "variable": "string1", "actions": [], "digress_in": "string1", "digress_out": "string1", "digress_out_slots": "string1", "user_label": "string1", "disambiguation_opt_out": True, })
         return body
 
 
@@ -3155,7 +3163,7 @@ class TestUpdateDialogNode():
         body = dict()
         body['workspace_id'] = "string1"
         body['dialog_node'] = "string1"
-        body.update({"new_dialog_node": "string1", "new_description": "string1", "new_conditions": "string1", "new_parent": "string1", "new_previous_sibling": "string1", "new_output": DialogNodeOutput._from_dict(json.loads("""{"generic": [], "modifiers": {"overwrite": false}}""")), "new_context": {"mock": "data"}, "new_metadata": {"mock": "data"}, "new_next_step": DialogNodeNextStep._from_dict(json.loads("""{"behavior": "fake_behavior", "dialog_node": "fake_dialog_node", "selector": "fake_selector"}""")), "new_title": "string1", "new_type": "string1", "new_event_name": "string1", "new_variable": "string1", "new_actions": [], "new_digress_in": "string1", "new_digress_out": "string1", "new_digress_out_slots": "string1", "new_user_label": "string1", "new_disambiguation_opt_out": True, })
+        body.update({"new_dialog_node": "string1", "new_description": "string1", "new_conditions": "string1", "new_parent": "string1", "new_previous_sibling": "string1", "new_output": DialogNodeOutput._from_dict(json.loads("""{"generic": [], "modifiers": {"overwrite": false}}""")), "new_context": DialogNodeContext._from_dict(json.loads("""{}""")), "new_metadata": {"mock": "data"}, "new_next_step": DialogNodeNextStep._from_dict(json.loads("""{"behavior": "fake_behavior", "dialog_node": "fake_dialog_node", "selector": "fake_selector"}""")), "new_title": "string1", "new_type": "string1", "new_event_name": "string1", "new_variable": "string1", "new_actions": [], "new_digress_in": "string1", "new_digress_out": "string1", "new_digress_out_slots": "string1", "new_user_label": "string1", "new_disambiguation_opt_out": True, })
         body['include_audit'] = True
         return body
 
@@ -3163,7 +3171,7 @@ class TestUpdateDialogNode():
         body = dict()
         body['workspace_id'] = "string1"
         body['dialog_node'] = "string1"
-        body.update({"new_dialog_node": "string1", "new_description": "string1", "new_conditions": "string1", "new_parent": "string1", "new_previous_sibling": "string1", "new_output": DialogNodeOutput._from_dict(json.loads("""{"generic": [], "modifiers": {"overwrite": false}}""")), "new_context": {"mock": "data"}, "new_metadata": {"mock": "data"}, "new_next_step": DialogNodeNextStep._from_dict(json.loads("""{"behavior": "fake_behavior", "dialog_node": "fake_dialog_node", "selector": "fake_selector"}""")), "new_title": "string1", "new_type": "string1", "new_event_name": "string1", "new_variable": "string1", "new_actions": [], "new_digress_in": "string1", "new_digress_out": "string1", "new_digress_out_slots": "string1", "new_user_label": "string1", "new_disambiguation_opt_out": True, })
+        body.update({"new_dialog_node": "string1", "new_description": "string1", "new_conditions": "string1", "new_parent": "string1", "new_previous_sibling": "string1", "new_output": DialogNodeOutput._from_dict(json.loads("""{"generic": [], "modifiers": {"overwrite": false}}""")), "new_context": DialogNodeContext._from_dict(json.loads("""{}""")), "new_metadata": {"mock": "data"}, "new_next_step": DialogNodeNextStep._from_dict(json.loads("""{"behavior": "fake_behavior", "dialog_node": "fake_dialog_node", "selector": "fake_selector"}""")), "new_title": "string1", "new_type": "string1", "new_event_name": "string1", "new_variable": "string1", "new_actions": [], "new_digress_in": "string1", "new_digress_out": "string1", "new_digress_out_slots": "string1", "new_user_label": "string1", "new_disambiguation_opt_out": True, })
         return body
 
 
@@ -3481,6 +3489,87 @@ class TestDeleteUserData():
 # End of Service: UserData
 ##############################################################################
 
+##############################################################################
+# Start of Service: BulkClassify
+##############################################################################
+# region
+
+#-----------------------------------------------------------------------------
+# Test Class for bulk_classify
+#-----------------------------------------------------------------------------
+class TestBulkClassify():
+
+    #--------------------------------------------------------
+    # Test 1: Send fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_bulk_classify_response(self):
+        body = self.construct_full_body()
+        response = fake_response_BulkClassifyResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 2: Send only required fake data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_bulk_classify_required_response(self):
+        # Check response with required params
+        body = self.construct_required_body()
+        response = fake_response_BulkClassifyResponse_json
+        send_request(self, body, response)
+        assert len(responses.calls) == 1
+
+    #--------------------------------------------------------
+    # Test 3: Send empty data and check response
+    #--------------------------------------------------------
+    @responses.activate
+    def test_bulk_classify_empty(self):
+        check_empty_required_params(self, fake_response_BulkClassifyResponse_json)
+        check_missing_required_params(self)
+        assert len(responses.calls) == 0
+
+    #-----------
+    #- Helpers -
+    #-----------
+    def make_url(self, body):
+        endpoint = '/v1/workspaces/{0}/bulk_classify'.format(body['workspace_id'])
+        url = '{0}{1}'.format(base_url, endpoint)
+        return url
+
+    def add_mock_response(self, url, response):
+        responses.add(responses.POST,
+                    url,
+                    body=json.dumps(response),
+                    status=200,
+                    content_type='application/json')
+    
+    def call_service(self, body):
+        service = AssistantV1(
+            authenticator=NoAuthAuthenticator(),
+            version='2020-04-01',
+            )
+        service.set_service_url(base_url)
+        output = service.bulk_classify(**body)
+        return output
+
+    def construct_full_body(self):
+        body = dict()
+        body['workspace_id'] = "string1"
+        body.update({"input": [], })
+        return body
+
+    def construct_required_body(self):
+        body = dict()
+        body['workspace_id'] = "string1"
+        return body
+
+
+# endregion
+##############################################################################
+# End of Service: BulkClassify
+##############################################################################
+
 
 def check_empty_required_params(obj, response):
     """Test function to assert that the operation will throw an error when given empty required data
@@ -3548,9 +3637,9 @@ def send_request(obj, body, response, url=None):
 fake_response__json = None
 fake_response_MessageResponse_json = """{"input": {"text": "fake_text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "fake_suggested_text", "original_text": "fake_original_text"}, "intents": [], "entities": [], "alternate_intents": false, "context": {"conversation_id": "fake_conversation_id", "system": {}, "metadata": {"deployment": "fake_deployment", "user_id": "fake_user_id"}}, "output": {"nodes_visited": [], "nodes_visited_details": [], "log_messages": [], "text": [], "generic": []}, "actions": []}"""
 fake_response_WorkspaceCollection_json = """{"workspaces": [], "pagination": {"refresh_url": "fake_refresh_url", "next_url": "fake_next_url", "total": 5, "matched": 7, "refresh_cursor": "fake_refresh_cursor", "next_cursor": "fake_next_cursor"}}"""
-fake_response_Workspace_json = """{"name": "fake_name", "description": "fake_description", "language": "fake_language", "learning_opt_out": true, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "fake_prompt", "none_of_the_above_prompt": "fake_none_of_the_above_prompt", "enabled": false, "sensitivity": "fake_sensitivity", "randomize": false, "max_suggestions": 15, "suggestion_text_policy": "fake_suggestion_text_policy"}, "spelling_suggestions": true, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "workspace_id": "fake_workspace_id", "status": "fake_status", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "intents": [], "entities": [], "dialog_nodes": [], "counterexamples": [], "webhooks": []}"""
-fake_response_Workspace_json = """{"name": "fake_name", "description": "fake_description", "language": "fake_language", "learning_opt_out": true, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "fake_prompt", "none_of_the_above_prompt": "fake_none_of_the_above_prompt", "enabled": false, "sensitivity": "fake_sensitivity", "randomize": false, "max_suggestions": 15, "suggestion_text_policy": "fake_suggestion_text_policy"}, "spelling_suggestions": true, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "workspace_id": "fake_workspace_id", "status": "fake_status", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "intents": [], "entities": [], "dialog_nodes": [], "counterexamples": [], "webhooks": []}"""
-fake_response_Workspace_json = """{"name": "fake_name", "description": "fake_description", "language": "fake_language", "learning_opt_out": true, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "fake_prompt", "none_of_the_above_prompt": "fake_none_of_the_above_prompt", "enabled": false, "sensitivity": "fake_sensitivity", "randomize": false, "max_suggestions": 15, "suggestion_text_policy": "fake_suggestion_text_policy"}, "spelling_suggestions": true, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "workspace_id": "fake_workspace_id", "status": "fake_status", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "intents": [], "entities": [], "dialog_nodes": [], "counterexamples": [], "webhooks": []}"""
+fake_response_Workspace_json = """{"name": "fake_name", "description": "fake_description", "language": "fake_language", "workspace_id": "fake_workspace_id", "dialog_nodes": [], "counterexamples": [], "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "learning_opt_out": true, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "fake_prompt", "none_of_the_above_prompt": "fake_none_of_the_above_prompt", "enabled": false, "sensitivity": "fake_sensitivity", "randomize": false, "max_suggestions": 15, "suggestion_text_policy": "fake_suggestion_text_policy"}, "spelling_suggestions": true, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "fake_status", "webhooks": [], "intents": [], "entities": []}"""
+fake_response_Workspace_json = """{"name": "fake_name", "description": "fake_description", "language": "fake_language", "workspace_id": "fake_workspace_id", "dialog_nodes": [], "counterexamples": [], "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "learning_opt_out": true, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "fake_prompt", "none_of_the_above_prompt": "fake_none_of_the_above_prompt", "enabled": false, "sensitivity": "fake_sensitivity", "randomize": false, "max_suggestions": 15, "suggestion_text_policy": "fake_suggestion_text_policy"}, "spelling_suggestions": true, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "fake_status", "webhooks": [], "intents": [], "entities": []}"""
+fake_response_Workspace_json = """{"name": "fake_name", "description": "fake_description", "language": "fake_language", "workspace_id": "fake_workspace_id", "dialog_nodes": [], "counterexamples": [], "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "learning_opt_out": true, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "fake_prompt", "none_of_the_above_prompt": "fake_none_of_the_above_prompt", "enabled": false, "sensitivity": "fake_sensitivity", "randomize": false, "max_suggestions": 15, "suggestion_text_policy": "fake_suggestion_text_policy"}, "spelling_suggestions": true, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "fake_status", "webhooks": [], "intents": [], "entities": []}"""
 fake_response_IntentCollection_json = """{"intents": [], "pagination": {"refresh_url": "fake_refresh_url", "next_url": "fake_next_url", "total": 5, "matched": 7, "refresh_cursor": "fake_refresh_cursor", "next_cursor": "fake_next_cursor"}}"""
 fake_response_Intent_json = """{"intent": "fake_intent", "description": "fake_description", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "examples": []}"""
 fake_response_Intent_json = """{"intent": "fake_intent", "description": "fake_description", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z", "examples": []}"""
@@ -3577,8 +3666,9 @@ fake_response_Synonym_json = """{"synonym": "fake_synonym", "created": "2017-05-
 fake_response_Synonym_json = """{"synonym": "fake_synonym", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z"}"""
 fake_response_Synonym_json = """{"synonym": "fake_synonym", "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z"}"""
 fake_response_DialogNodeCollection_json = """{"dialog_nodes": [], "pagination": {"refresh_url": "fake_refresh_url", "next_url": "fake_next_url", "total": 5, "matched": 7, "refresh_cursor": "fake_refresh_cursor", "next_cursor": "fake_next_cursor"}}"""
-fake_response_DialogNode_json = """{"dialog_node": "fake_dialog_node", "description": "fake_description", "conditions": "fake_conditions", "parent": "fake_parent", "previous_sibling": "fake_previous_sibling", "output": {"generic": [], "modifiers": {"overwrite": false}}, "next_step": {"behavior": "fake_behavior", "dialog_node": "fake_dialog_node", "selector": "fake_selector"}, "title": "fake_title", "type": "fake_type", "event_name": "fake_event_name", "variable": "fake_variable", "actions": [], "digress_in": "fake_digress_in", "digress_out": "fake_digress_out", "digress_out_slots": "fake_digress_out_slots", "user_label": "fake_user_label", "disambiguation_opt_out": true, "disabled": true, "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z"}"""
-fake_response_DialogNode_json = """{"dialog_node": "fake_dialog_node", "description": "fake_description", "conditions": "fake_conditions", "parent": "fake_parent", "previous_sibling": "fake_previous_sibling", "output": {"generic": [], "modifiers": {"overwrite": false}}, "next_step": {"behavior": "fake_behavior", "dialog_node": "fake_dialog_node", "selector": "fake_selector"}, "title": "fake_title", "type": "fake_type", "event_name": "fake_event_name", "variable": "fake_variable", "actions": [], "digress_in": "fake_digress_in", "digress_out": "fake_digress_out", "digress_out_slots": "fake_digress_out_slots", "user_label": "fake_user_label", "disambiguation_opt_out": true, "disabled": true, "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z"}"""
-fake_response_DialogNode_json = """{"dialog_node": "fake_dialog_node", "description": "fake_description", "conditions": "fake_conditions", "parent": "fake_parent", "previous_sibling": "fake_previous_sibling", "output": {"generic": [], "modifiers": {"overwrite": false}}, "next_step": {"behavior": "fake_behavior", "dialog_node": "fake_dialog_node", "selector": "fake_selector"}, "title": "fake_title", "type": "fake_type", "event_name": "fake_event_name", "variable": "fake_variable", "actions": [], "digress_in": "fake_digress_in", "digress_out": "fake_digress_out", "digress_out_slots": "fake_digress_out_slots", "user_label": "fake_user_label", "disambiguation_opt_out": true, "disabled": true, "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z"}"""
+fake_response_DialogNode_json = """{"dialog_node": "fake_dialog_node", "description": "fake_description", "conditions": "fake_conditions", "parent": "fake_parent", "previous_sibling": "fake_previous_sibling", "output": {"generic": [], "modifiers": {"overwrite": false}}, "context": {}, "next_step": {"behavior": "fake_behavior", "dialog_node": "fake_dialog_node", "selector": "fake_selector"}, "title": "fake_title", "type": "fake_type", "event_name": "fake_event_name", "variable": "fake_variable", "actions": [], "digress_in": "fake_digress_in", "digress_out": "fake_digress_out", "digress_out_slots": "fake_digress_out_slots", "user_label": "fake_user_label", "disambiguation_opt_out": true, "disabled": true, "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z"}"""
+fake_response_DialogNode_json = """{"dialog_node": "fake_dialog_node", "description": "fake_description", "conditions": "fake_conditions", "parent": "fake_parent", "previous_sibling": "fake_previous_sibling", "output": {"generic": [], "modifiers": {"overwrite": false}}, "context": {}, "next_step": {"behavior": "fake_behavior", "dialog_node": "fake_dialog_node", "selector": "fake_selector"}, "title": "fake_title", "type": "fake_type", "event_name": "fake_event_name", "variable": "fake_variable", "actions": [], "digress_in": "fake_digress_in", "digress_out": "fake_digress_out", "digress_out_slots": "fake_digress_out_slots", "user_label": "fake_user_label", "disambiguation_opt_out": true, "disabled": true, "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z"}"""
+fake_response_DialogNode_json = """{"dialog_node": "fake_dialog_node", "description": "fake_description", "conditions": "fake_conditions", "parent": "fake_parent", "previous_sibling": "fake_previous_sibling", "output": {"generic": [], "modifiers": {"overwrite": false}}, "context": {}, "next_step": {"behavior": "fake_behavior", "dialog_node": "fake_dialog_node", "selector": "fake_selector"}, "title": "fake_title", "type": "fake_type", "event_name": "fake_event_name", "variable": "fake_variable", "actions": [], "digress_in": "fake_digress_in", "digress_out": "fake_digress_out", "digress_out_slots": "fake_digress_out_slots", "user_label": "fake_user_label", "disambiguation_opt_out": true, "disabled": true, "created": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z"}"""
 fake_response_LogCollection_json = """{"logs": [], "pagination": {"next_url": "fake_next_url", "matched": 7, "next_cursor": "fake_next_cursor"}}"""
 fake_response_LogCollection_json = """{"logs": [], "pagination": {"next_url": "fake_next_url", "matched": 7, "next_cursor": "fake_next_cursor"}}"""
+fake_response_BulkClassifyResponse_json = """{"output": []}"""
