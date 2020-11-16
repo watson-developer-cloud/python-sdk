@@ -21,7 +21,6 @@ critical aspects of the documents.
 import json
 from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
 from .common import get_sdk_headers
-from datetime import date
 from datetime import datetime
 from enum import Enum
 from ibm_cloud_sdk_core import BaseService
@@ -44,10 +43,10 @@ class CompareComplyV1(BaseService):
     DEFAULT_SERVICE_NAME = 'compare_comply'
 
     def __init__(
-            self,
-            version: str,
-            authenticator: Authenticator = None,
-            service_name: str = DEFAULT_SERVICE_NAME,
+        self,
+        version: str,
+        authenticator: Authenticator = None,
+        service_name: str = DEFAULT_SERVICE_NAME,
     ) -> None:
         """
         Construct a new client for the Compare Comply service.
@@ -370,8 +369,6 @@ class CompareComplyV1(BaseService):
     def list_feedback(self,
                       *,
                       feedback_type: str = None,
-                      before: date = None,
-                      after: date = None,
                       document_title: str = None,
                       model_id: str = None,
                       model_version: str = None,
@@ -394,12 +391,6 @@ class CompareComplyV1(BaseService):
         :param str feedback_type: (optional) An optional string that filters the
                output to include only feedback with the specified feedback type. The only
                permitted value is `element_classification`.
-        :param date before: (optional) An optional string in the format
-               `YYYY-MM-DD` that filters the output to include only feedback that was
-               added before the specified date.
-        :param date after: (optional) An optional string in the format `YYYY-MM-DD`
-               that filters the output to include only feedback that was added after the
-               specified date.
         :param str document_title: (optional) An optional string that filters the
                output to include only feedback from the document with the specified
                `document_title`.
@@ -461,8 +452,6 @@ class CompareComplyV1(BaseService):
         params = {
             'version': self.version,
             'feedback_type': feedback_type,
-            'before': before,
-            'after': after,
             'document_title': document_title,
             'model_id': model_id,
             'model_version': model_version,
@@ -1731,27 +1720,33 @@ class Category():
     :attr str label: (optional) The category of the associated element.
     :attr List[str] provenance_ids: (optional) Hashed values that you can send to
           IBM to provide feedback or receive support.
+    :attr str modification: (optional) The type of modification of the feedback
+          entry in the updated labels response.
     """
 
     def __init__(self,
                  *,
                  label: str = None,
-                 provenance_ids: List[str] = None) -> None:
+                 provenance_ids: List[str] = None,
+                 modification: str = None) -> None:
         """
         Initialize a Category object.
 
         :param str label: (optional) The category of the associated element.
         :param List[str] provenance_ids: (optional) Hashed values that you can send
                to IBM to provide feedback or receive support.
+        :param str modification: (optional) The type of modification of the
+               feedback entry in the updated labels response.
         """
         self.label = label
         self.provenance_ids = provenance_ids
+        self.modification = modification
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'Category':
         """Initialize a Category object from a json dictionary."""
         args = {}
-        valid_keys = ['label', 'provenance_ids']
+        valid_keys = ['label', 'provenance_ids', 'modification']
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
             raise ValueError(
@@ -1761,6 +1756,8 @@ class Category():
             args['label'] = _dict.get('label')
         if 'provenance_ids' in _dict:
             args['provenance_ids'] = _dict.get('provenance_ids')
+        if 'modification' in _dict:
+            args['modification'] = _dict.get('modification')
         return cls(**args)
 
     @classmethod
@@ -1775,6 +1772,8 @@ class Category():
             _dict['label'] = self.label
         if hasattr(self, 'provenance_ids') and self.provenance_ids is not None:
             _dict['provenance_ids'] = self.provenance_ids
+        if hasattr(self, 'modification') and self.modification is not None:
+            _dict['modification'] = self.modification
         return _dict
 
     def _to_dict(self):
@@ -1824,6 +1823,14 @@ class Category():
         SUBCONTRACTS = "Subcontracts"
         TERM_TERMINATION = "Term & Termination"
         WARRANTIES = "Warranties"
+
+    class ModificationEnum(Enum):
+        """
+        The type of modification of the feedback entry in the updated labels response.
+        """
+        ADDED = "added"
+        UNCHANGED = "unchanged"
+        REMOVED = "removed"
 
 
 class CategoryComparison():
@@ -5243,16 +5250,12 @@ class OriginalLabelsOut():
           the element and whom it affects.
     :attr List[Category] categories: (optional) List of functional categories into
           which the element falls; in other words, the subject matter of the element.
-    :attr str modification: (optional) A string identifying the type of modification
-          the feedback entry in the `updated_labels` array. Possible values are `added`,
-          `not_changed`, and `removed`.
     """
 
     def __init__(self,
                  *,
                  types: List['TypeLabel'] = None,
-                 categories: List['Category'] = None,
-                 modification: str = None) -> None:
+                 categories: List['Category'] = None) -> None:
         """
         Initialize a OriginalLabelsOut object.
 
@@ -5261,19 +5264,15 @@ class OriginalLabelsOut():
         :param List[Category] categories: (optional) List of functional categories
                into which the element falls; in other words, the subject matter of the
                element.
-        :param str modification: (optional) A string identifying the type of
-               modification the feedback entry in the `updated_labels` array. Possible
-               values are `added`, `not_changed`, and `removed`.
         """
         self.types = types
         self.categories = categories
-        self.modification = modification
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'OriginalLabelsOut':
         """Initialize a OriginalLabelsOut object from a json dictionary."""
         args = {}
-        valid_keys = ['types', 'categories', 'modification']
+        valid_keys = ['types', 'categories']
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
             raise ValueError(
@@ -5287,8 +5286,6 @@ class OriginalLabelsOut():
             args['categories'] = [
                 Category._from_dict(x) for x in (_dict.get('categories'))
             ]
-        if 'modification' in _dict:
-            args['modification'] = _dict.get('modification')
         return cls(**args)
 
     @classmethod
@@ -5303,8 +5300,6 @@ class OriginalLabelsOut():
             _dict['types'] = [x._to_dict() for x in self.types]
         if hasattr(self, 'categories') and self.categories is not None:
             _dict['categories'] = [x._to_dict() for x in self.categories]
-        if hasattr(self, 'modification') and self.modification is not None:
-            _dict['modification'] = self.modification
         return _dict
 
     def _to_dict(self):
@@ -5324,15 +5319,6 @@ class OriginalLabelsOut():
     def __ne__(self, other: 'OriginalLabelsOut') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
-
-    class ModificationEnum(Enum):
-        """
-        A string identifying the type of modification the feedback entry in the
-        `updated_labels` array. Possible values are `added`, `not_changed`, and `removed`.
-        """
-        ADDED = "added"
-        NOT_CHANGED = "not_changed"
-        REMOVED = "removed"
 
 
 class Pagination():
@@ -6775,12 +6761,15 @@ class TypeLabel():
           and the `party` object identifies the affected party.
     :attr List[str] provenance_ids: (optional) Hashed values that you can send to
           IBM to provide feedback or receive support.
+    :attr str modification: (optional) The type of modification of the feedback
+          entry in the updated labels response.
     """
 
     def __init__(self,
                  *,
                  label: 'Label' = None,
-                 provenance_ids: List[str] = None) -> None:
+                 provenance_ids: List[str] = None,
+                 modification: str = None) -> None:
         """
         Initialize a TypeLabel object.
 
@@ -6789,15 +6778,18 @@ class TypeLabel():
                `party`, and the `party` object identifies the affected party.
         :param List[str] provenance_ids: (optional) Hashed values that you can send
                to IBM to provide feedback or receive support.
+        :param str modification: (optional) The type of modification of the
+               feedback entry in the updated labels response.
         """
         self.label = label
         self.provenance_ids = provenance_ids
+        self.modification = modification
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'TypeLabel':
         """Initialize a TypeLabel object from a json dictionary."""
         args = {}
-        valid_keys = ['label', 'provenance_ids']
+        valid_keys = ['label', 'provenance_ids', 'modification']
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
             raise ValueError(
@@ -6807,6 +6799,8 @@ class TypeLabel():
             args['label'] = Label._from_dict(_dict.get('label'))
         if 'provenance_ids' in _dict:
             args['provenance_ids'] = _dict.get('provenance_ids')
+        if 'modification' in _dict:
+            args['modification'] = _dict.get('modification')
         return cls(**args)
 
     @classmethod
@@ -6821,6 +6815,8 @@ class TypeLabel():
             _dict['label'] = self.label._to_dict()
         if hasattr(self, 'provenance_ids') and self.provenance_ids is not None:
             _dict['provenance_ids'] = self.provenance_ids
+        if hasattr(self, 'modification') and self.modification is not None:
+            _dict['modification'] = self.modification
         return _dict
 
     def _to_dict(self):
@@ -6840,6 +6836,14 @@ class TypeLabel():
     def __ne__(self, other: 'TypeLabel') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
+
+    class ModificationEnum(Enum):
+        """
+        The type of modification of the feedback entry in the updated labels response.
+        """
+        ADDED = "added"
+        UNCHANGED = "unchanged"
+        REMOVED = "removed"
 
 
 class TypeLabelComparison():
@@ -7124,16 +7128,12 @@ class UpdatedLabelsOut():
           the element and whom it affects.
     :attr List[Category] categories: (optional) List of functional categories into
           which the element falls; in other words, the subject matter of the element.
-    :attr str modification: (optional) The type of modification the feedback entry
-          in the `updated_labels` array. Possible values are `added`, `not_changed`, and
-          `removed`.
     """
 
     def __init__(self,
                  *,
                  types: List['TypeLabel'] = None,
-                 categories: List['Category'] = None,
-                 modification: str = None) -> None:
+                 categories: List['Category'] = None) -> None:
         """
         Initialize a UpdatedLabelsOut object.
 
@@ -7142,19 +7142,15 @@ class UpdatedLabelsOut():
         :param List[Category] categories: (optional) List of functional categories
                into which the element falls; in other words, the subject matter of the
                element.
-        :param str modification: (optional) The type of modification the feedback
-               entry in the `updated_labels` array. Possible values are `added`,
-               `not_changed`, and `removed`.
         """
         self.types = types
         self.categories = categories
-        self.modification = modification
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'UpdatedLabelsOut':
         """Initialize a UpdatedLabelsOut object from a json dictionary."""
         args = {}
-        valid_keys = ['types', 'categories', 'modification']
+        valid_keys = ['types', 'categories']
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
             raise ValueError(
@@ -7168,8 +7164,6 @@ class UpdatedLabelsOut():
             args['categories'] = [
                 Category._from_dict(x) for x in (_dict.get('categories'))
             ]
-        if 'modification' in _dict:
-            args['modification'] = _dict.get('modification')
         return cls(**args)
 
     @classmethod
@@ -7184,8 +7178,6 @@ class UpdatedLabelsOut():
             _dict['types'] = [x._to_dict() for x in self.types]
         if hasattr(self, 'categories') and self.categories is not None:
             _dict['categories'] = [x._to_dict() for x in self.categories]
-        if hasattr(self, 'modification') and self.modification is not None:
-            _dict['modification'] = self.modification
         return _dict
 
     def _to_dict(self):
@@ -7205,15 +7197,6 @@ class UpdatedLabelsOut():
     def __ne__(self, other: 'UpdatedLabelsOut') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
-
-    class ModificationEnum(Enum):
-        """
-        The type of modification the feedback entry in the `updated_labels` array.
-        Possible values are `added`, `not_changed`, and `removed`.
-        """
-        ADDED = "added"
-        NOT_CHANGED = "not_changed"
-        REMOVED = "removed"
 
 
 class Value():
