@@ -20,16 +20,16 @@ class TestIntegrationTextToSpeechV1(unittest.TestCase):
             'X-Watson-Learning-Opt-Out': '1',
             'X-Watson-Test': '1'
         })
-        cls.original_customizations = cls.text_to_speech.list_voice_models(
+        cls.original_customizations = cls.text_to_speech.list_custom_models(
         ).get_result()
-        cls.created_customization = cls.text_to_speech.create_voice_model(
+        cls.created_customization = cls.text_to_speech.create_custom_model(
             name="test_integration_customization",
             description="customization for tests").get_result()
 
     @classmethod
     def teardown_class(cls):
         custid = cls.created_customization.get('customization_id')
-        cls.text_to_speech.delete_voice_model(customization_id=custid)
+        cls.text_to_speech.delete_custom_model(customization_id=custid)
 
     def test_voices(self):
         output = self.text_to_speech.list_voices().get_result()
@@ -51,7 +51,7 @@ class TestIntegrationTextToSpeechV1(unittest.TestCase):
 
     def test_customizations(self):
         old_length = len(self.original_customizations.get('customizations'))
-        new_length = len(self.text_to_speech.list_voice_models().get_result()
+        new_length = len(self.text_to_speech.list_custom_models().get_result()
                          ['customizations'])
         assert new_length - old_length >= 1
 
