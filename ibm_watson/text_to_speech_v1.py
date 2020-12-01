@@ -1110,7 +1110,6 @@ class ListCustomModelsEnums(object):
         are to be returned. Omit the parameter to see all custom models that are owned by
         the requester.
         """
-        AR_AR = 'ar-AR'
         DE_DE = 'de-DE'
         EN_GB = 'en-GB'
         EN_US = 'en-US'

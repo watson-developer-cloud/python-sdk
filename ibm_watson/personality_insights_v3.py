@@ -911,6 +911,9 @@ class Profile():
     :attr List[Warning] warnings: An array of warning messages that are associated
           with the input text for the request. The array is empty if the input generated
           no warnings.
+    Deprecated On 1 December 2021, Personality Insights will no longer be available.
+    Consider migrating to Watson Natural Language Understanding.
+    For more information, see [Personality Insights Deprecation](https://github.com/watson-developer-cloud/ruby-sdk/tree/master#personality-insights-deprecation).
     """
 
     def __init__(
@@ -958,6 +961,7 @@ class Profile():
                array provides information inferred from the input text for the individual
                preferences of that category.
         """
+        print('warning: On 1 December 2021, Personality Insights will no longer be available. For more information, see the README.')
         self.processed_language = processed_language
         self.word_count = word_count
         self.word_count_message = word_count_message

@@ -14,8 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-Provide images to the IBM Watson&trade; Visual Recognition service for analysis. The
-service detects objects based on a set of images with training data.
+IBM Watson&trade; Visual Recognition is discontinued. Existing instances are supported
+until 1 December 2021, but as of 7 January 2021, you can't create instances. Any instance
+that is provisioned on 1 December 2021 will be deleted.
+{: deprecated}
+Provide images to the IBM Watson Visual Recognition service for analysis. The service
+detects objects based on a set of images with training data.
 """
 
 import json
@@ -68,6 +72,7 @@ class VisualRecognitionV4(BaseService):
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
         """
+        print('warning: On 1 December 2021, Visual Recognition will no longer be available. For more information, see the README.')
         if not authenticator:
             authenticator = get_authenticator_from_environment(service_name)
         BaseService.__init__(self,
