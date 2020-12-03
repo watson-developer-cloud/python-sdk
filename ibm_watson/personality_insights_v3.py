@@ -961,7 +961,7 @@ class Profile():
                array provides information inferred from the input text for the individual
                preferences of that category.
         """
-        print('warning: On 1 December 2021, Personality Insights will no longer be available. For more information, see the README.')
+        print('warning: On 1 December 2021, Personality Insights will no longer be available. For more information, see https://github.com/watson-developer-cloud/python-sdk/tree/master#personality-insights-deprecation.')
         self.processed_language = processed_language
         self.word_count = word_count
         self.word_count_message = word_count_message
