@@ -57,9 +57,9 @@ class SpeechToTextV1(BaseService):
     DEFAULT_SERVICE_NAME = 'speech_to_text'
 
     def __init__(
-            self,
-            authenticator: Authenticator = None,
-            service_name: str = DEFAULT_SERVICE_NAME,
+        self,
+        authenticator: Authenticator = None,
+        service_name: str = DEFAULT_SERVICE_NAME,
     ) -> None:
         """
         Construct a new client for the Speech to Text service.
@@ -1276,9 +1276,10 @@ class SpeechToTextV1(BaseService):
         :param str language: (optional) The identifier of the language for which
                custom language or custom acoustic models are to be returned. Omit the
                parameter to see all custom language or custom acoustic models that are
-               owned by the requesting credentials. **Note:** The `ar-AR` (Modern Standard
-               Arabic) and `zh-CN` (Mandarin Chinese) languages are not available for
-               language model customization.
+               owned by the requesting credentials.
+               To determine the languages for which customization is available, see
+               [Language support for
+               customization](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-customization#languageSupport).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2541,9 +2542,10 @@ class SpeechToTextV1(BaseService):
         :param str language: (optional) The identifier of the language for which
                custom language or custom acoustic models are to be returned. Omit the
                parameter to see all custom language or custom acoustic models that are
-               owned by the requesting credentials. **Note:** The `ar-AR` (Modern Standard
-               Arabic) and `zh-CN` (Mandarin Chinese) languages are not available for
-               language model customization.
+               owned by the requesting credentials.
+               To determine the languages for which customization is available, see
+               [Language support for
+               customization](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-customization#languageSupport).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -2660,13 +2662,14 @@ class SpeechToTextV1(BaseService):
         data. The custom acoustic model does not reflect its changed data until you train
         it. You must use credentials for the instance of the service that owns a model to
         train it.
-        The training method is asynchronous. It can take on the order of minutes or hours
-        to complete depending on the total amount of audio data on which the custom
-        acoustic model is being trained and the current load on the service. Typically,
-        training a custom acoustic model takes approximately two to four times the length
-        of its audio data. The actual time depends on the model being trained and the
-        nature of the audio, such as whether the audio is clean or noisy. The method
-        returns an HTTP 200 response code to indicate that the training process has begun.
+        The training method is asynchronous. Training time depends on the cumulative
+        amount of audio data that the custom acoustic model contains and the current load
+        on the service. When you train or retrain a model, the service uses all of the
+        model's audio data in the training. Training a custom acoustic model takes
+        approximately as long as the length of its cumulative audio data. For example, it
+        takes approximately 2 hours to train a model that contains a total of 2 hours of
+        audio. The method returns an HTTP 200 response code to indicate that the training
+        process has begun.
         You can monitor the status of the training by using the **Get a custom acoustic
         model** method to poll the model's status. Use a loop to check the status once a
         minute. The method returns an `AcousticModel` object that includes `status` and
@@ -3283,6 +3286,8 @@ class GetModelEnums(object):
         ES_MX_NARROWBANDMODEL = 'es-MX_NarrowbandModel'
         ES_PE_BROADBANDMODEL = 'es-PE_BroadbandModel'
         ES_PE_NARROWBANDMODEL = 'es-PE_NarrowbandModel'
+        FR_CA_BROADBANDMODEL = 'fr-CA_BroadbandModel'
+        FR_CA_NARROWBANDMODEL = 'fr-CA_NarrowbandModel'
         FR_FR_BROADBANDMODEL = 'fr-FR_BroadbandModel'
         FR_FR_NARROWBANDMODEL = 'fr-FR_NarrowbandModel'
         IT_IT_BROADBANDMODEL = 'it-IT_BroadbandModel'
@@ -3351,6 +3356,8 @@ class RecognizeEnums(object):
         ES_MX_NARROWBANDMODEL = 'es-MX_NarrowbandModel'
         ES_PE_BROADBANDMODEL = 'es-PE_BroadbandModel'
         ES_PE_NARROWBANDMODEL = 'es-PE_NarrowbandModel'
+        FR_CA_BROADBANDMODEL = 'fr-CA_BroadbandModel'
+        FR_CA_NARROWBANDMODEL = 'fr-CA_NarrowbandModel'
         FR_FR_BROADBANDMODEL = 'fr-FR_BroadbandModel'
         FR_FR_NARROWBANDMODEL = 'fr-FR_NarrowbandModel'
         IT_IT_BROADBANDMODEL = 'it-IT_BroadbandModel'
@@ -3419,6 +3426,8 @@ class CreateJobEnums(object):
         ES_MX_NARROWBANDMODEL = 'es-MX_NarrowbandModel'
         ES_PE_BROADBANDMODEL = 'es-PE_BroadbandModel'
         ES_PE_NARROWBANDMODEL = 'es-PE_NarrowbandModel'
+        FR_CA_BROADBANDMODEL = 'fr-CA_BroadbandModel'
+        FR_CA_NARROWBANDMODEL = 'fr-CA_NarrowbandModel'
         FR_FR_BROADBANDMODEL = 'fr-FR_BroadbandModel'
         FR_FR_NARROWBANDMODEL = 'fr-FR_NarrowbandModel'
         IT_IT_BROADBANDMODEL = 'it-IT_BroadbandModel'
@@ -3466,12 +3475,14 @@ class ListLanguageModelsEnums(object):
         """
         The identifier of the language for which custom language or custom acoustic models
         are to be returned. Omit the parameter to see all custom language or custom
-        acoustic models that are owned by the requesting credentials. **Note:** The
-        `ar-AR` (Modern Standard Arabic) and `zh-CN` (Mandarin Chinese) languages are not
-        available for language model customization.
+        acoustic models that are owned by the requesting credentials.
+        To determine the languages for which customization is available, see [Language
+        support for
+        customization](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-customization#languageSupport).
         """
         AR_AR = 'ar-AR'
         DE_DE = 'de-DE'
+        EN_AU = 'en-AU'
         EN_GB = 'en-GB'
         EN_US = 'en-US'
         ES_AR = 'es-AR'
@@ -3480,6 +3491,7 @@ class ListLanguageModelsEnums(object):
         ES_CO = 'es-CO'
         ES_MX = 'es-MX'
         ES_PE = 'es-PE'
+        FR_CA = 'fr-CA'
         FR_FR = 'fr-FR'
         IT_IT = 'it-IT'
         JA_JP = 'ja-JP'
@@ -3555,12 +3567,14 @@ class ListAcousticModelsEnums(object):
         """
         The identifier of the language for which custom language or custom acoustic models
         are to be returned. Omit the parameter to see all custom language or custom
-        acoustic models that are owned by the requesting credentials. **Note:** The
-        `ar-AR` (Modern Standard Arabic) and `zh-CN` (Mandarin Chinese) languages are not
-        available for language model customization.
+        acoustic models that are owned by the requesting credentials.
+        To determine the languages for which customization is available, see [Language
+        support for
+        customization](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-customization#languageSupport).
         """
         AR_AR = 'ar-AR'
         DE_DE = 'de-DE'
+        EN_AU = 'en-AU'
         EN_GB = 'en-GB'
         EN_US = 'en-US'
         ES_AR = 'es-AR'
@@ -3569,6 +3583,7 @@ class ListAcousticModelsEnums(object):
         ES_CO = 'es-CO'
         ES_MX = 'es-MX'
         ES_PE = 'es-PE'
+        FR_CA = 'fr-CA'
         FR_FR = 'fr-FR'
         IT_IT = 'it-IT'
         JA_JP = 'ja-JP'

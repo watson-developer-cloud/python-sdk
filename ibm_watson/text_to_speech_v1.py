@@ -54,9 +54,9 @@ class TextToSpeechV1(BaseService):
     DEFAULT_SERVICE_NAME = 'text_to_speech'
 
     def __init__(
-            self,
-            authenticator: Authenticator = None,
-            service_name: str = DEFAULT_SERVICE_NAME,
+        self,
+        authenticator: Authenticator = None,
+        service_name: str = DEFAULT_SERVICE_NAME,
     ) -> None:
         """
         Construct a new client for the Text to Speech service.
@@ -118,16 +118,16 @@ class TextToSpeechV1(BaseService):
 
         Gets information about the specified voice. The information includes the name,
         language, gender, and other details about the voice. Specify a customization ID to
-        obtain information for a custom voice model that is defined for the language of
-        the specified voice. To list information about all available voices, use the
-        **List voices** method.
+        obtain information for a custom model that is defined for the language of the
+        specified voice. To list information about all available voices, use the **List
+        voices** method.
         **See also:** [Listing a specific
         voice](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices#listVoice).
 
         :param str voice: The voice for which information is to be returned.
         :param str customization_id: (optional) The customization ID (GUID) of a
-               custom voice model for which information is to be returned. You must make
-               the request with credentials for the instance of the service that owns the
+               custom model for which information is to be returned. You must make the
+               request with credentials for the instance of the service that owns the
                custom model. Omit the parameter to see information about the specified
                voice with no customization.
         :param dict headers: A `dict` containing the request headers
@@ -237,11 +237,11 @@ class TextToSpeechV1(BaseService):
                see **Audio formats (accept types)** in the method description.
         :param str voice: (optional) The voice to use for synthesis.
         :param str customization_id: (optional) The customization ID (GUID) of a
-               custom voice model to use for the synthesis. If a custom voice model is
-               specified, it works only if it matches the language of the indicated voice.
-               You must make the request with credentials for the instance of the service
-               that owns the custom model. Omit the parameter to use the specified voice
-               with no customization.
+               custom model to use for the synthesis. If a custom model is specified, it
+               works only if it matches the language of the indicated voice. You must make
+               the request with credentials for the instance of the service that owns the
+               custom model. Omit the parameter to use the specified voice with no
+               customization.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -289,8 +289,7 @@ class TextToSpeechV1(BaseService):
         Gets the phonetic pronunciation for the specified word. You can request the
         pronunciation for a specific format. You can also request the pronunciation for a
         specific voice to see the default translation for the language of that voice or
-        for a specific custom voice model to see the translation for that voice model.
-        **Note:** This method is currently a beta release.
+        for a specific custom model to see the translation for that model.
         **See also:** [Querying a word from a
         language](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuWordsQueryLanguage).
 
@@ -303,13 +302,13 @@ class TextToSpeechV1(BaseService):
                only IPA. Omit the parameter to obtain the pronunciation in the default
                format.
         :param str customization_id: (optional) The customization ID (GUID) of a
-               custom voice model for which the pronunciation is to be returned. The
-               language of a specified custom model must match the language of the
-               specified voice. If the word is not defined in the specified custom model,
-               the service returns the default translation for the custom model's
-               language. You must make the request with credentials for the instance of
-               the service that owns the custom model. Omit the parameter to see the
-               translation for the specified voice with no customization.
+               custom model for which the pronunciation is to be returned. The language of
+               a specified custom model must match the language of the specified voice. If
+               the word is not defined in the specified custom model, the service returns
+               the default translation for the custom model's language. You must make the
+               request with credentials for the instance of the service that owns the
+               custom model. Omit the parameter to see the translation for the specified
+               voice with no customization.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -346,31 +345,30 @@ class TextToSpeechV1(BaseService):
     # Custom models
     #########################
 
-    def create_voice_model(self,
-                           name: str,
-                           *,
-                           language: str = None,
-                           description: str = None,
-                           **kwargs) -> 'DetailedResponse':
+    def create_custom_model(self,
+                            name: str,
+                            *,
+                            language: str = None,
+                            description: str = None,
+                            **kwargs) -> 'DetailedResponse':
         """
         Create a custom model.
 
-        Creates a new empty custom voice model. You must specify a name for the new custom
+        Creates a new empty custom model. You must specify a name for the new custom
         model. You can optionally specify the language and a description for the new
         model. The model is owned by the instance of the service whose credentials are
         used to create it.
-        **Note:** This method is currently a beta release.
         **See also:** [Creating a custom
         model](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customModels#cuModelsCreate).
 
-        :param str name: The name of the new custom voice model.
-        :param str language: (optional) The language of the new custom voice model.
-               You create a custom voice model for a specific language, not for a specific
-               voice. A custom model can be used with any voice, standard or neural, for
-               its specified language. Omit the parameter to use the the default language,
+        :param str name: The name of the new custom model.
+        :param str language: (optional) The language of the new custom model. You
+               create a custom model for a specific language, not for a specific voice. A
+               custom model can be used with any voice, standard or neural, for its
+               specified language. Omit the parameter to use the the default language,
                `en-US`.
-        :param str description: (optional) A description of the new custom voice
-               model. Specifying a description is recommended.
+        :param str description: (optional) A description of the new custom model.
+               Specifying a description is recommended.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -384,7 +382,7 @@ class TextToSpeechV1(BaseService):
             headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
-                                      operation_id='create_voice_model')
+                                      operation_id='create_custom_model')
         headers.update(sdk_headers)
 
         data = {'name': name, 'language': language, 'description': description}
@@ -398,26 +396,25 @@ class TextToSpeechV1(BaseService):
         response = self.send(request)
         return response
 
-    def list_voice_models(self,
-                          *,
-                          language: str = None,
-                          **kwargs) -> 'DetailedResponse':
+    def list_custom_models(self,
+                           *,
+                           language: str = None,
+                           **kwargs) -> 'DetailedResponse':
         """
         List custom models.
 
-        Lists metadata such as the name and description for all custom voice models that
-        are owned by an instance of the service. Specify a language to list the voice
-        models for that language only. To see the words in addition to the metadata for a
-        specific voice model, use the **List a custom model** method. You must use
+        Lists metadata such as the name and description for all custom models that are
+        owned by an instance of the service. Specify a language to list the custom models
+        for that language only. To see the words in addition to the metadata for a
+        specific custom model, use the **List a custom model** method. You must use
         credentials for the instance of the service that owns a model to list information
         about it.
-        **Note:** This method is currently a beta release.
         **See also:** [Querying all custom
         models](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customModels#cuModelsQueryAll).
 
-        :param str language: (optional) The language for which custom voice models
-               that are owned by the requesting credentials are to be returned. Omit the
-               parameter to see all custom voice models that are owned by the requester.
+        :param str language: (optional) The language for which custom models that
+               are owned by the requesting credentials are to be returned. Omit the
+               parameter to see all custom models that are owned by the requester.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -428,7 +425,7 @@ class TextToSpeechV1(BaseService):
             headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
-                                      operation_id='list_voice_models')
+                                      operation_id='list_custom_models')
         headers.update(sdk_headers)
 
         params = {'language': language}
@@ -442,22 +439,22 @@ class TextToSpeechV1(BaseService):
         response = self.send(request)
         return response
 
-    def update_voice_model(self,
-                           customization_id: str,
-                           *,
-                           name: str = None,
-                           description: str = None,
-                           words: List['Word'] = None,
-                           **kwargs) -> 'DetailedResponse':
+    def update_custom_model(self,
+                            customization_id: str,
+                            *,
+                            name: str = None,
+                            description: str = None,
+                            words: List['Word'] = None,
+                            **kwargs) -> 'DetailedResponse':
         """
         Update a custom model.
 
-        Updates information for the specified custom voice model. You can update metadata
-        such as the name and description of the voice model. You can also update the words
-        in the model and their translations. Adding a new translation for a word that
-        already exists in a custom model overwrites the word's existing translation. A
-        custom model can contain no more than 20,000 entries. You must use credentials for
-        the instance of the service that owns a model to update it.
+        Updates information for the specified custom model. You can update metadata such
+        as the name and description of the model. You can also update the words in the
+        model and their translations. Adding a new translation for a word that already
+        exists in a custom model overwrites the word's existing translation. A custom
+        model can contain no more than 20,000 entries. You must use credentials for the
+        instance of the service that owns a model to update it.
         You can define sounds-like or phonetic translations for words. A sounds-like
         translation consists of one or more words that, when combined, sound like the
         word. Phonetic translations are based on the SSML phoneme format for representing
@@ -468,7 +465,6 @@ class TextToSpeechV1(BaseService):
           or in the proprietary IBM Symbolic Phonetic Representation (SPR)
           <code>&lt;phoneme alphabet="ibm"
         ph="1gAstroEntxrYFXs"&gt;&lt;/phoneme&gt;</code>
-        **Note:** This method is currently a beta release.
         **See also:**
         * [Updating a custom
         model](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customModels#cuModelsUpdate)
@@ -478,15 +474,13 @@ class TextToSpeechV1(BaseService):
         customization](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customIntro#customIntro).
 
         :param str customization_id: The customization ID (GUID) of the custom
-               voice model. You must make the request with credentials for the instance of
-               the service that owns the custom model.
-        :param str name: (optional) A new name for the custom voice model.
-        :param str description: (optional) A new description for the custom voice
-               model.
+               model. You must make the request with credentials for the instance of the
+               service that owns the custom model.
+        :param str name: (optional) A new name for the custom model.
+        :param str description: (optional) A new description for the custom model.
         :param List[Word] words: (optional) An array of `Word` objects that
                provides the words and their translations that are to be added or updated
-               for the custom voice model. Pass an empty array to make no additions or
-               updates.
+               for the custom model. Pass an empty array to make no additions or updates.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -502,7 +496,7 @@ class TextToSpeechV1(BaseService):
             headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
-                                      operation_id='update_voice_model')
+                                      operation_id='update_custom_model')
         headers.update(sdk_headers)
 
         data = {'name': name, 'description': description, 'words': words}
@@ -517,22 +511,21 @@ class TextToSpeechV1(BaseService):
         response = self.send(request)
         return response
 
-    def get_voice_model(self, customization_id: str,
-                        **kwargs) -> 'DetailedResponse':
+    def get_custom_model(self, customization_id: str,
+                         **kwargs) -> 'DetailedResponse':
         """
         Get a custom model.
 
-        Gets all information about a specified custom voice model. In addition to metadata
-        such as the name and description of the voice model, the output includes the words
-        and their translations as defined in the model. To see just the metadata for a
-        voice model, use the **List custom models** method.
-        **Note:** This method is currently a beta release.
+        Gets all information about a specified custom model. In addition to metadata such
+        as the name and description of the custom model, the output includes the words and
+        their translations as defined in the model. To see just the metadata for a model,
+        use the **List custom models** method.
         **See also:** [Querying a custom
         model](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customModels#cuModelsQuery).
 
         :param str customization_id: The customization ID (GUID) of the custom
-               voice model. You must make the request with credentials for the instance of
-               the service that owns the custom model.
+               model. You must make the request with credentials for the instance of the
+               service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -546,7 +539,7 @@ class TextToSpeechV1(BaseService):
             headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
-                                      operation_id='get_voice_model')
+                                      operation_id='get_custom_model')
         headers.update(sdk_headers)
 
         url = '/v1/customizations/{0}'.format(
@@ -556,20 +549,19 @@ class TextToSpeechV1(BaseService):
         response = self.send(request)
         return response
 
-    def delete_voice_model(self, customization_id: str,
-                           **kwargs) -> 'DetailedResponse':
+    def delete_custom_model(self, customization_id: str,
+                            **kwargs) -> 'DetailedResponse':
         """
         Delete a custom model.
 
-        Deletes the specified custom voice model. You must use credentials for the
-        instance of the service that owns a model to delete it.
-        **Note:** This method is currently a beta release.
+        Deletes the specified custom model. You must use credentials for the instance of
+        the service that owns a model to delete it.
         **See also:** [Deleting a custom
         model](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customModels#cuModelsDelete).
 
         :param str customization_id: The customization ID (GUID) of the custom
-               voice model. You must make the request with credentials for the instance of
-               the service that owns the custom model.
+               model. You must make the request with credentials for the instance of the
+               service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -583,7 +575,7 @@ class TextToSpeechV1(BaseService):
             headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
-                                      operation_id='delete_voice_model')
+                                      operation_id='delete_custom_model')
         headers.update(sdk_headers)
 
         url = '/v1/customizations/{0}'.format(
@@ -604,7 +596,7 @@ class TextToSpeechV1(BaseService):
         """
         Add custom words.
 
-        Adds one or more words and their translations to the specified custom voice model.
+        Adds one or more words and their translations to the specified custom model.
         Adding a new translation for a word that already exists in a custom model
         overwrites the word's existing translation. A custom model can contain no more
         than 20,000 entries. You must use credentials for the instance of the service that
@@ -619,7 +611,6 @@ class TextToSpeechV1(BaseService):
           or in the proprietary IBM Symbolic Phonetic Representation (SPR)
           <code>&lt;phoneme alphabet="ibm"
         ph="1gAstroEntxrYFXs"&gt;&lt;/phoneme&gt;</code>
-        **Note:** This method is currently a beta release.
         **See also:**
         * [Adding multiple words to a custom
         model](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuWordsAdd)
@@ -629,16 +620,16 @@ class TextToSpeechV1(BaseService):
         customization](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customIntro#customIntro).
 
         :param str customization_id: The customization ID (GUID) of the custom
-               voice model. You must make the request with credentials for the instance of
-               the service that owns the custom model.
+               model. You must make the request with credentials for the instance of the
+               service that owns the custom model.
         :param List[Word] words: The **Add custom words** method accepts an array
                of `Word` objects. Each object provides a word that is to be added or
-               updated for the custom voice model and the word's translation.
+               updated for the custom model and the word's translation.
                The **List custom words** method returns an array of `Word` objects. Each
-               object shows a word and its translation from the custom voice model. The
-               words are listed in alphabetical order, with uppercase letters listed
-               before lowercase letters. The array is empty if the custom model contains
-               no words.
+               object shows a word and its translation from the custom model. The words
+               are listed in alphabetical order, with uppercase letters listed before
+               lowercase letters. The array is empty if the custom model contains no
+               words.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -674,17 +665,15 @@ class TextToSpeechV1(BaseService):
         """
         List custom words.
 
-        Lists all of the words and their translations for the specified custom voice
-        model. The output shows the translations as they are defined in the model. You
-        must use credentials for the instance of the service that owns a model to list its
-        words.
-        **Note:** This method is currently a beta release.
+        Lists all of the words and their translations for the specified custom model. The
+        output shows the translations as they are defined in the model. You must use
+        credentials for the instance of the service that owns a model to list its words.
         **See also:** [Querying all words from a custom
         model](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuWordsQueryModel).
 
         :param str customization_id: The customization ID (GUID) of the custom
-               voice model. You must make the request with credentials for the instance of
-               the service that owns the custom model.
+               model. You must make the request with credentials for the instance of the
+               service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -718,11 +707,11 @@ class TextToSpeechV1(BaseService):
         """
         Add a custom word.
 
-        Adds a single word and its translation to the specified custom voice model. Adding
-        a new translation for a word that already exists in a custom model overwrites the
-        word's existing translation. A custom model can contain no more than 20,000
-        entries. You must use credentials for the instance of the service that owns a
-        model to add a word to it.
+        Adds a single word and its translation to the specified custom model. Adding a new
+        translation for a word that already exists in a custom model overwrites the word's
+        existing translation. A custom model can contain no more than 20,000 entries. You
+        must use credentials for the instance of the service that owns a model to add a
+        word to it.
         You can define sounds-like or phonetic translations for words. A sounds-like
         translation consists of one or more words that, when combined, sound like the
         word. Phonetic translations are based on the SSML phoneme format for representing
@@ -733,7 +722,6 @@ class TextToSpeechV1(BaseService):
           or in the proprietary IBM Symbolic Phonetic Representation (SPR)
           <code>&lt;phoneme alphabet="ibm"
         ph="1gAstroEntxrYFXs"&gt;&lt;/phoneme&gt;</code>
-        **Note:** This method is currently a beta release.
         **See also:**
         * [Adding a single word to a custom
         model](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuWordAdd)
@@ -743,10 +731,10 @@ class TextToSpeechV1(BaseService):
         customization](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customIntro#customIntro).
 
         :param str customization_id: The customization ID (GUID) of the custom
-               voice model. You must make the request with credentials for the instance of
-               the service that owns the custom model.
+               model. You must make the request with credentials for the instance of the
+               service that owns the custom model.
         :param str word: The word that is to be added or updated for the custom
-               voice model.
+               model.
         :param str translation: The phonetic or sounds-like translation for the
                word. A phonetic translation is based on the SSML format for representing
                the phonetic string of a word either as an IPA translation or as an IBM SPR
@@ -800,15 +788,13 @@ class TextToSpeechV1(BaseService):
         Gets the translation for a single word from the specified custom model. The output
         shows the translation as it is defined in the model. You must use credentials for
         the instance of the service that owns a model to list its words.
-        **Note:** This method is currently a beta release.
         **See also:** [Querying a single word from a custom
         model](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuWordQueryModel).
 
         :param str customization_id: The customization ID (GUID) of the custom
-               voice model. You must make the request with credentials for the instance of
-               the service that owns the custom model.
-        :param str word: The word that is to be queried from the custom voice
-               model.
+               model. You must make the request with credentials for the instance of the
+               service that owns the custom model.
+        :param str word: The word that is to be queried from the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -839,17 +825,15 @@ class TextToSpeechV1(BaseService):
         """
         Delete a custom word.
 
-        Deletes a single word from the specified custom voice model. You must use
-        credentials for the instance of the service that owns a model to delete its words.
-        **Note:** This method is currently a beta release.
+        Deletes a single word from the specified custom model. You must use credentials
+        for the instance of the service that owns a model to delete its words.
         **See also:** [Deleting a word from a custom
         model](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuWordDelete).
 
         :param str customization_id: The customization ID (GUID) of the custom
-               voice model. You must make the request with credentials for the instance of
-               the service that owns the custom model.
-        :param str word: The word that is to be deleted from the custom voice
-               model.
+               model. You must make the request with credentials for the instance of the
+               service that owns the custom model.
+        :param str word: The word that is to be deleted from the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -895,7 +879,7 @@ class TextToSpeechV1(BaseService):
         request that passes the data.
         **Note:** If you delete an instance of the service from the service console, all
         data associated with that service instance is automatically deleted. This includes
-        all custom voice models and word/translation pairs, and all data related to speech
+        all custom models and word/translation pairs, and all data related to speech
         synthesis requests.
         **See also:** [Information
         security](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-information-security#information-security).
@@ -1118,15 +1102,14 @@ class GetPronunciationEnums(object):
         IPA = 'ipa'
 
 
-class ListVoiceModelsEnums(object):
+class ListCustomModelsEnums(object):
 
     class Language(Enum):
         """
-        The language for which custom voice models that are owned by the requesting
-        credentials are to be returned. Omit the parameter to see all custom voice models
-        that are owned by the requester.
+        The language for which custom models that are owned by the requesting credentials
+        are to be returned. Omit the parameter to see all custom models that are owned by
+        the requester.
         """
-        AR_AR = 'ar-AR'
         DE_DE = 'de-DE'
         EN_GB = 'en-GB'
         EN_US = 'en-US'
@@ -1147,13 +1130,243 @@ class ListVoiceModelsEnums(object):
 ##############################################################################
 
 
+class CustomModel():
+    """
+    Information about an existing custom model.
+
+    :attr str customization_id: The customization ID (GUID) of the custom model. The
+          **Create a custom model** method returns only this field. It does not not return
+          the other fields of this object.
+    :attr str name: (optional) The name of the custom model.
+    :attr str language: (optional) The language identifier of the custom model (for
+          example, `en-US`).
+    :attr str owner: (optional) The GUID of the credentials for the instance of the
+          service that owns the custom model.
+    :attr str created: (optional) The date and time in Coordinated Universal Time
+          (UTC) at which the custom model was created. The value is provided in full ISO
+          8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`).
+    :attr str last_modified: (optional) The date and time in Coordinated Universal
+          Time (UTC) at which the custom model was last modified. The `created` and
+          `updated` fields are equal when a model is first added but has yet to be
+          updated. The value is provided in full ISO 8601 format
+          (`YYYY-MM-DDThh:mm:ss.sTZD`).
+    :attr str description: (optional) The description of the custom model.
+    :attr List[Word] words: (optional) An array of `Word` objects that lists the
+          words and their translations from the custom model. The words are listed in
+          alphabetical order, with uppercase letters listed before lowercase letters. The
+          array is empty if the custom model contains no words. This field is returned
+          only by the **Get a voice** method and only when you specify the customization
+          ID of a custom model.
+    """
+
+    def __init__(self,
+                 customization_id: str,
+                 *,
+                 name: str = None,
+                 language: str = None,
+                 owner: str = None,
+                 created: str = None,
+                 last_modified: str = None,
+                 description: str = None,
+                 words: List['Word'] = None) -> None:
+        """
+        Initialize a CustomModel object.
+
+        :param str customization_id: The customization ID (GUID) of the custom
+               model. The **Create a custom model** method returns only this field. It
+               does not not return the other fields of this object.
+        :param str name: (optional) The name of the custom model.
+        :param str language: (optional) The language identifier of the custom model
+               (for example, `en-US`).
+        :param str owner: (optional) The GUID of the credentials for the instance
+               of the service that owns the custom model.
+        :param str created: (optional) The date and time in Coordinated Universal
+               Time (UTC) at which the custom model was created. The value is provided in
+               full ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`).
+        :param str last_modified: (optional) The date and time in Coordinated
+               Universal Time (UTC) at which the custom model was last modified. The
+               `created` and `updated` fields are equal when a model is first added but
+               has yet to be updated. The value is provided in full ISO 8601 format
+               (`YYYY-MM-DDThh:mm:ss.sTZD`).
+        :param str description: (optional) The description of the custom model.
+        :param List[Word] words: (optional) An array of `Word` objects that lists
+               the words and their translations from the custom model. The words are
+               listed in alphabetical order, with uppercase letters listed before
+               lowercase letters. The array is empty if the custom model contains no
+               words. This field is returned only by the **Get a voice** method and only
+               when you specify the customization ID of a custom model.
+        """
+        self.customization_id = customization_id
+        self.name = name
+        self.language = language
+        self.owner = owner
+        self.created = created
+        self.last_modified = last_modified
+        self.description = description
+        self.words = words
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'CustomModel':
+        """Initialize a CustomModel object from a json dictionary."""
+        args = {}
+        valid_keys = [
+            'customization_id', 'name', 'language', 'owner', 'created',
+            'last_modified', 'description', 'words'
+        ]
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class CustomModel: '
+                + ', '.join(bad_keys))
+        if 'customization_id' in _dict:
+            args['customization_id'] = _dict.get('customization_id')
+        else:
+            raise ValueError(
+                'Required property \'customization_id\' not present in CustomModel JSON'
+            )
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        if 'language' in _dict:
+            args['language'] = _dict.get('language')
+        if 'owner' in _dict:
+            args['owner'] = _dict.get('owner')
+        if 'created' in _dict:
+            args['created'] = _dict.get('created')
+        if 'last_modified' in _dict:
+            args['last_modified'] = _dict.get('last_modified')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'words' in _dict:
+            args['words'] = [Word._from_dict(x) for x in (_dict.get('words'))]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CustomModel object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self,
+                   'customization_id') and self.customization_id is not None:
+            _dict['customization_id'] = self.customization_id
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'language') and self.language is not None:
+            _dict['language'] = self.language
+        if hasattr(self, 'owner') and self.owner is not None:
+            _dict['owner'] = self.owner
+        if hasattr(self, 'created') and self.created is not None:
+            _dict['created'] = self.created
+        if hasattr(self, 'last_modified') and self.last_modified is not None:
+            _dict['last_modified'] = self.last_modified
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'words') and self.words is not None:
+            _dict['words'] = [x._to_dict() for x in self.words]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this CustomModel object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'CustomModel') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'CustomModel') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class CustomModels():
+    """
+    Information about existing custom models.
+
+    :attr List[CustomModel] customizations: An array of `CustomModel` objects that
+          provides information about each available custom model. The array is empty if
+          the requesting credentials own no custom models (if no language is specified) or
+          own no custom models for the specified language.
+    """
+
+    def __init__(self, customizations: List['CustomModel']) -> None:
+        """
+        Initialize a CustomModels object.
+
+        :param List[CustomModel] customizations: An array of `CustomModel` objects
+               that provides information about each available custom model. The array is
+               empty if the requesting credentials own no custom models (if no language is
+               specified) or own no custom models for the specified language.
+        """
+        self.customizations = customizations
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'CustomModels':
+        """Initialize a CustomModels object from a json dictionary."""
+        args = {}
+        valid_keys = ['customizations']
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class CustomModels: '
+                + ', '.join(bad_keys))
+        if 'customizations' in _dict:
+            args['customizations'] = [
+                CustomModel._from_dict(x) for x in (_dict.get('customizations'))
+            ]
+        else:
+            raise ValueError(
+                'Required property \'customizations\' not present in CustomModels JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CustomModels object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'customizations') and self.customizations is not None:
+            _dict['customizations'] = [
+                x._to_dict() for x in self.customizations
+            ]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this CustomModels object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'CustomModels') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'CustomModels') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class Pronunciation():
     """
     The pronunciation of the specified text.
 
     :attr str pronunciation: The pronunciation of the specified text in the
-          requested voice and format. If a custom voice model is specified, the
-          pronunciation also reflects that custom voice.
+          requested voice and format. If a custom model is specified, the pronunciation
+          also reflects that custom model.
     """
 
     def __init__(self, pronunciation: str) -> None:
@@ -1161,8 +1374,8 @@ class Pronunciation():
         Initialize a Pronunciation object.
 
         :param str pronunciation: The pronunciation of the specified text in the
-               requested voice and format. If a custom voice model is specified, the
-               pronunciation also reflects that custom voice.
+               requested voice and format. If a custom model is specified, the
+               pronunciation also reflects that custom model.
         """
         self.pronunciation = pronunciation
 
@@ -1419,7 +1632,7 @@ class Translation():
 
 class Voice():
     """
-    Information about an available voice model.
+    Information about an available voice.
 
     :attr str url: The URI of the voice.
     :attr str gender: The gender of the voice: `male` or `female`.
@@ -1432,9 +1645,9 @@ class Voice():
           backward compatibility.).
     :attr SupportedFeatures supported_features: Additional service features that are
           supported with the voice.
-    :attr VoiceModel customization: (optional) Returns information about a specified
-          custom voice model. This field is returned only by the **Get a voice** method
-          and only when you specify the customization ID of a custom voice model.
+    :attr CustomModel customization: (optional) Returns information about a
+          specified custom model. This field is returned only by the **Get a voice**
+          method and only when you specify the customization ID of a custom model.
     """
 
     def __init__(self,
@@ -1446,7 +1659,7 @@ class Voice():
                  customizable: bool,
                  supported_features: 'SupportedFeatures',
                  *,
-                 customization: 'VoiceModel' = None) -> None:
+                 customization: 'CustomModel' = None) -> None:
         """
         Initialize a Voice object.
 
@@ -1462,10 +1675,9 @@ class Voice():
                maintained for backward compatibility.).
         :param SupportedFeatures supported_features: Additional service features
                that are supported with the voice.
-        :param VoiceModel customization: (optional) Returns information about a
-               specified custom voice model. This field is returned only by the **Get a
-               voice** method and only when you specify the customization ID of a custom
-               voice model.
+        :param CustomModel customization: (optional) Returns information about a
+               specified custom model. This field is returned only by the **Get a voice**
+               method and only when you specify the customization ID of a custom model.
         """
         self.url = url
         self.gender = gender
@@ -1527,7 +1739,7 @@ class Voice():
                 'Required property \'supported_features\' not present in Voice JSON'
             )
         if 'customization' in _dict:
-            args['customization'] = VoiceModel._from_dict(
+            args['customization'] = CustomModel._from_dict(
                 _dict.get('customization'))
         return cls(**args)
 
@@ -1578,241 +1790,9 @@ class Voice():
         return not self == other
 
 
-class VoiceModel():
-    """
-    Information about an existing custom voice model.
-
-    :attr str customization_id: The customization ID (GUID) of the custom voice
-          model. The **Create a custom model** method returns only this field. It does not
-          not return the other fields of this object.
-    :attr str name: (optional) The name of the custom voice model.
-    :attr str language: (optional) The language identifier of the custom voice model
-          (for example, `en-US`).
-    :attr str owner: (optional) The GUID of the credentials for the instance of the
-          service that owns the custom voice model.
-    :attr str created: (optional) The date and time in Coordinated Universal Time
-          (UTC) at which the custom voice model was created. The value is provided in full
-          ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`).
-    :attr str last_modified: (optional) The date and time in Coordinated Universal
-          Time (UTC) at which the custom voice model was last modified. The `created` and
-          `updated` fields are equal when a voice model is first added but has yet to be
-          updated. The value is provided in full ISO 8601 format
-          (`YYYY-MM-DDThh:mm:ss.sTZD`).
-    :attr str description: (optional) The description of the custom voice model.
-    :attr List[Word] words: (optional) An array of `Word` objects that lists the
-          words and their translations from the custom voice model. The words are listed
-          in alphabetical order, with uppercase letters listed before lowercase letters.
-          The array is empty if the custom model contains no words. This field is returned
-          only by the **Get a voice** method and only when you specify the customization
-          ID of a custom voice model.
-    """
-
-    def __init__(self,
-                 customization_id: str,
-                 *,
-                 name: str = None,
-                 language: str = None,
-                 owner: str = None,
-                 created: str = None,
-                 last_modified: str = None,
-                 description: str = None,
-                 words: List['Word'] = None) -> None:
-        """
-        Initialize a VoiceModel object.
-
-        :param str customization_id: The customization ID (GUID) of the custom
-               voice model. The **Create a custom model** method returns only this field.
-               It does not not return the other fields of this object.
-        :param str name: (optional) The name of the custom voice model.
-        :param str language: (optional) The language identifier of the custom voice
-               model (for example, `en-US`).
-        :param str owner: (optional) The GUID of the credentials for the instance
-               of the service that owns the custom voice model.
-        :param str created: (optional) The date and time in Coordinated Universal
-               Time (UTC) at which the custom voice model was created. The value is
-               provided in full ISO 8601 format (`YYYY-MM-DDThh:mm:ss.sTZD`).
-        :param str last_modified: (optional) The date and time in Coordinated
-               Universal Time (UTC) at which the custom voice model was last modified. The
-               `created` and `updated` fields are equal when a voice model is first added
-               but has yet to be updated. The value is provided in full ISO 8601 format
-               (`YYYY-MM-DDThh:mm:ss.sTZD`).
-        :param str description: (optional) The description of the custom voice
-               model.
-        :param List[Word] words: (optional) An array of `Word` objects that lists
-               the words and their translations from the custom voice model. The words are
-               listed in alphabetical order, with uppercase letters listed before
-               lowercase letters. The array is empty if the custom model contains no
-               words. This field is returned only by the **Get a voice** method and only
-               when you specify the customization ID of a custom voice model.
-        """
-        self.customization_id = customization_id
-        self.name = name
-        self.language = language
-        self.owner = owner
-        self.created = created
-        self.last_modified = last_modified
-        self.description = description
-        self.words = words
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'VoiceModel':
-        """Initialize a VoiceModel object from a json dictionary."""
-        args = {}
-        valid_keys = [
-            'customization_id', 'name', 'language', 'owner', 'created',
-            'last_modified', 'description', 'words'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class VoiceModel: '
-                + ', '.join(bad_keys))
-        if 'customization_id' in _dict:
-            args['customization_id'] = _dict.get('customization_id')
-        else:
-            raise ValueError(
-                'Required property \'customization_id\' not present in VoiceModel JSON'
-            )
-        if 'name' in _dict:
-            args['name'] = _dict.get('name')
-        if 'language' in _dict:
-            args['language'] = _dict.get('language')
-        if 'owner' in _dict:
-            args['owner'] = _dict.get('owner')
-        if 'created' in _dict:
-            args['created'] = _dict.get('created')
-        if 'last_modified' in _dict:
-            args['last_modified'] = _dict.get('last_modified')
-        if 'description' in _dict:
-            args['description'] = _dict.get('description')
-        if 'words' in _dict:
-            args['words'] = [Word._from_dict(x) for x in (_dict.get('words'))]
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a VoiceModel object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self,
-                   'customization_id') and self.customization_id is not None:
-            _dict['customization_id'] = self.customization_id
-        if hasattr(self, 'name') and self.name is not None:
-            _dict['name'] = self.name
-        if hasattr(self, 'language') and self.language is not None:
-            _dict['language'] = self.language
-        if hasattr(self, 'owner') and self.owner is not None:
-            _dict['owner'] = self.owner
-        if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = self.created
-        if hasattr(self, 'last_modified') and self.last_modified is not None:
-            _dict['last_modified'] = self.last_modified
-        if hasattr(self, 'description') and self.description is not None:
-            _dict['description'] = self.description
-        if hasattr(self, 'words') and self.words is not None:
-            _dict['words'] = [x._to_dict() for x in self.words]
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this VoiceModel object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other: 'VoiceModel') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'VoiceModel') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class VoiceModels():
-    """
-    Information about existing custom voice models.
-
-    :attr List[VoiceModel] customizations: An array of `VoiceModel` objects that
-          provides information about each available custom voice model. The array is empty
-          if the requesting credentials own no custom voice models (if no language is
-          specified) or own no custom voice models for the specified language.
-    """
-
-    def __init__(self, customizations: List['VoiceModel']) -> None:
-        """
-        Initialize a VoiceModels object.
-
-        :param List[VoiceModel] customizations: An array of `VoiceModel` objects
-               that provides information about each available custom voice model. The
-               array is empty if the requesting credentials own no custom voice models (if
-               no language is specified) or own no custom voice models for the specified
-               language.
-        """
-        self.customizations = customizations
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'VoiceModels':
-        """Initialize a VoiceModels object from a json dictionary."""
-        args = {}
-        valid_keys = ['customizations']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class VoiceModels: '
-                + ', '.join(bad_keys))
-        if 'customizations' in _dict:
-            args['customizations'] = [
-                VoiceModel._from_dict(x) for x in (_dict.get('customizations'))
-            ]
-        else:
-            raise ValueError(
-                'Required property \'customizations\' not present in VoiceModels JSON'
-            )
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a VoiceModels object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'customizations') and self.customizations is not None:
-            _dict['customizations'] = [
-                x._to_dict() for x in self.customizations
-            ]
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this VoiceModels object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other: 'VoiceModels') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'VoiceModels') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class Voices():
     """
-    Information about all available voice models.
+    Information about all available voices.
 
     :attr List[Voice] voices: A list of available voices.
     """
@@ -1877,10 +1857,10 @@ class Voices():
 
 class Word():
     """
-    Information about a word for the custom voice model.
+    Information about a word for the custom model.
 
-    :attr str word: The word for the custom voice model. The maximum length of a
-          word is 49 characters.
+    :attr str word: The word for the custom model. The maximum length of a word is
+          49 characters.
     :attr str translation: The phonetic or sounds-like translation for the word. A
           phonetic translation is based on the SSML format for representing the phonetic
           string of a word either as an IPA or IBM SPR translation. The Arabic, Chinese,
@@ -1903,8 +1883,8 @@ class Word():
         """
         Initialize a Word object.
 
-        :param str word: The word for the custom voice model. The maximum length of
-               a word is 49 characters.
+        :param str word: The word for the custom model. The maximum length of a
+               word is 49 characters.
         :param str translation: The phonetic or sounds-like translation for the
                word. A phonetic translation is based on the SSML format for representing
                the phonetic string of a word either as an IPA or IBM SPR translation. The
@@ -2012,17 +1992,17 @@ class Word():
 class Words():
     """
     For the **Add custom words** method, one or more words that are to be added or updated
-    for the custom voice model and the translation for each specified word.
+    for the custom model and the translation for each specified word.
     For the **List custom words** method, the words and their translations from the custom
-    voice model.
+    model.
 
     :attr List[Word] words: The **Add custom words** method accepts an array of
           `Word` objects. Each object provides a word that is to be added or updated for
-          the custom voice model and the word's translation.
+          the custom model and the word's translation.
           The **List custom words** method returns an array of `Word` objects. Each object
-          shows a word and its translation from the custom voice model. The words are
-          listed in alphabetical order, with uppercase letters listed before lowercase
-          letters. The array is empty if the custom model contains no words.
+          shows a word and its translation from the custom model. The words are listed in
+          alphabetical order, with uppercase letters listed before lowercase letters. The
+          array is empty if the custom model contains no words.
     """
 
     def __init__(self, words: List['Word']) -> None:
@@ -2031,12 +2011,12 @@ class Words():
 
         :param List[Word] words: The **Add custom words** method accepts an array
                of `Word` objects. Each object provides a word that is to be added or
-               updated for the custom voice model and the word's translation.
+               updated for the custom model and the word's translation.
                The **List custom words** method returns an array of `Word` objects. Each
-               object shows a word and its translation from the custom voice model. The
-               words are listed in alphabetical order, with uppercase letters listed
-               before lowercase letters. The array is empty if the custom model contains
-               no words.
+               object shows a word and its translation from the custom model. The words
+               are listed in alphabetical order, with uppercase letters listed before
+               lowercase letters. The array is empty if the custom model contains no
+               words.
         """
         self.words = words
 

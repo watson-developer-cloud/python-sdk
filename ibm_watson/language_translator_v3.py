@@ -47,10 +47,10 @@ class LanguageTranslatorV3(BaseService):
     DEFAULT_SERVICE_NAME = 'language_translator'
 
     def __init__(
-            self,
-            version: str,
-            authenticator: Authenticator = None,
-            service_name: str = DEFAULT_SERVICE_NAME,
+        self,
+        version: str,
+        authenticator: Authenticator = None,
+        service_name: str = DEFAULT_SERVICE_NAME,
     ) -> None:
         """
         Construct a new client for the Language Translator service.
@@ -87,9 +87,12 @@ class LanguageTranslatorV3(BaseService):
         """
         List supported languages.
 
-        Lists all supported languages. The method returns an array of supported languages
-        with information about each language. Languages are listed in alphabetical order
-        by language code (for example, `af`, `ar`).
+        Lists all supported languages for translation. The method returns an array of
+        supported languages with information about each language. Languages are listed in
+        alphabetical order by language code (for example, `af`, `ar`). In addition to
+        basic information about each language, the response indicates whether the language
+        is `supported_as_source` for translation and `supported_as_target` for
+        translation. It also lists whether the language is `identifiable`.
 
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -135,9 +138,12 @@ class LanguageTranslatorV3(BaseService):
         service attempt to detect the language from the input text. If you omit the source
         language, the request must contain sufficient input text for the service to
         identify the source language.
+        You can translate a maximum of 50 KB (51,200 bytes) of text with a single request.
+        All input text must be encoded in UTF-8 format.
 
-        :param List[str] text: Input text in UTF-8 encoding. Multiple entries
-               result in multiple translations in the response.
+        :param List[str] text: Input text in UTF-8 encoding. Submit a maximum of 50
+               KB (51,200 bytes) of text with a single request. Multiple elements result
+               in multiple translations in the response.
         :param str model_id: (optional) The model to use for translation. For
                example, `en-de` selects the IBM-provided base model for English-to-German
                translation. A model ID overrides the `source` and `target` parameters and
@@ -350,9 +356,13 @@ class LanguageTranslatorV3(BaseService):
         * **XLIFF** (`.xliff`) - XML Localization Interchange File Format (XLIFF) is an
         XML specification for the exchange of translation memories.
         * **CSV** (`.csv`) - Comma-separated values (CSV) file with two columns for
-        aligned sentences and phrases. The first row contains the language code.
+        aligned sentences and phrases. The first row must have two language codes. The
+        first column is for the source language code, and the second column is for the
+        target language code.
         * **TSV** (`.tsv` or `.tab`) - Tab-separated values (TSV) file with two columns
-        for aligned sentences and phrases. The first row contains the language code.
+        for aligned sentences and phrases. The first row must have two language codes. The
+        first column is for the source language code, and the second column is for the
+        target language code.
         * **JSON** (`.json`) - Custom JSON format for specifying aligned sentences and
         phrases.
         * **Microsoft Excel** (`.xls` or `.xlsx`) - Excel file with the first two columns
@@ -564,12 +574,16 @@ class LanguageTranslatorV3(BaseService):
 
         Submit a document for translation. You can submit the document contents in the
         `file` parameter, or you can reference a previously submitted document by document
-        ID.
+        ID. The maximum file size for document translation is
+        * 20 MB for service instances on the Standard, Advanced, and Premium plans
+        * 2 MB for service instances on the Lite plan.
 
-        :param TextIO file: The contents of the source file to translate.
-               [Supported file
-               types](https://cloud.ibm.com/docs/language-translator?topic=language-translator-document-translator-tutorial#supported-file-formats)
-               Maximum file size: **20 MB**.
+        :param TextIO file: The contents of the source file to translate. The
+               maximum file size for document translation is 20 MB for service instances
+               on the Standard, Advanced, and Premium plans, and 2 MB for service
+               instances on the Lite plan. For more information, see [Supported file
+               formats
+               (Beta)](https://cloud.ibm.com/docs/language-translator?topic=language-translator-document-translator-tutorial#supported-file-formats).
         :param str filename: (optional) The filename for file.
         :param str file_content_type: (optional) The content type of file.
         :param str model_id: (optional) The model to use for translation. For
@@ -785,6 +799,9 @@ class TranslateDocumentEnums(object):
         TEXT_PLAIN = 'text/plain'
         TEXT_RICHTEXT = 'text/richtext'
         TEXT_RTF = 'text/rtf'
+        TEXT_SBV = 'text/sbv'
+        TEXT_SRT = 'text/srt'
+        TEXT_VTT = 'text/vtt'
         TEXT_XML = 'text/xml'
 
 

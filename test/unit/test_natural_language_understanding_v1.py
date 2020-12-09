@@ -82,7 +82,7 @@ class TestAnalyze():
     def call_service(self, body):
         service = NaturalLanguageUnderstandingV1(
             authenticator=NoAuthAuthenticator(),
-            version='2019-07-12',
+            version='2020-08-01',
             )
         service.set_service_url(base_url)
         output = service.analyze(**body)
@@ -161,7 +161,7 @@ class TestListModels():
     def call_service(self, body):
         service = NaturalLanguageUnderstandingV1(
             authenticator=NoAuthAuthenticator(),
-            version='2019-07-12',
+            version='2020-08-01',
             )
         service.set_service_url(base_url)
         output = service.list_models(**body)
@@ -229,7 +229,7 @@ class TestDeleteModel():
     def call_service(self, body):
         service = NaturalLanguageUnderstandingV1(
             authenticator=NoAuthAuthenticator(),
-            version='2019-07-12',
+            version='2020-08-01',
             )
         service.set_service_url(base_url)
         output = service.delete_model(**body)

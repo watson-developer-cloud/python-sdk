@@ -48,10 +48,10 @@ class DiscoveryV2(BaseService):
     DEFAULT_SERVICE_NAME = 'discovery'
 
     def __init__(
-            self,
-            version: str,
-            authenticator: Authenticator = None,
-            service_name: str = DEFAULT_SERVICE_NAME,
+        self,
+        version: str,
+        authenticator: Authenticator = None,
+        service_name: str = DEFAULT_SERVICE_NAME,
     ) -> None:
         """
         Construct a new client for the Discovery service.
@@ -1763,7 +1763,7 @@ class AnalyzeDocumentEnums(object):
 
 class AnalyzedDocument():
     """
-    An object containing the converted document and any identifed enrichments.
+    An object containing the converted document and any identified enrichments.
 
     :attr List[Notice] notices: (optional) Array of document results that match the
           query.
@@ -2170,15 +2170,15 @@ class Completions():
     """
     An object containing an array of autocompletion suggestions.
 
-    :attr List[str] completions: (optional) Array of autcomplete suggestion based on
-          the provided prefix.
+    :attr List[str] completions: (optional) Array of autocomplete suggestion based
+          on the provided prefix.
     """
 
     def __init__(self, *, completions: List[str] = None) -> None:
         """
         Initialize a Completions object.
 
-        :param List[str] completions: (optional) Array of autcomplete suggestion
+        :param List[str] completions: (optional) Array of autocomplete suggestion
                based on the provided prefix.
         """
         self.completions = completions
@@ -2759,9 +2759,9 @@ class DefaultQueryParams():
     :attr DefaultQueryParamsSuggestedRefinements suggested_refinements: (optional)
           Object containing suggested refinement settings.
     :attr bool spelling_suggestions: (optional) When `true`, a spelling suggestions
-          for the query are retuned by default.
+          for the query are returned by default.
     :attr bool highlight: (optional) When `true`, a highlights for the query are
-          retuned by default.
+          returned by default.
     :attr int count: (optional) The number of document results returned by default.
     :attr str sort: (optional) A comma separated list of document fields to sort
           results by default.
@@ -2797,9 +2797,9 @@ class DefaultQueryParams():
         :param DefaultQueryParamsSuggestedRefinements suggested_refinements:
                (optional) Object containing suggested refinement settings.
         :param bool spelling_suggestions: (optional) When `true`, a spelling
-               suggestions for the query are retuned by default.
+               suggestions for the query are returned by default.
         :param bool highlight: (optional) When `true`, a highlights for the query
-               are retuned by default.
+               are returned by default.
         :param int count: (optional) The number of document results returned by
                default.
         :param str sort: (optional) A comma separated list of document fields to
@@ -2918,8 +2918,8 @@ class DefaultQueryParamsPassages():
     :attr bool enabled: (optional) When `true`, a passage search is performed by
           default.
     :attr int count: (optional) The number of passages to return.
-    :attr List[str] fields: (optional) An array of field names to perfom the passage
-          search on.
+    :attr List[str] fields: (optional) An array of field names to perform the
+          passage search on.
     :attr int characters: (optional) The approximate number of characters that each
           returned passage will contain.
     :attr bool per_document: (optional) When `true` the number of passages that can
@@ -2943,7 +2943,7 @@ class DefaultQueryParamsPassages():
         :param bool enabled: (optional) When `true`, a passage search is performed
                by default.
         :param int count: (optional) The number of passages to return.
-        :param List[str] fields: (optional) An array of field names to perfom the
+        :param List[str] fields: (optional) An array of field names to perform the
                passage search on.
         :param int characters: (optional) The approximate number of characters that
                each returned passage will contain.
@@ -3035,7 +3035,7 @@ class DefaultQueryParamsSuggestedRefinements():
     Object containing suggested refinement settings.
 
     :attr bool enabled: (optional) When `true`, a suggested refinements for the
-          query are retuned by default.
+          query are returned by default.
     :attr int count: (optional) The number of suggested refinements to return by
           default.
     """
@@ -3045,7 +3045,7 @@ class DefaultQueryParamsSuggestedRefinements():
         Initialize a DefaultQueryParamsSuggestedRefinements object.
 
         :param bool enabled: (optional) When `true`, a suggested refinements for
-               the query are retuned by default.
+               the query are returned by default.
         :param int count: (optional) The number of suggested refinements to return
                by default.
         """
@@ -3106,7 +3106,7 @@ class DefaultQueryParamsTableResults():
     Default project query settings for table results.
 
     :attr bool enabled: (optional) When `true`, a table results for the query are
-          retuned by default.
+          returned by default.
     :attr int count: (optional) The number of table results to return by default.
     :attr int per_document: (optional) The number of table results to include in
           each result document.
@@ -3121,7 +3121,7 @@ class DefaultQueryParamsTableResults():
         Initialize a DefaultQueryParamsTableResults object.
 
         :param bool enabled: (optional) When `true`, a table results for the query
-               are retuned by default.
+               are returned by default.
         :param int count: (optional) The number of table results to return by
                default.
         :param int per_document: (optional) The number of table results to include
@@ -4413,14 +4413,14 @@ class ProjectListDetailsRelevancyTrainingStatus():
 
     :attr str data_updated: (optional) When the training data was updated.
     :attr int total_examples: (optional) The total number of examples.
-    :attr bool sufficient_label_diversity: (optional) When `true`, sufficent label
+    :attr bool sufficient_label_diversity: (optional) When `true`, sufficient label
           diversity is present to allow training for this project.
     :attr bool processing: (optional) When `true`, the relevancy training is in
           processing.
     :attr bool minimum_examples_added: (optional) When `true`, the minimum number of
           examples required to train has been met.
     :attr str successfully_trained: (optional) The time that the most recent
-          successful training occured.
+          successful training occurred.
     :attr bool available: (optional) When `true`, relevancy training is available
           when querying collections in the project.
     :attr int notices: (optional) The number of notices generated during the
@@ -4445,14 +4445,14 @@ class ProjectListDetailsRelevancyTrainingStatus():
 
         :param str data_updated: (optional) When the training data was updated.
         :param int total_examples: (optional) The total number of examples.
-        :param bool sufficient_label_diversity: (optional) When `true`, sufficent
+        :param bool sufficient_label_diversity: (optional) When `true`, sufficient
                label diversity is present to allow training for this project.
         :param bool processing: (optional) When `true`, the relevancy training is
                in processing.
         :param bool minimum_examples_added: (optional) When `true`, the minimum
                number of examples required to train has been met.
         :param str successfully_trained: (optional) The time that the most recent
-               successful training occured.
+               successful training occurred.
         :param bool available: (optional) When `true`, relevancy training is
                available when querying collections in the project.
         :param int notices: (optional) The number of notices generated during the
@@ -5237,6 +5237,8 @@ class QueryResponse():
     :attr List[QuerySuggestedRefinement] suggested_refinements: (optional) Array of
           suggested refinements.
     :attr List[QueryTableResult] table_results: (optional) Array of table results.
+    :attr List[QueryResponsePassage] passages: (optional) Passages returned by
+          Discovery.
     """
 
     def __init__(self,
@@ -5247,7 +5249,8 @@ class QueryResponse():
                  retrieval_details: 'RetrievalDetails' = None,
                  suggested_query: str = None,
                  suggested_refinements: List['QuerySuggestedRefinement'] = None,
-                 table_results: List['QueryTableResult'] = None) -> None:
+                 table_results: List['QueryTableResult'] = None,
+                 passages: List['QueryResponsePassage'] = None) -> None:
         """
         Initialize a QueryResponse object.
 
@@ -5265,6 +5268,8 @@ class QueryResponse():
                Array of suggested refinements.
         :param List[QueryTableResult] table_results: (optional) Array of table
                results.
+        :param List[QueryResponsePassage] passages: (optional) Passages returned by
+               Discovery.
         """
         self.matching_results = matching_results
         self.results = results
@@ -5273,6 +5278,7 @@ class QueryResponse():
         self.suggested_query = suggested_query
         self.suggested_refinements = suggested_refinements
         self.table_results = table_results
+        self.passages = passages
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'QueryResponse':
@@ -5280,7 +5286,8 @@ class QueryResponse():
         args = {}
         valid_keys = [
             'matching_results', 'results', 'aggregations', 'retrieval_details',
-            'suggested_query', 'suggested_refinements', 'table_results'
+            'suggested_query', 'suggested_refinements', 'table_results',
+            'passages'
         ]
         bad_keys = set(_dict.keys()) - set(valid_keys)
         if bad_keys:
@@ -5313,6 +5320,11 @@ class QueryResponse():
                 QueryTableResult._from_dict(x)
                 for x in (_dict.get('table_results'))
             ]
+        if 'passages' in _dict:
+            args['passages'] = [
+                QueryResponsePassage._from_dict(x)
+                for x in (_dict.get('passages'))
+            ]
         return cls(**args)
 
     @classmethod
@@ -5343,6 +5355,8 @@ class QueryResponse():
             ]
         if hasattr(self, 'table_results') and self.table_results is not None:
             _dict['table_results'] = [x._to_dict() for x in self.table_results]
+        if hasattr(self, 'passages') and self.passages is not None:
+            _dict['passages'] = [x._to_dict() for x in self.passages]
         return _dict
 
     def _to_dict(self):
@@ -5360,6 +5374,130 @@ class QueryResponse():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'QueryResponse') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class QueryResponsePassage():
+    """
+    A passage query response.
+
+    :attr str passage_text: (optional) The content of the extracted passage.
+    :attr float passage_score: (optional) The confidence score of the passage's
+          analysis. A higher score indicates greater confidence.
+    :attr str document_id: (optional) The unique identifier of the ingested
+          document.
+    :attr str collection_id: (optional) The unique identifier of the collection.
+    :attr int start_offset: (optional) The position of the first character of the
+          extracted passage in the originating field.
+    :attr int end_offset: (optional) The position of the last character of the
+          extracted passage in the originating field.
+    :attr str field: (optional) The label of the field from which the passage has
+          been extracted.
+    """
+
+    def __init__(self,
+                 *,
+                 passage_text: str = None,
+                 passage_score: float = None,
+                 document_id: str = None,
+                 collection_id: str = None,
+                 start_offset: int = None,
+                 end_offset: int = None,
+                 field: str = None) -> None:
+        """
+        Initialize a QueryResponsePassage object.
+
+        :param str passage_text: (optional) The content of the extracted passage.
+        :param float passage_score: (optional) The confidence score of the
+               passage's analysis. A higher score indicates greater confidence.
+        :param str document_id: (optional) The unique identifier of the ingested
+               document.
+        :param str collection_id: (optional) The unique identifier of the
+               collection.
+        :param int start_offset: (optional) The position of the first character of
+               the extracted passage in the originating field.
+        :param int end_offset: (optional) The position of the last character of the
+               extracted passage in the originating field.
+        :param str field: (optional) The label of the field from which the passage
+               has been extracted.
+        """
+        self.passage_text = passage_text
+        self.passage_score = passage_score
+        self.document_id = document_id
+        self.collection_id = collection_id
+        self.start_offset = start_offset
+        self.end_offset = end_offset
+        self.field = field
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'QueryResponsePassage':
+        """Initialize a QueryResponsePassage object from a json dictionary."""
+        args = {}
+        valid_keys = [
+            'passage_text', 'passage_score', 'document_id', 'collection_id',
+            'start_offset', 'end_offset', 'field'
+        ]
+        bad_keys = set(_dict.keys()) - set(valid_keys)
+        if bad_keys:
+            raise ValueError(
+                'Unrecognized keys detected in dictionary for class QueryResponsePassage: '
+                + ', '.join(bad_keys))
+        if 'passage_text' in _dict:
+            args['passage_text'] = _dict.get('passage_text')
+        if 'passage_score' in _dict:
+            args['passage_score'] = _dict.get('passage_score')
+        if 'document_id' in _dict:
+            args['document_id'] = _dict.get('document_id')
+        if 'collection_id' in _dict:
+            args['collection_id'] = _dict.get('collection_id')
+        if 'start_offset' in _dict:
+            args['start_offset'] = _dict.get('start_offset')
+        if 'end_offset' in _dict:
+            args['end_offset'] = _dict.get('end_offset')
+        if 'field' in _dict:
+            args['field'] = _dict.get('field')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a QueryResponsePassage object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'passage_text') and self.passage_text is not None:
+            _dict['passage_text'] = self.passage_text
+        if hasattr(self, 'passage_score') and self.passage_score is not None:
+            _dict['passage_score'] = self.passage_score
+        if hasattr(self, 'document_id') and self.document_id is not None:
+            _dict['document_id'] = self.document_id
+        if hasattr(self, 'collection_id') and self.collection_id is not None:
+            _dict['collection_id'] = self.collection_id
+        if hasattr(self, 'start_offset') and self.start_offset is not None:
+            _dict['start_offset'] = self.start_offset
+        if hasattr(self, 'end_offset') and self.end_offset is not None:
+            _dict['end_offset'] = self.end_offset
+        if hasattr(self, 'field') and self.field is not None:
+            _dict['field'] = self.field
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this QueryResponsePassage object."""
+        return json.dumps(self._to_dict(), indent=2)
+
+    def __eq__(self, other: 'QueryResponsePassage') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'QueryResponsePassage') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 

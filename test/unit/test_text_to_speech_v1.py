@@ -339,17 +339,17 @@ class TestGetPronunciation():
 # region
 
 #-----------------------------------------------------------------------------
-# Test Class for create_voice_model
+# Test Class for create_custom_model
 #-----------------------------------------------------------------------------
-class TestCreateVoiceModel():
+class TestCreateCustomModel():
 
     #--------------------------------------------------------
     # Test 1: Send fake data and check response
     #--------------------------------------------------------
     @responses.activate
-    def test_create_voice_model_response(self):
+    def test_create_custom_model_response(self):
         body = self.construct_full_body()
-        response = fake_response_VoiceModel_json
+        response = fake_response_CustomModel_json
         send_request(self, body, response)
         assert len(responses.calls) == 1
 
@@ -357,10 +357,10 @@ class TestCreateVoiceModel():
     # Test 2: Send only required fake data and check response
     #--------------------------------------------------------
     @responses.activate
-    def test_create_voice_model_required_response(self):
+    def test_create_custom_model_required_response(self):
         # Check response with required params
         body = self.construct_required_body()
-        response = fake_response_VoiceModel_json
+        response = fake_response_CustomModel_json
         send_request(self, body, response)
         assert len(responses.calls) == 1
 
@@ -368,8 +368,8 @@ class TestCreateVoiceModel():
     # Test 3: Send empty data and check response
     #--------------------------------------------------------
     @responses.activate
-    def test_create_voice_model_empty(self):
-        check_empty_required_params(self, fake_response_VoiceModel_json)
+    def test_create_custom_model_empty(self):
+        check_empty_required_params(self, fake_response_CustomModel_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -393,7 +393,7 @@ class TestCreateVoiceModel():
             authenticator=NoAuthAuthenticator(),
             )
         service.set_service_url(base_url)
-        output = service.create_voice_model(**body)
+        output = service.create_custom_model(**body)
         return output
 
     def construct_full_body(self):
@@ -408,17 +408,17 @@ class TestCreateVoiceModel():
 
 
 #-----------------------------------------------------------------------------
-# Test Class for list_voice_models
+# Test Class for list_custom_models
 #-----------------------------------------------------------------------------
-class TestListVoiceModels():
+class TestListCustomModels():
 
     #--------------------------------------------------------
     # Test 1: Send fake data and check response
     #--------------------------------------------------------
     @responses.activate
-    def test_list_voice_models_response(self):
+    def test_list_custom_models_response(self):
         body = self.construct_full_body()
-        response = fake_response_VoiceModels_json
+        response = fake_response_CustomModels_json
         send_request(self, body, response)
         assert len(responses.calls) == 1
 
@@ -426,10 +426,10 @@ class TestListVoiceModels():
     # Test 2: Send only required fake data and check response
     #--------------------------------------------------------
     @responses.activate
-    def test_list_voice_models_required_response(self):
+    def test_list_custom_models_required_response(self):
         # Check response with required params
         body = self.construct_required_body()
-        response = fake_response_VoiceModels_json
+        response = fake_response_CustomModels_json
         send_request(self, body, response)
         assert len(responses.calls) == 1
 
@@ -437,7 +437,7 @@ class TestListVoiceModels():
     # Test 3: Send empty data and check response
     #--------------------------------------------------------
     @responses.activate
-    def test_list_voice_models_empty(self):
+    def test_list_custom_models_empty(self):
         check_empty_response(self)
         assert len(responses.calls) == 1
 
@@ -461,7 +461,7 @@ class TestListVoiceModels():
             authenticator=NoAuthAuthenticator(),
             )
         service.set_service_url(base_url)
-        output = service.list_voice_models(**body)
+        output = service.list_custom_models(**body)
         return output
 
     def construct_full_body(self):
@@ -475,15 +475,15 @@ class TestListVoiceModels():
 
 
 #-----------------------------------------------------------------------------
-# Test Class for update_voice_model
+# Test Class for update_custom_model
 #-----------------------------------------------------------------------------
-class TestUpdateVoiceModel():
+class TestUpdateCustomModel():
 
     #--------------------------------------------------------
     # Test 1: Send fake data and check response
     #--------------------------------------------------------
     @responses.activate
-    def test_update_voice_model_response(self):
+    def test_update_custom_model_response(self):
         body = self.construct_full_body()
         response = fake_response__json
         send_request(self, body, response)
@@ -493,7 +493,7 @@ class TestUpdateVoiceModel():
     # Test 2: Send only required fake data and check response
     #--------------------------------------------------------
     @responses.activate
-    def test_update_voice_model_required_response(self):
+    def test_update_custom_model_required_response(self):
         # Check response with required params
         body = self.construct_required_body()
         response = fake_response__json
@@ -504,7 +504,7 @@ class TestUpdateVoiceModel():
     # Test 3: Send empty data and check response
     #--------------------------------------------------------
     @responses.activate
-    def test_update_voice_model_empty(self):
+    def test_update_custom_model_empty(self):
         check_empty_required_params(self, fake_response__json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
@@ -529,7 +529,7 @@ class TestUpdateVoiceModel():
             authenticator=NoAuthAuthenticator(),
             )
         service.set_service_url(base_url)
-        output = service.update_voice_model(**body)
+        output = service.update_custom_model(**body)
         return output
 
     def construct_full_body(self):
@@ -546,17 +546,17 @@ class TestUpdateVoiceModel():
 
 
 #-----------------------------------------------------------------------------
-# Test Class for get_voice_model
+# Test Class for get_custom_model
 #-----------------------------------------------------------------------------
-class TestGetVoiceModel():
+class TestGetCustomModel():
 
     #--------------------------------------------------------
     # Test 1: Send fake data and check response
     #--------------------------------------------------------
     @responses.activate
-    def test_get_voice_model_response(self):
+    def test_get_custom_model_response(self):
         body = self.construct_full_body()
-        response = fake_response_VoiceModel_json
+        response = fake_response_CustomModel_json
         send_request(self, body, response)
         assert len(responses.calls) == 1
 
@@ -564,10 +564,10 @@ class TestGetVoiceModel():
     # Test 2: Send only required fake data and check response
     #--------------------------------------------------------
     @responses.activate
-    def test_get_voice_model_required_response(self):
+    def test_get_custom_model_required_response(self):
         # Check response with required params
         body = self.construct_required_body()
-        response = fake_response_VoiceModel_json
+        response = fake_response_CustomModel_json
         send_request(self, body, response)
         assert len(responses.calls) == 1
 
@@ -575,8 +575,8 @@ class TestGetVoiceModel():
     # Test 3: Send empty data and check response
     #--------------------------------------------------------
     @responses.activate
-    def test_get_voice_model_empty(self):
-        check_empty_required_params(self, fake_response_VoiceModel_json)
+    def test_get_custom_model_empty(self):
+        check_empty_required_params(self, fake_response_CustomModel_json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
 
@@ -600,7 +600,7 @@ class TestGetVoiceModel():
             authenticator=NoAuthAuthenticator(),
             )
         service.set_service_url(base_url)
-        output = service.get_voice_model(**body)
+        output = service.get_custom_model(**body)
         return output
 
     def construct_full_body(self):
@@ -615,15 +615,15 @@ class TestGetVoiceModel():
 
 
 #-----------------------------------------------------------------------------
-# Test Class for delete_voice_model
+# Test Class for delete_custom_model
 #-----------------------------------------------------------------------------
-class TestDeleteVoiceModel():
+class TestDeleteCustomModel():
 
     #--------------------------------------------------------
     # Test 1: Send fake data and check response
     #--------------------------------------------------------
     @responses.activate
-    def test_delete_voice_model_response(self):
+    def test_delete_custom_model_response(self):
         body = self.construct_full_body()
         response = fake_response__json
         send_request(self, body, response)
@@ -633,7 +633,7 @@ class TestDeleteVoiceModel():
     # Test 2: Send only required fake data and check response
     #--------------------------------------------------------
     @responses.activate
-    def test_delete_voice_model_required_response(self):
+    def test_delete_custom_model_required_response(self):
         # Check response with required params
         body = self.construct_required_body()
         response = fake_response__json
@@ -644,7 +644,7 @@ class TestDeleteVoiceModel():
     # Test 3: Send empty data and check response
     #--------------------------------------------------------
     @responses.activate
-    def test_delete_voice_model_empty(self):
+    def test_delete_custom_model_empty(self):
         check_empty_required_params(self, fake_response__json)
         check_missing_required_params(self)
         assert len(responses.calls) == 0
@@ -669,7 +669,7 @@ class TestDeleteVoiceModel():
             authenticator=NoAuthAuthenticator(),
             )
         service.set_service_url(base_url)
-        output = service.delete_voice_model(**body)
+        output = service.delete_custom_model(**body)
         return output
 
     def construct_full_body(self):
@@ -1201,8 +1201,8 @@ fake_response_Voices_json = """{"voices": []}"""
 fake_response_Voice_json = """{"url": "fake_url", "gender": "fake_gender", "name": "fake_name", "language": "fake_language", "description": "fake_description", "customizable": true, "supported_features": {"custom_pronunciation": true, "voice_transformation": true}, "customization": {"customization_id": "fake_customization_id", "name": "fake_name", "language": "fake_language", "owner": "fake_owner", "created": "fake_created", "last_modified": "fake_last_modified", "description": "fake_description", "words": []}}"""
 fake_response_BinaryIO_json = """Contents of response byte-stream..."""
 fake_response_Pronunciation_json = """{"pronunciation": "fake_pronunciation"}"""
-fake_response_VoiceModel_json = """{"customization_id": "fake_customization_id", "name": "fake_name", "language": "fake_language", "owner": "fake_owner", "created": "fake_created", "last_modified": "fake_last_modified", "description": "fake_description", "words": []}"""
-fake_response_VoiceModels_json = """{"customizations": []}"""
-fake_response_VoiceModel_json = """{"customization_id": "fake_customization_id", "name": "fake_name", "language": "fake_language", "owner": "fake_owner", "created": "fake_created", "last_modified": "fake_last_modified", "description": "fake_description", "words": []}"""
+fake_response_CustomModel_json = """{"customization_id": "fake_customization_id", "name": "fake_name", "language": "fake_language", "owner": "fake_owner", "created": "fake_created", "last_modified": "fake_last_modified", "description": "fake_description", "words": []}"""
+fake_response_CustomModels_json = """{"customizations": []}"""
+fake_response_CustomModel_json = """{"customization_id": "fake_customization_id", "name": "fake_name", "language": "fake_language", "owner": "fake_owner", "created": "fake_created", "last_modified": "fake_last_modified", "description": "fake_description", "words": []}"""
 fake_response_Words_json = """{"words": []}"""
 fake_response_Translation_json = """{"translation": "fake_translation", "part_of_speech": "fake_part_of_speech"}"""

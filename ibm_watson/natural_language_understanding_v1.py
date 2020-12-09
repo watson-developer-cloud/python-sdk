@@ -48,10 +48,10 @@ class NaturalLanguageUnderstandingV1(BaseService):
     DEFAULT_SERVICE_NAME = 'natural-language-understanding'
 
     def __init__(
-            self,
-            version: str,
-            authenticator: Authenticator = None,
-            service_name: str = DEFAULT_SERVICE_NAME,
+        self,
+        version: str,
+        authenticator: Authenticator = None,
+        service_name: str = DEFAULT_SERVICE_NAME,
     ) -> None:
         """
         Construct a new client for the Natural Language Understanding service.
@@ -110,7 +110,8 @@ class NaturalLanguageUnderstandingV1(BaseService):
         - Relations
         - Semantic roles
         - Sentiment
-        - Syntax.
+        - Syntax
+        - Summarization (Experimental)
         If a language for the input text is not specified with the `language` parameter,
         the service [automatically detects the
         language](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-detectable-languages).
@@ -2701,8 +2702,7 @@ class Model():
           that deployed this model to Natural Language Understanding.
     :attr str model_version: (optional) The model version, if it was manually
           provided in Watson Knowledge Studio.
-    :attr str version: (optional) (Deprecated — use `model_version`) The model
-          version, if it was manually provided in Watson Knowledge Studio.
+    :attr str version: (optional) Deprecated — use `model_version`.
     :attr str version_description: (optional) The description of the version, if it
           was manually provided in Watson Knowledge Studio.
     :attr datetime created: (optional) A dateTime indicating when the model was
@@ -2733,8 +2733,7 @@ class Model():
                workspace that deployed this model to Natural Language Understanding.
         :param str model_version: (optional) The model version, if it was manually
                provided in Watson Knowledge Studio.
-        :param str version: (optional) (Deprecated — use `model_version`) The model
-               version, if it was manually provided in Watson Knowledge Studio.
+        :param str version: (optional) Deprecated — use `model_version`.
         :param str version_description: (optional) The description of the version,
                if it was manually provided in Watson Knowledge Studio.
         :param datetime created: (optional) A dateTime indicating when the model

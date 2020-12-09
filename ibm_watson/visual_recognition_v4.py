@@ -14,13 +14,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
-Provide images to the IBM Watson&trade; Visual Recognition service for analysis. The
-service detects objects based on a set of images with training data.
+IBM Watson&trade; Visual Recognition is discontinued. Existing instances are supported
+until 1 December 2021, but as of 7 January 2021, you can't create instances. Any instance
+that is provisioned on 1 December 2021 will be deleted.
+{: deprecated}
+Provide images to the IBM Watson Visual Recognition service for analysis. The service
+detects objects based on a set of images with training data.
 """
 
 import json
 from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
 from .common import get_sdk_headers
+from datetime import date
 from datetime import datetime
 from enum import Enum
 from ibm_cloud_sdk_core import BaseService
@@ -44,10 +49,10 @@ class VisualRecognitionV4(BaseService):
     DEFAULT_SERVICE_NAME = 'visual_recognition'
 
     def __init__(
-            self,
-            version: str,
-            authenticator: Authenticator = None,
-            service_name: str = DEFAULT_SERVICE_NAME,
+        self,
+        version: str,
+        authenticator: Authenticator = None,
+        service_name: str = DEFAULT_SERVICE_NAME,
     ) -> None:
         """
         Construct a new client for the Visual Recognition service.
@@ -67,6 +72,7 @@ class VisualRecognitionV4(BaseService):
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
         """
+        print('warning: On 1 December 2021, Visual Recognition will no longer be available. For more information, see https://github.com/watson-developer-cloud/python-sdk/tree/master#visual-recognition-deprecation.')
         if not authenticator:
             authenticator = get_authenticator_from_environment(service_name)
         BaseService.__init__(self,
@@ -926,8 +932,8 @@ class VisualRecognitionV4(BaseService):
 
     def get_training_usage(self,
                            *,
-                           start_time: str = None,
-                           end_time: str = None,
+                           start_time: date = None,
+                           end_time: date = None,
                            **kwargs) -> 'DetailedResponse':
         """
         Get training usage.
@@ -935,10 +941,10 @@ class VisualRecognitionV4(BaseService):
         Information about the completed training events. You can use this information to
         determine how close you are to the training limits for the month.
 
-        :param str start_time: (optional) The earliest day to include training
+        :param date start_time: (optional) The earliest day to include training
                events. Specify dates in YYYY-MM-DD format. If empty or not specified, the
                earliest training event is included.
-        :param str end_time: (optional) The most recent day to include training
+        :param date end_time: (optional) The most recent day to include training
                events. Specify dates in YYYY-MM-DD format. All events for the day are
                included. If empty or not specified, the current day is used. Specify the
                same value as `start_time` to request events for a single day.
@@ -3225,18 +3231,18 @@ class UpdateObjectMetadata():
     :attr str object: The updated name of the object. The name can contain
           alphanumeric, underscore, hyphen, space, and dot characters. It cannot begin
           with the reserved prefix `sys-`.
-    :attr int count: Number of bounding boxes in the collection with the
+    :attr int count: (optional) Number of bounding boxes in the collection with the
           updated object name.
     """
 
-    def __init__(self, object: str, count: int) -> None:
+    def __init__(self, object: str, *, count: int = None) -> None:
         """
         Initialize a UpdateObjectMetadata object.
 
         :param str object: The updated name of the object. The name can contain
                alphanumeric, underscore, hyphen, space, and dot characters. It cannot
                begin with the reserved prefix `sys-`.
-        :param int count: Number of bounding boxes in the collection
+        :param int count: (optional) Number of bounding boxes in the collection
                with the updated object name.
         """
         self.object = object
@@ -3260,10 +3266,6 @@ class UpdateObjectMetadata():
             )
         if 'count' in _dict:
             args['count'] = _dict.get('count')
-        else:
-            raise ValueError(
-                'Required property \'count\' not present in UpdateObjectMetadata JSON'
-            )
         return cls(**args)
 
     @classmethod

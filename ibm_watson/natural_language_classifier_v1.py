@@ -45,9 +45,9 @@ class NaturalLanguageClassifierV1(BaseService):
     DEFAULT_SERVICE_NAME = 'natural_language_classifier'
 
     def __init__(
-            self,
-            authenticator: Authenticator = None,
-            service_name: str = DEFAULT_SERVICE_NAME,
+        self,
+        authenticator: Authenticator = None,
+        service_name: str = DEFAULT_SERVICE_NAME,
     ) -> None:
         """
         Construct a new client for the Natural Language Classifier service.
