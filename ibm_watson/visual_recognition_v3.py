@@ -65,6 +65,9 @@ class VisualRecognitionV3(BaseService):
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
         """
+        print(
+            'warning: On 1 December 2021, Visual Recognition will no longer be available. For more information, see https://github.com/watson-developer-cloud/python-sdk/tree/master#visual-recognition-deprecation.'
+        )
         if version is None:
             raise ValueError('version must be provided')
 
@@ -162,12 +165,12 @@ class VisualRecognitionV3(BaseService):
             form_data.append(
                 ('threshold', (None, str(threshold), 'text/plain')))
         if owners:
-            for item in owners:
-                form_data.append(('owners', (None, item, 'text/plain')))
+            owners = self._convert_list(owners)
+            form_data.append(('owners', (None, owners, 'text/plain')))
         if classifier_ids:
-            for item in classifier_ids:
-                form_data.append(('classifier_ids', (None, item, 'text/plain')))
-
+            classifier_ids = self._convert_list(classifier_ids)
+            form_data.append(
+                ('classifier_ids', (None, classifier_ids, 'text/plain')))
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
         headers['Accept'] = 'application/json'
@@ -233,7 +236,6 @@ class VisualRecognitionV3(BaseService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `Classifier` object
         """
-
         if name is None:
             raise ValueError('name must be provided')
         if not positive_examples:
@@ -404,7 +406,6 @@ class VisualRecognitionV3(BaseService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `Classifier` object
         """
-
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
         headers = {}

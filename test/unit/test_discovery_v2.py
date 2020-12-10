@@ -169,8 +169,7 @@ class TestCreateCollection():
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate body params
-        print(responses.calls[0])
-        req_body = json.loads(str(responses.calls[0].request.body))
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['name'] == 'testString'
         assert req_body['description'] == 'testString'
         assert req_body['language'] == 'testString'
@@ -343,7 +342,7 @@ class TestUpdateCollection():
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate body params
-        req_body = json.loads(str(responses.calls[0].request.body))
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['name'] == 'testString'
         assert req_body['description'] == 'testString'
         assert req_body['enrichments'] == [collection_enrichment_model]
@@ -553,7 +552,7 @@ class TestQuery():
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate body params
-        req_body = json.loads(str(responses.calls[0].request.body))
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['collection_ids'] == ['testString']
         assert req_body['filter'] == 'testString'
         assert req_body['query'] == 'testString'
@@ -1600,7 +1599,7 @@ class TestCreateTrainingQuery():
         assert len(responses.calls) == 1
         assert response.status_code == 201
         # Validate body params
-        req_body = json.loads(str(responses.calls[0].request.body))
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['natural_language_query'] == 'testString'
         assert req_body['examples'] == [training_example_model]
         assert req_body['filter'] == 'testString'
@@ -1774,7 +1773,7 @@ class TestUpdateTrainingQuery():
         assert len(responses.calls) == 1
         assert response.status_code == 201
         # Validate body params
-        req_body = json.loads(str(responses.calls[0].request.body))
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['natural_language_query'] == 'testString'
         assert req_body['examples'] == [training_example_model]
         assert req_body['filter'] == 'testString'
@@ -2292,7 +2291,7 @@ class TestUpdateEnrichment():
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate body params
-        req_body = json.loads(str(responses.calls[0].request.body))
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['name'] == 'testString'
         assert req_body['description'] == 'testString'
 
@@ -2547,7 +2546,7 @@ class TestCreateProject():
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate body params
-        req_body = json.loads(str(responses.calls[0].request.body))
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['name'] == 'testString'
         assert req_body['type'] == 'document_retrieval'
         assert req_body['default_query_parameters'] == default_query_params_model
@@ -2730,7 +2729,7 @@ class TestUpdateProject():
         assert len(responses.calls) == 1
         assert response.status_code == 200
         # Validate body params
-        req_body = json.loads(str(responses.calls[0].request.body))
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['name'] == 'testString'
 
 
