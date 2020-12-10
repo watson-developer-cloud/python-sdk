@@ -13,6 +13,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-a45d89ef-20201209-192237
 """
 IBM&reg; will begin sunsetting IBM Watson&trade; Personality Insights on 1 December 2020.
 For a period of one year from this date, you will still be able to use Watson Personality
@@ -43,15 +45,16 @@ whether you set the `X-Watson-Learning-Opt-Out` request header, the service does
 or retain data from requests and responses.
 """
 
-import json
-from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
-from .common import get_sdk_headers
 from enum import Enum
-from ibm_cloud_sdk_core import BaseService
-from ibm_cloud_sdk_core import DetailedResponse
+from typing import Dict, List, TextIO, Union
+import json
+
+from ibm_cloud_sdk_core import BaseService, DetailedResponse
+from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
 from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
-from typing import Dict
-from typing import List
+from ibm_cloud_sdk_core.utils import convert_model
+
+from .common import get_sdk_headers
 
 ##############################################################################
 # Service
@@ -73,27 +76,21 @@ class PersonalityInsightsV3(BaseService):
         """
         Construct a new client for the Personality Insights service.
 
-        :param str version: The API version date to use with the service, in
-               "YYYY-MM-DD" format. Whenever the API is changed in a backwards
-               incompatible way, a new minor version of the API is released.
-               The service uses the API version for the date you specify, or
-               the most recent version before that date. Note that you should
-               not programmatically specify the current date at runtime, in
-               case the API has been updated since your application's release.
-               Instead, specify a version date that is compatible with your
-               application, and don't change it until your application is
-               ready for a later version.
+        :param str version: Release date of the version of the API you want to use.
+               Specify dates in YYYY-MM-DD format. The current version is `2017-10-13`.
 
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
         """
+        if version is None:
+            raise ValueError('version must be provided')
+
         if not authenticator:
             authenticator = get_authenticator_from_environment(service_name)
         BaseService.__init__(self,
                              service_url=self.DEFAULT_SERVICE_URL,
-                             authenticator=authenticator,
-                             disable_ssl_verification=False)
+                             authenticator=authenticator)
         self.version = version
         self.configure_service(service_name)
 
@@ -102,7 +99,7 @@ class PersonalityInsightsV3(BaseService):
     #########################
 
     def profile(self,
-                content: object,
+                content: Union['Content', str, TextIO],
                 accept: str,
                 *,
                 content_type: str = None,
@@ -111,7 +108,7 @@ class PersonalityInsightsV3(BaseService):
                 raw_scores: bool = None,
                 csv_headers: bool = None,
                 consumption_preferences: bool = None,
-                **kwargs) -> 'DetailedResponse':
+                **kwargs) -> DetailedResponse:
         """
         Get profile.
 
@@ -186,7 +183,7 @@ class PersonalityInsightsV3(BaseService):
                consumption preferences are returned.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Profile` object
         """
 
         if content is None:
@@ -194,16 +191,14 @@ class PersonalityInsightsV3(BaseService):
         if accept is None:
             raise ValueError('accept must be provided')
         if isinstance(content, Content):
-            content = self._convert_model(content)
-
+            content = convert_model(content)
+            content_type = content_type or 'application/json'
         headers = {
             'Accept': accept,
             'Content-Type': content_type,
             'Content-Language': content_language,
             'Accept-Language': accept_language
         }
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V3',
                                       operation_id='profile')
@@ -216,10 +211,15 @@ class PersonalityInsightsV3(BaseService):
             'consumption_preferences': consumption_preferences
         }
 
-        if content_type == 'application/json' and isinstance(content, dict):
+        if isinstance(content, dict):
             data = json.dumps(content)
+            if content_type is None:
+                headers['Content-Type'] = 'application/json'
         else:
             data = content
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
 
         url = '/v3/profile'
         request = self.prepare_request(method='POST',
@@ -232,9 +232,12 @@ class PersonalityInsightsV3(BaseService):
         return response
 
 
-class ProfileEnums(object):
+class ProfileEnums:
+    """
+    Enums for profile parameters.
+    """
 
-    class Accept(Enum):
+    class Accept(str, Enum):
         """
         The type of the response. For more information, see **Accept types** in the method
         description.
@@ -242,7 +245,7 @@ class ProfileEnums(object):
         APPLICATION_JSON = 'application/json'
         TEXT_CSV = 'text/csv'
 
-    class ContentType(Enum):
+    class ContentType(str, Enum):
         """
         The type of the input. For more information, see **Content types** in the method
         description.
@@ -251,7 +254,7 @@ class ProfileEnums(object):
         TEXT_HTML = 'text/html'
         TEXT_PLAIN = 'text/plain'
 
-    class ContentLanguage(Enum):
+    class ContentLanguage(str, Enum):
         """
         The language of the input text for the request: Arabic, English, Japanese, Korean,
         or Spanish. Regional variants are treated as their parent language; for example,
@@ -271,7 +274,7 @@ class ProfileEnums(object):
         JA = 'ja'
         KO = 'ko'
 
-    class AcceptLanguage(Enum):
+    class AcceptLanguage(str, Enum):
         """
         The desired language of the response. For two-character arguments, regional
         variants are treated as their parent language; for example, `en-US` is interpreted
@@ -334,12 +337,6 @@ class Behavior():
     def from_dict(cls, _dict: Dict) -> 'Behavior':
         """Initialize a Behavior object from a json dictionary."""
         args = {}
-        valid_keys = ['trait_id', 'name', 'category', 'percentage']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Behavior: '
-                + ', '.join(bad_keys))
         if 'trait_id' in _dict:
             args['trait_id'] = _dict.get('trait_id')
         else:
@@ -386,7 +383,7 @@ class Behavior():
 
     def __str__(self) -> str:
         """Return a `str` version of this Behavior object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Behavior') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -442,12 +439,6 @@ class ConsumptionPreferences():
     def from_dict(cls, _dict: Dict) -> 'ConsumptionPreferences':
         """Initialize a ConsumptionPreferences object from a json dictionary."""
         args = {}
-        valid_keys = ['consumption_preference_id', 'name', 'score']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ConsumptionPreferences: '
-                + ', '.join(bad_keys))
         if 'consumption_preference_id' in _dict:
             args['consumption_preference_id'] = _dict.get(
                 'consumption_preference_id')
@@ -492,7 +483,7 @@ class ConsumptionPreferences():
 
     def __str__(self) -> str:
         """Return a `str` version of this ConsumptionPreferences object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ConsumptionPreferences') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -540,15 +531,6 @@ class ConsumptionPreferencesCategory():
     def from_dict(cls, _dict: Dict) -> 'ConsumptionPreferencesCategory':
         """Initialize a ConsumptionPreferencesCategory object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'consumption_preference_category_id', 'name',
-            'consumption_preferences'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ConsumptionPreferencesCategory: '
-                + ', '.join(bad_keys))
         if 'consumption_preference_category_id' in _dict:
             args['consumption_preference_category_id'] = _dict.get(
                 'consumption_preference_category_id')
@@ -564,8 +546,8 @@ class ConsumptionPreferencesCategory():
             )
         if 'consumption_preferences' in _dict:
             args['consumption_preferences'] = [
-                ConsumptionPreferences._from_dict(x)
-                for x in (_dict.get('consumption_preferences'))
+                ConsumptionPreferences.from_dict(x)
+                for x in _dict.get('consumption_preferences')
             ]
         else:
             raise ValueError(
@@ -590,7 +572,7 @@ class ConsumptionPreferencesCategory():
         if hasattr(self, 'consumption_preferences'
                   ) and self.consumption_preferences is not None:
             _dict['consumption_preferences'] = [
-                x._to_dict() for x in self.consumption_preferences
+                x.to_dict() for x in self.consumption_preferences
             ]
         return _dict
 
@@ -600,7 +582,7 @@ class ConsumptionPreferencesCategory():
 
     def __str__(self) -> str:
         """Return a `str` version of this ConsumptionPreferencesCategory object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ConsumptionPreferencesCategory') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -634,15 +616,9 @@ class Content():
     def from_dict(cls, _dict: Dict) -> 'Content':
         """Initialize a Content object from a json dictionary."""
         args = {}
-        valid_keys = ['content_items', 'contentItems']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Content: ' +
-                ', '.join(bad_keys))
         if 'contentItems' in _dict:
             args['content_items'] = [
-                ContentItem._from_dict(x) for x in (_dict.get('contentItems'))
+                ContentItem.from_dict(x) for x in _dict.get('contentItems')
             ]
         else:
             raise ValueError(
@@ -659,7 +635,7 @@ class Content():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'content_items') and self.content_items is not None:
-            _dict['contentItems'] = [x._to_dict() for x in self.content_items]
+            _dict['contentItems'] = [x.to_dict() for x in self.content_items]
         return _dict
 
     def _to_dict(self):
@@ -668,7 +644,7 @@ class Content():
 
     def __str__(self) -> str:
         """Return a `str` version of this Content object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Content') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -776,15 +752,6 @@ class ContentItem():
     def from_dict(cls, _dict: Dict) -> 'ContentItem':
         """Initialize a ContentItem object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'content', 'id', 'created', 'updated', 'contenttype', 'language',
-            'parentid', 'reply', 'forward'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ContentItem: '
-                + ', '.join(bad_keys))
         if 'content' in _dict:
             args['content'] = _dict.get('content')
         else:
@@ -842,7 +809,7 @@ class ContentItem():
 
     def __str__(self) -> str:
         """Return a `str` version of this ContentItem object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ContentItem') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -854,15 +821,15 @@ class ContentItem():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ContenttypeEnum(Enum):
+    class ContenttypeEnum(str, Enum):
         """
         The MIME type of the content. The default is plain text. The tags are stripped
         from HTML content before it is analyzed; plain text is processed as submitted.
         """
-        TEXT_PLAIN = "text/plain"
-        TEXT_HTML = "text/html"
+        TEXT_PLAIN = 'text/plain'
+        TEXT_HTML = 'text/html'
 
-    class LanguageEnum(Enum):
+    class LanguageEnum(str, Enum):
         """
         The language identifier (two-letter ISO 639-1 identifier) for the language of the
         content item. The default is `en` (English). Regional variants are treated as
@@ -874,11 +841,11 @@ class ContentItem():
         different language are ignored. You can specify any combination of languages for
         the input and response content.
         """
-        AR = "ar"
-        EN = "en"
-        ES = "es"
-        JA = "ja"
-        KO = "ko"
+        AR = 'ar'
+        EN = 'en'
+        ES = 'es'
+        JA = 'ja'
+        KO = 'ko'
 
 
 class Profile():
@@ -911,9 +878,6 @@ class Profile():
     :attr List[Warning] warnings: An array of warning messages that are associated
           with the input text for the request. The array is empty if the input generated
           no warnings.
-    Deprecated On 1 December 2021, Personality Insights will no longer be available.
-    Consider migrating to Watson Natural Language Understanding.
-    For more information, see [Personality Insights Deprecation](https://github.com/watson-developer-cloud/ruby-sdk/tree/master#personality-insights-deprecation).
     """
 
     def __init__(
@@ -961,7 +925,6 @@ class Profile():
                array provides information inferred from the input text for the individual
                preferences of that category.
         """
-        print('warning: On 1 December 2021, Personality Insights will no longer be available. For more information, see https://github.com/watson-developer-cloud/python-sdk/tree/master#personality-insights-deprecation.')
         self.processed_language = processed_language
         self.word_count = word_count
         self.word_count_message = word_count_message
@@ -976,16 +939,6 @@ class Profile():
     def from_dict(cls, _dict: Dict) -> 'Profile':
         """Initialize a Profile object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'processed_language', 'word_count', 'word_count_message',
-            'personality', 'needs', 'values', 'behavior',
-            'consumption_preferences', 'warnings'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Profile: ' +
-                ', '.join(bad_keys))
         if 'processed_language' in _dict:
             args['processed_language'] = _dict.get('processed_language')
         else:
@@ -1001,35 +954,33 @@ class Profile():
             args['word_count_message'] = _dict.get('word_count_message')
         if 'personality' in _dict:
             args['personality'] = [
-                Trait._from_dict(x) for x in (_dict.get('personality'))
+                Trait.from_dict(x) for x in _dict.get('personality')
             ]
         else:
             raise ValueError(
                 'Required property \'personality\' not present in Profile JSON')
         if 'needs' in _dict:
-            args['needs'] = [Trait._from_dict(x) for x in (_dict.get('needs'))]
+            args['needs'] = [Trait.from_dict(x) for x in _dict.get('needs')]
         else:
             raise ValueError(
                 'Required property \'needs\' not present in Profile JSON')
         if 'values' in _dict:
-            args['values'] = [
-                Trait._from_dict(x) for x in (_dict.get('values'))
-            ]
+            args['values'] = [Trait.from_dict(x) for x in _dict.get('values')]
         else:
             raise ValueError(
                 'Required property \'values\' not present in Profile JSON')
         if 'behavior' in _dict:
             args['behavior'] = [
-                Behavior._from_dict(x) for x in (_dict.get('behavior'))
+                Behavior.from_dict(x) for x in _dict.get('behavior')
             ]
         if 'consumption_preferences' in _dict:
             args['consumption_preferences'] = [
-                ConsumptionPreferencesCategory._from_dict(x)
-                for x in (_dict.get('consumption_preferences'))
+                ConsumptionPreferencesCategory.from_dict(x)
+                for x in _dict.get('consumption_preferences')
             ]
         if 'warnings' in _dict:
             args['warnings'] = [
-                Warning._from_dict(x) for x in (_dict.get('warnings'))
+                Warning.from_dict(x) for x in _dict.get('warnings')
             ]
         else:
             raise ValueError(
@@ -1055,20 +1006,20 @@ class Profile():
                 'word_count_message') and self.word_count_message is not None:
             _dict['word_count_message'] = self.word_count_message
         if hasattr(self, 'personality') and self.personality is not None:
-            _dict['personality'] = [x._to_dict() for x in self.personality]
+            _dict['personality'] = [x.to_dict() for x in self.personality]
         if hasattr(self, 'needs') and self.needs is not None:
-            _dict['needs'] = [x._to_dict() for x in self.needs]
+            _dict['needs'] = [x.to_dict() for x in self.needs]
         if hasattr(self, 'values') and self.values is not None:
-            _dict['values'] = [x._to_dict() for x in self.values]
+            _dict['values'] = [x.to_dict() for x in self.values]
         if hasattr(self, 'behavior') and self.behavior is not None:
-            _dict['behavior'] = [x._to_dict() for x in self.behavior]
+            _dict['behavior'] = [x.to_dict() for x in self.behavior]
         if hasattr(self, 'consumption_preferences'
                   ) and self.consumption_preferences is not None:
             _dict['consumption_preferences'] = [
-                x._to_dict() for x in self.consumption_preferences
+                x.to_dict() for x in self.consumption_preferences
             ]
         if hasattr(self, 'warnings') and self.warnings is not None:
-            _dict['warnings'] = [x._to_dict() for x in self.warnings]
+            _dict['warnings'] = [x.to_dict() for x in self.warnings]
         return _dict
 
     def _to_dict(self):
@@ -1077,7 +1028,7 @@ class Profile():
 
     def __str__(self) -> str:
         """Return a `str` version of this Profile object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Profile') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1089,15 +1040,15 @@ class Profile():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ProcessedLanguageEnum(Enum):
+    class ProcessedLanguageEnum(str, Enum):
         """
         The language model that was used to process the input.
         """
-        AR = "ar"
-        EN = "en"
-        ES = "es"
-        JA = "ja"
-        KO = "ko"
+        AR = 'ar'
+        EN = 'en'
+        ES = 'es'
+        JA = 'ja'
+        KO = 'ko'
 
 
 class Trait():
@@ -1197,15 +1148,6 @@ class Trait():
     def from_dict(cls, _dict: Dict) -> 'Trait':
         """Initialize a Trait object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'trait_id', 'name', 'category', 'percentile', 'raw_score',
-            'significant', 'children'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Trait: ' +
-                ', '.join(bad_keys))
         if 'trait_id' in _dict:
             args['trait_id'] = _dict.get('trait_id')
         else:
@@ -1232,7 +1174,7 @@ class Trait():
             args['significant'] = _dict.get('significant')
         if 'children' in _dict:
             args['children'] = [
-                Trait._from_dict(x) for x in (_dict.get('children'))
+                Trait.from_dict(x) for x in _dict.get('children')
             ]
         return cls(**args)
 
@@ -1257,7 +1199,7 @@ class Trait():
         if hasattr(self, 'significant') and self.significant is not None:
             _dict['significant'] = self.significant
         if hasattr(self, 'children') and self.children is not None:
-            _dict['children'] = [x._to_dict() for x in self.children]
+            _dict['children'] = [x.to_dict() for x in self.children]
         return _dict
 
     def _to_dict(self):
@@ -1266,7 +1208,7 @@ class Trait():
 
     def __str__(self) -> str:
         """Return a `str` version of this Trait object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Trait') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1278,14 +1220,14 @@ class Trait():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class CategoryEnum(Enum):
+    class CategoryEnum(str, Enum):
         """
         The category of the characteristic: `personality` for Big Five personality
         characteristics, `needs` for Needs, and `values` for Values.
         """
-        PERSONALITY = "personality"
-        NEEDS = "needs"
-        VALUES = "values"
+        PERSONALITY = 'personality'
+        NEEDS = 'needs'
+        VALUES = 'values'
 
 
 class Warning():
@@ -1338,12 +1280,6 @@ class Warning():
     def from_dict(cls, _dict: Dict) -> 'Warning':
         """Initialize a Warning object from a json dictionary."""
         args = {}
-        valid_keys = ['warning_id', 'message']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Warning: ' +
-                ', '.join(bad_keys))
         if 'warning_id' in _dict:
             args['warning_id'] = _dict.get('warning_id')
         else:
@@ -1376,7 +1312,7 @@ class Warning():
 
     def __str__(self) -> str:
         """Return a `str` version of this Warning object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Warning') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1388,11 +1324,11 @@ class Warning():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class WarningIdEnum(Enum):
+    class WarningIdEnum(str, Enum):
         """
         The identifier of the warning message.
         """
-        WORD_COUNT_MESSAGE = "WORD_COUNT_MESSAGE"
-        JSON_AS_TEXT = "JSON_AS_TEXT"
-        CONTENT_TRUNCATED = "CONTENT_TRUNCATED"
-        PARTIAL_TEXT_USED = "PARTIAL_TEXT_USED"
+        WORD_COUNT_MESSAGE = 'WORD_COUNT_MESSAGE'
+        JSON_AS_TEXT = 'JSON_AS_TEXT'
+        CONTENT_TRUNCATED = 'CONTENT_TRUNCATED'
+        PARTIAL_TEXT_USED = 'PARTIAL_TEXT_USED'

@@ -13,6 +13,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-a45d89ef-20201209-192237
 """
 Analyze various features of text content at scale. Provide text, raw HTML, or a public URL
 and IBM Watson Natural Language Understanding will give you results for the features you
@@ -24,17 +26,17 @@ with Watson Knowledge Studio to detect custom entities and relations in Natural 
 Understanding.
 """
 
-import json
-from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
-from .common import get_sdk_headers
 from datetime import datetime
 from enum import Enum
-from ibm_cloud_sdk_core import BaseService
-from ibm_cloud_sdk_core import DetailedResponse
-from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
+from typing import Dict, List
+import json
+
+from ibm_cloud_sdk_core import BaseService, DetailedResponse
+from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
 from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
-from typing import Dict
-from typing import List
+from ibm_cloud_sdk_core.utils import convert_model, datetime_to_string, string_to_datetime
+
+from .common import get_sdk_headers
 
 ##############################################################################
 # Service
@@ -56,27 +58,21 @@ class NaturalLanguageUnderstandingV1(BaseService):
         """
         Construct a new client for the Natural Language Understanding service.
 
-        :param str version: The API version date to use with the service, in
-               "YYYY-MM-DD" format. Whenever the API is changed in a backwards
-               incompatible way, a new minor version of the API is released.
-               The service uses the API version for the date you specify, or
-               the most recent version before that date. Note that you should
-               not programmatically specify the current date at runtime, in
-               case the API has been updated since your application's release.
-               Instead, specify a version date that is compatible with your
-               application, and don't change it until your application is
-               ready for a later version.
+        :param str version: Release date of the API version you want to use.
+               Specify dates in YYYY-MM-DD format. The current version is `2020-08-01`.
 
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
         """
+        if version is None:
+            raise ValueError('version must be provided')
+
         if not authenticator:
             authenticator = get_authenticator_from_environment(service_name)
         BaseService.__init__(self,
                              service_url=self.DEFAULT_SERVICE_URL,
-                             authenticator=authenticator,
-                             disable_ssl_verification=False)
+                             authenticator=authenticator)
         self.version = version
         self.configure_service(service_name)
 
@@ -96,7 +92,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
                 return_analyzed_text: bool = None,
                 language: str = None,
                 limit_text_characters: int = None,
-                **kwargs) -> 'DetailedResponse':
+                **kwargs) -> DetailedResponse:
         """
         Analyze text.
 
@@ -144,16 +140,13 @@ class NaturalLanguageUnderstandingV1(BaseService):
                characters that are processed by the service.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `AnalysisResults` object
         """
 
         if features is None:
             raise ValueError('features must be provided')
-        features = self._convert_model(features)
-
+        features = convert_model(features)
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='analyze')
@@ -173,6 +166,13 @@ class NaturalLanguageUnderstandingV1(BaseService):
             'language': language,
             'limit_text_characters': limit_text_characters
         }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v1/analyze'
         request = self.prepare_request(method='POST',
@@ -188,7 +188,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
     # Manage models
     #########################
 
-    def list_models(self, **kwargs) -> 'DetailedResponse':
+    def list_models(self, **kwargs) -> DetailedResponse:
         """
         List models.
 
@@ -198,18 +198,20 @@ class NaturalLanguageUnderstandingV1(BaseService):
 
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `ListModelsResults` object
         """
 
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='list_models')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v1/models'
         request = self.prepare_request(method='GET',
@@ -220,7 +222,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
         response = self.send(request)
         return response
 
-    def delete_model(self, model_id: str, **kwargs) -> 'DetailedResponse':
+    def delete_model(self, model_id: str, **kwargs) -> DetailedResponse:
         """
         Delete model.
 
@@ -229,15 +231,12 @@ class NaturalLanguageUnderstandingV1(BaseService):
         :param str model_id: Model ID of the model to delete.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `DeleteModelResults` object
         """
 
         if model_id is None:
             raise ValueError('model_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='delete_model')
@@ -245,7 +244,14 @@ class NaturalLanguageUnderstandingV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/models/{0}'.format(*self._encode_path_vars(model_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['model_id']
+        path_param_values = self.encode_path_vars(model_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/models/{model_id}'.format(**path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
@@ -279,7 +285,7 @@ class AnalysisResults():
           service assigned to the analyzed text.
     :attr EmotionResult emotion: (optional) The anger, disgust, fear, joy, or
           sadness conveyed by the content.
-    :attr AnalysisResultsMetadata metadata: (optional) Webpage metadata, such as the
+    :attr FeaturesResultsMetadata metadata: (optional) Webpage metadata, such as the
           author and the title of the page.
     :attr List[RelationsResult] relations: (optional) The relationships between
           entities in the content.
@@ -301,7 +307,7 @@ class AnalysisResults():
                  keywords: List['KeywordsResult'] = None,
                  categories: List['CategoriesResult'] = None,
                  emotion: 'EmotionResult' = None,
-                 metadata: 'AnalysisResultsMetadata' = None,
+                 metadata: 'FeaturesResultsMetadata' = None,
                  relations: List['RelationsResult'] = None,
                  semantic_roles: List['SemanticRolesResult'] = None,
                  sentiment: 'SentimentResult' = None,
@@ -324,7 +330,7 @@ class AnalysisResults():
                the service assigned to the analyzed text.
         :param EmotionResult emotion: (optional) The anger, disgust, fear, joy, or
                sadness conveyed by the content.
-        :param AnalysisResultsMetadata metadata: (optional) Webpage metadata, such
+        :param FeaturesResultsMetadata metadata: (optional) Webpage metadata, such
                as the author and the title of the page.
         :param List[RelationsResult] relations: (optional) The relationships
                between entities in the content.
@@ -353,16 +359,6 @@ class AnalysisResults():
     def from_dict(cls, _dict: Dict) -> 'AnalysisResults':
         """Initialize a AnalysisResults object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'language', 'analyzed_text', 'retrieved_url', 'usage', 'concepts',
-            'entities', 'keywords', 'categories', 'emotion', 'metadata',
-            'relations', 'semantic_roles', 'sentiment', 'syntax'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class AnalysisResults: '
-                + ', '.join(bad_keys))
         if 'language' in _dict:
             args['language'] = _dict.get('language')
         if 'analyzed_text' in _dict:
@@ -370,43 +366,42 @@ class AnalysisResults():
         if 'retrieved_url' in _dict:
             args['retrieved_url'] = _dict.get('retrieved_url')
         if 'usage' in _dict:
-            args['usage'] = AnalysisResultsUsage._from_dict(_dict.get('usage'))
+            args['usage'] = AnalysisResultsUsage.from_dict(_dict.get('usage'))
         if 'concepts' in _dict:
             args['concepts'] = [
-                ConceptsResult._from_dict(x) for x in (_dict.get('concepts'))
+                ConceptsResult.from_dict(x) for x in _dict.get('concepts')
             ]
         if 'entities' in _dict:
             args['entities'] = [
-                EntitiesResult._from_dict(x) for x in (_dict.get('entities'))
+                EntitiesResult.from_dict(x) for x in _dict.get('entities')
             ]
         if 'keywords' in _dict:
             args['keywords'] = [
-                KeywordsResult._from_dict(x) for x in (_dict.get('keywords'))
+                KeywordsResult.from_dict(x) for x in _dict.get('keywords')
             ]
         if 'categories' in _dict:
             args['categories'] = [
-                CategoriesResult._from_dict(x)
-                for x in (_dict.get('categories'))
+                CategoriesResult.from_dict(x) for x in _dict.get('categories')
             ]
         if 'emotion' in _dict:
-            args['emotion'] = EmotionResult._from_dict(_dict.get('emotion'))
+            args['emotion'] = EmotionResult.from_dict(_dict.get('emotion'))
         if 'metadata' in _dict:
-            args['metadata'] = AnalysisResultsMetadata._from_dict(
+            args['metadata'] = FeaturesResultsMetadata.from_dict(
                 _dict.get('metadata'))
         if 'relations' in _dict:
             args['relations'] = [
-                RelationsResult._from_dict(x) for x in (_dict.get('relations'))
+                RelationsResult.from_dict(x) for x in _dict.get('relations')
             ]
         if 'semantic_roles' in _dict:
             args['semantic_roles'] = [
-                SemanticRolesResult._from_dict(x)
-                for x in (_dict.get('semantic_roles'))
+                SemanticRolesResult.from_dict(x)
+                for x in _dict.get('semantic_roles')
             ]
         if 'sentiment' in _dict:
-            args['sentiment'] = SentimentResult._from_dict(
+            args['sentiment'] = SentimentResult.from_dict(
                 _dict.get('sentiment'))
         if 'syntax' in _dict:
-            args['syntax'] = SyntaxResult._from_dict(_dict.get('syntax'))
+            args['syntax'] = SyntaxResult.from_dict(_dict.get('syntax'))
         return cls(**args)
 
     @classmethod
@@ -424,29 +419,27 @@ class AnalysisResults():
         if hasattr(self, 'retrieved_url') and self.retrieved_url is not None:
             _dict['retrieved_url'] = self.retrieved_url
         if hasattr(self, 'usage') and self.usage is not None:
-            _dict['usage'] = self.usage._to_dict()
+            _dict['usage'] = self.usage.to_dict()
         if hasattr(self, 'concepts') and self.concepts is not None:
-            _dict['concepts'] = [x._to_dict() for x in self.concepts]
+            _dict['concepts'] = [x.to_dict() for x in self.concepts]
         if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x._to_dict() for x in self.entities]
+            _dict['entities'] = [x.to_dict() for x in self.entities]
         if hasattr(self, 'keywords') and self.keywords is not None:
-            _dict['keywords'] = [x._to_dict() for x in self.keywords]
+            _dict['keywords'] = [x.to_dict() for x in self.keywords]
         if hasattr(self, 'categories') and self.categories is not None:
-            _dict['categories'] = [x._to_dict() for x in self.categories]
+            _dict['categories'] = [x.to_dict() for x in self.categories]
         if hasattr(self, 'emotion') and self.emotion is not None:
-            _dict['emotion'] = self.emotion._to_dict()
+            _dict['emotion'] = self.emotion.to_dict()
         if hasattr(self, 'metadata') and self.metadata is not None:
-            _dict['metadata'] = self.metadata._to_dict()
+            _dict['metadata'] = self.metadata.to_dict()
         if hasattr(self, 'relations') and self.relations is not None:
-            _dict['relations'] = [x._to_dict() for x in self.relations]
+            _dict['relations'] = [x.to_dict() for x in self.relations]
         if hasattr(self, 'semantic_roles') and self.semantic_roles is not None:
-            _dict['semantic_roles'] = [
-                x._to_dict() for x in self.semantic_roles
-            ]
+            _dict['semantic_roles'] = [x.to_dict() for x in self.semantic_roles]
         if hasattr(self, 'sentiment') and self.sentiment is not None:
-            _dict['sentiment'] = self.sentiment._to_dict()
+            _dict['sentiment'] = self.sentiment.to_dict()
         if hasattr(self, 'syntax') and self.syntax is not None:
-            _dict['syntax'] = self.syntax._to_dict()
+            _dict['syntax'] = self.syntax.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -455,7 +448,7 @@ class AnalysisResults():
 
     def __str__(self) -> str:
         """Return a `str` version of this AnalysisResults object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'AnalysisResults') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -464,105 +457,6 @@ class AnalysisResults():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'AnalysisResults') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class AnalysisResultsMetadata():
-    """
-    Webpage metadata, such as the author and the title of the page.
-
-    :attr List[Author] authors: (optional) The authors of the document.
-    :attr str publication_date: (optional) The publication date in the format ISO
-          8601.
-    :attr str title: (optional) The title of the document.
-    :attr str image: (optional) URL of a prominent image on the webpage.
-    :attr List[Feed] feeds: (optional) RSS/ATOM feeds found on the webpage.
-    """
-
-    def __init__(self,
-                 *,
-                 authors: List['Author'] = None,
-                 publication_date: str = None,
-                 title: str = None,
-                 image: str = None,
-                 feeds: List['Feed'] = None) -> None:
-        """
-        Initialize a AnalysisResultsMetadata object.
-
-        :param List[Author] authors: (optional) The authors of the document.
-        :param str publication_date: (optional) The publication date in the format
-               ISO 8601.
-        :param str title: (optional) The title of the document.
-        :param str image: (optional) URL of a prominent image on the webpage.
-        :param List[Feed] feeds: (optional) RSS/ATOM feeds found on the webpage.
-        """
-        self.authors = authors
-        self.publication_date = publication_date
-        self.title = title
-        self.image = image
-        self.feeds = feeds
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'AnalysisResultsMetadata':
-        """Initialize a AnalysisResultsMetadata object from a json dictionary."""
-        args = {}
-        valid_keys = ['authors', 'publication_date', 'title', 'image', 'feeds']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class AnalysisResultsMetadata: '
-                + ', '.join(bad_keys))
-        if 'authors' in _dict:
-            args['authors'] = [
-                Author._from_dict(x) for x in (_dict.get('authors'))
-            ]
-        if 'publication_date' in _dict:
-            args['publication_date'] = _dict.get('publication_date')
-        if 'title' in _dict:
-            args['title'] = _dict.get('title')
-        if 'image' in _dict:
-            args['image'] = _dict.get('image')
-        if 'feeds' in _dict:
-            args['feeds'] = [Feed._from_dict(x) for x in (_dict.get('feeds'))]
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a AnalysisResultsMetadata object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'authors') and self.authors is not None:
-            _dict['authors'] = [x._to_dict() for x in self.authors]
-        if hasattr(self,
-                   'publication_date') and self.publication_date is not None:
-            _dict['publication_date'] = self.publication_date
-        if hasattr(self, 'title') and self.title is not None:
-            _dict['title'] = self.title
-        if hasattr(self, 'image') and self.image is not None:
-            _dict['image'] = self.image
-        if hasattr(self, 'feeds') and self.feeds is not None:
-            _dict['feeds'] = [x._to_dict() for x in self.feeds]
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this AnalysisResultsMetadata object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other: 'AnalysisResultsMetadata') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'AnalysisResultsMetadata') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -597,12 +491,6 @@ class AnalysisResultsUsage():
     def from_dict(cls, _dict: Dict) -> 'AnalysisResultsUsage':
         """Initialize a AnalysisResultsUsage object from a json dictionary."""
         args = {}
-        valid_keys = ['features', 'text_characters', 'text_units']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class AnalysisResultsUsage: '
-                + ', '.join(bad_keys))
         if 'features' in _dict:
             args['features'] = _dict.get('features')
         if 'text_characters' in _dict:
@@ -634,7 +522,7 @@ class AnalysisResultsUsage():
 
     def __str__(self) -> str:
         """Return a `str` version of this AnalysisResultsUsage object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'AnalysisResultsUsage') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -666,12 +554,6 @@ class Author():
     def from_dict(cls, _dict: Dict) -> 'Author':
         """Initialize a Author object from a json dictionary."""
         args = {}
-        valid_keys = ['name']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Author: ' +
-                ', '.join(bad_keys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         return cls(**args)
@@ -694,7 +576,7 @@ class Author():
 
     def __str__(self) -> str:
         """Return a `str` version of this Author object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Author') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -755,12 +637,6 @@ class CategoriesOptions():
     def from_dict(cls, _dict: Dict) -> 'CategoriesOptions':
         """Initialize a CategoriesOptions object from a json dictionary."""
         args = {}
-        valid_keys = ['explanation', 'limit', 'model']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class CategoriesOptions: '
-                + ', '.join(bad_keys))
         if 'explanation' in _dict:
             args['explanation'] = _dict.get('explanation')
         if 'limit' in _dict:
@@ -791,7 +667,7 @@ class CategoriesOptions():
 
     def __str__(self) -> str:
         """Return a `str` version of this CategoriesOptions object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'CategoriesOptions') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -825,12 +701,6 @@ class CategoriesRelevantText():
     def from_dict(cls, _dict: Dict) -> 'CategoriesRelevantText':
         """Initialize a CategoriesRelevantText object from a json dictionary."""
         args = {}
-        valid_keys = ['text']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class CategoriesRelevantText: '
-                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         return cls(**args)
@@ -853,7 +723,7 @@ class CategoriesRelevantText():
 
     def __str__(self) -> str:
         """Return a `str` version of this CategoriesRelevantText object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'CategoriesRelevantText') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -904,18 +774,12 @@ class CategoriesResult():
     def from_dict(cls, _dict: Dict) -> 'CategoriesResult':
         """Initialize a CategoriesResult object from a json dictionary."""
         args = {}
-        valid_keys = ['label', 'score', 'explanation']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class CategoriesResult: '
-                + ', '.join(bad_keys))
         if 'label' in _dict:
             args['label'] = _dict.get('label')
         if 'score' in _dict:
             args['score'] = _dict.get('score')
         if 'explanation' in _dict:
-            args['explanation'] = CategoriesResultExplanation._from_dict(
+            args['explanation'] = CategoriesResultExplanation.from_dict(
                 _dict.get('explanation'))
         return cls(**args)
 
@@ -932,7 +796,7 @@ class CategoriesResult():
         if hasattr(self, 'score') and self.score is not None:
             _dict['score'] = self.score
         if hasattr(self, 'explanation') and self.explanation is not None:
-            _dict['explanation'] = self.explanation._to_dict()
+            _dict['explanation'] = self.explanation.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -941,7 +805,7 @@ class CategoriesResult():
 
     def __str__(self) -> str:
         """Return a `str` version of this CategoriesResult object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'CategoriesResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -981,16 +845,10 @@ class CategoriesResultExplanation():
     def from_dict(cls, _dict: Dict) -> 'CategoriesResultExplanation':
         """Initialize a CategoriesResultExplanation object from a json dictionary."""
         args = {}
-        valid_keys = ['relevant_text']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class CategoriesResultExplanation: '
-                + ', '.join(bad_keys))
         if 'relevant_text' in _dict:
             args['relevant_text'] = [
-                CategoriesRelevantText._from_dict(x)
-                for x in (_dict.get('relevant_text'))
+                CategoriesRelevantText.from_dict(x)
+                for x in _dict.get('relevant_text')
             ]
         return cls(**args)
 
@@ -1003,7 +861,7 @@ class CategoriesResultExplanation():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'relevant_text') and self.relevant_text is not None:
-            _dict['relevant_text'] = [x._to_dict() for x in self.relevant_text]
+            _dict['relevant_text'] = [x.to_dict() for x in self.relevant_text]
         return _dict
 
     def _to_dict(self):
@@ -1012,7 +870,7 @@ class CategoriesResultExplanation():
 
     def __str__(self) -> str:
         """Return a `str` version of this CategoriesResultExplanation object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'CategoriesResultExplanation') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1048,12 +906,6 @@ class ConceptsOptions():
     def from_dict(cls, _dict: Dict) -> 'ConceptsOptions':
         """Initialize a ConceptsOptions object from a json dictionary."""
         args = {}
-        valid_keys = ['limit']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ConceptsOptions: '
-                + ', '.join(bad_keys))
         if 'limit' in _dict:
             args['limit'] = _dict.get('limit')
         return cls(**args)
@@ -1076,7 +928,7 @@ class ConceptsOptions():
 
     def __str__(self) -> str:
         """Return a `str` version of this ConceptsOptions object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ConceptsOptions') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1122,12 +974,6 @@ class ConceptsResult():
     def from_dict(cls, _dict: Dict) -> 'ConceptsResult':
         """Initialize a ConceptsResult object from a json dictionary."""
         args = {}
-        valid_keys = ['text', 'relevance', 'dbpedia_resource']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ConceptsResult: '
-                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'relevance' in _dict:
@@ -1159,7 +1005,7 @@ class ConceptsResult():
 
     def __str__(self) -> str:
         """Return a `str` version of this ConceptsResult object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ConceptsResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1191,12 +1037,6 @@ class DeleteModelResults():
     def from_dict(cls, _dict: Dict) -> 'DeleteModelResults':
         """Initialize a DeleteModelResults object from a json dictionary."""
         args = {}
-        valid_keys = ['deleted']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DeleteModelResults: '
-                + ', '.join(bad_keys))
         if 'deleted' in _dict:
             args['deleted'] = _dict.get('deleted')
         return cls(**args)
@@ -1219,7 +1059,7 @@ class DeleteModelResults():
 
     def __str__(self) -> str:
         """Return a `str` version of this DeleteModelResults object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DeleteModelResults') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1263,12 +1103,6 @@ class DisambiguationResult():
     def from_dict(cls, _dict: Dict) -> 'DisambiguationResult':
         """Initialize a DisambiguationResult object from a json dictionary."""
         args = {}
-        valid_keys = ['name', 'dbpedia_resource', 'subtype']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DisambiguationResult: '
-                + ', '.join(bad_keys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         if 'dbpedia_resource' in _dict:
@@ -1300,7 +1134,7 @@ class DisambiguationResult():
 
     def __str__(self) -> str:
         """Return a `str` version of this DisambiguationResult object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DisambiguationResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1334,14 +1168,8 @@ class DocumentEmotionResults():
     def from_dict(cls, _dict: Dict) -> 'DocumentEmotionResults':
         """Initialize a DocumentEmotionResults object from a json dictionary."""
         args = {}
-        valid_keys = ['emotion']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DocumentEmotionResults: '
-                + ', '.join(bad_keys))
         if 'emotion' in _dict:
-            args['emotion'] = EmotionScores._from_dict(_dict.get('emotion'))
+            args['emotion'] = EmotionScores.from_dict(_dict.get('emotion'))
         return cls(**args)
 
     @classmethod
@@ -1353,7 +1181,7 @@ class DocumentEmotionResults():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'emotion') and self.emotion is not None:
-            _dict['emotion'] = self.emotion._to_dict()
+            _dict['emotion'] = self.emotion.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -1362,7 +1190,7 @@ class DocumentEmotionResults():
 
     def __str__(self) -> str:
         """Return a `str` version of this DocumentEmotionResults object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DocumentEmotionResults') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1401,12 +1229,6 @@ class DocumentSentimentResults():
     def from_dict(cls, _dict: Dict) -> 'DocumentSentimentResults':
         """Initialize a DocumentSentimentResults object from a json dictionary."""
         args = {}
-        valid_keys = ['label', 'score']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DocumentSentimentResults: '
-                + ', '.join(bad_keys))
         if 'label' in _dict:
             args['label'] = _dict.get('label')
         if 'score' in _dict:
@@ -1433,7 +1255,7 @@ class DocumentSentimentResults():
 
     def __str__(self) -> str:
         """Return a `str` version of this DocumentSentimentResults object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DocumentSentimentResults') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1479,12 +1301,6 @@ class EmotionOptions():
     def from_dict(cls, _dict: Dict) -> 'EmotionOptions':
         """Initialize a EmotionOptions object from a json dictionary."""
         args = {}
-        valid_keys = ['document', 'targets']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class EmotionOptions: '
-                + ', '.join(bad_keys))
         if 'document' in _dict:
             args['document'] = _dict.get('document')
         if 'targets' in _dict:
@@ -1511,7 +1327,7 @@ class EmotionOptions():
 
     def __str__(self) -> str:
         """Return a `str` version of this EmotionOptions object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'EmotionOptions') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1555,19 +1371,13 @@ class EmotionResult():
     def from_dict(cls, _dict: Dict) -> 'EmotionResult':
         """Initialize a EmotionResult object from a json dictionary."""
         args = {}
-        valid_keys = ['document', 'targets']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class EmotionResult: '
-                + ', '.join(bad_keys))
         if 'document' in _dict:
-            args['document'] = DocumentEmotionResults._from_dict(
+            args['document'] = DocumentEmotionResults.from_dict(
                 _dict.get('document'))
         if 'targets' in _dict:
             args['targets'] = [
-                TargetedEmotionResults._from_dict(x)
-                for x in (_dict.get('targets'))
+                TargetedEmotionResults.from_dict(x)
+                for x in _dict.get('targets')
             ]
         return cls(**args)
 
@@ -1580,9 +1390,9 @@ class EmotionResult():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'document') and self.document is not None:
-            _dict['document'] = self.document._to_dict()
+            _dict['document'] = self.document.to_dict()
         if hasattr(self, 'targets') and self.targets is not None:
-            _dict['targets'] = [x._to_dict() for x in self.targets]
+            _dict['targets'] = [x.to_dict() for x in self.targets]
         return _dict
 
     def _to_dict(self):
@@ -1591,7 +1401,7 @@ class EmotionResult():
 
     def __str__(self) -> str:
         """Return a `str` version of this EmotionResult object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'EmotionResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1651,12 +1461,6 @@ class EmotionScores():
     def from_dict(cls, _dict: Dict) -> 'EmotionScores':
         """Initialize a EmotionScores object from a json dictionary."""
         args = {}
-        valid_keys = ['anger', 'disgust', 'fear', 'joy', 'sadness']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class EmotionScores: '
-                + ', '.join(bad_keys))
         if 'anger' in _dict:
             args['anger'] = _dict.get('anger')
         if 'disgust' in _dict:
@@ -1695,7 +1499,7 @@ class EmotionScores():
 
     def __str__(self) -> str:
         """Return a `str` version of this EmotionScores object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'EmotionScores') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1760,12 +1564,6 @@ class EntitiesOptions():
     def from_dict(cls, _dict: Dict) -> 'EntitiesOptions':
         """Initialize a EntitiesOptions object from a json dictionary."""
         args = {}
-        valid_keys = ['limit', 'mentions', 'model', 'sentiment', 'emotion']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class EntitiesOptions: '
-                + ', '.join(bad_keys))
         if 'limit' in _dict:
             args['limit'] = _dict.get('limit')
         if 'mentions' in _dict:
@@ -1804,7 +1602,7 @@ class EntitiesOptions():
 
     def __str__(self) -> str:
         """Return a `str` version of this EntitiesOptions object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'EntitiesOptions') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1887,15 +1685,6 @@ class EntitiesResult():
     def from_dict(cls, _dict: Dict) -> 'EntitiesResult':
         """Initialize a EntitiesResult object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'type', 'text', 'relevance', 'confidence', 'mentions', 'count',
-            'emotion', 'sentiment', 'disambiguation'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class EntitiesResult: '
-                + ', '.join(bad_keys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'text' in _dict:
@@ -1906,17 +1695,17 @@ class EntitiesResult():
             args['confidence'] = _dict.get('confidence')
         if 'mentions' in _dict:
             args['mentions'] = [
-                EntityMention._from_dict(x) for x in (_dict.get('mentions'))
+                EntityMention.from_dict(x) for x in _dict.get('mentions')
             ]
         if 'count' in _dict:
             args['count'] = _dict.get('count')
         if 'emotion' in _dict:
-            args['emotion'] = EmotionScores._from_dict(_dict.get('emotion'))
+            args['emotion'] = EmotionScores.from_dict(_dict.get('emotion'))
         if 'sentiment' in _dict:
-            args['sentiment'] = FeatureSentimentResults._from_dict(
+            args['sentiment'] = FeatureSentimentResults.from_dict(
                 _dict.get('sentiment'))
         if 'disambiguation' in _dict:
-            args['disambiguation'] = DisambiguationResult._from_dict(
+            args['disambiguation'] = DisambiguationResult.from_dict(
                 _dict.get('disambiguation'))
         return cls(**args)
 
@@ -1937,15 +1726,15 @@ class EntitiesResult():
         if hasattr(self, 'confidence') and self.confidence is not None:
             _dict['confidence'] = self.confidence
         if hasattr(self, 'mentions') and self.mentions is not None:
-            _dict['mentions'] = [x._to_dict() for x in self.mentions]
+            _dict['mentions'] = [x.to_dict() for x in self.mentions]
         if hasattr(self, 'count') and self.count is not None:
             _dict['count'] = self.count
         if hasattr(self, 'emotion') and self.emotion is not None:
-            _dict['emotion'] = self.emotion._to_dict()
+            _dict['emotion'] = self.emotion.to_dict()
         if hasattr(self, 'sentiment') and self.sentiment is not None:
-            _dict['sentiment'] = self.sentiment._to_dict()
+            _dict['sentiment'] = self.sentiment.to_dict()
         if hasattr(self, 'disambiguation') and self.disambiguation is not None:
-            _dict['disambiguation'] = self.disambiguation._to_dict()
+            _dict['disambiguation'] = self.disambiguation.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -1954,7 +1743,7 @@ class EntitiesResult():
 
     def __str__(self) -> str:
         """Return a `str` version of this EntitiesResult object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'EntitiesResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2004,12 +1793,6 @@ class EntityMention():
     def from_dict(cls, _dict: Dict) -> 'EntityMention':
         """Initialize a EntityMention object from a json dictionary."""
         args = {}
-        valid_keys = ['text', 'location', 'confidence']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class EntityMention: '
-                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'location' in _dict:
@@ -2040,7 +1823,7 @@ class EntityMention():
 
     def __str__(self) -> str:
         """Return a `str` version of this EntityMention object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'EntityMention') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2074,12 +1857,6 @@ class FeatureSentimentResults():
     def from_dict(cls, _dict: Dict) -> 'FeatureSentimentResults':
         """Initialize a FeatureSentimentResults object from a json dictionary."""
         args = {}
-        valid_keys = ['score']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class FeatureSentimentResults: '
-                + ', '.join(bad_keys))
         if 'score' in _dict:
             args['score'] = _dict.get('score')
         return cls(**args)
@@ -2102,7 +1879,7 @@ class FeatureSentimentResults():
 
     def __str__(self) -> str:
         """Return a `str` version of this FeatureSentimentResults object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'FeatureSentimentResults') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2140,9 +1917,9 @@ class Features():
           content.
           Supported languages: English, French, German, Italian, Japanese, Korean,
           Portuguese, Russian, Spanish, Swedish.
-    :attr MetadataOptions metadata: (optional) Returns information from the
-          document, including author name, title, RSS/ATOM feeds, prominent page image,
-          and publication date. Supports URL and HTML input types only.
+    :attr object metadata: (optional) Returns information from the document,
+          including author name, title, RSS/ATOM feeds, prominent page image, and
+          publication date. Supports URL and HTML input types only.
     :attr RelationsOptions relations: (optional) Recognizes when two entities are
           related and identifies the type of relation. For example, an `awardedTo`
           relation might connect the entities "Nobel Prize" and "Albert Einstein". For
@@ -2174,7 +1951,7 @@ class Features():
                  emotion: 'EmotionOptions' = None,
                  entities: 'EntitiesOptions' = None,
                  keywords: 'KeywordsOptions' = None,
-                 metadata: 'MetadataOptions' = None,
+                 metadata: object = None,
                  relations: 'RelationsOptions' = None,
                  semantic_roles: 'SemanticRolesOptions' = None,
                  sentiment: 'SentimentOptions' = None,
@@ -2205,9 +1982,9 @@ class Features():
                the content.
                Supported languages: English, French, German, Italian, Japanese, Korean,
                Portuguese, Russian, Spanish, Swedish.
-        :param MetadataOptions metadata: (optional) Returns information from the
-               document, including author name, title, RSS/ATOM feeds, prominent page
-               image, and publication date. Supports URL and HTML input types only.
+        :param object metadata: (optional) Returns information from the document,
+               including author name, title, RSS/ATOM feeds, prominent page image, and
+               publication date. Supports URL and HTML input types only.
         :param RelationsOptions relations: (optional) Recognizes when two entities
                are related and identifies the type of relation. For example, an
                `awardedTo` relation might connect the entities "Nobel Prize" and "Albert
@@ -2247,39 +2024,30 @@ class Features():
     def from_dict(cls, _dict: Dict) -> 'Features':
         """Initialize a Features object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'concepts', 'emotion', 'entities', 'keywords', 'metadata',
-            'relations', 'semantic_roles', 'sentiment', 'categories', 'syntax'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Features: '
-                + ', '.join(bad_keys))
         if 'concepts' in _dict:
-            args['concepts'] = ConceptsOptions._from_dict(_dict.get('concepts'))
+            args['concepts'] = ConceptsOptions.from_dict(_dict.get('concepts'))
         if 'emotion' in _dict:
-            args['emotion'] = EmotionOptions._from_dict(_dict.get('emotion'))
+            args['emotion'] = EmotionOptions.from_dict(_dict.get('emotion'))
         if 'entities' in _dict:
-            args['entities'] = EntitiesOptions._from_dict(_dict.get('entities'))
+            args['entities'] = EntitiesOptions.from_dict(_dict.get('entities'))
         if 'keywords' in _dict:
-            args['keywords'] = KeywordsOptions._from_dict(_dict.get('keywords'))
+            args['keywords'] = KeywordsOptions.from_dict(_dict.get('keywords'))
         if 'metadata' in _dict:
-            args['metadata'] = MetadataOptions._from_dict(_dict.get('metadata'))
+            args['metadata'] = _dict.get('metadata')
         if 'relations' in _dict:
-            args['relations'] = RelationsOptions._from_dict(
+            args['relations'] = RelationsOptions.from_dict(
                 _dict.get('relations'))
         if 'semantic_roles' in _dict:
-            args['semantic_roles'] = SemanticRolesOptions._from_dict(
+            args['semantic_roles'] = SemanticRolesOptions.from_dict(
                 _dict.get('semantic_roles'))
         if 'sentiment' in _dict:
-            args['sentiment'] = SentimentOptions._from_dict(
+            args['sentiment'] = SentimentOptions.from_dict(
                 _dict.get('sentiment'))
         if 'categories' in _dict:
-            args['categories'] = CategoriesOptions._from_dict(
+            args['categories'] = CategoriesOptions.from_dict(
                 _dict.get('categories'))
         if 'syntax' in _dict:
-            args['syntax'] = SyntaxOptions._from_dict(_dict.get('syntax'))
+            args['syntax'] = SyntaxOptions.from_dict(_dict.get('syntax'))
         return cls(**args)
 
     @classmethod
@@ -2291,25 +2059,25 @@ class Features():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'concepts') and self.concepts is not None:
-            _dict['concepts'] = self.concepts._to_dict()
+            _dict['concepts'] = self.concepts.to_dict()
         if hasattr(self, 'emotion') and self.emotion is not None:
-            _dict['emotion'] = self.emotion._to_dict()
+            _dict['emotion'] = self.emotion.to_dict()
         if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = self.entities._to_dict()
+            _dict['entities'] = self.entities.to_dict()
         if hasattr(self, 'keywords') and self.keywords is not None:
-            _dict['keywords'] = self.keywords._to_dict()
+            _dict['keywords'] = self.keywords.to_dict()
         if hasattr(self, 'metadata') and self.metadata is not None:
-            _dict['metadata'] = self.metadata._to_dict()
+            _dict['metadata'] = self.metadata
         if hasattr(self, 'relations') and self.relations is not None:
-            _dict['relations'] = self.relations._to_dict()
+            _dict['relations'] = self.relations.to_dict()
         if hasattr(self, 'semantic_roles') and self.semantic_roles is not None:
-            _dict['semantic_roles'] = self.semantic_roles._to_dict()
+            _dict['semantic_roles'] = self.semantic_roles.to_dict()
         if hasattr(self, 'sentiment') and self.sentiment is not None:
-            _dict['sentiment'] = self.sentiment._to_dict()
+            _dict['sentiment'] = self.sentiment.to_dict()
         if hasattr(self, 'categories') and self.categories is not None:
-            _dict['categories'] = self.categories._to_dict()
+            _dict['categories'] = self.categories.to_dict()
         if hasattr(self, 'syntax') and self.syntax is not None:
-            _dict['syntax'] = self.syntax._to_dict()
+            _dict['syntax'] = self.syntax.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -2318,7 +2086,7 @@ class Features():
 
     def __str__(self) -> str:
         """Return a `str` version of this Features object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Features') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2327,6 +2095,99 @@ class Features():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'Features') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class FeaturesResultsMetadata():
+    """
+    Webpage metadata, such as the author and the title of the page.
+
+    :attr List[Author] authors: (optional) The authors of the document.
+    :attr str publication_date: (optional) The publication date in the format ISO
+          8601.
+    :attr str title: (optional) The title of the document.
+    :attr str image: (optional) URL of a prominent image on the webpage.
+    :attr List[Feed] feeds: (optional) RSS/ATOM feeds found on the webpage.
+    """
+
+    def __init__(self,
+                 *,
+                 authors: List['Author'] = None,
+                 publication_date: str = None,
+                 title: str = None,
+                 image: str = None,
+                 feeds: List['Feed'] = None) -> None:
+        """
+        Initialize a FeaturesResultsMetadata object.
+
+        :param List[Author] authors: (optional) The authors of the document.
+        :param str publication_date: (optional) The publication date in the format
+               ISO 8601.
+        :param str title: (optional) The title of the document.
+        :param str image: (optional) URL of a prominent image on the webpage.
+        :param List[Feed] feeds: (optional) RSS/ATOM feeds found on the webpage.
+        """
+        self.authors = authors
+        self.publication_date = publication_date
+        self.title = title
+        self.image = image
+        self.feeds = feeds
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'FeaturesResultsMetadata':
+        """Initialize a FeaturesResultsMetadata object from a json dictionary."""
+        args = {}
+        if 'authors' in _dict:
+            args['authors'] = [
+                Author.from_dict(x) for x in _dict.get('authors')
+            ]
+        if 'publication_date' in _dict:
+            args['publication_date'] = _dict.get('publication_date')
+        if 'title' in _dict:
+            args['title'] = _dict.get('title')
+        if 'image' in _dict:
+            args['image'] = _dict.get('image')
+        if 'feeds' in _dict:
+            args['feeds'] = [Feed.from_dict(x) for x in _dict.get('feeds')]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a FeaturesResultsMetadata object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'authors') and self.authors is not None:
+            _dict['authors'] = [x.to_dict() for x in self.authors]
+        if hasattr(self,
+                   'publication_date') and self.publication_date is not None:
+            _dict['publication_date'] = self.publication_date
+        if hasattr(self, 'title') and self.title is not None:
+            _dict['title'] = self.title
+        if hasattr(self, 'image') and self.image is not None:
+            _dict['image'] = self.image
+        if hasattr(self, 'feeds') and self.feeds is not None:
+            _dict['feeds'] = [x.to_dict() for x in self.feeds]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this FeaturesResultsMetadata object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'FeaturesResultsMetadata') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'FeaturesResultsMetadata') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2350,12 +2211,6 @@ class Feed():
     def from_dict(cls, _dict: Dict) -> 'Feed':
         """Initialize a Feed object from a json dictionary."""
         args = {}
-        valid_keys = ['link']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Feed: ' +
-                ', '.join(bad_keys))
         if 'link' in _dict:
             args['link'] = _dict.get('link')
         return cls(**args)
@@ -2378,7 +2233,7 @@ class Feed():
 
     def __str__(self) -> str:
         """Return a `str` version of this Feed object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Feed') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2426,12 +2281,6 @@ class KeywordsOptions():
     def from_dict(cls, _dict: Dict) -> 'KeywordsOptions':
         """Initialize a KeywordsOptions object from a json dictionary."""
         args = {}
-        valid_keys = ['limit', 'sentiment', 'emotion']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class KeywordsOptions: '
-                + ', '.join(bad_keys))
         if 'limit' in _dict:
             args['limit'] = _dict.get('limit')
         if 'sentiment' in _dict:
@@ -2462,7 +2311,7 @@ class KeywordsOptions():
 
     def __str__(self) -> str:
         """Return a `str` version of this KeywordsOptions object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'KeywordsOptions') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2520,12 +2369,6 @@ class KeywordsResult():
     def from_dict(cls, _dict: Dict) -> 'KeywordsResult':
         """Initialize a KeywordsResult object from a json dictionary."""
         args = {}
-        valid_keys = ['count', 'relevance', 'text', 'emotion', 'sentiment']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class KeywordsResult: '
-                + ', '.join(bad_keys))
         if 'count' in _dict:
             args['count'] = _dict.get('count')
         if 'relevance' in _dict:
@@ -2533,9 +2376,9 @@ class KeywordsResult():
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'emotion' in _dict:
-            args['emotion'] = EmotionScores._from_dict(_dict.get('emotion'))
+            args['emotion'] = EmotionScores.from_dict(_dict.get('emotion'))
         if 'sentiment' in _dict:
-            args['sentiment'] = FeatureSentimentResults._from_dict(
+            args['sentiment'] = FeatureSentimentResults.from_dict(
                 _dict.get('sentiment'))
         return cls(**args)
 
@@ -2554,9 +2397,9 @@ class KeywordsResult():
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self, 'emotion') and self.emotion is not None:
-            _dict['emotion'] = self.emotion._to_dict()
+            _dict['emotion'] = self.emotion.to_dict()
         if hasattr(self, 'sentiment') and self.sentiment is not None:
-            _dict['sentiment'] = self.sentiment._to_dict()
+            _dict['sentiment'] = self.sentiment.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -2565,7 +2408,7 @@ class KeywordsResult():
 
     def __str__(self) -> str:
         """Return a `str` version of this KeywordsResult object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'KeywordsResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2597,16 +2440,8 @@ class ListModelsResults():
     def from_dict(cls, _dict: Dict) -> 'ListModelsResults':
         """Initialize a ListModelsResults object from a json dictionary."""
         args = {}
-        valid_keys = ['models']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ListModelsResults: '
-                + ', '.join(bad_keys))
         if 'models' in _dict:
-            args['models'] = [
-                Model._from_dict(x) for x in (_dict.get('models'))
-            ]
+            args['models'] = [Model.from_dict(x) for x in _dict.get('models')]
         return cls(**args)
 
     @classmethod
@@ -2618,7 +2453,7 @@ class ListModelsResults():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'models') and self.models is not None:
-            _dict['models'] = [x._to_dict() for x in self.models]
+            _dict['models'] = [x.to_dict() for x in self.models]
         return _dict
 
     def _to_dict(self):
@@ -2627,7 +2462,7 @@ class ListModelsResults():
 
     def __str__(self) -> str:
         """Return a `str` version of this ListModelsResults object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ListModelsResults') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2636,54 +2471,6 @@ class ListModelsResults():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'ListModelsResults') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class MetadataOptions():
-    """
-    Returns information from the document, including author name, title, RSS/ATOM feeds,
-    prominent page image, and publication date. Supports URL and HTML input types only.
-
-    """
-
-    def __init__(self) -> None:
-        """
-        Initialize a MetadataOptions object.
-
-        """
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'MetadataOptions':
-        """Initialize a MetadataOptions object from a json dictionary."""
-        args = {}
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a MetadataOptions object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this MetadataOptions object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other: 'MetadataOptions') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'MetadataOptions') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2753,15 +2540,6 @@ class Model():
     def from_dict(cls, _dict: Dict) -> 'Model':
         """Initialize a Model object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'status', 'model_id', 'language', 'description', 'workspace_id',
-            'model_version', 'version', 'version_description', 'created'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Model: ' +
-                ', '.join(bad_keys))
         if 'status' in _dict:
             args['status'] = _dict.get('status')
         if 'model_id' in _dict:
@@ -2818,7 +2596,7 @@ class Model():
 
     def __str__(self) -> str:
         """Return a `str` version of this Model object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Model') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2830,16 +2608,16 @@ class Model():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class StatusEnum(Enum):
+    class StatusEnum(str, Enum):
         """
         When the status is `available`, the model is ready to use.
         """
-        STARTING = "starting"
-        TRAINING = "training"
-        DEPLOYING = "deploying"
-        AVAILABLE = "available"
-        ERROR = "error"
-        DELETED = "deleted"
+        STARTING = 'starting'
+        TRAINING = 'training'
+        DEPLOYING = 'deploying'
+        AVAILABLE = 'available'
+        ERROR = 'error'
+        DELETED = 'deleted'
 
 
 class RelationArgument():
@@ -2874,15 +2652,9 @@ class RelationArgument():
     def from_dict(cls, _dict: Dict) -> 'RelationArgument':
         """Initialize a RelationArgument object from a json dictionary."""
         args = {}
-        valid_keys = ['entities', 'location', 'text']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RelationArgument: '
-                + ', '.join(bad_keys))
         if 'entities' in _dict:
             args['entities'] = [
-                RelationEntity._from_dict(x) for x in (_dict.get('entities'))
+                RelationEntity.from_dict(x) for x in _dict.get('entities')
             ]
         if 'location' in _dict:
             args['location'] = _dict.get('location')
@@ -2899,7 +2671,7 @@ class RelationArgument():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x._to_dict() for x in self.entities]
+            _dict['entities'] = [x.to_dict() for x in self.entities]
         if hasattr(self, 'location') and self.location is not None:
             _dict['location'] = self.location
         if hasattr(self, 'text') and self.text is not None:
@@ -2912,7 +2684,7 @@ class RelationArgument():
 
     def __str__(self) -> str:
         """Return a `str` version of this RelationArgument object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'RelationArgument') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2947,12 +2719,6 @@ class RelationEntity():
     def from_dict(cls, _dict: Dict) -> 'RelationEntity':
         """Initialize a RelationEntity object from a json dictionary."""
         args = {}
-        valid_keys = ['text', 'type']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RelationEntity: '
-                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'type' in _dict:
@@ -2979,7 +2745,7 @@ class RelationEntity():
 
     def __str__(self) -> str:
         """Return a `str` version of this RelationEntity object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'RelationEntity') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3020,12 +2786,6 @@ class RelationsOptions():
     def from_dict(cls, _dict: Dict) -> 'RelationsOptions':
         """Initialize a RelationsOptions object from a json dictionary."""
         args = {}
-        valid_keys = ['model']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RelationsOptions: '
-                + ', '.join(bad_keys))
         if 'model' in _dict:
             args['model'] = _dict.get('model')
         return cls(**args)
@@ -3048,7 +2808,7 @@ class RelationsOptions():
 
     def __str__(self) -> str:
         """Return a `str` version of this RelationsOptions object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'RelationsOptions') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3098,12 +2858,6 @@ class RelationsResult():
     def from_dict(cls, _dict: Dict) -> 'RelationsResult':
         """Initialize a RelationsResult object from a json dictionary."""
         args = {}
-        valid_keys = ['score', 'sentence', 'type', 'arguments']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RelationsResult: '
-                + ', '.join(bad_keys))
         if 'score' in _dict:
             args['score'] = _dict.get('score')
         if 'sentence' in _dict:
@@ -3112,7 +2866,7 @@ class RelationsResult():
             args['type'] = _dict.get('type')
         if 'arguments' in _dict:
             args['arguments'] = [
-                RelationArgument._from_dict(x) for x in (_dict.get('arguments'))
+                RelationArgument.from_dict(x) for x in _dict.get('arguments')
             ]
         return cls(**args)
 
@@ -3131,7 +2885,7 @@ class RelationsResult():
         if hasattr(self, 'type') and self.type is not None:
             _dict['type'] = self.type
         if hasattr(self, 'arguments') and self.arguments is not None:
-            _dict['arguments'] = [x._to_dict() for x in self.arguments]
+            _dict['arguments'] = [x.to_dict() for x in self.arguments]
         return _dict
 
     def _to_dict(self):
@@ -3140,7 +2894,7 @@ class RelationsResult():
 
     def __str__(self) -> str:
         """Return a `str` version of this RelationsResult object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'RelationsResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3175,12 +2929,6 @@ class SemanticRolesEntity():
     def from_dict(cls, _dict: Dict) -> 'SemanticRolesEntity':
         """Initialize a SemanticRolesEntity object from a json dictionary."""
         args = {}
-        valid_keys = ['type', 'text']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SemanticRolesEntity: '
-                + ', '.join(bad_keys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'text' in _dict:
@@ -3207,7 +2955,7 @@ class SemanticRolesEntity():
 
     def __str__(self) -> str:
         """Return a `str` version of this SemanticRolesEntity object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SemanticRolesEntity') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3239,12 +2987,6 @@ class SemanticRolesKeyword():
     def from_dict(cls, _dict: Dict) -> 'SemanticRolesKeyword':
         """Initialize a SemanticRolesKeyword object from a json dictionary."""
         args = {}
-        valid_keys = ['text']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SemanticRolesKeyword: '
-                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         return cls(**args)
@@ -3267,7 +3009,7 @@ class SemanticRolesKeyword():
 
     def __str__(self) -> str:
         """Return a `str` version of this SemanticRolesKeyword object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SemanticRolesKeyword') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3315,12 +3057,6 @@ class SemanticRolesOptions():
     def from_dict(cls, _dict: Dict) -> 'SemanticRolesOptions':
         """Initialize a SemanticRolesOptions object from a json dictionary."""
         args = {}
-        valid_keys = ['limit', 'keywords', 'entities']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SemanticRolesOptions: '
-                + ', '.join(bad_keys))
         if 'limit' in _dict:
             args['limit'] = _dict.get('limit')
         if 'keywords' in _dict:
@@ -3351,7 +3087,7 @@ class SemanticRolesOptions():
 
     def __str__(self) -> str:
         """Return a `str` version of this SemanticRolesOptions object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SemanticRolesOptions') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3405,22 +3141,16 @@ class SemanticRolesResult():
     def from_dict(cls, _dict: Dict) -> 'SemanticRolesResult':
         """Initialize a SemanticRolesResult object from a json dictionary."""
         args = {}
-        valid_keys = ['sentence', 'subject', 'action', 'object']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SemanticRolesResult: '
-                + ', '.join(bad_keys))
         if 'sentence' in _dict:
             args['sentence'] = _dict.get('sentence')
         if 'subject' in _dict:
-            args['subject'] = SemanticRolesResultSubject._from_dict(
+            args['subject'] = SemanticRolesResultSubject.from_dict(
                 _dict.get('subject'))
         if 'action' in _dict:
-            args['action'] = SemanticRolesResultAction._from_dict(
+            args['action'] = SemanticRolesResultAction.from_dict(
                 _dict.get('action'))
         if 'object' in _dict:
-            args['object'] = SemanticRolesResultObject._from_dict(
+            args['object'] = SemanticRolesResultObject.from_dict(
                 _dict.get('object'))
         return cls(**args)
 
@@ -3435,11 +3165,11 @@ class SemanticRolesResult():
         if hasattr(self, 'sentence') and self.sentence is not None:
             _dict['sentence'] = self.sentence
         if hasattr(self, 'subject') and self.subject is not None:
-            _dict['subject'] = self.subject._to_dict()
+            _dict['subject'] = self.subject.to_dict()
         if hasattr(self, 'action') and self.action is not None:
-            _dict['action'] = self.action._to_dict()
+            _dict['action'] = self.action.to_dict()
         if hasattr(self, 'object') and self.object is not None:
-            _dict['object'] = self.object._to_dict()
+            _dict['object'] = self.object.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -3448,7 +3178,7 @@ class SemanticRolesResult():
 
     def __str__(self) -> str:
         """Return a `str` version of this SemanticRolesResult object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SemanticRolesResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3490,18 +3220,12 @@ class SemanticRolesResultAction():
     def from_dict(cls, _dict: Dict) -> 'SemanticRolesResultAction':
         """Initialize a SemanticRolesResultAction object from a json dictionary."""
         args = {}
-        valid_keys = ['text', 'normalized', 'verb']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SemanticRolesResultAction: '
-                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'normalized' in _dict:
             args['normalized'] = _dict.get('normalized')
         if 'verb' in _dict:
-            args['verb'] = SemanticRolesVerb._from_dict(_dict.get('verb'))
+            args['verb'] = SemanticRolesVerb.from_dict(_dict.get('verb'))
         return cls(**args)
 
     @classmethod
@@ -3517,7 +3241,7 @@ class SemanticRolesResultAction():
         if hasattr(self, 'normalized') and self.normalized is not None:
             _dict['normalized'] = self.normalized
         if hasattr(self, 'verb') and self.verb is not None:
-            _dict['verb'] = self.verb._to_dict()
+            _dict['verb'] = self.verb.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -3526,7 +3250,7 @@ class SemanticRolesResultAction():
 
     def __str__(self) -> str:
         """Return a `str` version of this SemanticRolesResultAction object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SemanticRolesResultAction') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3566,18 +3290,11 @@ class SemanticRolesResultObject():
     def from_dict(cls, _dict: Dict) -> 'SemanticRolesResultObject':
         """Initialize a SemanticRolesResultObject object from a json dictionary."""
         args = {}
-        valid_keys = ['text', 'keywords']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SemanticRolesResultObject: '
-                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'keywords' in _dict:
             args['keywords'] = [
-                SemanticRolesKeyword._from_dict(x)
-                for x in (_dict.get('keywords'))
+                SemanticRolesKeyword.from_dict(x) for x in _dict.get('keywords')
             ]
         return cls(**args)
 
@@ -3592,7 +3309,7 @@ class SemanticRolesResultObject():
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self, 'keywords') and self.keywords is not None:
-            _dict['keywords'] = [x._to_dict() for x in self.keywords]
+            _dict['keywords'] = [x.to_dict() for x in self.keywords]
         return _dict
 
     def _to_dict(self):
@@ -3601,7 +3318,7 @@ class SemanticRolesResultObject():
 
     def __str__(self) -> str:
         """Return a `str` version of this SemanticRolesResultObject object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SemanticRolesResultObject') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3647,23 +3364,15 @@ class SemanticRolesResultSubject():
     def from_dict(cls, _dict: Dict) -> 'SemanticRolesResultSubject':
         """Initialize a SemanticRolesResultSubject object from a json dictionary."""
         args = {}
-        valid_keys = ['text', 'entities', 'keywords']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SemanticRolesResultSubject: '
-                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'entities' in _dict:
             args['entities'] = [
-                SemanticRolesEntity._from_dict(x)
-                for x in (_dict.get('entities'))
+                SemanticRolesEntity.from_dict(x) for x in _dict.get('entities')
             ]
         if 'keywords' in _dict:
             args['keywords'] = [
-                SemanticRolesKeyword._from_dict(x)
-                for x in (_dict.get('keywords'))
+                SemanticRolesKeyword.from_dict(x) for x in _dict.get('keywords')
             ]
         return cls(**args)
 
@@ -3678,9 +3387,9 @@ class SemanticRolesResultSubject():
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x._to_dict() for x in self.entities]
+            _dict['entities'] = [x.to_dict() for x in self.entities]
         if hasattr(self, 'keywords') and self.keywords is not None:
-            _dict['keywords'] = [x._to_dict() for x in self.keywords]
+            _dict['keywords'] = [x.to_dict() for x in self.keywords]
         return _dict
 
     def _to_dict(self):
@@ -3689,7 +3398,7 @@ class SemanticRolesResultSubject():
 
     def __str__(self) -> str:
         """Return a `str` version of this SemanticRolesResultSubject object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SemanticRolesResultSubject') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3724,12 +3433,6 @@ class SemanticRolesVerb():
     def from_dict(cls, _dict: Dict) -> 'SemanticRolesVerb':
         """Initialize a SemanticRolesVerb object from a json dictionary."""
         args = {}
-        valid_keys = ['text', 'tense']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SemanticRolesVerb: '
-                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'tense' in _dict:
@@ -3756,7 +3459,7 @@ class SemanticRolesVerb():
 
     def __str__(self) -> str:
         """Return a `str` version of this SemanticRolesVerb object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SemanticRolesVerb') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3793,12 +3496,6 @@ class SentenceResult():
     def from_dict(cls, _dict: Dict) -> 'SentenceResult':
         """Initialize a SentenceResult object from a json dictionary."""
         args = {}
-        valid_keys = ['text', 'location']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SentenceResult: '
-                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'location' in _dict:
@@ -3825,7 +3522,7 @@ class SentenceResult():
 
     def __str__(self) -> str:
         """Return a `str` version of this SentenceResult object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SentenceResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3871,12 +3568,6 @@ class SentimentOptions():
     def from_dict(cls, _dict: Dict) -> 'SentimentOptions':
         """Initialize a SentimentOptions object from a json dictionary."""
         args = {}
-        valid_keys = ['document', 'targets']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SentimentOptions: '
-                + ', '.join(bad_keys))
         if 'document' in _dict:
             args['document'] = _dict.get('document')
         if 'targets' in _dict:
@@ -3903,7 +3594,7 @@ class SentimentOptions():
 
     def __str__(self) -> str:
         """Return a `str` version of this SentimentOptions object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SentimentOptions') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3945,19 +3636,13 @@ class SentimentResult():
     def from_dict(cls, _dict: Dict) -> 'SentimentResult':
         """Initialize a SentimentResult object from a json dictionary."""
         args = {}
-        valid_keys = ['document', 'targets']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SentimentResult: '
-                + ', '.join(bad_keys))
         if 'document' in _dict:
-            args['document'] = DocumentSentimentResults._from_dict(
+            args['document'] = DocumentSentimentResults.from_dict(
                 _dict.get('document'))
         if 'targets' in _dict:
             args['targets'] = [
-                TargetedSentimentResults._from_dict(x)
-                for x in (_dict.get('targets'))
+                TargetedSentimentResults.from_dict(x)
+                for x in _dict.get('targets')
             ]
         return cls(**args)
 
@@ -3970,9 +3655,9 @@ class SentimentResult():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'document') and self.document is not None:
-            _dict['document'] = self.document._to_dict()
+            _dict['document'] = self.document.to_dict()
         if hasattr(self, 'targets') and self.targets is not None:
-            _dict['targets'] = [x._to_dict() for x in self.targets]
+            _dict['targets'] = [x.to_dict() for x in self.targets]
         return _dict
 
     def _to_dict(self):
@@ -3981,7 +3666,7 @@ class SentimentResult():
 
     def __str__(self) -> str:
         """Return a `str` version of this SentimentResult object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SentimentResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4021,14 +3706,8 @@ class SyntaxOptions():
     def from_dict(cls, _dict: Dict) -> 'SyntaxOptions':
         """Initialize a SyntaxOptions object from a json dictionary."""
         args = {}
-        valid_keys = ['tokens', 'sentences']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SyntaxOptions: '
-                + ', '.join(bad_keys))
         if 'tokens' in _dict:
-            args['tokens'] = SyntaxOptionsTokens._from_dict(_dict.get('tokens'))
+            args['tokens'] = SyntaxOptionsTokens.from_dict(_dict.get('tokens'))
         if 'sentences' in _dict:
             args['sentences'] = _dict.get('sentences')
         return cls(**args)
@@ -4042,7 +3721,7 @@ class SyntaxOptions():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'tokens') and self.tokens is not None:
-            _dict['tokens'] = self.tokens._to_dict()
+            _dict['tokens'] = self.tokens.to_dict()
         if hasattr(self, 'sentences') and self.sentences is not None:
             _dict['sentences'] = self.sentences
         return _dict
@@ -4053,7 +3732,7 @@ class SyntaxOptions():
 
     def __str__(self) -> str:
         """Return a `str` version of this SyntaxOptions object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SyntaxOptions') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4095,12 +3774,6 @@ class SyntaxOptionsTokens():
     def from_dict(cls, _dict: Dict) -> 'SyntaxOptionsTokens':
         """Initialize a SyntaxOptionsTokens object from a json dictionary."""
         args = {}
-        valid_keys = ['lemma', 'part_of_speech']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SyntaxOptionsTokens: '
-                + ', '.join(bad_keys))
         if 'lemma' in _dict:
             args['lemma'] = _dict.get('lemma')
         if 'part_of_speech' in _dict:
@@ -4127,7 +3800,7 @@ class SyntaxOptionsTokens():
 
     def __str__(self) -> str:
         """Return a `str` version of this SyntaxOptionsTokens object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SyntaxOptionsTokens') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4165,19 +3838,13 @@ class SyntaxResult():
     def from_dict(cls, _dict: Dict) -> 'SyntaxResult':
         """Initialize a SyntaxResult object from a json dictionary."""
         args = {}
-        valid_keys = ['tokens', 'sentences']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SyntaxResult: '
-                + ', '.join(bad_keys))
         if 'tokens' in _dict:
             args['tokens'] = [
-                TokenResult._from_dict(x) for x in (_dict.get('tokens'))
+                TokenResult.from_dict(x) for x in _dict.get('tokens')
             ]
         if 'sentences' in _dict:
             args['sentences'] = [
-                SentenceResult._from_dict(x) for x in (_dict.get('sentences'))
+                SentenceResult.from_dict(x) for x in _dict.get('sentences')
             ]
         return cls(**args)
 
@@ -4190,9 +3857,9 @@ class SyntaxResult():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'tokens') and self.tokens is not None:
-            _dict['tokens'] = [x._to_dict() for x in self.tokens]
+            _dict['tokens'] = [x.to_dict() for x in self.tokens]
         if hasattr(self, 'sentences') and self.sentences is not None:
-            _dict['sentences'] = [x._to_dict() for x in self.sentences]
+            _dict['sentences'] = [x.to_dict() for x in self.sentences]
         return _dict
 
     def _to_dict(self):
@@ -4201,7 +3868,7 @@ class SyntaxResult():
 
     def __str__(self) -> str:
         """Return a `str` version of this SyntaxResult object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SyntaxResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4240,16 +3907,10 @@ class TargetedEmotionResults():
     def from_dict(cls, _dict: Dict) -> 'TargetedEmotionResults':
         """Initialize a TargetedEmotionResults object from a json dictionary."""
         args = {}
-        valid_keys = ['text', 'emotion']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class TargetedEmotionResults: '
-                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'emotion' in _dict:
-            args['emotion'] = EmotionScores._from_dict(_dict.get('emotion'))
+            args['emotion'] = EmotionScores.from_dict(_dict.get('emotion'))
         return cls(**args)
 
     @classmethod
@@ -4263,7 +3924,7 @@ class TargetedEmotionResults():
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self, 'emotion') and self.emotion is not None:
-            _dict['emotion'] = self.emotion._to_dict()
+            _dict['emotion'] = self.emotion.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -4272,7 +3933,7 @@ class TargetedEmotionResults():
 
     def __str__(self) -> str:
         """Return a `str` version of this TargetedEmotionResults object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'TargetedEmotionResults') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4309,12 +3970,6 @@ class TargetedSentimentResults():
     def from_dict(cls, _dict: Dict) -> 'TargetedSentimentResults':
         """Initialize a TargetedSentimentResults object from a json dictionary."""
         args = {}
-        valid_keys = ['text', 'score']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class TargetedSentimentResults: '
-                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'score' in _dict:
@@ -4341,7 +3996,7 @@ class TargetedSentimentResults():
 
     def __str__(self) -> str:
         """Return a `str` version of this TargetedSentimentResults object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'TargetedSentimentResults') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4395,12 +4050,6 @@ class TokenResult():
     def from_dict(cls, _dict: Dict) -> 'TokenResult':
         """Initialize a TokenResult object from a json dictionary."""
         args = {}
-        valid_keys = ['text', 'part_of_speech', 'location', 'lemma']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class TokenResult: '
-                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'part_of_speech' in _dict:
@@ -4435,7 +4084,7 @@ class TokenResult():
 
     def __str__(self) -> str:
         """Return a `str` version of this TokenResult object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'TokenResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4447,25 +4096,25 @@ class TokenResult():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class PartOfSpeechEnum(Enum):
+    class PartOfSpeechEnum(str, Enum):
         """
         The part of speech of the token. For more information about the values, see
         [Universal Dependencies POS tags](https://universaldependencies.org/u/pos/).
         """
-        ADJ = "ADJ"
-        ADP = "ADP"
-        ADV = "ADV"
-        AUX = "AUX"
-        CCONJ = "CCONJ"
-        DET = "DET"
-        INTJ = "INTJ"
-        NOUN = "NOUN"
-        NUM = "NUM"
-        PART = "PART"
-        PRON = "PRON"
-        PROPN = "PROPN"
-        PUNCT = "PUNCT"
-        SCONJ = "SCONJ"
-        SYM = "SYM"
-        VERB = "VERB"
-        X = "X"
+        ADJ = 'ADJ'
+        ADP = 'ADP'
+        ADV = 'ADV'
+        AUX = 'AUX'
+        CCONJ = 'CCONJ'
+        DET = 'DET'
+        INTJ = 'INTJ'
+        NOUN = 'NOUN'
+        NUM = 'NUM'
+        PART = 'PART'
+        PRON = 'PRON'
+        PROPN = 'PROPN'
+        PUNCT = 'PUNCT'
+        SCONJ = 'SCONJ'
+        SYM = 'SYM'
+        VERB = 'VERB'
+        X = 'X'

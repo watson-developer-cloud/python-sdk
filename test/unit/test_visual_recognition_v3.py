@@ -13,96 +13,139 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from datetime import datetime
+"""
+Unit Tests for VisualRecognitionV3
+"""
+
+from datetime import datetime, timezone
 from ibm_cloud_sdk_core.authenticators.no_auth_authenticator import NoAuthAuthenticator
 import inspect
+import io
 import json
 import pytest
+import re
+import requests
 import responses
 import tempfile
-import ibm_watson.visual_recognition_v3
+import urllib
 from ibm_watson.visual_recognition_v3 import *
 
+version = 'testString'
+
+service = VisualRecognitionV3(
+    authenticator=NoAuthAuthenticator(),
+    version=version
+    )
+
 base_url = 'https://api.us-south.visual-recognition.watson.cloud.ibm.com'
+service.set_service_url(base_url)
 
 ##############################################################################
 # Start of Service: General
 ##############################################################################
 # region
 
-#-----------------------------------------------------------------------------
-# Test Class for classify
-#-----------------------------------------------------------------------------
 class TestClassify():
+    """
+    Test Class for classify
+    """
 
-    #--------------------------------------------------------
-    # Test 1: Send fake data and check response
-    #--------------------------------------------------------
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     @responses.activate
-    def test_classify_response(self):
-        body = self.construct_full_body()
-        response = fake_response_ClassifiedImages_json
-        send_request(self, body, response)
-        assert len(responses.calls) == 1
-
-    #--------------------------------------------------------
-    # Test 2: Send only required fake data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_classify_required_response(self):
-        # Check response with required params
-        body = self.construct_required_body()
-        response = fake_response_ClassifiedImages_json
-        send_request(self, body, response)
-        assert len(responses.calls) == 1
-
-    #--------------------------------------------------------
-    # Test 3: Send empty data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_classify_empty(self):
-        check_empty_response(self)
-        assert len(responses.calls) == 1
-
-    #-----------
-    #- Helpers -
-    #-----------
-    def make_url(self, body):
-        endpoint = '/v3/classify'
-        url = '{0}{1}'.format(base_url, endpoint)
-        return url
-
-    def add_mock_response(self, url, response):
+    def test_classify_all_params(self):
+        """
+        classify()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v3/classify')
+        mock_response = '{"custom_classes": 14, "images_processed": 16, "images": [{"source_url": "source_url", "resolved_url": "resolved_url", "image": "image", "error": {"code": 4, "description": "description", "error_id": "error_id"}, "classifiers": [{"name": "name", "classifier_id": "classifier_id", "classes": [{"class": "class_", "score": 0, "type_hierarchy": "type_hierarchy"}]}]}], "warnings": [{"warning_id": "warning_id", "description": "description"}]}'
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
-    def call_service(self, body):
-        service = VisualRecognitionV3(
-            authenticator=NoAuthAuthenticator(),
-            version='2018-03-19',
-            )
-        service.set_service_url(base_url)
-        output = service.classify(**body)
-        return output
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
 
-    def construct_full_body(self):
-        body = dict()
-        body['images_file'] = tempfile.NamedTemporaryFile()
-        body['images_filename'] = "string1"
-        body['images_file_content_type'] = "string1"
-        body['url'] = "string1"
-        body['threshold'] = 12345.0
-        body['owners'] = []
-        body['classifier_ids'] = []
-        body['accept_language'] = "string1"
-        return body
+        # Set up parameter values
+        images_file = io.BytesIO(b'This is a mock file.').getvalue()
+        images_filename = 'testString'
+        images_file_content_type = 'testString'
+        url = 'testString'
+        threshold = 72.5
+        owners = ['testString']
+        classifier_ids = ['testString']
+        accept_language = 'en'
 
-    def construct_required_body(self):
-        body = dict()
-        return body
+        # Invoke method
+        response = service.classify(
+            images_file=images_file,
+            images_filename=images_filename,
+            images_file_content_type=images_file_content_type,
+            url=url,
+            threshold=threshold,
+            owners=owners,
+            classifier_ids=classifier_ids,
+            accept_language=accept_language,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    @responses.activate
+    def test_classify_required_params(self):
+        """
+        test_classify_required_params()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v3/classify')
+        mock_response = '{"custom_classes": 14, "images_processed": 16, "images": [{"source_url": "source_url", "resolved_url": "resolved_url", "image": "image", "error": {"code": 4, "description": "description", "error_id": "error_id"}, "classifiers": [{"name": "name", "classifier_id": "classifier_id", "classes": [{"class": "class_", "score": 0, "type_hierarchy": "type_hierarchy"}]}]}], "warnings": [{"warning_id": "warning_id", "description": "description"}]}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Invoke method
+        response = service.classify()
+
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    @responses.activate
+    def test_classify_value_error(self):
+        """
+        test_classify_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v3/classify')
+        mock_response = '{"custom_classes": 14, "images_processed": 16, "images": [{"source_url": "source_url", "resolved_url": "resolved_url", "image": "image", "error": {"code": 4, "description": "description", "error_id": "error_id"}, "classifiers": [{"name": "name", "classifier_id": "classifier_id", "classes": [{"class": "class_", "score": 0, "type_hierarchy": "type_hierarchy"}]}]}], "warnings": [{"warning_id": "warning_id", "description": "description"}]}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                service.classify(**req_copy)
+
 
 
 # endregion
@@ -115,359 +158,443 @@ class TestClassify():
 ##############################################################################
 # region
 
-#-----------------------------------------------------------------------------
-# Test Class for create_classifier
-#-----------------------------------------------------------------------------
 class TestCreateClassifier():
+    """
+    Test Class for create_classifier
+    """
 
-    #--------------------------------------------------------
-    # Test 1: Send fake data and check response
-    #--------------------------------------------------------
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     @responses.activate
-    def test_create_classifier_response(self):
-        body = self.construct_full_body()
-        response = fake_response_Classifier_json
-        send_request(self, body, response)
-        assert len(responses.calls) == 1
-
-    #--------------------------------------------------------
-    # Test 2: Send only required fake data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_create_classifier_required_response(self):
-        # Check response with required params
-        body = self.construct_required_body()
-        response = fake_response_Classifier_json
-        send_request(self, body, response)
-        assert len(responses.calls) == 1
-
-    #--------------------------------------------------------
-    # Test 3: Send empty data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_create_classifier_empty(self):
-        check_empty_required_params(self, fake_response_Classifier_json)
-        check_missing_required_params(self)
-        assert len(responses.calls) == 0
-
-    #-----------
-    #- Helpers -
-    #-----------
-    def make_url(self, body):
-        endpoint = '/v3/classifiers'
-        url = '{0}{1}'.format(base_url, endpoint)
-        return url
-
-    def add_mock_response(self, url, response):
+    def test_create_classifier_all_params(self):
+        """
+        create_classifier()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v3/classifiers')
+        mock_response = '{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}'
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
-    def call_service(self, body):
-        service = VisualRecognitionV3(
-            authenticator=NoAuthAuthenticator(),
-            version='2018-03-19',
-            )
-        service.set_service_url(base_url)
-        output = service.create_classifier(**body)
-        return output
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
 
-    def construct_full_body(self):
-        body = dict()
-        body['name'] = "string1"
-        body['positive_examples'] = {"mock": "data"}
-        body['negative_examples'] = tempfile.NamedTemporaryFile()
-        body['negative_examples_filename'] = "string1"
-        return body
+        # Set up parameter values
+        name = 'testString'
+        positive_examples = { 'key': io.BytesIO(b'This is a mock file.').getvalue() }
+        negative_examples = io.BytesIO(b'This is a mock file.').getvalue()
+        negative_examples_filename = 'testString'
 
-    def construct_required_body(self):
-        body = dict()
-        body['name'] = "string1"
-        body['positive_examples'] = {"mock": "data"}
-        return body
+        # Invoke method
+        response = service.create_classifier(
+            name,
+            positive_examples,
+            negative_examples=negative_examples,
+            negative_examples_filename=negative_examples_filename,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
 
 
-#-----------------------------------------------------------------------------
-# Test Class for list_classifiers
-#-----------------------------------------------------------------------------
+    @responses.activate
+    def test_create_classifier_required_params(self):
+        """
+        test_create_classifier_required_params()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v3/classifiers')
+        mock_response = '{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        name = 'testString'
+        positive_examples = { 'key': io.BytesIO(b'This is a mock file.').getvalue() }
+
+        # Invoke method
+        response = service.create_classifier(
+            name,
+            positive_examples,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    @responses.activate
+    def test_create_classifier_value_error(self):
+        """
+        test_create_classifier_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v3/classifiers')
+        mock_response = '{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        name = 'testString'
+        positive_examples = { 'key': io.BytesIO(b'This is a mock file.').getvalue() }
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "name": name,
+            "positive_examples": positive_examples,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                service.create_classifier(**req_copy)
+
+
+
 class TestListClassifiers():
+    """
+    Test Class for list_classifiers
+    """
 
-    #--------------------------------------------------------
-    # Test 1: Send fake data and check response
-    #--------------------------------------------------------
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     @responses.activate
-    def test_list_classifiers_response(self):
-        body = self.construct_full_body()
-        response = fake_response_Classifiers_json
-        send_request(self, body, response)
-        assert len(responses.calls) == 1
-
-    #--------------------------------------------------------
-    # Test 2: Send only required fake data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_list_classifiers_required_response(self):
-        # Check response with required params
-        body = self.construct_required_body()
-        response = fake_response_Classifiers_json
-        send_request(self, body, response)
-        assert len(responses.calls) == 1
-
-    #--------------------------------------------------------
-    # Test 3: Send empty data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_list_classifiers_empty(self):
-        check_empty_response(self)
-        assert len(responses.calls) == 1
-
-    #-----------
-    #- Helpers -
-    #-----------
-    def make_url(self, body):
-        endpoint = '/v3/classifiers'
-        url = '{0}{1}'.format(base_url, endpoint)
-        return url
-
-    def add_mock_response(self, url, response):
+    def test_list_classifiers_all_params(self):
+        """
+        list_classifiers()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v3/classifiers')
+        mock_response = '{"classifiers": [{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}]}'
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
-    def call_service(self, body):
-        service = VisualRecognitionV3(
-            authenticator=NoAuthAuthenticator(),
-            version='2018-03-19',
-            )
-        service.set_service_url(base_url)
-        output = service.list_classifiers(**body)
-        return output
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
 
-    def construct_full_body(self):
-        body = dict()
-        body['verbose'] = True
-        return body
+        # Set up parameter values
+        verbose = True
 
-    def construct_required_body(self):
-        body = dict()
-        return body
+        # Invoke method
+        response = service.list_classifiers(
+            verbose=verbose,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate query params
+        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = urllib.parse.unquote_plus(query_string)
+        assert 'verbose={}'.format('true' if verbose else 'false') in query_string
 
 
-#-----------------------------------------------------------------------------
-# Test Class for get_classifier
-#-----------------------------------------------------------------------------
+    @responses.activate
+    def test_list_classifiers_required_params(self):
+        """
+        test_list_classifiers_required_params()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v3/classifiers')
+        mock_response = '{"classifiers": [{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Invoke method
+        response = service.list_classifiers()
+
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    @responses.activate
+    def test_list_classifiers_value_error(self):
+        """
+        test_list_classifiers_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v3/classifiers')
+        mock_response = '{"classifiers": [{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                service.list_classifiers(**req_copy)
+
+
+
 class TestGetClassifier():
+    """
+    Test Class for get_classifier
+    """
 
-    #--------------------------------------------------------
-    # Test 1: Send fake data and check response
-    #--------------------------------------------------------
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     @responses.activate
-    def test_get_classifier_response(self):
-        body = self.construct_full_body()
-        response = fake_response_Classifier_json
-        send_request(self, body, response)
-        assert len(responses.calls) == 1
-
-    #--------------------------------------------------------
-    # Test 2: Send only required fake data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_get_classifier_required_response(self):
-        # Check response with required params
-        body = self.construct_required_body()
-        response = fake_response_Classifier_json
-        send_request(self, body, response)
-        assert len(responses.calls) == 1
-
-    #--------------------------------------------------------
-    # Test 3: Send empty data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_get_classifier_empty(self):
-        check_empty_required_params(self, fake_response_Classifier_json)
-        check_missing_required_params(self)
-        assert len(responses.calls) == 0
-
-    #-----------
-    #- Helpers -
-    #-----------
-    def make_url(self, body):
-        endpoint = '/v3/classifiers/{0}'.format(body['classifier_id'])
-        url = '{0}{1}'.format(base_url, endpoint)
-        return url
-
-    def add_mock_response(self, url, response):
+    def test_get_classifier_all_params(self):
+        """
+        get_classifier()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v3/classifiers/testString')
+        mock_response = '{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}'
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
-    def call_service(self, body):
-        service = VisualRecognitionV3(
-            authenticator=NoAuthAuthenticator(),
-            version='2018-03-19',
-            )
-        service.set_service_url(base_url)
-        output = service.get_classifier(**body)
-        return output
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
 
-    def construct_full_body(self):
-        body = dict()
-        body['classifier_id'] = "string1"
-        return body
+        # Set up parameter values
+        classifier_id = 'testString'
 
-    def construct_required_body(self):
-        body = dict()
-        body['classifier_id'] = "string1"
-        return body
+        # Invoke method
+        response = service.get_classifier(
+            classifier_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
 
 
-#-----------------------------------------------------------------------------
-# Test Class for update_classifier
-#-----------------------------------------------------------------------------
+    @responses.activate
+    def test_get_classifier_value_error(self):
+        """
+        test_get_classifier_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v3/classifiers/testString')
+        mock_response = '{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        classifier_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "classifier_id": classifier_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                service.get_classifier(**req_copy)
+
+
+
 class TestUpdateClassifier():
+    """
+    Test Class for update_classifier
+    """
 
-    #--------------------------------------------------------
-    # Test 1: Send fake data and check response
-    #--------------------------------------------------------
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     @responses.activate
-    def test_update_classifier_response(self):
-        body = self.construct_full_body()
-        response = fake_response_Classifier_json
-        send_request(self, body, response)
-        assert len(responses.calls) == 1
-
-    #--------------------------------------------------------
-    # Test 2: Send only required fake data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_update_classifier_required_response(self):
-        # Check response with required params
-        body = self.construct_required_body()
-        response = fake_response_Classifier_json
-        send_request(self, body, response)
-        assert len(responses.calls) == 1
-
-    #--------------------------------------------------------
-    # Test 3: Send empty data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_update_classifier_empty(self):
-        check_empty_required_params(self, fake_response_Classifier_json)
-        check_missing_required_params(self)
-        assert len(responses.calls) == 0
-
-    #-----------
-    #- Helpers -
-    #-----------
-    def make_url(self, body):
-        endpoint = '/v3/classifiers/{0}'.format(body['classifier_id'])
-        url = '{0}{1}'.format(base_url, endpoint)
-        return url
-
-    def add_mock_response(self, url, response):
+    def test_update_classifier_all_params(self):
+        """
+        update_classifier()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v3/classifiers/testString')
+        mock_response = '{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}'
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
-    def call_service(self, body):
-        service = VisualRecognitionV3(
-            authenticator=NoAuthAuthenticator(),
-            version='2018-03-19',
-            )
-        service.set_service_url(base_url)
-        output = service.update_classifier(**body)
-        return output
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
 
-    def construct_full_body(self):
-        body = dict()
-        body['classifier_id'] = "string1"
-        body['positive_examples'] = {"mock": "data"}
-        body['negative_examples'] = tempfile.NamedTemporaryFile()
-        body['negative_examples_filename'] = "string1"
-        return body
+        # Set up parameter values
+        classifier_id = 'testString'
+        positive_examples = { 'key': io.BytesIO(b'This is a mock file.').getvalue() }
+        negative_examples = io.BytesIO(b'This is a mock file.').getvalue()
+        negative_examples_filename = 'testString'
 
-    def construct_required_body(self):
-        body = dict()
-        body['classifier_id'] = "string1"
-        return body
+        # Invoke method
+        response = service.update_classifier(
+            classifier_id,
+            positive_examples=positive_examples,
+            negative_examples=negative_examples,
+            negative_examples_filename=negative_examples_filename,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
 
 
-#-----------------------------------------------------------------------------
-# Test Class for delete_classifier
-#-----------------------------------------------------------------------------
+    @responses.activate
+    def test_update_classifier_required_params(self):
+        """
+        test_update_classifier_required_params()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v3/classifiers/testString')
+        mock_response = '{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        classifier_id = 'testString'
+
+        # Invoke method
+        response = service.update_classifier(
+            classifier_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    @responses.activate
+    def test_update_classifier_value_error(self):
+        """
+        test_update_classifier_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v3/classifiers/testString')
+        mock_response = '{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        classifier_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "classifier_id": classifier_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                service.update_classifier(**req_copy)
+
+
+
 class TestDeleteClassifier():
+    """
+    Test Class for delete_classifier
+    """
 
-    #--------------------------------------------------------
-    # Test 1: Send fake data and check response
-    #--------------------------------------------------------
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     @responses.activate
-    def test_delete_classifier_response(self):
-        body = self.construct_full_body()
-        response = fake_response__json
-        send_request(self, body, response)
-        assert len(responses.calls) == 1
-
-    #--------------------------------------------------------
-    # Test 2: Send only required fake data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_delete_classifier_required_response(self):
-        # Check response with required params
-        body = self.construct_required_body()
-        response = fake_response__json
-        send_request(self, body, response)
-        assert len(responses.calls) == 1
-
-    #--------------------------------------------------------
-    # Test 3: Send empty data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_delete_classifier_empty(self):
-        check_empty_required_params(self, fake_response__json)
-        check_missing_required_params(self)
-        assert len(responses.calls) == 0
-
-    #-----------
-    #- Helpers -
-    #-----------
-    def make_url(self, body):
-        endpoint = '/v3/classifiers/{0}'.format(body['classifier_id'])
-        url = '{0}{1}'.format(base_url, endpoint)
-        return url
-
-    def add_mock_response(self, url, response):
+    def test_delete_classifier_all_params(self):
+        """
+        delete_classifier()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v3/classifiers/testString')
         responses.add(responses.DELETE,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='')
-    
-    def call_service(self, body):
-        service = VisualRecognitionV3(
-            authenticator=NoAuthAuthenticator(),
-            version='2018-03-19',
-            )
-        service.set_service_url(base_url)
-        output = service.delete_classifier(**body)
-        return output
+                      url,
+                      status=200)
 
-    def construct_full_body(self):
-        body = dict()
-        body['classifier_id'] = "string1"
-        return body
+        # Set up parameter values
+        classifier_id = 'testString'
 
-    def construct_required_body(self):
-        body = dict()
-        body['classifier_id'] = "string1"
-        return body
+        # Invoke method
+        response = service.delete_classifier(
+            classifier_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    @responses.activate
+    def test_delete_classifier_value_error(self):
+        """
+        test_delete_classifier_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v3/classifiers/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=200)
+
+        # Set up parameter values
+        classifier_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "classifier_id": classifier_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                service.delete_classifier(**req_copy)
+
 
 
 # endregion
@@ -480,74 +607,74 @@ class TestDeleteClassifier():
 ##############################################################################
 # region
 
-#-----------------------------------------------------------------------------
-# Test Class for get_core_ml_model
-#-----------------------------------------------------------------------------
 class TestGetCoreMlModel():
+    """
+    Test Class for get_core_ml_model
+    """
 
-    #--------------------------------------------------------
-    # Test 1: Send fake data and check response
-    #--------------------------------------------------------
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     @responses.activate
-    def test_get_core_ml_model_response(self):
-        body = self.construct_full_body()
-        response = fake_response_BinaryIO_json
-        send_request(self, body, response)
-        assert len(responses.calls) == 1
-
-    #--------------------------------------------------------
-    # Test 2: Send only required fake data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_get_core_ml_model_required_response(self):
-        # Check response with required params
-        body = self.construct_required_body()
-        response = fake_response_BinaryIO_json
-        send_request(self, body, response)
-        assert len(responses.calls) == 1
-
-    #--------------------------------------------------------
-    # Test 3: Send empty data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_get_core_ml_model_empty(self):
-        check_empty_required_params(self, fake_response_BinaryIO_json)
-        check_missing_required_params(self)
-        assert len(responses.calls) == 0
-
-    #-----------
-    #- Helpers -
-    #-----------
-    def make_url(self, body):
-        endpoint = '/v3/classifiers/{0}/core_ml_model'.format(body['classifier_id'])
-        url = '{0}{1}'.format(base_url, endpoint)
-        return url
-
-    def add_mock_response(self, url, response):
+    def test_get_core_ml_model_all_params(self):
+        """
+        get_core_ml_model()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v3/classifiers/testString/core_ml_model')
+        mock_response = 'This is a mock binary response.'
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='')
-    
-    def call_service(self, body):
-        service = VisualRecognitionV3(
-            authenticator=NoAuthAuthenticator(),
-            version='2018-03-19',
-            )
-        service.set_service_url(base_url)
-        output = service.get_core_ml_model(**body)
-        return output
+                      url,
+                      body=mock_response,
+                      content_type='application/octet-stream',
+                      status=200)
 
-    def construct_full_body(self):
-        body = dict()
-        body['classifier_id'] = "string1"
-        return body
+        # Set up parameter values
+        classifier_id = 'testString'
 
-    def construct_required_body(self):
-        body = dict()
-        body['classifier_id'] = "string1"
-        return body
+        # Invoke method
+        response = service.get_core_ml_model(
+            classifier_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    @responses.activate
+    def test_get_core_ml_model_value_error(self):
+        """
+        test_get_core_ml_model_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v3/classifiers/testString/core_ml_model')
+        mock_response = 'This is a mock binary response.'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/octet-stream',
+                      status=200)
+
+        # Set up parameter values
+        classifier_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "classifier_id": classifier_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                service.get_core_ml_model(**req_copy)
+
 
 
 # endregion
@@ -560,74 +687,72 @@ class TestGetCoreMlModel():
 ##############################################################################
 # region
 
-#-----------------------------------------------------------------------------
-# Test Class for delete_user_data
-#-----------------------------------------------------------------------------
 class TestDeleteUserData():
+    """
+    Test Class for delete_user_data
+    """
 
-    #--------------------------------------------------------
-    # Test 1: Send fake data and check response
-    #--------------------------------------------------------
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     @responses.activate
-    def test_delete_user_data_response(self):
-        body = self.construct_full_body()
-        response = fake_response__json
-        send_request(self, body, response)
-        assert len(responses.calls) == 1
-
-    #--------------------------------------------------------
-    # Test 2: Send only required fake data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_delete_user_data_required_response(self):
-        # Check response with required params
-        body = self.construct_required_body()
-        response = fake_response__json
-        send_request(self, body, response)
-        assert len(responses.calls) == 1
-
-    #--------------------------------------------------------
-    # Test 3: Send empty data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_delete_user_data_empty(self):
-        check_empty_required_params(self, fake_response__json)
-        check_missing_required_params(self)
-        assert len(responses.calls) == 0
-
-    #-----------
-    #- Helpers -
-    #-----------
-    def make_url(self, body):
-        endpoint = '/v3/user_data'
-        url = '{0}{1}'.format(base_url, endpoint)
-        return url
-
-    def add_mock_response(self, url, response):
+    def test_delete_user_data_all_params(self):
+        """
+        delete_user_data()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v3/user_data')
         responses.add(responses.DELETE,
-                    url,
-                    body=json.dumps(response),
-                    status=202,
-                    content_type='')
-    
-    def call_service(self, body):
-        service = VisualRecognitionV3(
-            authenticator=NoAuthAuthenticator(),
-            version='2018-03-19',
-            )
-        service.set_service_url(base_url)
-        output = service.delete_user_data(**body)
-        return output
+                      url,
+                      status=202)
 
-    def construct_full_body(self):
-        body = dict()
-        body['customer_id'] = "string1"
-        return body
+        # Set up parameter values
+        customer_id = 'testString'
 
-    def construct_required_body(self):
-        body = dict()
-        body['customer_id'] = "string1"
-        return body
+        # Invoke method
+        response = service.delete_user_data(
+            customer_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 202
+        # Validate query params
+        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = urllib.parse.unquote_plus(query_string)
+        assert 'customer_id={}'.format(customer_id) in query_string
+
+
+    @responses.activate
+    def test_delete_user_data_value_error(self):
+        """
+        test_delete_user_data_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v3/user_data')
+        responses.add(responses.DELETE,
+                      url,
+                      status=202)
+
+        # Set up parameter values
+        customer_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "customer_id": customer_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                service.delete_user_data(**req_copy)
+
 
 
 # endregion
@@ -636,73 +761,370 @@ class TestDeleteUserData():
 ##############################################################################
 
 
-def check_empty_required_params(obj, response):
-    """Test function to assert that the operation will throw an error when given empty required data
-
-    Args:
-        obj: The generated test function
-
+##############################################################################
+# Start of Model Tests
+##############################################################################
+# region
+class TestClass():
     """
-    body = obj.construct_full_body()
-    body = {k: None for k in body.keys()}
-    error = False
-    try:
-        send_request(obj, body, response)
-    except ValueError as e:
-        error = True
-    assert error
-
-def check_missing_required_params(obj):
-    """Test function to assert that the operation will throw an error when missing required data
-
-    Args:
-        obj: The generated test function
-
+    Test Class for Class
     """
-    body = obj.construct_full_body()
-    url = obj.make_url(body)
-    error = False
-    try:
-        send_request(obj, {}, {}, url=url)
-    except TypeError as e:
-        error = True
-    assert error
 
-def check_empty_response(obj):
-    """Test function to assert that the operation will return an empty response when given an empty request
+    def test_class_serialization(self):
+        """
+        Test serialization/deserialization for Class
+        """
 
-    Args:
-        obj: The generated test function
+        # Construct a json representation of a Class model
+        class_model_json = {}
+        class_model_json['class'] = 'testString'
 
+        # Construct a model instance of Class by calling from_dict on the json representation
+        class_model = Class.from_dict(class_model_json)
+        assert class_model != False
+
+        # Construct a model instance of Class by calling from_dict on the json representation
+        class_model_dict = Class.from_dict(class_model_json).__dict__
+        class_model2 = Class(**class_model_dict)
+
+        # Verify the model instances are equivalent
+        assert class_model == class_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        class_model_json2 = class_model.to_dict()
+        assert class_model_json2 == class_model_json
+
+class TestClassResult():
     """
-    body = obj.construct_full_body()
-    url = obj.make_url(body)
-    send_request(obj, {}, {}, url=url)
-
-def send_request(obj, body, response, url=None):
-    """Test function to create a request, send it, and assert its accuracy to the mock response
-
-    Args:
-        obj: The generated test function
-        body: Dict filled with fake data for calling the service
-        response_str: Mock response string
-
+    Test Class for ClassResult
     """
-    if not url:
-        url = obj.make_url(body)
-    obj.add_mock_response(url, response)
-    output = obj.call_service(body)
-    assert responses.calls[0].request.url.startswith(url)
-    assert output.get_result() == response
 
-####################
-## Mock Responses ##
-####################
+    def test_class_result_serialization(self):
+        """
+        Test serialization/deserialization for ClassResult
+        """
 
-fake_response__json = None
-fake_response_ClassifiedImages_json = """{"custom_classes": 14, "images_processed": 16, "images": [], "warnings": []}"""
-fake_response_Classifier_json = """{"classifier_id": "fake_classifier_id", "name": "fake_name", "owner": "fake_owner", "status": "fake_status", "core_ml_enabled": false, "explanation": "fake_explanation", "created": "2017-05-16T13:56:54.957Z", "classes": [], "retrained": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z"}"""
-fake_response_Classifiers_json = """{"classifiers": []}"""
-fake_response_Classifier_json = """{"classifier_id": "fake_classifier_id", "name": "fake_name", "owner": "fake_owner", "status": "fake_status", "core_ml_enabled": false, "explanation": "fake_explanation", "created": "2017-05-16T13:56:54.957Z", "classes": [], "retrained": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z"}"""
-fake_response_Classifier_json = """{"classifier_id": "fake_classifier_id", "name": "fake_name", "owner": "fake_owner", "status": "fake_status", "core_ml_enabled": false, "explanation": "fake_explanation", "created": "2017-05-16T13:56:54.957Z", "classes": [], "retrained": "2017-05-16T13:56:54.957Z", "updated": "2017-05-16T13:56:54.957Z"}"""
-fake_response_BinaryIO_json = """Contents of response byte-stream..."""
+        # Construct a json representation of a ClassResult model
+        class_result_model_json = {}
+        class_result_model_json['class'] = 'testString'
+        class_result_model_json['score'] = 0
+        class_result_model_json['type_hierarchy'] = 'testString'
+
+        # Construct a model instance of ClassResult by calling from_dict on the json representation
+        class_result_model = ClassResult.from_dict(class_result_model_json)
+        assert class_result_model != False
+
+        # Construct a model instance of ClassResult by calling from_dict on the json representation
+        class_result_model_dict = ClassResult.from_dict(class_result_model_json).__dict__
+        class_result_model2 = ClassResult(**class_result_model_dict)
+
+        # Verify the model instances are equivalent
+        assert class_result_model == class_result_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        class_result_model_json2 = class_result_model.to_dict()
+        assert class_result_model_json2 == class_result_model_json
+
+class TestClassifiedImage():
+    """
+    Test Class for ClassifiedImage
+    """
+
+    def test_classified_image_serialization(self):
+        """
+        Test serialization/deserialization for ClassifiedImage
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        error_info_model = {} # ErrorInfo
+        error_info_model['code'] = 38
+        error_info_model['description'] = 'testString'
+        error_info_model['error_id'] = 'testString'
+
+        class_result_model = {} # ClassResult
+        class_result_model['class'] = 'testString'
+        class_result_model['score'] = 0
+        class_result_model['type_hierarchy'] = 'testString'
+
+        classifier_result_model = {} # ClassifierResult
+        classifier_result_model['name'] = 'testString'
+        classifier_result_model['classifier_id'] = 'testString'
+        classifier_result_model['classes'] = [class_result_model]
+
+        # Construct a json representation of a ClassifiedImage model
+        classified_image_model_json = {}
+        classified_image_model_json['source_url'] = 'testString'
+        classified_image_model_json['resolved_url'] = 'testString'
+        classified_image_model_json['image'] = 'testString'
+        classified_image_model_json['error'] = error_info_model
+        classified_image_model_json['classifiers'] = [classifier_result_model]
+
+        # Construct a model instance of ClassifiedImage by calling from_dict on the json representation
+        classified_image_model = ClassifiedImage.from_dict(classified_image_model_json)
+        assert classified_image_model != False
+
+        # Construct a model instance of ClassifiedImage by calling from_dict on the json representation
+        classified_image_model_dict = ClassifiedImage.from_dict(classified_image_model_json).__dict__
+        classified_image_model2 = ClassifiedImage(**classified_image_model_dict)
+
+        # Verify the model instances are equivalent
+        assert classified_image_model == classified_image_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        classified_image_model_json2 = classified_image_model.to_dict()
+        assert classified_image_model_json2 == classified_image_model_json
+
+class TestClassifiedImages():
+    """
+    Test Class for ClassifiedImages
+    """
+
+    def test_classified_images_serialization(self):
+        """
+        Test serialization/deserialization for ClassifiedImages
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        error_info_model = {} # ErrorInfo
+        error_info_model['code'] = 38
+        error_info_model['description'] = 'testString'
+        error_info_model['error_id'] = 'testString'
+
+        class_result_model = {} # ClassResult
+        class_result_model['class'] = 'testString'
+        class_result_model['score'] = 0
+        class_result_model['type_hierarchy'] = 'testString'
+
+        classifier_result_model = {} # ClassifierResult
+        classifier_result_model['name'] = 'testString'
+        classifier_result_model['classifier_id'] = 'testString'
+        classifier_result_model['classes'] = [class_result_model]
+
+        classified_image_model = {} # ClassifiedImage
+        classified_image_model['source_url'] = 'testString'
+        classified_image_model['resolved_url'] = 'testString'
+        classified_image_model['image'] = 'testString'
+        classified_image_model['error'] = error_info_model
+        classified_image_model['classifiers'] = [classifier_result_model]
+
+        warning_info_model = {} # WarningInfo
+        warning_info_model['warning_id'] = 'testString'
+        warning_info_model['description'] = 'testString'
+
+        # Construct a json representation of a ClassifiedImages model
+        classified_images_model_json = {}
+        classified_images_model_json['custom_classes'] = 38
+        classified_images_model_json['images_processed'] = 38
+        classified_images_model_json['images'] = [classified_image_model]
+        classified_images_model_json['warnings'] = [warning_info_model]
+
+        # Construct a model instance of ClassifiedImages by calling from_dict on the json representation
+        classified_images_model = ClassifiedImages.from_dict(classified_images_model_json)
+        assert classified_images_model != False
+
+        # Construct a model instance of ClassifiedImages by calling from_dict on the json representation
+        classified_images_model_dict = ClassifiedImages.from_dict(classified_images_model_json).__dict__
+        classified_images_model2 = ClassifiedImages(**classified_images_model_dict)
+
+        # Verify the model instances are equivalent
+        assert classified_images_model == classified_images_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        classified_images_model_json2 = classified_images_model.to_dict()
+        assert classified_images_model_json2 == classified_images_model_json
+
+class TestClassifier():
+    """
+    Test Class for Classifier
+    """
+
+    def test_classifier_serialization(self):
+        """
+        Test serialization/deserialization for Classifier
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        class_model = {} # Class
+        class_model['class'] = 'testString'
+
+        # Construct a json representation of a Classifier model
+        classifier_model_json = {}
+        classifier_model_json['classifier_id'] = 'testString'
+        classifier_model_json['name'] = 'testString'
+        classifier_model_json['owner'] = 'testString'
+        classifier_model_json['status'] = 'ready'
+        classifier_model_json['core_ml_enabled'] = True
+        classifier_model_json['explanation'] = 'testString'
+        classifier_model_json['created'] = '2020-01-28T18:40:40.123456Z'
+        classifier_model_json['classes'] = [class_model]
+        classifier_model_json['retrained'] = '2020-01-28T18:40:40.123456Z'
+        classifier_model_json['updated'] = '2020-01-28T18:40:40.123456Z'
+
+        # Construct a model instance of Classifier by calling from_dict on the json representation
+        classifier_model = Classifier.from_dict(classifier_model_json)
+        assert classifier_model != False
+
+        # Construct a model instance of Classifier by calling from_dict on the json representation
+        classifier_model_dict = Classifier.from_dict(classifier_model_json).__dict__
+        classifier_model2 = Classifier(**classifier_model_dict)
+
+        # Verify the model instances are equivalent
+        assert classifier_model == classifier_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        classifier_model_json2 = classifier_model.to_dict()
+        assert classifier_model_json2 == classifier_model_json
+
+class TestClassifierResult():
+    """
+    Test Class for ClassifierResult
+    """
+
+    def test_classifier_result_serialization(self):
+        """
+        Test serialization/deserialization for ClassifierResult
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        class_result_model = {} # ClassResult
+        class_result_model['class'] = 'testString'
+        class_result_model['score'] = 0
+        class_result_model['type_hierarchy'] = 'testString'
+
+        # Construct a json representation of a ClassifierResult model
+        classifier_result_model_json = {}
+        classifier_result_model_json['name'] = 'testString'
+        classifier_result_model_json['classifier_id'] = 'testString'
+        classifier_result_model_json['classes'] = [class_result_model]
+
+        # Construct a model instance of ClassifierResult by calling from_dict on the json representation
+        classifier_result_model = ClassifierResult.from_dict(classifier_result_model_json)
+        assert classifier_result_model != False
+
+        # Construct a model instance of ClassifierResult by calling from_dict on the json representation
+        classifier_result_model_dict = ClassifierResult.from_dict(classifier_result_model_json).__dict__
+        classifier_result_model2 = ClassifierResult(**classifier_result_model_dict)
+
+        # Verify the model instances are equivalent
+        assert classifier_result_model == classifier_result_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        classifier_result_model_json2 = classifier_result_model.to_dict()
+        assert classifier_result_model_json2 == classifier_result_model_json
+
+class TestClassifiers():
+    """
+    Test Class for Classifiers
+    """
+
+    def test_classifiers_serialization(self):
+        """
+        Test serialization/deserialization for Classifiers
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        class_model = {} # Class
+        class_model['class'] = 'testString'
+
+        classifier_model = {} # Classifier
+        classifier_model['classifier_id'] = 'testString'
+        classifier_model['name'] = 'testString'
+        classifier_model['owner'] = 'testString'
+        classifier_model['status'] = 'ready'
+        classifier_model['core_ml_enabled'] = True
+        classifier_model['explanation'] = 'testString'
+        classifier_model['created'] = '2020-01-28T18:40:40.123456Z'
+        classifier_model['classes'] = [class_model]
+        classifier_model['retrained'] = '2020-01-28T18:40:40.123456Z'
+        classifier_model['updated'] = '2020-01-28T18:40:40.123456Z'
+
+        # Construct a json representation of a Classifiers model
+        classifiers_model_json = {}
+        classifiers_model_json['classifiers'] = [classifier_model]
+
+        # Construct a model instance of Classifiers by calling from_dict on the json representation
+        classifiers_model = Classifiers.from_dict(classifiers_model_json)
+        assert classifiers_model != False
+
+        # Construct a model instance of Classifiers by calling from_dict on the json representation
+        classifiers_model_dict = Classifiers.from_dict(classifiers_model_json).__dict__
+        classifiers_model2 = Classifiers(**classifiers_model_dict)
+
+        # Verify the model instances are equivalent
+        assert classifiers_model == classifiers_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        classifiers_model_json2 = classifiers_model.to_dict()
+        assert classifiers_model_json2 == classifiers_model_json
+
+class TestErrorInfo():
+    """
+    Test Class for ErrorInfo
+    """
+
+    def test_error_info_serialization(self):
+        """
+        Test serialization/deserialization for ErrorInfo
+        """
+
+        # Construct a json representation of a ErrorInfo model
+        error_info_model_json = {}
+        error_info_model_json['code'] = 38
+        error_info_model_json['description'] = 'testString'
+        error_info_model_json['error_id'] = 'testString'
+
+        # Construct a model instance of ErrorInfo by calling from_dict on the json representation
+        error_info_model = ErrorInfo.from_dict(error_info_model_json)
+        assert error_info_model != False
+
+        # Construct a model instance of ErrorInfo by calling from_dict on the json representation
+        error_info_model_dict = ErrorInfo.from_dict(error_info_model_json).__dict__
+        error_info_model2 = ErrorInfo(**error_info_model_dict)
+
+        # Verify the model instances are equivalent
+        assert error_info_model == error_info_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        error_info_model_json2 = error_info_model.to_dict()
+        assert error_info_model_json2 == error_info_model_json
+
+class TestWarningInfo():
+    """
+    Test Class for WarningInfo
+    """
+
+    def test_warning_info_serialization(self):
+        """
+        Test serialization/deserialization for WarningInfo
+        """
+
+        # Construct a json representation of a WarningInfo model
+        warning_info_model_json = {}
+        warning_info_model_json['warning_id'] = 'testString'
+        warning_info_model_json['description'] = 'testString'
+
+        # Construct a model instance of WarningInfo by calling from_dict on the json representation
+        warning_info_model = WarningInfo.from_dict(warning_info_model_json)
+        assert warning_info_model != False
+
+        # Construct a model instance of WarningInfo by calling from_dict on the json representation
+        warning_info_model_dict = WarningInfo.from_dict(warning_info_model_json).__dict__
+        warning_info_model2 = WarningInfo(**warning_info_model_dict)
+
+        # Verify the model instances are equivalent
+        assert warning_info_model == warning_info_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        warning_info_model_json2 = warning_info_model.to_dict()
+        assert warning_info_model_json2 == warning_info_model_json
+
+
+# endregion
+##############################################################################
+# End of Model Tests
+##############################################################################

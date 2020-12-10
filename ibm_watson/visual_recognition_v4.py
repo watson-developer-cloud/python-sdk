@@ -13,6 +13,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-a45d89ef-20201209-192237
 """
 IBM Watson&trade; Visual Recognition is discontinued. Existing instances are supported
 until 1 December 2021, but as of 7 January 2021, you can't create instances. Any instance
@@ -22,20 +24,18 @@ Provide images to the IBM Watson Visual Recognition service for analysis. The se
 detects objects based on a set of images with training data.
 """
 
-import json
-from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
-from .common import get_sdk_headers
 from datetime import date
 from datetime import datetime
 from enum import Enum
-from ibm_cloud_sdk_core import BaseService
-from ibm_cloud_sdk_core import DetailedResponse
-from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
+from typing import BinaryIO, Dict, List
+import json
+
+from ibm_cloud_sdk_core import BaseService, DetailedResponse
+from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
 from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
-from typing import BinaryIO
-from typing import Dict
-from typing import List
-from typing import TextIO
+from ibm_cloud_sdk_core.utils import convert_model, datetime_to_string, string_to_datetime
+
+from .common import get_sdk_headers
 
 ##############################################################################
 # Service
@@ -57,28 +57,21 @@ class VisualRecognitionV4(BaseService):
         """
         Construct a new client for the Visual Recognition service.
 
-        :param str version: The API version date to use with the service, in
-               "YYYY-MM-DD" format. Whenever the API is changed in a backwards
-               incompatible way, a new minor version of the API is released.
-               The service uses the API version for the date you specify, or
-               the most recent version before that date. Note that you should
-               not programmatically specify the current date at runtime, in
-               case the API has been updated since your application's release.
-               Instead, specify a version date that is compatible with your
-               application, and don't change it until your application is
-               ready for a later version.
+        :param str version: Release date of the API version you want to use.
+               Specify dates in YYYY-MM-DD format. The current version is `2019-02-11`.
 
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
         """
-        print('warning: On 1 December 2021, Visual Recognition will no longer be available. For more information, see https://github.com/watson-developer-cloud/python-sdk/tree/master#visual-recognition-deprecation.')
+        if version is None:
+            raise ValueError('version must be provided')
+
         if not authenticator:
             authenticator = get_authenticator_from_environment(service_name)
         BaseService.__init__(self,
                              service_url=self.DEFAULT_SERVICE_URL,
-                             authenticator=authenticator,
-                             disable_ssl_verification=False)
+                             authenticator=authenticator)
         self.version = version
         self.configure_service(service_name)
 
@@ -87,13 +80,13 @@ class VisualRecognitionV4(BaseService):
     #########################
 
     def analyze(self,
-                collection_ids: str,
-                features: str,
+                collection_ids: List[str],
+                features: List[str],
                 *,
-                images_file: BinaryIO = None,
-                image_url: str = None,
+                images_file: List[BinaryIO] = None,
+                image_url: List[str] = None,
                 threshold: float = None,
-                **kwargs) -> 'DetailedResponse':
+                **kwargs) -> DetailedResponse:
         """
         Analyze images.
 
@@ -124,17 +117,14 @@ class VisualRecognitionV4(BaseService):
                be returned.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `AnalyzeResponse` object
         """
 
         if collection_ids is None:
             raise ValueError('collection_ids must be provided')
         if features is None:
             raise ValueError('features must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V4',
                                       operation_id='analyze')
@@ -143,23 +133,26 @@ class VisualRecognitionV4(BaseService):
         params = {'version': self.version}
 
         form_data = []
-        collection_ids = self._convert_list(collection_ids)
-        form_data.append(
-            ('collection_ids', (None, collection_ids, 'text/plain')))
-        features = self._convert_list(features)
-        form_data.append(('features', (None, features, 'text/plain')))
+        for item in collection_ids:
+            form_data.append(('collection_ids', (None, item, 'text/plain')))
+        for item in features:
+            form_data.append(('features', (None, item, 'text/plain')))
         if images_file:
             for item in images_file:
-                form_data.append(('images_file', (item.filename, item.data,
-                                                  item.content_type or
-                                                  'application/octet-stream')))
+                item = convert_model(item)
+                _file = (item.get('filename') or None, item['data'],
+                         item.get('content_type') or 'application/octet-stream')
+                form_data.append(('images_file', _file))
         if image_url:
             for item in image_url:
-                form_data.append(
-                    ('image_url', (None, item, 'application/json')))
+                form_data.append(('image_url', (None, item, 'text/plain')))
         if threshold:
-            threshold = str(threshold)
-            form_data.append(('threshold', (None, threshold, 'text/plain')))
+            form_data.append(
+                ('threshold', (None, str(threshold), 'text/plain')))
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v4/analyze'
         request = self.prepare_request(method='POST',
@@ -179,7 +172,8 @@ class VisualRecognitionV4(BaseService):
                           *,
                           name: str = None,
                           description: str = None,
-                          **kwargs) -> 'DetailedResponse':
+                          training_status: 'TrainingStatus' = None,
+                          **kwargs) -> DetailedResponse:
         """
         Create a collection.
 
@@ -193,14 +187,16 @@ class VisualRecognitionV4(BaseService):
                contain alphanumeric, underscore, hyphen, and dot characters. It cannot
                begin with the reserved prefix `sys-`.
         :param str description: (optional) The description of the collection.
+        :param TrainingStatus training_status: (optional) Training status
+               information for the collection.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Collection` object
         """
 
+        if training_status is not None:
+            training_status = convert_model(training_status)
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V4',
                                       operation_id='create_collection')
@@ -208,7 +204,18 @@ class VisualRecognitionV4(BaseService):
 
         params = {'version': self.version}
 
-        data = {'name': name, 'description': description}
+        data = {
+            'name': name,
+            'description': description,
+            'training_status': training_status
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v4/collections'
         request = self.prepare_request(method='POST',
@@ -220,7 +227,7 @@ class VisualRecognitionV4(BaseService):
         response = self.send(request)
         return response
 
-    def list_collections(self, **kwargs) -> 'DetailedResponse':
+    def list_collections(self, **kwargs) -> DetailedResponse:
         """
         List collections.
 
@@ -228,18 +235,20 @@ class VisualRecognitionV4(BaseService):
 
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `CollectionsList` object
         """
 
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V4',
                                       operation_id='list_collections')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v4/collections'
         request = self.prepare_request(method='GET',
@@ -250,8 +259,7 @@ class VisualRecognitionV4(BaseService):
         response = self.send(request)
         return response
 
-    def get_collection(self, collection_id: str,
-                       **kwargs) -> 'DetailedResponse':
+    def get_collection(self, collection_id: str, **kwargs) -> DetailedResponse:
         """
         Get collection details.
 
@@ -260,15 +268,12 @@ class VisualRecognitionV4(BaseService):
         :param str collection_id: The identifier of the collection.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Collection` object
         """
 
         if collection_id is None:
             raise ValueError('collection_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V4',
                                       operation_id='get_collection')
@@ -276,8 +281,14 @@ class VisualRecognitionV4(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v4/collections/{0}'.format(
-            *self._encode_path_vars(collection_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['collection_id']
+        path_param_values = self.encode_path_vars(collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v4/collections/{collection_id}'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -291,7 +302,8 @@ class VisualRecognitionV4(BaseService):
                           *,
                           name: str = None,
                           description: str = None,
-                          **kwargs) -> 'DetailedResponse':
+                          training_status: 'TrainingStatus' = None,
+                          **kwargs) -> DetailedResponse:
         """
         Update a collection.
 
@@ -304,17 +316,18 @@ class VisualRecognitionV4(BaseService):
                contain alphanumeric, underscore, hyphen, and dot characters. It cannot
                begin with the reserved prefix `sys-`.
         :param str description: (optional) The description of the collection.
+        :param TrainingStatus training_status: (optional) Training status
+               information for the collection.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Collection` object
         """
 
         if collection_id is None:
             raise ValueError('collection_id must be provided')
-
+        if training_status is not None:
+            training_status = convert_model(training_status)
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V4',
                                       operation_id='update_collection')
@@ -322,10 +335,23 @@ class VisualRecognitionV4(BaseService):
 
         params = {'version': self.version}
 
-        data = {'name': name, 'description': description}
+        data = {
+            'name': name,
+            'description': description,
+            'training_status': training_status
+        }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v4/collections/{0}'.format(
-            *self._encode_path_vars(collection_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['collection_id']
+        path_param_values = self.encode_path_vars(collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v4/collections/{collection_id}'.format(**path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -336,7 +362,7 @@ class VisualRecognitionV4(BaseService):
         return response
 
     def delete_collection(self, collection_id: str,
-                          **kwargs) -> 'DetailedResponse':
+                          **kwargs) -> DetailedResponse:
         """
         Delete a collection.
 
@@ -350,10 +376,7 @@ class VisualRecognitionV4(BaseService):
 
         if collection_id is None:
             raise ValueError('collection_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V4',
                                       operation_id='delete_collection')
@@ -361,8 +384,14 @@ class VisualRecognitionV4(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v4/collections/{0}'.format(
-            *self._encode_path_vars(collection_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['collection_id']
+        path_param_values = self.encode_path_vars(collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v4/collections/{collection_id}'.format(**path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
@@ -372,7 +401,7 @@ class VisualRecognitionV4(BaseService):
         return response
 
     def get_model_file(self, collection_id: str, feature: str,
-                       model_format: str, **kwargs) -> 'DetailedResponse':
+                       model_format: str, **kwargs) -> DetailedResponse:
         """
         Get a model.
 
@@ -389,7 +418,7 @@ class VisualRecognitionV4(BaseService):
         :param str model_format: The format of the returned model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `BinaryIO` result
         """
 
         if collection_id is None:
@@ -398,10 +427,7 @@ class VisualRecognitionV4(BaseService):
             raise ValueError('feature must be provided')
         if model_format is None:
             raise ValueError('model_format must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V4',
                                       operation_id='get_model_file')
@@ -413,8 +439,14 @@ class VisualRecognitionV4(BaseService):
             'model_format': model_format
         }
 
-        url = '/v4/collections/{0}/model'.format(
-            *self._encode_path_vars(collection_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/octet-stream'
+
+        path_param_keys = ['collection_id']
+        path_param_values = self.encode_path_vars(collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v4/collections/{collection_id}/model'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -430,10 +462,10 @@ class VisualRecognitionV4(BaseService):
     def add_images(self,
                    collection_id: str,
                    *,
-                   images_file: BinaryIO = None,
-                   image_url: str = None,
+                   images_file: List[BinaryIO] = None,
+                   image_url: List[str] = None,
                    training_data: str = None,
-                   **kwargs) -> 'DetailedResponse':
+                   **kwargs) -> DetailedResponse:
         """
         Add images.
 
@@ -464,15 +496,12 @@ class VisualRecognitionV4(BaseService):
                must be no longer than 32 characters.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `ImageDetailsList` object
         """
 
         if collection_id is None:
             raise ValueError('collection_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V4',
                                       operation_id='add_images')
@@ -483,20 +512,25 @@ class VisualRecognitionV4(BaseService):
         form_data = []
         if images_file:
             for item in images_file:
-                form_data.append(('images_file', (item.filename, item.data,
-                                                  item.content_type or
-                                                  'application/octet-stream')))
+                item = convert_model(item)
+                _file = (item.get('filename') or None, item['data'],
+                         item.get('content_type') or 'application/octet-stream')
+                form_data.append(('images_file', _file))
         if image_url:
             for item in image_url:
-                form_data.append(
-                    ('image_url', (None, item, 'application/json')))
+                form_data.append(('image_url', (None, item, 'text/plain')))
         if training_data:
-            training_data = str(training_data)
             form_data.append(
                 ('training_data', (None, training_data, 'text/plain')))
 
-        url = '/v4/collections/{0}/images'.format(
-            *self._encode_path_vars(collection_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['collection_id']
+        path_param_values = self.encode_path_vars(collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v4/collections/{collection_id}/images'.format(**path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -506,7 +540,7 @@ class VisualRecognitionV4(BaseService):
         response = self.send(request)
         return response
 
-    def list_images(self, collection_id: str, **kwargs) -> 'DetailedResponse':
+    def list_images(self, collection_id: str, **kwargs) -> DetailedResponse:
         """
         List images.
 
@@ -515,15 +549,12 @@ class VisualRecognitionV4(BaseService):
         :param str collection_id: The identifier of the collection.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `ImageSummaryList` object
         """
 
         if collection_id is None:
             raise ValueError('collection_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V4',
                                       operation_id='list_images')
@@ -531,8 +562,14 @@ class VisualRecognitionV4(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v4/collections/{0}/images'.format(
-            *self._encode_path_vars(collection_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['collection_id']
+        path_param_values = self.encode_path_vars(collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v4/collections/{collection_id}/images'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -542,7 +579,7 @@ class VisualRecognitionV4(BaseService):
         return response
 
     def get_image_details(self, collection_id: str, image_id: str,
-                          **kwargs) -> 'DetailedResponse':
+                          **kwargs) -> DetailedResponse:
         """
         Get image details.
 
@@ -552,17 +589,14 @@ class VisualRecognitionV4(BaseService):
         :param str image_id: The identifier of the image.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `ImageDetails` object
         """
 
         if collection_id is None:
             raise ValueError('collection_id must be provided')
         if image_id is None:
             raise ValueError('image_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V4',
                                       operation_id='get_image_details')
@@ -570,8 +604,15 @@ class VisualRecognitionV4(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v4/collections/{0}/images/{1}'.format(
-            *self._encode_path_vars(collection_id, image_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['collection_id', 'image_id']
+        path_param_values = self.encode_path_vars(collection_id, image_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v4/collections/{collection_id}/images/{image_id}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -581,7 +622,7 @@ class VisualRecognitionV4(BaseService):
         return response
 
     def delete_image(self, collection_id: str, image_id: str,
-                     **kwargs) -> 'DetailedResponse':
+                     **kwargs) -> DetailedResponse:
         """
         Delete an image.
 
@@ -598,10 +639,7 @@ class VisualRecognitionV4(BaseService):
             raise ValueError('collection_id must be provided')
         if image_id is None:
             raise ValueError('image_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V4',
                                       operation_id='delete_image')
@@ -609,8 +647,15 @@ class VisualRecognitionV4(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v4/collections/{0}/images/{1}'.format(
-            *self._encode_path_vars(collection_id, image_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['collection_id', 'image_id']
+        path_param_values = self.encode_path_vars(collection_id, image_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v4/collections/{collection_id}/images/{image_id}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
@@ -624,7 +669,7 @@ class VisualRecognitionV4(BaseService):
                        image_id: str,
                        *,
                        size: str = None,
-                       **kwargs) -> 'DetailedResponse':
+                       **kwargs) -> DetailedResponse:
         """
         Get a JPEG file of an image.
 
@@ -638,17 +683,14 @@ class VisualRecognitionV4(BaseService):
                is resized to 160 x 200 pixels.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `BinaryIO` result
         """
 
         if collection_id is None:
             raise ValueError('collection_id must be provided')
         if image_id is None:
             raise ValueError('image_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V4',
                                       operation_id='get_jpeg_image')
@@ -656,8 +698,15 @@ class VisualRecognitionV4(BaseService):
 
         params = {'version': self.version, 'size': size}
 
-        url = '/v4/collections/{0}/images/{1}/jpeg'.format(
-            *self._encode_path_vars(collection_id, image_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'image/jpeg'
+
+        path_param_keys = ['collection_id', 'image_id']
+        path_param_values = self.encode_path_vars(collection_id, image_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v4/collections/{collection_id}/images/{image_id}/jpeg'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -671,7 +720,7 @@ class VisualRecognitionV4(BaseService):
     #########################
 
     def list_object_metadata(self, collection_id: str,
-                             **kwargs) -> 'DetailedResponse':
+                             **kwargs) -> DetailedResponse:
         """
         List object metadata.
 
@@ -680,15 +729,12 @@ class VisualRecognitionV4(BaseService):
         :param str collection_id: The identifier of the collection.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `ObjectMetadataList` object
         """
 
         if collection_id is None:
             raise ValueError('collection_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V4',
                                       operation_id='list_object_metadata')
@@ -696,8 +742,15 @@ class VisualRecognitionV4(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v4/collections/{0}/objects'.format(
-            *self._encode_path_vars(collection_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['collection_id']
+        path_param_values = self.encode_path_vars(collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v4/collections/{collection_id}/objects'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -707,7 +760,7 @@ class VisualRecognitionV4(BaseService):
         return response
 
     def update_object_metadata(self, collection_id: str, object: str,
-                               new_object: str, **kwargs) -> 'DetailedResponse':
+                               new_object: str, **kwargs) -> DetailedResponse:
         """
         Update an object name.
 
@@ -721,7 +774,7 @@ class VisualRecognitionV4(BaseService):
                begin with the reserved prefix `sys-`.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `UpdateObjectMetadata` object
         """
 
         if collection_id is None:
@@ -730,10 +783,7 @@ class VisualRecognitionV4(BaseService):
             raise ValueError('object must be provided')
         if new_object is None:
             raise ValueError('new_object must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V4',
                                       operation_id='update_object_metadata')
@@ -742,9 +792,19 @@ class VisualRecognitionV4(BaseService):
         params = {'version': self.version}
 
         data = {'object': new_object}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v4/collections/{0}/objects/{1}'.format(
-            *self._encode_path_vars(collection_id, object))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['collection_id', 'object']
+        path_param_values = self.encode_path_vars(collection_id, object)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v4/collections/{collection_id}/objects/{object}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -755,7 +815,7 @@ class VisualRecognitionV4(BaseService):
         return response
 
     def get_object_metadata(self, collection_id: str, object: str,
-                            **kwargs) -> 'DetailedResponse':
+                            **kwargs) -> DetailedResponse:
         """
         Get object metadata.
 
@@ -765,17 +825,14 @@ class VisualRecognitionV4(BaseService):
         :param str object: The name of the object.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `ObjectMetadata` object
         """
 
         if collection_id is None:
             raise ValueError('collection_id must be provided')
         if object is None:
             raise ValueError('object must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V4',
                                       operation_id='get_object_metadata')
@@ -783,8 +840,15 @@ class VisualRecognitionV4(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v4/collections/{0}/objects/{1}'.format(
-            *self._encode_path_vars(collection_id, object))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['collection_id', 'object']
+        path_param_values = self.encode_path_vars(collection_id, object)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v4/collections/{collection_id}/objects/{object}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -794,7 +858,7 @@ class VisualRecognitionV4(BaseService):
         return response
 
     def delete_object(self, collection_id: str, object: str,
-                      **kwargs) -> 'DetailedResponse':
+                      **kwargs) -> DetailedResponse:
         """
         Delete an object.
 
@@ -812,10 +876,7 @@ class VisualRecognitionV4(BaseService):
             raise ValueError('collection_id must be provided')
         if object is None:
             raise ValueError('object must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V4',
                                       operation_id='delete_object')
@@ -823,8 +884,15 @@ class VisualRecognitionV4(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v4/collections/{0}/objects/{1}'.format(
-            *self._encode_path_vars(collection_id, object))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['collection_id', 'object']
+        path_param_values = self.encode_path_vars(collection_id, object)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v4/collections/{collection_id}/objects/{object}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
@@ -837,7 +905,7 @@ class VisualRecognitionV4(BaseService):
     # Training
     #########################
 
-    def train(self, collection_id: str, **kwargs) -> 'DetailedResponse':
+    def train(self, collection_id: str, **kwargs) -> DetailedResponse:
         """
         Train a collection.
 
@@ -848,15 +916,12 @@ class VisualRecognitionV4(BaseService):
         :param str collection_id: The identifier of the collection.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Collection` object
         """
 
         if collection_id is None:
             raise ValueError('collection_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V4',
                                       operation_id='train')
@@ -864,8 +929,14 @@ class VisualRecognitionV4(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v4/collections/{0}/train'.format(
-            *self._encode_path_vars(collection_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['collection_id']
+        path_param_values = self.encode_path_vars(collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v4/collections/{collection_id}/train'.format(**path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -879,7 +950,7 @@ class VisualRecognitionV4(BaseService):
                                 image_id: str,
                                 *,
                                 objects: List['TrainingDataObject'] = None,
-                                **kwargs) -> 'DetailedResponse':
+                                **kwargs) -> DetailedResponse:
         """
         Add training data to an image.
 
@@ -897,7 +968,7 @@ class VisualRecognitionV4(BaseService):
                specific objects.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `TrainingDataObjects` object
         """
 
         if collection_id is None:
@@ -905,11 +976,8 @@ class VisualRecognitionV4(BaseService):
         if image_id is None:
             raise ValueError('image_id must be provided')
         if objects is not None:
-            objects = [self._convert_model(x) for x in objects]
-
+            objects = [convert_model(x) for x in objects]
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V4',
                                       operation_id='add_image_training_data')
@@ -918,9 +986,19 @@ class VisualRecognitionV4(BaseService):
         params = {'version': self.version}
 
         data = {'objects': objects}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v4/collections/{0}/images/{1}/training_data'.format(
-            *self._encode_path_vars(collection_id, image_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['collection_id', 'image_id']
+        path_param_values = self.encode_path_vars(collection_id, image_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v4/collections/{collection_id}/images/{image_id}/training_data'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -934,7 +1012,7 @@ class VisualRecognitionV4(BaseService):
                            *,
                            start_time: date = None,
                            end_time: date = None,
-                           **kwargs) -> 'DetailedResponse':
+                           **kwargs) -> DetailedResponse:
         """
         Get training usage.
 
@@ -950,12 +1028,10 @@ class VisualRecognitionV4(BaseService):
                same value as `start_time` to request events for a single day.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `TrainingEvents` object
         """
 
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V4',
                                       operation_id='get_training_usage')
@@ -966,6 +1042,10 @@ class VisualRecognitionV4(BaseService):
             'start_time': start_time,
             'end_time': end_time
         }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v4/training_usage'
         request = self.prepare_request(method='GET',
@@ -980,8 +1060,7 @@ class VisualRecognitionV4(BaseService):
     # User data
     #########################
 
-    def delete_user_data(self, customer_id: str,
-                         **kwargs) -> 'DetailedResponse':
+    def delete_user_data(self, customer_id: str, **kwargs) -> DetailedResponse:
         """
         Delete labeled data.
 
@@ -1001,16 +1080,17 @@ class VisualRecognitionV4(BaseService):
 
         if customer_id is None:
             raise ValueError('customer_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V4',
                                       operation_id='delete_user_data')
         headers.update(sdk_headers)
 
         params = {'version': self.version, 'customer_id': customer_id}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v4/user_data'
         request = self.prepare_request(method='DELETE',
@@ -1022,33 +1102,42 @@ class VisualRecognitionV4(BaseService):
         return response
 
 
-class AnalyzeEnums(object):
+class AnalyzeEnums:
+    """
+    Enums for analyze parameters.
+    """
 
-    class Features(Enum):
+    class Features(str, Enum):
         """
         The features to analyze.
         """
         OBJECTS = 'objects'
 
 
-class GetModelFileEnums(object):
+class GetModelFileEnums:
+    """
+    Enums for get_model_file parameters.
+    """
 
-    class Feature(Enum):
+    class Feature(str, Enum):
         """
         The feature for the model.
         """
         OBJECTS = 'objects'
 
-    class ModelFormat(Enum):
+    class ModelFormat(str, Enum):
         """
         The format of the returned model.
         """
         RSCNN = 'rscnn'
 
 
-class GetJpegImageEnums(object):
+class GetJpegImageEnums:
+    """
+    Enums for get_jpeg_image parameters.
+    """
 
-    class Size(Enum):
+    class Size(str, Enum):
         """
         The image size. Specify `thumbnail` to return a version that maintains the
         original aspect ratio but is no larger than 200 pixels in the larger dimension.
@@ -1096,23 +1185,15 @@ class AnalyzeResponse():
     def from_dict(cls, _dict: Dict) -> 'AnalyzeResponse':
         """Initialize a AnalyzeResponse object from a json dictionary."""
         args = {}
-        valid_keys = ['images', 'warnings', 'trace']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class AnalyzeResponse: '
-                + ', '.join(bad_keys))
         if 'images' in _dict:
-            args['images'] = [
-                Image._from_dict(x) for x in (_dict.get('images'))
-            ]
+            args['images'] = [Image.from_dict(x) for x in _dict.get('images')]
         else:
             raise ValueError(
                 'Required property \'images\' not present in AnalyzeResponse JSON'
             )
         if 'warnings' in _dict:
             args['warnings'] = [
-                Warning._from_dict(x) for x in (_dict.get('warnings'))
+                Warning.from_dict(x) for x in _dict.get('warnings')
             ]
         if 'trace' in _dict:
             args['trace'] = _dict.get('trace')
@@ -1127,9 +1208,9 @@ class AnalyzeResponse():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'images') and self.images is not None:
-            _dict['images'] = [x._to_dict() for x in self.images]
+            _dict['images'] = [x.to_dict() for x in self.images]
         if hasattr(self, 'warnings') and self.warnings is not None:
-            _dict['warnings'] = [x._to_dict() for x in self.warnings]
+            _dict['warnings'] = [x.to_dict() for x in self.warnings]
         if hasattr(self, 'trace') and self.trace is not None:
             _dict['trace'] = self.trace
         return _dict
@@ -1140,7 +1221,7 @@ class AnalyzeResponse():
 
     def __str__(self) -> str:
         """Return a `str` version of this AnalyzeResponse object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'AnalyzeResponse') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1165,13 +1246,13 @@ class Collection():
     :attr datetime updated: Date and time in Coordinated Universal Time (UTC) that
           the collection was most recently updated.
     :attr int image_count: Number of images in the collection.
-    :attr TrainingStatus training_status: Training status information for the
-          collection.
+    :attr CollectionTrainingStatus training_status: Training status information for
+          the collection.
     """
 
     def __init__(self, collection_id: str, name: str, description: str,
                  created: datetime, updated: datetime, image_count: int,
-                 training_status: 'TrainingStatus') -> None:
+                 training_status: 'CollectionTrainingStatus') -> None:
         """
         Initialize a Collection object.
 
@@ -1183,8 +1264,8 @@ class Collection():
         :param datetime updated: Date and time in Coordinated Universal Time (UTC)
                that the collection was most recently updated.
         :param int image_count: Number of images in the collection.
-        :param TrainingStatus training_status: Training status information for the
-               collection.
+        :param CollectionTrainingStatus training_status: Training status
+               information for the collection.
         """
         self.collection_id = collection_id
         self.name = name
@@ -1198,15 +1279,6 @@ class Collection():
     def from_dict(cls, _dict: Dict) -> 'Collection':
         """Initialize a Collection object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'collection_id', 'name', 'description', 'created', 'updated',
-            'image_count', 'training_status'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Collection: '
-                + ', '.join(bad_keys))
         if 'collection_id' in _dict:
             args['collection_id'] = _dict.get('collection_id')
         else:
@@ -1241,7 +1313,7 @@ class Collection():
                 'Required property \'image_count\' not present in Collection JSON'
             )
         if 'training_status' in _dict:
-            args['training_status'] = TrainingStatus._from_dict(
+            args['training_status'] = CollectionTrainingStatus.from_dict(
                 _dict.get('training_status'))
         else:
             raise ValueError(
@@ -1257,21 +1329,23 @@ class Collection():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'collection_id') and self.collection_id is not None:
-            _dict['collection_id'] = self.collection_id
+        if hasattr(self, 'collection_id') and getattr(
+                self, 'collection_id') is not None:
+            _dict['collection_id'] = getattr(self, 'collection_id')
         if hasattr(self, 'name') and self.name is not None:
             _dict['name'] = self.name
         if hasattr(self, 'description') and self.description is not None:
             _dict['description'] = self.description
-        if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = datetime_to_string(self.created)
-        if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = datetime_to_string(self.updated)
-        if hasattr(self, 'image_count') and self.image_count is not None:
-            _dict['image_count'] = self.image_count
+        if hasattr(self, 'created') and getattr(self, 'created') is not None:
+            _dict['created'] = datetime_to_string(getattr(self, 'created'))
+        if hasattr(self, 'updated') and getattr(self, 'updated') is not None:
+            _dict['updated'] = datetime_to_string(getattr(self, 'updated'))
+        if hasattr(self, 'image_count') and getattr(self,
+                                                    'image_count') is not None:
+            _dict['image_count'] = getattr(self, 'image_count')
         if hasattr(self,
                    'training_status') and self.training_status is not None:
-            _dict['training_status'] = self.training_status._to_dict()
+            _dict['training_status'] = self.training_status.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -1280,7 +1354,7 @@ class Collection():
 
     def __str__(self) -> str:
         """Return a `str` version of this Collection object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Collection') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1316,12 +1390,6 @@ class CollectionObjects():
     def from_dict(cls, _dict: Dict) -> 'CollectionObjects':
         """Initialize a CollectionObjects object from a json dictionary."""
         args = {}
-        valid_keys = ['collection_id', 'objects']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class CollectionObjects: '
-                + ', '.join(bad_keys))
         if 'collection_id' in _dict:
             args['collection_id'] = _dict.get('collection_id')
         else:
@@ -1330,7 +1398,7 @@ class CollectionObjects():
             )
         if 'objects' in _dict:
             args['objects'] = [
-                ObjectDetail._from_dict(x) for x in (_dict.get('objects'))
+                ObjectDetail.from_dict(x) for x in _dict.get('objects')
             ]
         else:
             raise ValueError(
@@ -1349,7 +1417,7 @@ class CollectionObjects():
         if hasattr(self, 'collection_id') and self.collection_id is not None:
             _dict['collection_id'] = self.collection_id
         if hasattr(self, 'objects') and self.objects is not None:
-            _dict['objects'] = [x._to_dict() for x in self.objects]
+            _dict['objects'] = [x.to_dict() for x in self.objects]
         return _dict
 
     def _to_dict(self):
@@ -1358,7 +1426,7 @@ class CollectionObjects():
 
     def __str__(self) -> str:
         """Return a `str` version of this CollectionObjects object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'CollectionObjects') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1367,6 +1435,67 @@ class CollectionObjects():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'CollectionObjects') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class CollectionTrainingStatus():
+    """
+    Training status information for the collection.
+
+    :attr ObjectTrainingStatus objects: Training status for the objects in the
+          collection.
+    """
+
+    def __init__(self, objects: 'ObjectTrainingStatus') -> None:
+        """
+        Initialize a CollectionTrainingStatus object.
+
+        :param ObjectTrainingStatus objects: Training status for the objects in the
+               collection.
+        """
+        self.objects = objects
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'CollectionTrainingStatus':
+        """Initialize a CollectionTrainingStatus object from a json dictionary."""
+        args = {}
+        if 'objects' in _dict:
+            args['objects'] = ObjectTrainingStatus.from_dict(
+                _dict.get('objects'))
+        else:
+            raise ValueError(
+                'Required property \'objects\' not present in CollectionTrainingStatus JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CollectionTrainingStatus object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'objects') and self.objects is not None:
+            _dict['objects'] = self.objects.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this CollectionTrainingStatus object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'CollectionTrainingStatus') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'CollectionTrainingStatus') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1391,15 +1520,9 @@ class CollectionsList():
     def from_dict(cls, _dict: Dict) -> 'CollectionsList':
         """Initialize a CollectionsList object from a json dictionary."""
         args = {}
-        valid_keys = ['collections']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class CollectionsList: '
-                + ', '.join(bad_keys))
         if 'collections' in _dict:
             args['collections'] = [
-                Collection._from_dict(x) for x in (_dict.get('collections'))
+                Collection.from_dict(x) for x in _dict.get('collections')
             ]
         else:
             raise ValueError(
@@ -1416,7 +1539,7 @@ class CollectionsList():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'collections') and self.collections is not None:
-            _dict['collections'] = [x._to_dict() for x in self.collections]
+            _dict['collections'] = [x.to_dict() for x in self.collections]
         return _dict
 
     def _to_dict(self):
@@ -1425,7 +1548,7 @@ class CollectionsList():
 
     def __str__(self) -> str:
         """Return a `str` version of this CollectionsList object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'CollectionsList') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1461,16 +1584,9 @@ class DetectedObjects():
     def from_dict(cls, _dict: Dict) -> 'DetectedObjects':
         """Initialize a DetectedObjects object from a json dictionary."""
         args = {}
-        valid_keys = ['collections']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DetectedObjects: '
-                + ', '.join(bad_keys))
         if 'collections' in _dict:
             args['collections'] = [
-                CollectionObjects._from_dict(x)
-                for x in (_dict.get('collections'))
+                CollectionObjects.from_dict(x) for x in _dict.get('collections')
             ]
         return cls(**args)
 
@@ -1483,7 +1599,7 @@ class DetectedObjects():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'collections') and self.collections is not None:
-            _dict['collections'] = [x._to_dict() for x in self.collections]
+            _dict['collections'] = [x.to_dict() for x in self.collections]
         return _dict
 
     def _to_dict(self):
@@ -1492,7 +1608,7 @@ class DetectedObjects():
 
     def __str__(self) -> str:
         """Return a `str` version of this DetectedObjects object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DetectedObjects') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1541,12 +1657,6 @@ class Error():
     def from_dict(cls, _dict: Dict) -> 'Error':
         """Initialize a Error object from a json dictionary."""
         args = {}
-        valid_keys = ['code', 'message', 'more_info', 'target']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Error: ' +
-                ', '.join(bad_keys))
         if 'code' in _dict:
             args['code'] = _dict.get('code')
         else:
@@ -1560,7 +1670,7 @@ class Error():
         if 'more_info' in _dict:
             args['more_info'] = _dict.get('more_info')
         if 'target' in _dict:
-            args['target'] = ErrorTarget._from_dict(_dict.get('target'))
+            args['target'] = ErrorTarget.from_dict(_dict.get('target'))
         return cls(**args)
 
     @classmethod
@@ -1578,7 +1688,7 @@ class Error():
         if hasattr(self, 'more_info') and self.more_info is not None:
             _dict['more_info'] = self.more_info
         if hasattr(self, 'target') and self.target is not None:
-            _dict['target'] = self.target._to_dict()
+            _dict['target'] = self.target.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -1587,7 +1697,7 @@ class Error():
 
     def __str__(self) -> str:
         """Return a `str` version of this Error object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Error') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1599,15 +1709,15 @@ class Error():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class CodeEnum(Enum):
+    class CodeEnum(str, Enum):
         """
         Identifier of the problem.
         """
-        INVALID_FIELD = "invalid_field"
-        INVALID_HEADER = "invalid_header"
-        INVALID_METHOD = "invalid_method"
-        MISSING_FIELD = "missing_field"
-        SERVER_ERROR = "server_error"
+        INVALID_FIELD = 'invalid_field'
+        INVALID_HEADER = 'invalid_header'
+        INVALID_METHOD = 'invalid_method'
+        MISSING_FIELD = 'missing_field'
+        SERVER_ERROR = 'server_error'
 
 
 class ErrorTarget():
@@ -1633,12 +1743,6 @@ class ErrorTarget():
     def from_dict(cls, _dict: Dict) -> 'ErrorTarget':
         """Initialize a ErrorTarget object from a json dictionary."""
         args = {}
-        valid_keys = ['type', 'name']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ErrorTarget: '
-                + ', '.join(bad_keys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         else:
@@ -1671,7 +1775,7 @@ class ErrorTarget():
 
     def __str__(self) -> str:
         """Return a `str` version of this ErrorTarget object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ErrorTarget') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1683,13 +1787,13 @@ class ErrorTarget():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class TypeEnum(Enum):
+    class TypeEnum(str, Enum):
         """
         The parameter or property that is the focus of the problem.
         """
-        FIELD = "field"
-        PARAMETER = "parameter"
-        HEADER = "header"
+        FIELD = 'field'
+        PARAMETER = 'parameter'
+        HEADER = 'header'
 
 
 class Image():
@@ -1729,32 +1833,24 @@ class Image():
     def from_dict(cls, _dict: Dict) -> 'Image':
         """Initialize a Image object from a json dictionary."""
         args = {}
-        valid_keys = ['source', 'dimensions', 'objects', 'errors']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Image: ' +
-                ', '.join(bad_keys))
         if 'source' in _dict:
-            args['source'] = ImageSource._from_dict(_dict.get('source'))
+            args['source'] = ImageSource.from_dict(_dict.get('source'))
         else:
             raise ValueError(
                 'Required property \'source\' not present in Image JSON')
         if 'dimensions' in _dict:
-            args['dimensions'] = ImageDimensions._from_dict(
+            args['dimensions'] = ImageDimensions.from_dict(
                 _dict.get('dimensions'))
         else:
             raise ValueError(
                 'Required property \'dimensions\' not present in Image JSON')
         if 'objects' in _dict:
-            args['objects'] = DetectedObjects._from_dict(_dict.get('objects'))
+            args['objects'] = DetectedObjects.from_dict(_dict.get('objects'))
         else:
             raise ValueError(
                 'Required property \'objects\' not present in Image JSON')
         if 'errors' in _dict:
-            args['errors'] = [
-                Error._from_dict(x) for x in (_dict.get('errors'))
-            ]
+            args['errors'] = [Error.from_dict(x) for x in _dict.get('errors')]
         return cls(**args)
 
     @classmethod
@@ -1766,13 +1862,13 @@ class Image():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'source') and self.source is not None:
-            _dict['source'] = self.source._to_dict()
+            _dict['source'] = self.source.to_dict()
         if hasattr(self, 'dimensions') and self.dimensions is not None:
-            _dict['dimensions'] = self.dimensions._to_dict()
+            _dict['dimensions'] = self.dimensions.to_dict()
         if hasattr(self, 'objects') and self.objects is not None:
-            _dict['objects'] = self.objects._to_dict()
+            _dict['objects'] = self.objects.to_dict()
         if hasattr(self, 'errors') and self.errors is not None:
-            _dict['errors'] = [x._to_dict() for x in self.errors]
+            _dict['errors'] = [x.to_dict() for x in self.errors]
         return _dict
 
     def _to_dict(self):
@@ -1781,7 +1877,7 @@ class Image():
 
     def __str__(self) -> str:
         """Return a `str` version of this Image object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Image') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1845,15 +1941,6 @@ class ImageDetails():
     def from_dict(cls, _dict: Dict) -> 'ImageDetails':
         """Initialize a ImageDetails object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'image_id', 'updated', 'created', 'source', 'dimensions', 'errors',
-            'training_data'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ImageDetails: '
-                + ', '.join(bad_keys))
         if 'image_id' in _dict:
             args['image_id'] = _dict.get('image_id')
         if 'updated' in _dict:
@@ -1861,19 +1948,17 @@ class ImageDetails():
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict.get('created'))
         if 'source' in _dict:
-            args['source'] = ImageSource._from_dict(_dict.get('source'))
+            args['source'] = ImageSource.from_dict(_dict.get('source'))
         else:
             raise ValueError(
                 'Required property \'source\' not present in ImageDetails JSON')
         if 'dimensions' in _dict:
-            args['dimensions'] = ImageDimensions._from_dict(
+            args['dimensions'] = ImageDimensions.from_dict(
                 _dict.get('dimensions'))
         if 'errors' in _dict:
-            args['errors'] = [
-                Error._from_dict(x) for x in (_dict.get('errors'))
-            ]
+            args['errors'] = [Error.from_dict(x) for x in _dict.get('errors')]
         if 'training_data' in _dict:
-            args['training_data'] = TrainingDataObjects._from_dict(
+            args['training_data'] = TrainingDataObjects.from_dict(
                 _dict.get('training_data'))
         return cls(**args)
 
@@ -1892,13 +1977,13 @@ class ImageDetails():
         if hasattr(self, 'created') and self.created is not None:
             _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'source') and self.source is not None:
-            _dict['source'] = self.source._to_dict()
+            _dict['source'] = self.source.to_dict()
         if hasattr(self, 'dimensions') and self.dimensions is not None:
-            _dict['dimensions'] = self.dimensions._to_dict()
+            _dict['dimensions'] = self.dimensions.to_dict()
         if hasattr(self, 'errors') and self.errors is not None:
-            _dict['errors'] = [x._to_dict() for x in self.errors]
+            _dict['errors'] = [x.to_dict() for x in self.errors]
         if hasattr(self, 'training_data') and self.training_data is not None:
-            _dict['training_data'] = self.training_data._to_dict()
+            _dict['training_data'] = self.training_data.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -1907,7 +1992,7 @@ class ImageDetails():
 
     def __str__(self) -> str:
         """Return a `str` version of this ImageDetails object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ImageDetails') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1953,19 +2038,13 @@ class ImageDetailsList():
     def from_dict(cls, _dict: Dict) -> 'ImageDetailsList':
         """Initialize a ImageDetailsList object from a json dictionary."""
         args = {}
-        valid_keys = ['images', 'warnings', 'trace']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ImageDetailsList: '
-                + ', '.join(bad_keys))
         if 'images' in _dict:
             args['images'] = [
-                ImageDetails._from_dict(x) for x in (_dict.get('images'))
+                ImageDetails.from_dict(x) for x in _dict.get('images')
             ]
         if 'warnings' in _dict:
             args['warnings'] = [
-                Warning._from_dict(x) for x in (_dict.get('warnings'))
+                Warning.from_dict(x) for x in _dict.get('warnings')
             ]
         if 'trace' in _dict:
             args['trace'] = _dict.get('trace')
@@ -1980,9 +2059,9 @@ class ImageDetailsList():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'images') and self.images is not None:
-            _dict['images'] = [x._to_dict() for x in self.images]
+            _dict['images'] = [x.to_dict() for x in self.images]
         if hasattr(self, 'warnings') and self.warnings is not None:
-            _dict['warnings'] = [x._to_dict() for x in self.warnings]
+            _dict['warnings'] = [x.to_dict() for x in self.warnings]
         if hasattr(self, 'trace') and self.trace is not None:
             _dict['trace'] = self.trace
         return _dict
@@ -1993,7 +2072,7 @@ class ImageDetailsList():
 
     def __str__(self) -> str:
         """Return a `str` version of this ImageDetailsList object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ImageDetailsList') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2028,12 +2107,6 @@ class ImageDimensions():
     def from_dict(cls, _dict: Dict) -> 'ImageDimensions':
         """Initialize a ImageDimensions object from a json dictionary."""
         args = {}
-        valid_keys = ['height', 'width']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ImageDimensions: '
-                + ', '.join(bad_keys))
         if 'height' in _dict:
             args['height'] = _dict.get('height')
         if 'width' in _dict:
@@ -2060,7 +2133,7 @@ class ImageDimensions():
 
     def __str__(self) -> str:
         """Return a `str` version of this ImageDimensions object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ImageDimensions') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2118,14 +2191,6 @@ class ImageSource():
     def from_dict(cls, _dict: Dict) -> 'ImageSource':
         """Initialize a ImageSource object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'type', 'filename', 'archive_filename', 'source_url', 'resolved_url'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ImageSource: '
-                + ', '.join(bad_keys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         else:
@@ -2168,7 +2233,7 @@ class ImageSource():
 
     def __str__(self) -> str:
         """Return a `str` version of this ImageSource object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ImageSource') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2180,12 +2245,12 @@ class ImageSource():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class TypeEnum(Enum):
+    class TypeEnum(str, Enum):
         """
         The source type of the image.
         """
-        FILE = "file"
-        URL = "url"
+        FILE = 'file'
+        URL = 'url'
 
 
 class ImageSummary():
@@ -2215,12 +2280,6 @@ class ImageSummary():
     def from_dict(cls, _dict: Dict) -> 'ImageSummary':
         """Initialize a ImageSummary object from a json dictionary."""
         args = {}
-        valid_keys = ['image_id', 'updated']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ImageSummary: '
-                + ', '.join(bad_keys))
         if 'image_id' in _dict:
             args['image_id'] = _dict.get('image_id')
         if 'updated' in _dict:
@@ -2247,7 +2306,7 @@ class ImageSummary():
 
     def __str__(self) -> str:
         """Return a `str` version of this ImageSummary object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ImageSummary') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2279,15 +2338,9 @@ class ImageSummaryList():
     def from_dict(cls, _dict: Dict) -> 'ImageSummaryList':
         """Initialize a ImageSummaryList object from a json dictionary."""
         args = {}
-        valid_keys = ['images']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ImageSummaryList: '
-                + ', '.join(bad_keys))
         if 'images' in _dict:
             args['images'] = [
-                ImageSummary._from_dict(x) for x in (_dict.get('images'))
+                ImageSummary.from_dict(x) for x in _dict.get('images')
             ]
         else:
             raise ValueError(
@@ -2304,7 +2357,7 @@ class ImageSummaryList():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'images') and self.images is not None:
-            _dict['images'] = [x._to_dict() for x in self.images]
+            _dict['images'] = [x.to_dict() for x in self.images]
         return _dict
 
     def _to_dict(self):
@@ -2313,7 +2366,7 @@ class ImageSummaryList():
 
     def __str__(self) -> str:
         """Return a `str` version of this ImageSummaryList object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ImageSummaryList') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2354,12 +2407,6 @@ class Location():
     def from_dict(cls, _dict: Dict) -> 'Location':
         """Initialize a Location object from a json dictionary."""
         args = {}
-        valid_keys = ['top', 'left', 'width', 'height']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Location: '
-                + ', '.join(bad_keys))
         if 'top' in _dict:
             args['top'] = _dict.get('top')
         else:
@@ -2406,7 +2453,7 @@ class Location():
 
     def __str__(self) -> str:
         """Return a `str` version of this Location object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Location') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2424,20 +2471,21 @@ class ObjectDetail():
     Details about an object in the collection.
 
     :attr str object: The label for the object.
-    :attr Location location: Defines the location of the bounding box around the
-          object.
+    :attr ObjectDetailLocation location: Defines the location of the bounding box
+          around the object.
     :attr float score: Confidence score for the object in the range of 0 to 1. A
           higher score indicates greater likelihood that the object is depicted at this
           location in the image.
     """
 
-    def __init__(self, object: str, location: 'Location', score: float) -> None:
+    def __init__(self, object: str, location: 'ObjectDetailLocation',
+                 score: float) -> None:
         """
         Initialize a ObjectDetail object.
 
         :param str object: The label for the object.
-        :param Location location: Defines the location of the bounding box around
-               the object.
+        :param ObjectDetailLocation location: Defines the location of the bounding
+               box around the object.
         :param float score: Confidence score for the object in the range of 0 to 1.
                A higher score indicates greater likelihood that the object is depicted at
                this location in the image.
@@ -2450,19 +2498,14 @@ class ObjectDetail():
     def from_dict(cls, _dict: Dict) -> 'ObjectDetail':
         """Initialize a ObjectDetail object from a json dictionary."""
         args = {}
-        valid_keys = ['object', 'location', 'score']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ObjectDetail: '
-                + ', '.join(bad_keys))
         if 'object' in _dict:
             args['object'] = _dict.get('object')
         else:
             raise ValueError(
                 'Required property \'object\' not present in ObjectDetail JSON')
         if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
+            args['location'] = ObjectDetailLocation.from_dict(
+                _dict.get('location'))
         else:
             raise ValueError(
                 'Required property \'location\' not present in ObjectDetail JSON'
@@ -2485,7 +2528,7 @@ class ObjectDetail():
         if hasattr(self, 'object') and self.object is not None:
             _dict['object'] = self.object
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
+            _dict['location'] = self.location.to_dict()
         if hasattr(self, 'score') and self.score is not None:
             _dict['score'] = self.score
         return _dict
@@ -2496,7 +2539,7 @@ class ObjectDetail():
 
     def __str__(self) -> str:
         """Return a `str` version of this ObjectDetail object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ObjectDetail') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2505,6 +2548,97 @@ class ObjectDetail():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'ObjectDetail') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ObjectDetailLocation():
+    """
+    Defines the location of the bounding box around the object.
+
+    :attr int top: Y-position of top-left pixel of the bounding box.
+    :attr int left: X-position of top-left pixel of the bounding box.
+    :attr int width: Width in pixels of of the bounding box.
+    :attr int height: Height in pixels of the bounding box.
+    """
+
+    def __init__(self, top: int, left: int, width: int, height: int) -> None:
+        """
+        Initialize a ObjectDetailLocation object.
+
+        :param int top: Y-position of top-left pixel of the bounding box.
+        :param int left: X-position of top-left pixel of the bounding box.
+        :param int width: Width in pixels of of the bounding box.
+        :param int height: Height in pixels of the bounding box.
+        """
+        self.top = top
+        self.left = left
+        self.width = width
+        self.height = height
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ObjectDetailLocation':
+        """Initialize a ObjectDetailLocation object from a json dictionary."""
+        args = {}
+        if 'top' in _dict:
+            args['top'] = _dict.get('top')
+        else:
+            raise ValueError(
+                'Required property \'top\' not present in ObjectDetailLocation JSON'
+            )
+        if 'left' in _dict:
+            args['left'] = _dict.get('left')
+        else:
+            raise ValueError(
+                'Required property \'left\' not present in ObjectDetailLocation JSON'
+            )
+        if 'width' in _dict:
+            args['width'] = _dict.get('width')
+        else:
+            raise ValueError(
+                'Required property \'width\' not present in ObjectDetailLocation JSON'
+            )
+        if 'height' in _dict:
+            args['height'] = _dict.get('height')
+        else:
+            raise ValueError(
+                'Required property \'height\' not present in ObjectDetailLocation JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ObjectDetailLocation object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'top') and self.top is not None:
+            _dict['top'] = self.top
+        if hasattr(self, 'left') and self.left is not None:
+            _dict['left'] = self.left
+        if hasattr(self, 'width') and self.width is not None:
+            _dict['width'] = self.width
+        if hasattr(self, 'height') and self.height is not None:
+            _dict['height'] = self.height
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ObjectDetailLocation object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ObjectDetailLocation') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ObjectDetailLocation') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2523,8 +2657,6 @@ class ObjectMetadata():
         Initialize a ObjectMetadata object.
 
         :param str object: (optional) The name of the object.
-        :param int count: (optional) Number of bounding boxes with this object name
-               in the collection.
         """
         self.object = object
         self.count = count
@@ -2533,12 +2665,6 @@ class ObjectMetadata():
     def from_dict(cls, _dict: Dict) -> 'ObjectMetadata':
         """Initialize a ObjectMetadata object from a json dictionary."""
         args = {}
-        valid_keys = ['object', 'count']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ObjectMetadata: '
-                + ', '.join(bad_keys))
         if 'object' in _dict:
             args['object'] = _dict.get('object')
         if 'count' in _dict:
@@ -2555,8 +2681,8 @@ class ObjectMetadata():
         _dict = {}
         if hasattr(self, 'object') and self.object is not None:
             _dict['object'] = self.object
-        if hasattr(self, 'count') and self.count is not None:
-            _dict['count'] = self.count
+        if hasattr(self, 'count') and getattr(self, 'count') is not None:
+            _dict['count'] = getattr(self, 'count')
         return _dict
 
     def _to_dict(self):
@@ -2565,7 +2691,7 @@ class ObjectMetadata():
 
     def __str__(self) -> str:
         """Return a `str` version of this ObjectMetadata object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ObjectMetadata') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2604,12 +2730,6 @@ class ObjectMetadataList():
     def from_dict(cls, _dict: Dict) -> 'ObjectMetadataList':
         """Initialize a ObjectMetadataList object from a json dictionary."""
         args = {}
-        valid_keys = ['object_count', 'objects']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ObjectMetadataList: '
-                + ', '.join(bad_keys))
         if 'object_count' in _dict:
             args['object_count'] = _dict.get('object_count')
         else:
@@ -2618,7 +2738,7 @@ class ObjectMetadataList():
             )
         if 'objects' in _dict:
             args['objects'] = [
-                ObjectMetadata._from_dict(x) for x in (_dict.get('objects'))
+                ObjectMetadata.from_dict(x) for x in _dict.get('objects')
             ]
         return cls(**args)
 
@@ -2630,10 +2750,11 @@ class ObjectMetadataList():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'object_count') and self.object_count is not None:
-            _dict['object_count'] = self.object_count
+        if hasattr(self, 'object_count') and getattr(
+                self, 'object_count') is not None:
+            _dict['object_count'] = getattr(self, 'object_count')
         if hasattr(self, 'objects') and self.objects is not None:
-            _dict['objects'] = [x._to_dict() for x in self.objects]
+            _dict['objects'] = [x.to_dict() for x in self.objects]
         return _dict
 
     def _to_dict(self):
@@ -2642,7 +2763,7 @@ class ObjectMetadataList():
 
     def __str__(self) -> str:
         """Return a `str` version of this ObjectMetadataList object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ObjectMetadataList') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2702,15 +2823,6 @@ class ObjectTrainingStatus():
     def from_dict(cls, _dict: Dict) -> 'ObjectTrainingStatus':
         """Initialize a ObjectTrainingStatus object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'ready', 'in_progress', 'data_changed', 'latest_failed',
-            'rscnn_ready', 'description'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ObjectTrainingStatus: '
-                + ', '.join(bad_keys))
         if 'ready' in _dict:
             args['ready'] = _dict.get('ready')
         else:
@@ -2777,7 +2889,7 @@ class ObjectTrainingStatus():
 
     def __str__(self) -> str:
         """Return a `str` version of this ObjectTrainingStatus object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ObjectTrainingStatus') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2817,16 +2929,10 @@ class TrainingDataObject():
     def from_dict(cls, _dict: Dict) -> 'TrainingDataObject':
         """Initialize a TrainingDataObject object from a json dictionary."""
         args = {}
-        valid_keys = ['object', 'location']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class TrainingDataObject: '
-                + ', '.join(bad_keys))
         if 'object' in _dict:
             args['object'] = _dict.get('object')
         if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
+            args['location'] = Location.from_dict(_dict.get('location'))
         return cls(**args)
 
     @classmethod
@@ -2840,7 +2946,7 @@ class TrainingDataObject():
         if hasattr(self, 'object') and self.object is not None:
             _dict['object'] = self.object
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
+            _dict['location'] = self.location.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -2849,7 +2955,7 @@ class TrainingDataObject():
 
     def __str__(self) -> str:
         """Return a `str` version of this TrainingDataObject object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'TrainingDataObject') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2883,15 +2989,9 @@ class TrainingDataObjects():
     def from_dict(cls, _dict: Dict) -> 'TrainingDataObjects':
         """Initialize a TrainingDataObjects object from a json dictionary."""
         args = {}
-        valid_keys = ['objects']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class TrainingDataObjects: '
-                + ', '.join(bad_keys))
         if 'objects' in _dict:
             args['objects'] = [
-                TrainingDataObject._from_dict(x) for x in (_dict.get('objects'))
+                TrainingDataObject.from_dict(x) for x in _dict.get('objects')
             ]
         return cls(**args)
 
@@ -2904,7 +3004,7 @@ class TrainingDataObjects():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'objects') and self.objects is not None:
-            _dict['objects'] = [x._to_dict() for x in self.objects]
+            _dict['objects'] = [x.to_dict() for x in self.objects]
         return _dict
 
     def _to_dict(self):
@@ -2913,7 +3013,7 @@ class TrainingDataObjects():
 
     def __str__(self) -> str:
         """Return a `str` version of this TrainingDataObjects object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'TrainingDataObjects') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2969,14 +3069,6 @@ class TrainingEvent():
     def from_dict(cls, _dict: Dict) -> 'TrainingEvent':
         """Initialize a TrainingEvent object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'type', 'collection_id', 'completion_time', 'status', 'image_count'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class TrainingEvent: '
-                + ', '.join(bad_keys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'collection_id' in _dict:
@@ -3017,7 +3109,7 @@ class TrainingEvent():
 
     def __str__(self) -> str:
         """Return a `str` version of this TrainingEvent object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'TrainingEvent') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3029,18 +3121,18 @@ class TrainingEvent():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class TypeEnum(Enum):
+    class TypeEnum(str, Enum):
         """
         Trained object type. Only `objects` is currently supported.
         """
-        OBJECTS = "objects"
+        OBJECTS = 'objects'
 
-    class StatusEnum(Enum):
+    class StatusEnum(str, Enum):
         """
         Training status of the training event.
         """
-        FAILED = "failed"
-        SUCCEEDED = "succeeded"
+        FAILED = 'failed'
+        SUCCEEDED = 'succeeded'
 
 
 class TrainingEvents():
@@ -3094,15 +3186,6 @@ class TrainingEvents():
     def from_dict(cls, _dict: Dict) -> 'TrainingEvents':
         """Initialize a TrainingEvents object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'start_time', 'end_time', 'completed_events', 'trained_images',
-            'events'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class TrainingEvents: '
-                + ', '.join(bad_keys))
         if 'start_time' in _dict:
             args['start_time'] = string_to_datetime(_dict.get('start_time'))
         if 'end_time' in _dict:
@@ -3113,7 +3196,7 @@ class TrainingEvents():
             args['trained_images'] = _dict.get('trained_images')
         if 'events' in _dict:
             args['events'] = [
-                TrainingEvent._from_dict(x) for x in (_dict.get('events'))
+                TrainingEvent.from_dict(x) for x in _dict.get('events')
             ]
         return cls(**args)
 
@@ -3135,7 +3218,7 @@ class TrainingEvents():
         if hasattr(self, 'trained_images') and self.trained_images is not None:
             _dict['trained_images'] = self.trained_images
         if hasattr(self, 'events') and self.events is not None:
-            _dict['events'] = [x._to_dict() for x in self.events]
+            _dict['events'] = [x.to_dict() for x in self.events]
         return _dict
 
     def _to_dict(self):
@@ -3144,7 +3227,7 @@ class TrainingEvents():
 
     def __str__(self) -> str:
         """Return a `str` version of this TrainingEvents object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'TrainingEvents') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3178,14 +3261,8 @@ class TrainingStatus():
     def from_dict(cls, _dict: Dict) -> 'TrainingStatus':
         """Initialize a TrainingStatus object from a json dictionary."""
         args = {}
-        valid_keys = ['objects']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class TrainingStatus: '
-                + ', '.join(bad_keys))
         if 'objects' in _dict:
-            args['objects'] = ObjectTrainingStatus._from_dict(
+            args['objects'] = ObjectTrainingStatus.from_dict(
                 _dict.get('objects'))
         else:
             raise ValueError(
@@ -3202,7 +3279,7 @@ class TrainingStatus():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'objects') and self.objects is not None:
-            _dict['objects'] = self.objects._to_dict()
+            _dict['objects'] = self.objects.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -3211,7 +3288,7 @@ class TrainingStatus():
 
     def __str__(self) -> str:
         """Return a `str` version of this TrainingStatus object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'TrainingStatus') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3242,8 +3319,6 @@ class UpdateObjectMetadata():
         :param str object: The updated name of the object. The name can contain
                alphanumeric, underscore, hyphen, space, and dot characters. It cannot
                begin with the reserved prefix `sys-`.
-        :param int count: (optional) Number of bounding boxes in the collection
-               with the updated object name.
         """
         self.object = object
         self.count = count
@@ -3252,12 +3327,6 @@ class UpdateObjectMetadata():
     def from_dict(cls, _dict: Dict) -> 'UpdateObjectMetadata':
         """Initialize a UpdateObjectMetadata object from a json dictionary."""
         args = {}
-        valid_keys = ['object', 'count']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class UpdateObjectMetadata: '
-                + ', '.join(bad_keys))
         if 'object' in _dict:
             args['object'] = _dict.get('object')
         else:
@@ -3278,8 +3347,8 @@ class UpdateObjectMetadata():
         _dict = {}
         if hasattr(self, 'object') and self.object is not None:
             _dict['object'] = self.object
-        if hasattr(self, 'count') and self.count is not None:
-            _dict['count'] = self.count
+        if hasattr(self, 'count') and getattr(self, 'count') is not None:
+            _dict['count'] = getattr(self, 'count')
         return _dict
 
     def _to_dict(self):
@@ -3288,7 +3357,7 @@ class UpdateObjectMetadata():
 
     def __str__(self) -> str:
         """Return a `str` version of this UpdateObjectMetadata object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'UpdateObjectMetadata') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3331,12 +3400,6 @@ class Warning():
     def from_dict(cls, _dict: Dict) -> 'Warning':
         """Initialize a Warning object from a json dictionary."""
         args = {}
-        valid_keys = ['code', 'message', 'more_info']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Warning: ' +
-                ', '.join(bad_keys))
         if 'code' in _dict:
             args['code'] = _dict.get('code')
         else:
@@ -3373,7 +3436,7 @@ class Warning():
 
     def __str__(self) -> str:
         """Return a `str` version of this Warning object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Warning') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3385,15 +3448,15 @@ class Warning():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class CodeEnum(Enum):
+    class CodeEnum(str, Enum):
         """
         Identifier of the problem.
         """
-        INVALID_FIELD = "invalid_field"
-        INVALID_HEADER = "invalid_header"
-        INVALID_METHOD = "invalid_method"
-        MISSING_FIELD = "missing_field"
-        SERVER_ERROR = "server_error"
+        INVALID_FIELD = 'invalid_field'
+        INVALID_HEADER = 'invalid_header'
+        INVALID_METHOD = 'invalid_method'
+        MISSING_FIELD = 'missing_field'
+        SERVER_ERROR = 'server_error'
 
 
 class FileWithMetadata():
@@ -3425,12 +3488,6 @@ class FileWithMetadata():
     def from_dict(cls, _dict: Dict) -> 'FileWithMetadata':
         """Initialize a FileWithMetadata object from a json dictionary."""
         args = {}
-        valid_keys = ['data', 'filename', 'content_type']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class FileWithMetadata: '
-                + ', '.join(bad_keys))
         if 'data' in _dict:
             args['data'] = _dict.get('data')
         else:
@@ -3465,7 +3522,7 @@ class FileWithMetadata():
 
     def __str__(self) -> str:
         """Return a `str` version of this FileWithMetadata object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'FileWithMetadata') -> bool:
         """Return `true` when self and other are equal, false otherwise."""

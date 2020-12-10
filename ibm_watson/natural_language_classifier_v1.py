@@ -13,6 +13,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-a45d89ef-20201209-192237
 """
 IBM Watson&trade; Natural Language Classifier uses machine learning algorithms to return
 the top matching predefined classes for short text input. You create and train a
@@ -20,18 +22,17 @@ classifier to connect predefined classes to example texts so that the service ca
 those classes to new inputs.
 """
 
-import json
-from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
-from .common import get_sdk_headers
 from datetime import datetime
 from enum import Enum
-from ibm_cloud_sdk_core import BaseService
-from ibm_cloud_sdk_core import DetailedResponse
-from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
+from typing import BinaryIO, Dict, List
+import json
+
+from ibm_cloud_sdk_core import BaseService, DetailedResponse
+from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
 from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
-from typing import BinaryIO
-from typing import Dict
-from typing import List
+from ibm_cloud_sdk_core.utils import convert_model, datetime_to_string, string_to_datetime
+
+from .common import get_sdk_headers
 
 ##############################################################################
 # Service
@@ -60,8 +61,7 @@ class NaturalLanguageClassifierV1(BaseService):
             authenticator = get_authenticator_from_environment(service_name)
         BaseService.__init__(self,
                              service_url=self.DEFAULT_SERVICE_URL,
-                             authenticator=authenticator,
-                             disable_ssl_verification=False)
+                             authenticator=authenticator)
         self.configure_service(service_name)
 
     #########################
@@ -69,7 +69,7 @@ class NaturalLanguageClassifierV1(BaseService):
     #########################
 
     def classify(self, classifier_id: str, text: str,
-                 **kwargs) -> 'DetailedResponse':
+                 **kwargs) -> DetailedResponse:
         """
         Classify a phrase.
 
@@ -81,26 +81,33 @@ class NaturalLanguageClassifierV1(BaseService):
                characters.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Classification` object
         """
 
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
         if text is None:
             raise ValueError('text must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='classify')
         headers.update(sdk_headers)
 
         data = {'text': text}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/classifiers/{0}/classify'.format(
-            *self._encode_path_vars(classifier_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['classifier_id']
+        path_param_values = self.encode_path_vars(classifier_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/classifiers/{classifier_id}/classify'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -111,7 +118,7 @@ class NaturalLanguageClassifierV1(BaseService):
 
     def classify_collection(self, classifier_id: str,
                             collection: List['ClassifyInput'],
-                            **kwargs) -> 'DetailedResponse':
+                            **kwargs) -> DetailedResponse:
         """
         Classify multiple phrases.
 
@@ -123,27 +130,34 @@ class NaturalLanguageClassifierV1(BaseService):
         :param List[ClassifyInput] collection: The submitted phrases.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `ClassificationCollection` object
         """
 
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
         if collection is None:
             raise ValueError('collection must be provided')
-        collection = [self._convert_model(x) for x in collection]
-
+        collection = [convert_model(x) for x in collection]
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='classify_collection')
         headers.update(sdk_headers)
 
         data = {'collection': collection}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/classifiers/{0}/classify_collection'.format(
-            *self._encode_path_vars(classifier_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['classifier_id']
+        path_param_values = self.encode_path_vars(classifier_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/classifiers/{classifier_id}/classify_collection'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -158,37 +172,34 @@ class NaturalLanguageClassifierV1(BaseService):
 
     def create_classifier(self, training_metadata: BinaryIO,
                           training_data: BinaryIO,
-                          **kwargs) -> 'DetailedResponse':
+                          **kwargs) -> DetailedResponse:
         """
         Create classifier.
 
         Sends data to create and train a classifier and returns information about the new
         classifier.
 
-        :param TextIO training_metadata: Metadata in JSON format. The metadata
+        :param BinaryIO training_metadata: Metadata in JSON format. The metadata
                identifies the language of the data, and an optional name to identify the
                classifier. Specify the language with the 2-letter primary language code as
                assigned in ISO standard 639.
                Supported languages are English (`en`), Arabic (`ar`), French (`fr`),
                German, (`de`), Italian (`it`), Japanese (`ja`), Korean (`ko`), Brazilian
                Portuguese (`pt`), and Spanish (`es`).
-        :param TextIO training_data: Training data in CSV format. Each text value
+        :param BinaryIO training_data: Training data in CSV format. Each text value
                must have at least one class. The data can include up to 3,000 classes and
                20,000 records. For details, see [Data
                preparation](https://cloud.ibm.com/docs/natural-language-classifier?topic=natural-language-classifier-using-your-data).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Classifier` object
         """
 
         if training_metadata is None:
             raise ValueError('training_metadata must be provided')
         if training_data is None:
             raise ValueError('training_data must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='create_classifier')
@@ -199,6 +210,10 @@ class NaturalLanguageClassifierV1(BaseService):
                                                 'application/json')))
         form_data.append(('training_data', (None, training_data, 'text/csv')))
 
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
         url = '/v1/classifiers'
         request = self.prepare_request(method='POST',
                                        url=url,
@@ -208,7 +223,7 @@ class NaturalLanguageClassifierV1(BaseService):
         response = self.send(request)
         return response
 
-    def list_classifiers(self, **kwargs) -> 'DetailedResponse':
+    def list_classifiers(self, **kwargs) -> DetailedResponse:
         """
         List classifiers.
 
@@ -216,16 +231,18 @@ class NaturalLanguageClassifierV1(BaseService):
 
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `ClassifierList` object
         """
 
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='list_classifiers')
         headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v1/classifiers'
         request = self.prepare_request(method='GET', url=url, headers=headers)
@@ -233,8 +250,7 @@ class NaturalLanguageClassifierV1(BaseService):
         response = self.send(request)
         return response
 
-    def get_classifier(self, classifier_id: str,
-                       **kwargs) -> 'DetailedResponse':
+    def get_classifier(self, classifier_id: str, **kwargs) -> DetailedResponse:
         """
         Get information about a classifier.
 
@@ -243,29 +259,32 @@ class NaturalLanguageClassifierV1(BaseService):
         :param str classifier_id: Classifier ID to query.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Classifier` object
         """
 
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='get_classifier')
         headers.update(sdk_headers)
 
-        url = '/v1/classifiers/{0}'.format(
-            *self._encode_path_vars(classifier_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['classifier_id']
+        path_param_values = self.encode_path_vars(classifier_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/classifiers/{classifier_id}'.format(**path_param_dict)
         request = self.prepare_request(method='GET', url=url, headers=headers)
 
         response = self.send(request)
         return response
 
     def delete_classifier(self, classifier_id: str,
-                          **kwargs) -> 'DetailedResponse':
+                          **kwargs) -> DetailedResponse:
         """
         Delete classifier.
 
@@ -277,17 +296,20 @@ class NaturalLanguageClassifierV1(BaseService):
 
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='delete_classifier')
         headers.update(sdk_headers)
 
-        url = '/v1/classifiers/{0}'.format(
-            *self._encode_path_vars(classifier_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['classifier_id']
+        path_param_values = self.encode_path_vars(classifier_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/classifiers/{classifier_id}'.format(**path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers)
@@ -340,12 +362,6 @@ class Classification():
     def from_dict(cls, _dict: Dict) -> 'Classification':
         """Initialize a Classification object from a json dictionary."""
         args = {}
-        valid_keys = ['classifier_id', 'url', 'text', 'top_class', 'classes']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Classification: '
-                + ', '.join(bad_keys))
         if 'classifier_id' in _dict:
             args['classifier_id'] = _dict.get('classifier_id')
         if 'url' in _dict:
@@ -356,7 +372,7 @@ class Classification():
             args['top_class'] = _dict.get('top_class')
         if 'classes' in _dict:
             args['classes'] = [
-                ClassifiedClass._from_dict(x) for x in (_dict.get('classes'))
+                ClassifiedClass.from_dict(x) for x in _dict.get('classes')
             ]
         return cls(**args)
 
@@ -377,7 +393,7 @@ class Classification():
         if hasattr(self, 'top_class') and self.top_class is not None:
             _dict['top_class'] = self.top_class
         if hasattr(self, 'classes') and self.classes is not None:
-            _dict['classes'] = [x._to_dict() for x in self.classes]
+            _dict['classes'] = [x.to_dict() for x in self.classes]
         return _dict
 
     def _to_dict(self):
@@ -386,7 +402,7 @@ class Classification():
 
     def __str__(self) -> str:
         """Return a `str` version of this Classification object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Classification') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -430,19 +446,13 @@ class ClassificationCollection():
     def from_dict(cls, _dict: Dict) -> 'ClassificationCollection':
         """Initialize a ClassificationCollection object from a json dictionary."""
         args = {}
-        valid_keys = ['classifier_id', 'url', 'collection']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ClassificationCollection: '
-                + ', '.join(bad_keys))
         if 'classifier_id' in _dict:
             args['classifier_id'] = _dict.get('classifier_id')
         if 'url' in _dict:
             args['url'] = _dict.get('url')
         if 'collection' in _dict:
             args['collection'] = [
-                CollectionItem._from_dict(x) for x in (_dict.get('collection'))
+                CollectionItem.from_dict(x) for x in _dict.get('collection')
             ]
         return cls(**args)
 
@@ -459,7 +469,7 @@ class ClassificationCollection():
         if hasattr(self, 'url') and self.url is not None:
             _dict['url'] = self.url
         if hasattr(self, 'collection') and self.collection is not None:
-            _dict['collection'] = [x._to_dict() for x in self.collection]
+            _dict['collection'] = [x.to_dict() for x in self.collection]
         return _dict
 
     def _to_dict(self):
@@ -468,7 +478,7 @@ class ClassificationCollection():
 
     def __str__(self) -> str:
         """Return a `str` version of this ClassificationCollection object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ClassificationCollection') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -510,12 +520,6 @@ class ClassifiedClass():
     def from_dict(cls, _dict: Dict) -> 'ClassifiedClass':
         """Initialize a ClassifiedClass object from a json dictionary."""
         args = {}
-        valid_keys = ['confidence', 'class_name']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ClassifiedClass: '
-                + ', '.join(bad_keys))
         if 'confidence' in _dict:
             args['confidence'] = _dict.get('confidence')
         if 'class_name' in _dict:
@@ -542,7 +546,7 @@ class ClassifiedClass():
 
     def __str__(self) -> str:
         """Return a `str` version of this ClassifiedClass object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ClassifiedClass') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -584,11 +588,6 @@ class Classifier():
         :param str url: Link to the classifier.
         :param str classifier_id: Unique identifier for this classifier.
         :param str name: (optional) User-supplied name for the classifier.
-        :param str status: (optional) The state of the classifier.
-        :param datetime created: (optional) Date and time (UTC) the classifier was
-               created.
-        :param str status_description: (optional) Additional detail about the
-               status.
         :param str language: (optional) The language used for the classifier.
         """
         self.name = name
@@ -603,15 +602,6 @@ class Classifier():
     def from_dict(cls, _dict: Dict) -> 'Classifier':
         """Initialize a Classifier object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'name', 'url', 'status', 'classifier_id', 'created',
-            'status_description', 'language'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Classifier: '
-                + ', '.join(bad_keys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         if 'url' in _dict:
@@ -647,16 +637,15 @@ class Classifier():
             _dict['name'] = self.name
         if hasattr(self, 'url') and self.url is not None:
             _dict['url'] = self.url
-        if hasattr(self, 'status') and self.status is not None:
-            _dict['status'] = self.status
+        if hasattr(self, 'status') and getattr(self, 'status') is not None:
+            _dict['status'] = getattr(self, 'status')
         if hasattr(self, 'classifier_id') and self.classifier_id is not None:
             _dict['classifier_id'] = self.classifier_id
-        if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = datetime_to_string(self.created)
-        if hasattr(
-                self,
-                'status_description') and self.status_description is not None:
-            _dict['status_description'] = self.status_description
+        if hasattr(self, 'created') and getattr(self, 'created') is not None:
+            _dict['created'] = datetime_to_string(getattr(self, 'created'))
+        if hasattr(self, 'status_description') and getattr(
+                self, 'status_description') is not None:
+            _dict['status_description'] = getattr(self, 'status_description')
         if hasattr(self, 'language') and self.language is not None:
             _dict['language'] = self.language
         return _dict
@@ -667,7 +656,7 @@ class Classifier():
 
     def __str__(self) -> str:
         """Return a `str` version of this Classifier object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Classifier') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -679,15 +668,15 @@ class Classifier():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class StatusEnum(Enum):
+    class StatusEnum(str, Enum):
         """
         The state of the classifier.
         """
-        NON_EXISTENT = "Non Existent"
-        TRAINING = "Training"
-        FAILED = "Failed"
-        AVAILABLE = "Available"
-        UNAVAILABLE = "Unavailable"
+        NON_EXISTENT = 'Non Existent'
+        TRAINING = 'Training'
+        FAILED = 'Failed'
+        AVAILABLE = 'Available'
+        UNAVAILABLE = 'Unavailable'
 
 
 class ClassifierList():
@@ -711,15 +700,9 @@ class ClassifierList():
     def from_dict(cls, _dict: Dict) -> 'ClassifierList':
         """Initialize a ClassifierList object from a json dictionary."""
         args = {}
-        valid_keys = ['classifiers']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ClassifierList: '
-                + ', '.join(bad_keys))
         if 'classifiers' in _dict:
             args['classifiers'] = [
-                Classifier._from_dict(x) for x in (_dict.get('classifiers'))
+                Classifier.from_dict(x) for x in _dict.get('classifiers')
             ]
         else:
             raise ValueError(
@@ -736,7 +719,7 @@ class ClassifierList():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'classifiers') and self.classifiers is not None:
-            _dict['classifiers'] = [x._to_dict() for x in self.classifiers]
+            _dict['classifiers'] = [x.to_dict() for x in self.classifiers]
         return _dict
 
     def _to_dict(self):
@@ -745,7 +728,7 @@ class ClassifierList():
 
     def __str__(self) -> str:
         """Return a `str` version of this ClassifierList object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ClassifierList') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -778,12 +761,6 @@ class ClassifyInput():
     def from_dict(cls, _dict: Dict) -> 'ClassifyInput':
         """Initialize a ClassifyInput object from a json dictionary."""
         args = {}
-        valid_keys = ['text']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ClassifyInput: '
-                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         else:
@@ -809,7 +786,7 @@ class ClassifyInput():
 
     def __str__(self) -> str:
         """Return a `str` version of this ClassifyInput object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ClassifyInput') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -855,19 +832,13 @@ class CollectionItem():
     def from_dict(cls, _dict: Dict) -> 'CollectionItem':
         """Initialize a CollectionItem object from a json dictionary."""
         args = {}
-        valid_keys = ['text', 'top_class', 'classes']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class CollectionItem: '
-                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'top_class' in _dict:
             args['top_class'] = _dict.get('top_class')
         if 'classes' in _dict:
             args['classes'] = [
-                ClassifiedClass._from_dict(x) for x in (_dict.get('classes'))
+                ClassifiedClass.from_dict(x) for x in _dict.get('classes')
             ]
         return cls(**args)
 
@@ -884,7 +855,7 @@ class CollectionItem():
         if hasattr(self, 'top_class') and self.top_class is not None:
             _dict['top_class'] = self.top_class
         if hasattr(self, 'classes') and self.classes is not None:
-            _dict['classes'] = [x._to_dict() for x in self.classes]
+            _dict['classes'] = [x.to_dict() for x in self.classes]
         return _dict
 
     def _to_dict(self):
@@ -893,7 +864,7 @@ class CollectionItem():
 
     def __str__(self) -> str:
         """Return a `str` version of this CollectionItem object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'CollectionItem') -> bool:
         """Return `true` when self and other are equal, false otherwise."""

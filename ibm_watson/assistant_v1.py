@@ -13,6 +13,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-a45d89ef-20201209-192237
 """
 The IBM Watson&trade; Assistant service combines machine learning, natural language
 understanding, and an integrated dialog editor to create conversation flows between your
@@ -21,18 +23,18 @@ The Assistant v1 API provides authoring methods your application can use to crea
 update a workspace.
 """
 
-import json
-from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
-from .common import get_sdk_headers
 from datetime import datetime
 from enum import Enum
-from ibm_cloud_sdk_core import BaseService
-from ibm_cloud_sdk_core import DetailedResponse
-from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
-from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
-from typing import Dict
-from typing import List
+from typing import Dict, List
+import json
 import sys
+
+from ibm_cloud_sdk_core import BaseService, DetailedResponse
+from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
+from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
+from ibm_cloud_sdk_core.utils import convert_model, datetime_to_string, string_to_datetime
+
+from .common import get_sdk_headers
 
 ##############################################################################
 # Service
@@ -54,27 +56,21 @@ class AssistantV1(BaseService):
         """
         Construct a new client for the Assistant service.
 
-        :param str version: The API version date to use with the service, in
-               "YYYY-MM-DD" format. Whenever the API is changed in a backwards
-               incompatible way, a new minor version of the API is released.
-               The service uses the API version for the date you specify, or
-               the most recent version before that date. Note that you should
-               not programmatically specify the current date at runtime, in
-               case the API has been updated since your application's release.
-               Instead, specify a version date that is compatible with your
-               application, and don't change it until your application is
-               ready for a later version.
+        :param str version: Release date of the API version you want to use.
+               Specify dates in YYYY-MM-DD format. The current version is `2020-04-01`.
 
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
         """
+        if version is None:
+            raise ValueError('version must be provided')
+
         if not authenticator:
             authenticator = get_authenticator_from_environment(service_name)
         BaseService.__init__(self,
                              service_url=self.DEFAULT_SERVICE_URL,
-                             authenticator=authenticator,
-                             disable_ssl_verification=False)
+                             authenticator=authenticator)
         self.version = version
         self.configure_service(service_name)
 
@@ -92,7 +88,7 @@ class AssistantV1(BaseService):
                 context: 'Context' = None,
                 output: 'OutputData' = None,
                 nodes_visited_details: bool = None,
-                **kwargs) -> 'DetailedResponse':
+                **kwargs) -> DetailedResponse:
         """
         Get response to user input.
 
@@ -125,25 +121,22 @@ class AssistantV1(BaseService):
                processing of the message.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `MessageResponse` object
         """
 
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if input is not None:
-            input = self._convert_model(input)
+            input = convert_model(input)
         if intents is not None:
-            intents = [self._convert_model(x) for x in intents]
+            intents = [convert_model(x) for x in intents]
         if entities is not None:
-            entities = [self._convert_model(x) for x in entities]
+            entities = [convert_model(x) for x in entities]
         if context is not None:
-            context = self._convert_model(context)
+            context = convert_model(context)
         if output is not None:
-            output = self._convert_model(output)
-
+            output = convert_model(output)
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='message')
@@ -162,9 +155,18 @@ class AssistantV1(BaseService):
             'context': context,
             'output': output
         }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/workspaces/{0}/message'.format(
-            *self._encode_path_vars(workspace_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id']
+        path_param_values = self.encode_path_vars(workspace_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/message'.format(**path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -185,7 +187,7 @@ class AssistantV1(BaseService):
                         sort: str = None,
                         cursor: str = None,
                         include_audit: bool = None,
-                        **kwargs) -> 'DetailedResponse':
+                        **kwargs) -> DetailedResponse:
         """
         List workspaces.
 
@@ -206,12 +208,10 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `WorkspaceCollection` object
         """
 
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='list_workspaces')
@@ -225,6 +225,10 @@ class AssistantV1(BaseService):
             'cursor': cursor,
             'include_audit': include_audit
         }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v1/workspaces'
         request = self.prepare_request(method='GET',
@@ -249,7 +253,7 @@ class AssistantV1(BaseService):
                          intents: List['CreateIntent'] = None,
                          entities: List['CreateEntity'] = None,
                          include_audit: bool = None,
-                         **kwargs) -> 'DetailedResponse':
+                         **kwargs) -> DetailedResponse:
         """
         Create workspace.
 
@@ -281,25 +285,22 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Workspace` object
         """
 
         if dialog_nodes is not None:
-            dialog_nodes = [self._convert_model(x) for x in dialog_nodes]
+            dialog_nodes = [convert_model(x) for x in dialog_nodes]
         if counterexamples is not None:
-            counterexamples = [self._convert_model(x) for x in counterexamples]
+            counterexamples = [convert_model(x) for x in counterexamples]
         if system_settings is not None:
-            system_settings = self._convert_model(system_settings)
+            system_settings = convert_model(system_settings)
         if webhooks is not None:
-            webhooks = [self._convert_model(x) for x in webhooks]
+            webhooks = [convert_model(x) for x in webhooks]
         if intents is not None:
-            intents = [self._convert_model(x) for x in intents]
+            intents = [convert_model(x) for x in intents]
         if entities is not None:
-            entities = [self._convert_model(x) for x in entities]
-
+            entities = [convert_model(x) for x in entities]
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='create_workspace')
@@ -320,6 +321,13 @@ class AssistantV1(BaseService):
             'intents': intents,
             'entities': entities
         }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v1/workspaces'
         request = self.prepare_request(method='POST',
@@ -337,7 +345,7 @@ class AssistantV1(BaseService):
                       export: bool = None,
                       include_audit: bool = None,
                       sort: str = None,
-                      **kwargs) -> 'DetailedResponse':
+                      **kwargs) -> DetailedResponse:
         """
         Get information about a workspace.
 
@@ -356,15 +364,12 @@ class AssistantV1(BaseService):
                ascending alphabetical order.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Workspace` object
         """
 
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='get_workspace')
@@ -377,7 +382,14 @@ class AssistantV1(BaseService):
             'sort': sort
         }
 
-        url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id']
+        path_param_values = self.encode_path_vars(workspace_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -402,7 +414,7 @@ class AssistantV1(BaseService):
                          entities: List['CreateEntity'] = None,
                          append: bool = None,
                          include_audit: bool = None,
-                         **kwargs) -> 'DetailedResponse':
+                         **kwargs) -> DetailedResponse:
         """
         Update workspace.
 
@@ -444,27 +456,24 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Workspace` object
         """
 
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if dialog_nodes is not None:
-            dialog_nodes = [self._convert_model(x) for x in dialog_nodes]
+            dialog_nodes = [convert_model(x) for x in dialog_nodes]
         if counterexamples is not None:
-            counterexamples = [self._convert_model(x) for x in counterexamples]
+            counterexamples = [convert_model(x) for x in counterexamples]
         if system_settings is not None:
-            system_settings = self._convert_model(system_settings)
+            system_settings = convert_model(system_settings)
         if webhooks is not None:
-            webhooks = [self._convert_model(x) for x in webhooks]
+            webhooks = [convert_model(x) for x in webhooks]
         if intents is not None:
-            intents = [self._convert_model(x) for x in intents]
+            intents = [convert_model(x) for x in intents]
         if entities is not None:
-            entities = [self._convert_model(x) for x in entities]
-
+            entities = [convert_model(x) for x in entities]
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='update_workspace')
@@ -489,8 +498,18 @@ class AssistantV1(BaseService):
             'intents': intents,
             'entities': entities
         }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id']
+        path_param_values = self.encode_path_vars(workspace_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}'.format(**path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -500,8 +519,7 @@ class AssistantV1(BaseService):
         response = self.send(request)
         return response
 
-    def delete_workspace(self, workspace_id: str,
-                         **kwargs) -> 'DetailedResponse':
+    def delete_workspace(self, workspace_id: str, **kwargs) -> DetailedResponse:
         """
         Delete workspace.
 
@@ -515,10 +533,7 @@ class AssistantV1(BaseService):
 
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='delete_workspace')
@@ -526,7 +541,14 @@ class AssistantV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/workspaces/{0}'.format(*self._encode_path_vars(workspace_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id']
+        path_param_values = self.encode_path_vars(workspace_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}'.format(**path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
@@ -548,7 +570,7 @@ class AssistantV1(BaseService):
                      sort: str = None,
                      cursor: str = None,
                      include_audit: bool = None,
-                     **kwargs) -> 'DetailedResponse':
+                     **kwargs) -> DetailedResponse:
         """
         List intents.
 
@@ -574,15 +596,12 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `IntentCollection` object
         """
 
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='list_intents')
@@ -598,8 +617,14 @@ class AssistantV1(BaseService):
             'include_audit': include_audit
         }
 
-        url = '/v1/workspaces/{0}/intents'.format(
-            *self._encode_path_vars(workspace_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id']
+        path_param_values = self.encode_path_vars(workspace_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/intents'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -615,7 +640,7 @@ class AssistantV1(BaseService):
                       description: str = None,
                       examples: List['Example'] = None,
                       include_audit: bool = None,
-                      **kwargs) -> 'DetailedResponse':
+                      **kwargs) -> DetailedResponse:
         """
         Create intent.
 
@@ -637,7 +662,7 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Intent` object
         """
 
         if workspace_id is None:
@@ -645,11 +670,8 @@ class AssistantV1(BaseService):
         if intent is None:
             raise ValueError('intent must be provided')
         if examples is not None:
-            examples = [self._convert_model(x) for x in examples]
-
+            examples = [convert_model(x) for x in examples]
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='create_intent')
@@ -662,9 +684,18 @@ class AssistantV1(BaseService):
             'description': description,
             'examples': examples
         }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/workspaces/{0}/intents'.format(
-            *self._encode_path_vars(workspace_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id']
+        path_param_values = self.encode_path_vars(workspace_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/intents'.format(**path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -680,7 +711,7 @@ class AssistantV1(BaseService):
                    *,
                    export: bool = None,
                    include_audit: bool = None,
-                   **kwargs) -> 'DetailedResponse':
+                   **kwargs) -> DetailedResponse:
         """
         Get intent.
 
@@ -696,17 +727,14 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Intent` object
         """
 
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if intent is None:
             raise ValueError('intent must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='get_intent')
@@ -718,8 +746,15 @@ class AssistantV1(BaseService):
             'include_audit': include_audit
         }
 
-        url = '/v1/workspaces/{0}/intents/{1}'.format(
-            *self._encode_path_vars(workspace_id, intent))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id', 'intent']
+        path_param_values = self.encode_path_vars(workspace_id, intent)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/intents/{intent}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -737,7 +772,7 @@ class AssistantV1(BaseService):
                       new_examples: List['Example'] = None,
                       append: bool = None,
                       include_audit: bool = None,
-                      **kwargs) -> 'DetailedResponse':
+                      **kwargs) -> DetailedResponse:
         """
         Update intent.
 
@@ -770,7 +805,7 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Intent` object
         """
 
         if workspace_id is None:
@@ -778,11 +813,8 @@ class AssistantV1(BaseService):
         if intent is None:
             raise ValueError('intent must be provided')
         if new_examples is not None:
-            new_examples = [self._convert_model(x) for x in new_examples]
-
+            new_examples = [convert_model(x) for x in new_examples]
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='update_intent')
@@ -799,9 +831,19 @@ class AssistantV1(BaseService):
             'description': new_description,
             'examples': new_examples
         }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/workspaces/{0}/intents/{1}'.format(
-            *self._encode_path_vars(workspace_id, intent))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id', 'intent']
+        path_param_values = self.encode_path_vars(workspace_id, intent)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/intents/{intent}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -812,7 +854,7 @@ class AssistantV1(BaseService):
         return response
 
     def delete_intent(self, workspace_id: str, intent: str,
-                      **kwargs) -> 'DetailedResponse':
+                      **kwargs) -> DetailedResponse:
         """
         Delete intent.
 
@@ -829,10 +871,7 @@ class AssistantV1(BaseService):
             raise ValueError('workspace_id must be provided')
         if intent is None:
             raise ValueError('intent must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='delete_intent')
@@ -840,8 +879,15 @@ class AssistantV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/workspaces/{0}/intents/{1}'.format(
-            *self._encode_path_vars(workspace_id, intent))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id', 'intent']
+        path_param_values = self.encode_path_vars(workspace_id, intent)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/intents/{intent}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
@@ -863,7 +909,7 @@ class AssistantV1(BaseService):
                       sort: str = None,
                       cursor: str = None,
                       include_audit: bool = None,
-                      **kwargs) -> 'DetailedResponse':
+                      **kwargs) -> DetailedResponse:
         """
         List user input examples.
 
@@ -887,17 +933,14 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `ExampleCollection` object
         """
 
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if intent is None:
             raise ValueError('intent must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='list_examples')
@@ -912,8 +955,15 @@ class AssistantV1(BaseService):
             'include_audit': include_audit
         }
 
-        url = '/v1/workspaces/{0}/intents/{1}/examples'.format(
-            *self._encode_path_vars(workspace_id, intent))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id', 'intent']
+        path_param_values = self.encode_path_vars(workspace_id, intent)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/intents/{intent}/examples'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -929,7 +979,7 @@ class AssistantV1(BaseService):
                        *,
                        mentions: List['Mention'] = None,
                        include_audit: bool = None,
-                       **kwargs) -> 'DetailedResponse':
+                       **kwargs) -> DetailedResponse:
         """
         Create user input example.
 
@@ -949,7 +999,7 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Example` object
         """
 
         if workspace_id is None:
@@ -959,11 +1009,8 @@ class AssistantV1(BaseService):
         if text is None:
             raise ValueError('text must be provided')
         if mentions is not None:
-            mentions = [self._convert_model(x) for x in mentions]
-
+            mentions = [convert_model(x) for x in mentions]
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='create_example')
@@ -972,9 +1019,19 @@ class AssistantV1(BaseService):
         params = {'version': self.version, 'include_audit': include_audit}
 
         data = {'text': text, 'mentions': mentions}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/workspaces/{0}/intents/{1}/examples'.format(
-            *self._encode_path_vars(workspace_id, intent))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id', 'intent']
+        path_param_values = self.encode_path_vars(workspace_id, intent)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/intents/{intent}/examples'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -990,7 +1047,7 @@ class AssistantV1(BaseService):
                     text: str,
                     *,
                     include_audit: bool = None,
-                    **kwargs) -> 'DetailedResponse':
+                    **kwargs) -> DetailedResponse:
         """
         Get user input example.
 
@@ -1003,7 +1060,7 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Example` object
         """
 
         if workspace_id is None:
@@ -1012,10 +1069,7 @@ class AssistantV1(BaseService):
             raise ValueError('intent must be provided')
         if text is None:
             raise ValueError('text must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='get_example')
@@ -1023,8 +1077,15 @@ class AssistantV1(BaseService):
 
         params = {'version': self.version, 'include_audit': include_audit}
 
-        url = '/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
-            *self._encode_path_vars(workspace_id, intent, text))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id', 'intent', 'text']
+        path_param_values = self.encode_path_vars(workspace_id, intent, text)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/intents/{intent}/examples/{text}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -1041,7 +1102,7 @@ class AssistantV1(BaseService):
                        new_text: str = None,
                        new_mentions: List['Mention'] = None,
                        include_audit: bool = None,
-                       **kwargs) -> 'DetailedResponse':
+                       **kwargs) -> DetailedResponse:
         """
         Update user input example.
 
@@ -1062,7 +1123,7 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Example` object
         """
 
         if workspace_id is None:
@@ -1072,11 +1133,8 @@ class AssistantV1(BaseService):
         if text is None:
             raise ValueError('text must be provided')
         if new_mentions is not None:
-            new_mentions = [self._convert_model(x) for x in new_mentions]
-
+            new_mentions = [convert_model(x) for x in new_mentions]
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='update_example')
@@ -1085,9 +1143,19 @@ class AssistantV1(BaseService):
         params = {'version': self.version, 'include_audit': include_audit}
 
         data = {'text': new_text, 'mentions': new_mentions}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
-            *self._encode_path_vars(workspace_id, intent, text))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id', 'intent', 'text']
+        path_param_values = self.encode_path_vars(workspace_id, intent, text)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/intents/{intent}/examples/{text}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -1098,7 +1166,7 @@ class AssistantV1(BaseService):
         return response
 
     def delete_example(self, workspace_id: str, intent: str, text: str,
-                       **kwargs) -> 'DetailedResponse':
+                       **kwargs) -> DetailedResponse:
         """
         Delete user input example.
 
@@ -1118,10 +1186,7 @@ class AssistantV1(BaseService):
             raise ValueError('intent must be provided')
         if text is None:
             raise ValueError('text must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='delete_example')
@@ -1129,8 +1194,15 @@ class AssistantV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/workspaces/{0}/intents/{1}/examples/{2}'.format(
-            *self._encode_path_vars(workspace_id, intent, text))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id', 'intent', 'text']
+        path_param_values = self.encode_path_vars(workspace_id, intent, text)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/intents/{intent}/examples/{text}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
@@ -1151,7 +1223,7 @@ class AssistantV1(BaseService):
                              sort: str = None,
                              cursor: str = None,
                              include_audit: bool = None,
-                             **kwargs) -> 'DetailedResponse':
+                             **kwargs) -> DetailedResponse:
         """
         List counterexamples.
 
@@ -1174,15 +1246,12 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `CounterexampleCollection` object
         """
 
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='list_counterexamples')
@@ -1197,8 +1266,15 @@ class AssistantV1(BaseService):
             'include_audit': include_audit
         }
 
-        url = '/v1/workspaces/{0}/counterexamples'.format(
-            *self._encode_path_vars(workspace_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id']
+        path_param_values = self.encode_path_vars(workspace_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/counterexamples'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -1212,7 +1288,7 @@ class AssistantV1(BaseService):
                               text: str,
                               *,
                               include_audit: bool = None,
-                              **kwargs) -> 'DetailedResponse':
+                              **kwargs) -> DetailedResponse:
         """
         Create counterexample.
 
@@ -1230,17 +1306,14 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Counterexample` object
         """
 
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if text is None:
             raise ValueError('text must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='create_counterexample')
@@ -1249,9 +1322,19 @@ class AssistantV1(BaseService):
         params = {'version': self.version, 'include_audit': include_audit}
 
         data = {'text': text}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/workspaces/{0}/counterexamples'.format(
-            *self._encode_path_vars(workspace_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id']
+        path_param_values = self.encode_path_vars(workspace_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/counterexamples'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -1266,7 +1349,7 @@ class AssistantV1(BaseService):
                            text: str,
                            *,
                            include_audit: bool = None,
-                           **kwargs) -> 'DetailedResponse':
+                           **kwargs) -> DetailedResponse:
         """
         Get counterexample.
 
@@ -1280,17 +1363,14 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Counterexample` object
         """
 
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if text is None:
             raise ValueError('text must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='get_counterexample')
@@ -1298,8 +1378,15 @@ class AssistantV1(BaseService):
 
         params = {'version': self.version, 'include_audit': include_audit}
 
-        url = '/v1/workspaces/{0}/counterexamples/{1}'.format(
-            *self._encode_path_vars(workspace_id, text))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id', 'text']
+        path_param_values = self.encode_path_vars(workspace_id, text)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/counterexamples/{text}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -1314,7 +1401,7 @@ class AssistantV1(BaseService):
                               *,
                               new_text: str = None,
                               include_audit: bool = None,
-                              **kwargs) -> 'DetailedResponse':
+                              **kwargs) -> DetailedResponse:
         """
         Update counterexample.
 
@@ -1332,17 +1419,14 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Counterexample` object
         """
 
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if text is None:
             raise ValueError('text must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='update_counterexample')
@@ -1351,9 +1435,19 @@ class AssistantV1(BaseService):
         params = {'version': self.version, 'include_audit': include_audit}
 
         data = {'text': new_text}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/workspaces/{0}/counterexamples/{1}'.format(
-            *self._encode_path_vars(workspace_id, text))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id', 'text']
+        path_param_values = self.encode_path_vars(workspace_id, text)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/counterexamples/{text}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -1364,7 +1458,7 @@ class AssistantV1(BaseService):
         return response
 
     def delete_counterexample(self, workspace_id: str, text: str,
-                              **kwargs) -> 'DetailedResponse':
+                              **kwargs) -> DetailedResponse:
         """
         Delete counterexample.
 
@@ -1383,10 +1477,7 @@ class AssistantV1(BaseService):
             raise ValueError('workspace_id must be provided')
         if text is None:
             raise ValueError('text must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='delete_counterexample')
@@ -1394,8 +1485,15 @@ class AssistantV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/workspaces/{0}/counterexamples/{1}'.format(
-            *self._encode_path_vars(workspace_id, text))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id', 'text']
+        path_param_values = self.encode_path_vars(workspace_id, text)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/counterexamples/{text}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
@@ -1417,7 +1515,7 @@ class AssistantV1(BaseService):
                       sort: str = None,
                       cursor: str = None,
                       include_audit: bool = None,
-                      **kwargs) -> 'DetailedResponse':
+                      **kwargs) -> DetailedResponse:
         """
         List entities.
 
@@ -1443,15 +1541,12 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `EntityCollection` object
         """
 
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='list_entities')
@@ -1467,8 +1562,14 @@ class AssistantV1(BaseService):
             'include_audit': include_audit
         }
 
-        url = '/v1/workspaces/{0}/entities'.format(
-            *self._encode_path_vars(workspace_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id']
+        path_param_values = self.encode_path_vars(workspace_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/entities'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -1486,7 +1587,7 @@ class AssistantV1(BaseService):
                       fuzzy_match: bool = None,
                       values: List['CreateValue'] = None,
                       include_audit: bool = None,
-                      **kwargs) -> 'DetailedResponse':
+                      **kwargs) -> DetailedResponse:
         """
         Create entity.
 
@@ -1513,7 +1614,7 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Entity` object
         """
 
         if workspace_id is None:
@@ -1521,11 +1622,8 @@ class AssistantV1(BaseService):
         if entity is None:
             raise ValueError('entity must be provided')
         if values is not None:
-            values = [self._convert_model(x) for x in values]
-
+            values = [convert_model(x) for x in values]
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='create_entity')
@@ -1540,9 +1638,18 @@ class AssistantV1(BaseService):
             'fuzzy_match': fuzzy_match,
             'values': values
         }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/workspaces/{0}/entities'.format(
-            *self._encode_path_vars(workspace_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id']
+        path_param_values = self.encode_path_vars(workspace_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/entities'.format(**path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -1558,7 +1665,7 @@ class AssistantV1(BaseService):
                    *,
                    export: bool = None,
                    include_audit: bool = None,
-                   **kwargs) -> 'DetailedResponse':
+                   **kwargs) -> DetailedResponse:
         """
         Get entity.
 
@@ -1574,17 +1681,14 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Entity` object
         """
 
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if entity is None:
             raise ValueError('entity must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='get_entity')
@@ -1596,8 +1700,15 @@ class AssistantV1(BaseService):
             'include_audit': include_audit
         }
 
-        url = '/v1/workspaces/{0}/entities/{1}'.format(
-            *self._encode_path_vars(workspace_id, entity))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id', 'entity']
+        path_param_values = self.encode_path_vars(workspace_id, entity)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/entities/{entity}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -1617,7 +1728,7 @@ class AssistantV1(BaseService):
                       new_values: List['CreateValue'] = None,
                       append: bool = None,
                       include_audit: bool = None,
-                      **kwargs) -> 'DetailedResponse':
+                      **kwargs) -> DetailedResponse:
         """
         Update entity.
 
@@ -1653,7 +1764,7 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Entity` object
         """
 
         if workspace_id is None:
@@ -1661,11 +1772,8 @@ class AssistantV1(BaseService):
         if entity is None:
             raise ValueError('entity must be provided')
         if new_values is not None:
-            new_values = [self._convert_model(x) for x in new_values]
-
+            new_values = [convert_model(x) for x in new_values]
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='update_entity')
@@ -1684,9 +1792,19 @@ class AssistantV1(BaseService):
             'fuzzy_match': new_fuzzy_match,
             'values': new_values
         }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/workspaces/{0}/entities/{1}'.format(
-            *self._encode_path_vars(workspace_id, entity))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id', 'entity']
+        path_param_values = self.encode_path_vars(workspace_id, entity)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/entities/{entity}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -1697,7 +1815,7 @@ class AssistantV1(BaseService):
         return response
 
     def delete_entity(self, workspace_id: str, entity: str,
-                      **kwargs) -> 'DetailedResponse':
+                      **kwargs) -> DetailedResponse:
         """
         Delete entity.
 
@@ -1714,10 +1832,7 @@ class AssistantV1(BaseService):
             raise ValueError('workspace_id must be provided')
         if entity is None:
             raise ValueError('entity must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='delete_entity')
@@ -1725,8 +1840,15 @@ class AssistantV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/workspaces/{0}/entities/{1}'.format(
-            *self._encode_path_vars(workspace_id, entity))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id', 'entity']
+        path_param_values = self.encode_path_vars(workspace_id, entity)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/entities/{entity}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
@@ -1745,7 +1867,7 @@ class AssistantV1(BaseService):
                       *,
                       export: bool = None,
                       include_audit: bool = None,
-                      **kwargs) -> 'DetailedResponse':
+                      **kwargs) -> DetailedResponse:
         """
         List entity mentions.
 
@@ -1762,17 +1884,14 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `EntityMentionCollection` object
         """
 
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if entity is None:
             raise ValueError('entity must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='list_mentions')
@@ -1784,8 +1903,15 @@ class AssistantV1(BaseService):
             'include_audit': include_audit
         }
 
-        url = '/v1/workspaces/{0}/entities/{1}/mentions'.format(
-            *self._encode_path_vars(workspace_id, entity))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id', 'entity']
+        path_param_values = self.encode_path_vars(workspace_id, entity)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/entities/{entity}/mentions'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -1808,7 +1934,7 @@ class AssistantV1(BaseService):
                     sort: str = None,
                     cursor: str = None,
                     include_audit: bool = None,
-                    **kwargs) -> 'DetailedResponse':
+                    **kwargs) -> DetailedResponse:
         """
         List entity values.
 
@@ -1835,17 +1961,14 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `ValueCollection` object
         """
 
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if entity is None:
             raise ValueError('entity must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='list_values')
@@ -1861,8 +1984,15 @@ class AssistantV1(BaseService):
             'include_audit': include_audit
         }
 
-        url = '/v1/workspaces/{0}/entities/{1}/values'.format(
-            *self._encode_path_vars(workspace_id, entity))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id', 'entity']
+        path_param_values = self.encode_path_vars(workspace_id, entity)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/entities/{entity}/values'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -1881,7 +2011,7 @@ class AssistantV1(BaseService):
                      synonyms: List[str] = None,
                      patterns: List[str] = None,
                      include_audit: bool = None,
-                     **kwargs) -> 'DetailedResponse':
+                     **kwargs) -> DetailedResponse:
         """
         Create entity value.
 
@@ -1912,7 +2042,7 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Value` object
         """
 
         if workspace_id is None:
@@ -1921,10 +2051,7 @@ class AssistantV1(BaseService):
             raise ValueError('entity must be provided')
         if value is None:
             raise ValueError('value must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='create_value')
@@ -1939,9 +2066,19 @@ class AssistantV1(BaseService):
             'synonyms': synonyms,
             'patterns': patterns
         }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/workspaces/{0}/entities/{1}/values'.format(
-            *self._encode_path_vars(workspace_id, entity))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id', 'entity']
+        path_param_values = self.encode_path_vars(workspace_id, entity)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/entities/{entity}/values'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -1958,7 +2095,7 @@ class AssistantV1(BaseService):
                   *,
                   export: bool = None,
                   include_audit: bool = None,
-                  **kwargs) -> 'DetailedResponse':
+                  **kwargs) -> DetailedResponse:
         """
         Get entity value.
 
@@ -1975,7 +2112,7 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Value` object
         """
 
         if workspace_id is None:
@@ -1984,10 +2121,7 @@ class AssistantV1(BaseService):
             raise ValueError('entity must be provided')
         if value is None:
             raise ValueError('value must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='get_value')
@@ -1999,8 +2133,15 @@ class AssistantV1(BaseService):
             'include_audit': include_audit
         }
 
-        url = '/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
-            *self._encode_path_vars(workspace_id, entity, value))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id', 'entity', 'value']
+        path_param_values = self.encode_path_vars(workspace_id, entity, value)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/entities/{entity}/values/{value}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -2021,7 +2162,7 @@ class AssistantV1(BaseService):
                      new_patterns: List[str] = None,
                      append: bool = None,
                      include_audit: bool = None,
-                     **kwargs) -> 'DetailedResponse':
+                     **kwargs) -> DetailedResponse:
         """
         Update entity value.
 
@@ -2065,7 +2206,7 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Value` object
         """
 
         if workspace_id is None:
@@ -2074,10 +2215,7 @@ class AssistantV1(BaseService):
             raise ValueError('entity must be provided')
         if value is None:
             raise ValueError('value must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='update_value')
@@ -2096,9 +2234,19 @@ class AssistantV1(BaseService):
             'synonyms': new_synonyms,
             'patterns': new_patterns
         }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
-            *self._encode_path_vars(workspace_id, entity, value))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id', 'entity', 'value']
+        path_param_values = self.encode_path_vars(workspace_id, entity, value)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/entities/{entity}/values/{value}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -2109,7 +2257,7 @@ class AssistantV1(BaseService):
         return response
 
     def delete_value(self, workspace_id: str, entity: str, value: str,
-                     **kwargs) -> 'DetailedResponse':
+                     **kwargs) -> DetailedResponse:
         """
         Delete entity value.
 
@@ -2129,10 +2277,7 @@ class AssistantV1(BaseService):
             raise ValueError('entity must be provided')
         if value is None:
             raise ValueError('value must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='delete_value')
@@ -2140,8 +2285,15 @@ class AssistantV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/workspaces/{0}/entities/{1}/values/{2}'.format(
-            *self._encode_path_vars(workspace_id, entity, value))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id', 'entity', 'value']
+        path_param_values = self.encode_path_vars(workspace_id, entity, value)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/entities/{entity}/values/{value}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
@@ -2164,7 +2316,7 @@ class AssistantV1(BaseService):
                       sort: str = None,
                       cursor: str = None,
                       include_audit: bool = None,
-                      **kwargs) -> 'DetailedResponse':
+                      **kwargs) -> DetailedResponse:
         """
         List entity value synonyms.
 
@@ -2188,7 +2340,7 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `SynonymCollection` object
         """
 
         if workspace_id is None:
@@ -2197,10 +2349,7 @@ class AssistantV1(BaseService):
             raise ValueError('entity must be provided')
         if value is None:
             raise ValueError('value must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='list_synonyms')
@@ -2215,8 +2364,15 @@ class AssistantV1(BaseService):
             'include_audit': include_audit
         }
 
-        url = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms'.format(
-            *self._encode_path_vars(workspace_id, entity, value))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id', 'entity', 'value']
+        path_param_values = self.encode_path_vars(workspace_id, entity, value)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/entities/{entity}/values/{value}/synonyms'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -2232,7 +2388,7 @@ class AssistantV1(BaseService):
                        synonym: str,
                        *,
                        include_audit: bool = None,
-                       **kwargs) -> 'DetailedResponse':
+                       **kwargs) -> DetailedResponse:
         """
         Create entity value synonym.
 
@@ -2252,7 +2408,7 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Synonym` object
         """
 
         if workspace_id is None:
@@ -2263,10 +2419,7 @@ class AssistantV1(BaseService):
             raise ValueError('value must be provided')
         if synonym is None:
             raise ValueError('synonym must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='create_synonym')
@@ -2275,9 +2428,19 @@ class AssistantV1(BaseService):
         params = {'version': self.version, 'include_audit': include_audit}
 
         data = {'synonym': synonym}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms'.format(
-            *self._encode_path_vars(workspace_id, entity, value))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id', 'entity', 'value']
+        path_param_values = self.encode_path_vars(workspace_id, entity, value)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/entities/{entity}/values/{value}/synonyms'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -2294,7 +2457,7 @@ class AssistantV1(BaseService):
                     synonym: str,
                     *,
                     include_audit: bool = None,
-                    **kwargs) -> 'DetailedResponse':
+                    **kwargs) -> DetailedResponse:
         """
         Get entity value synonym.
 
@@ -2308,7 +2471,7 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Synonym` object
         """
 
         if workspace_id is None:
@@ -2319,10 +2482,7 @@ class AssistantV1(BaseService):
             raise ValueError('value must be provided')
         if synonym is None:
             raise ValueError('synonym must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='get_synonym')
@@ -2330,8 +2490,16 @@ class AssistantV1(BaseService):
 
         params = {'version': self.version, 'include_audit': include_audit}
 
-        url = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(
-            *self._encode_path_vars(workspace_id, entity, value, synonym))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id', 'entity', 'value', 'synonym']
+        path_param_values = self.encode_path_vars(workspace_id, entity, value,
+                                                  synonym)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/entities/{entity}/values/{value}/synonyms/{synonym}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -2348,7 +2516,7 @@ class AssistantV1(BaseService):
                        *,
                        new_synonym: str = None,
                        include_audit: bool = None,
-                       **kwargs) -> 'DetailedResponse':
+                       **kwargs) -> DetailedResponse:
         """
         Update entity value synonym.
 
@@ -2369,7 +2537,7 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Synonym` object
         """
 
         if workspace_id is None:
@@ -2380,10 +2548,7 @@ class AssistantV1(BaseService):
             raise ValueError('value must be provided')
         if synonym is None:
             raise ValueError('synonym must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='update_synonym')
@@ -2392,9 +2557,20 @@ class AssistantV1(BaseService):
         params = {'version': self.version, 'include_audit': include_audit}
 
         data = {'synonym': new_synonym}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(
-            *self._encode_path_vars(workspace_id, entity, value, synonym))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id', 'entity', 'value', 'synonym']
+        path_param_values = self.encode_path_vars(workspace_id, entity, value,
+                                                  synonym)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/entities/{entity}/values/{value}/synonyms/{synonym}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -2405,7 +2581,7 @@ class AssistantV1(BaseService):
         return response
 
     def delete_synonym(self, workspace_id: str, entity: str, value: str,
-                       synonym: str, **kwargs) -> 'DetailedResponse':
+                       synonym: str, **kwargs) -> DetailedResponse:
         """
         Delete entity value synonym.
 
@@ -2428,10 +2604,7 @@ class AssistantV1(BaseService):
             raise ValueError('value must be provided')
         if synonym is None:
             raise ValueError('synonym must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='delete_synonym')
@@ -2439,8 +2612,16 @@ class AssistantV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/workspaces/{0}/entities/{1}/values/{2}/synonyms/{3}'.format(
-            *self._encode_path_vars(workspace_id, entity, value, synonym))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id', 'entity', 'value', 'synonym']
+        path_param_values = self.encode_path_vars(workspace_id, entity, value,
+                                                  synonym)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/entities/{entity}/values/{value}/synonyms/{synonym}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
@@ -2461,7 +2642,7 @@ class AssistantV1(BaseService):
                           sort: str = None,
                           cursor: str = None,
                           include_audit: bool = None,
-                          **kwargs) -> 'DetailedResponse':
+                          **kwargs) -> DetailedResponse:
         """
         List dialog nodes.
 
@@ -2483,15 +2664,12 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `DialogNodeCollection` object
         """
 
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='list_dialog_nodes')
@@ -2506,8 +2684,15 @@ class AssistantV1(BaseService):
             'include_audit': include_audit
         }
 
-        url = '/v1/workspaces/{0}/dialog_nodes'.format(
-            *self._encode_path_vars(workspace_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id']
+        path_param_values = self.encode_path_vars(workspace_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/dialog_nodes'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -2539,7 +2724,7 @@ class AssistantV1(BaseService):
                            user_label: str = None,
                            disambiguation_opt_out: bool = None,
                            include_audit: bool = None,
-                           **kwargs) -> 'DetailedResponse':
+                           **kwargs) -> DetailedResponse:
         """
         Create dialog node.
 
@@ -2595,7 +2780,7 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `DialogNode` object
         """
 
         if workspace_id is None:
@@ -2603,17 +2788,14 @@ class AssistantV1(BaseService):
         if dialog_node is None:
             raise ValueError('dialog_node must be provided')
         if output is not None:
-            output = self._convert_model(output)
+            output = convert_model(output)
         if context is not None:
-            context = self._convert_model(context)
+            context = convert_model(context)
         if next_step is not None:
-            next_step = self._convert_model(next_step)
+            next_step = convert_model(next_step)
         if actions is not None:
-            actions = [self._convert_model(x) for x in actions]
-
+            actions = [convert_model(x) for x in actions]
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='create_dialog_node')
@@ -2642,9 +2824,19 @@ class AssistantV1(BaseService):
             'user_label': user_label,
             'disambiguation_opt_out': disambiguation_opt_out
         }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/workspaces/{0}/dialog_nodes'.format(
-            *self._encode_path_vars(workspace_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id']
+        path_param_values = self.encode_path_vars(workspace_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/dialog_nodes'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -2659,7 +2851,7 @@ class AssistantV1(BaseService):
                         dialog_node: str,
                         *,
                         include_audit: bool = None,
-                        **kwargs) -> 'DetailedResponse':
+                        **kwargs) -> DetailedResponse:
         """
         Get dialog node.
 
@@ -2671,17 +2863,14 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `DialogNode` object
         """
 
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if dialog_node is None:
             raise ValueError('dialog_node must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='get_dialog_node')
@@ -2689,8 +2878,15 @@ class AssistantV1(BaseService):
 
         params = {'version': self.version, 'include_audit': include_audit}
 
-        url = '/v1/workspaces/{0}/dialog_nodes/{1}'.format(
-            *self._encode_path_vars(workspace_id, dialog_node))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id', 'dialog_node']
+        path_param_values = self.encode_path_vars(workspace_id, dialog_node)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/dialog_nodes/{dialog_node}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -2723,7 +2919,7 @@ class AssistantV1(BaseService):
                            new_user_label: str = None,
                            new_disambiguation_opt_out: bool = None,
                            include_audit: bool = None,
-                           **kwargs) -> 'DetailedResponse':
+                           **kwargs) -> DetailedResponse:
         """
         Update dialog node.
 
@@ -2781,7 +2977,7 @@ class AssistantV1(BaseService):
                properties (`created` and `updated` timestamps) in the response.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `DialogNode` object
         """
 
         if workspace_id is None:
@@ -2789,17 +2985,14 @@ class AssistantV1(BaseService):
         if dialog_node is None:
             raise ValueError('dialog_node must be provided')
         if new_output is not None:
-            new_output = self._convert_model(new_output)
+            new_output = convert_model(new_output)
         if new_context is not None:
-            new_context = self._convert_model(new_context)
+            new_context = convert_model(new_context)
         if new_next_step is not None:
-            new_next_step = self._convert_model(new_next_step)
+            new_next_step = convert_model(new_next_step)
         if new_actions is not None:
-            new_actions = [self._convert_model(x) for x in new_actions]
-
+            new_actions = [convert_model(x) for x in new_actions]
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='update_dialog_node')
@@ -2828,9 +3021,19 @@ class AssistantV1(BaseService):
             'user_label': new_user_label,
             'disambiguation_opt_out': new_disambiguation_opt_out
         }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/workspaces/{0}/dialog_nodes/{1}'.format(
-            *self._encode_path_vars(workspace_id, dialog_node))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id', 'dialog_node']
+        path_param_values = self.encode_path_vars(workspace_id, dialog_node)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/dialog_nodes/{dialog_node}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -2841,7 +3044,7 @@ class AssistantV1(BaseService):
         return response
 
     def delete_dialog_node(self, workspace_id: str, dialog_node: str,
-                           **kwargs) -> 'DetailedResponse':
+                           **kwargs) -> DetailedResponse:
         """
         Delete dialog node.
 
@@ -2858,10 +3061,7 @@ class AssistantV1(BaseService):
             raise ValueError('workspace_id must be provided')
         if dialog_node is None:
             raise ValueError('dialog_node must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='delete_dialog_node')
@@ -2869,8 +3069,15 @@ class AssistantV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/workspaces/{0}/dialog_nodes/{1}'.format(
-            *self._encode_path_vars(workspace_id, dialog_node))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id', 'dialog_node']
+        path_param_values = self.encode_path_vars(workspace_id, dialog_node)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/dialog_nodes/{dialog_node}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
@@ -2890,7 +3097,7 @@ class AssistantV1(BaseService):
                   filter: str = None,
                   page_limit: int = None,
                   cursor: str = None,
-                  **kwargs) -> 'DetailedResponse':
+                  **kwargs) -> DetailedResponse:
         """
         List log events in a workspace.
 
@@ -2909,15 +3116,12 @@ class AssistantV1(BaseService):
                retrieve.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `LogCollection` object
         """
 
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='list_logs')
@@ -2931,8 +3135,14 @@ class AssistantV1(BaseService):
             'cursor': cursor
         }
 
-        url = '/v1/workspaces/{0}/logs'.format(
-            *self._encode_path_vars(workspace_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id']
+        path_param_values = self.encode_path_vars(workspace_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/logs'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -2947,7 +3157,7 @@ class AssistantV1(BaseService):
                       sort: str = None,
                       page_limit: int = None,
                       cursor: str = None,
-                      **kwargs) -> 'DetailedResponse':
+                      **kwargs) -> DetailedResponse:
         """
         List log events in all workspaces.
 
@@ -2968,15 +3178,12 @@ class AssistantV1(BaseService):
                retrieve.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `LogCollection` object
         """
 
         if filter is None:
             raise ValueError('filter must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='list_all_logs')
@@ -2989,6 +3196,10 @@ class AssistantV1(BaseService):
             'page_limit': page_limit,
             'cursor': cursor
         }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v1/logs'
         request = self.prepare_request(method='GET',
@@ -3003,8 +3214,7 @@ class AssistantV1(BaseService):
     # User data
     #########################
 
-    def delete_user_data(self, customer_id: str,
-                         **kwargs) -> 'DetailedResponse':
+    def delete_user_data(self, customer_id: str, **kwargs) -> DetailedResponse:
         """
         Delete labeled data.
 
@@ -3024,16 +3234,17 @@ class AssistantV1(BaseService):
 
         if customer_id is None:
             raise ValueError('customer_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='delete_user_data')
         headers.update(sdk_headers)
 
         params = {'version': self.version, 'customer_id': customer_id}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v1/user_data'
         request = self.prepare_request(method='DELETE',
@@ -3052,7 +3263,7 @@ class AssistantV1(BaseService):
                       workspace_id: str,
                       *,
                       input: List['BulkClassifyUtterance'] = None,
-                      **kwargs) -> 'DetailedResponse':
+                      **kwargs) -> DetailedResponse:
         """
         Identify intents and entities in multiple user utterances.
 
@@ -3066,17 +3277,14 @@ class AssistantV1(BaseService):
                utterances to classify.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `BulkClassifyResponse` object
         """
 
         if workspace_id is None:
             raise ValueError('workspace_id must be provided')
         if input is not None:
-            input = [self._convert_model(x) for x in input]
-
+            input = [convert_model(x) for x in input]
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='bulk_classify')
@@ -3085,9 +3293,19 @@ class AssistantV1(BaseService):
         params = {'version': self.version}
 
         data = {'input': input}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/workspaces/{0}/bulk_classify'.format(
-            *self._encode_path_vars(workspace_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['workspace_id']
+        path_param_values = self.encode_path_vars(workspace_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/workspaces/{workspace_id}/bulk_classify'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -3098,9 +3316,12 @@ class AssistantV1(BaseService):
         return response
 
 
-class ListWorkspacesEnums(object):
+class ListWorkspacesEnums:
+    """
+    Enums for list_workspaces parameters.
+    """
 
-    class Sort(Enum):
+    class Sort(str, Enum):
         """
         The attribute by which returned workspaces will be sorted. To reverse the sort
         order, prefix the value with a minus sign (`-`).
@@ -3109,9 +3330,12 @@ class ListWorkspacesEnums(object):
         UPDATED = 'updated'
 
 
-class GetWorkspaceEnums(object):
+class GetWorkspaceEnums:
+    """
+    Enums for get_workspace parameters.
+    """
 
-    class Sort(Enum):
+    class Sort(str, Enum):
         """
         Indicates how the returned workspace data will be sorted. This parameter is valid
         only if **export**=`true`. Specify `sort=stable` to sort all workspace objects by
@@ -3120,9 +3344,12 @@ class GetWorkspaceEnums(object):
         STABLE = 'stable'
 
 
-class ListIntentsEnums(object):
+class ListIntentsEnums:
+    """
+    Enums for list_intents parameters.
+    """
 
-    class Sort(Enum):
+    class Sort(str, Enum):
         """
         The attribute by which returned intents will be sorted. To reverse the sort order,
         prefix the value with a minus sign (`-`).
@@ -3131,9 +3358,12 @@ class ListIntentsEnums(object):
         UPDATED = 'updated'
 
 
-class ListExamplesEnums(object):
+class ListExamplesEnums:
+    """
+    Enums for list_examples parameters.
+    """
 
-    class Sort(Enum):
+    class Sort(str, Enum):
         """
         The attribute by which returned examples will be sorted. To reverse the sort
         order, prefix the value with a minus sign (`-`).
@@ -3142,9 +3372,12 @@ class ListExamplesEnums(object):
         UPDATED = 'updated'
 
 
-class ListCounterexamplesEnums(object):
+class ListCounterexamplesEnums:
+    """
+    Enums for list_counterexamples parameters.
+    """
 
-    class Sort(Enum):
+    class Sort(str, Enum):
         """
         The attribute by which returned counterexamples will be sorted. To reverse the
         sort order, prefix the value with a minus sign (`-`).
@@ -3153,9 +3386,12 @@ class ListCounterexamplesEnums(object):
         UPDATED = 'updated'
 
 
-class ListEntitiesEnums(object):
+class ListEntitiesEnums:
+    """
+    Enums for list_entities parameters.
+    """
 
-    class Sort(Enum):
+    class Sort(str, Enum):
         """
         The attribute by which returned entities will be sorted. To reverse the sort
         order, prefix the value with a minus sign (`-`).
@@ -3164,9 +3400,12 @@ class ListEntitiesEnums(object):
         UPDATED = 'updated'
 
 
-class ListValuesEnums(object):
+class ListValuesEnums:
+    """
+    Enums for list_values parameters.
+    """
 
-    class Sort(Enum):
+    class Sort(str, Enum):
         """
         The attribute by which returned entity values will be sorted. To reverse the sort
         order, prefix the value with a minus sign (`-`).
@@ -3175,9 +3414,12 @@ class ListValuesEnums(object):
         UPDATED = 'updated'
 
 
-class ListSynonymsEnums(object):
+class ListSynonymsEnums:
+    """
+    Enums for list_synonyms parameters.
+    """
 
-    class Sort(Enum):
+    class Sort(str, Enum):
         """
         The attribute by which returned entity value synonyms will be sorted. To reverse
         the sort order, prefix the value with a minus sign (`-`).
@@ -3186,9 +3428,12 @@ class ListSynonymsEnums(object):
         UPDATED = 'updated'
 
 
-class ListDialogNodesEnums(object):
+class ListDialogNodesEnums:
+    """
+    Enums for list_dialog_nodes parameters.
+    """
 
-    class Sort(Enum):
+    class Sort(str, Enum):
         """
         The attribute by which returned dialog nodes will be sorted. To reverse the sort
         order, prefix the value with a minus sign (`-`).
@@ -3237,21 +3482,15 @@ class BulkClassifyOutput():
     def from_dict(cls, _dict: Dict) -> 'BulkClassifyOutput':
         """Initialize a BulkClassifyOutput object from a json dictionary."""
         args = {}
-        valid_keys = ['input', 'entities', 'intents']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class BulkClassifyOutput: '
-                + ', '.join(bad_keys))
         if 'input' in _dict:
-            args['input'] = BulkClassifyUtterance._from_dict(_dict.get('input'))
+            args['input'] = BulkClassifyUtterance.from_dict(_dict.get('input'))
         if 'entities' in _dict:
             args['entities'] = [
-                RuntimeEntity._from_dict(x) for x in (_dict.get('entities'))
+                RuntimeEntity.from_dict(x) for x in _dict.get('entities')
             ]
         if 'intents' in _dict:
             args['intents'] = [
-                RuntimeIntent._from_dict(x) for x in (_dict.get('intents'))
+                RuntimeIntent.from_dict(x) for x in _dict.get('intents')
             ]
         return cls(**args)
 
@@ -3264,11 +3503,11 @@ class BulkClassifyOutput():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'input') and self.input is not None:
-            _dict['input'] = self.input._to_dict()
+            _dict['input'] = self.input.to_dict()
         if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x._to_dict() for x in self.entities]
+            _dict['entities'] = [x.to_dict() for x in self.entities]
         if hasattr(self, 'intents') and self.intents is not None:
-            _dict['intents'] = [x._to_dict() for x in self.intents]
+            _dict['intents'] = [x.to_dict() for x in self.intents]
         return _dict
 
     def _to_dict(self):
@@ -3277,7 +3516,7 @@ class BulkClassifyOutput():
 
     def __str__(self) -> str:
         """Return a `str` version of this BulkClassifyOutput object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'BulkClassifyOutput') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3311,15 +3550,9 @@ class BulkClassifyResponse():
     def from_dict(cls, _dict: Dict) -> 'BulkClassifyResponse':
         """Initialize a BulkClassifyResponse object from a json dictionary."""
         args = {}
-        valid_keys = ['output']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class BulkClassifyResponse: '
-                + ', '.join(bad_keys))
         if 'output' in _dict:
             args['output'] = [
-                BulkClassifyOutput._from_dict(x) for x in (_dict.get('output'))
+                BulkClassifyOutput.from_dict(x) for x in _dict.get('output')
             ]
         return cls(**args)
 
@@ -3332,7 +3565,7 @@ class BulkClassifyResponse():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'output') and self.output is not None:
-            _dict['output'] = [x._to_dict() for x in self.output]
+            _dict['output'] = [x.to_dict() for x in self.output]
         return _dict
 
     def _to_dict(self):
@@ -3341,7 +3574,7 @@ class BulkClassifyResponse():
 
     def __str__(self) -> str:
         """Return a `str` version of this BulkClassifyResponse object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'BulkClassifyResponse') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3373,12 +3606,6 @@ class BulkClassifyUtterance():
     def from_dict(cls, _dict: Dict) -> 'BulkClassifyUtterance':
         """Initialize a BulkClassifyUtterance object from a json dictionary."""
         args = {}
-        valid_keys = ['text']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class BulkClassifyUtterance: '
-                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         else:
@@ -3405,7 +3632,7 @@ class BulkClassifyUtterance():
 
     def __str__(self) -> str:
         """Return a `str` version of this BulkClassifyUtterance object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'BulkClassifyUtterance') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3442,12 +3669,6 @@ class CaptureGroup():
     def from_dict(cls, _dict: Dict) -> 'CaptureGroup':
         """Initialize a CaptureGroup object from a json dictionary."""
         args = {}
-        valid_keys = ['group', 'location']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class CaptureGroup: '
-                + ', '.join(bad_keys))
         if 'group' in _dict:
             args['group'] = _dict.get('group')
         else:
@@ -3477,7 +3698,7 @@ class CaptureGroup():
 
     def __str__(self) -> str:
         """Return a `str` version of this CaptureGroup object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'CaptureGroup') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3496,15 +3717,18 @@ class Context():
     the previous response.
 
     :attr str conversation_id: (optional) The unique identifier of the conversation.
-    :attr SystemResponse system: (optional) For internal use only.
+    :attr dict system: (optional) For internal use only.
     :attr MessageContextMetadata metadata: (optional) Metadata related to the
           message.
     """
 
+    # The set of defined properties for the class
+    _properties = frozenset(['conversation_id', 'system', 'metadata'])
+
     def __init__(self,
                  *,
                  conversation_id: str = None,
-                 system: 'SystemResponse' = None,
+                 system: dict = None,
                  metadata: 'MessageContextMetadata' = None,
                  **kwargs) -> None:
         """
@@ -3512,7 +3736,7 @@ class Context():
 
         :param str conversation_id: (optional) The unique identifier of the
                conversation.
-        :param SystemResponse system: (optional) For internal use only.
+        :param dict system: (optional) For internal use only.
         :param MessageContextMetadata metadata: (optional) Metadata related to the
                message.
         :param **kwargs: (optional) Any additional properties.
@@ -3527,18 +3751,15 @@ class Context():
     def from_dict(cls, _dict: Dict) -> 'Context':
         """Initialize a Context object from a json dictionary."""
         args = {}
-        xtra = _dict.copy()
         if 'conversation_id' in _dict:
             args['conversation_id'] = _dict.get('conversation_id')
-            del xtra['conversation_id']
         if 'system' in _dict:
-            args['system'] = SystemResponse._from_dict(_dict.get('system'))
-            del xtra['system']
+            args['system'] = _dict.get('system')
         if 'metadata' in _dict:
-            args['metadata'] = MessageContextMetadata._from_dict(
+            args['metadata'] = MessageContextMetadata.from_dict(
                 _dict.get('metadata'))
-            del xtra['metadata']
-        args.update(xtra)
+        args.update(
+            {k: v for (k, v) in _dict.items() if k not in cls._properties})
         return cls(**args)
 
     @classmethod
@@ -3553,31 +3774,23 @@ class Context():
                    'conversation_id') and self.conversation_id is not None:
             _dict['conversation_id'] = self.conversation_id
         if hasattr(self, 'system') and self.system is not None:
-            _dict['system'] = self.system._to_dict()
+            _dict['system'] = self.system
         if hasattr(self, 'metadata') and self.metadata is not None:
-            _dict['metadata'] = self.metadata._to_dict()
-        if hasattr(self, '_additionalProperties'):
-            for _key in self._additionalProperties:
-                _value = getattr(self, _key, None)
-                if _value is not None:
-                    _dict[_key] = _value
+            _dict['metadata'] = self.metadata.to_dict()
+        for _key in [
+                k for k in vars(self).keys() if k not in Context._properties
+        ]:
+            if getattr(self, _key, None) is not None:
+                _dict[_key] = getattr(self, _key)
         return _dict
 
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         return self.to_dict()
 
-    def __setattr__(self, name: str, value: object) -> None:
-        properties = {'conversation_id', 'system', 'metadata'}
-        if not hasattr(self, '_additionalProperties'):
-            super(Context, self).__setattr__('_additionalProperties', set())
-        if name not in properties:
-            self._additionalProperties.add(name)
-        super(Context, self).__setattr__(name, value)
-
     def __str__(self) -> str:
         """Return a `str` version of this Context object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Context') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3615,10 +3828,6 @@ class Counterexample():
                string must conform to the following restrictions:
                - It cannot contain carriage return, newline, or tab characters.
                - It cannot consist of only whitespace characters.
-        :param datetime created: (optional) The timestamp for creation of the
-               object.
-        :param datetime updated: (optional) The timestamp for the most recent
-               update to the object.
         """
         self.text = text
         self.created = created
@@ -3628,12 +3837,6 @@ class Counterexample():
     def from_dict(cls, _dict: Dict) -> 'Counterexample':
         """Initialize a Counterexample object from a json dictionary."""
         args = {}
-        valid_keys = ['text', 'created', 'updated']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Counterexample: '
-                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         else:
@@ -3655,10 +3858,10 @@ class Counterexample():
         _dict = {}
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
-        if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = datetime_to_string(self.created)
-        if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = datetime_to_string(self.updated)
+        if hasattr(self, 'created') and getattr(self, 'created') is not None:
+            _dict['created'] = datetime_to_string(getattr(self, 'created'))
+        if hasattr(self, 'updated') and getattr(self, 'updated') is not None:
+            _dict['updated'] = datetime_to_string(getattr(self, 'updated'))
         return _dict
 
     def _to_dict(self):
@@ -3667,7 +3870,7 @@ class Counterexample():
 
     def __str__(self) -> str:
         """Return a `str` version of this Counterexample object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Counterexample') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3705,23 +3908,17 @@ class CounterexampleCollection():
     def from_dict(cls, _dict: Dict) -> 'CounterexampleCollection':
         """Initialize a CounterexampleCollection object from a json dictionary."""
         args = {}
-        valid_keys = ['counterexamples', 'pagination']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class CounterexampleCollection: '
-                + ', '.join(bad_keys))
         if 'counterexamples' in _dict:
             args['counterexamples'] = [
-                Counterexample._from_dict(x)
-                for x in (_dict.get('counterexamples'))
+                Counterexample.from_dict(x)
+                for x in _dict.get('counterexamples')
             ]
         else:
             raise ValueError(
                 'Required property \'counterexamples\' not present in CounterexampleCollection JSON'
             )
         if 'pagination' in _dict:
-            args['pagination'] = Pagination._from_dict(_dict.get('pagination'))
+            args['pagination'] = Pagination.from_dict(_dict.get('pagination'))
         else:
             raise ValueError(
                 'Required property \'pagination\' not present in CounterexampleCollection JSON'
@@ -3739,10 +3936,10 @@ class CounterexampleCollection():
         if hasattr(self,
                    'counterexamples') and self.counterexamples is not None:
             _dict['counterexamples'] = [
-                x._to_dict() for x in self.counterexamples
+                x.to_dict() for x in self.counterexamples
             ]
         if hasattr(self, 'pagination') and self.pagination is not None:
-            _dict['pagination'] = self.pagination._to_dict()
+            _dict['pagination'] = self.pagination.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -3751,7 +3948,7 @@ class CounterexampleCollection():
 
     def __str__(self) -> str:
         """Return a `str` version of this CounterexampleCollection object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'CounterexampleCollection') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3809,10 +4006,6 @@ class CreateEntity():
         :param dict metadata: (optional) Any metadata related to the entity.
         :param bool fuzzy_match: (optional) Whether to use fuzzy matching for the
                entity.
-        :param datetime created: (optional) The timestamp for creation of the
-               object.
-        :param datetime updated: (optional) The timestamp for the most recent
-               update to the object.
         :param List[CreateValue] values: (optional) An array of objects describing
                the entity values.
         """
@@ -3828,15 +4021,6 @@ class CreateEntity():
     def from_dict(cls, _dict: Dict) -> 'CreateEntity':
         """Initialize a CreateEntity object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'entity', 'description', 'metadata', 'fuzzy_match', 'created',
-            'updated', 'values'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class CreateEntity: '
-                + ', '.join(bad_keys))
         if 'entity' in _dict:
             args['entity'] = _dict.get('entity')
         else:
@@ -3854,7 +4038,7 @@ class CreateEntity():
             args['updated'] = string_to_datetime(_dict.get('updated'))
         if 'values' in _dict:
             args['values'] = [
-                CreateValue._from_dict(x) for x in (_dict.get('values'))
+                CreateValue.from_dict(x) for x in _dict.get('values')
             ]
         return cls(**args)
 
@@ -3874,12 +4058,12 @@ class CreateEntity():
             _dict['metadata'] = self.metadata
         if hasattr(self, 'fuzzy_match') and self.fuzzy_match is not None:
             _dict['fuzzy_match'] = self.fuzzy_match
-        if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = datetime_to_string(self.created)
-        if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = datetime_to_string(self.updated)
+        if hasattr(self, 'created') and getattr(self, 'created') is not None:
+            _dict['created'] = datetime_to_string(getattr(self, 'created'))
+        if hasattr(self, 'updated') and getattr(self, 'updated') is not None:
+            _dict['updated'] = datetime_to_string(getattr(self, 'updated'))
         if hasattr(self, 'values') and self.values is not None:
-            _dict['values'] = [x._to_dict() for x in self.values]
+            _dict['values'] = [x.to_dict() for x in self.values]
         return _dict
 
     def _to_dict(self):
@@ -3888,7 +4072,7 @@ class CreateEntity():
 
     def __str__(self) -> str:
         """Return a `str` version of this CreateEntity object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'CreateEntity') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3936,10 +4120,6 @@ class CreateIntent():
                - It cannot begin with the reserved prefix `sys-`.
         :param str description: (optional) The description of the intent. This
                string cannot contain carriage return, newline, or tab characters.
-        :param datetime created: (optional) The timestamp for creation of the
-               object.
-        :param datetime updated: (optional) The timestamp for the most recent
-               update to the object.
         :param List[Example] examples: (optional) An array of user input examples
                for the intent.
         """
@@ -3953,12 +4133,6 @@ class CreateIntent():
     def from_dict(cls, _dict: Dict) -> 'CreateIntent':
         """Initialize a CreateIntent object from a json dictionary."""
         args = {}
-        valid_keys = ['intent', 'description', 'created', 'updated', 'examples']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class CreateIntent: '
-                + ', '.join(bad_keys))
         if 'intent' in _dict:
             args['intent'] = _dict.get('intent')
         else:
@@ -3972,7 +4146,7 @@ class CreateIntent():
             args['updated'] = string_to_datetime(_dict.get('updated'))
         if 'examples' in _dict:
             args['examples'] = [
-                Example._from_dict(x) for x in (_dict.get('examples'))
+                Example.from_dict(x) for x in _dict.get('examples')
             ]
         return cls(**args)
 
@@ -3988,12 +4162,12 @@ class CreateIntent():
             _dict['intent'] = self.intent
         if hasattr(self, 'description') and self.description is not None:
             _dict['description'] = self.description
-        if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = datetime_to_string(self.created)
-        if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = datetime_to_string(self.updated)
+        if hasattr(self, 'created') and getattr(self, 'created') is not None:
+            _dict['created'] = datetime_to_string(getattr(self, 'created'))
+        if hasattr(self, 'updated') and getattr(self, 'updated') is not None:
+            _dict['updated'] = datetime_to_string(getattr(self, 'updated'))
         if hasattr(self, 'examples') and self.examples is not None:
-            _dict['examples'] = [x._to_dict() for x in self.examples]
+            _dict['examples'] = [x.to_dict() for x in self.examples]
         return _dict
 
     def _to_dict(self):
@@ -4002,7 +4176,7 @@ class CreateIntent():
 
     def __str__(self) -> str:
         """Return a `str` version of this CreateIntent object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'CreateIntent') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4069,10 +4243,6 @@ class CreateValue():
                value type), but not both. A pattern is a regular expression; for more
                information about how to specify a pattern, see the
                [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-entities#entities-create-dictionary-based).
-        :param datetime created: (optional) The timestamp for creation of the
-               object.
-        :param datetime updated: (optional) The timestamp for the most recent
-               update to the object.
         """
         self.value = value
         self.metadata = metadata
@@ -4086,15 +4256,6 @@ class CreateValue():
     def from_dict(cls, _dict: Dict) -> 'CreateValue':
         """Initialize a CreateValue object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'value', 'metadata', 'type', 'synonyms', 'patterns', 'created',
-            'updated'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class CreateValue: '
-                + ', '.join(bad_keys))
         if 'value' in _dict:
             args['value'] = _dict.get('value')
         else:
@@ -4132,10 +4293,10 @@ class CreateValue():
             _dict['synonyms'] = self.synonyms
         if hasattr(self, 'patterns') and self.patterns is not None:
             _dict['patterns'] = self.patterns
-        if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = datetime_to_string(self.created)
-        if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = datetime_to_string(self.updated)
+        if hasattr(self, 'created') and getattr(self, 'created') is not None:
+            _dict['created'] = datetime_to_string(getattr(self, 'created'))
+        if hasattr(self, 'updated') and getattr(self, 'updated') is not None:
+            _dict['updated'] = datetime_to_string(getattr(self, 'updated'))
         return _dict
 
     def _to_dict(self):
@@ -4144,7 +4305,7 @@ class CreateValue():
 
     def __str__(self) -> str:
         """Return a `str` version of this CreateValue object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'CreateValue') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4156,12 +4317,12 @@ class CreateValue():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class TypeEnum(Enum):
+    class TypeEnum(str, Enum):
         """
         Specifies the type of entity value.
         """
-        SYNONYMS = "synonyms"
-        PATTERNS = "patterns"
+        SYNONYMS = 'synonyms'
+        PATTERNS = 'patterns'
 
 
 class DialogNode():
@@ -4284,11 +4445,6 @@ class DialogNode():
         :param bool disambiguation_opt_out: (optional) Whether the dialog node
                should be excluded from disambiguation suggestions. Valid only when
                **type**=`standard` or `frame`.
-        :param bool disabled: (optional) For internal use only.
-        :param datetime created: (optional) The timestamp for creation of the
-               object.
-        :param datetime updated: (optional) The timestamp for the most recent
-               update to the object.
         """
         self.dialog_node = dialog_node
         self.description = description
@@ -4317,18 +4473,6 @@ class DialogNode():
     def from_dict(cls, _dict: Dict) -> 'DialogNode':
         """Initialize a DialogNode object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'dialog_node', 'description', 'conditions', 'parent',
-            'previous_sibling', 'output', 'context', 'metadata', 'next_step',
-            'title', 'type', 'event_name', 'variable', 'actions', 'digress_in',
-            'digress_out', 'digress_out_slots', 'user_label',
-            'disambiguation_opt_out', 'disabled', 'created', 'updated'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DialogNode: '
-                + ', '.join(bad_keys))
         if 'dialog_node' in _dict:
             args['dialog_node'] = _dict.get('dialog_node')
         else:
@@ -4344,13 +4488,13 @@ class DialogNode():
         if 'previous_sibling' in _dict:
             args['previous_sibling'] = _dict.get('previous_sibling')
         if 'output' in _dict:
-            args['output'] = DialogNodeOutput._from_dict(_dict.get('output'))
+            args['output'] = DialogNodeOutput.from_dict(_dict.get('output'))
         if 'context' in _dict:
-            args['context'] = DialogNodeContext._from_dict(_dict.get('context'))
+            args['context'] = DialogNodeContext.from_dict(_dict.get('context'))
         if 'metadata' in _dict:
             args['metadata'] = _dict.get('metadata')
         if 'next_step' in _dict:
-            args['next_step'] = DialogNodeNextStep._from_dict(
+            args['next_step'] = DialogNodeNextStep.from_dict(
                 _dict.get('next_step'))
         if 'title' in _dict:
             args['title'] = _dict.get('title')
@@ -4362,7 +4506,7 @@ class DialogNode():
             args['variable'] = _dict.get('variable')
         if 'actions' in _dict:
             args['actions'] = [
-                DialogNodeAction._from_dict(x) for x in (_dict.get('actions'))
+                DialogNodeAction.from_dict(x) for x in _dict.get('actions')
             ]
         if 'digress_in' in _dict:
             args['digress_in'] = _dict.get('digress_in')
@@ -4402,13 +4546,13 @@ class DialogNode():
                    'previous_sibling') and self.previous_sibling is not None:
             _dict['previous_sibling'] = self.previous_sibling
         if hasattr(self, 'output') and self.output is not None:
-            _dict['output'] = self.output._to_dict()
+            _dict['output'] = self.output.to_dict()
         if hasattr(self, 'context') and self.context is not None:
-            _dict['context'] = self.context._to_dict()
+            _dict['context'] = self.context.to_dict()
         if hasattr(self, 'metadata') and self.metadata is not None:
             _dict['metadata'] = self.metadata
         if hasattr(self, 'next_step') and self.next_step is not None:
-            _dict['next_step'] = self.next_step._to_dict()
+            _dict['next_step'] = self.next_step.to_dict()
         if hasattr(self, 'title') and self.title is not None:
             _dict['title'] = self.title
         if hasattr(self, 'type') and self.type is not None:
@@ -4418,7 +4562,7 @@ class DialogNode():
         if hasattr(self, 'variable') and self.variable is not None:
             _dict['variable'] = self.variable
         if hasattr(self, 'actions') and self.actions is not None:
-            _dict['actions'] = [x._to_dict() for x in self.actions]
+            _dict['actions'] = [x.to_dict() for x in self.actions]
         if hasattr(self, 'digress_in') and self.digress_in is not None:
             _dict['digress_in'] = self.digress_in
         if hasattr(self, 'digress_out') and self.digress_out is not None:
@@ -4431,12 +4575,12 @@ class DialogNode():
         if hasattr(self, 'disambiguation_opt_out'
                   ) and self.disambiguation_opt_out is not None:
             _dict['disambiguation_opt_out'] = self.disambiguation_opt_out
-        if hasattr(self, 'disabled') and self.disabled is not None:
-            _dict['disabled'] = self.disabled
-        if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = datetime_to_string(self.created)
-        if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = datetime_to_string(self.updated)
+        if hasattr(self, 'disabled') and getattr(self, 'disabled') is not None:
+            _dict['disabled'] = getattr(self, 'disabled')
+        if hasattr(self, 'created') and getattr(self, 'created') is not None:
+            _dict['created'] = datetime_to_string(getattr(self, 'created'))
+        if hasattr(self, 'updated') and getattr(self, 'updated') is not None:
+            _dict['updated'] = datetime_to_string(getattr(self, 'updated'))
         return _dict
 
     def _to_dict(self):
@@ -4445,7 +4589,7 @@ class DialogNode():
 
     def __str__(self) -> str:
         """Return a `str` version of this DialogNode object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DialogNode') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4457,54 +4601,54 @@ class DialogNode():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class TypeEnum(Enum):
+    class TypeEnum(str, Enum):
         """
         How the dialog node is processed.
         """
-        STANDARD = "standard"
-        EVENT_HANDLER = "event_handler"
-        FRAME = "frame"
-        SLOT = "slot"
-        RESPONSE_CONDITION = "response_condition"
-        FOLDER = "folder"
+        STANDARD = 'standard'
+        EVENT_HANDLER = 'event_handler'
+        FRAME = 'frame'
+        SLOT = 'slot'
+        RESPONSE_CONDITION = 'response_condition'
+        FOLDER = 'folder'
 
-    class EventNameEnum(Enum):
+    class EventNameEnum(str, Enum):
         """
         How an `event_handler` node is processed.
         """
-        FOCUS = "focus"
-        INPUT = "input"
-        FILLED = "filled"
-        VALIDATE = "validate"
-        FILLED_MULTIPLE = "filled_multiple"
-        GENERIC = "generic"
-        NOMATCH = "nomatch"
-        NOMATCH_RESPONSES_DEPLETED = "nomatch_responses_depleted"
-        DIGRESSION_RETURN_PROMPT = "digression_return_prompt"
+        FOCUS = 'focus'
+        INPUT = 'input'
+        FILLED = 'filled'
+        VALIDATE = 'validate'
+        FILLED_MULTIPLE = 'filled_multiple'
+        GENERIC = 'generic'
+        NOMATCH = 'nomatch'
+        NOMATCH_RESPONSES_DEPLETED = 'nomatch_responses_depleted'
+        DIGRESSION_RETURN_PROMPT = 'digression_return_prompt'
 
-    class DigressInEnum(Enum):
+    class DigressInEnum(str, Enum):
         """
         Whether this top-level dialog node can be digressed into.
         """
-        NOT_AVAILABLE = "not_available"
-        RETURNS = "returns"
-        DOES_NOT_RETURN = "does_not_return"
+        NOT_AVAILABLE = 'not_available'
+        RETURNS = 'returns'
+        DOES_NOT_RETURN = 'does_not_return'
 
-    class DigressOutEnum(Enum):
+    class DigressOutEnum(str, Enum):
         """
         Whether this dialog node can be returned to after a digression.
         """
-        ALLOW_RETURNING = "allow_returning"
-        ALLOW_ALL = "allow_all"
-        ALLOW_ALL_NEVER_RETURN = "allow_all_never_return"
+        ALLOW_RETURNING = 'allow_returning'
+        ALLOW_ALL = 'allow_all'
+        ALLOW_ALL_NEVER_RETURN = 'allow_all_never_return'
 
-    class DigressOutSlotsEnum(Enum):
+    class DigressOutSlotsEnum(str, Enum):
         """
         Whether the user can digress to top-level nodes while filling out slots.
         """
-        NOT_ALLOWED = "not_allowed"
-        ALLOW_RETURNING = "allow_returning"
-        ALLOW_ALL = "allow_all"
+        NOT_ALLOWED = 'not_allowed'
+        ALLOW_RETURNING = 'allow_returning'
+        ALLOW_ALL = 'allow_all'
 
 
 class DialogNodeAction():
@@ -4550,14 +4694,6 @@ class DialogNodeAction():
     def from_dict(cls, _dict: Dict) -> 'DialogNodeAction':
         """Initialize a DialogNodeAction object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'name', 'type', 'parameters', 'result_variable', 'credentials'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DialogNodeAction: '
-                + ', '.join(bad_keys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         else:
@@ -4605,7 +4741,7 @@ class DialogNodeAction():
 
     def __str__(self) -> str:
         """Return a `str` version of this DialogNodeAction object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DialogNodeAction') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4617,15 +4753,15 @@ class DialogNodeAction():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class TypeEnum(Enum):
+    class TypeEnum(str, Enum):
         """
         The type of action to invoke.
         """
-        CLIENT = "client"
-        SERVER = "server"
-        CLOUD_FUNCTION = "cloud_function"
-        WEB_ACTION = "web_action"
-        WEBHOOK = "webhook"
+        CLIENT = 'client'
+        SERVER = 'server'
+        CLOUD_FUNCTION = 'cloud_function'
+        WEB_ACTION = 'web_action'
+        WEBHOOK = 'webhook'
 
 
 class DialogNodeCollection():
@@ -4653,22 +4789,16 @@ class DialogNodeCollection():
     def from_dict(cls, _dict: Dict) -> 'DialogNodeCollection':
         """Initialize a DialogNodeCollection object from a json dictionary."""
         args = {}
-        valid_keys = ['dialog_nodes', 'pagination']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DialogNodeCollection: '
-                + ', '.join(bad_keys))
         if 'dialog_nodes' in _dict:
             args['dialog_nodes'] = [
-                DialogNode._from_dict(x) for x in (_dict.get('dialog_nodes'))
+                DialogNode.from_dict(x) for x in _dict.get('dialog_nodes')
             ]
         else:
             raise ValueError(
                 'Required property \'dialog_nodes\' not present in DialogNodeCollection JSON'
             )
         if 'pagination' in _dict:
-            args['pagination'] = Pagination._from_dict(_dict.get('pagination'))
+            args['pagination'] = Pagination.from_dict(_dict.get('pagination'))
         else:
             raise ValueError(
                 'Required property \'pagination\' not present in DialogNodeCollection JSON'
@@ -4684,9 +4814,9 @@ class DialogNodeCollection():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'dialog_nodes') and self.dialog_nodes is not None:
-            _dict['dialog_nodes'] = [x._to_dict() for x in self.dialog_nodes]
+            _dict['dialog_nodes'] = [x.to_dict() for x in self.dialog_nodes]
         if hasattr(self, 'pagination') and self.pagination is not None:
-            _dict['pagination'] = self.pagination._to_dict()
+            _dict['pagination'] = self.pagination.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -4695,7 +4825,7 @@ class DialogNodeCollection():
 
     def __str__(self) -> str:
         """Return a `str` version of this DialogNodeCollection object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DialogNodeCollection') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4716,6 +4846,9 @@ class DialogNodeContext():
           integrations.
     """
 
+    # The set of defined properties for the class
+    _properties = frozenset(['integrations'])
+
     def __init__(self, *, integrations: dict = None, **kwargs) -> None:
         """
         Initialize a DialogNodeContext object.
@@ -4732,11 +4865,10 @@ class DialogNodeContext():
     def from_dict(cls, _dict: Dict) -> 'DialogNodeContext':
         """Initialize a DialogNodeContext object from a json dictionary."""
         args = {}
-        xtra = _dict.copy()
         if 'integrations' in _dict:
             args['integrations'] = _dict.get('integrations')
-            del xtra['integrations']
-        args.update(xtra)
+        args.update(
+            {k: v for (k, v) in _dict.items() if k not in cls._properties})
         return cls(**args)
 
     @classmethod
@@ -4749,29 +4881,21 @@ class DialogNodeContext():
         _dict = {}
         if hasattr(self, 'integrations') and self.integrations is not None:
             _dict['integrations'] = self.integrations
-        if hasattr(self, '_additionalProperties'):
-            for _key in self._additionalProperties:
-                _value = getattr(self, _key, None)
-                if _value is not None:
-                    _dict[_key] = _value
+        for _key in [
+                k for k in vars(self).keys()
+                if k not in DialogNodeContext._properties
+        ]:
+            if getattr(self, _key, None) is not None:
+                _dict[_key] = getattr(self, _key)
         return _dict
 
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         return self.to_dict()
 
-    def __setattr__(self, name: str, value: object) -> None:
-        properties = {'integrations'}
-        if not hasattr(self, '_additionalProperties'):
-            super(DialogNodeContext, self).__setattr__('_additionalProperties',
-                                                       set())
-        if name not in properties:
-            self._additionalProperties.add(name)
-        super(DialogNodeContext, self).__setattr__(name, value)
-
     def __str__(self) -> str:
         """Return a `str` version of this DialogNodeContext object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DialogNodeContext') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4856,12 +4980,6 @@ class DialogNodeNextStep():
     def from_dict(cls, _dict: Dict) -> 'DialogNodeNextStep':
         """Initialize a DialogNodeNextStep object from a json dictionary."""
         args = {}
-        valid_keys = ['behavior', 'dialog_node', 'selector']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DialogNodeNextStep: '
-                + ', '.join(bad_keys))
         if 'behavior' in _dict:
             args['behavior'] = _dict.get('behavior')
         else:
@@ -4896,7 +5014,7 @@ class DialogNodeNextStep():
 
     def __str__(self) -> str:
         """Return a `str` version of this DialogNodeNextStep object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DialogNodeNextStep') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4908,7 +5026,7 @@ class DialogNodeNextStep():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class BehaviorEnum(Enum):
+    class BehaviorEnum(str, Enum):
         """
         What happens after the dialog node completes. The valid values depend on the node
         type:
@@ -4932,21 +5050,21 @@ class DialogNodeNextStep():
              If you specify `jump_to`, then you must also specify a value for the
         `dialog_node` property.
         """
-        GET_USER_INPUT = "get_user_input"
-        SKIP_USER_INPUT = "skip_user_input"
-        JUMP_TO = "jump_to"
-        REPROMPT = "reprompt"
-        SKIP_SLOT = "skip_slot"
-        SKIP_ALL_SLOTS = "skip_all_slots"
+        GET_USER_INPUT = 'get_user_input'
+        SKIP_USER_INPUT = 'skip_user_input'
+        JUMP_TO = 'jump_to'
+        REPROMPT = 'reprompt'
+        SKIP_SLOT = 'skip_slot'
+        SKIP_ALL_SLOTS = 'skip_all_slots'
 
-    class SelectorEnum(Enum):
+    class SelectorEnum(str, Enum):
         """
         Which part of the dialog node to process next.
         """
-        CONDITION = "condition"
-        CLIENT = "client"
-        USER_INPUT = "user_input"
-        BODY = "body"
+        CONDITION = 'condition'
+        CLIENT = 'client'
+        USER_INPUT = 'user_input'
+        BODY = 'body'
 
 
 class DialogNodeOutput():
@@ -4963,6 +5081,9 @@ class DialogNodeOutput():
     :attr DialogNodeOutputModifiers modifiers: (optional) Options that modify how
           specified output is handled.
     """
+
+    # The set of defined properties for the class
+    _properties = frozenset(['generic', 'integrations', 'modifiers'])
 
     def __init__(self,
                  *,
@@ -4992,21 +5113,18 @@ class DialogNodeOutput():
     def from_dict(cls, _dict: Dict) -> 'DialogNodeOutput':
         """Initialize a DialogNodeOutput object from a json dictionary."""
         args = {}
-        xtra = _dict.copy()
         if 'generic' in _dict:
             args['generic'] = [
-                DialogNodeOutputGeneric._from_dict(x)
-                for x in (_dict.get('generic'))
+                DialogNodeOutputGeneric.from_dict(x)
+                for x in _dict.get('generic')
             ]
-            del xtra['generic']
         if 'integrations' in _dict:
             args['integrations'] = _dict.get('integrations')
-            del xtra['integrations']
         if 'modifiers' in _dict:
-            args['modifiers'] = DialogNodeOutputModifiers._from_dict(
+            args['modifiers'] = DialogNodeOutputModifiers.from_dict(
                 _dict.get('modifiers'))
-            del xtra['modifiers']
-        args.update(xtra)
+        args.update(
+            {k: v for (k, v) in _dict.items() if k not in cls._properties})
         return cls(**args)
 
     @classmethod
@@ -5018,34 +5136,26 @@ class DialogNodeOutput():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'generic') and self.generic is not None:
-            _dict['generic'] = [x._to_dict() for x in self.generic]
+            _dict['generic'] = [x.to_dict() for x in self.generic]
         if hasattr(self, 'integrations') and self.integrations is not None:
             _dict['integrations'] = self.integrations
         if hasattr(self, 'modifiers') and self.modifiers is not None:
-            _dict['modifiers'] = self.modifiers._to_dict()
-        if hasattr(self, '_additionalProperties'):
-            for _key in self._additionalProperties:
-                _value = getattr(self, _key, None)
-                if _value is not None:
-                    _dict[_key] = _value
+            _dict['modifiers'] = self.modifiers.to_dict()
+        for _key in [
+                k for k in vars(self).keys()
+                if k not in DialogNodeOutput._properties
+        ]:
+            if getattr(self, _key, None) is not None:
+                _dict[_key] = getattr(self, _key)
         return _dict
 
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         return self.to_dict()
 
-    def __setattr__(self, name: str, value: object) -> None:
-        properties = {'generic', 'integrations', 'modifiers'}
-        if not hasattr(self, '_additionalProperties'):
-            super(DialogNodeOutput, self).__setattr__('_additionalProperties',
-                                                      set())
-        if name not in properties:
-            self._additionalProperties.add(name)
-        super(DialogNodeOutput, self).__setattr__(name, value)
-
     def __str__(self) -> str:
         """Return a `str` version of this DialogNodeOutput object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DialogNodeOutput') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -5078,12 +5188,6 @@ class DialogNodeOutputConnectToAgentTransferInfo():
                   _dict: Dict) -> 'DialogNodeOutputConnectToAgentTransferInfo':
         """Initialize a DialogNodeOutputConnectToAgentTransferInfo object from a json dictionary."""
         args = {}
-        valid_keys = ['target']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DialogNodeOutputConnectToAgentTransferInfo: '
-                + ', '.join(bad_keys))
         if 'target' in _dict:
             args['target'] = _dict.get('target')
         return cls(**args)
@@ -5106,7 +5210,7 @@ class DialogNodeOutputConnectToAgentTransferInfo():
 
     def __str__(self) -> str:
         """Return a `str` version of this DialogNodeOutputConnectToAgentTransferInfo object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self,
                other: 'DialogNodeOutputConnectToAgentTransferInfo') -> bool:
@@ -5149,15 +5253,17 @@ class DialogNodeOutputGeneric():
         disc_class = cls._get_class_by_discriminator(_dict)
         if disc_class != cls:
             return disc_class.from_dict(_dict)
-        msg = "Cannot convert dictionary into an instance of base class '{0}'. The discriminator value should map to a valid subclass: {1}".format(
-            cls.__name__, ", ".join([
-                'DialogNodeOutputGenericDialogNodeOutputResponseTypeText',
-                'DialogNodeOutputGenericDialogNodeOutputResponseTypePause',
-                'DialogNodeOutputGenericDialogNodeOutputResponseTypeImage',
-                'DialogNodeOutputGenericDialogNodeOutputResponseTypeOption',
-                'DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent',
-                'DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill'
-            ]))
+        msg = (
+            "Cannot convert dictionary into an instance of base class 'DialogNodeOutputGeneric'. "
+            + "The discriminator value should map to a valid subclass: {1}"
+        ).format(", ".join([
+            'DialogNodeOutputGenericDialogNodeOutputResponseTypeText',
+            'DialogNodeOutputGenericDialogNodeOutputResponseTypePause',
+            'DialogNodeOutputGenericDialogNodeOutputResponseTypeImage',
+            'DialogNodeOutputGenericDialogNodeOutputResponseTypeOption',
+            'DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent',
+            'DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill'
+        ]))
         raise Exception(msg)
 
     @classmethod
@@ -5220,12 +5326,6 @@ class DialogNodeOutputModifiers():
     def from_dict(cls, _dict: Dict) -> 'DialogNodeOutputModifiers':
         """Initialize a DialogNodeOutputModifiers object from a json dictionary."""
         args = {}
-        valid_keys = ['overwrite']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DialogNodeOutputModifiers: '
-                + ', '.join(bad_keys))
         if 'overwrite' in _dict:
             args['overwrite'] = _dict.get('overwrite')
         return cls(**args)
@@ -5248,7 +5348,7 @@ class DialogNodeOutputModifiers():
 
     def __str__(self) -> str:
         """Return a `str` version of this DialogNodeOutputModifiers object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DialogNodeOutputModifiers') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -5288,12 +5388,6 @@ class DialogNodeOutputOptionsElement():
     def from_dict(cls, _dict: Dict) -> 'DialogNodeOutputOptionsElement':
         """Initialize a DialogNodeOutputOptionsElement object from a json dictionary."""
         args = {}
-        valid_keys = ['label', 'value']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DialogNodeOutputOptionsElement: '
-                + ', '.join(bad_keys))
         if 'label' in _dict:
             args['label'] = _dict.get('label')
         else:
@@ -5301,7 +5395,7 @@ class DialogNodeOutputOptionsElement():
                 'Required property \'label\' not present in DialogNodeOutputOptionsElement JSON'
             )
         if 'value' in _dict:
-            args['value'] = DialogNodeOutputOptionsElementValue._from_dict(
+            args['value'] = DialogNodeOutputOptionsElementValue.from_dict(
                 _dict.get('value'))
         else:
             raise ValueError(
@@ -5320,7 +5414,7 @@ class DialogNodeOutputOptionsElement():
         if hasattr(self, 'label') and self.label is not None:
             _dict['label'] = self.label
         if hasattr(self, 'value') and self.value is not None:
-            _dict['value'] = self.value._to_dict()
+            _dict['value'] = self.value.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -5329,7 +5423,7 @@ class DialogNodeOutputOptionsElement():
 
     def __str__(self) -> str:
         """Return a `str` version of this DialogNodeOutputOptionsElement object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DialogNodeOutputOptionsElement') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -5386,21 +5480,15 @@ class DialogNodeOutputOptionsElementValue():
     def from_dict(cls, _dict: Dict) -> 'DialogNodeOutputOptionsElementValue':
         """Initialize a DialogNodeOutputOptionsElementValue object from a json dictionary."""
         args = {}
-        valid_keys = ['input', 'intents', 'entities']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DialogNodeOutputOptionsElementValue: '
-                + ', '.join(bad_keys))
         if 'input' in _dict:
-            args['input'] = MessageInput._from_dict(_dict.get('input'))
+            args['input'] = MessageInput.from_dict(_dict.get('input'))
         if 'intents' in _dict:
             args['intents'] = [
-                RuntimeIntent._from_dict(x) for x in (_dict.get('intents'))
+                RuntimeIntent.from_dict(x) for x in _dict.get('intents')
             ]
         if 'entities' in _dict:
             args['entities'] = [
-                RuntimeEntity._from_dict(x) for x in (_dict.get('entities'))
+                RuntimeEntity.from_dict(x) for x in _dict.get('entities')
             ]
         return cls(**args)
 
@@ -5413,11 +5501,11 @@ class DialogNodeOutputOptionsElementValue():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'input') and self.input is not None:
-            _dict['input'] = self.input._to_dict()
+            _dict['input'] = self.input.to_dict()
         if hasattr(self, 'intents') and self.intents is not None:
-            _dict['intents'] = [x._to_dict() for x in self.intents]
+            _dict['intents'] = [x.to_dict() for x in self.intents]
         if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x._to_dict() for x in self.entities]
+            _dict['entities'] = [x.to_dict() for x in self.entities]
         return _dict
 
     def _to_dict(self):
@@ -5426,7 +5514,7 @@ class DialogNodeOutputOptionsElementValue():
 
     def __str__(self) -> str:
         """Return a `str` version of this DialogNodeOutputOptionsElementValue object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DialogNodeOutputOptionsElementValue') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -5462,12 +5550,6 @@ class DialogNodeOutputTextValuesElement():
     def from_dict(cls, _dict: Dict) -> 'DialogNodeOutputTextValuesElement':
         """Initialize a DialogNodeOutputTextValuesElement object from a json dictionary."""
         args = {}
-        valid_keys = ['text']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DialogNodeOutputTextValuesElement: '
-                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         return cls(**args)
@@ -5490,7 +5572,7 @@ class DialogNodeOutputTextValuesElement():
 
     def __str__(self) -> str:
         """Return a `str` version of this DialogNodeOutputTextValuesElement object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DialogNodeOutputTextValuesElement') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -5535,12 +5617,6 @@ class DialogNodeVisitedDetails():
     def from_dict(cls, _dict: Dict) -> 'DialogNodeVisitedDetails':
         """Initialize a DialogNodeVisitedDetails object from a json dictionary."""
         args = {}
-        valid_keys = ['dialog_node', 'title', 'conditions']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DialogNodeVisitedDetails: '
-                + ', '.join(bad_keys))
         if 'dialog_node' in _dict:
             args['dialog_node'] = _dict.get('dialog_node')
         if 'title' in _dict:
@@ -5571,7 +5647,7 @@ class DialogNodeVisitedDetails():
 
     def __str__(self) -> str:
         """Return a `str` version of this DialogNodeVisitedDetails object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DialogNodeVisitedDetails') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -5631,12 +5707,6 @@ class DialogSuggestion():
     def from_dict(cls, _dict: Dict) -> 'DialogSuggestion':
         """Initialize a DialogSuggestion object from a json dictionary."""
         args = {}
-        valid_keys = ['label', 'value', 'output', 'dialog_node']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DialogSuggestion: '
-                + ', '.join(bad_keys))
         if 'label' in _dict:
             args['label'] = _dict.get('label')
         else:
@@ -5644,7 +5714,7 @@ class DialogSuggestion():
                 'Required property \'label\' not present in DialogSuggestion JSON'
             )
         if 'value' in _dict:
-            args['value'] = DialogSuggestionValue._from_dict(_dict.get('value'))
+            args['value'] = DialogSuggestionValue.from_dict(_dict.get('value'))
         else:
             raise ValueError(
                 'Required property \'value\' not present in DialogSuggestion JSON'
@@ -5666,7 +5736,7 @@ class DialogSuggestion():
         if hasattr(self, 'label') and self.label is not None:
             _dict['label'] = self.label
         if hasattr(self, 'value') and self.value is not None:
-            _dict['value'] = self.value._to_dict()
+            _dict['value'] = self.value.to_dict()
         if hasattr(self, 'output') and self.output is not None:
             _dict['output'] = self.output
         if hasattr(self, 'dialog_node') and self.dialog_node is not None:
@@ -5679,7 +5749,7 @@ class DialogSuggestion():
 
     def __str__(self) -> str:
         """Return a `str` version of this DialogSuggestion object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DialogSuggestion') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -5728,21 +5798,15 @@ class DialogSuggestionValue():
     def from_dict(cls, _dict: Dict) -> 'DialogSuggestionValue':
         """Initialize a DialogSuggestionValue object from a json dictionary."""
         args = {}
-        valid_keys = ['input', 'intents', 'entities']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DialogSuggestionValue: '
-                + ', '.join(bad_keys))
         if 'input' in _dict:
-            args['input'] = MessageInput._from_dict(_dict.get('input'))
+            args['input'] = MessageInput.from_dict(_dict.get('input'))
         if 'intents' in _dict:
             args['intents'] = [
-                RuntimeIntent._from_dict(x) for x in (_dict.get('intents'))
+                RuntimeIntent.from_dict(x) for x in _dict.get('intents')
             ]
         if 'entities' in _dict:
             args['entities'] = [
-                RuntimeEntity._from_dict(x) for x in (_dict.get('entities'))
+                RuntimeEntity.from_dict(x) for x in _dict.get('entities')
             ]
         return cls(**args)
 
@@ -5755,11 +5819,11 @@ class DialogSuggestionValue():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'input') and self.input is not None:
-            _dict['input'] = self.input._to_dict()
+            _dict['input'] = self.input.to_dict()
         if hasattr(self, 'intents') and self.intents is not None:
-            _dict['intents'] = [x._to_dict() for x in self.intents]
+            _dict['intents'] = [x.to_dict() for x in self.intents]
         if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x._to_dict() for x in self.entities]
+            _dict['entities'] = [x.to_dict() for x in self.entities]
         return _dict
 
     def _to_dict(self):
@@ -5768,7 +5832,7 @@ class DialogSuggestionValue():
 
     def __str__(self) -> str:
         """Return a `str` version of this DialogSuggestionValue object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DialogSuggestionValue') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -5826,10 +5890,6 @@ class Entity():
         :param dict metadata: (optional) Any metadata related to the entity.
         :param bool fuzzy_match: (optional) Whether to use fuzzy matching for the
                entity.
-        :param datetime created: (optional) The timestamp for creation of the
-               object.
-        :param datetime updated: (optional) The timestamp for the most recent
-               update to the object.
         :param List[Value] values: (optional) An array of objects describing the
                entity values.
         """
@@ -5845,15 +5905,6 @@ class Entity():
     def from_dict(cls, _dict: Dict) -> 'Entity':
         """Initialize a Entity object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'entity', 'description', 'metadata', 'fuzzy_match', 'created',
-            'updated', 'values'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Entity: ' +
-                ', '.join(bad_keys))
         if 'entity' in _dict:
             args['entity'] = _dict.get('entity')
         else:
@@ -5870,9 +5921,7 @@ class Entity():
         if 'updated' in _dict:
             args['updated'] = string_to_datetime(_dict.get('updated'))
         if 'values' in _dict:
-            args['values'] = [
-                Value._from_dict(x) for x in (_dict.get('values'))
-            ]
+            args['values'] = [Value.from_dict(x) for x in _dict.get('values')]
         return cls(**args)
 
     @classmethod
@@ -5891,12 +5940,12 @@ class Entity():
             _dict['metadata'] = self.metadata
         if hasattr(self, 'fuzzy_match') and self.fuzzy_match is not None:
             _dict['fuzzy_match'] = self.fuzzy_match
-        if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = datetime_to_string(self.created)
-        if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = datetime_to_string(self.updated)
+        if hasattr(self, 'created') and getattr(self, 'created') is not None:
+            _dict['created'] = datetime_to_string(getattr(self, 'created'))
+        if hasattr(self, 'updated') and getattr(self, 'updated') is not None:
+            _dict['updated'] = datetime_to_string(getattr(self, 'updated'))
         if hasattr(self, 'values') and self.values is not None:
-            _dict['values'] = [x._to_dict() for x in self.values]
+            _dict['values'] = [x.to_dict() for x in self.values]
         return _dict
 
     def _to_dict(self):
@@ -5905,7 +5954,7 @@ class Entity():
 
     def __str__(self) -> str:
         """Return a `str` version of this Entity object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Entity') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -5943,22 +5992,16 @@ class EntityCollection():
     def from_dict(cls, _dict: Dict) -> 'EntityCollection':
         """Initialize a EntityCollection object from a json dictionary."""
         args = {}
-        valid_keys = ['entities', 'pagination']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class EntityCollection: '
-                + ', '.join(bad_keys))
         if 'entities' in _dict:
             args['entities'] = [
-                Entity._from_dict(x) for x in (_dict.get('entities'))
+                Entity.from_dict(x) for x in _dict.get('entities')
             ]
         else:
             raise ValueError(
                 'Required property \'entities\' not present in EntityCollection JSON'
             )
         if 'pagination' in _dict:
-            args['pagination'] = Pagination._from_dict(_dict.get('pagination'))
+            args['pagination'] = Pagination.from_dict(_dict.get('pagination'))
         else:
             raise ValueError(
                 'Required property \'pagination\' not present in EntityCollection JSON'
@@ -5974,9 +6017,9 @@ class EntityCollection():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x._to_dict() for x in self.entities]
+            _dict['entities'] = [x.to_dict() for x in self.entities]
         if hasattr(self, 'pagination') and self.pagination is not None:
-            _dict['pagination'] = self.pagination._to_dict()
+            _dict['pagination'] = self.pagination.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -5985,7 +6028,7 @@ class EntityCollection():
 
     def __str__(self) -> str:
         """Return a `str` version of this EntityCollection object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'EntityCollection') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -6025,12 +6068,6 @@ class EntityMention():
     def from_dict(cls, _dict: Dict) -> 'EntityMention':
         """Initialize a EntityMention object from a json dictionary."""
         args = {}
-        valid_keys = ['text', 'intent', 'location']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class EntityMention: '
-                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         else:
@@ -6072,7 +6109,7 @@ class EntityMention():
 
     def __str__(self) -> str:
         """Return a `str` version of this EntityMention object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'EntityMention') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -6110,22 +6147,16 @@ class EntityMentionCollection():
     def from_dict(cls, _dict: Dict) -> 'EntityMentionCollection':
         """Initialize a EntityMentionCollection object from a json dictionary."""
         args = {}
-        valid_keys = ['examples', 'pagination']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class EntityMentionCollection: '
-                + ', '.join(bad_keys))
         if 'examples' in _dict:
             args['examples'] = [
-                EntityMention._from_dict(x) for x in (_dict.get('examples'))
+                EntityMention.from_dict(x) for x in _dict.get('examples')
             ]
         else:
             raise ValueError(
                 'Required property \'examples\' not present in EntityMentionCollection JSON'
             )
         if 'pagination' in _dict:
-            args['pagination'] = Pagination._from_dict(_dict.get('pagination'))
+            args['pagination'] = Pagination.from_dict(_dict.get('pagination'))
         else:
             raise ValueError(
                 'Required property \'pagination\' not present in EntityMentionCollection JSON'
@@ -6141,9 +6172,9 @@ class EntityMentionCollection():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'examples') and self.examples is not None:
-            _dict['examples'] = [x._to_dict() for x in self.examples]
+            _dict['examples'] = [x.to_dict() for x in self.examples]
         if hasattr(self, 'pagination') and self.pagination is not None:
-            _dict['pagination'] = self.pagination._to_dict()
+            _dict['pagination'] = self.pagination.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -6152,7 +6183,7 @@ class EntityMentionCollection():
 
     def __str__(self) -> str:
         """Return a `str` version of this EntityMentionCollection object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'EntityMentionCollection') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -6194,10 +6225,6 @@ class Example():
                - It cannot consist of only whitespace characters.
         :param List[Mention] mentions: (optional) An array of contextual entity
                mentions.
-        :param datetime created: (optional) The timestamp for creation of the
-               object.
-        :param datetime updated: (optional) The timestamp for the most recent
-               update to the object.
         """
         self.text = text
         self.mentions = mentions
@@ -6208,12 +6235,6 @@ class Example():
     def from_dict(cls, _dict: Dict) -> 'Example':
         """Initialize a Example object from a json dictionary."""
         args = {}
-        valid_keys = ['text', 'mentions', 'created', 'updated']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Example: ' +
-                ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         else:
@@ -6221,7 +6242,7 @@ class Example():
                 'Required property \'text\' not present in Example JSON')
         if 'mentions' in _dict:
             args['mentions'] = [
-                Mention._from_dict(x) for x in (_dict.get('mentions'))
+                Mention.from_dict(x) for x in _dict.get('mentions')
             ]
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict.get('created'))
@@ -6240,11 +6261,11 @@ class Example():
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self, 'mentions') and self.mentions is not None:
-            _dict['mentions'] = [x._to_dict() for x in self.mentions]
-        if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = datetime_to_string(self.created)
-        if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = datetime_to_string(self.updated)
+            _dict['mentions'] = [x.to_dict() for x in self.mentions]
+        if hasattr(self, 'created') and getattr(self, 'created') is not None:
+            _dict['created'] = datetime_to_string(getattr(self, 'created'))
+        if hasattr(self, 'updated') and getattr(self, 'updated') is not None:
+            _dict['updated'] = datetime_to_string(getattr(self, 'updated'))
         return _dict
 
     def _to_dict(self):
@@ -6253,7 +6274,7 @@ class Example():
 
     def __str__(self) -> str:
         """Return a `str` version of this Example object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Example') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -6291,22 +6312,16 @@ class ExampleCollection():
     def from_dict(cls, _dict: Dict) -> 'ExampleCollection':
         """Initialize a ExampleCollection object from a json dictionary."""
         args = {}
-        valid_keys = ['examples', 'pagination']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ExampleCollection: '
-                + ', '.join(bad_keys))
         if 'examples' in _dict:
             args['examples'] = [
-                Example._from_dict(x) for x in (_dict.get('examples'))
+                Example.from_dict(x) for x in _dict.get('examples')
             ]
         else:
             raise ValueError(
                 'Required property \'examples\' not present in ExampleCollection JSON'
             )
         if 'pagination' in _dict:
-            args['pagination'] = Pagination._from_dict(_dict.get('pagination'))
+            args['pagination'] = Pagination.from_dict(_dict.get('pagination'))
         else:
             raise ValueError(
                 'Required property \'pagination\' not present in ExampleCollection JSON'
@@ -6322,9 +6337,9 @@ class ExampleCollection():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'examples') and self.examples is not None:
-            _dict['examples'] = [x._to_dict() for x in self.examples]
+            _dict['examples'] = [x.to_dict() for x in self.examples]
         if hasattr(self, 'pagination') and self.pagination is not None:
-            _dict['pagination'] = self.pagination._to_dict()
+            _dict['pagination'] = self.pagination.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -6333,7 +6348,7 @@ class ExampleCollection():
 
     def __str__(self) -> str:
         """Return a `str` version of this ExampleCollection object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ExampleCollection') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -6381,10 +6396,6 @@ class Intent():
                - It cannot begin with the reserved prefix `sys-`.
         :param str description: (optional) The description of the intent. This
                string cannot contain carriage return, newline, or tab characters.
-        :param datetime created: (optional) The timestamp for creation of the
-               object.
-        :param datetime updated: (optional) The timestamp for the most recent
-               update to the object.
         :param List[Example] examples: (optional) An array of user input examples
                for the intent.
         """
@@ -6398,12 +6409,6 @@ class Intent():
     def from_dict(cls, _dict: Dict) -> 'Intent':
         """Initialize a Intent object from a json dictionary."""
         args = {}
-        valid_keys = ['intent', 'description', 'created', 'updated', 'examples']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Intent: ' +
-                ', '.join(bad_keys))
         if 'intent' in _dict:
             args['intent'] = _dict.get('intent')
         else:
@@ -6417,7 +6422,7 @@ class Intent():
             args['updated'] = string_to_datetime(_dict.get('updated'))
         if 'examples' in _dict:
             args['examples'] = [
-                Example._from_dict(x) for x in (_dict.get('examples'))
+                Example.from_dict(x) for x in _dict.get('examples')
             ]
         return cls(**args)
 
@@ -6433,12 +6438,12 @@ class Intent():
             _dict['intent'] = self.intent
         if hasattr(self, 'description') and self.description is not None:
             _dict['description'] = self.description
-        if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = datetime_to_string(self.created)
-        if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = datetime_to_string(self.updated)
+        if hasattr(self, 'created') and getattr(self, 'created') is not None:
+            _dict['created'] = datetime_to_string(getattr(self, 'created'))
+        if hasattr(self, 'updated') and getattr(self, 'updated') is not None:
+            _dict['updated'] = datetime_to_string(getattr(self, 'updated'))
         if hasattr(self, 'examples') and self.examples is not None:
-            _dict['examples'] = [x._to_dict() for x in self.examples]
+            _dict['examples'] = [x.to_dict() for x in self.examples]
         return _dict
 
     def _to_dict(self):
@@ -6447,7 +6452,7 @@ class Intent():
 
     def __str__(self) -> str:
         """Return a `str` version of this Intent object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Intent') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -6485,22 +6490,16 @@ class IntentCollection():
     def from_dict(cls, _dict: Dict) -> 'IntentCollection':
         """Initialize a IntentCollection object from a json dictionary."""
         args = {}
-        valid_keys = ['intents', 'pagination']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class IntentCollection: '
-                + ', '.join(bad_keys))
         if 'intents' in _dict:
             args['intents'] = [
-                Intent._from_dict(x) for x in (_dict.get('intents'))
+                Intent.from_dict(x) for x in _dict.get('intents')
             ]
         else:
             raise ValueError(
                 'Required property \'intents\' not present in IntentCollection JSON'
             )
         if 'pagination' in _dict:
-            args['pagination'] = Pagination._from_dict(_dict.get('pagination'))
+            args['pagination'] = Pagination.from_dict(_dict.get('pagination'))
         else:
             raise ValueError(
                 'Required property \'pagination\' not present in IntentCollection JSON'
@@ -6516,9 +6515,9 @@ class IntentCollection():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'intents') and self.intents is not None:
-            _dict['intents'] = [x._to_dict() for x in self.intents]
+            _dict['intents'] = [x.to_dict() for x in self.intents]
         if hasattr(self, 'pagination') and self.pagination is not None:
-            _dict['pagination'] = self.pagination._to_dict()
+            _dict['pagination'] = self.pagination.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -6527,7 +6526,7 @@ class IntentCollection():
 
     def __str__(self) -> str:
         """Return a `str` version of this IntentCollection object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'IntentCollection') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -6589,22 +6588,13 @@ class Log():
     def from_dict(cls, _dict: Dict) -> 'Log':
         """Initialize a Log object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'request', 'response', 'log_id', 'request_timestamp',
-            'response_timestamp', 'workspace_id', 'language'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Log: ' +
-                ', '.join(bad_keys))
         if 'request' in _dict:
-            args['request'] = MessageRequest._from_dict(_dict.get('request'))
+            args['request'] = MessageRequest.from_dict(_dict.get('request'))
         else:
             raise ValueError(
                 'Required property \'request\' not present in Log JSON')
         if 'response' in _dict:
-            args['response'] = MessageResponse._from_dict(_dict.get('response'))
+            args['response'] = MessageResponse.from_dict(_dict.get('response'))
         else:
             raise ValueError(
                 'Required property \'response\' not present in Log JSON')
@@ -6646,9 +6636,9 @@ class Log():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'request') and self.request is not None:
-            _dict['request'] = self.request._to_dict()
+            _dict['request'] = self.request.to_dict()
         if hasattr(self, 'response') and self.response is not None:
-            _dict['response'] = self.response._to_dict()
+            _dict['response'] = self.response.to_dict()
         if hasattr(self, 'log_id') and self.log_id is not None:
             _dict['log_id'] = self.log_id
         if hasattr(self,
@@ -6670,7 +6660,7 @@ class Log():
 
     def __str__(self) -> str:
         """Return a `str` version of this Log object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Log') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -6706,19 +6696,13 @@ class LogCollection():
     def from_dict(cls, _dict: Dict) -> 'LogCollection':
         """Initialize a LogCollection object from a json dictionary."""
         args = {}
-        valid_keys = ['logs', 'pagination']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class LogCollection: '
-                + ', '.join(bad_keys))
         if 'logs' in _dict:
-            args['logs'] = [Log._from_dict(x) for x in (_dict.get('logs'))]
+            args['logs'] = [Log.from_dict(x) for x in _dict.get('logs')]
         else:
             raise ValueError(
                 'Required property \'logs\' not present in LogCollection JSON')
         if 'pagination' in _dict:
-            args['pagination'] = LogPagination._from_dict(
+            args['pagination'] = LogPagination.from_dict(
                 _dict.get('pagination'))
         else:
             raise ValueError(
@@ -6735,9 +6719,9 @@ class LogCollection():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'logs') and self.logs is not None:
-            _dict['logs'] = [x._to_dict() for x in self.logs]
+            _dict['logs'] = [x.to_dict() for x in self.logs]
         if hasattr(self, 'pagination') and self.pagination is not None:
-            _dict['pagination'] = self.pagination._to_dict()
+            _dict['pagination'] = self.pagination.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -6746,7 +6730,7 @@ class LogCollection():
 
     def __str__(self) -> str:
         """Return a `str` version of this LogCollection object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'LogCollection') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -6781,12 +6765,6 @@ class LogMessage():
     def from_dict(cls, _dict: Dict) -> 'LogMessage':
         """Initialize a LogMessage object from a json dictionary."""
         args = {}
-        valid_keys = ['level', 'msg']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class LogMessage: '
-                + ', '.join(bad_keys))
         if 'level' in _dict:
             args['level'] = _dict.get('level')
         else:
@@ -6819,7 +6797,7 @@ class LogMessage():
 
     def __str__(self) -> str:
         """Return a `str` version of this LogMessage object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'LogMessage') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -6831,13 +6809,13 @@ class LogMessage():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class LevelEnum(Enum):
+    class LevelEnum(str, Enum):
         """
         The severity of the log message.
         """
-        INFO = "info"
-        ERROR = "error"
-        WARN = "warn"
+        INFO = 'info'
+        ERROR = 'error'
+        WARN = 'warn'
 
 
 class LogPagination():
@@ -6872,12 +6850,6 @@ class LogPagination():
     def from_dict(cls, _dict: Dict) -> 'LogPagination':
         """Initialize a LogPagination object from a json dictionary."""
         args = {}
-        valid_keys = ['next_url', 'matched', 'next_cursor']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class LogPagination: '
-                + ', '.join(bad_keys))
         if 'next_url' in _dict:
             args['next_url'] = _dict.get('next_url')
         if 'matched' in _dict:
@@ -6908,7 +6880,7 @@ class LogPagination():
 
     def __str__(self) -> str:
         """Return a `str` version of this LogPagination object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'LogPagination') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -6945,12 +6917,6 @@ class Mention():
     def from_dict(cls, _dict: Dict) -> 'Mention':
         """Initialize a Mention object from a json dictionary."""
         args = {}
-        valid_keys = ['entity', 'location']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Mention: ' +
-                ', '.join(bad_keys))
         if 'entity' in _dict:
             args['entity'] = _dict.get('entity')
         else:
@@ -6983,7 +6949,7 @@ class Mention():
 
     def __str__(self) -> str:
         """Return a `str` version of this Mention object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Mention') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -7031,12 +6997,6 @@ class MessageContextMetadata():
     def from_dict(cls, _dict: Dict) -> 'MessageContextMetadata':
         """Initialize a MessageContextMetadata object from a json dictionary."""
         args = {}
-        valid_keys = ['deployment', 'user_id']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class MessageContextMetadata: '
-                + ', '.join(bad_keys))
         if 'deployment' in _dict:
             args['deployment'] = _dict.get('deployment')
         if 'user_id' in _dict:
@@ -7063,7 +7023,7 @@ class MessageContextMetadata():
 
     def __str__(self) -> str:
         """Return a `str` version of this MessageContextMetadata object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'MessageContextMetadata') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -7100,6 +7060,12 @@ class MessageInput():
           is returned only if autocorrection is enabled and the user input was corrected.
     """
 
+    # The set of defined properties for the class
+    _properties = frozenset([
+        'text', 'spelling_suggestions', 'spelling_auto_correct',
+        'suggested_text', 'original_text'
+    ])
+
     def __init__(self,
                  *,
                  text: str = None,
@@ -7124,12 +7090,6 @@ class MessageInput():
                the original text is returned in the **original_text** property of the
                message response. This property overrides the value of the
                **spelling_auto_correct** property in the workspace settings.
-        :param str suggested_text: (optional) Any suggested corrections of the
-               input text. This property is returned only if spelling correction is
-               enabled and autocorrection is disabled.
-        :param str original_text: (optional) The original user input text. This
-               property is returned only if autocorrection is enabled and the user input
-               was corrected.
         :param **kwargs: (optional) Any additional properties.
         """
         self.text = text
@@ -7144,23 +7104,18 @@ class MessageInput():
     def from_dict(cls, _dict: Dict) -> 'MessageInput':
         """Initialize a MessageInput object from a json dictionary."""
         args = {}
-        xtra = _dict.copy()
         if 'text' in _dict:
             args['text'] = _dict.get('text')
-            del xtra['text']
         if 'spelling_suggestions' in _dict:
             args['spelling_suggestions'] = _dict.get('spelling_suggestions')
-            del xtra['spelling_suggestions']
         if 'spelling_auto_correct' in _dict:
             args['spelling_auto_correct'] = _dict.get('spelling_auto_correct')
-            del xtra['spelling_auto_correct']
         if 'suggested_text' in _dict:
             args['suggested_text'] = _dict.get('suggested_text')
-            del xtra['suggested_text']
         if 'original_text' in _dict:
             args['original_text'] = _dict.get('original_text')
-            del xtra['original_text']
-        args.update(xtra)
+        args.update(
+            {k: v for (k, v) in _dict.items() if k not in cls._properties})
         return cls(**args)
 
     @classmethod
@@ -7179,36 +7134,27 @@ class MessageInput():
         if hasattr(self, 'spelling_auto_correct'
                   ) and self.spelling_auto_correct is not None:
             _dict['spelling_auto_correct'] = self.spelling_auto_correct
-        if hasattr(self, 'suggested_text') and self.suggested_text is not None:
-            _dict['suggested_text'] = self.suggested_text
-        if hasattr(self, 'original_text') and self.original_text is not None:
-            _dict['original_text'] = self.original_text
-        if hasattr(self, '_additionalProperties'):
-            for _key in self._additionalProperties:
-                _value = getattr(self, _key, None)
-                if _value is not None:
-                    _dict[_key] = _value
+        if hasattr(self, 'suggested_text') and getattr(
+                self, 'suggested_text') is not None:
+            _dict['suggested_text'] = getattr(self, 'suggested_text')
+        if hasattr(self, 'original_text') and getattr(
+                self, 'original_text') is not None:
+            _dict['original_text'] = getattr(self, 'original_text')
+        for _key in [
+                k for k in vars(self).keys()
+                if k not in MessageInput._properties
+        ]:
+            if getattr(self, _key, None) is not None:
+                _dict[_key] = getattr(self, _key)
         return _dict
 
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         return self.to_dict()
 
-    def __setattr__(self, name: str, value: object) -> None:
-        properties = {
-            'text', 'spelling_suggestions', 'spelling_auto_correct',
-            'suggested_text', 'original_text'
-        }
-        if not hasattr(self, '_additionalProperties'):
-            super(MessageInput, self).__setattr__('_additionalProperties',
-                                                  set())
-        if name not in properties:
-            self._additionalProperties.add(name)
-        super(MessageInput, self).__setattr__(name, value)
-
     def __str__(self) -> str:
         """Return a `str` version of this MessageInput object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'MessageInput') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -7272,8 +7218,6 @@ class MessageRequest():
         :param OutputData output: (optional) An output object that includes the
                response to the user, the dialog nodes that were triggered, and messages
                from the log.
-        :param List[DialogNodeAction] actions: (optional) An array of objects
-               describing any actions requested by the dialog node.
         """
         self.input = input
         self.intents = intents
@@ -7287,34 +7231,25 @@ class MessageRequest():
     def from_dict(cls, _dict: Dict) -> 'MessageRequest':
         """Initialize a MessageRequest object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'input', 'intents', 'entities', 'alternate_intents', 'context',
-            'output', 'actions'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class MessageRequest: '
-                + ', '.join(bad_keys))
         if 'input' in _dict:
-            args['input'] = MessageInput._from_dict(_dict.get('input'))
+            args['input'] = MessageInput.from_dict(_dict.get('input'))
         if 'intents' in _dict:
             args['intents'] = [
-                RuntimeIntent._from_dict(x) for x in (_dict.get('intents'))
+                RuntimeIntent.from_dict(x) for x in _dict.get('intents')
             ]
         if 'entities' in _dict:
             args['entities'] = [
-                RuntimeEntity._from_dict(x) for x in (_dict.get('entities'))
+                RuntimeEntity.from_dict(x) for x in _dict.get('entities')
             ]
         if 'alternate_intents' in _dict:
             args['alternate_intents'] = _dict.get('alternate_intents')
         if 'context' in _dict:
-            args['context'] = Context._from_dict(_dict.get('context'))
+            args['context'] = Context.from_dict(_dict.get('context'))
         if 'output' in _dict:
-            args['output'] = OutputData._from_dict(_dict.get('output'))
+            args['output'] = OutputData.from_dict(_dict.get('output'))
         if 'actions' in _dict:
             args['actions'] = [
-                DialogNodeAction._from_dict(x) for x in (_dict.get('actions'))
+                DialogNodeAction.from_dict(x) for x in _dict.get('actions')
             ]
         return cls(**args)
 
@@ -7327,20 +7262,20 @@ class MessageRequest():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'input') and self.input is not None:
-            _dict['input'] = self.input._to_dict()
+            _dict['input'] = self.input.to_dict()
         if hasattr(self, 'intents') and self.intents is not None:
-            _dict['intents'] = [x._to_dict() for x in self.intents]
+            _dict['intents'] = [x.to_dict() for x in self.intents]
         if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x._to_dict() for x in self.entities]
+            _dict['entities'] = [x.to_dict() for x in self.entities]
         if hasattr(self,
                    'alternate_intents') and self.alternate_intents is not None:
             _dict['alternate_intents'] = self.alternate_intents
         if hasattr(self, 'context') and self.context is not None:
-            _dict['context'] = self.context._to_dict()
+            _dict['context'] = self.context.to_dict()
         if hasattr(self, 'output') and self.output is not None:
-            _dict['output'] = self.output._to_dict()
-        if hasattr(self, 'actions') and self.actions is not None:
-            _dict['actions'] = [x._to_dict() for x in self.actions]
+            _dict['output'] = self.output.to_dict()
+        if hasattr(self, 'actions') and getattr(self, 'actions') is not None:
+            _dict['actions'] = [x.to_dict() for x in getattr(self, 'actions')]
         return _dict
 
     def _to_dict(self):
@@ -7349,7 +7284,7 @@ class MessageRequest():
 
     def __str__(self) -> str:
         """Return a `str` version of this MessageRequest object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'MessageRequest') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -7405,8 +7340,6 @@ class MessageResponse():
                the user, the dialog nodes that were triggered, and messages from the log.
         :param bool alternate_intents: (optional) Whether to return more than one
                intent. A value of `true` indicates that all matching intents are returned.
-        :param List[DialogNodeAction] actions: (optional) An array of objects
-               describing any actions requested by the dialog node.
         """
         self.input = input
         self.intents = intents
@@ -7420,24 +7353,15 @@ class MessageResponse():
     def from_dict(cls, _dict: Dict) -> 'MessageResponse':
         """Initialize a MessageResponse object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'input', 'intents', 'entities', 'alternate_intents', 'context',
-            'output', 'actions'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class MessageResponse: '
-                + ', '.join(bad_keys))
         if 'input' in _dict:
-            args['input'] = MessageInput._from_dict(_dict.get('input'))
+            args['input'] = MessageInput.from_dict(_dict.get('input'))
         else:
             raise ValueError(
                 'Required property \'input\' not present in MessageResponse JSON'
             )
         if 'intents' in _dict:
             args['intents'] = [
-                RuntimeIntent._from_dict(x) for x in (_dict.get('intents'))
+                RuntimeIntent.from_dict(x) for x in _dict.get('intents')
             ]
         else:
             raise ValueError(
@@ -7445,7 +7369,7 @@ class MessageResponse():
             )
         if 'entities' in _dict:
             args['entities'] = [
-                RuntimeEntity._from_dict(x) for x in (_dict.get('entities'))
+                RuntimeEntity.from_dict(x) for x in _dict.get('entities')
             ]
         else:
             raise ValueError(
@@ -7454,20 +7378,20 @@ class MessageResponse():
         if 'alternate_intents' in _dict:
             args['alternate_intents'] = _dict.get('alternate_intents')
         if 'context' in _dict:
-            args['context'] = Context._from_dict(_dict.get('context'))
+            args['context'] = Context.from_dict(_dict.get('context'))
         else:
             raise ValueError(
                 'Required property \'context\' not present in MessageResponse JSON'
             )
         if 'output' in _dict:
-            args['output'] = OutputData._from_dict(_dict.get('output'))
+            args['output'] = OutputData.from_dict(_dict.get('output'))
         else:
             raise ValueError(
                 'Required property \'output\' not present in MessageResponse JSON'
             )
         if 'actions' in _dict:
             args['actions'] = [
-                DialogNodeAction._from_dict(x) for x in (_dict.get('actions'))
+                DialogNodeAction.from_dict(x) for x in _dict.get('actions')
             ]
         return cls(**args)
 
@@ -7480,20 +7404,20 @@ class MessageResponse():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'input') and self.input is not None:
-            _dict['input'] = self.input._to_dict()
+            _dict['input'] = self.input.to_dict()
         if hasattr(self, 'intents') and self.intents is not None:
-            _dict['intents'] = [x._to_dict() for x in self.intents]
+            _dict['intents'] = [x.to_dict() for x in self.intents]
         if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x._to_dict() for x in self.entities]
+            _dict['entities'] = [x.to_dict() for x in self.entities]
         if hasattr(self,
                    'alternate_intents') and self.alternate_intents is not None:
             _dict['alternate_intents'] = self.alternate_intents
         if hasattr(self, 'context') and self.context is not None:
-            _dict['context'] = self.context._to_dict()
+            _dict['context'] = self.context.to_dict()
         if hasattr(self, 'output') and self.output is not None:
-            _dict['output'] = self.output._to_dict()
-        if hasattr(self, 'actions') and self.actions is not None:
-            _dict['actions'] = [x._to_dict() for x in self.actions]
+            _dict['output'] = self.output.to_dict()
+        if hasattr(self, 'actions') and getattr(self, 'actions') is not None:
+            _dict['actions'] = [x.to_dict() for x in getattr(self, 'actions')]
         return _dict
 
     def _to_dict(self):
@@ -7502,7 +7426,7 @@ class MessageResponse():
 
     def __str__(self) -> str:
         """Return a `str` version of this MessageResponse object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'MessageResponse') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -7535,6 +7459,12 @@ class OutputData():
           channel. It is the responsibility of the client application to implement the
           supported response types.
     """
+
+    # The set of defined properties for the class
+    _properties = frozenset([
+        'nodes_visited', 'nodes_visited_details', 'log_messages', 'text',
+        'generic'
+    ])
 
     def __init__(self,
                  log_messages: List['LogMessage'],
@@ -7575,38 +7505,33 @@ class OutputData():
     def from_dict(cls, _dict: Dict) -> 'OutputData':
         """Initialize a OutputData object from a json dictionary."""
         args = {}
-        xtra = _dict.copy()
         if 'nodes_visited' in _dict:
             args['nodes_visited'] = _dict.get('nodes_visited')
-            del xtra['nodes_visited']
         if 'nodes_visited_details' in _dict:
             args['nodes_visited_details'] = [
-                DialogNodeVisitedDetails._from_dict(x)
-                for x in (_dict.get('nodes_visited_details'))
+                DialogNodeVisitedDetails.from_dict(x)
+                for x in _dict.get('nodes_visited_details')
             ]
-            del xtra['nodes_visited_details']
         if 'log_messages' in _dict:
             args['log_messages'] = [
-                LogMessage._from_dict(x) for x in (_dict.get('log_messages'))
+                LogMessage.from_dict(x) for x in _dict.get('log_messages')
             ]
-            del xtra['log_messages']
         else:
             raise ValueError(
                 'Required property \'log_messages\' not present in OutputData JSON'
             )
         if 'text' in _dict:
             args['text'] = _dict.get('text')
-            del xtra['text']
         else:
             raise ValueError(
                 'Required property \'text\' not present in OutputData JSON')
         if 'generic' in _dict:
             args['generic'] = [
-                RuntimeResponseGeneric._from_dict(x)
-                for x in (_dict.get('generic'))
+                RuntimeResponseGeneric.from_dict(x)
+                for x in _dict.get('generic')
             ]
-            del xtra['generic']
-        args.update(xtra)
+        args.update(
+            {k: v for (k, v) in _dict.items() if k not in cls._properties})
         return cls(**args)
 
     @classmethod
@@ -7622,39 +7547,28 @@ class OutputData():
         if hasattr(self, 'nodes_visited_details'
                   ) and self.nodes_visited_details is not None:
             _dict['nodes_visited_details'] = [
-                x._to_dict() for x in self.nodes_visited_details
+                x.to_dict() for x in self.nodes_visited_details
             ]
         if hasattr(self, 'log_messages') and self.log_messages is not None:
-            _dict['log_messages'] = [x._to_dict() for x in self.log_messages]
+            _dict['log_messages'] = [x.to_dict() for x in self.log_messages]
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self, 'generic') and self.generic is not None:
-            _dict['generic'] = [x._to_dict() for x in self.generic]
-        if hasattr(self, '_additionalProperties'):
-            for _key in self._additionalProperties:
-                _value = getattr(self, _key, None)
-                if _value is not None:
-                    _dict[_key] = _value
+            _dict['generic'] = [x.to_dict() for x in self.generic]
+        for _key in [
+                k for k in vars(self).keys() if k not in OutputData._properties
+        ]:
+            if getattr(self, _key, None) is not None:
+                _dict[_key] = getattr(self, _key)
         return _dict
 
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         return self.to_dict()
 
-    def __setattr__(self, name: str, value: object) -> None:
-        properties = {
-            'nodes_visited', 'nodes_visited_details', 'log_messages', 'text',
-            'generic'
-        }
-        if not hasattr(self, '_additionalProperties'):
-            super(OutputData, self).__setattr__('_additionalProperties', set())
-        if name not in properties:
-            self._additionalProperties.add(name)
-        super(OutputData, self).__setattr__(name, value)
-
     def __str__(self) -> str:
         """Return a `str` version of this OutputData object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'OutputData') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -7717,15 +7631,6 @@ class Pagination():
     def from_dict(cls, _dict: Dict) -> 'Pagination':
         """Initialize a Pagination object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'refresh_url', 'next_url', 'total', 'matched', 'refresh_cursor',
-            'next_cursor'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Pagination: '
-                + ', '.join(bad_keys))
         if 'refresh_url' in _dict:
             args['refresh_url'] = _dict.get('refresh_url')
         else:
@@ -7772,7 +7677,7 @@ class Pagination():
 
     def __str__(self) -> str:
         """Return a `str` version of this Pagination object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Pagination') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -7872,15 +7777,6 @@ class RuntimeEntity():
     def from_dict(cls, _dict: Dict) -> 'RuntimeEntity':
         """Initialize a RuntimeEntity object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'entity', 'location', 'value', 'confidence', 'metadata', 'groups',
-            'interpretation', 'alternatives', 'role'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RuntimeEntity: '
-                + ', '.join(bad_keys))
         if 'entity' in _dict:
             args['entity'] = _dict.get('entity')
         else:
@@ -7904,18 +7800,18 @@ class RuntimeEntity():
             args['metadata'] = _dict.get('metadata')
         if 'groups' in _dict:
             args['groups'] = [
-                CaptureGroup._from_dict(x) for x in (_dict.get('groups'))
+                CaptureGroup.from_dict(x) for x in _dict.get('groups')
             ]
         if 'interpretation' in _dict:
-            args['interpretation'] = RuntimeEntityInterpretation._from_dict(
+            args['interpretation'] = RuntimeEntityInterpretation.from_dict(
                 _dict.get('interpretation'))
         if 'alternatives' in _dict:
             args['alternatives'] = [
-                RuntimeEntityAlternative._from_dict(x)
-                for x in (_dict.get('alternatives'))
+                RuntimeEntityAlternative.from_dict(x)
+                for x in _dict.get('alternatives')
             ]
         if 'role' in _dict:
-            args['role'] = RuntimeEntityRole._from_dict(_dict.get('role'))
+            args['role'] = RuntimeEntityRole.from_dict(_dict.get('role'))
         return cls(**args)
 
     @classmethod
@@ -7937,13 +7833,13 @@ class RuntimeEntity():
         if hasattr(self, 'metadata') and self.metadata is not None:
             _dict['metadata'] = self.metadata
         if hasattr(self, 'groups') and self.groups is not None:
-            _dict['groups'] = [x._to_dict() for x in self.groups]
+            _dict['groups'] = [x.to_dict() for x in self.groups]
         if hasattr(self, 'interpretation') and self.interpretation is not None:
-            _dict['interpretation'] = self.interpretation._to_dict()
+            _dict['interpretation'] = self.interpretation.to_dict()
         if hasattr(self, 'alternatives') and self.alternatives is not None:
-            _dict['alternatives'] = [x._to_dict() for x in self.alternatives]
+            _dict['alternatives'] = [x.to_dict() for x in self.alternatives]
         if hasattr(self, 'role') and self.role is not None:
-            _dict['role'] = self.role._to_dict()
+            _dict['role'] = self.role.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -7952,7 +7848,7 @@ class RuntimeEntity():
 
     def __str__(self) -> str:
         """Return a `str` version of this RuntimeEntity object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'RuntimeEntity') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -7991,12 +7887,6 @@ class RuntimeEntityAlternative():
     def from_dict(cls, _dict: Dict) -> 'RuntimeEntityAlternative':
         """Initialize a RuntimeEntityAlternative object from a json dictionary."""
         args = {}
-        valid_keys = ['value', 'confidence']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RuntimeEntityAlternative: '
-                + ', '.join(bad_keys))
         if 'value' in _dict:
             args['value'] = _dict.get('value')
         if 'confidence' in _dict:
@@ -8023,7 +7913,7 @@ class RuntimeEntityAlternative():
 
     def __str__(self) -> str:
         """Return a `str` version of this RuntimeEntityAlternative object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'RuntimeEntityAlternative') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -8246,21 +8136,6 @@ class RuntimeEntityInterpretation():
     def from_dict(cls, _dict: Dict) -> 'RuntimeEntityInterpretation':
         """Initialize a RuntimeEntityInterpretation object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'calendar_type', 'datetime_link', 'festival', 'granularity',
-            'range_link', 'range_modifier', 'relative_day', 'relative_month',
-            'relative_week', 'relative_weekend', 'relative_year',
-            'specific_day', 'specific_day_of_week', 'specific_month',
-            'specific_quarter', 'specific_year', 'numeric_value', 'subtype',
-            'part_of_day', 'relative_hour', 'relative_minute',
-            'relative_second', 'specific_hour', 'specific_minute',
-            'specific_second', 'timezone'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RuntimeEntityInterpretation: '
-                + ', '.join(bad_keys))
         if 'calendar_type' in _dict:
             args['calendar_type'] = _dict.get('calendar_type')
         if 'datetime_link' in _dict:
@@ -8390,7 +8265,7 @@ class RuntimeEntityInterpretation():
 
     def __str__(self) -> str:
         """Return a `str` version of this RuntimeEntityInterpretation object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'RuntimeEntityInterpretation') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -8402,22 +8277,22 @@ class RuntimeEntityInterpretation():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class GranularityEnum(Enum):
+    class GranularityEnum(str, Enum):
         """
         The precision or duration of a time range specified by a recognized `@sys-time` or
         `@sys-date` entity.
         """
-        DAY = "day"
-        FORTNIGHT = "fortnight"
-        HOUR = "hour"
-        INSTANT = "instant"
-        MINUTE = "minute"
-        MONTH = "month"
-        QUARTER = "quarter"
-        SECOND = "second"
-        WEEK = "week"
-        WEEKEND = "weekend"
-        YEAR = "year"
+        DAY = 'day'
+        FORTNIGHT = 'fortnight'
+        HOUR = 'hour'
+        INSTANT = 'instant'
+        MINUTE = 'minute'
+        MONTH = 'month'
+        QUARTER = 'quarter'
+        SECOND = 'second'
+        WEEK = 'week'
+        WEEKEND = 'weekend'
+        YEAR = 'year'
 
 
 class RuntimeEntityRole():
@@ -8441,12 +8316,6 @@ class RuntimeEntityRole():
     def from_dict(cls, _dict: Dict) -> 'RuntimeEntityRole':
         """Initialize a RuntimeEntityRole object from a json dictionary."""
         args = {}
-        valid_keys = ['type']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RuntimeEntityRole: '
-                + ', '.join(bad_keys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         return cls(**args)
@@ -8469,7 +8338,7 @@ class RuntimeEntityRole():
 
     def __str__(self) -> str:
         """Return a `str` version of this RuntimeEntityRole object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'RuntimeEntityRole') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -8481,16 +8350,16 @@ class RuntimeEntityRole():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class TypeEnum(Enum):
+    class TypeEnum(str, Enum):
         """
         The relationship of the entity to the range.
         """
-        DATE_FROM = "date_from"
-        DATE_TO = "date_to"
-        NUMBER_FROM = "number_from"
-        NUMBER_TO = "number_to"
-        TIME_FROM = "time_from"
-        TIME_TO = "time_to"
+        DATE_FROM = 'date_from'
+        DATE_TO = 'date_to'
+        NUMBER_FROM = 'number_from'
+        NUMBER_TO = 'number_to'
+        TIME_FROM = 'time_from'
+        TIME_TO = 'time_to'
 
 
 class RuntimeIntent():
@@ -8517,12 +8386,6 @@ class RuntimeIntent():
     def from_dict(cls, _dict: Dict) -> 'RuntimeIntent':
         """Initialize a RuntimeIntent object from a json dictionary."""
         args = {}
-        valid_keys = ['intent', 'confidence']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RuntimeIntent: '
-                + ', '.join(bad_keys))
         if 'intent' in _dict:
             args['intent'] = _dict.get('intent')
         else:
@@ -8557,7 +8420,7 @@ class RuntimeIntent():
 
     def __str__(self) -> str:
         """Return a `str` version of this RuntimeIntent object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'RuntimeIntent') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -8598,15 +8461,17 @@ class RuntimeResponseGeneric():
         disc_class = cls._get_class_by_discriminator(_dict)
         if disc_class != cls:
             return disc_class.from_dict(_dict)
-        msg = "Cannot convert dictionary into an instance of base class '{0}'. The discriminator value should map to a valid subclass: {1}".format(
-            cls.__name__, ", ".join([
-                'RuntimeResponseGenericRuntimeResponseTypeText',
-                'RuntimeResponseGenericRuntimeResponseTypePause',
-                'RuntimeResponseGenericRuntimeResponseTypeImage',
-                'RuntimeResponseGenericRuntimeResponseTypeOption',
-                'RuntimeResponseGenericRuntimeResponseTypeConnectToAgent',
-                'RuntimeResponseGenericRuntimeResponseTypeSuggestion'
-            ]))
+        msg = (
+            "Cannot convert dictionary into an instance of base class 'RuntimeResponseGeneric'. "
+            + "The discriminator value should map to a valid subclass: {1}"
+        ).format(", ".join([
+            'RuntimeResponseGenericRuntimeResponseTypeText',
+            'RuntimeResponseGenericRuntimeResponseTypePause',
+            'RuntimeResponseGenericRuntimeResponseTypeImage',
+            'RuntimeResponseGenericRuntimeResponseTypeOption',
+            'RuntimeResponseGenericRuntimeResponseTypeConnectToAgent',
+            'RuntimeResponseGenericRuntimeResponseTypeSuggestion'
+        ]))
         raise Exception(msg)
 
     @classmethod
@@ -8665,10 +8530,6 @@ class Synonym():
                the following restrictions:
                - It cannot contain carriage return, newline, or tab characters.
                - It cannot consist of only whitespace characters.
-        :param datetime created: (optional) The timestamp for creation of the
-               object.
-        :param datetime updated: (optional) The timestamp for the most recent
-               update to the object.
         """
         self.synonym = synonym
         self.created = created
@@ -8678,12 +8539,6 @@ class Synonym():
     def from_dict(cls, _dict: Dict) -> 'Synonym':
         """Initialize a Synonym object from a json dictionary."""
         args = {}
-        valid_keys = ['synonym', 'created', 'updated']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Synonym: ' +
-                ', '.join(bad_keys))
         if 'synonym' in _dict:
             args['synonym'] = _dict.get('synonym')
         else:
@@ -8705,10 +8560,10 @@ class Synonym():
         _dict = {}
         if hasattr(self, 'synonym') and self.synonym is not None:
             _dict['synonym'] = self.synonym
-        if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = datetime_to_string(self.created)
-        if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = datetime_to_string(self.updated)
+        if hasattr(self, 'created') and getattr(self, 'created') is not None:
+            _dict['created'] = datetime_to_string(getattr(self, 'created'))
+        if hasattr(self, 'updated') and getattr(self, 'updated') is not None:
+            _dict['updated'] = datetime_to_string(getattr(self, 'updated'))
         return _dict
 
     def _to_dict(self):
@@ -8717,7 +8572,7 @@ class Synonym():
 
     def __str__(self) -> str:
         """Return a `str` version of this Synonym object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Synonym') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -8753,22 +8608,16 @@ class SynonymCollection():
     def from_dict(cls, _dict: Dict) -> 'SynonymCollection':
         """Initialize a SynonymCollection object from a json dictionary."""
         args = {}
-        valid_keys = ['synonyms', 'pagination']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SynonymCollection: '
-                + ', '.join(bad_keys))
         if 'synonyms' in _dict:
             args['synonyms'] = [
-                Synonym._from_dict(x) for x in (_dict.get('synonyms'))
+                Synonym.from_dict(x) for x in _dict.get('synonyms')
             ]
         else:
             raise ValueError(
                 'Required property \'synonyms\' not present in SynonymCollection JSON'
             )
         if 'pagination' in _dict:
-            args['pagination'] = Pagination._from_dict(_dict.get('pagination'))
+            args['pagination'] = Pagination.from_dict(_dict.get('pagination'))
         else:
             raise ValueError(
                 'Required property \'pagination\' not present in SynonymCollection JSON'
@@ -8784,9 +8633,9 @@ class SynonymCollection():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'synonyms') and self.synonyms is not None:
-            _dict['synonyms'] = [x._to_dict() for x in self.synonyms]
+            _dict['synonyms'] = [x.to_dict() for x in self.synonyms]
         if hasattr(self, 'pagination') and self.pagination is not None:
-            _dict['pagination'] = self.pagination._to_dict()
+            _dict['pagination'] = self.pagination.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -8795,7 +8644,7 @@ class SynonymCollection():
 
     def __str__(self) -> str:
         """Return a `str` version of this SynonymCollection object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SynonymCollection') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -8804,72 +8653,6 @@ class SynonymCollection():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'SynonymCollection') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class SystemResponse():
-    """
-    For internal use only.
-
-    """
-
-    def __init__(self, **kwargs) -> None:
-        """
-        Initialize a SystemResponse object.
-
-        :param **kwargs: (optional) Any additional properties.
-        """
-        for _key, _value in kwargs.items():
-            setattr(self, _key, _value)
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'SystemResponse':
-        """Initialize a SystemResponse object from a json dictionary."""
-        args = {}
-        xtra = _dict.copy()
-        args.update(xtra)
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a SystemResponse object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, '_additionalProperties'):
-            for _key in self._additionalProperties:
-                _value = getattr(self, _key, None)
-                if _value is not None:
-                    _dict[_key] = _value
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __setattr__(self, name: str, value: object) -> None:
-        properties = {}
-        if not hasattr(self, '_additionalProperties'):
-            super(SystemResponse, self).__setattr__('_additionalProperties',
-                                                    set())
-        if name not in properties:
-            self._additionalProperties.add(name)
-        super(SystemResponse, self).__setattr__(name, value)
-
-    def __str__(self) -> str:
-        """Return a `str` version of this SystemResponse object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other: 'SystemResponse') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'SystemResponse') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -8928,10 +8711,6 @@ class Value():
                value type), but not both. A pattern is a regular expression; for more
                information about how to specify a pattern, see the
                [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-entities#entities-create-dictionary-based).
-        :param datetime created: (optional) The timestamp for creation of the
-               object.
-        :param datetime updated: (optional) The timestamp for the most recent
-               update to the object.
         """
         self.value = value
         self.metadata = metadata
@@ -8945,15 +8724,6 @@ class Value():
     def from_dict(cls, _dict: Dict) -> 'Value':
         """Initialize a Value object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'value', 'metadata', 'type', 'synonyms', 'patterns', 'created',
-            'updated'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Value: ' +
-                ', '.join(bad_keys))
         if 'value' in _dict:
             args['value'] = _dict.get('value')
         else:
@@ -8994,10 +8764,10 @@ class Value():
             _dict['synonyms'] = self.synonyms
         if hasattr(self, 'patterns') and self.patterns is not None:
             _dict['patterns'] = self.patterns
-        if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = datetime_to_string(self.created)
-        if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = datetime_to_string(self.updated)
+        if hasattr(self, 'created') and getattr(self, 'created') is not None:
+            _dict['created'] = datetime_to_string(getattr(self, 'created'))
+        if hasattr(self, 'updated') and getattr(self, 'updated') is not None:
+            _dict['updated'] = datetime_to_string(getattr(self, 'updated'))
         return _dict
 
     def _to_dict(self):
@@ -9006,7 +8776,7 @@ class Value():
 
     def __str__(self) -> str:
         """Return a `str` version of this Value object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Value') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -9018,12 +8788,12 @@ class Value():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class TypeEnum(Enum):
+    class TypeEnum(str, Enum):
         """
         Specifies the type of entity value.
         """
-        SYNONYMS = "synonyms"
-        PATTERNS = "patterns"
+        SYNONYMS = 'synonyms'
+        PATTERNS = 'patterns'
 
 
 class ValueCollection():
@@ -9048,22 +8818,14 @@ class ValueCollection():
     def from_dict(cls, _dict: Dict) -> 'ValueCollection':
         """Initialize a ValueCollection object from a json dictionary."""
         args = {}
-        valid_keys = ['values', 'pagination']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ValueCollection: '
-                + ', '.join(bad_keys))
         if 'values' in _dict:
-            args['values'] = [
-                Value._from_dict(x) for x in (_dict.get('values'))
-            ]
+            args['values'] = [Value.from_dict(x) for x in _dict.get('values')]
         else:
             raise ValueError(
                 'Required property \'values\' not present in ValueCollection JSON'
             )
         if 'pagination' in _dict:
-            args['pagination'] = Pagination._from_dict(_dict.get('pagination'))
+            args['pagination'] = Pagination.from_dict(_dict.get('pagination'))
         else:
             raise ValueError(
                 'Required property \'pagination\' not present in ValueCollection JSON'
@@ -9079,9 +8841,9 @@ class ValueCollection():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'values') and self.values is not None:
-            _dict['values'] = [x._to_dict() for x in self.values]
+            _dict['values'] = [x.to_dict() for x in self.values]
         if hasattr(self, 'pagination') and self.pagination is not None:
-            _dict['pagination'] = self.pagination._to_dict()
+            _dict['pagination'] = self.pagination.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -9090,7 +8852,7 @@ class ValueCollection():
 
     def __str__(self) -> str:
         """Return a `str` version of this ValueCollection object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ValueCollection') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -9113,7 +8875,7 @@ class Webhook():
           to send HTTP POST requests.
     :attr str name: The name of the webhook. Currently, `main_webhook` is the only
           supported value.
-    :attr List[WebhookHeader] headers: (optional) An optional array of HTTP headers
+    :attr List[WebhookHeader] headers_: (optional) An optional array of HTTP headers
           to pass with the HTTP request.
     """
 
@@ -9121,7 +8883,7 @@ class Webhook():
                  url: str,
                  name: str,
                  *,
-                 headers: List['WebhookHeader'] = None) -> None:
+                 headers_: List['WebhookHeader'] = None) -> None:
         """
         Initialize a Webhook object.
 
@@ -9129,23 +8891,17 @@ class Webhook():
                you want to send HTTP POST requests.
         :param str name: The name of the webhook. Currently, `main_webhook` is the
                only supported value.
-        :param List[WebhookHeader] headers: (optional) An optional array of HTTP
+        :param List[WebhookHeader] headers_: (optional) An optional array of HTTP
                headers to pass with the HTTP request.
         """
         self.url = url
         self.name = name
-        self.headers = headers
+        self.headers_ = headers_
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'Webhook':
         """Initialize a Webhook object from a json dictionary."""
         args = {}
-        valid_keys = ['url', 'name', 'headers']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Webhook: ' +
-                ', '.join(bad_keys))
         if 'url' in _dict:
             args['url'] = _dict.get('url')
         else:
@@ -9157,8 +8913,8 @@ class Webhook():
             raise ValueError(
                 'Required property \'name\' not present in Webhook JSON')
         if 'headers' in _dict:
-            args['headers'] = [
-                WebhookHeader._from_dict(x) for x in (_dict.get('headers'))
+            args['headers_'] = [
+                WebhookHeader.from_dict(x) for x in _dict.get('headers')
             ]
         return cls(**args)
 
@@ -9174,8 +8930,8 @@ class Webhook():
             _dict['url'] = self.url
         if hasattr(self, 'name') and self.name is not None:
             _dict['name'] = self.name
-        if hasattr(self, 'headers') and self.headers is not None:
-            _dict['headers'] = [x._to_dict() for x in self.headers]
+        if hasattr(self, 'headers_') and self.headers_ is not None:
+            _dict['headers'] = [x.to_dict() for x in self.headers_]
         return _dict
 
     def _to_dict(self):
@@ -9184,7 +8940,7 @@ class Webhook():
 
     def __str__(self) -> str:
         """Return a `str` version of this Webhook object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Webhook') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -9219,12 +8975,6 @@ class WebhookHeader():
     def from_dict(cls, _dict: Dict) -> 'WebhookHeader':
         """Initialize a WebhookHeader object from a json dictionary."""
         args = {}
-        valid_keys = ['name', 'value']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class WebhookHeader: '
-                + ', '.join(bad_keys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         else:
@@ -9257,7 +9007,7 @@ class WebhookHeader():
 
     def __str__(self) -> str:
         """Return a `str` version of this WebhookHeader object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'WebhookHeader') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -9334,14 +9084,9 @@ class Workspace():
                describing the dialog nodes in the workspace.
         :param List[Counterexample] counterexamples: (optional) An array of objects
                defining input examples that have been marked as irrelevant input.
-        :param datetime created: (optional) The timestamp for creation of the
-               object.
-        :param datetime updated: (optional) The timestamp for the most recent
-               update to the object.
         :param dict metadata: (optional) Any metadata related to the workspace.
         :param WorkspaceSystemSettings system_settings: (optional) Global settings
                for the workspace.
-        :param str status: (optional) The current status of the workspace.
         :param List[Webhook] webhooks: (optional)
         :param List[Intent] intents: (optional) An array of intents.
         :param List[Entity] entities: (optional) An array of objects describing the
@@ -9367,17 +9112,6 @@ class Workspace():
     def from_dict(cls, _dict: Dict) -> 'Workspace':
         """Initialize a Workspace object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'name', 'description', 'language', 'workspace_id', 'dialog_nodes',
-            'counterexamples', 'created', 'updated', 'metadata',
-            'learning_opt_out', 'system_settings', 'status', 'webhooks',
-            'intents', 'entities'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Workspace: '
-                + ', '.join(bad_keys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         else:
@@ -9398,12 +9132,12 @@ class Workspace():
             )
         if 'dialog_nodes' in _dict:
             args['dialog_nodes'] = [
-                DialogNode._from_dict(x) for x in (_dict.get('dialog_nodes'))
+                DialogNode.from_dict(x) for x in _dict.get('dialog_nodes')
             ]
         if 'counterexamples' in _dict:
             args['counterexamples'] = [
-                Counterexample._from_dict(x)
-                for x in (_dict.get('counterexamples'))
+                Counterexample.from_dict(x)
+                for x in _dict.get('counterexamples')
             ]
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict.get('created'))
@@ -9418,21 +9152,21 @@ class Workspace():
                 'Required property \'learning_opt_out\' not present in Workspace JSON'
             )
         if 'system_settings' in _dict:
-            args['system_settings'] = WorkspaceSystemSettings._from_dict(
+            args['system_settings'] = WorkspaceSystemSettings.from_dict(
                 _dict.get('system_settings'))
         if 'status' in _dict:
             args['status'] = _dict.get('status')
         if 'webhooks' in _dict:
             args['webhooks'] = [
-                Webhook._from_dict(x) for x in (_dict.get('webhooks'))
+                Webhook.from_dict(x) for x in _dict.get('webhooks')
             ]
         if 'intents' in _dict:
             args['intents'] = [
-                Intent._from_dict(x) for x in (_dict.get('intents'))
+                Intent.from_dict(x) for x in _dict.get('intents')
             ]
         if 'entities' in _dict:
             args['entities'] = [
-                Entity._from_dict(x) for x in (_dict.get('entities'))
+                Entity.from_dict(x) for x in _dict.get('entities')
             ]
         return cls(**args)
 
@@ -9450,19 +9184,20 @@ class Workspace():
             _dict['description'] = self.description
         if hasattr(self, 'language') and self.language is not None:
             _dict['language'] = self.language
-        if hasattr(self, 'workspace_id') and self.workspace_id is not None:
-            _dict['workspace_id'] = self.workspace_id
+        if hasattr(self, 'workspace_id') and getattr(
+                self, 'workspace_id') is not None:
+            _dict['workspace_id'] = getattr(self, 'workspace_id')
         if hasattr(self, 'dialog_nodes') and self.dialog_nodes is not None:
-            _dict['dialog_nodes'] = [x._to_dict() for x in self.dialog_nodes]
+            _dict['dialog_nodes'] = [x.to_dict() for x in self.dialog_nodes]
         if hasattr(self,
                    'counterexamples') and self.counterexamples is not None:
             _dict['counterexamples'] = [
-                x._to_dict() for x in self.counterexamples
+                x.to_dict() for x in self.counterexamples
             ]
-        if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = datetime_to_string(self.created)
-        if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = datetime_to_string(self.updated)
+        if hasattr(self, 'created') and getattr(self, 'created') is not None:
+            _dict['created'] = datetime_to_string(getattr(self, 'created'))
+        if hasattr(self, 'updated') and getattr(self, 'updated') is not None:
+            _dict['updated'] = datetime_to_string(getattr(self, 'updated'))
         if hasattr(self, 'metadata') and self.metadata is not None:
             _dict['metadata'] = self.metadata
         if hasattr(self,
@@ -9470,15 +9205,15 @@ class Workspace():
             _dict['learning_opt_out'] = self.learning_opt_out
         if hasattr(self,
                    'system_settings') and self.system_settings is not None:
-            _dict['system_settings'] = self.system_settings._to_dict()
-        if hasattr(self, 'status') and self.status is not None:
-            _dict['status'] = self.status
+            _dict['system_settings'] = self.system_settings.to_dict()
+        if hasattr(self, 'status') and getattr(self, 'status') is not None:
+            _dict['status'] = getattr(self, 'status')
         if hasattr(self, 'webhooks') and self.webhooks is not None:
-            _dict['webhooks'] = [x._to_dict() for x in self.webhooks]
+            _dict['webhooks'] = [x.to_dict() for x in self.webhooks]
         if hasattr(self, 'intents') and self.intents is not None:
-            _dict['intents'] = [x._to_dict() for x in self.intents]
+            _dict['intents'] = [x.to_dict() for x in self.intents]
         if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x._to_dict() for x in self.entities]
+            _dict['entities'] = [x.to_dict() for x in self.entities]
         return _dict
 
     def _to_dict(self):
@@ -9487,7 +9222,7 @@ class Workspace():
 
     def __str__(self) -> str:
         """Return a `str` version of this Workspace object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Workspace') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -9499,15 +9234,15 @@ class Workspace():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class StatusEnum(Enum):
+    class StatusEnum(str, Enum):
         """
         The current status of the workspace.
         """
-        NON_EXISTENT = "Non Existent"
-        TRAINING = "Training"
-        FAILED = "Failed"
-        AVAILABLE = "Available"
-        UNAVAILABLE = "Unavailable"
+        NON_EXISTENT = 'Non Existent'
+        TRAINING = 'Training'
+        FAILED = 'Failed'
+        AVAILABLE = 'Available'
+        UNAVAILABLE = 'Unavailable'
 
 
 class WorkspaceCollection():
@@ -9535,22 +9270,16 @@ class WorkspaceCollection():
     def from_dict(cls, _dict: Dict) -> 'WorkspaceCollection':
         """Initialize a WorkspaceCollection object from a json dictionary."""
         args = {}
-        valid_keys = ['workspaces', 'pagination']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class WorkspaceCollection: '
-                + ', '.join(bad_keys))
         if 'workspaces' in _dict:
             args['workspaces'] = [
-                Workspace._from_dict(x) for x in (_dict.get('workspaces'))
+                Workspace.from_dict(x) for x in _dict.get('workspaces')
             ]
         else:
             raise ValueError(
                 'Required property \'workspaces\' not present in WorkspaceCollection JSON'
             )
         if 'pagination' in _dict:
-            args['pagination'] = Pagination._from_dict(_dict.get('pagination'))
+            args['pagination'] = Pagination.from_dict(_dict.get('pagination'))
         else:
             raise ValueError(
                 'Required property \'pagination\' not present in WorkspaceCollection JSON'
@@ -9566,9 +9295,9 @@ class WorkspaceCollection():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'workspaces') and self.workspaces is not None:
-            _dict['workspaces'] = [x._to_dict() for x in self.workspaces]
+            _dict['workspaces'] = [x.to_dict() for x in self.workspaces]
         if hasattr(self, 'pagination') and self.pagination is not None:
-            _dict['pagination'] = self.pagination._to_dict()
+            _dict['pagination'] = self.pagination.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -9577,7 +9306,7 @@ class WorkspaceCollection():
 
     def __str__(self) -> str:
         """Return a `str` version of this WorkspaceCollection object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'WorkspaceCollection') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -9657,22 +9386,12 @@ class WorkspaceSystemSettings():
     def from_dict(cls, _dict: Dict) -> 'WorkspaceSystemSettings':
         """Initialize a WorkspaceSystemSettings object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'tooling', 'disambiguation', 'human_agent_assist',
-            'spelling_suggestions', 'spelling_auto_correct', 'system_entities',
-            'off_topic'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class WorkspaceSystemSettings: '
-                + ', '.join(bad_keys))
         if 'tooling' in _dict:
-            args['tooling'] = WorkspaceSystemSettingsTooling._from_dict(
+            args['tooling'] = WorkspaceSystemSettingsTooling.from_dict(
                 _dict.get('tooling'))
         if 'disambiguation' in _dict:
             args[
-                'disambiguation'] = WorkspaceSystemSettingsDisambiguation._from_dict(
+                'disambiguation'] = WorkspaceSystemSettingsDisambiguation.from_dict(
                     _dict.get('disambiguation'))
         if 'human_agent_assist' in _dict:
             args['human_agent_assist'] = _dict.get('human_agent_assist')
@@ -9682,10 +9401,10 @@ class WorkspaceSystemSettings():
             args['spelling_auto_correct'] = _dict.get('spelling_auto_correct')
         if 'system_entities' in _dict:
             args[
-                'system_entities'] = WorkspaceSystemSettingsSystemEntities._from_dict(
+                'system_entities'] = WorkspaceSystemSettingsSystemEntities.from_dict(
                     _dict.get('system_entities'))
         if 'off_topic' in _dict:
-            args['off_topic'] = WorkspaceSystemSettingsOffTopic._from_dict(
+            args['off_topic'] = WorkspaceSystemSettingsOffTopic.from_dict(
                 _dict.get('off_topic'))
         return cls(**args)
 
@@ -9698,9 +9417,9 @@ class WorkspaceSystemSettings():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'tooling') and self.tooling is not None:
-            _dict['tooling'] = self.tooling._to_dict()
+            _dict['tooling'] = self.tooling.to_dict()
         if hasattr(self, 'disambiguation') and self.disambiguation is not None:
-            _dict['disambiguation'] = self.disambiguation._to_dict()
+            _dict['disambiguation'] = self.disambiguation.to_dict()
         if hasattr(
                 self,
                 'human_agent_assist') and self.human_agent_assist is not None:
@@ -9713,9 +9432,9 @@ class WorkspaceSystemSettings():
             _dict['spelling_auto_correct'] = self.spelling_auto_correct
         if hasattr(self,
                    'system_entities') and self.system_entities is not None:
-            _dict['system_entities'] = self.system_entities._to_dict()
+            _dict['system_entities'] = self.system_entities.to_dict()
         if hasattr(self, 'off_topic') and self.off_topic is not None:
-            _dict['off_topic'] = self.off_topic._to_dict()
+            _dict['off_topic'] = self.off_topic.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -9724,7 +9443,7 @@ class WorkspaceSystemSettings():
 
     def __str__(self) -> str:
         """Return a `str` version of this WorkspaceSystemSettings object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'WorkspaceSystemSettings') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -9802,15 +9521,6 @@ class WorkspaceSystemSettingsDisambiguation():
     def from_dict(cls, _dict: Dict) -> 'WorkspaceSystemSettingsDisambiguation':
         """Initialize a WorkspaceSystemSettingsDisambiguation object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'prompt', 'none_of_the_above_prompt', 'enabled', 'sensitivity',
-            'randomize', 'max_suggestions', 'suggestion_text_policy'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class WorkspaceSystemSettingsDisambiguation: '
-                + ', '.join(bad_keys))
         if 'prompt' in _dict:
             args['prompt'] = _dict.get('prompt')
         if 'none_of_the_above_prompt' in _dict:
@@ -9861,7 +9571,7 @@ class WorkspaceSystemSettingsDisambiguation():
 
     def __str__(self) -> str:
         """Return a `str` version of this WorkspaceSystemSettingsDisambiguation object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'WorkspaceSystemSettingsDisambiguation') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -9873,14 +9583,14 @@ class WorkspaceSystemSettingsDisambiguation():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class SensitivityEnum(Enum):
+    class SensitivityEnum(str, Enum):
         """
         The sensitivity of the disambiguation feature to intent detection conflicts. Set
         to **high** if you want the disambiguation feature to be triggered more often.
         This can be useful for testing or demonstration purposes.
         """
-        AUTO = "auto"
-        HIGH = "high"
+        AUTO = 'auto'
+        HIGH = 'high'
 
 
 class WorkspaceSystemSettingsOffTopic():
@@ -9904,12 +9614,6 @@ class WorkspaceSystemSettingsOffTopic():
     def from_dict(cls, _dict: Dict) -> 'WorkspaceSystemSettingsOffTopic':
         """Initialize a WorkspaceSystemSettingsOffTopic object from a json dictionary."""
         args = {}
-        valid_keys = ['enabled']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class WorkspaceSystemSettingsOffTopic: '
-                + ', '.join(bad_keys))
         if 'enabled' in _dict:
             args['enabled'] = _dict.get('enabled')
         return cls(**args)
@@ -9932,7 +9636,7 @@ class WorkspaceSystemSettingsOffTopic():
 
     def __str__(self) -> str:
         """Return a `str` version of this WorkspaceSystemSettingsOffTopic object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'WorkspaceSystemSettingsOffTopic') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -9966,12 +9670,6 @@ class WorkspaceSystemSettingsSystemEntities():
     def from_dict(cls, _dict: Dict) -> 'WorkspaceSystemSettingsSystemEntities':
         """Initialize a WorkspaceSystemSettingsSystemEntities object from a json dictionary."""
         args = {}
-        valid_keys = ['enabled']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class WorkspaceSystemSettingsSystemEntities: '
-                + ', '.join(bad_keys))
         if 'enabled' in _dict:
             args['enabled'] = _dict.get('enabled')
         return cls(**args)
@@ -9994,7 +9692,7 @@ class WorkspaceSystemSettingsSystemEntities():
 
     def __str__(self) -> str:
         """Return a `str` version of this WorkspaceSystemSettingsSystemEntities object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'WorkspaceSystemSettingsSystemEntities') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -10028,12 +9726,6 @@ class WorkspaceSystemSettingsTooling():
     def from_dict(cls, _dict: Dict) -> 'WorkspaceSystemSettingsTooling':
         """Initialize a WorkspaceSystemSettingsTooling object from a json dictionary."""
         args = {}
-        valid_keys = ['store_generic_responses']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class WorkspaceSystemSettingsTooling: '
-                + ', '.join(bad_keys))
         if 'store_generic_responses' in _dict:
             args['store_generic_responses'] = _dict.get(
                 'store_generic_responses')
@@ -10058,7 +9750,7 @@ class WorkspaceSystemSettingsTooling():
 
     def __str__(self) -> str:
         """Return a `str` version of this WorkspaceSystemSettingsTooling object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'WorkspaceSystemSettingsTooling') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -10118,6 +9810,7 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent(
                Routing or other contextual information to be used by target service desk
                systems.
         """
+        # pylint: disable=super-init-not-called
         self.response_type = response_type
         self.message_to_human_agent = message_to_human_agent
         self.agent_available = agent_available
@@ -10130,15 +9823,6 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent(
     ) -> 'DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent':
         """Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'response_type', 'message_to_human_agent', 'agent_available',
-            'agent_unavailable', 'transfer_info'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent: '
-                + ', '.join(bad_keys))
         if 'response_type' in _dict:
             args['response_type'] = _dict.get('response_type')
         else:
@@ -10153,7 +9837,7 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent(
             args['agent_unavailable'] = _dict.get('agent_unavailable')
         if 'transfer_info' in _dict:
             args[
-                'transfer_info'] = DialogNodeOutputConnectToAgentTransferInfo._from_dict(
+                'transfer_info'] = DialogNodeOutputConnectToAgentTransferInfo.from_dict(
                     _dict.get('transfer_info'))
         return cls(**args)
 
@@ -10177,7 +9861,7 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent(
                    'agent_unavailable') and self.agent_unavailable is not None:
             _dict['agent_unavailable'] = self.agent_unavailable
         if hasattr(self, 'transfer_info') and self.transfer_info is not None:
-            _dict['transfer_info'] = self.transfer_info._to_dict()
+            _dict['transfer_info'] = self.transfer_info.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -10186,7 +9870,7 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent(
 
     def __str__(self) -> str:
         """Return a `str` version of this DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(
         self,
@@ -10204,12 +9888,12 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent(
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ResponseTypeEnum(Enum):
+    class ResponseTypeEnum(str, Enum):
         """
         The type of response returned by the dialog node. The specified response type must
         be supported by the client application or channel.
         """
-        CONNECT_TO_AGENT = "connect_to_agent"
+        CONNECT_TO_AGENT = 'connect_to_agent'
 
 
 class DialogNodeOutputGenericDialogNodeOutputResponseTypeImage(
@@ -10242,6 +9926,7 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeImage(
         :param str description: (optional) An optional description to show with the
                response.
         """
+        # pylint: disable=super-init-not-called
         self.response_type = response_type
         self.source = source
         self.title = title
@@ -10253,12 +9938,6 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeImage(
     ) -> 'DialogNodeOutputGenericDialogNodeOutputResponseTypeImage':
         """Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeImage object from a json dictionary."""
         args = {}
-        valid_keys = ['response_type', 'source', 'title', 'description']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DialogNodeOutputGenericDialogNodeOutputResponseTypeImage: '
-                + ', '.join(bad_keys))
         if 'response_type' in _dict:
             args['response_type'] = _dict.get('response_type')
         else:
@@ -10301,7 +9980,7 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeImage(
 
     def __str__(self) -> str:
         """Return a `str` version of this DialogNodeOutputGenericDialogNodeOutputResponseTypeImage object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(
         self, other: 'DialogNodeOutputGenericDialogNodeOutputResponseTypeImage'
@@ -10317,12 +9996,12 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeImage(
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ResponseTypeEnum(Enum):
+    class ResponseTypeEnum(str, Enum):
         """
         The type of response returned by the dialog node. The specified response type must
         be supported by the client application or channel.
         """
-        IMAGE = "image"
+        IMAGE = 'image'
 
 
 class DialogNodeOutputGenericDialogNodeOutputResponseTypeOption(
@@ -10364,6 +10043,7 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeOption(
         :param str preference: (optional) The preferred type of control to display,
                if supported by the channel.
         """
+        # pylint: disable=super-init-not-called
         self.response_type = response_type
         self.title = title
         self.description = description
@@ -10376,14 +10056,6 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeOption(
     ) -> 'DialogNodeOutputGenericDialogNodeOutputResponseTypeOption':
         """Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeOption object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'response_type', 'title', 'description', 'preference', 'options'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DialogNodeOutputGenericDialogNodeOutputResponseTypeOption: '
-                + ', '.join(bad_keys))
         if 'response_type' in _dict:
             args['response_type'] = _dict.get('response_type')
         else:
@@ -10402,8 +10074,8 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeOption(
             args['preference'] = _dict.get('preference')
         if 'options' in _dict:
             args['options'] = [
-                DialogNodeOutputOptionsElement._from_dict(x)
-                for x in (_dict.get('options'))
+                DialogNodeOutputOptionsElement.from_dict(x)
+                for x in _dict.get('options')
             ]
         else:
             raise ValueError(
@@ -10428,7 +10100,7 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeOption(
         if hasattr(self, 'preference') and self.preference is not None:
             _dict['preference'] = self.preference
         if hasattr(self, 'options') and self.options is not None:
-            _dict['options'] = [x._to_dict() for x in self.options]
+            _dict['options'] = [x.to_dict() for x in self.options]
         return _dict
 
     def _to_dict(self):
@@ -10437,7 +10109,7 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeOption(
 
     def __str__(self) -> str:
         """Return a `str` version of this DialogNodeOutputGenericDialogNodeOutputResponseTypeOption object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(
         self, other: 'DialogNodeOutputGenericDialogNodeOutputResponseTypeOption'
@@ -10453,19 +10125,19 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeOption(
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ResponseTypeEnum(Enum):
+    class ResponseTypeEnum(str, Enum):
         """
         The type of response returned by the dialog node. The specified response type must
         be supported by the client application or channel.
         """
-        OPTION = "option"
+        OPTION = 'option'
 
-    class PreferenceEnum(Enum):
+    class PreferenceEnum(str, Enum):
         """
         The preferred type of control to display, if supported by the channel.
         """
-        DROPDOWN = "dropdown"
-        BUTTON = "button"
+        DROPDOWN = 'dropdown'
+        BUTTON = 'button'
 
 
 class DialogNodeOutputGenericDialogNodeOutputResponseTypePause(
@@ -10497,6 +10169,7 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypePause(
         :param bool typing: (optional) Whether to send a "user is typing" event
                during the pause. Ignored if the channel does not support this event.
         """
+        # pylint: disable=super-init-not-called
         self.response_type = response_type
         self.time = time
         self.typing = typing
@@ -10507,12 +10180,6 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypePause(
     ) -> 'DialogNodeOutputGenericDialogNodeOutputResponseTypePause':
         """Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypePause object from a json dictionary."""
         args = {}
-        valid_keys = ['response_type', 'time', 'typing']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DialogNodeOutputGenericDialogNodeOutputResponseTypePause: '
-                + ', '.join(bad_keys))
         if 'response_type' in _dict:
             args['response_type'] = _dict.get('response_type')
         else:
@@ -10551,7 +10218,7 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypePause(
 
     def __str__(self) -> str:
         """Return a `str` version of this DialogNodeOutputGenericDialogNodeOutputResponseTypePause object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(
         self, other: 'DialogNodeOutputGenericDialogNodeOutputResponseTypePause'
@@ -10567,12 +10234,12 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypePause(
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ResponseTypeEnum(Enum):
+    class ResponseTypeEnum(str, Enum):
         """
         The type of response returned by the dialog node. The specified response type must
         be supported by the client application or channel.
         """
-        PAUSE = "pause"
+        PAUSE = 'pause'
 
 
 class DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill(
@@ -10625,6 +10292,7 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill(
         :param str discovery_version: (optional) The version of the Discovery
                service API to use for the query.
         """
+        # pylint: disable=super-init-not-called
         self.response_type = response_type
         self.query = query
         self.query_type = query_type
@@ -10637,15 +10305,6 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill(
     ) -> 'DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill':
         """Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'response_type', 'query', 'query_type', 'filter',
-            'discovery_version'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill: '
-                + ', '.join(bad_keys))
         if 'response_type' in _dict:
             args['response_type'] = _dict.get('response_type')
         else:
@@ -10697,7 +10356,7 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill(
 
     def __str__(self) -> str:
         """Return a `str` version of this DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(
         self,
@@ -10715,20 +10374,20 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill(
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ResponseTypeEnum(Enum):
+    class ResponseTypeEnum(str, Enum):
         """
         The type of response returned by the dialog node. The specified response type must
         be supported by the client application or channel.
         **Note:** The **search_skill** response type is used only by the v2 runtime API.
         """
-        SEARCH_SKILL = "search_skill"
+        SEARCH_SKILL = 'search_skill'
 
-    class QueryTypeEnum(Enum):
+    class QueryTypeEnum(str, Enum):
         """
         The type of the search query.
         """
-        NATURAL_LANGUAGE = "natural_language"
-        DISCOVERY_QUERY_LANGUAGE = "discovery_query_language"
+        NATURAL_LANGUAGE = 'natural_language'
+        DISCOVERY_QUERY_LANGUAGE = 'discovery_query_language'
 
 
 class DialogNodeOutputGenericDialogNodeOutputResponseTypeText(
@@ -10765,6 +10424,7 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeText(
         :param str delimiter: (optional) The delimiter to use as a separator
                between responses when `selection_policy`=`multiline`.
         """
+        # pylint: disable=super-init-not-called
         self.response_type = response_type
         self.values = values
         self.selection_policy = selection_policy
@@ -10776,14 +10436,6 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeText(
     ) -> 'DialogNodeOutputGenericDialogNodeOutputResponseTypeText':
         """Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeText object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'response_type', 'values', 'selection_policy', 'delimiter'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DialogNodeOutputGenericDialogNodeOutputResponseTypeText: '
-                + ', '.join(bad_keys))
         if 'response_type' in _dict:
             args['response_type'] = _dict.get('response_type')
         else:
@@ -10792,8 +10444,8 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeText(
             )
         if 'values' in _dict:
             args['values'] = [
-                DialogNodeOutputTextValuesElement._from_dict(x)
-                for x in (_dict.get('values'))
+                DialogNodeOutputTextValuesElement.from_dict(x)
+                for x in _dict.get('values')
             ]
         else:
             raise ValueError(
@@ -10816,7 +10468,7 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeText(
         if hasattr(self, 'response_type') and self.response_type is not None:
             _dict['response_type'] = self.response_type
         if hasattr(self, 'values') and self.values is not None:
-            _dict['values'] = [x._to_dict() for x in self.values]
+            _dict['values'] = [x.to_dict() for x in self.values]
         if hasattr(self,
                    'selection_policy') and self.selection_policy is not None:
             _dict['selection_policy'] = self.selection_policy
@@ -10830,7 +10482,7 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeText(
 
     def __str__(self) -> str:
         """Return a `str` version of this DialogNodeOutputGenericDialogNodeOutputResponseTypeText object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(
         self, other: 'DialogNodeOutputGenericDialogNodeOutputResponseTypeText'
@@ -10846,20 +10498,20 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeText(
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ResponseTypeEnum(Enum):
+    class ResponseTypeEnum(str, Enum):
         """
         The type of response returned by the dialog node. The specified response type must
         be supported by the client application or channel.
         """
-        TEXT = "text"
+        TEXT = 'text'
 
-    class SelectionPolicyEnum(Enum):
+    class SelectionPolicyEnum(str, Enum):
         """
         How a response is selected from the list, if more than one response is specified.
         """
-        SEQUENTIAL = "sequential"
-        RANDOM = "random"
-        MULTILINE = "multiline"
+        SEQUENTIAL = 'sequential'
+        RANDOM = 'random'
+        MULTILINE = 'multiline'
 
 
 class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
@@ -10922,6 +10574,7 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
                **topic** property is taken from. The **topic** property is populated using
                the value of the dialog node's **title** property.
         """
+        # pylint: disable=super-init-not-called
         self.response_type = response_type
         self.message_to_human_agent = message_to_human_agent
         self.agent_available = agent_available
@@ -10936,15 +10589,6 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
     ) -> 'RuntimeResponseGenericRuntimeResponseTypeConnectToAgent':
         """Initialize a RuntimeResponseGenericRuntimeResponseTypeConnectToAgent object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'response_type', 'message_to_human_agent', 'agent_available',
-            'agent_unavailable', 'transfer_info', 'topic', 'dialog_node'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent: '
-                + ', '.join(bad_keys))
         if 'response_type' in _dict:
             args['response_type'] = _dict.get('response_type')
         else:
@@ -10959,7 +10603,7 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
             args['agent_unavailable'] = _dict.get('agent_unavailable')
         if 'transfer_info' in _dict:
             args[
-                'transfer_info'] = DialogNodeOutputConnectToAgentTransferInfo._from_dict(
+                'transfer_info'] = DialogNodeOutputConnectToAgentTransferInfo.from_dict(
                     _dict.get('transfer_info'))
         if 'topic' in _dict:
             args['topic'] = _dict.get('topic')
@@ -10987,7 +10631,7 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
                    'agent_unavailable') and self.agent_unavailable is not None:
             _dict['agent_unavailable'] = self.agent_unavailable
         if hasattr(self, 'transfer_info') and self.transfer_info is not None:
-            _dict['transfer_info'] = self.transfer_info._to_dict()
+            _dict['transfer_info'] = self.transfer_info.to_dict()
         if hasattr(self, 'topic') and self.topic is not None:
             _dict['topic'] = self.topic
         if hasattr(self, 'dialog_node') and self.dialog_node is not None:
@@ -11000,7 +10644,7 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
 
     def __str__(self) -> str:
         """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypeConnectToAgent object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(
         self, other: 'RuntimeResponseGenericRuntimeResponseTypeConnectToAgent'
@@ -11016,12 +10660,12 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ResponseTypeEnum(Enum):
+    class ResponseTypeEnum(str, Enum):
         """
         The type of response returned by the dialog node. The specified response type must
         be supported by the client application or channel.
         """
-        CONNECT_TO_AGENT = "connect_to_agent"
+        CONNECT_TO_AGENT = 'connect_to_agent'
 
 
 class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
@@ -11054,6 +10698,7 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
         :param str description: (optional) The description to show with the the
                response.
         """
+        # pylint: disable=super-init-not-called
         self.response_type = response_type
         self.source = source
         self.title = title
@@ -11065,12 +10710,6 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
             _dict: Dict) -> 'RuntimeResponseGenericRuntimeResponseTypeImage':
         """Initialize a RuntimeResponseGenericRuntimeResponseTypeImage object from a json dictionary."""
         args = {}
-        valid_keys = ['response_type', 'source', 'title', 'description']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RuntimeResponseGenericRuntimeResponseTypeImage: '
-                + ', '.join(bad_keys))
         if 'response_type' in _dict:
             args['response_type'] = _dict.get('response_type')
         else:
@@ -11113,7 +10752,7 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
 
     def __str__(self) -> str:
         """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypeImage object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self,
                other: 'RuntimeResponseGenericRuntimeResponseTypeImage') -> bool:
@@ -11127,12 +10766,12 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ResponseTypeEnum(Enum):
+    class ResponseTypeEnum(str, Enum):
         """
         The type of response returned by the dialog node. The specified response type must
         be supported by the client application or channel.
         """
-        IMAGE = "image"
+        IMAGE = 'image'
 
 
 class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
@@ -11169,6 +10808,7 @@ class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
                response.
         :param str preference: (optional) The preferred type of control to display.
         """
+        # pylint: disable=super-init-not-called
         self.response_type = response_type
         self.title = title
         self.description = description
@@ -11181,14 +10821,6 @@ class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
             _dict: Dict) -> 'RuntimeResponseGenericRuntimeResponseTypeOption':
         """Initialize a RuntimeResponseGenericRuntimeResponseTypeOption object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'response_type', 'title', 'description', 'preference', 'options'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RuntimeResponseGenericRuntimeResponseTypeOption: '
-                + ', '.join(bad_keys))
         if 'response_type' in _dict:
             args['response_type'] = _dict.get('response_type')
         else:
@@ -11207,8 +10839,8 @@ class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
             args['preference'] = _dict.get('preference')
         if 'options' in _dict:
             args['options'] = [
-                DialogNodeOutputOptionsElement._from_dict(x)
-                for x in (_dict.get('options'))
+                DialogNodeOutputOptionsElement.from_dict(x)
+                for x in _dict.get('options')
             ]
         else:
             raise ValueError(
@@ -11233,7 +10865,7 @@ class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
         if hasattr(self, 'preference') and self.preference is not None:
             _dict['preference'] = self.preference
         if hasattr(self, 'options') and self.options is not None:
-            _dict['options'] = [x._to_dict() for x in self.options]
+            _dict['options'] = [x.to_dict() for x in self.options]
         return _dict
 
     def _to_dict(self):
@@ -11242,7 +10874,7 @@ class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
 
     def __str__(self) -> str:
         """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypeOption object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(
             self,
@@ -11258,19 +10890,19 @@ class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ResponseTypeEnum(Enum):
+    class ResponseTypeEnum(str, Enum):
         """
         The type of response returned by the dialog node. The specified response type must
         be supported by the client application or channel.
         """
-        OPTION = "option"
+        OPTION = 'option'
 
-    class PreferenceEnum(Enum):
+    class PreferenceEnum(str, Enum):
         """
         The preferred type of control to display.
         """
-        DROPDOWN = "dropdown"
-        BUTTON = "button"
+        DROPDOWN = 'dropdown'
+        BUTTON = 'button'
 
 
 class RuntimeResponseGenericRuntimeResponseTypePause(RuntimeResponseGeneric):
@@ -11299,6 +10931,7 @@ class RuntimeResponseGenericRuntimeResponseTypePause(RuntimeResponseGeneric):
         :param bool typing: (optional) Whether to send a "user is typing" event
                during the pause.
         """
+        # pylint: disable=super-init-not-called
         self.response_type = response_type
         self.time = time
         self.typing = typing
@@ -11309,12 +10942,6 @@ class RuntimeResponseGenericRuntimeResponseTypePause(RuntimeResponseGeneric):
             _dict: Dict) -> 'RuntimeResponseGenericRuntimeResponseTypePause':
         """Initialize a RuntimeResponseGenericRuntimeResponseTypePause object from a json dictionary."""
         args = {}
-        valid_keys = ['response_type', 'time', 'typing']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RuntimeResponseGenericRuntimeResponseTypePause: '
-                + ', '.join(bad_keys))
         if 'response_type' in _dict:
             args['response_type'] = _dict.get('response_type')
         else:
@@ -11353,7 +10980,7 @@ class RuntimeResponseGenericRuntimeResponseTypePause(RuntimeResponseGeneric):
 
     def __str__(self) -> str:
         """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypePause object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self,
                other: 'RuntimeResponseGenericRuntimeResponseTypePause') -> bool:
@@ -11367,12 +10994,12 @@ class RuntimeResponseGenericRuntimeResponseTypePause(RuntimeResponseGeneric):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ResponseTypeEnum(Enum):
+    class ResponseTypeEnum(str, Enum):
         """
         The type of response returned by the dialog node. The specified response type must
         be supported by the client application or channel.
         """
-        PAUSE = "pause"
+        PAUSE = 'pause'
 
 
 class RuntimeResponseGenericRuntimeResponseTypeSuggestion(
@@ -11400,6 +11027,7 @@ class RuntimeResponseGenericRuntimeResponseTypeSuggestion(
         :param List[DialogSuggestion] suggestions: An array of objects describing
                the possible matching dialog nodes from which the user can choose.
         """
+        # pylint: disable=super-init-not-called
         self.response_type = response_type
         self.title = title
         self.suggestions = suggestions
@@ -11410,12 +11038,6 @@ class RuntimeResponseGenericRuntimeResponseTypeSuggestion(
     ) -> 'RuntimeResponseGenericRuntimeResponseTypeSuggestion':
         """Initialize a RuntimeResponseGenericRuntimeResponseTypeSuggestion object from a json dictionary."""
         args = {}
-        valid_keys = ['response_type', 'title', 'suggestions']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RuntimeResponseGenericRuntimeResponseTypeSuggestion: '
-                + ', '.join(bad_keys))
         if 'response_type' in _dict:
             args['response_type'] = _dict.get('response_type')
         else:
@@ -11430,8 +11052,7 @@ class RuntimeResponseGenericRuntimeResponseTypeSuggestion(
             )
         if 'suggestions' in _dict:
             args['suggestions'] = [
-                DialogSuggestion._from_dict(x)
-                for x in (_dict.get('suggestions'))
+                DialogSuggestion.from_dict(x) for x in _dict.get('suggestions')
             ]
         else:
             raise ValueError(
@@ -11452,7 +11073,7 @@ class RuntimeResponseGenericRuntimeResponseTypeSuggestion(
         if hasattr(self, 'title') and self.title is not None:
             _dict['title'] = self.title
         if hasattr(self, 'suggestions') and self.suggestions is not None:
-            _dict['suggestions'] = [x._to_dict() for x in self.suggestions]
+            _dict['suggestions'] = [x.to_dict() for x in self.suggestions]
         return _dict
 
     def _to_dict(self):
@@ -11461,7 +11082,7 @@ class RuntimeResponseGenericRuntimeResponseTypeSuggestion(
 
     def __str__(self) -> str:
         """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypeSuggestion object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(
             self, other: 'RuntimeResponseGenericRuntimeResponseTypeSuggestion'
@@ -11477,12 +11098,12 @@ class RuntimeResponseGenericRuntimeResponseTypeSuggestion(
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ResponseTypeEnum(Enum):
+    class ResponseTypeEnum(str, Enum):
         """
         The type of response returned by the dialog node. The specified response type must
         be supported by the client application or channel.
         """
-        SUGGESTION = "suggestion"
+        SUGGESTION = 'suggestion'
 
 
 class RuntimeResponseGenericRuntimeResponseTypeText(RuntimeResponseGeneric):
@@ -11503,6 +11124,7 @@ class RuntimeResponseGenericRuntimeResponseTypeText(RuntimeResponseGeneric):
                channel.
         :param str text: The text of the response.
         """
+        # pylint: disable=super-init-not-called
         self.response_type = response_type
         self.text = text
 
@@ -11512,12 +11134,6 @@ class RuntimeResponseGenericRuntimeResponseTypeText(RuntimeResponseGeneric):
             _dict: Dict) -> 'RuntimeResponseGenericRuntimeResponseTypeText':
         """Initialize a RuntimeResponseGenericRuntimeResponseTypeText object from a json dictionary."""
         args = {}
-        valid_keys = ['response_type', 'text']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RuntimeResponseGenericRuntimeResponseTypeText: '
-                + ', '.join(bad_keys))
         if 'response_type' in _dict:
             args['response_type'] = _dict.get('response_type')
         else:
@@ -11552,7 +11168,7 @@ class RuntimeResponseGenericRuntimeResponseTypeText(RuntimeResponseGeneric):
 
     def __str__(self) -> str:
         """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypeText object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self,
                other: 'RuntimeResponseGenericRuntimeResponseTypeText') -> bool:
@@ -11566,9 +11182,9 @@ class RuntimeResponseGenericRuntimeResponseTypeText(RuntimeResponseGeneric):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ResponseTypeEnum(Enum):
+    class ResponseTypeEnum(str, Enum):
         """
         The type of response returned by the dialog node. The specified response type must
         be supported by the client application or channel.
         """
-        TEXT = "text"
+        TEXT = 'text'
