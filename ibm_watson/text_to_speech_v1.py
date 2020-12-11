@@ -13,6 +13,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-a45d89ef-20201209-192237
 """
 The IBM Watson&trade; Text to Speech service provides APIs that use IBM's speech-synthesis
 capabilities to synthesize text into natural-sounding speech in a variety of languages,
@@ -32,15 +34,16 @@ Phonetic Representation (SPR). The Arabic, Chinese, Dutch, and Korean languages 
 only IPA.
 """
 
-import json
-from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
-from .common import get_sdk_headers
 from enum import Enum
-from ibm_cloud_sdk_core import BaseService
-from ibm_cloud_sdk_core import DetailedResponse
+from typing import Dict, List
+import json
+
+from ibm_cloud_sdk_core import BaseService, DetailedResponse
+from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
 from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
-from typing import Dict
-from typing import List
+from ibm_cloud_sdk_core.utils import convert_model
+
+from .common import get_sdk_headers
 
 ##############################################################################
 # Service
@@ -69,15 +72,14 @@ class TextToSpeechV1(BaseService):
             authenticator = get_authenticator_from_environment(service_name)
         BaseService.__init__(self,
                              service_url=self.DEFAULT_SERVICE_URL,
-                             authenticator=authenticator,
-                             disable_ssl_verification=False)
+                             authenticator=authenticator)
         self.configure_service(service_name)
 
     #########################
     # Voices
     #########################
 
-    def list_voices(self, **kwargs) -> 'DetailedResponse':
+    def list_voices(self, **kwargs) -> DetailedResponse:
         """
         List voices.
 
@@ -91,16 +93,18 @@ class TextToSpeechV1(BaseService):
 
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Voices` object
         """
 
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='list_voices')
         headers.update(sdk_headers)
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v1/voices'
         request = self.prepare_request(method='GET', url=url, headers=headers)
@@ -112,7 +116,7 @@ class TextToSpeechV1(BaseService):
                   voice: str,
                   *,
                   customization_id: str = None,
-                  **kwargs) -> 'DetailedResponse':
+                  **kwargs) -> DetailedResponse:
         """
         Get a voice.
 
@@ -132,15 +136,12 @@ class TextToSpeechV1(BaseService):
                voice with no customization.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Voice` object
         """
 
         if voice is None:
             raise ValueError('voice must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='get_voice')
@@ -148,7 +149,14 @@ class TextToSpeechV1(BaseService):
 
         params = {'customization_id': customization_id}
 
-        url = '/v1/voices/{0}'.format(*self._encode_path_vars(voice))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['voice']
+        path_param_values = self.encode_path_vars(voice)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/voices/{voice}'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -167,7 +175,7 @@ class TextToSpeechV1(BaseService):
                    accept: str = None,
                    voice: str = None,
                    customization_id: str = None,
-                   **kwargs) -> 'DetailedResponse':
+                   **kwargs) -> DetailedResponse:
         """
         Synthesize audio.
 
@@ -244,15 +252,12 @@ class TextToSpeechV1(BaseService):
                customization.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `BinaryIO` result
         """
 
         if text is None:
             raise ValueError('text must be provided')
-
         headers = {'Accept': accept}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='synthesize')
@@ -261,6 +266,12 @@ class TextToSpeechV1(BaseService):
         params = {'voice': voice, 'customization_id': customization_id}
 
         data = {'text': text}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
 
         url = '/v1/synthesize'
         request = self.prepare_request(method='POST',
@@ -282,7 +293,7 @@ class TextToSpeechV1(BaseService):
                           voice: str = None,
                           format: str = None,
                           customization_id: str = None,
-                          **kwargs) -> 'DetailedResponse':
+                          **kwargs) -> DetailedResponse:
         """
         Get pronunciation.
 
@@ -311,15 +322,12 @@ class TextToSpeechV1(BaseService):
                voice with no customization.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Pronunciation` object
         """
 
         if text is None:
             raise ValueError('text must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='get_pronunciation')
@@ -331,6 +339,10 @@ class TextToSpeechV1(BaseService):
             'format': format,
             'customization_id': customization_id
         }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v1/pronunciation'
         request = self.prepare_request(method='GET',
@@ -350,7 +362,7 @@ class TextToSpeechV1(BaseService):
                             *,
                             language: str = None,
                             description: str = None,
-                            **kwargs) -> 'DetailedResponse':
+                            **kwargs) -> DetailedResponse:
         """
         Create a custom model.
 
@@ -371,21 +383,25 @@ class TextToSpeechV1(BaseService):
                Specifying a description is recommended.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `CustomModel` object
         """
 
         if name is None:
             raise ValueError('name must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='create_custom_model')
         headers.update(sdk_headers)
 
         data = {'name': name, 'language': language, 'description': description}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v1/customizations'
         request = self.prepare_request(method='POST',
@@ -399,7 +415,7 @@ class TextToSpeechV1(BaseService):
     def list_custom_models(self,
                            *,
                            language: str = None,
-                           **kwargs) -> 'DetailedResponse':
+                           **kwargs) -> DetailedResponse:
         """
         List custom models.
 
@@ -417,18 +433,20 @@ class TextToSpeechV1(BaseService):
                parameter to see all custom models that are owned by the requester.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `CustomModels` object
         """
 
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='list_custom_models')
         headers.update(sdk_headers)
 
         params = {'language': language}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v1/customizations'
         request = self.prepare_request(method='GET',
@@ -445,7 +463,7 @@ class TextToSpeechV1(BaseService):
                             name: str = None,
                             description: str = None,
                             words: List['Word'] = None,
-                            **kwargs) -> 'DetailedResponse':
+                            **kwargs) -> DetailedResponse:
         """
         Update a custom model.
 
@@ -489,20 +507,26 @@ class TextToSpeechV1(BaseService):
         if customization_id is None:
             raise ValueError('customization_id must be provided')
         if words is not None:
-            words = [self._convert_model(x) for x in words]
-
+            words = [convert_model(x) for x in words]
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='update_custom_model')
         headers.update(sdk_headers)
 
         data = {'name': name, 'description': description, 'words': words}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/customizations/{0}'.format(
-            *self._encode_path_vars(customization_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['customization_id']
+        path_param_values = self.encode_path_vars(customization_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/customizations/{customization_id}'.format(**path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -512,7 +536,7 @@ class TextToSpeechV1(BaseService):
         return response
 
     def get_custom_model(self, customization_id: str,
-                         **kwargs) -> 'DetailedResponse':
+                         **kwargs) -> DetailedResponse:
         """
         Get a custom model.
 
@@ -528,29 +552,32 @@ class TextToSpeechV1(BaseService):
                service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `CustomModel` object
         """
 
         if customization_id is None:
             raise ValueError('customization_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='get_custom_model')
         headers.update(sdk_headers)
 
-        url = '/v1/customizations/{0}'.format(
-            *self._encode_path_vars(customization_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['customization_id']
+        path_param_values = self.encode_path_vars(customization_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/customizations/{customization_id}'.format(**path_param_dict)
         request = self.prepare_request(method='GET', url=url, headers=headers)
 
         response = self.send(request)
         return response
 
     def delete_custom_model(self, customization_id: str,
-                            **kwargs) -> 'DetailedResponse':
+                            **kwargs) -> DetailedResponse:
         """
         Delete a custom model.
 
@@ -569,17 +596,19 @@ class TextToSpeechV1(BaseService):
 
         if customization_id is None:
             raise ValueError('customization_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='delete_custom_model')
         headers.update(sdk_headers)
 
-        url = '/v1/customizations/{0}'.format(
-            *self._encode_path_vars(customization_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        path_param_keys = ['customization_id']
+        path_param_values = self.encode_path_vars(customization_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/customizations/{customization_id}'.format(**path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers)
@@ -592,7 +621,7 @@ class TextToSpeechV1(BaseService):
     #########################
 
     def add_words(self, customization_id: str, words: List['Word'],
-                  **kwargs) -> 'DetailedResponse':
+                  **kwargs) -> DetailedResponse:
         """
         Add custom words.
 
@@ -639,20 +668,27 @@ class TextToSpeechV1(BaseService):
             raise ValueError('customization_id must be provided')
         if words is None:
             raise ValueError('words must be provided')
-        words = [self._convert_model(x) for x in words]
-
+        words = [convert_model(x) for x in words]
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='add_words')
         headers.update(sdk_headers)
 
         data = {'words': words}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/customizations/{0}/words'.format(
-            *self._encode_path_vars(customization_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['customization_id']
+        path_param_values = self.encode_path_vars(customization_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/customizations/{customization_id}/words'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -661,7 +697,7 @@ class TextToSpeechV1(BaseService):
         response = self.send(request)
         return response
 
-    def list_words(self, customization_id: str, **kwargs) -> 'DetailedResponse':
+    def list_words(self, customization_id: str, **kwargs) -> DetailedResponse:
         """
         List custom words.
 
@@ -676,22 +712,26 @@ class TextToSpeechV1(BaseService):
                service that owns the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Words` object
         """
 
         if customization_id is None:
             raise ValueError('customization_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='list_words')
         headers.update(sdk_headers)
 
-        url = '/v1/customizations/{0}/words'.format(
-            *self._encode_path_vars(customization_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['customization_id']
+        path_param_values = self.encode_path_vars(customization_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/customizations/{customization_id}/words'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET', url=url, headers=headers)
 
         response = self.send(request)
@@ -703,7 +743,7 @@ class TextToSpeechV1(BaseService):
                  translation: str,
                  *,
                  part_of_speech: str = None,
-                 **kwargs) -> 'DetailedResponse':
+                 **kwargs) -> DetailedResponse:
         """
         Add a custom word.
 
@@ -759,19 +799,25 @@ class TextToSpeechV1(BaseService):
             raise ValueError('word must be provided')
         if translation is None:
             raise ValueError('translation must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='add_word')
         headers.update(sdk_headers)
 
         data = {'translation': translation, 'part_of_speech': part_of_speech}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/customizations/{0}/words/{1}'.format(
-            *self._encode_path_vars(customization_id, word))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        path_param_keys = ['customization_id', 'word']
+        path_param_values = self.encode_path_vars(customization_id, word)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/customizations/{customization_id}/words/{word}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='PUT',
                                        url=url,
                                        headers=headers,
@@ -781,7 +827,7 @@ class TextToSpeechV1(BaseService):
         return response
 
     def get_word(self, customization_id: str, word: str,
-                 **kwargs) -> 'DetailedResponse':
+                 **kwargs) -> DetailedResponse:
         """
         Get a custom word.
 
@@ -797,31 +843,35 @@ class TextToSpeechV1(BaseService):
         :param str word: The word that is to be queried from the custom model.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Translation` object
         """
 
         if customization_id is None:
             raise ValueError('customization_id must be provided')
         if word is None:
             raise ValueError('word must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='get_word')
         headers.update(sdk_headers)
 
-        url = '/v1/customizations/{0}/words/{1}'.format(
-            *self._encode_path_vars(customization_id, word))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['customization_id', 'word']
+        path_param_values = self.encode_path_vars(customization_id, word)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/customizations/{customization_id}/words/{word}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET', url=url, headers=headers)
 
         response = self.send(request)
         return response
 
     def delete_word(self, customization_id: str, word: str,
-                    **kwargs) -> 'DetailedResponse':
+                    **kwargs) -> DetailedResponse:
         """
         Delete a custom word.
 
@@ -843,17 +893,20 @@ class TextToSpeechV1(BaseService):
             raise ValueError('customization_id must be provided')
         if word is None:
             raise ValueError('word must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='delete_word')
         headers.update(sdk_headers)
 
-        url = '/v1/customizations/{0}/words/{1}'.format(
-            *self._encode_path_vars(customization_id, word))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        path_param_keys = ['customization_id', 'word']
+        path_param_values = self.encode_path_vars(customization_id, word)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/customizations/{customization_id}/words/{word}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers)
@@ -865,8 +918,7 @@ class TextToSpeechV1(BaseService):
     # User data
     #########################
 
-    def delete_user_data(self, customer_id: str,
-                         **kwargs) -> 'DetailedResponse':
+    def delete_user_data(self, customer_id: str, **kwargs) -> DetailedResponse:
         """
         Delete labeled data.
 
@@ -893,16 +945,16 @@ class TextToSpeechV1(BaseService):
 
         if customer_id is None:
             raise ValueError('customer_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='delete_user_data')
         headers.update(sdk_headers)
 
         params = {'customer_id': customer_id}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
 
         url = '/v1/user_data'
         request = self.prepare_request(method='DELETE',
@@ -914,9 +966,12 @@ class TextToSpeechV1(BaseService):
         return response
 
 
-class GetVoiceEnums(object):
+class GetVoiceEnums:
+    """
+    Enums for get_voice parameters.
+    """
 
-    class Voice(Enum):
+    class Voice(str, Enum):
         """
         The voice for which information is to be returned.
         """
@@ -966,9 +1021,12 @@ class GetVoiceEnums(object):
         ZH_CN_ZHANGJINGVOICE = 'zh-CN_ZhangJingVoice'
 
 
-class SynthesizeEnums(object):
+class SynthesizeEnums:
+    """
+    Enums for synthesize parameters.
+    """
 
-    class Accept(Enum):
+    class Accept(str, Enum):
         """
         The requested format (MIME type) of the audio. You can use the `Accept` header or
         the `accept` parameter to specify the audio format. For more information about
@@ -989,7 +1047,7 @@ class SynthesizeEnums(object):
         AUDIO_WEBM_CODECS_OPUS = 'audio/webm;codecs=opus'
         AUDIO_WEBM_CODECS_VORBIS = 'audio/webm;codecs=vorbis'
 
-    class Voice(Enum):
+    class Voice(str, Enum):
         """
         The voice to use for synthesis.
         """
@@ -1039,9 +1097,12 @@ class SynthesizeEnums(object):
         ZH_CN_ZHANGJINGVOICE = 'zh-CN_ZhangJingVoice'
 
 
-class GetPronunciationEnums(object):
+class GetPronunciationEnums:
+    """
+    Enums for get_pronunciation parameters.
+    """
 
-    class Voice(Enum):
+    class Voice(str, Enum):
         """
         A voice that specifies the language in which the pronunciation is to be returned.
         All voices for the same language (for example, `en-US`) return the same
@@ -1092,7 +1153,7 @@ class GetPronunciationEnums(object):
         ZH_CN_WANGWEIVOICE = 'zh-CN_WangWeiVoice'
         ZH_CN_ZHANGJINGVOICE = 'zh-CN_ZhangJingVoice'
 
-    class Format(Enum):
+    class Format(str, Enum):
         """
         The phoneme format in which to return the pronunciation. The Arabic, Chinese,
         Dutch, and Korean languages support only IPA. Omit the parameter to obtain the
@@ -1102,9 +1163,12 @@ class GetPronunciationEnums(object):
         IPA = 'ipa'
 
 
-class ListCustomModelsEnums(object):
+class ListCustomModelsEnums:
+    """
+    Enums for list_custom_models parameters.
+    """
 
-    class Language(Enum):
+    class Language(str, Enum):
         """
         The language for which custom models that are owned by the requesting credentials
         are to be returned. Omit the parameter to see all custom models that are owned by
@@ -1209,15 +1273,6 @@ class CustomModel():
     def from_dict(cls, _dict: Dict) -> 'CustomModel':
         """Initialize a CustomModel object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'customization_id', 'name', 'language', 'owner', 'created',
-            'last_modified', 'description', 'words'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class CustomModel: '
-                + ', '.join(bad_keys))
         if 'customization_id' in _dict:
             args['customization_id'] = _dict.get('customization_id')
         else:
@@ -1237,7 +1292,7 @@ class CustomModel():
         if 'description' in _dict:
             args['description'] = _dict.get('description')
         if 'words' in _dict:
-            args['words'] = [Word._from_dict(x) for x in (_dict.get('words'))]
+            args['words'] = [Word.from_dict(x) for x in _dict.get('words')]
         return cls(**args)
 
     @classmethod
@@ -1264,7 +1319,7 @@ class CustomModel():
         if hasattr(self, 'description') and self.description is not None:
             _dict['description'] = self.description
         if hasattr(self, 'words') and self.words is not None:
-            _dict['words'] = [x._to_dict() for x in self.words]
+            _dict['words'] = [x.to_dict() for x in self.words]
         return _dict
 
     def _to_dict(self):
@@ -1273,7 +1328,7 @@ class CustomModel():
 
     def __str__(self) -> str:
         """Return a `str` version of this CustomModel object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'CustomModel') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1311,15 +1366,9 @@ class CustomModels():
     def from_dict(cls, _dict: Dict) -> 'CustomModels':
         """Initialize a CustomModels object from a json dictionary."""
         args = {}
-        valid_keys = ['customizations']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class CustomModels: '
-                + ', '.join(bad_keys))
         if 'customizations' in _dict:
             args['customizations'] = [
-                CustomModel._from_dict(x) for x in (_dict.get('customizations'))
+                CustomModel.from_dict(x) for x in _dict.get('customizations')
             ]
         else:
             raise ValueError(
@@ -1336,9 +1385,7 @@ class CustomModels():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'customizations') and self.customizations is not None:
-            _dict['customizations'] = [
-                x._to_dict() for x in self.customizations
-            ]
+            _dict['customizations'] = [x.to_dict() for x in self.customizations]
         return _dict
 
     def _to_dict(self):
@@ -1347,7 +1394,7 @@ class CustomModels():
 
     def __str__(self) -> str:
         """Return a `str` version of this CustomModels object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'CustomModels') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1383,12 +1430,6 @@ class Pronunciation():
     def from_dict(cls, _dict: Dict) -> 'Pronunciation':
         """Initialize a Pronunciation object from a json dictionary."""
         args = {}
-        valid_keys = ['pronunciation']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Pronunciation: '
-                + ', '.join(bad_keys))
         if 'pronunciation' in _dict:
             args['pronunciation'] = _dict.get('pronunciation')
         else:
@@ -1415,7 +1456,7 @@ class Pronunciation():
 
     def __str__(self) -> str:
         """Return a `str` version of this Pronunciation object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Pronunciation') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1457,12 +1498,6 @@ class SupportedFeatures():
     def from_dict(cls, _dict: Dict) -> 'SupportedFeatures':
         """Initialize a SupportedFeatures object from a json dictionary."""
         args = {}
-        valid_keys = ['custom_pronunciation', 'voice_transformation']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SupportedFeatures: '
-                + ', '.join(bad_keys))
         if 'custom_pronunciation' in _dict:
             args['custom_pronunciation'] = _dict.get('custom_pronunciation')
         else:
@@ -1499,7 +1534,7 @@ class SupportedFeatures():
 
     def __str__(self) -> str:
         """Return a `str` version of this SupportedFeatures object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SupportedFeatures') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1554,12 +1589,6 @@ class Translation():
     def from_dict(cls, _dict: Dict) -> 'Translation':
         """Initialize a Translation object from a json dictionary."""
         args = {}
-        valid_keys = ['translation', 'part_of_speech']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Translation: '
-                + ', '.join(bad_keys))
         if 'translation' in _dict:
             args['translation'] = _dict.get('translation')
         else:
@@ -1590,7 +1619,7 @@ class Translation():
 
     def __str__(self) -> str:
         """Return a `str` version of this Translation object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Translation') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1602,7 +1631,7 @@ class Translation():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class PartOfSpeechEnum(Enum):
+    class PartOfSpeechEnum(str, Enum):
         """
         **Japanese only.** The part of speech for the word. The service uses the value to
         produce the correct intonation for the word. You can create only a single entry,
@@ -1611,23 +1640,23 @@ class Translation():
         see [Working with Japanese
         entries](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-rules#jaNotes).
         """
-        DOSI = "Dosi"
-        FUKU = "Fuku"
-        GOBI = "Gobi"
-        HOKA = "Hoka"
-        JODO = "Jodo"
-        JOSI = "Josi"
-        KATO = "Kato"
-        KEDO = "Kedo"
-        KEYO = "Keyo"
-        KIGO = "Kigo"
-        KOYU = "Koyu"
-        MESI = "Mesi"
-        RETA = "Reta"
-        STBI = "Stbi"
-        STTO = "Stto"
-        STZO = "Stzo"
-        SUJI = "Suji"
+        DOSI = 'Dosi'
+        FUKU = 'Fuku'
+        GOBI = 'Gobi'
+        HOKA = 'Hoka'
+        JODO = 'Jodo'
+        JOSI = 'Josi'
+        KATO = 'Kato'
+        KEDO = 'Kedo'
+        KEYO = 'Keyo'
+        KIGO = 'Kigo'
+        KOYU = 'Koyu'
+        MESI = 'Mesi'
+        RETA = 'Reta'
+        STBI = 'Stbi'
+        STTO = 'Stto'
+        STZO = 'Stzo'
+        SUJI = 'Suji'
 
 
 class Voice():
@@ -1692,15 +1721,6 @@ class Voice():
     def from_dict(cls, _dict: Dict) -> 'Voice':
         """Initialize a Voice object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'url', 'gender', 'name', 'language', 'description', 'customizable',
-            'supported_features', 'customization'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Voice: ' +
-                ', '.join(bad_keys))
         if 'url' in _dict:
             args['url'] = _dict.get('url')
         else:
@@ -1732,14 +1752,14 @@ class Voice():
             raise ValueError(
                 'Required property \'customizable\' not present in Voice JSON')
         if 'supported_features' in _dict:
-            args['supported_features'] = SupportedFeatures._from_dict(
+            args['supported_features'] = SupportedFeatures.from_dict(
                 _dict.get('supported_features'))
         else:
             raise ValueError(
                 'Required property \'supported_features\' not present in Voice JSON'
             )
         if 'customization' in _dict:
-            args['customization'] = CustomModel._from_dict(
+            args['customization'] = CustomModel.from_dict(
                 _dict.get('customization'))
         return cls(**args)
 
@@ -1766,9 +1786,9 @@ class Voice():
         if hasattr(
                 self,
                 'supported_features') and self.supported_features is not None:
-            _dict['supported_features'] = self.supported_features._to_dict()
+            _dict['supported_features'] = self.supported_features.to_dict()
         if hasattr(self, 'customization') and self.customization is not None:
-            _dict['customization'] = self.customization._to_dict()
+            _dict['customization'] = self.customization.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -1777,7 +1797,7 @@ class Voice():
 
     def __str__(self) -> str:
         """Return a `str` version of this Voice object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Voice') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1809,16 +1829,8 @@ class Voices():
     def from_dict(cls, _dict: Dict) -> 'Voices':
         """Initialize a Voices object from a json dictionary."""
         args = {}
-        valid_keys = ['voices']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Voices: ' +
-                ', '.join(bad_keys))
         if 'voices' in _dict:
-            args['voices'] = [
-                Voice._from_dict(x) for x in (_dict.get('voices'))
-            ]
+            args['voices'] = [Voice.from_dict(x) for x in _dict.get('voices')]
         else:
             raise ValueError(
                 'Required property \'voices\' not present in Voices JSON')
@@ -1833,7 +1845,7 @@ class Voices():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'voices') and self.voices is not None:
-            _dict['voices'] = [x._to_dict() for x in self.voices]
+            _dict['voices'] = [x.to_dict() for x in self.voices]
         return _dict
 
     def _to_dict(self):
@@ -1842,7 +1854,7 @@ class Voices():
 
     def __str__(self) -> str:
         """Return a `str` version of this Voices object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Voices') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1907,12 +1919,6 @@ class Word():
     def from_dict(cls, _dict: Dict) -> 'Word':
         """Initialize a Word object from a json dictionary."""
         args = {}
-        valid_keys = ['word', 'translation', 'part_of_speech']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Word: ' +
-                ', '.join(bad_keys))
         if 'word' in _dict:
             args['word'] = _dict.get('word')
         else:
@@ -1949,7 +1955,7 @@ class Word():
 
     def __str__(self) -> str:
         """Return a `str` version of this Word object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Word') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1961,7 +1967,7 @@ class Word():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class PartOfSpeechEnum(Enum):
+    class PartOfSpeechEnum(str, Enum):
         """
         **Japanese only.** The part of speech for the word. The service uses the value to
         produce the correct intonation for the word. You can create only a single entry,
@@ -1970,23 +1976,23 @@ class Word():
         see [Working with Japanese
         entries](https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-rules#jaNotes).
         """
-        DOSI = "Dosi"
-        FUKU = "Fuku"
-        GOBI = "Gobi"
-        HOKA = "Hoka"
-        JODO = "Jodo"
-        JOSI = "Josi"
-        KATO = "Kato"
-        KEDO = "Kedo"
-        KEYO = "Keyo"
-        KIGO = "Kigo"
-        KOYU = "Koyu"
-        MESI = "Mesi"
-        RETA = "Reta"
-        STBI = "Stbi"
-        STTO = "Stto"
-        STZO = "Stzo"
-        SUJI = "Suji"
+        DOSI = 'Dosi'
+        FUKU = 'Fuku'
+        GOBI = 'Gobi'
+        HOKA = 'Hoka'
+        JODO = 'Jodo'
+        JOSI = 'Josi'
+        KATO = 'Kato'
+        KEDO = 'Kedo'
+        KEYO = 'Keyo'
+        KIGO = 'Kigo'
+        KOYU = 'Koyu'
+        MESI = 'Mesi'
+        RETA = 'Reta'
+        STBI = 'Stbi'
+        STTO = 'Stto'
+        STZO = 'Stzo'
+        SUJI = 'Suji'
 
 
 class Words():
@@ -2024,14 +2030,8 @@ class Words():
     def from_dict(cls, _dict: Dict) -> 'Words':
         """Initialize a Words object from a json dictionary."""
         args = {}
-        valid_keys = ['words']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Words: ' +
-                ', '.join(bad_keys))
         if 'words' in _dict:
-            args['words'] = [Word._from_dict(x) for x in (_dict.get('words'))]
+            args['words'] = [Word.from_dict(x) for x in _dict.get('words')]
         else:
             raise ValueError(
                 'Required property \'words\' not present in Words JSON')
@@ -2046,7 +2046,7 @@ class Words():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'words') and self.words is not None:
-            _dict['words'] = [x._to_dict() for x in self.words]
+            _dict['words'] = [x.to_dict() for x in self.words]
         return _dict
 
     def _to_dict(self):
@@ -2055,7 +2055,7 @@ class Words():
 
     def __str__(self) -> str:
         """Return a `str` version of this Words object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Words') -> bool:
         """Return `true` when self and other are equal, false otherwise."""

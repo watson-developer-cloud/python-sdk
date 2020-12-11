@@ -13,6 +13,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-a45d89ef-20201209-192237
 """
 IBM Watson&trade; Discovery is a cognitive search and content analytics engine that you
 can add to applications to identify patterns, trends and actionable insights to drive
@@ -21,21 +23,20 @@ content, and use a simplified query language to eliminate the need for manual fi
 results.
 """
 
-import json
-from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
-from .common import get_sdk_headers
 from datetime import date
 from datetime import datetime
 from enum import Enum
-from ibm_cloud_sdk_core import BaseService
-from ibm_cloud_sdk_core import DetailedResponse
-from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
-from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
 from os.path import basename
-from typing import BinaryIO
-from typing import Dict
-from typing import List
+from typing import BinaryIO, Dict, List
+import json
 import sys
+
+from ibm_cloud_sdk_core import BaseService, DetailedResponse
+from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
+from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
+from ibm_cloud_sdk_core.utils import convert_list, convert_model, date_to_string, datetime_to_string, string_to_date, string_to_datetime
+
+from .common import get_sdk_headers
 
 ##############################################################################
 # Service
@@ -57,27 +58,21 @@ class DiscoveryV1(BaseService):
         """
         Construct a new client for the Discovery service.
 
-        :param str version: The API version date to use with the service, in
-               "YYYY-MM-DD" format. Whenever the API is changed in a backwards
-               incompatible way, a new minor version of the API is released.
-               The service uses the API version for the date you specify, or
-               the most recent version before that date. Note that you should
-               not programmatically specify the current date at runtime, in
-               case the API has been updated since your application's release.
-               Instead, specify a version date that is compatible with your
-               application, and don't change it until your application is
-               ready for a later version.
+        :param str version: Release date of the version of the API you want to use.
+               Specify dates in YYYY-MM-DD format. The current version is `2019-04-30`.
 
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
         """
+        if version is None:
+            raise ValueError('version must be provided')
+
         if not authenticator:
             authenticator = get_authenticator_from_environment(service_name)
         BaseService.__init__(self,
                              service_url=self.DEFAULT_SERVICE_URL,
-                             authenticator=authenticator,
-                             disable_ssl_verification=False)
+                             authenticator=authenticator)
         self.version = version
         self.configure_service(service_name)
 
@@ -90,7 +85,7 @@ class DiscoveryV1(BaseService):
                            *,
                            description: str = None,
                            size: str = None,
-                           **kwargs) -> 'DetailedResponse':
+                           **kwargs) -> DetailedResponse:
         """
         Create an environment.
 
@@ -106,15 +101,12 @@ class DiscoveryV1(BaseService):
                `S`.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Environment` object
         """
 
         if name is None:
             raise ValueError('name must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='create_environment')
@@ -123,6 +115,13 @@ class DiscoveryV1(BaseService):
         params = {'version': self.version}
 
         data = {'name': name, 'description': description, 'size': size}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v1/environments'
         request = self.prepare_request(method='POST',
@@ -137,7 +136,7 @@ class DiscoveryV1(BaseService):
     def list_environments(self,
                           *,
                           name: str = None,
-                          **kwargs) -> 'DetailedResponse':
+                          **kwargs) -> DetailedResponse:
         """
         List environments.
 
@@ -146,18 +145,20 @@ class DiscoveryV1(BaseService):
         :param str name: (optional) Show only the environment with the given name.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `ListEnvironmentsResponse` object
         """
 
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='list_environments')
         headers.update(sdk_headers)
 
         params = {'version': self.version, 'name': name}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v1/environments'
         request = self.prepare_request(method='GET',
@@ -169,22 +170,19 @@ class DiscoveryV1(BaseService):
         return response
 
     def get_environment(self, environment_id: str,
-                        **kwargs) -> 'DetailedResponse':
+                        **kwargs) -> DetailedResponse:
         """
         Get environment info.
 
         :param str environment_id: The ID of the environment.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Environment` object
         """
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='get_environment')
@@ -192,8 +190,14 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}'.format(
-            *self._encode_path_vars(environment_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id']
+        path_param_values = self.encode_path_vars(environment_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -208,7 +212,7 @@ class DiscoveryV1(BaseService):
                            name: str = None,
                            description: str = None,
                            size: str = None,
-                           **kwargs) -> 'DetailedResponse':
+                           **kwargs) -> DetailedResponse:
         """
         Update an environment.
 
@@ -223,15 +227,12 @@ class DiscoveryV1(BaseService):
                size can only increased and not decreased.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Environment` object
         """
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='update_environment')
@@ -240,9 +241,18 @@ class DiscoveryV1(BaseService):
         params = {'version': self.version}
 
         data = {'name': name, 'description': description, 'size': size}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/environments/{0}'.format(
-            *self._encode_path_vars(environment_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id']
+        path_param_values = self.encode_path_vars(environment_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}'.format(**path_param_dict)
         request = self.prepare_request(method='PUT',
                                        url=url,
                                        headers=headers,
@@ -253,22 +263,19 @@ class DiscoveryV1(BaseService):
         return response
 
     def delete_environment(self, environment_id: str,
-                           **kwargs) -> 'DetailedResponse':
+                           **kwargs) -> DetailedResponse:
         """
         Delete environment.
 
         :param str environment_id: The ID of the environment.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `DeleteEnvironmentResponse` object
         """
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='delete_environment')
@@ -276,8 +283,14 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}'.format(
-            *self._encode_path_vars(environment_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id']
+        path_param_values = self.encode_path_vars(environment_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}'.format(**path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
@@ -287,7 +300,7 @@ class DiscoveryV1(BaseService):
         return response
 
     def list_fields(self, environment_id: str, collection_ids: List[str],
-                    **kwargs) -> 'DetailedResponse':
+                    **kwargs) -> DetailedResponse:
         """
         List fields across collections.
 
@@ -299,17 +312,14 @@ class DiscoveryV1(BaseService):
                to be queried against.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `ListCollectionFieldsResponse` object
         """
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
         if collection_ids is None:
             raise ValueError('collection_ids must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='list_fields')
@@ -317,11 +327,18 @@ class DiscoveryV1(BaseService):
 
         params = {
             'version': self.version,
-            'collection_ids': self._convert_list(collection_ids)
+            'collection_ids': convert_list(collection_ids)
         }
 
-        url = '/v1/environments/{0}/fields'.format(
-            *self._encode_path_vars(environment_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id']
+        path_param_values = self.encode_path_vars(environment_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/fields'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -344,7 +361,7 @@ class DiscoveryV1(BaseService):
             enrichments: List['Enrichment'] = None,
             normalizations: List['NormalizationOperation'] = None,
             source: 'Source' = None,
-            **kwargs) -> 'DetailedResponse':
+            **kwargs) -> DetailedResponse:
         """
         Add configuration.
 
@@ -374,7 +391,7 @@ class DiscoveryV1(BaseService):
                the configuration.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Configuration` object
         """
 
         if environment_id is None:
@@ -382,17 +399,14 @@ class DiscoveryV1(BaseService):
         if name is None:
             raise ValueError('name must be provided')
         if conversions is not None:
-            conversions = self._convert_model(conversions)
+            conversions = convert_model(conversions)
         if enrichments is not None:
-            enrichments = [self._convert_model(x) for x in enrichments]
+            enrichments = [convert_model(x) for x in enrichments]
         if normalizations is not None:
-            normalizations = [self._convert_model(x) for x in normalizations]
+            normalizations = [convert_model(x) for x in normalizations]
         if source is not None:
-            source = self._convert_model(source)
-
+            source = convert_model(source)
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='create_configuration')
@@ -408,9 +422,19 @@ class DiscoveryV1(BaseService):
             'normalizations': normalizations,
             'source': source
         }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/environments/{0}/configurations'.format(
-            *self._encode_path_vars(environment_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id']
+        path_param_values = self.encode_path_vars(environment_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/configurations'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -424,7 +448,7 @@ class DiscoveryV1(BaseService):
                             environment_id: str,
                             *,
                             name: str = None,
-                            **kwargs) -> 'DetailedResponse':
+                            **kwargs) -> DetailedResponse:
         """
         List configurations.
 
@@ -434,15 +458,12 @@ class DiscoveryV1(BaseService):
         :param str name: (optional) Find configurations with the given name.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `ListConfigurationsResponse` object
         """
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='list_configurations')
@@ -450,8 +471,15 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version, 'name': name}
 
-        url = '/v1/environments/{0}/configurations'.format(
-            *self._encode_path_vars(environment_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id']
+        path_param_values = self.encode_path_vars(environment_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/configurations'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -461,7 +489,7 @@ class DiscoveryV1(BaseService):
         return response
 
     def get_configuration(self, environment_id: str, configuration_id: str,
-                          **kwargs) -> 'DetailedResponse':
+                          **kwargs) -> DetailedResponse:
         """
         Get configuration details.
 
@@ -469,17 +497,14 @@ class DiscoveryV1(BaseService):
         :param str configuration_id: The ID of the configuration.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Configuration` object
         """
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
         if configuration_id is None:
             raise ValueError('configuration_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='get_configuration')
@@ -487,8 +512,16 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}/configurations/{1}'.format(
-            *self._encode_path_vars(environment_id, configuration_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id', 'configuration_id']
+        path_param_values = self.encode_path_vars(environment_id,
+                                                  configuration_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/configurations/{configuration_id}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -508,7 +541,7 @@ class DiscoveryV1(BaseService):
             enrichments: List['Enrichment'] = None,
             normalizations: List['NormalizationOperation'] = None,
             source: 'Source' = None,
-            **kwargs) -> 'DetailedResponse':
+            **kwargs) -> DetailedResponse:
         """
         Update a configuration.
 
@@ -538,7 +571,7 @@ class DiscoveryV1(BaseService):
                the configuration.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Configuration` object
         """
 
         if environment_id is None:
@@ -548,17 +581,14 @@ class DiscoveryV1(BaseService):
         if name is None:
             raise ValueError('name must be provided')
         if conversions is not None:
-            conversions = self._convert_model(conversions)
+            conversions = convert_model(conversions)
         if enrichments is not None:
-            enrichments = [self._convert_model(x) for x in enrichments]
+            enrichments = [convert_model(x) for x in enrichments]
         if normalizations is not None:
-            normalizations = [self._convert_model(x) for x in normalizations]
+            normalizations = [convert_model(x) for x in normalizations]
         if source is not None:
-            source = self._convert_model(source)
-
+            source = convert_model(source)
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='update_configuration')
@@ -574,9 +604,20 @@ class DiscoveryV1(BaseService):
             'normalizations': normalizations,
             'source': source
         }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/environments/{0}/configurations/{1}'.format(
-            *self._encode_path_vars(environment_id, configuration_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id', 'configuration_id']
+        path_param_values = self.encode_path_vars(environment_id,
+                                                  configuration_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/configurations/{configuration_id}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='PUT',
                                        url=url,
                                        headers=headers,
@@ -587,7 +628,7 @@ class DiscoveryV1(BaseService):
         return response
 
     def delete_configuration(self, environment_id: str, configuration_id: str,
-                             **kwargs) -> 'DetailedResponse':
+                             **kwargs) -> DetailedResponse:
         """
         Delete a configuration.
 
@@ -602,17 +643,14 @@ class DiscoveryV1(BaseService):
         :param str configuration_id: The ID of the configuration.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `DeleteConfigurationResponse` object
         """
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
         if configuration_id is None:
             raise ValueError('configuration_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='delete_configuration')
@@ -620,8 +658,16 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}/configurations/{1}'.format(
-            *self._encode_path_vars(environment_id, configuration_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id', 'configuration_id']
+        path_param_values = self.encode_path_vars(environment_id,
+                                                  configuration_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/configurations/{configuration_id}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
@@ -641,7 +687,7 @@ class DiscoveryV1(BaseService):
                           description: str = None,
                           configuration_id: str = None,
                           language: str = None,
-                          **kwargs) -> 'DetailedResponse':
+                          **kwargs) -> DetailedResponse:
         """
         Create a collection.
 
@@ -654,17 +700,14 @@ class DiscoveryV1(BaseService):
                collection, in the form of an ISO 639-1 language code.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Collection` object
         """
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
         if name is None:
             raise ValueError('name must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='create_collection')
@@ -678,9 +721,19 @@ class DiscoveryV1(BaseService):
             'configuration_id': configuration_id,
             'language': language
         }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/environments/{0}/collections'.format(
-            *self._encode_path_vars(environment_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id']
+        path_param_values = self.encode_path_vars(environment_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -694,7 +747,7 @@ class DiscoveryV1(BaseService):
                          environment_id: str,
                          *,
                          name: str = None,
-                         **kwargs) -> 'DetailedResponse':
+                         **kwargs) -> DetailedResponse:
         """
         List collections.
 
@@ -704,15 +757,12 @@ class DiscoveryV1(BaseService):
         :param str name: (optional) Find collections with the given name.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `ListCollectionsResponse` object
         """
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='list_collections')
@@ -720,8 +770,15 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version, 'name': name}
 
-        url = '/v1/environments/{0}/collections'.format(
-            *self._encode_path_vars(environment_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id']
+        path_param_values = self.encode_path_vars(environment_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -731,7 +788,7 @@ class DiscoveryV1(BaseService):
         return response
 
     def get_collection(self, environment_id: str, collection_id: str,
-                       **kwargs) -> 'DetailedResponse':
+                       **kwargs) -> DetailedResponse:
         """
         Get collection details.
 
@@ -739,17 +796,14 @@ class DiscoveryV1(BaseService):
         :param str collection_id: The ID of the collection.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Collection` object
         """
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
         if collection_id is None:
             raise ValueError('collection_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='get_collection')
@@ -757,8 +811,15 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}/collections/{1}'.format(
-            *self._encode_path_vars(environment_id, collection_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id', 'collection_id']
+        path_param_values = self.encode_path_vars(environment_id, collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections/{collection_id}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -774,7 +835,7 @@ class DiscoveryV1(BaseService):
                           *,
                           description: str = None,
                           configuration_id: str = None,
-                          **kwargs) -> 'DetailedResponse':
+                          **kwargs) -> DetailedResponse:
         """
         Update a collection.
 
@@ -786,7 +847,7 @@ class DiscoveryV1(BaseService):
                which the collection is to be updated.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Collection` object
         """
 
         if environment_id is None:
@@ -795,10 +856,7 @@ class DiscoveryV1(BaseService):
             raise ValueError('collection_id must be provided')
         if name is None:
             raise ValueError('name must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='update_collection')
@@ -811,9 +869,19 @@ class DiscoveryV1(BaseService):
             'description': description,
             'configuration_id': configuration_id
         }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/environments/{0}/collections/{1}'.format(
-            *self._encode_path_vars(environment_id, collection_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id', 'collection_id']
+        path_param_values = self.encode_path_vars(environment_id, collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections/{collection_id}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='PUT',
                                        url=url,
                                        headers=headers,
@@ -824,7 +892,7 @@ class DiscoveryV1(BaseService):
         return response
 
     def delete_collection(self, environment_id: str, collection_id: str,
-                          **kwargs) -> 'DetailedResponse':
+                          **kwargs) -> DetailedResponse:
         """
         Delete a collection.
 
@@ -832,17 +900,14 @@ class DiscoveryV1(BaseService):
         :param str collection_id: The ID of the collection.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `DeleteCollectionResponse` object
         """
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
         if collection_id is None:
             raise ValueError('collection_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='delete_collection')
@@ -850,8 +915,15 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}/collections/{1}'.format(
-            *self._encode_path_vars(environment_id, collection_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id', 'collection_id']
+        path_param_values = self.encode_path_vars(environment_id, collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections/{collection_id}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
@@ -861,7 +933,7 @@ class DiscoveryV1(BaseService):
         return response
 
     def list_collection_fields(self, environment_id: str, collection_id: str,
-                               **kwargs) -> 'DetailedResponse':
+                               **kwargs) -> DetailedResponse:
         """
         List collection fields.
 
@@ -871,17 +943,14 @@ class DiscoveryV1(BaseService):
         :param str collection_id: The ID of the collection.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `ListCollectionFieldsResponse` object
         """
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
         if collection_id is None:
             raise ValueError('collection_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='list_collection_fields')
@@ -889,8 +958,15 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}/collections/{1}/fields'.format(
-            *self._encode_path_vars(environment_id, collection_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id', 'collection_id']
+        path_param_values = self.encode_path_vars(environment_id, collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections/{collection_id}/fields'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -904,7 +980,7 @@ class DiscoveryV1(BaseService):
     #########################
 
     def list_expansions(self, environment_id: str, collection_id: str,
-                        **kwargs) -> 'DetailedResponse':
+                        **kwargs) -> DetailedResponse:
         """
         Get the expansion list.
 
@@ -915,17 +991,14 @@ class DiscoveryV1(BaseService):
         :param str collection_id: The ID of the collection.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Expansions` object
         """
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
         if collection_id is None:
             raise ValueError('collection_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='list_expansions')
@@ -933,8 +1006,15 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}/collections/{1}/expansions'.format(
-            *self._encode_path_vars(environment_id, collection_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id', 'collection_id']
+        path_param_values = self.encode_path_vars(environment_id, collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections/{collection_id}/expansions'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -945,7 +1025,7 @@ class DiscoveryV1(BaseService):
 
     def create_expansions(self, environment_id: str, collection_id: str,
                           expansions: List['Expansion'],
-                          **kwargs) -> 'DetailedResponse':
+                          **kwargs) -> DetailedResponse:
         """
         Create or update expansion list.
 
@@ -970,7 +1050,7 @@ class DiscoveryV1(BaseService):
                items listed in the **expanded_terms** array.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Expansions` object
         """
 
         if environment_id is None:
@@ -979,11 +1059,8 @@ class DiscoveryV1(BaseService):
             raise ValueError('collection_id must be provided')
         if expansions is None:
             raise ValueError('expansions must be provided')
-        expansions = [self._convert_model(x) for x in expansions]
-
+        expansions = [convert_model(x) for x in expansions]
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='create_expansions')
@@ -992,9 +1069,19 @@ class DiscoveryV1(BaseService):
         params = {'version': self.version}
 
         data = {'expansions': expansions}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/environments/{0}/collections/{1}/expansions'.format(
-            *self._encode_path_vars(environment_id, collection_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id', 'collection_id']
+        path_param_values = self.encode_path_vars(environment_id, collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections/{collection_id}/expansions'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -1005,7 +1092,7 @@ class DiscoveryV1(BaseService):
         return response
 
     def delete_expansions(self, environment_id: str, collection_id: str,
-                          **kwargs) -> 'DetailedResponse':
+                          **kwargs) -> DetailedResponse:
         """
         Delete the expansion list.
 
@@ -1023,10 +1110,7 @@ class DiscoveryV1(BaseService):
             raise ValueError('environment_id must be provided')
         if collection_id is None:
             raise ValueError('collection_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='delete_expansions')
@@ -1034,8 +1118,14 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}/collections/{1}/expansions'.format(
-            *self._encode_path_vars(environment_id, collection_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        path_param_keys = ['environment_id', 'collection_id']
+        path_param_values = self.encode_path_vars(environment_id, collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections/{collection_id}/expansions'.format(
+            **path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
@@ -1046,7 +1136,7 @@ class DiscoveryV1(BaseService):
 
     def get_tokenization_dictionary_status(self, environment_id: str,
                                            collection_id: str,
-                                           **kwargs) -> 'DetailedResponse':
+                                           **kwargs) -> DetailedResponse:
         """
         Get tokenization dictionary status.
 
@@ -1057,17 +1147,14 @@ class DiscoveryV1(BaseService):
         :param str collection_id: The ID of the collection.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `TokenDictStatusResponse` object
         """
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
         if collection_id is None:
             raise ValueError('collection_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(
             service_name=self.DEFAULT_SERVICE_NAME,
             service_version='V1',
@@ -1076,8 +1163,15 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}/collections/{1}/word_lists/tokenization_dictionary'.format(
-            *self._encode_path_vars(environment_id, collection_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id', 'collection_id']
+        path_param_values = self.encode_path_vars(environment_id, collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections/{collection_id}/word_lists/tokenization_dictionary'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -1092,7 +1186,7 @@ class DiscoveryV1(BaseService):
             collection_id: str,
             *,
             tokenization_rules: List['TokenDictRule'] = None,
-            **kwargs) -> 'DetailedResponse':
+            **kwargs) -> DetailedResponse:
         """
         Create tokenization dictionary.
 
@@ -1106,7 +1200,7 @@ class DiscoveryV1(BaseService):
                `part_of_speech` the text is from.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `TokenDictStatusResponse` object
         """
 
         if environment_id is None:
@@ -1114,13 +1208,8 @@ class DiscoveryV1(BaseService):
         if collection_id is None:
             raise ValueError('collection_id must be provided')
         if tokenization_rules is not None:
-            tokenization_rules = [
-                self._convert_model(x) for x in tokenization_rules
-            ]
-
+            tokenization_rules = [convert_model(x) for x in tokenization_rules]
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(
             service_name=self.DEFAULT_SERVICE_NAME,
             service_version='V1',
@@ -1130,9 +1219,19 @@ class DiscoveryV1(BaseService):
         params = {'version': self.version}
 
         data = {'tokenization_rules': tokenization_rules}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/environments/{0}/collections/{1}/word_lists/tokenization_dictionary'.format(
-            *self._encode_path_vars(environment_id, collection_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id', 'collection_id']
+        path_param_values = self.encode_path_vars(environment_id, collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections/{collection_id}/word_lists/tokenization_dictionary'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -1144,7 +1243,7 @@ class DiscoveryV1(BaseService):
 
     def delete_tokenization_dictionary(self, environment_id: str,
                                        collection_id: str,
-                                       **kwargs) -> 'DetailedResponse':
+                                       **kwargs) -> DetailedResponse:
         """
         Delete tokenization dictionary.
 
@@ -1161,10 +1260,7 @@ class DiscoveryV1(BaseService):
             raise ValueError('environment_id must be provided')
         if collection_id is None:
             raise ValueError('collection_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(
             service_name=self.DEFAULT_SERVICE_NAME,
             service_version='V1',
@@ -1173,8 +1269,14 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}/collections/{1}/word_lists/tokenization_dictionary'.format(
-            *self._encode_path_vars(environment_id, collection_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        path_param_keys = ['environment_id', 'collection_id']
+        path_param_values = self.encode_path_vars(environment_id, collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections/{collection_id}/word_lists/tokenization_dictionary'.format(
+            **path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
@@ -1184,7 +1286,7 @@ class DiscoveryV1(BaseService):
         return response
 
     def get_stopword_list_status(self, environment_id: str, collection_id: str,
-                                 **kwargs) -> 'DetailedResponse':
+                                 **kwargs) -> DetailedResponse:
         """
         Get stopword list status.
 
@@ -1194,17 +1296,14 @@ class DiscoveryV1(BaseService):
         :param str collection_id: The ID of the collection.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `TokenDictStatusResponse` object
         """
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
         if collection_id is None:
             raise ValueError('collection_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='get_stopword_list_status')
@@ -1212,8 +1311,15 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}/collections/{1}/word_lists/stopwords'.format(
-            *self._encode_path_vars(environment_id, collection_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id', 'collection_id']
+        path_param_values = self.encode_path_vars(environment_id, collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections/{collection_id}/word_lists/stopwords'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -1228,7 +1334,7 @@ class DiscoveryV1(BaseService):
                              stopword_file: BinaryIO,
                              *,
                              stopword_filename: str = None,
-                             **kwargs) -> 'DetailedResponse':
+                             **kwargs) -> DetailedResponse:
         """
         Create stopword list.
 
@@ -1236,11 +1342,11 @@ class DiscoveryV1(BaseService):
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
-        :param TextIO stopword_file: The content of the stopword list to ingest.
+        :param BinaryIO stopword_file: The content of the stopword list to ingest.
         :param str stopword_filename: (optional) The filename for stopword_file.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `TokenDictStatusResponse` object
         """
 
         if environment_id is None:
@@ -1249,10 +1355,7 @@ class DiscoveryV1(BaseService):
             raise ValueError('collection_id must be provided')
         if stopword_file is None:
             raise ValueError('stopword_file must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='create_stopword_list')
@@ -1268,8 +1371,15 @@ class DiscoveryV1(BaseService):
         form_data.append(('stopword_file', (stopword_filename, stopword_file,
                                             'application/octet-stream')))
 
-        url = '/v1/environments/{0}/collections/{1}/word_lists/stopwords'.format(
-            *self._encode_path_vars(environment_id, collection_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id', 'collection_id']
+        path_param_values = self.encode_path_vars(environment_id, collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections/{collection_id}/word_lists/stopwords'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -1280,7 +1390,7 @@ class DiscoveryV1(BaseService):
         return response
 
     def delete_stopword_list(self, environment_id: str, collection_id: str,
-                             **kwargs) -> 'DetailedResponse':
+                             **kwargs) -> DetailedResponse:
         """
         Delete a custom stopword list.
 
@@ -1298,10 +1408,7 @@ class DiscoveryV1(BaseService):
             raise ValueError('environment_id must be provided')
         if collection_id is None:
             raise ValueError('collection_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='delete_stopword_list')
@@ -1309,8 +1416,14 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}/collections/{1}/word_lists/stopwords'.format(
-            *self._encode_path_vars(environment_id, collection_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        path_param_keys = ['environment_id', 'collection_id']
+        path_param_values = self.encode_path_vars(environment_id, collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections/{collection_id}/word_lists/stopwords'.format(
+            **path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
@@ -1331,7 +1444,7 @@ class DiscoveryV1(BaseService):
                      filename: str = None,
                      file_content_type: str = None,
                      metadata: str = None,
-                     **kwargs) -> 'DetailedResponse':
+                     **kwargs) -> DetailedResponse:
         """
         Add a document.
 
@@ -1353,12 +1466,12 @@ class DiscoveryV1(BaseService):
           * Fields containing the following characters after normalization are filtered
         out before indexing: `#` and `,`
          **Note:** Documents can be added with a specific **document_id** by using the
-        **_/v1/environments/{environment_id}/collections/{collection_id}/documents**
+        **/v1/environments/{environment_id}/collections/{collection_id}/documents**
         method.
 
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
-        :param TextIO file: (optional) The content of the document to ingest. The
+        :param BinaryIO file: (optional) The content of the document to ingest. The
                maximum supported file size when adding a file to a collection is 50
                megabytes, the maximum supported file size when testing a configuration is
                1 megabyte. Files larger than the supported size are rejected.
@@ -1371,17 +1484,14 @@ class DiscoveryV1(BaseService):
                } ```.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `DocumentAccepted` object
         """
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
         if collection_id is None:
             raise ValueError('collection_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='add_document')
@@ -1398,11 +1508,17 @@ class DiscoveryV1(BaseService):
             form_data.append(('file', (filename, file, file_content_type or
                                        'application/octet-stream')))
         if metadata:
-            metadata = str(metadata)
             form_data.append(('metadata', (None, metadata, 'text/plain')))
 
-        url = '/v1/environments/{0}/collections/{1}/documents'.format(
-            *self._encode_path_vars(environment_id, collection_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id', 'collection_id']
+        path_param_values = self.encode_path_vars(environment_id, collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections/{collection_id}/documents'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -1413,7 +1529,7 @@ class DiscoveryV1(BaseService):
         return response
 
     def get_document_status(self, environment_id: str, collection_id: str,
-                            document_id: str, **kwargs) -> 'DetailedResponse':
+                            document_id: str, **kwargs) -> DetailedResponse:
         """
         Get document details.
 
@@ -1427,7 +1543,7 @@ class DiscoveryV1(BaseService):
         :param str document_id: The ID of the document.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `DocumentStatus` object
         """
 
         if environment_id is None:
@@ -1436,10 +1552,7 @@ class DiscoveryV1(BaseService):
             raise ValueError('collection_id must be provided')
         if document_id is None:
             raise ValueError('document_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='get_document_status')
@@ -1447,8 +1560,16 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
-            *self._encode_path_vars(environment_id, collection_id, document_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id', 'collection_id', 'document_id']
+        path_param_values = self.encode_path_vars(environment_id, collection_id,
+                                                  document_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections/{collection_id}/documents/{document_id}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -1466,7 +1587,7 @@ class DiscoveryV1(BaseService):
                         filename: str = None,
                         file_content_type: str = None,
                         metadata: str = None,
-                        **kwargs) -> 'DetailedResponse':
+                        **kwargs) -> DetailedResponse:
         """
         Update a document.
 
@@ -1478,7 +1599,7 @@ class DiscoveryV1(BaseService):
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
         :param str document_id: The ID of the document.
-        :param TextIO file: (optional) The content of the document to ingest. The
+        :param BinaryIO file: (optional) The content of the document to ingest. The
                maximum supported file size when adding a file to a collection is 50
                megabytes, the maximum supported file size when testing a configuration is
                1 megabyte. Files larger than the supported size are rejected.
@@ -1491,7 +1612,7 @@ class DiscoveryV1(BaseService):
                } ```.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `DocumentAccepted` object
         """
 
         if environment_id is None:
@@ -1500,10 +1621,7 @@ class DiscoveryV1(BaseService):
             raise ValueError('collection_id must be provided')
         if document_id is None:
             raise ValueError('document_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='update_document')
@@ -1520,11 +1638,18 @@ class DiscoveryV1(BaseService):
             form_data.append(('file', (filename, file, file_content_type or
                                        'application/octet-stream')))
         if metadata:
-            metadata = str(metadata)
             form_data.append(('metadata', (None, metadata, 'text/plain')))
 
-        url = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
-            *self._encode_path_vars(environment_id, collection_id, document_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id', 'collection_id', 'document_id']
+        path_param_values = self.encode_path_vars(environment_id, collection_id,
+                                                  document_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections/{collection_id}/documents/{document_id}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -1535,7 +1660,7 @@ class DiscoveryV1(BaseService):
         return response
 
     def delete_document(self, environment_id: str, collection_id: str,
-                        document_id: str, **kwargs) -> 'DetailedResponse':
+                        document_id: str, **kwargs) -> DetailedResponse:
         """
         Delete a document.
 
@@ -1548,7 +1673,7 @@ class DiscoveryV1(BaseService):
         :param str document_id: The ID of the document.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `DeleteDocumentResponse` object
         """
 
         if environment_id is None:
@@ -1557,10 +1682,7 @@ class DiscoveryV1(BaseService):
             raise ValueError('collection_id must be provided')
         if document_id is None:
             raise ValueError('document_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='delete_document')
@@ -1568,8 +1690,16 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}/collections/{1}/documents/{2}'.format(
-            *self._encode_path_vars(environment_id, collection_id, document_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id', 'collection_id', 'document_id']
+        path_param_values = self.encode_path_vars(environment_id, collection_id,
+                                                  document_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections/{collection_id}/documents/{document_id}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
@@ -1607,7 +1737,7 @@ class DiscoveryV1(BaseService):
               bias: str = None,
               spelling_suggestions: bool = None,
               x_watson_logging_opt_out: bool = None,
-              **kwargs) -> 'DetailedResponse':
+              **kwargs) -> DetailedResponse:
         """
         Query a collection.
 
@@ -1693,17 +1823,14 @@ class DiscoveryV1(BaseService):
                stored in the Discovery **Logs** endpoint.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `QueryResponse` object
         """
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
         if collection_id is None:
             raise ValueError('collection_id must be provided')
-
         headers = {'X-Watson-Logging-Opt-Out': x_watson_logging_opt_out}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='query')
@@ -1733,9 +1860,19 @@ class DiscoveryV1(BaseService):
             'bias': bias,
             'spelling_suggestions': spelling_suggestions
         }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/environments/{0}/collections/{1}/query'.format(
-            *self._encode_path_vars(environment_id, collection_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id', 'collection_id']
+        path_param_values = self.encode_path_vars(environment_id, collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections/{collection_id}/query'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -1766,7 +1903,7 @@ class DiscoveryV1(BaseService):
                       similar: bool = None,
                       similar_document_ids: List[str] = None,
                       similar_fields: List[str] = None,
-                      **kwargs) -> 'DetailedResponse':
+                      **kwargs) -> DetailedResponse:
         """
         Query system notices.
 
@@ -1834,17 +1971,14 @@ class DiscoveryV1(BaseService):
                documents. If not specified, the entire document is used for comparison.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `QueryNoticesResponse` object
         """
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
         if collection_id is None:
             raise ValueError('collection_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='query_notices')
@@ -1858,21 +1992,28 @@ class DiscoveryV1(BaseService):
             'passages': passages,
             'aggregation': aggregation,
             'count': count,
-            'return': self._convert_list(return_),
+            'return': convert_list(return_),
             'offset': offset,
-            'sort': self._convert_list(sort),
+            'sort': convert_list(sort),
             'highlight': highlight,
-            'passages.fields': self._convert_list(passages_fields),
+            'passages.fields': convert_list(passages_fields),
             'passages.count': passages_count,
             'passages.characters': passages_characters,
             'deduplicate.field': deduplicate_field,
             'similar': similar,
-            'similar.document_ids': self._convert_list(similar_document_ids),
-            'similar.fields': self._convert_list(similar_fields)
+            'similar.document_ids': convert_list(similar_document_ids),
+            'similar.fields': convert_list(similar_fields)
         }
 
-        url = '/v1/environments/{0}/collections/{1}/notices'.format(
-            *self._encode_path_vars(environment_id, collection_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id', 'collection_id']
+        path_param_values = self.encode_path_vars(environment_id, collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections/{collection_id}/notices'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -1905,7 +2046,7 @@ class DiscoveryV1(BaseService):
                         similar_fields: str = None,
                         bias: str = None,
                         x_watson_logging_opt_out: bool = None,
-                        **kwargs) -> 'DetailedResponse':
+                        **kwargs) -> DetailedResponse:
         """
         Query multiple collections.
 
@@ -1986,17 +2127,14 @@ class DiscoveryV1(BaseService):
                stored in the Discovery **Logs** endpoint.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `QueryResponse` object
         """
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
         if collection_ids is None:
             raise ValueError('collection_ids must be provided')
-
         headers = {'X-Watson-Logging-Opt-Out': x_watson_logging_opt_out}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='federated_query')
@@ -2026,9 +2164,19 @@ class DiscoveryV1(BaseService):
             'similar.fields': similar_fields,
             'bias': bias
         }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/environments/{0}/query'.format(
-            *self._encode_path_vars(environment_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id']
+        path_param_values = self.encode_path_vars(environment_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/query'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -2055,7 +2203,7 @@ class DiscoveryV1(BaseService):
                                 similar: bool = None,
                                 similar_document_ids: List[str] = None,
                                 similar_fields: List[str] = None,
-                                **kwargs) -> 'DetailedResponse':
+                                **kwargs) -> DetailedResponse:
         """
         Query multiple collection system notices.
 
@@ -2114,17 +2262,14 @@ class DiscoveryV1(BaseService):
                documents. If not specified, the entire document is used for comparison.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `QueryNoticesResponse` object
         """
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
         if collection_ids is None:
             raise ValueError('collection_ids must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='federated_query_notices')
@@ -2132,24 +2277,31 @@ class DiscoveryV1(BaseService):
 
         params = {
             'version': self.version,
-            'collection_ids': self._convert_list(collection_ids),
+            'collection_ids': convert_list(collection_ids),
             'filter': filter,
             'query': query,
             'natural_language_query': natural_language_query,
             'aggregation': aggregation,
             'count': count,
-            'return': self._convert_list(return_),
+            'return': convert_list(return_),
             'offset': offset,
-            'sort': self._convert_list(sort),
+            'sort': convert_list(sort),
             'highlight': highlight,
             'deduplicate.field': deduplicate_field,
             'similar': similar,
-            'similar.document_ids': self._convert_list(similar_document_ids),
-            'similar.fields': self._convert_list(similar_fields)
+            'similar.document_ids': convert_list(similar_document_ids),
+            'similar.fields': convert_list(similar_fields)
         }
 
-        url = '/v1/environments/{0}/notices'.format(
-            *self._encode_path_vars(environment_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id']
+        path_param_values = self.encode_path_vars(environment_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/notices'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -2165,7 +2317,7 @@ class DiscoveryV1(BaseService):
                            *,
                            field: str = None,
                            count: int = None,
-                           **kwargs) -> 'DetailedResponse':
+                           **kwargs) -> DetailedResponse:
         """
         Get Autocomplete Suggestions.
 
@@ -2184,7 +2336,7 @@ class DiscoveryV1(BaseService):
                return.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Completions` object
         """
 
         if environment_id is None:
@@ -2193,10 +2345,7 @@ class DiscoveryV1(BaseService):
             raise ValueError('collection_id must be provided')
         if prefix is None:
             raise ValueError('prefix must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='get_autocompletion')
@@ -2209,8 +2358,15 @@ class DiscoveryV1(BaseService):
             'count': count
         }
 
-        url = '/v1/environments/{0}/collections/{1}/autocompletion'.format(
-            *self._encode_path_vars(environment_id, collection_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id', 'collection_id']
+        path_param_values = self.encode_path_vars(environment_id, collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections/{collection_id}/autocompletion'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -2224,7 +2380,7 @@ class DiscoveryV1(BaseService):
     #########################
 
     def list_training_data(self, environment_id: str, collection_id: str,
-                           **kwargs) -> 'DetailedResponse':
+                           **kwargs) -> DetailedResponse:
         """
         List training data.
 
@@ -2234,17 +2390,14 @@ class DiscoveryV1(BaseService):
         :param str collection_id: The ID of the collection.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `TrainingDataSet` object
         """
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
         if collection_id is None:
             raise ValueError('collection_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='list_training_data')
@@ -2252,8 +2405,15 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}/collections/{1}/training_data'.format(
-            *self._encode_path_vars(environment_id, collection_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id', 'collection_id']
+        path_param_values = self.encode_path_vars(environment_id, collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections/{collection_id}/training_data'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -2269,7 +2429,7 @@ class DiscoveryV1(BaseService):
                           natural_language_query: str = None,
                           filter: str = None,
                           examples: List['TrainingExample'] = None,
-                          **kwargs) -> 'DetailedResponse':
+                          **kwargs) -> DetailedResponse:
         """
         Add query to training data.
 
@@ -2286,7 +2446,7 @@ class DiscoveryV1(BaseService):
                examples.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `TrainingQuery` object
         """
 
         if environment_id is None:
@@ -2294,11 +2454,8 @@ class DiscoveryV1(BaseService):
         if collection_id is None:
             raise ValueError('collection_id must be provided')
         if examples is not None:
-            examples = [self._convert_model(x) for x in examples]
-
+            examples = [convert_model(x) for x in examples]
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='add_training_data')
@@ -2311,9 +2468,19 @@ class DiscoveryV1(BaseService):
             'filter': filter,
             'examples': examples
         }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/environments/{0}/collections/{1}/training_data'.format(
-            *self._encode_path_vars(environment_id, collection_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id', 'collection_id']
+        path_param_values = self.encode_path_vars(environment_id, collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections/{collection_id}/training_data'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -2324,7 +2491,7 @@ class DiscoveryV1(BaseService):
         return response
 
     def delete_all_training_data(self, environment_id: str, collection_id: str,
-                                 **kwargs) -> 'DetailedResponse':
+                                 **kwargs) -> DetailedResponse:
         """
         Delete all training data.
 
@@ -2341,10 +2508,7 @@ class DiscoveryV1(BaseService):
             raise ValueError('environment_id must be provided')
         if collection_id is None:
             raise ValueError('collection_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='delete_all_training_data')
@@ -2352,8 +2516,14 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}/collections/{1}/training_data'.format(
-            *self._encode_path_vars(environment_id, collection_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        path_param_keys = ['environment_id', 'collection_id']
+        path_param_values = self.encode_path_vars(environment_id, collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections/{collection_id}/training_data'.format(
+            **path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
@@ -2363,7 +2533,7 @@ class DiscoveryV1(BaseService):
         return response
 
     def get_training_data(self, environment_id: str, collection_id: str,
-                          query_id: str, **kwargs) -> 'DetailedResponse':
+                          query_id: str, **kwargs) -> DetailedResponse:
         """
         Get details about a query.
 
@@ -2375,7 +2545,7 @@ class DiscoveryV1(BaseService):
         :param str query_id: The ID of the query used for training.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `TrainingQuery` object
         """
 
         if environment_id is None:
@@ -2384,10 +2554,7 @@ class DiscoveryV1(BaseService):
             raise ValueError('collection_id must be provided')
         if query_id is None:
             raise ValueError('query_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='get_training_data')
@@ -2395,8 +2562,16 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}/collections/{1}/training_data/{2}'.format(
-            *self._encode_path_vars(environment_id, collection_id, query_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id', 'collection_id', 'query_id']
+        path_param_values = self.encode_path_vars(environment_id, collection_id,
+                                                  query_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections/{collection_id}/training_data/{query_id}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -2406,7 +2581,7 @@ class DiscoveryV1(BaseService):
         return response
 
     def delete_training_data(self, environment_id: str, collection_id: str,
-                             query_id: str, **kwargs) -> 'DetailedResponse':
+                             query_id: str, **kwargs) -> DetailedResponse:
         """
         Delete a training data query.
 
@@ -2427,10 +2602,7 @@ class DiscoveryV1(BaseService):
             raise ValueError('collection_id must be provided')
         if query_id is None:
             raise ValueError('query_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='delete_training_data')
@@ -2438,8 +2610,15 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}/collections/{1}/training_data/{2}'.format(
-            *self._encode_path_vars(environment_id, collection_id, query_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        path_param_keys = ['environment_id', 'collection_id', 'query_id']
+        path_param_values = self.encode_path_vars(environment_id, collection_id,
+                                                  query_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections/{collection_id}/training_data/{query_id}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
@@ -2449,7 +2628,7 @@ class DiscoveryV1(BaseService):
         return response
 
     def list_training_examples(self, environment_id: str, collection_id: str,
-                               query_id: str, **kwargs) -> 'DetailedResponse':
+                               query_id: str, **kwargs) -> DetailedResponse:
         """
         List examples for a training data query.
 
@@ -2460,7 +2639,7 @@ class DiscoveryV1(BaseService):
         :param str query_id: The ID of the query used for training.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `TrainingExampleList` object
         """
 
         if environment_id is None:
@@ -2469,10 +2648,7 @@ class DiscoveryV1(BaseService):
             raise ValueError('collection_id must be provided')
         if query_id is None:
             raise ValueError('query_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='list_training_examples')
@@ -2480,8 +2656,16 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples'.format(
-            *self._encode_path_vars(environment_id, collection_id, query_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id', 'collection_id', 'query_id']
+        path_param_values = self.encode_path_vars(environment_id, collection_id,
+                                                  query_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections/{collection_id}/training_data/{query_id}/examples'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -2498,7 +2682,7 @@ class DiscoveryV1(BaseService):
                                 document_id: str = None,
                                 cross_reference: str = None,
                                 relevance: int = None,
-                                **kwargs) -> 'DetailedResponse':
+                                **kwargs) -> DetailedResponse:
         """
         Add example to training data query.
 
@@ -2514,7 +2698,7 @@ class DiscoveryV1(BaseService):
         :param int relevance: (optional) The relevance of the training example.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `TrainingExample` object
         """
 
         if environment_id is None:
@@ -2523,10 +2707,7 @@ class DiscoveryV1(BaseService):
             raise ValueError('collection_id must be provided')
         if query_id is None:
             raise ValueError('query_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='create_training_example')
@@ -2539,9 +2720,20 @@ class DiscoveryV1(BaseService):
             'cross_reference': cross_reference,
             'relevance': relevance
         }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples'.format(
-            *self._encode_path_vars(environment_id, collection_id, query_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id', 'collection_id', 'query_id']
+        path_param_values = self.encode_path_vars(environment_id, collection_id,
+                                                  query_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections/{collection_id}/training_data/{query_id}/examples'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -2553,7 +2745,7 @@ class DiscoveryV1(BaseService):
 
     def delete_training_example(self, environment_id: str, collection_id: str,
                                 query_id: str, example_id: str,
-                                **kwargs) -> 'DetailedResponse':
+                                **kwargs) -> DetailedResponse:
         """
         Delete example for training data query.
 
@@ -2576,10 +2768,7 @@ class DiscoveryV1(BaseService):
             raise ValueError('query_id must be provided')
         if example_id is None:
             raise ValueError('example_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='delete_training_example')
@@ -2587,9 +2776,17 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.format(
-            *self._encode_path_vars(environment_id, collection_id, query_id,
-                                    example_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        path_param_keys = [
+            'environment_id', 'collection_id', 'query_id', 'example_id'
+        ]
+        path_param_values = self.encode_path_vars(environment_id, collection_id,
+                                                  query_id, example_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections/{collection_id}/training_data/{query_id}/examples/{example_id}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
@@ -2606,7 +2803,7 @@ class DiscoveryV1(BaseService):
                                 *,
                                 cross_reference: str = None,
                                 relevance: int = None,
-                                **kwargs) -> 'DetailedResponse':
+                                **kwargs) -> DetailedResponse:
         """
         Change label or cross reference for example.
 
@@ -2620,7 +2817,7 @@ class DiscoveryV1(BaseService):
         :param int relevance: (optional) The relevance value for this example.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `TrainingExample` object
         """
 
         if environment_id is None:
@@ -2631,10 +2828,7 @@ class DiscoveryV1(BaseService):
             raise ValueError('query_id must be provided')
         if example_id is None:
             raise ValueError('example_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='update_training_example')
@@ -2643,10 +2837,22 @@ class DiscoveryV1(BaseService):
         params = {'version': self.version}
 
         data = {'cross_reference': cross_reference, 'relevance': relevance}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.format(
-            *self._encode_path_vars(environment_id, collection_id, query_id,
-                                    example_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = [
+            'environment_id', 'collection_id', 'query_id', 'example_id'
+        ]
+        path_param_values = self.encode_path_vars(environment_id, collection_id,
+                                                  query_id, example_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections/{collection_id}/training_data/{query_id}/examples/{example_id}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='PUT',
                                        url=url,
                                        headers=headers,
@@ -2658,7 +2864,7 @@ class DiscoveryV1(BaseService):
 
     def get_training_example(self, environment_id: str, collection_id: str,
                              query_id: str, example_id: str,
-                             **kwargs) -> 'DetailedResponse':
+                             **kwargs) -> DetailedResponse:
         """
         Get details for training data example.
 
@@ -2670,7 +2876,7 @@ class DiscoveryV1(BaseService):
         :param str example_id: The ID of the document as it is indexed.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `TrainingExample` object
         """
 
         if environment_id is None:
@@ -2681,10 +2887,7 @@ class DiscoveryV1(BaseService):
             raise ValueError('query_id must be provided')
         if example_id is None:
             raise ValueError('example_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='get_training_example')
@@ -2692,9 +2895,18 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}/collections/{1}/training_data/{2}/examples/{3}'.format(
-            *self._encode_path_vars(environment_id, collection_id, query_id,
-                                    example_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = [
+            'environment_id', 'collection_id', 'query_id', 'example_id'
+        ]
+        path_param_values = self.encode_path_vars(environment_id, collection_id,
+                                                  query_id, example_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/collections/{collection_id}/training_data/{query_id}/examples/{example_id}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -2707,8 +2919,7 @@ class DiscoveryV1(BaseService):
     # User data
     #########################
 
-    def delete_user_data(self, customer_id: str,
-                         **kwargs) -> 'DetailedResponse':
+    def delete_user_data(self, customer_id: str, **kwargs) -> DetailedResponse:
         """
         Delete labeled data.
 
@@ -2728,16 +2939,16 @@ class DiscoveryV1(BaseService):
 
         if customer_id is None:
             raise ValueError('customer_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='delete_user_data')
         headers.update(sdk_headers)
 
         params = {'version': self.version, 'customer_id': customer_id}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
 
         url = '/v1/user_data'
         request = self.prepare_request(method='DELETE',
@@ -2753,7 +2964,7 @@ class DiscoveryV1(BaseService):
     #########################
 
     def create_event(self, type: str, data: 'EventData',
-                     **kwargs) -> 'DetailedResponse':
+                     **kwargs) -> DetailedResponse:
         """
         Create event.
 
@@ -2765,18 +2976,15 @@ class DiscoveryV1(BaseService):
         :param EventData data: Query event data object.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `CreateEventResponse` object
         """
 
         if type is None:
             raise ValueError('type must be provided')
         if data is None:
             raise ValueError('data must be provided')
-        data = self._convert_model(data)
-
+        data = convert_model(data)
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='create_event')
@@ -2785,6 +2993,13 @@ class DiscoveryV1(BaseService):
         params = {'version': self.version}
 
         data = {'type': type, 'data': data}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v1/events'
         request = self.prepare_request(method='POST',
@@ -2803,7 +3018,7 @@ class DiscoveryV1(BaseService):
                   count: int = None,
                   offset: int = None,
                   sort: List[str] = None,
-                  **kwargs) -> 'DetailedResponse':
+                  **kwargs) -> DetailedResponse:
         """
         Search the query and event log.
 
@@ -2829,12 +3044,10 @@ class DiscoveryV1(BaseService):
                is the default sort direction if no prefix is specified.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `LogQueryResponse` object
         """
 
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='query_log')
@@ -2846,8 +3059,12 @@ class DiscoveryV1(BaseService):
             'query': query,
             'count': count,
             'offset': offset,
-            'sort': self._convert_list(sort)
+            'sort': convert_list(sort)
         }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v1/logs'
         request = self.prepare_request(method='GET',
@@ -2863,7 +3080,7 @@ class DiscoveryV1(BaseService):
                           start_time: datetime = None,
                           end_time: datetime = None,
                           result_type: str = None,
-                          **kwargs) -> 'DetailedResponse':
+                          **kwargs) -> DetailedResponse:
         """
         Number of queries over time.
 
@@ -2878,12 +3095,10 @@ class DiscoveryV1(BaseService):
                calculating the metric.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `MetricResponse` object
         """
 
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='get_metrics_query')
@@ -2895,6 +3110,10 @@ class DiscoveryV1(BaseService):
             'end_time': end_time,
             'result_type': result_type
         }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v1/metrics/number_of_queries'
         request = self.prepare_request(method='GET',
@@ -2910,7 +3129,7 @@ class DiscoveryV1(BaseService):
                                 start_time: datetime = None,
                                 end_time: datetime = None,
                                 result_type: str = None,
-                                **kwargs) -> 'DetailedResponse':
+                                **kwargs) -> DetailedResponse:
         """
         Number of queries with an event over time.
 
@@ -2926,12 +3145,10 @@ class DiscoveryV1(BaseService):
                calculating the metric.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `MetricResponse` object
         """
 
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='get_metrics_query_event')
@@ -2943,6 +3160,10 @@ class DiscoveryV1(BaseService):
             'end_time': end_time,
             'result_type': result_type
         }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v1/metrics/number_of_queries_with_event'
         request = self.prepare_request(method='GET',
@@ -2958,7 +3179,7 @@ class DiscoveryV1(BaseService):
                                      start_time: datetime = None,
                                      end_time: datetime = None,
                                      result_type: str = None,
-                                     **kwargs) -> 'DetailedResponse':
+                                     **kwargs) -> DetailedResponse:
         """
         Number of queries with no search results over time.
 
@@ -2973,12 +3194,10 @@ class DiscoveryV1(BaseService):
                calculating the metric.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `MetricResponse` object
         """
 
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(
             service_name=self.DEFAULT_SERVICE_NAME,
             service_version='V1',
@@ -2991,6 +3210,10 @@ class DiscoveryV1(BaseService):
             'end_time': end_time,
             'result_type': result_type
         }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v1/metrics/number_of_queries_with_no_search_results'
         request = self.prepare_request(method='GET',
@@ -3006,7 +3229,7 @@ class DiscoveryV1(BaseService):
                                start_time: datetime = None,
                                end_time: datetime = None,
                                result_type: str = None,
-                               **kwargs) -> 'DetailedResponse':
+                               **kwargs) -> DetailedResponse:
         """
         Percentage of queries with an associated event.
 
@@ -3022,12 +3245,10 @@ class DiscoveryV1(BaseService):
                calculating the metric.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `MetricResponse` object
         """
 
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='get_metrics_event_rate')
@@ -3039,6 +3260,10 @@ class DiscoveryV1(BaseService):
             'end_time': end_time,
             'result_type': result_type
         }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v1/metrics/event_rate'
         request = self.prepare_request(method='GET',
@@ -3052,7 +3277,7 @@ class DiscoveryV1(BaseService):
     def get_metrics_query_token_event(self,
                                       *,
                                       count: int = None,
-                                      **kwargs) -> 'DetailedResponse':
+                                      **kwargs) -> DetailedResponse:
         """
         Most frequent query tokens with an event.
 
@@ -3065,12 +3290,10 @@ class DiscoveryV1(BaseService):
                the **count** and **offset** values together in any one query is **10000**.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `MetricTokenResponse` object
         """
 
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(
             service_name=self.DEFAULT_SERVICE_NAME,
             service_version='V1',
@@ -3078,6 +3301,10 @@ class DiscoveryV1(BaseService):
         headers.update(sdk_headers)
 
         params = {'version': self.version, 'count': count}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v1/metrics/top_query_tokens_with_event_rate'
         request = self.prepare_request(method='GET',
@@ -3093,7 +3320,7 @@ class DiscoveryV1(BaseService):
     #########################
 
     def list_credentials(self, environment_id: str,
-                         **kwargs) -> 'DetailedResponse':
+                         **kwargs) -> DetailedResponse:
         """
         List credentials.
 
@@ -3104,15 +3331,12 @@ class DiscoveryV1(BaseService):
         :param str environment_id: The ID of the environment.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `CredentialsList` object
         """
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='list_credentials')
@@ -3120,8 +3344,15 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}/credentials'.format(
-            *self._encode_path_vars(environment_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id']
+        path_param_values = self.encode_path_vars(environment_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/credentials'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -3136,7 +3367,7 @@ class DiscoveryV1(BaseService):
                            source_type: str = None,
                            credential_details: 'CredentialDetails' = None,
                            status: str = None,
-                           **kwargs) -> 'DetailedResponse':
+                           **kwargs) -> DetailedResponse:
         """
         Create credentials.
 
@@ -3167,17 +3398,14 @@ class DiscoveryV1(BaseService):
                corrected before they can be used with a collection.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Credentials` object
         """
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
         if credential_details is not None:
-            credential_details = self._convert_model(credential_details)
-
+            credential_details = convert_model(credential_details)
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='create_credentials')
@@ -3190,9 +3418,19 @@ class DiscoveryV1(BaseService):
             'credential_details': credential_details,
             'status': status
         }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/environments/{0}/credentials'.format(
-            *self._encode_path_vars(environment_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id']
+        path_param_values = self.encode_path_vars(environment_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/credentials'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -3203,7 +3441,7 @@ class DiscoveryV1(BaseService):
         return response
 
     def get_credentials(self, environment_id: str, credential_id: str,
-                        **kwargs) -> 'DetailedResponse':
+                        **kwargs) -> DetailedResponse:
         """
         View Credentials.
 
@@ -3216,17 +3454,14 @@ class DiscoveryV1(BaseService):
                credentials.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Credentials` object
         """
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
         if credential_id is None:
             raise ValueError('credential_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='get_credentials')
@@ -3234,8 +3469,15 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}/credentials/{1}'.format(
-            *self._encode_path_vars(environment_id, credential_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id', 'credential_id']
+        path_param_values = self.encode_path_vars(environment_id, credential_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/credentials/{credential_id}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -3251,7 +3493,7 @@ class DiscoveryV1(BaseService):
                            source_type: str = None,
                            credential_details: 'CredentialDetails' = None,
                            status: str = None,
-                           **kwargs) -> 'DetailedResponse':
+                           **kwargs) -> DetailedResponse:
         """
         Update credentials.
 
@@ -3283,7 +3525,7 @@ class DiscoveryV1(BaseService):
                corrected before they can be used with a collection.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Credentials` object
         """
 
         if environment_id is None:
@@ -3291,11 +3533,8 @@ class DiscoveryV1(BaseService):
         if credential_id is None:
             raise ValueError('credential_id must be provided')
         if credential_details is not None:
-            credential_details = self._convert_model(credential_details)
-
+            credential_details = convert_model(credential_details)
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='update_credentials')
@@ -3308,9 +3547,19 @@ class DiscoveryV1(BaseService):
             'credential_details': credential_details,
             'status': status
         }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/environments/{0}/credentials/{1}'.format(
-            *self._encode_path_vars(environment_id, credential_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id', 'credential_id']
+        path_param_values = self.encode_path_vars(environment_id, credential_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/credentials/{credential_id}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='PUT',
                                        url=url,
                                        headers=headers,
@@ -3321,7 +3570,7 @@ class DiscoveryV1(BaseService):
         return response
 
     def delete_credentials(self, environment_id: str, credential_id: str,
-                           **kwargs) -> 'DetailedResponse':
+                           **kwargs) -> DetailedResponse:
         """
         Delete credentials.
 
@@ -3332,17 +3581,14 @@ class DiscoveryV1(BaseService):
                credentials.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `DeleteCredentials` object
         """
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
         if credential_id is None:
             raise ValueError('credential_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='delete_credentials')
@@ -3350,8 +3596,15 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}/credentials/{1}'.format(
-            *self._encode_path_vars(environment_id, credential_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id', 'credential_id']
+        path_param_values = self.encode_path_vars(environment_id, credential_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/credentials/{credential_id}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
@@ -3364,8 +3617,7 @@ class DiscoveryV1(BaseService):
     # gatewayConfiguration
     #########################
 
-    def list_gateways(self, environment_id: str,
-                      **kwargs) -> 'DetailedResponse':
+    def list_gateways(self, environment_id: str, **kwargs) -> DetailedResponse:
         """
         List Gateways.
 
@@ -3374,15 +3626,12 @@ class DiscoveryV1(BaseService):
         :param str environment_id: The ID of the environment.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `GatewayList` object
         """
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='list_gateways')
@@ -3390,8 +3639,15 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}/gateways'.format(
-            *self._encode_path_vars(environment_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id']
+        path_param_values = self.encode_path_vars(environment_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/gateways'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -3404,7 +3660,7 @@ class DiscoveryV1(BaseService):
                        environment_id: str,
                        *,
                        name: str = None,
-                       **kwargs) -> 'DetailedResponse':
+                       **kwargs) -> DetailedResponse:
         """
         Create Gateway.
 
@@ -3414,15 +3670,12 @@ class DiscoveryV1(BaseService):
         :param str name: (optional) User-defined name.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Gateway` object
         """
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='create_gateway')
@@ -3431,9 +3684,19 @@ class DiscoveryV1(BaseService):
         params = {'version': self.version}
 
         data = {'name': name}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v1/environments/{0}/gateways'.format(
-            *self._encode_path_vars(environment_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id']
+        path_param_values = self.encode_path_vars(environment_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/gateways'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -3444,7 +3707,7 @@ class DiscoveryV1(BaseService):
         return response
 
     def get_gateway(self, environment_id: str, gateway_id: str,
-                    **kwargs) -> 'DetailedResponse':
+                    **kwargs) -> DetailedResponse:
         """
         List Gateway Details.
 
@@ -3454,17 +3717,14 @@ class DiscoveryV1(BaseService):
         :param str gateway_id: The requested gateway ID.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Gateway` object
         """
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
         if gateway_id is None:
             raise ValueError('gateway_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='get_gateway')
@@ -3472,8 +3732,15 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}/gateways/{1}'.format(
-            *self._encode_path_vars(environment_id, gateway_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id', 'gateway_id']
+        path_param_values = self.encode_path_vars(environment_id, gateway_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/gateways/{gateway_id}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -3483,7 +3750,7 @@ class DiscoveryV1(BaseService):
         return response
 
     def delete_gateway(self, environment_id: str, gateway_id: str,
-                       **kwargs) -> 'DetailedResponse':
+                       **kwargs) -> DetailedResponse:
         """
         Delete Gateway.
 
@@ -3493,17 +3760,14 @@ class DiscoveryV1(BaseService):
         :param str gateway_id: The requested gateway ID.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `GatewayDelete` object
         """
 
         if environment_id is None:
             raise ValueError('environment_id must be provided')
         if gateway_id is None:
             raise ValueError('gateway_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='delete_gateway')
@@ -3511,8 +3775,15 @@ class DiscoveryV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/environments/{0}/gateways/{1}'.format(
-            *self._encode_path_vars(environment_id, gateway_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['environment_id', 'gateway_id']
+        path_param_values = self.encode_path_vars(environment_id, gateway_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/environments/{environment_id}/gateways/{gateway_id}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
@@ -3522,9 +3793,12 @@ class DiscoveryV1(BaseService):
         return response
 
 
-class AddDocumentEnums(object):
+class AddDocumentEnums:
+    """
+    Enums for add_document parameters.
+    """
 
-    class FileContentType(Enum):
+    class FileContentType(str, Enum):
         """
         The content type of file.
         """
@@ -3536,9 +3810,12 @@ class AddDocumentEnums(object):
         APPLICATION_XHTML_XML = 'application/xhtml+xml'
 
 
-class UpdateDocumentEnums(object):
+class UpdateDocumentEnums:
+    """
+    Enums for update_document parameters.
+    """
 
-    class FileContentType(Enum):
+    class FileContentType(str, Enum):
         """
         The content type of file.
         """
@@ -3550,36 +3827,48 @@ class UpdateDocumentEnums(object):
         APPLICATION_XHTML_XML = 'application/xhtml+xml'
 
 
-class GetMetricsQueryEnums(object):
+class GetMetricsQueryEnums:
+    """
+    Enums for get_metrics_query parameters.
+    """
 
-    class ResultType(Enum):
+    class ResultType(str, Enum):
         """
         The type of result to consider when calculating the metric.
         """
         DOCUMENT = 'document'
 
 
-class GetMetricsQueryEventEnums(object):
+class GetMetricsQueryEventEnums:
+    """
+    Enums for get_metrics_query_event parameters.
+    """
 
-    class ResultType(Enum):
+    class ResultType(str, Enum):
         """
         The type of result to consider when calculating the metric.
         """
         DOCUMENT = 'document'
 
 
-class GetMetricsQueryNoResultsEnums(object):
+class GetMetricsQueryNoResultsEnums:
+    """
+    Enums for get_metrics_query_no_results parameters.
+    """
 
-    class ResultType(Enum):
+    class ResultType(str, Enum):
         """
         The type of result to consider when calculating the metric.
         """
         DOCUMENT = 'document'
 
 
-class GetMetricsEventRateEnums(object):
+class GetMetricsEventRateEnums:
+    """
+    Enums for get_metrics_event_rate parameters.
+    """
 
-    class ResultType(Enum):
+    class ResultType(str, Enum):
         """
         The type of result to consider when calculating the metric.
         """
@@ -3622,20 +3911,13 @@ class AggregationResult():
     def from_dict(cls, _dict: Dict) -> 'AggregationResult':
         """Initialize a AggregationResult object from a json dictionary."""
         args = {}
-        valid_keys = ['key', 'matching_results', 'aggregations']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class AggregationResult: '
-                + ', '.join(bad_keys))
         if 'key' in _dict:
             args['key'] = _dict.get('key')
         if 'matching_results' in _dict:
             args['matching_results'] = _dict.get('matching_results')
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                QueryAggregation._from_dict(x)
-                for x in (_dict.get('aggregations'))
+                QueryAggregation.from_dict(x) for x in _dict.get('aggregations')
             ]
         return cls(**args)
 
@@ -3653,7 +3935,7 @@ class AggregationResult():
                    'matching_results') and self.matching_results is not None:
             _dict['matching_results'] = self.matching_results
         if hasattr(self, 'aggregations') and self.aggregations is not None:
-            _dict['aggregations'] = [x._to_dict() for x in self.aggregations]
+            _dict['aggregations'] = [x.to_dict() for x in self.aggregations]
         return _dict
 
     def _to_dict(self):
@@ -3662,7 +3944,7 @@ class AggregationResult():
 
     def __str__(self) -> str:
         """Return a `str` version of this AggregationResult object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'AggregationResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3721,15 +4003,8 @@ class Collection():
         """
         Initialize a Collection object.
 
-        :param str collection_id: (optional) The unique identifier of the
-               collection.
         :param str name: (optional) The name of the collection.
         :param str description: (optional) The description of the collection.
-        :param datetime created: (optional) The creation date of the collection in
-               the format yyyy-MM-dd'T'HH:mmcon:ss.SSS'Z'.
-        :param datetime updated: (optional) The timestamp of when the collection
-               was last updated in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
-        :param str status: (optional) The status of the collection.
         :param str configuration_id: (optional) The unique identifier of the
                collection's configuration.
         :param str language: (optional) The language of the documents stored in the
@@ -3763,17 +4038,6 @@ class Collection():
     def from_dict(cls, _dict: Dict) -> 'Collection':
         """Initialize a Collection object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'collection_id', 'name', 'description', 'created', 'updated',
-            'status', 'configuration_id', 'language', 'document_counts',
-            'disk_usage', 'training_status', 'crawl_status',
-            'smart_document_understanding'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Collection: '
-                + ', '.join(bad_keys))
         if 'collection_id' in _dict:
             args['collection_id'] = _dict.get('collection_id')
         if 'name' in _dict:
@@ -3791,19 +4055,19 @@ class Collection():
         if 'language' in _dict:
             args['language'] = _dict.get('language')
         if 'document_counts' in _dict:
-            args['document_counts'] = DocumentCounts._from_dict(
+            args['document_counts'] = DocumentCounts.from_dict(
                 _dict.get('document_counts'))
         if 'disk_usage' in _dict:
-            args['disk_usage'] = CollectionDiskUsage._from_dict(
+            args['disk_usage'] = CollectionDiskUsage.from_dict(
                 _dict.get('disk_usage'))
         if 'training_status' in _dict:
-            args['training_status'] = TrainingStatus._from_dict(
+            args['training_status'] = TrainingStatus.from_dict(
                 _dict.get('training_status'))
         if 'crawl_status' in _dict:
-            args['crawl_status'] = CollectionCrawlStatus._from_dict(
+            args['crawl_status'] = CollectionCrawlStatus.from_dict(
                 _dict.get('crawl_status'))
         if 'smart_document_understanding' in _dict:
-            args['smart_document_understanding'] = SduStatus._from_dict(
+            args['smart_document_understanding'] = SduStatus.from_dict(
                 _dict.get('smart_document_understanding'))
         return cls(**args)
 
@@ -3815,18 +4079,19 @@ class Collection():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'collection_id') and self.collection_id is not None:
-            _dict['collection_id'] = self.collection_id
+        if hasattr(self, 'collection_id') and getattr(
+                self, 'collection_id') is not None:
+            _dict['collection_id'] = getattr(self, 'collection_id')
         if hasattr(self, 'name') and self.name is not None:
             _dict['name'] = self.name
         if hasattr(self, 'description') and self.description is not None:
             _dict['description'] = self.description
-        if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = datetime_to_string(self.created)
-        if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = datetime_to_string(self.updated)
-        if hasattr(self, 'status') and self.status is not None:
-            _dict['status'] = self.status
+        if hasattr(self, 'created') and getattr(self, 'created') is not None:
+            _dict['created'] = datetime_to_string(getattr(self, 'created'))
+        if hasattr(self, 'updated') and getattr(self, 'updated') is not None:
+            _dict['updated'] = datetime_to_string(getattr(self, 'updated'))
+        if hasattr(self, 'status') and getattr(self, 'status') is not None:
+            _dict['status'] = getattr(self, 'status')
         if hasattr(self,
                    'configuration_id') and self.configuration_id is not None:
             _dict['configuration_id'] = self.configuration_id
@@ -3834,18 +4099,18 @@ class Collection():
             _dict['language'] = self.language
         if hasattr(self,
                    'document_counts') and self.document_counts is not None:
-            _dict['document_counts'] = self.document_counts._to_dict()
+            _dict['document_counts'] = self.document_counts.to_dict()
         if hasattr(self, 'disk_usage') and self.disk_usage is not None:
-            _dict['disk_usage'] = self.disk_usage._to_dict()
+            _dict['disk_usage'] = self.disk_usage.to_dict()
         if hasattr(self,
                    'training_status') and self.training_status is not None:
-            _dict['training_status'] = self.training_status._to_dict()
+            _dict['training_status'] = self.training_status.to_dict()
         if hasattr(self, 'crawl_status') and self.crawl_status is not None:
-            _dict['crawl_status'] = self.crawl_status._to_dict()
+            _dict['crawl_status'] = self.crawl_status.to_dict()
         if hasattr(self, 'smart_document_understanding'
                   ) and self.smart_document_understanding is not None:
             _dict[
-                'smart_document_understanding'] = self.smart_document_understanding._to_dict(
+                'smart_document_understanding'] = self.smart_document_understanding.to_dict(
                 )
         return _dict
 
@@ -3855,7 +4120,7 @@ class Collection():
 
     def __str__(self) -> str:
         """Return a `str` version of this Collection object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Collection') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3867,13 +4132,13 @@ class Collection():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class StatusEnum(Enum):
+    class StatusEnum(str, Enum):
         """
         The status of the collection.
         """
-        ACTIVE = "active"
-        PENDING = "pending"
-        MAINTENANCE = "maintenance"
+        ACTIVE = 'active'
+        PENDING = 'pending'
+        MAINTENANCE = 'maintenance'
 
 
 class CollectionCrawlStatus():
@@ -3897,14 +4162,8 @@ class CollectionCrawlStatus():
     def from_dict(cls, _dict: Dict) -> 'CollectionCrawlStatus':
         """Initialize a CollectionCrawlStatus object from a json dictionary."""
         args = {}
-        valid_keys = ['source_crawl']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class CollectionCrawlStatus: '
-                + ', '.join(bad_keys))
         if 'source_crawl' in _dict:
-            args['source_crawl'] = SourceStatus._from_dict(
+            args['source_crawl'] = SourceStatus.from_dict(
                 _dict.get('source_crawl'))
         return cls(**args)
 
@@ -3917,7 +4176,7 @@ class CollectionCrawlStatus():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'source_crawl') and self.source_crawl is not None:
-            _dict['source_crawl'] = self.source_crawl._to_dict()
+            _dict['source_crawl'] = self.source_crawl.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -3926,7 +4185,7 @@ class CollectionCrawlStatus():
 
     def __str__(self) -> str:
         """Return a `str` version of this CollectionCrawlStatus object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'CollectionCrawlStatus') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3950,7 +4209,6 @@ class CollectionDiskUsage():
         """
         Initialize a CollectionDiskUsage object.
 
-        :param int used_bytes: (optional) Number of bytes used by the collection.
         """
         self.used_bytes = used_bytes
 
@@ -3958,12 +4216,6 @@ class CollectionDiskUsage():
     def from_dict(cls, _dict: Dict) -> 'CollectionDiskUsage':
         """Initialize a CollectionDiskUsage object from a json dictionary."""
         args = {}
-        valid_keys = ['used_bytes']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class CollectionDiskUsage: '
-                + ', '.join(bad_keys))
         if 'used_bytes' in _dict:
             args['used_bytes'] = _dict.get('used_bytes')
         return cls(**args)
@@ -3976,8 +4228,9 @@ class CollectionDiskUsage():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'used_bytes') and self.used_bytes is not None:
-            _dict['used_bytes'] = self.used_bytes
+        if hasattr(self, 'used_bytes') and getattr(self,
+                                                   'used_bytes') is not None:
+            _dict['used_bytes'] = getattr(self, 'used_bytes')
         return _dict
 
     def _to_dict(self):
@@ -3986,7 +4239,7 @@ class CollectionDiskUsage():
 
     def __str__(self) -> str:
         """Return a `str` version of this CollectionDiskUsage object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'CollectionDiskUsage') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4015,10 +4268,6 @@ class CollectionUsage():
         """
         Initialize a CollectionUsage object.
 
-        :param int available: (optional) Number of active collections in the
-               environment.
-        :param int maximum_allowed: (optional) Total number of collections allowed
-               in the environment.
         """
         self.available = available
         self.maximum_allowed = maximum_allowed
@@ -4027,12 +4276,6 @@ class CollectionUsage():
     def from_dict(cls, _dict: Dict) -> 'CollectionUsage':
         """Initialize a CollectionUsage object from a json dictionary."""
         args = {}
-        valid_keys = ['available', 'maximum_allowed']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class CollectionUsage: '
-                + ', '.join(bad_keys))
         if 'available' in _dict:
             args['available'] = _dict.get('available')
         if 'maximum_allowed' in _dict:
@@ -4047,11 +4290,12 @@ class CollectionUsage():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'available') and self.available is not None:
-            _dict['available'] = self.available
-        if hasattr(self,
-                   'maximum_allowed') and self.maximum_allowed is not None:
-            _dict['maximum_allowed'] = self.maximum_allowed
+        if hasattr(self, 'available') and getattr(self,
+                                                  'available') is not None:
+            _dict['available'] = getattr(self, 'available')
+        if hasattr(self, 'maximum_allowed') and getattr(
+                self, 'maximum_allowed') is not None:
+            _dict['maximum_allowed'] = getattr(self, 'maximum_allowed')
         return _dict
 
     def _to_dict(self):
@@ -4060,7 +4304,7 @@ class CollectionUsage():
 
     def __str__(self) -> str:
         """Return a `str` version of this CollectionUsage object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'CollectionUsage') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4094,12 +4338,6 @@ class Completions():
     def from_dict(cls, _dict: Dict) -> 'Completions':
         """Initialize a Completions object from a json dictionary."""
         args = {}
-        valid_keys = ['completions']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Completions: '
-                + ', '.join(bad_keys))
         if 'completions' in _dict:
             args['completions'] = _dict.get('completions')
         return cls(**args)
@@ -4122,7 +4360,7 @@ class Completions():
 
     def __str__(self) -> str:
         """Return a `str` version of this Completions object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Completions') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4173,12 +4411,6 @@ class Configuration():
         Initialize a Configuration object.
 
         :param str name: The name of the configuration.
-        :param str configuration_id: (optional) The unique identifier of the
-               configuration.
-        :param datetime created: (optional) The creation date of the configuration
-               in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
-        :param datetime updated: (optional) The timestamp of when the configuration
-               was last updated in the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
         :param str description: (optional) The description of the configuration, if
                available.
         :param Conversions conversions: (optional) Document conversion settings.
@@ -4205,15 +4437,6 @@ class Configuration():
     def from_dict(cls, _dict: Dict) -> 'Configuration':
         """Initialize a Configuration object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'configuration_id', 'name', 'created', 'updated', 'description',
-            'conversions', 'enrichments', 'normalizations', 'source'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Configuration: '
-                + ', '.join(bad_keys))
         if 'configuration_id' in _dict:
             args['configuration_id'] = _dict.get('configuration_id')
         if 'name' in _dict:
@@ -4228,19 +4451,19 @@ class Configuration():
         if 'description' in _dict:
             args['description'] = _dict.get('description')
         if 'conversions' in _dict:
-            args['conversions'] = Conversions._from_dict(
+            args['conversions'] = Conversions.from_dict(
                 _dict.get('conversions'))
         if 'enrichments' in _dict:
             args['enrichments'] = [
-                Enrichment._from_dict(x) for x in (_dict.get('enrichments'))
+                Enrichment.from_dict(x) for x in _dict.get('enrichments')
             ]
         if 'normalizations' in _dict:
             args['normalizations'] = [
-                NormalizationOperation._from_dict(x)
-                for x in (_dict.get('normalizations'))
+                NormalizationOperation.from_dict(x)
+                for x in _dict.get('normalizations')
             ]
         if 'source' in _dict:
-            args['source'] = Source._from_dict(_dict.get('source'))
+            args['source'] = Source.from_dict(_dict.get('source'))
         return cls(**args)
 
     @classmethod
@@ -4251,27 +4474,25 @@ class Configuration():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self,
-                   'configuration_id') and self.configuration_id is not None:
-            _dict['configuration_id'] = self.configuration_id
+        if hasattr(self, 'configuration_id') and getattr(
+                self, 'configuration_id') is not None:
+            _dict['configuration_id'] = getattr(self, 'configuration_id')
         if hasattr(self, 'name') and self.name is not None:
             _dict['name'] = self.name
-        if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = datetime_to_string(self.created)
-        if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = datetime_to_string(self.updated)
+        if hasattr(self, 'created') and getattr(self, 'created') is not None:
+            _dict['created'] = datetime_to_string(getattr(self, 'created'))
+        if hasattr(self, 'updated') and getattr(self, 'updated') is not None:
+            _dict['updated'] = datetime_to_string(getattr(self, 'updated'))
         if hasattr(self, 'description') and self.description is not None:
             _dict['description'] = self.description
         if hasattr(self, 'conversions') and self.conversions is not None:
-            _dict['conversions'] = self.conversions._to_dict()
+            _dict['conversions'] = self.conversions.to_dict()
         if hasattr(self, 'enrichments') and self.enrichments is not None:
-            _dict['enrichments'] = [x._to_dict() for x in self.enrichments]
+            _dict['enrichments'] = [x.to_dict() for x in self.enrichments]
         if hasattr(self, 'normalizations') and self.normalizations is not None:
-            _dict['normalizations'] = [
-                x._to_dict() for x in self.normalizations
-            ]
+            _dict['normalizations'] = [x.to_dict() for x in self.normalizations]
         if hasattr(self, 'source') and self.source is not None:
-            _dict['source'] = self.source._to_dict()
+            _dict['source'] = self.source.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -4280,7 +4501,7 @@ class Configuration():
 
     def __str__(self) -> str:
         """Return a `str` version of this Configuration object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Configuration') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4351,27 +4572,18 @@ class Conversions():
     def from_dict(cls, _dict: Dict) -> 'Conversions':
         """Initialize a Conversions object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'pdf', 'word', 'html', 'segment', 'json_normalizations',
-            'image_text_recognition'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Conversions: '
-                + ', '.join(bad_keys))
         if 'pdf' in _dict:
-            args['pdf'] = PdfSettings._from_dict(_dict.get('pdf'))
+            args['pdf'] = PdfSettings.from_dict(_dict.get('pdf'))
         if 'word' in _dict:
-            args['word'] = WordSettings._from_dict(_dict.get('word'))
+            args['word'] = WordSettings.from_dict(_dict.get('word'))
         if 'html' in _dict:
-            args['html'] = HtmlSettings._from_dict(_dict.get('html'))
+            args['html'] = HtmlSettings.from_dict(_dict.get('html'))
         if 'segment' in _dict:
-            args['segment'] = SegmentSettings._from_dict(_dict.get('segment'))
+            args['segment'] = SegmentSettings.from_dict(_dict.get('segment'))
         if 'json_normalizations' in _dict:
             args['json_normalizations'] = [
-                NormalizationOperation._from_dict(x)
-                for x in (_dict.get('json_normalizations'))
+                NormalizationOperation.from_dict(x)
+                for x in _dict.get('json_normalizations')
             ]
         if 'image_text_recognition' in _dict:
             args['image_text_recognition'] = _dict.get('image_text_recognition')
@@ -4386,18 +4598,18 @@ class Conversions():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'pdf') and self.pdf is not None:
-            _dict['pdf'] = self.pdf._to_dict()
+            _dict['pdf'] = self.pdf.to_dict()
         if hasattr(self, 'word') and self.word is not None:
-            _dict['word'] = self.word._to_dict()
+            _dict['word'] = self.word.to_dict()
         if hasattr(self, 'html') and self.html is not None:
-            _dict['html'] = self.html._to_dict()
+            _dict['html'] = self.html.to_dict()
         if hasattr(self, 'segment') and self.segment is not None:
-            _dict['segment'] = self.segment._to_dict()
+            _dict['segment'] = self.segment.to_dict()
         if hasattr(
                 self,
                 'json_normalizations') and self.json_normalizations is not None:
             _dict['json_normalizations'] = [
-                x._to_dict() for x in self.json_normalizations
+                x.to_dict() for x in self.json_normalizations
             ]
         if hasattr(self, 'image_text_recognition'
                   ) and self.image_text_recognition is not None:
@@ -4410,7 +4622,7 @@ class Conversions():
 
     def __str__(self) -> str:
         """Return a `str` version of this Conversions object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Conversions') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4445,16 +4657,10 @@ class CreateEventResponse():
     def from_dict(cls, _dict: Dict) -> 'CreateEventResponse':
         """Initialize a CreateEventResponse object from a json dictionary."""
         args = {}
-        valid_keys = ['type', 'data']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class CreateEventResponse: '
-                + ', '.join(bad_keys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'data' in _dict:
-            args['data'] = EventData._from_dict(_dict.get('data'))
+            args['data'] = EventData.from_dict(_dict.get('data'))
         return cls(**args)
 
     @classmethod
@@ -4468,7 +4674,7 @@ class CreateEventResponse():
         if hasattr(self, 'type') and self.type is not None:
             _dict['type'] = self.type
         if hasattr(self, 'data') and self.data is not None:
-            _dict['data'] = self.data._to_dict()
+            _dict['data'] = self.data.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -4477,7 +4683,7 @@ class CreateEventResponse():
 
     def __str__(self) -> str:
         """Return a `str` version of this CreateEventResponse object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'CreateEventResponse') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4489,11 +4695,11 @@ class CreateEventResponse():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class TypeEnum(Enum):
+    class TypeEnum(str, Enum):
         """
         The event type that was created.
         """
-        CLICK = "click"
+        CLICK = 'click'
 
 
 class CredentialDetails():
@@ -4710,18 +4916,6 @@ class CredentialDetails():
     def from_dict(cls, _dict: Dict) -> 'CredentialDetails':
         """Initialize a CredentialDetails object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'credential_type', 'client_id', 'enterprise_id', 'url', 'username',
-            'organization_url', 'site_collection_path', 'site_collection.path',
-            'client_secret', 'public_key_id', 'private_key', 'passphrase',
-            'password', 'gateway_id', 'source_version', 'web_application_url',
-            'domain', 'endpoint', 'access_key_id', 'secret_access_key'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class CredentialDetails: '
-                + ', '.join(bad_keys))
         if 'credential_type' in _dict:
             args['credential_type'] = _dict.get('credential_type')
         if 'client_id' in _dict:
@@ -4822,7 +5016,7 @@ class CredentialDetails():
 
     def __str__(self) -> str:
         """Return a `str` version of this CredentialDetails object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'CredentialDetails') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4834,7 +5028,7 @@ class CredentialDetails():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class CredentialTypeEnum(Enum):
+    class CredentialTypeEnum(str, Enum):
         """
         The authentication method for this credentials definition. The
         **credential_type** specified must be supported by the **source_type**. The
@@ -4846,20 +5040,20 @@ class CredentialDetails():
         -  `"source_type": "web_crawl"` - valid `credential_type`s: `noauth` or `basic`
         -  "source_type": "cloud_object_storage"` - valid `credential_type`s: `aws4_hmac`.
         """
-        OAUTH2 = "oauth2"
-        SAML = "saml"
-        USERNAME_PASSWORD = "username_password"
-        NOAUTH = "noauth"
-        BASIC = "basic"
-        NTLM_V1 = "ntlm_v1"
-        AWS4_HMAC = "aws4_hmac"
+        OAUTH2 = 'oauth2'
+        SAML = 'saml'
+        USERNAME_PASSWORD = 'username_password'
+        NOAUTH = 'noauth'
+        BASIC = 'basic'
+        NTLM_V1 = 'ntlm_v1'
+        AWS4_HMAC = 'aws4_hmac'
 
-    class SourceVersionEnum(Enum):
+    class SourceVersionEnum(str, Enum):
         """
         The type of Sharepoint repository to connect to. Only valid, and required, with a
         **source_type** of `sharepoint`.
         """
-        ONLINE = "online"
+        ONLINE = 'online'
 
 
 class Credentials():
@@ -4897,8 +5091,6 @@ class Credentials():
         """
         Initialize a Credentials object.
 
-        :param str credential_id: (optional) Unique identifier for this set of
-               credentials.
         :param str source_type: (optional) The source that this credentials object
                connects to.
                -  `box` indicates the credentials are used to connect an instance of
@@ -4928,20 +5120,12 @@ class Credentials():
     def from_dict(cls, _dict: Dict) -> 'Credentials':
         """Initialize a Credentials object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'credential_id', 'source_type', 'credential_details', 'status'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Credentials: '
-                + ', '.join(bad_keys))
         if 'credential_id' in _dict:
             args['credential_id'] = _dict.get('credential_id')
         if 'source_type' in _dict:
             args['source_type'] = _dict.get('source_type')
         if 'credential_details' in _dict:
-            args['credential_details'] = CredentialDetails._from_dict(
+            args['credential_details'] = CredentialDetails.from_dict(
                 _dict.get('credential_details'))
         if 'status' in _dict:
             args['status'] = _dict.get('status')
@@ -4955,14 +5139,15 @@ class Credentials():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'credential_id') and self.credential_id is not None:
-            _dict['credential_id'] = self.credential_id
+        if hasattr(self, 'credential_id') and getattr(
+                self, 'credential_id') is not None:
+            _dict['credential_id'] = getattr(self, 'credential_id')
         if hasattr(self, 'source_type') and self.source_type is not None:
             _dict['source_type'] = self.source_type
         if hasattr(
                 self,
                 'credential_details') and self.credential_details is not None:
-            _dict['credential_details'] = self.credential_details._to_dict()
+            _dict['credential_details'] = self.credential_details.to_dict()
         if hasattr(self, 'status') and self.status is not None:
             _dict['status'] = self.status
         return _dict
@@ -4973,7 +5158,7 @@ class Credentials():
 
     def __str__(self) -> str:
         """Return a `str` version of this Credentials object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Credentials') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4985,7 +5170,7 @@ class Credentials():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class SourceTypeEnum(Enum):
+    class SourceTypeEnum(str, Enum):
         """
         The source that this credentials object connects to.
         -  `box` indicates the credentials are used to connect an instance of Enterprise
@@ -4997,21 +5182,21 @@ class Credentials():
         =  `cloud_object_storage` indicates the credentials are used to connect to an IBM
         Cloud Object Store.
         """
-        BOX = "box"
-        SALESFORCE = "salesforce"
-        SHAREPOINT = "sharepoint"
-        WEB_CRAWL = "web_crawl"
-        CLOUD_OBJECT_STORAGE = "cloud_object_storage"
+        BOX = 'box'
+        SALESFORCE = 'salesforce'
+        SHAREPOINT = 'sharepoint'
+        WEB_CRAWL = 'web_crawl'
+        CLOUD_OBJECT_STORAGE = 'cloud_object_storage'
 
-    class StatusEnum(Enum):
+    class StatusEnum(str, Enum):
         """
         The current status of this set of credentials. `connected` indicates that the
         credentials are available to use with the source configuration of a collection.
         `invalid` refers to the credentials (for example, the password provided has
         expired) and must be corrected before they can be used with a collection.
         """
-        CONNECTED = "connected"
-        INVALID = "invalid"
+        CONNECTED = 'connected'
+        INVALID = 'invalid'
 
 
 class CredentialsList():
@@ -5035,15 +5220,9 @@ class CredentialsList():
     def from_dict(cls, _dict: Dict) -> 'CredentialsList':
         """Initialize a CredentialsList object from a json dictionary."""
         args = {}
-        valid_keys = ['credentials']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class CredentialsList: '
-                + ', '.join(bad_keys))
         if 'credentials' in _dict:
             args['credentials'] = [
-                Credentials._from_dict(x) for x in (_dict.get('credentials'))
+                Credentials.from_dict(x) for x in _dict.get('credentials')
             ]
         return cls(**args)
 
@@ -5056,7 +5235,7 @@ class CredentialsList():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'credentials') and self.credentials is not None:
-            _dict['credentials'] = [x._to_dict() for x in self.credentials]
+            _dict['credentials'] = [x.to_dict() for x in self.credentials]
         return _dict
 
     def _to_dict(self):
@@ -5065,7 +5244,7 @@ class CredentialsList():
 
     def __str__(self) -> str:
         """Return a `str` version of this CredentialsList object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'CredentialsList') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -5104,12 +5283,6 @@ class DeleteCollectionResponse():
     def from_dict(cls, _dict: Dict) -> 'DeleteCollectionResponse':
         """Initialize a DeleteCollectionResponse object from a json dictionary."""
         args = {}
-        valid_keys = ['collection_id', 'status']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DeleteCollectionResponse: '
-                + ', '.join(bad_keys))
         if 'collection_id' in _dict:
             args['collection_id'] = _dict.get('collection_id')
         else:
@@ -5144,7 +5317,7 @@ class DeleteCollectionResponse():
 
     def __str__(self) -> str:
         """Return a `str` version of this DeleteCollectionResponse object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DeleteCollectionResponse') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -5156,12 +5329,12 @@ class DeleteCollectionResponse():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class StatusEnum(Enum):
+    class StatusEnum(str, Enum):
         """
         The status of the collection. The status of a successful deletion operation is
         `deleted`.
         """
-        DELETED = "deleted"
+        DELETED = 'deleted'
 
 
 class DeleteConfigurationResponse():
@@ -5196,12 +5369,6 @@ class DeleteConfigurationResponse():
     def from_dict(cls, _dict: Dict) -> 'DeleteConfigurationResponse':
         """Initialize a DeleteConfigurationResponse object from a json dictionary."""
         args = {}
-        valid_keys = ['configuration_id', 'status', 'notices']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DeleteConfigurationResponse: '
-                + ', '.join(bad_keys))
         if 'configuration_id' in _dict:
             args['configuration_id'] = _dict.get('configuration_id')
         else:
@@ -5216,7 +5383,7 @@ class DeleteConfigurationResponse():
             )
         if 'notices' in _dict:
             args['notices'] = [
-                Notice._from_dict(x) for x in (_dict.get('notices'))
+                Notice.from_dict(x) for x in _dict.get('notices')
             ]
         return cls(**args)
 
@@ -5234,7 +5401,7 @@ class DeleteConfigurationResponse():
         if hasattr(self, 'status') and self.status is not None:
             _dict['status'] = self.status
         if hasattr(self, 'notices') and self.notices is not None:
-            _dict['notices'] = [x._to_dict() for x in self.notices]
+            _dict['notices'] = [x.to_dict() for x in self.notices]
         return _dict
 
     def _to_dict(self):
@@ -5243,7 +5410,7 @@ class DeleteConfigurationResponse():
 
     def __str__(self) -> str:
         """Return a `str` version of this DeleteConfigurationResponse object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DeleteConfigurationResponse') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -5255,11 +5422,11 @@ class DeleteConfigurationResponse():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class StatusEnum(Enum):
+    class StatusEnum(str, Enum):
         """
         Status of the configuration. A deleted configuration has the status deleted.
         """
-        DELETED = "deleted"
+        DELETED = 'deleted'
 
 
 class DeleteCredentials():
@@ -5289,12 +5456,6 @@ class DeleteCredentials():
     def from_dict(cls, _dict: Dict) -> 'DeleteCredentials':
         """Initialize a DeleteCredentials object from a json dictionary."""
         args = {}
-        valid_keys = ['credential_id', 'status']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DeleteCredentials: '
-                + ', '.join(bad_keys))
         if 'credential_id' in _dict:
             args['credential_id'] = _dict.get('credential_id')
         if 'status' in _dict:
@@ -5321,7 +5482,7 @@ class DeleteCredentials():
 
     def __str__(self) -> str:
         """Return a `str` version of this DeleteCredentials object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DeleteCredentials') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -5333,11 +5494,11 @@ class DeleteCredentials():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class StatusEnum(Enum):
+    class StatusEnum(str, Enum):
         """
         The status of the deletion request.
         """
-        DELETED = "deleted"
+        DELETED = 'deleted'
 
 
 class DeleteDocumentResponse():
@@ -5364,12 +5525,6 @@ class DeleteDocumentResponse():
     def from_dict(cls, _dict: Dict) -> 'DeleteDocumentResponse':
         """Initialize a DeleteDocumentResponse object from a json dictionary."""
         args = {}
-        valid_keys = ['document_id', 'status']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DeleteDocumentResponse: '
-                + ', '.join(bad_keys))
         if 'document_id' in _dict:
             args['document_id'] = _dict.get('document_id')
         if 'status' in _dict:
@@ -5396,7 +5551,7 @@ class DeleteDocumentResponse():
 
     def __str__(self) -> str:
         """Return a `str` version of this DeleteDocumentResponse object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DeleteDocumentResponse') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -5408,11 +5563,11 @@ class DeleteDocumentResponse():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class StatusEnum(Enum):
+    class StatusEnum(str, Enum):
         """
         Status of the document. A deleted document has the status deleted.
         """
-        DELETED = "deleted"
+        DELETED = 'deleted'
 
 
 class DeleteEnvironmentResponse():
@@ -5437,12 +5592,6 @@ class DeleteEnvironmentResponse():
     def from_dict(cls, _dict: Dict) -> 'DeleteEnvironmentResponse':
         """Initialize a DeleteEnvironmentResponse object from a json dictionary."""
         args = {}
-        valid_keys = ['environment_id', 'status']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DeleteEnvironmentResponse: '
-                + ', '.join(bad_keys))
         if 'environment_id' in _dict:
             args['environment_id'] = _dict.get('environment_id')
         else:
@@ -5477,7 +5626,7 @@ class DeleteEnvironmentResponse():
 
     def __str__(self) -> str:
         """Return a `str` version of this DeleteEnvironmentResponse object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DeleteEnvironmentResponse') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -5489,11 +5638,11 @@ class DeleteEnvironmentResponse():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class StatusEnum(Enum):
+    class StatusEnum(str, Enum):
         """
         Status of the environment.
         """
-        DELETED = "deleted"
+        DELETED = 'deleted'
 
 
 class DiskUsage():
@@ -5513,10 +5662,6 @@ class DiskUsage():
         """
         Initialize a DiskUsage object.
 
-        :param int used_bytes: (optional) Number of bytes within the environment's
-               disk capacity that are currently used to store data.
-        :param int maximum_allowed_bytes: (optional) Total number of bytes
-               available in the environment's disk capacity.
         """
         self.used_bytes = used_bytes
         self.maximum_allowed_bytes = maximum_allowed_bytes
@@ -5525,12 +5670,6 @@ class DiskUsage():
     def from_dict(cls, _dict: Dict) -> 'DiskUsage':
         """Initialize a DiskUsage object from a json dictionary."""
         args = {}
-        valid_keys = ['used_bytes', 'maximum_allowed_bytes']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DiskUsage: '
-                + ', '.join(bad_keys))
         if 'used_bytes' in _dict:
             args['used_bytes'] = _dict.get('used_bytes')
         if 'maximum_allowed_bytes' in _dict:
@@ -5545,11 +5684,13 @@ class DiskUsage():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'used_bytes') and self.used_bytes is not None:
-            _dict['used_bytes'] = self.used_bytes
-        if hasattr(self, 'maximum_allowed_bytes'
-                  ) and self.maximum_allowed_bytes is not None:
-            _dict['maximum_allowed_bytes'] = self.maximum_allowed_bytes
+        if hasattr(self, 'used_bytes') and getattr(self,
+                                                   'used_bytes') is not None:
+            _dict['used_bytes'] = getattr(self, 'used_bytes')
+        if hasattr(self, 'maximum_allowed_bytes') and getattr(
+                self, 'maximum_allowed_bytes') is not None:
+            _dict['maximum_allowed_bytes'] = getattr(self,
+                                                     'maximum_allowed_bytes')
         return _dict
 
     def _to_dict(self):
@@ -5558,7 +5699,7 @@ class DiskUsage():
 
     def __str__(self) -> str:
         """Return a `str` version of this DiskUsage object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DiskUsage') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -5610,19 +5751,13 @@ class DocumentAccepted():
     def from_dict(cls, _dict: Dict) -> 'DocumentAccepted':
         """Initialize a DocumentAccepted object from a json dictionary."""
         args = {}
-        valid_keys = ['document_id', 'status', 'notices']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DocumentAccepted: '
-                + ', '.join(bad_keys))
         if 'document_id' in _dict:
             args['document_id'] = _dict.get('document_id')
         if 'status' in _dict:
             args['status'] = _dict.get('status')
         if 'notices' in _dict:
             args['notices'] = [
-                Notice._from_dict(x) for x in (_dict.get('notices'))
+                Notice.from_dict(x) for x in _dict.get('notices')
             ]
         return cls(**args)
 
@@ -5639,7 +5774,7 @@ class DocumentAccepted():
         if hasattr(self, 'status') and self.status is not None:
             _dict['status'] = self.status
         if hasattr(self, 'notices') and self.notices is not None:
-            _dict['notices'] = [x._to_dict() for x in self.notices]
+            _dict['notices'] = [x.to_dict() for x in self.notices]
         return _dict
 
     def _to_dict(self):
@@ -5648,7 +5783,7 @@ class DocumentAccepted():
 
     def __str__(self) -> str:
         """Return a `str` version of this DocumentAccepted object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DocumentAccepted') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -5660,14 +5795,14 @@ class DocumentAccepted():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class StatusEnum(Enum):
+    class StatusEnum(str, Enum):
         """
         Status of the document in the ingestion process. A status of `processing` is
         returned for documents that are ingested with a *version* date before
         `2019-01-01`. The `pending` status is returned for all others.
         """
-        PROCESSING = "processing"
-        PENDING = "pending"
+        PROCESSING = 'processing'
+        PENDING = 'pending'
 
 
 class DocumentCounts():
@@ -5693,14 +5828,6 @@ class DocumentCounts():
         """
         Initialize a DocumentCounts object.
 
-        :param int available: (optional) The total number of available documents in
-               the collection.
-        :param int processing: (optional) The number of documents in the collection
-               that are currently being processed.
-        :param int failed: (optional) The number of documents in the collection
-               that failed to be ingested.
-        :param int pending: (optional) The number of documents that have been
-               uploaded to the collection, but have not yet started processing.
         """
         self.available = available
         self.processing = processing
@@ -5711,12 +5838,6 @@ class DocumentCounts():
     def from_dict(cls, _dict: Dict) -> 'DocumentCounts':
         """Initialize a DocumentCounts object from a json dictionary."""
         args = {}
-        valid_keys = ['available', 'processing', 'failed', 'pending']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DocumentCounts: '
-                + ', '.join(bad_keys))
         if 'available' in _dict:
             args['available'] = _dict.get('available')
         if 'processing' in _dict:
@@ -5735,14 +5856,16 @@ class DocumentCounts():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'available') and self.available is not None:
-            _dict['available'] = self.available
-        if hasattr(self, 'processing') and self.processing is not None:
-            _dict['processing'] = self.processing
-        if hasattr(self, 'failed') and self.failed is not None:
-            _dict['failed'] = self.failed
-        if hasattr(self, 'pending') and self.pending is not None:
-            _dict['pending'] = self.pending
+        if hasattr(self, 'available') and getattr(self,
+                                                  'available') is not None:
+            _dict['available'] = getattr(self, 'available')
+        if hasattr(self, 'processing') and getattr(self,
+                                                   'processing') is not None:
+            _dict['processing'] = getattr(self, 'processing')
+        if hasattr(self, 'failed') and getattr(self, 'failed') is not None:
+            _dict['failed'] = getattr(self, 'failed')
+        if hasattr(self, 'pending') and getattr(self, 'pending') is not None:
+            _dict['pending'] = getattr(self, 'pending')
         return _dict
 
     def _to_dict(self):
@@ -5751,7 +5874,7 @@ class DocumentCounts():
 
     def __str__(self) -> str:
         """Return a `str` version of this DocumentCounts object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DocumentCounts') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -5799,8 +5922,6 @@ class DocumentStatus():
         :param str status_description: Description of the document status.
         :param List[Notice] notices: Array of notices produced by the
                document-ingestion process.
-        :param str configuration_id: (optional) The unique identifier for the
-               configuration.
         :param str filename: (optional) Name of the original source file (if
                available).
         :param str file_type: (optional) The type of the original source file.
@@ -5820,15 +5941,6 @@ class DocumentStatus():
     def from_dict(cls, _dict: Dict) -> 'DocumentStatus':
         """Initialize a DocumentStatus object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'document_id', 'configuration_id', 'status', 'status_description',
-            'filename', 'file_type', 'sha1', 'notices'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DocumentStatus: '
-                + ', '.join(bad_keys))
         if 'document_id' in _dict:
             args['document_id'] = _dict.get('document_id')
         else:
@@ -5857,7 +5969,7 @@ class DocumentStatus():
             args['sha1'] = _dict.get('sha1')
         if 'notices' in _dict:
             args['notices'] = [
-                Notice._from_dict(x) for x in (_dict.get('notices'))
+                Notice.from_dict(x) for x in _dict.get('notices')
             ]
         else:
             raise ValueError(
@@ -5873,25 +5985,25 @@ class DocumentStatus():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'document_id') and self.document_id is not None:
-            _dict['document_id'] = self.document_id
-        if hasattr(self,
-                   'configuration_id') and self.configuration_id is not None:
-            _dict['configuration_id'] = self.configuration_id
-        if hasattr(self, 'status') and self.status is not None:
-            _dict['status'] = self.status
-        if hasattr(
-                self,
-                'status_description') and self.status_description is not None:
-            _dict['status_description'] = self.status_description
+        if hasattr(self, 'document_id') and getattr(self,
+                                                    'document_id') is not None:
+            _dict['document_id'] = getattr(self, 'document_id')
+        if hasattr(self, 'configuration_id') and getattr(
+                self, 'configuration_id') is not None:
+            _dict['configuration_id'] = getattr(self, 'configuration_id')
+        if hasattr(self, 'status') and getattr(self, 'status') is not None:
+            _dict['status'] = getattr(self, 'status')
+        if hasattr(self, 'status_description') and getattr(
+                self, 'status_description') is not None:
+            _dict['status_description'] = getattr(self, 'status_description')
         if hasattr(self, 'filename') and self.filename is not None:
             _dict['filename'] = self.filename
         if hasattr(self, 'file_type') and self.file_type is not None:
             _dict['file_type'] = self.file_type
         if hasattr(self, 'sha1') and self.sha1 is not None:
             _dict['sha1'] = self.sha1
-        if hasattr(self, 'notices') and self.notices is not None:
-            _dict['notices'] = [x._to_dict() for x in self.notices]
+        if hasattr(self, 'notices') and getattr(self, 'notices') is not None:
+            _dict['notices'] = [x.to_dict() for x in getattr(self, 'notices')]
         return _dict
 
     def _to_dict(self):
@@ -5900,7 +6012,7 @@ class DocumentStatus():
 
     def __str__(self) -> str:
         """Return a `str` version of this DocumentStatus object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DocumentStatus') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -5912,24 +6024,24 @@ class DocumentStatus():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class StatusEnum(Enum):
+    class StatusEnum(str, Enum):
         """
         Status of the document in the ingestion process.
         """
-        AVAILABLE = "available"
-        AVAILABLE_WITH_NOTICES = "available with notices"
-        FAILED = "failed"
-        PROCESSING = "processing"
-        PENDING = "pending"
+        AVAILABLE = 'available'
+        AVAILABLE_WITH_NOTICES = 'available with notices'
+        FAILED = 'failed'
+        PROCESSING = 'processing'
+        PENDING = 'pending'
 
-    class FileTypeEnum(Enum):
+    class FileTypeEnum(str, Enum):
         """
         The type of the original source file.
         """
-        PDF = "pdf"
-        HTML = "html"
-        WORD = "word"
-        JSON = "json"
+        PDF = 'pdf'
+        HTML = 'html'
+        WORD = 'word'
+        JSON = 'json'
 
 
 class Enrichment():
@@ -6012,15 +6124,6 @@ class Enrichment():
     def from_dict(cls, _dict: Dict) -> 'Enrichment':
         """Initialize a Enrichment object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'description', 'destination_field', 'source_field', 'overwrite',
-            'enrichment', 'ignore_downstream_errors', 'options'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Enrichment: '
-                + ', '.join(bad_keys))
         if 'description' in _dict:
             args['description'] = _dict.get('description')
         if 'destination_field' in _dict:
@@ -6047,7 +6150,7 @@ class Enrichment():
             args['ignore_downstream_errors'] = _dict.get(
                 'ignore_downstream_errors')
         if 'options' in _dict:
-            args['options'] = EnrichmentOptions._from_dict(_dict.get('options'))
+            args['options'] = EnrichmentOptions.from_dict(_dict.get('options'))
         return cls(**args)
 
     @classmethod
@@ -6073,7 +6176,7 @@ class Enrichment():
                   ) and self.ignore_downstream_errors is not None:
             _dict['ignore_downstream_errors'] = self.ignore_downstream_errors
         if hasattr(self, 'options') and self.options is not None:
-            _dict['options'] = self.options._to_dict()
+            _dict['options'] = self.options.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -6082,7 +6185,7 @@ class Enrichment():
 
     def __str__(self) -> str:
         """Return a `str` version of this Enrichment object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Enrichment') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -6138,14 +6241,8 @@ class EnrichmentOptions():
     def from_dict(cls, _dict: Dict) -> 'EnrichmentOptions':
         """Initialize a EnrichmentOptions object from a json dictionary."""
         args = {}
-        valid_keys = ['features', 'language', 'model']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class EnrichmentOptions: '
-                + ', '.join(bad_keys))
         if 'features' in _dict:
-            args['features'] = NluEnrichmentFeatures._from_dict(
+            args['features'] = NluEnrichmentFeatures.from_dict(
                 _dict.get('features'))
         if 'language' in _dict:
             args['language'] = _dict.get('language')
@@ -6162,7 +6259,7 @@ class EnrichmentOptions():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'features') and self.features is not None:
-            _dict['features'] = self.features._to_dict()
+            _dict['features'] = self.features.to_dict()
         if hasattr(self, 'language') and self.language is not None:
             _dict['language'] = self.language
         if hasattr(self, 'model') and self.model is not None:
@@ -6175,7 +6272,7 @@ class EnrichmentOptions():
 
     def __str__(self) -> str:
         """Return a `str` version of this EnrichmentOptions object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'EnrichmentOptions') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -6187,7 +6284,7 @@ class EnrichmentOptions():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class LanguageEnum(Enum):
+    class LanguageEnum(str, Enum):
         """
         ISO 639-1 code indicating the language to use for the analysis. This code
         overrides the automatic language detection performed by the service. Valid codes
@@ -6195,15 +6292,15 @@ class EnrichmentOptions():
         `pt` (Portuguese), `ru` (Russian), `es` (Spanish), and `sv` (Swedish). **Note:**
         Not all features support all languages, automatic detection is recommended.
         """
-        AR = "ar"
-        EN = "en"
-        FR = "fr"
-        DE = "de"
-        IT = "it"
-        PT = "pt"
-        RU = "ru"
-        ES = "es"
-        SV = "sv"
+        AR = 'ar'
+        EN = 'en'
+        FR = 'fr'
+        DE = 'de'
+        IT = 'it'
+        PT = 'pt'
+        RU = 'ru'
+        ES = 'es'
+        SV = 'sv'
 
 
 class Environment():
@@ -6249,19 +6346,8 @@ class Environment():
         """
         Initialize a Environment object.
 
-        :param str environment_id: (optional) Unique identifier for the
-               environment.
         :param str name: (optional) Name that identifies the environment.
         :param str description: (optional) Description of the environment.
-        :param datetime created: (optional) Creation date of the environment, in
-               the format `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`.
-        :param datetime updated: (optional) Date of most recent environment update,
-               in the format `yyyy-MM-dd'T'HH:mm:ss.SSS'Z'`.
-        :param str status: (optional) Current status of the environment. `resizing`
-               is displayed when a request to increase the environment size has been made,
-               but is still in the process of being completed.
-        :param bool read_only: (optional) If `true`, the environment contains
-               read-only collections that are maintained by IBM.
         :param str size: (optional) Current size of the environment.
         :param str requested_size: (optional) The new size requested for this
                environment. Only returned when the environment *status* is `resizing`.
@@ -6288,16 +6374,6 @@ class Environment():
     def from_dict(cls, _dict: Dict) -> 'Environment':
         """Initialize a Environment object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'environment_id', 'name', 'description', 'created', 'updated',
-            'status', 'read_only', 'size', 'requested_size', 'index_capacity',
-            'search_status'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Environment: '
-                + ', '.join(bad_keys))
         if 'environment_id' in _dict:
             args['environment_id'] = _dict.get('environment_id')
         if 'name' in _dict:
@@ -6317,10 +6393,10 @@ class Environment():
         if 'requested_size' in _dict:
             args['requested_size'] = _dict.get('requested_size')
         if 'index_capacity' in _dict:
-            args['index_capacity'] = IndexCapacity._from_dict(
+            args['index_capacity'] = IndexCapacity.from_dict(
                 _dict.get('index_capacity'))
         if 'search_status' in _dict:
-            args['search_status'] = SearchStatus._from_dict(
+            args['search_status'] = SearchStatus.from_dict(
                 _dict.get('search_status'))
         return cls(**args)
 
@@ -6332,28 +6408,30 @@ class Environment():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'environment_id') and self.environment_id is not None:
-            _dict['environment_id'] = self.environment_id
+        if hasattr(self, 'environment_id') and getattr(
+                self, 'environment_id') is not None:
+            _dict['environment_id'] = getattr(self, 'environment_id')
         if hasattr(self, 'name') and self.name is not None:
             _dict['name'] = self.name
         if hasattr(self, 'description') and self.description is not None:
             _dict['description'] = self.description
-        if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = datetime_to_string(self.created)
-        if hasattr(self, 'updated') and self.updated is not None:
-            _dict['updated'] = datetime_to_string(self.updated)
-        if hasattr(self, 'status') and self.status is not None:
-            _dict['status'] = self.status
-        if hasattr(self, 'read_only') and self.read_only is not None:
-            _dict['read_only'] = self.read_only
+        if hasattr(self, 'created') and getattr(self, 'created') is not None:
+            _dict['created'] = datetime_to_string(getattr(self, 'created'))
+        if hasattr(self, 'updated') and getattr(self, 'updated') is not None:
+            _dict['updated'] = datetime_to_string(getattr(self, 'updated'))
+        if hasattr(self, 'status') and getattr(self, 'status') is not None:
+            _dict['status'] = getattr(self, 'status')
+        if hasattr(self, 'read_only') and getattr(self,
+                                                  'read_only') is not None:
+            _dict['read_only'] = getattr(self, 'read_only')
         if hasattr(self, 'size') and self.size is not None:
             _dict['size'] = self.size
         if hasattr(self, 'requested_size') and self.requested_size is not None:
             _dict['requested_size'] = self.requested_size
         if hasattr(self, 'index_capacity') and self.index_capacity is not None:
-            _dict['index_capacity'] = self.index_capacity._to_dict()
+            _dict['index_capacity'] = self.index_capacity.to_dict()
         if hasattr(self, 'search_status') and self.search_status is not None:
-            _dict['search_status'] = self.search_status._to_dict()
+            _dict['search_status'] = self.search_status.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -6362,7 +6440,7 @@ class Environment():
 
     def __str__(self) -> str:
         """Return a `str` version of this Environment object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Environment') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -6374,31 +6452,31 @@ class Environment():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class StatusEnum(Enum):
+    class StatusEnum(str, Enum):
         """
         Current status of the environment. `resizing` is displayed when a request to
         increase the environment size has been made, but is still in the process of being
         completed.
         """
-        ACTIVE = "active"
-        PENDING = "pending"
-        MAINTENANCE = "maintenance"
-        RESIZING = "resizing"
+        ACTIVE = 'active'
+        PENDING = 'pending'
+        MAINTENANCE = 'maintenance'
+        RESIZING = 'resizing'
 
-    class SizeEnum(Enum):
+    class SizeEnum(str, Enum):
         """
         Current size of the environment.
         """
-        LT = "LT"
-        XS = "XS"
-        S = "S"
-        MS = "MS"
-        M = "M"
-        ML = "ML"
-        L = "L"
-        XL = "XL"
-        XXL = "XXL"
-        XXXL = "XXXL"
+        LT = 'LT'
+        XS = 'XS'
+        S = 'S'
+        MS = 'MS'
+        M = 'M'
+        ML = 'ML'
+        L = 'L'
+        XL = 'XL'
+        XXL = 'XXL'
+        XXXL = 'XXXL'
 
 
 class EnvironmentDocuments():
@@ -6417,10 +6495,6 @@ class EnvironmentDocuments():
         """
         Initialize a EnvironmentDocuments object.
 
-        :param int available: (optional) Number of documents indexed for the
-               environment.
-        :param int maximum_allowed: (optional) Total number of documents allowed in
-               the environment's capacity.
         """
         self.available = available
         self.maximum_allowed = maximum_allowed
@@ -6429,12 +6503,6 @@ class EnvironmentDocuments():
     def from_dict(cls, _dict: Dict) -> 'EnvironmentDocuments':
         """Initialize a EnvironmentDocuments object from a json dictionary."""
         args = {}
-        valid_keys = ['available', 'maximum_allowed']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class EnvironmentDocuments: '
-                + ', '.join(bad_keys))
         if 'available' in _dict:
             args['available'] = _dict.get('available')
         if 'maximum_allowed' in _dict:
@@ -6449,11 +6517,12 @@ class EnvironmentDocuments():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'available') and self.available is not None:
-            _dict['available'] = self.available
-        if hasattr(self,
-                   'maximum_allowed') and self.maximum_allowed is not None:
-            _dict['maximum_allowed'] = self.maximum_allowed
+        if hasattr(self, 'available') and getattr(self,
+                                                  'available') is not None:
+            _dict['available'] = getattr(self, 'available')
+        if hasattr(self, 'maximum_allowed') and getattr(
+                self, 'maximum_allowed') is not None:
+            _dict['maximum_allowed'] = getattr(self, 'maximum_allowed')
         return _dict
 
     def _to_dict(self):
@@ -6462,7 +6531,7 @@ class EnvironmentDocuments():
 
     def __str__(self) -> str:
         """Return a `str` version of this EnvironmentDocuments object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'EnvironmentDocuments') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -6521,9 +6590,6 @@ class EventData():
                created in the log was used.
         :param int display_rank: (optional) The rank of the result item which the
                event is associated with.
-        :param str query_id: (optional) The query identifier stored in the log. The
-               query and any events associated with that query are stored with the same
-               **query_id**.
         """
         self.environment_id = environment_id
         self.session_token = session_token
@@ -6537,15 +6603,6 @@ class EventData():
     def from_dict(cls, _dict: Dict) -> 'EventData':
         """Initialize a EventData object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'environment_id', 'session_token', 'client_timestamp',
-            'display_rank', 'collection_id', 'document_id', 'query_id'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class EventData: '
-                + ', '.join(bad_keys))
         if 'environment_id' in _dict:
             args['environment_id'] = _dict.get('environment_id')
         else:
@@ -6601,8 +6658,8 @@ class EventData():
             _dict['collection_id'] = self.collection_id
         if hasattr(self, 'document_id') and self.document_id is not None:
             _dict['document_id'] = self.document_id
-        if hasattr(self, 'query_id') and self.query_id is not None:
-            _dict['query_id'] = self.query_id
+        if hasattr(self, 'query_id') and getattr(self, 'query_id') is not None:
+            _dict['query_id'] = getattr(self, 'query_id')
         return _dict
 
     def _to_dict(self):
@@ -6611,7 +6668,7 @@ class EventData():
 
     def __str__(self) -> str:
         """Return a `str` version of this EventData object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'EventData') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -6658,12 +6715,6 @@ class Expansion():
     def from_dict(cls, _dict: Dict) -> 'Expansion':
         """Initialize a Expansion object from a json dictionary."""
         args = {}
-        valid_keys = ['input_terms', 'expanded_terms']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Expansion: '
-                + ', '.join(bad_keys))
         if 'input_terms' in _dict:
             args['input_terms'] = _dict.get('input_terms')
         if 'expanded_terms' in _dict:
@@ -6694,7 +6745,7 @@ class Expansion():
 
     def __str__(self) -> str:
         """Return a `str` version of this Expansion object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Expansion') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -6750,15 +6801,9 @@ class Expansions():
     def from_dict(cls, _dict: Dict) -> 'Expansions':
         """Initialize a Expansions object from a json dictionary."""
         args = {}
-        valid_keys = ['expansions']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Expansions: '
-                + ', '.join(bad_keys))
         if 'expansions' in _dict:
             args['expansions'] = [
-                Expansion._from_dict(x) for x in (_dict.get('expansions'))
+                Expansion.from_dict(x) for x in _dict.get('expansions')
             ]
         else:
             raise ValueError(
@@ -6775,7 +6820,7 @@ class Expansions():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'expansions') and self.expansions is not None:
-            _dict['expansions'] = [x._to_dict() for x in self.expansions]
+            _dict['expansions'] = [x.to_dict() for x in self.expansions]
         return _dict
 
     def _to_dict(self):
@@ -6784,7 +6829,7 @@ class Expansions():
 
     def __str__(self) -> str:
         """Return a `str` version of this Expansions object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Expansions') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -6809,8 +6854,6 @@ class Field():
         """
         Initialize a Field object.
 
-        :param str field: (optional) The name of the field.
-        :param str type: (optional) The type of the field.
         """
         self.field = field
         self.type = type
@@ -6819,12 +6862,6 @@ class Field():
     def from_dict(cls, _dict: Dict) -> 'Field':
         """Initialize a Field object from a json dictionary."""
         args = {}
-        valid_keys = ['field', 'type']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Field: ' +
-                ', '.join(bad_keys))
         if 'field' in _dict:
             args['field'] = _dict.get('field')
         if 'type' in _dict:
@@ -6839,10 +6876,10 @@ class Field():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'field') and self.field is not None:
-            _dict['field'] = self.field
-        if hasattr(self, 'type') and self.type is not None:
-            _dict['type'] = self.type
+        if hasattr(self, 'field') and getattr(self, 'field') is not None:
+            _dict['field'] = getattr(self, 'field')
+        if hasattr(self, 'type') and getattr(self, 'type') is not None:
+            _dict['type'] = getattr(self, 'type')
         return _dict
 
     def _to_dict(self):
@@ -6851,7 +6888,7 @@ class Field():
 
     def __str__(self) -> str:
         """Return a `str` version of this Field object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Field') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -6863,21 +6900,21 @@ class Field():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class TypeEnum(Enum):
+    class TypeEnum(str, Enum):
         """
         The type of the field.
         """
-        NESTED = "nested"
-        STRING = "string"
-        DATE = "date"
-        LONG = "long"
-        INTEGER = "integer"
-        SHORT = "short"
-        BYTE = "byte"
-        DOUBLE = "double"
-        FLOAT = "float"
-        BOOLEAN = "boolean"
-        BINARY = "binary"
+        NESTED = 'nested'
+        STRING = 'string'
+        DATE = 'date'
+        LONG = 'long'
+        INTEGER = 'integer'
+        SHORT = 'short'
+        BYTE = 'byte'
+        DOUBLE = 'double'
+        FLOAT = 'float'
+        BOOLEAN = 'boolean'
+        BINARY = 'binary'
 
 
 class FontSetting():
@@ -6925,12 +6962,6 @@ class FontSetting():
     def from_dict(cls, _dict: Dict) -> 'FontSetting':
         """Initialize a FontSetting object from a json dictionary."""
         args = {}
-        valid_keys = ['level', 'min_size', 'max_size', 'bold', 'italic', 'name']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class FontSetting: '
-                + ', '.join(bad_keys))
         if 'level' in _dict:
             args['level'] = _dict.get('level')
         if 'min_size' in _dict:
@@ -6973,7 +7004,7 @@ class FontSetting():
 
     def __str__(self) -> str:
         """Return a `str` version of this FontSetting object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'FontSetting') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -7032,12 +7063,6 @@ class Gateway():
     def from_dict(cls, _dict: Dict) -> 'Gateway':
         """Initialize a Gateway object from a json dictionary."""
         args = {}
-        valid_keys = ['gateway_id', 'name', 'status', 'token', 'token_id']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Gateway: ' +
-                ', '.join(bad_keys))
         if 'gateway_id' in _dict:
             args['gateway_id'] = _dict.get('gateway_id')
         if 'name' in _dict:
@@ -7076,7 +7101,7 @@ class Gateway():
 
     def __str__(self) -> str:
         """Return a `str` version of this Gateway object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Gateway') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -7088,13 +7113,13 @@ class Gateway():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class StatusEnum(Enum):
+    class StatusEnum(str, Enum):
         """
         The current status of the gateway. `connected` means the gateway is connected to
         the remotly installed gateway. `idle` means this gateway is not currently in use.
         """
-        CONNECTED = "connected"
-        IDLE = "idle"
+        CONNECTED = 'connected'
+        IDLE = 'idle'
 
 
 class GatewayDelete():
@@ -7119,12 +7144,6 @@ class GatewayDelete():
     def from_dict(cls, _dict: Dict) -> 'GatewayDelete':
         """Initialize a GatewayDelete object from a json dictionary."""
         args = {}
-        valid_keys = ['gateway_id', 'status']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class GatewayDelete: '
-                + ', '.join(bad_keys))
         if 'gateway_id' in _dict:
             args['gateway_id'] = _dict.get('gateway_id')
         if 'status' in _dict:
@@ -7151,7 +7170,7 @@ class GatewayDelete():
 
     def __str__(self) -> str:
         """Return a `str` version of this GatewayDelete object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'GatewayDelete') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -7185,15 +7204,9 @@ class GatewayList():
     def from_dict(cls, _dict: Dict) -> 'GatewayList':
         """Initialize a GatewayList object from a json dictionary."""
         args = {}
-        valid_keys = ['gateways']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class GatewayList: '
-                + ', '.join(bad_keys))
         if 'gateways' in _dict:
             args['gateways'] = [
-                Gateway._from_dict(x) for x in (_dict.get('gateways'))
+                Gateway.from_dict(x) for x in _dict.get('gateways')
             ]
         return cls(**args)
 
@@ -7206,7 +7219,7 @@ class GatewayList():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'gateways') and self.gateways is not None:
-            _dict['gateways'] = [x._to_dict() for x in self.gateways]
+            _dict['gateways'] = [x.to_dict() for x in self.gateways]
         return _dict
 
     def _to_dict(self):
@@ -7215,7 +7228,7 @@ class GatewayList():
 
     def __str__(self) -> str:
         """Return a `str` version of this GatewayList object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'GatewayList') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -7281,16 +7294,6 @@ class HtmlSettings():
     def from_dict(cls, _dict: Dict) -> 'HtmlSettings':
         """Initialize a HtmlSettings object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'exclude_tags_completely', 'exclude_tags_keep_content',
-            'keep_content', 'exclude_content', 'keep_tag_attributes',
-            'exclude_tag_attributes'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class HtmlSettings: '
-                + ', '.join(bad_keys))
         if 'exclude_tags_completely' in _dict:
             args['exclude_tags_completely'] = _dict.get(
                 'exclude_tags_completely')
@@ -7298,10 +7301,10 @@ class HtmlSettings():
             args['exclude_tags_keep_content'] = _dict.get(
                 'exclude_tags_keep_content')
         if 'keep_content' in _dict:
-            args['keep_content'] = XPathPatterns._from_dict(
+            args['keep_content'] = XPathPatterns.from_dict(
                 _dict.get('keep_content'))
         if 'exclude_content' in _dict:
-            args['exclude_content'] = XPathPatterns._from_dict(
+            args['exclude_content'] = XPathPatterns.from_dict(
                 _dict.get('exclude_content'))
         if 'keep_tag_attributes' in _dict:
             args['keep_tag_attributes'] = _dict.get('keep_tag_attributes')
@@ -7324,10 +7327,10 @@ class HtmlSettings():
                   ) and self.exclude_tags_keep_content is not None:
             _dict['exclude_tags_keep_content'] = self.exclude_tags_keep_content
         if hasattr(self, 'keep_content') and self.keep_content is not None:
-            _dict['keep_content'] = self.keep_content._to_dict()
+            _dict['keep_content'] = self.keep_content.to_dict()
         if hasattr(self,
                    'exclude_content') and self.exclude_content is not None:
-            _dict['exclude_content'] = self.exclude_content._to_dict()
+            _dict['exclude_content'] = self.exclude_content.to_dict()
         if hasattr(
                 self,
                 'keep_tag_attributes') and self.keep_tag_attributes is not None:
@@ -7343,7 +7346,7 @@ class HtmlSettings():
 
     def __str__(self) -> str:
         """Return a `str` version of this HtmlSettings object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'HtmlSettings') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -7391,19 +7394,13 @@ class IndexCapacity():
     def from_dict(cls, _dict: Dict) -> 'IndexCapacity':
         """Initialize a IndexCapacity object from a json dictionary."""
         args = {}
-        valid_keys = ['documents', 'disk_usage', 'collections']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class IndexCapacity: '
-                + ', '.join(bad_keys))
         if 'documents' in _dict:
-            args['documents'] = EnvironmentDocuments._from_dict(
+            args['documents'] = EnvironmentDocuments.from_dict(
                 _dict.get('documents'))
         if 'disk_usage' in _dict:
-            args['disk_usage'] = DiskUsage._from_dict(_dict.get('disk_usage'))
+            args['disk_usage'] = DiskUsage.from_dict(_dict.get('disk_usage'))
         if 'collections' in _dict:
-            args['collections'] = CollectionUsage._from_dict(
+            args['collections'] = CollectionUsage.from_dict(
                 _dict.get('collections'))
         return cls(**args)
 
@@ -7416,11 +7413,11 @@ class IndexCapacity():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'documents') and self.documents is not None:
-            _dict['documents'] = self.documents._to_dict()
+            _dict['documents'] = self.documents.to_dict()
         if hasattr(self, 'disk_usage') and self.disk_usage is not None:
-            _dict['disk_usage'] = self.disk_usage._to_dict()
+            _dict['disk_usage'] = self.disk_usage.to_dict()
         if hasattr(self, 'collections') and self.collections is not None:
-            _dict['collections'] = self.collections._to_dict()
+            _dict['collections'] = self.collections.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -7429,7 +7426,7 @@ class IndexCapacity():
 
     def __str__(self) -> str:
         """Return a `str` version of this IndexCapacity object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'IndexCapacity') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -7472,16 +7469,8 @@ class ListCollectionFieldsResponse():
     def from_dict(cls, _dict: Dict) -> 'ListCollectionFieldsResponse':
         """Initialize a ListCollectionFieldsResponse object from a json dictionary."""
         args = {}
-        valid_keys = ['fields']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ListCollectionFieldsResponse: '
-                + ', '.join(bad_keys))
         if 'fields' in _dict:
-            args['fields'] = [
-                Field._from_dict(x) for x in (_dict.get('fields'))
-            ]
+            args['fields'] = [Field.from_dict(x) for x in _dict.get('fields')]
         return cls(**args)
 
     @classmethod
@@ -7493,7 +7482,7 @@ class ListCollectionFieldsResponse():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'fields') and self.fields is not None:
-            _dict['fields'] = [x._to_dict() for x in self.fields]
+            _dict['fields'] = [x.to_dict() for x in self.fields]
         return _dict
 
     def _to_dict(self):
@@ -7502,7 +7491,7 @@ class ListCollectionFieldsResponse():
 
     def __str__(self) -> str:
         """Return a `str` version of this ListCollectionFieldsResponse object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ListCollectionFieldsResponse') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -7536,15 +7525,9 @@ class ListCollectionsResponse():
     def from_dict(cls, _dict: Dict) -> 'ListCollectionsResponse':
         """Initialize a ListCollectionsResponse object from a json dictionary."""
         args = {}
-        valid_keys = ['collections']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ListCollectionsResponse: '
-                + ', '.join(bad_keys))
         if 'collections' in _dict:
             args['collections'] = [
-                Collection._from_dict(x) for x in (_dict.get('collections'))
+                Collection.from_dict(x) for x in _dict.get('collections')
             ]
         return cls(**args)
 
@@ -7557,7 +7540,7 @@ class ListCollectionsResponse():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'collections') and self.collections is not None:
-            _dict['collections'] = [x._to_dict() for x in self.collections]
+            _dict['collections'] = [x.to_dict() for x in self.collections]
         return _dict
 
     def _to_dict(self):
@@ -7566,7 +7549,7 @@ class ListCollectionsResponse():
 
     def __str__(self) -> str:
         """Return a `str` version of this ListCollectionsResponse object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ListCollectionsResponse') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -7600,16 +7583,9 @@ class ListConfigurationsResponse():
     def from_dict(cls, _dict: Dict) -> 'ListConfigurationsResponse':
         """Initialize a ListConfigurationsResponse object from a json dictionary."""
         args = {}
-        valid_keys = ['configurations']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ListConfigurationsResponse: '
-                + ', '.join(bad_keys))
         if 'configurations' in _dict:
             args['configurations'] = [
-                Configuration._from_dict(x)
-                for x in (_dict.get('configurations'))
+                Configuration.from_dict(x) for x in _dict.get('configurations')
             ]
         return cls(**args)
 
@@ -7622,9 +7598,7 @@ class ListConfigurationsResponse():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'configurations') and self.configurations is not None:
-            _dict['configurations'] = [
-                x._to_dict() for x in self.configurations
-            ]
+            _dict['configurations'] = [x.to_dict() for x in self.configurations]
         return _dict
 
     def _to_dict(self):
@@ -7633,7 +7607,7 @@ class ListConfigurationsResponse():
 
     def __str__(self) -> str:
         """Return a `str` version of this ListConfigurationsResponse object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ListConfigurationsResponse') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -7667,15 +7641,9 @@ class ListEnvironmentsResponse():
     def from_dict(cls, _dict: Dict) -> 'ListEnvironmentsResponse':
         """Initialize a ListEnvironmentsResponse object from a json dictionary."""
         args = {}
-        valid_keys = ['environments']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ListEnvironmentsResponse: '
-                + ', '.join(bad_keys))
         if 'environments' in _dict:
             args['environments'] = [
-                Environment._from_dict(x) for x in (_dict.get('environments'))
+                Environment.from_dict(x) for x in _dict.get('environments')
             ]
         return cls(**args)
 
@@ -7688,7 +7656,7 @@ class ListEnvironmentsResponse():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'environments') and self.environments is not None:
-            _dict['environments'] = [x._to_dict() for x in self.environments]
+            _dict['environments'] = [x.to_dict() for x in self.environments]
         return _dict
 
     def _to_dict(self):
@@ -7697,7 +7665,7 @@ class ListEnvironmentsResponse():
 
     def __str__(self) -> str:
         """Return a `str` version of this ListEnvironmentsResponse object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ListEnvironmentsResponse') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -7737,18 +7705,12 @@ class LogQueryResponse():
     def from_dict(cls, _dict: Dict) -> 'LogQueryResponse':
         """Initialize a LogQueryResponse object from a json dictionary."""
         args = {}
-        valid_keys = ['matching_results', 'results']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class LogQueryResponse: '
-                + ', '.join(bad_keys))
         if 'matching_results' in _dict:
             args['matching_results'] = _dict.get('matching_results')
         if 'results' in _dict:
             args['results'] = [
-                LogQueryResponseResult._from_dict(x)
-                for x in (_dict.get('results'))
+                LogQueryResponseResult.from_dict(x)
+                for x in _dict.get('results')
             ]
         return cls(**args)
 
@@ -7764,7 +7726,7 @@ class LogQueryResponse():
                    'matching_results') and self.matching_results is not None:
             _dict['matching_results'] = self.matching_results
         if hasattr(self, 'results') and self.results is not None:
-            _dict['results'] = [x._to_dict() for x in self.results]
+            _dict['results'] = [x.to_dict() for x in self.results]
         return _dict
 
     def _to_dict(self):
@@ -7773,7 +7735,7 @@ class LogQueryResponse():
 
     def __str__(self) -> str:
         """Return a `str` version of this LogQueryResponse object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'LogQueryResponse') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -7932,17 +7894,6 @@ class LogQueryResponseResult():
     def from_dict(cls, _dict: Dict) -> 'LogQueryResponseResult':
         """Initialize a LogQueryResponseResult object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'environment_id', 'customer_id', 'document_type',
-            'natural_language_query', 'document_results', 'created_timestamp',
-            'client_timestamp', 'query_id', 'session_token', 'collection_id',
-            'display_rank', 'document_id', 'event_type', 'result_type'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class LogQueryResponseResult: '
-                + ', '.join(bad_keys))
         if 'environment_id' in _dict:
             args['environment_id'] = _dict.get('environment_id')
         if 'customer_id' in _dict:
@@ -7953,7 +7904,7 @@ class LogQueryResponseResult():
             args['natural_language_query'] = _dict.get('natural_language_query')
         if 'document_results' in _dict:
             args[
-                'document_results'] = LogQueryResponseResultDocuments._from_dict(
+                'document_results'] = LogQueryResponseResultDocuments.from_dict(
                     _dict.get('document_results'))
         if 'created_timestamp' in _dict:
             args['created_timestamp'] = string_to_datetime(
@@ -7996,7 +7947,7 @@ class LogQueryResponseResult():
             _dict['natural_language_query'] = self.natural_language_query
         if hasattr(self,
                    'document_results') and self.document_results is not None:
-            _dict['document_results'] = self.document_results._to_dict()
+            _dict['document_results'] = self.document_results.to_dict()
         if hasattr(self,
                    'created_timestamp') and self.created_timestamp is not None:
             _dict['created_timestamp'] = datetime_to_string(
@@ -8027,7 +7978,7 @@ class LogQueryResponseResult():
 
     def __str__(self) -> str:
         """Return a `str` version of this LogQueryResponseResult object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'LogQueryResponseResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -8039,31 +7990,31 @@ class LogQueryResponseResult():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class DocumentTypeEnum(Enum):
+    class DocumentTypeEnum(str, Enum):
         """
         The type of log entry returned.
          **query** indicates that the log represents the results of a call to the single
         collection **query** method.
          **event** indicates that the log represents  a call to the **events** API.
         """
-        QUERY = "query"
-        EVENT = "event"
+        QUERY = 'query'
+        EVENT = 'event'
 
-    class EventTypeEnum(Enum):
+    class EventTypeEnum(str, Enum):
         """
         The type of event that this object respresents. Possible values are
          -  `query` the log of a query to a collection
          -  `click` the result of a call to the **events** endpoint.
         """
-        CLICK = "click"
-        QUERY = "query"
+        CLICK = 'click'
+        QUERY = 'query'
 
-    class ResultTypeEnum(Enum):
+    class ResultTypeEnum(str, Enum):
         """
         The type of result that this **event** is associated with. Only returned with logs
         of type `event`.
         """
-        DOCUMENT = "document"
+        DOCUMENT = 'document'
 
 
 class LogQueryResponseResultDocuments():
@@ -8096,16 +8047,10 @@ class LogQueryResponseResultDocuments():
     def from_dict(cls, _dict: Dict) -> 'LogQueryResponseResultDocuments':
         """Initialize a LogQueryResponseResultDocuments object from a json dictionary."""
         args = {}
-        valid_keys = ['results', 'count']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class LogQueryResponseResultDocuments: '
-                + ', '.join(bad_keys))
         if 'results' in _dict:
             args['results'] = [
-                LogQueryResponseResultDocumentsResult._from_dict(x)
-                for x in (_dict.get('results'))
+                LogQueryResponseResultDocumentsResult.from_dict(x)
+                for x in _dict.get('results')
             ]
         if 'count' in _dict:
             args['count'] = _dict.get('count')
@@ -8120,7 +8065,7 @@ class LogQueryResponseResultDocuments():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'results') and self.results is not None:
-            _dict['results'] = [x._to_dict() for x in self.results]
+            _dict['results'] = [x.to_dict() for x in self.results]
         if hasattr(self, 'count') and self.count is not None:
             _dict['count'] = self.count
         return _dict
@@ -8131,7 +8076,7 @@ class LogQueryResponseResultDocuments():
 
     def __str__(self) -> str:
         """Return a `str` version of this LogQueryResponseResultDocuments object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'LogQueryResponseResultDocuments') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -8192,14 +8137,6 @@ class LogQueryResponseResultDocumentsResult():
     def from_dict(cls, _dict: Dict) -> 'LogQueryResponseResultDocumentsResult':
         """Initialize a LogQueryResponseResultDocumentsResult object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'position', 'document_id', 'score', 'confidence', 'collection_id'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class LogQueryResponseResultDocumentsResult: '
-                + ', '.join(bad_keys))
         if 'position' in _dict:
             args['position'] = _dict.get('position')
         if 'document_id' in _dict:
@@ -8238,7 +8175,7 @@ class LogQueryResponseResultDocumentsResult():
 
     def __str__(self) -> str:
         """Return a `str` version of this LogQueryResponseResultDocumentsResult object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'LogQueryResponseResultDocumentsResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -8286,20 +8223,14 @@ class MetricAggregation():
     def from_dict(cls, _dict: Dict) -> 'MetricAggregation':
         """Initialize a MetricAggregation object from a json dictionary."""
         args = {}
-        valid_keys = ['interval', 'event_type', 'results']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class MetricAggregation: '
-                + ', '.join(bad_keys))
         if 'interval' in _dict:
             args['interval'] = _dict.get('interval')
         if 'event_type' in _dict:
             args['event_type'] = _dict.get('event_type')
         if 'results' in _dict:
             args['results'] = [
-                MetricAggregationResult._from_dict(x)
-                for x in (_dict.get('results'))
+                MetricAggregationResult.from_dict(x)
+                for x in _dict.get('results')
             ]
         return cls(**args)
 
@@ -8316,7 +8247,7 @@ class MetricAggregation():
         if hasattr(self, 'event_type') and self.event_type is not None:
             _dict['event_type'] = self.event_type
         if hasattr(self, 'results') and self.results is not None:
-            _dict['results'] = [x._to_dict() for x in self.results]
+            _dict['results'] = [x.to_dict() for x in self.results]
         return _dict
 
     def _to_dict(self):
@@ -8325,7 +8256,7 @@ class MetricAggregation():
 
     def __str__(self) -> str:
         """Return a `str` version of this MetricAggregation object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'MetricAggregation') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -8379,12 +8310,6 @@ class MetricAggregationResult():
     def from_dict(cls, _dict: Dict) -> 'MetricAggregationResult':
         """Initialize a MetricAggregationResult object from a json dictionary."""
         args = {}
-        valid_keys = ['key_as_string', 'key', 'matching_results', 'event_rate']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class MetricAggregationResult: '
-                + ', '.join(bad_keys))
         if 'key_as_string' in _dict:
             args['key_as_string'] = string_to_datetime(
                 _dict.get('key_as_string'))
@@ -8421,7 +8346,7 @@ class MetricAggregationResult():
 
     def __str__(self) -> str:
         """Return a `str` version of this MetricAggregationResult object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'MetricAggregationResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -8457,16 +8382,10 @@ class MetricResponse():
     def from_dict(cls, _dict: Dict) -> 'MetricResponse':
         """Initialize a MetricResponse object from a json dictionary."""
         args = {}
-        valid_keys = ['aggregations']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class MetricResponse: '
-                + ', '.join(bad_keys))
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                MetricAggregation._from_dict(x)
-                for x in (_dict.get('aggregations'))
+                MetricAggregation.from_dict(x)
+                for x in _dict.get('aggregations')
             ]
         return cls(**args)
 
@@ -8479,7 +8398,7 @@ class MetricResponse():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'aggregations') and self.aggregations is not None:
-            _dict['aggregations'] = [x._to_dict() for x in self.aggregations]
+            _dict['aggregations'] = [x.to_dict() for x in self.aggregations]
         return _dict
 
     def _to_dict(self):
@@ -8488,7 +8407,7 @@ class MetricResponse():
 
     def __str__(self) -> str:
         """Return a `str` version of this MetricResponse object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'MetricResponse') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -8530,18 +8449,12 @@ class MetricTokenAggregation():
     def from_dict(cls, _dict: Dict) -> 'MetricTokenAggregation':
         """Initialize a MetricTokenAggregation object from a json dictionary."""
         args = {}
-        valid_keys = ['event_type', 'results']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class MetricTokenAggregation: '
-                + ', '.join(bad_keys))
         if 'event_type' in _dict:
             args['event_type'] = _dict.get('event_type')
         if 'results' in _dict:
             args['results'] = [
-                MetricTokenAggregationResult._from_dict(x)
-                for x in (_dict.get('results'))
+                MetricTokenAggregationResult.from_dict(x)
+                for x in _dict.get('results')
             ]
         return cls(**args)
 
@@ -8556,7 +8469,7 @@ class MetricTokenAggregation():
         if hasattr(self, 'event_type') and self.event_type is not None:
             _dict['event_type'] = self.event_type
         if hasattr(self, 'results') and self.results is not None:
-            _dict['results'] = [x._to_dict() for x in self.results]
+            _dict['results'] = [x.to_dict() for x in self.results]
         return _dict
 
     def _to_dict(self):
@@ -8565,7 +8478,7 @@ class MetricTokenAggregation():
 
     def __str__(self) -> str:
         """Return a `str` version of this MetricTokenAggregation object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'MetricTokenAggregation') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -8613,12 +8526,6 @@ class MetricTokenAggregationResult():
     def from_dict(cls, _dict: Dict) -> 'MetricTokenAggregationResult':
         """Initialize a MetricTokenAggregationResult object from a json dictionary."""
         args = {}
-        valid_keys = ['key', 'matching_results', 'event_rate']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class MetricTokenAggregationResult: '
-                + ', '.join(bad_keys))
         if 'key' in _dict:
             args['key'] = _dict.get('key')
         if 'matching_results' in _dict:
@@ -8650,7 +8557,7 @@ class MetricTokenAggregationResult():
 
     def __str__(self) -> str:
         """Return a `str` version of this MetricTokenAggregationResult object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'MetricTokenAggregationResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -8686,16 +8593,10 @@ class MetricTokenResponse():
     def from_dict(cls, _dict: Dict) -> 'MetricTokenResponse':
         """Initialize a MetricTokenResponse object from a json dictionary."""
         args = {}
-        valid_keys = ['aggregations']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class MetricTokenResponse: '
-                + ', '.join(bad_keys))
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                MetricTokenAggregation._from_dict(x)
-                for x in (_dict.get('aggregations'))
+                MetricTokenAggregation.from_dict(x)
+                for x in _dict.get('aggregations')
             ]
         return cls(**args)
 
@@ -8708,7 +8609,7 @@ class MetricTokenResponse():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'aggregations') and self.aggregations is not None:
-            _dict['aggregations'] = [x._to_dict() for x in self.aggregations]
+            _dict['aggregations'] = [x.to_dict() for x in self.aggregations]
         return _dict
 
     def _to_dict(self):
@@ -8717,7 +8618,7 @@ class MetricTokenResponse():
 
     def __str__(self) -> str:
         """Return a `str` version of this MetricTokenResponse object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'MetricTokenResponse') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -8726,73 +8627,6 @@ class MetricTokenResponse():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'MetricTokenResponse') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class NluEnrichmentCategories():
-    """
-    An object that indicates the Categories enrichment will be applied to the specified
-    field.
-
-    """
-
-    def __init__(self, **kwargs) -> None:
-        """
-        Initialize a NluEnrichmentCategories object.
-
-        :param **kwargs: (optional) Any additional properties.
-        """
-        for _key, _value in kwargs.items():
-            setattr(self, _key, _value)
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'NluEnrichmentCategories':
-        """Initialize a NluEnrichmentCategories object from a json dictionary."""
-        args = {}
-        xtra = _dict.copy()
-        args.update(xtra)
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a NluEnrichmentCategories object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, '_additionalProperties'):
-            for _key in self._additionalProperties:
-                _value = getattr(self, _key, None)
-                if _value is not None:
-                    _dict[_key] = _value
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __setattr__(self, name: str, value: object) -> None:
-        properties = {}
-        if not hasattr(self, '_additionalProperties'):
-            super(NluEnrichmentCategories,
-                  self).__setattr__('_additionalProperties', set())
-        if name not in properties:
-            self._additionalProperties.add(name)
-        super(NluEnrichmentCategories, self).__setattr__(name, value)
-
-    def __str__(self) -> str:
-        """Return a `str` version of this NluEnrichmentCategories object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other: 'NluEnrichmentCategories') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'NluEnrichmentCategories') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -8818,12 +8652,6 @@ class NluEnrichmentConcepts():
     def from_dict(cls, _dict: Dict) -> 'NluEnrichmentConcepts':
         """Initialize a NluEnrichmentConcepts object from a json dictionary."""
         args = {}
-        valid_keys = ['limit']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class NluEnrichmentConcepts: '
-                + ', '.join(bad_keys))
         if 'limit' in _dict:
             args['limit'] = _dict.get('limit')
         return cls(**args)
@@ -8846,7 +8674,7 @@ class NluEnrichmentConcepts():
 
     def __str__(self) -> str:
         """Return a `str` version of this NluEnrichmentConcepts object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'NluEnrichmentConcepts') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -8888,12 +8716,6 @@ class NluEnrichmentEmotion():
     def from_dict(cls, _dict: Dict) -> 'NluEnrichmentEmotion':
         """Initialize a NluEnrichmentEmotion object from a json dictionary."""
         args = {}
-        valid_keys = ['document', 'targets']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class NluEnrichmentEmotion: '
-                + ', '.join(bad_keys))
         if 'document' in _dict:
             args['document'] = _dict.get('document')
         if 'targets' in _dict:
@@ -8920,7 +8742,7 @@ class NluEnrichmentEmotion():
 
     def __str__(self) -> str:
         """Return a `str` version of this NluEnrichmentEmotion object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'NluEnrichmentEmotion') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -8996,15 +8818,6 @@ class NluEnrichmentEntities():
     def from_dict(cls, _dict: Dict) -> 'NluEnrichmentEntities':
         """Initialize a NluEnrichmentEntities object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'sentiment', 'emotion', 'limit', 'mentions', 'mention_types',
-            'sentence_locations', 'model'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class NluEnrichmentEntities: '
-                + ', '.join(bad_keys))
         if 'sentiment' in _dict:
             args['sentiment'] = _dict.get('sentiment')
         if 'emotion' in _dict:
@@ -9053,7 +8866,7 @@ class NluEnrichmentEntities():
 
     def __str__(self) -> str:
         """Return a `str` version of this NluEnrichmentEntities object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'NluEnrichmentEntities') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -9078,8 +8891,8 @@ class NluEnrichmentFeatures():
           sentiment extraction enrichment and related parameters.
     :attr NluEnrichmentEmotion emotion: (optional) An object specifying the emotion
           detection enrichment and related parameters.
-    :attr NluEnrichmentCategories categories: (optional) An object that indicates
-          the Categories enrichment will be applied to the specified field.
+    :attr dict categories: (optional) An object that indicates the Categories
+          enrichment will be applied to the specified field.
     :attr NluEnrichmentSemanticRoles semantic_roles: (optional) An object
           specifiying the semantic roles enrichment and related parameters.
     :attr NluEnrichmentRelations relations: (optional) An object specifying the
@@ -9094,7 +8907,7 @@ class NluEnrichmentFeatures():
                  entities: 'NluEnrichmentEntities' = None,
                  sentiment: 'NluEnrichmentSentiment' = None,
                  emotion: 'NluEnrichmentEmotion' = None,
-                 categories: 'NluEnrichmentCategories' = None,
+                 categories: dict = None,
                  semantic_roles: 'NluEnrichmentSemanticRoles' = None,
                  relations: 'NluEnrichmentRelations' = None,
                  concepts: 'NluEnrichmentConcepts' = None) -> None:
@@ -9109,8 +8922,8 @@ class NluEnrichmentFeatures():
                the sentiment extraction enrichment and related parameters.
         :param NluEnrichmentEmotion emotion: (optional) An object specifying the
                emotion detection enrichment and related parameters.
-        :param NluEnrichmentCategories categories: (optional) An object that
-               indicates the Categories enrichment will be applied to the specified field.
+        :param dict categories: (optional) An object that indicates the Categories
+               enrichment will be applied to the specified field.
         :param NluEnrichmentSemanticRoles semantic_roles: (optional) An object
                specifiying the semantic roles enrichment and related parameters.
         :param NluEnrichmentRelations relations: (optional) An object specifying
@@ -9131,38 +8944,28 @@ class NluEnrichmentFeatures():
     def from_dict(cls, _dict: Dict) -> 'NluEnrichmentFeatures':
         """Initialize a NluEnrichmentFeatures object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'keywords', 'entities', 'sentiment', 'emotion', 'categories',
-            'semantic_roles', 'relations', 'concepts'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class NluEnrichmentFeatures: '
-                + ', '.join(bad_keys))
         if 'keywords' in _dict:
-            args['keywords'] = NluEnrichmentKeywords._from_dict(
+            args['keywords'] = NluEnrichmentKeywords.from_dict(
                 _dict.get('keywords'))
         if 'entities' in _dict:
-            args['entities'] = NluEnrichmentEntities._from_dict(
+            args['entities'] = NluEnrichmentEntities.from_dict(
                 _dict.get('entities'))
         if 'sentiment' in _dict:
-            args['sentiment'] = NluEnrichmentSentiment._from_dict(
+            args['sentiment'] = NluEnrichmentSentiment.from_dict(
                 _dict.get('sentiment'))
         if 'emotion' in _dict:
-            args['emotion'] = NluEnrichmentEmotion._from_dict(
+            args['emotion'] = NluEnrichmentEmotion.from_dict(
                 _dict.get('emotion'))
         if 'categories' in _dict:
-            args['categories'] = NluEnrichmentCategories._from_dict(
-                _dict.get('categories'))
+            args['categories'] = _dict.get('categories')
         if 'semantic_roles' in _dict:
-            args['semantic_roles'] = NluEnrichmentSemanticRoles._from_dict(
+            args['semantic_roles'] = NluEnrichmentSemanticRoles.from_dict(
                 _dict.get('semantic_roles'))
         if 'relations' in _dict:
-            args['relations'] = NluEnrichmentRelations._from_dict(
+            args['relations'] = NluEnrichmentRelations.from_dict(
                 _dict.get('relations'))
         if 'concepts' in _dict:
-            args['concepts'] = NluEnrichmentConcepts._from_dict(
+            args['concepts'] = NluEnrichmentConcepts.from_dict(
                 _dict.get('concepts'))
         return cls(**args)
 
@@ -9175,21 +8978,21 @@ class NluEnrichmentFeatures():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'keywords') and self.keywords is not None:
-            _dict['keywords'] = self.keywords._to_dict()
+            _dict['keywords'] = self.keywords.to_dict()
         if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = self.entities._to_dict()
+            _dict['entities'] = self.entities.to_dict()
         if hasattr(self, 'sentiment') and self.sentiment is not None:
-            _dict['sentiment'] = self.sentiment._to_dict()
+            _dict['sentiment'] = self.sentiment.to_dict()
         if hasattr(self, 'emotion') and self.emotion is not None:
-            _dict['emotion'] = self.emotion._to_dict()
+            _dict['emotion'] = self.emotion.to_dict()
         if hasattr(self, 'categories') and self.categories is not None:
-            _dict['categories'] = self.categories._to_dict()
+            _dict['categories'] = self.categories
         if hasattr(self, 'semantic_roles') and self.semantic_roles is not None:
-            _dict['semantic_roles'] = self.semantic_roles._to_dict()
+            _dict['semantic_roles'] = self.semantic_roles.to_dict()
         if hasattr(self, 'relations') and self.relations is not None:
-            _dict['relations'] = self.relations._to_dict()
+            _dict['relations'] = self.relations.to_dict()
         if hasattr(self, 'concepts') and self.concepts is not None:
-            _dict['concepts'] = self.concepts._to_dict()
+            _dict['concepts'] = self.concepts.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -9198,7 +9001,7 @@ class NluEnrichmentFeatures():
 
     def __str__(self) -> str:
         """Return a `str` version of this NluEnrichmentFeatures object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'NluEnrichmentFeatures') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -9246,12 +9049,6 @@ class NluEnrichmentKeywords():
     def from_dict(cls, _dict: Dict) -> 'NluEnrichmentKeywords':
         """Initialize a NluEnrichmentKeywords object from a json dictionary."""
         args = {}
-        valid_keys = ['sentiment', 'emotion', 'limit']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class NluEnrichmentKeywords: '
-                + ', '.join(bad_keys))
         if 'sentiment' in _dict:
             args['sentiment'] = _dict.get('sentiment')
         if 'emotion' in _dict:
@@ -9282,7 +9079,7 @@ class NluEnrichmentKeywords():
 
     def __str__(self) -> str:
         """Return a `str` version of this NluEnrichmentKeywords object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'NluEnrichmentKeywords') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -9320,12 +9117,6 @@ class NluEnrichmentRelations():
     def from_dict(cls, _dict: Dict) -> 'NluEnrichmentRelations':
         """Initialize a NluEnrichmentRelations object from a json dictionary."""
         args = {}
-        valid_keys = ['model']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class NluEnrichmentRelations: '
-                + ', '.join(bad_keys))
         if 'model' in _dict:
             args['model'] = _dict.get('model')
         return cls(**args)
@@ -9348,7 +9139,7 @@ class NluEnrichmentRelations():
 
     def __str__(self) -> str:
         """Return a `str` version of this NluEnrichmentRelations object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'NluEnrichmentRelations') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -9396,12 +9187,6 @@ class NluEnrichmentSemanticRoles():
     def from_dict(cls, _dict: Dict) -> 'NluEnrichmentSemanticRoles':
         """Initialize a NluEnrichmentSemanticRoles object from a json dictionary."""
         args = {}
-        valid_keys = ['entities', 'keywords', 'limit']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class NluEnrichmentSemanticRoles: '
-                + ', '.join(bad_keys))
         if 'entities' in _dict:
             args['entities'] = _dict.get('entities')
         if 'keywords' in _dict:
@@ -9432,7 +9217,7 @@ class NluEnrichmentSemanticRoles():
 
     def __str__(self) -> str:
         """Return a `str` version of this NluEnrichmentSemanticRoles object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'NluEnrichmentSemanticRoles') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -9474,12 +9259,6 @@ class NluEnrichmentSentiment():
     def from_dict(cls, _dict: Dict) -> 'NluEnrichmentSentiment':
         """Initialize a NluEnrichmentSentiment object from a json dictionary."""
         args = {}
-        valid_keys = ['document', 'targets']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class NluEnrichmentSentiment: '
-                + ', '.join(bad_keys))
         if 'document' in _dict:
             args['document'] = _dict.get('document')
         if 'targets' in _dict:
@@ -9506,7 +9285,7 @@ class NluEnrichmentSentiment():
 
     def __str__(self) -> str:
         """Return a `str` version of this NluEnrichmentSentiment object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'NluEnrichmentSentiment') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -9599,12 +9378,6 @@ class NormalizationOperation():
     def from_dict(cls, _dict: Dict) -> 'NormalizationOperation':
         """Initialize a NormalizationOperation object from a json dictionary."""
         args = {}
-        valid_keys = ['operation', 'source_field', 'destination_field']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class NormalizationOperation: '
-                + ', '.join(bad_keys))
         if 'operation' in _dict:
             args['operation'] = _dict.get('operation')
         if 'source_field' in _dict:
@@ -9636,7 +9409,7 @@ class NormalizationOperation():
 
     def __str__(self) -> str:
         """Return a `str` version of this NormalizationOperation object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'NormalizationOperation') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -9648,7 +9421,7 @@ class NormalizationOperation():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class OperationEnum(Enum):
+    class OperationEnum(str, Enum):
         """
         Identifies what type of operation to perform.
         **copy** - Copies the value of the **source_field** to the **destination_field**
@@ -9675,11 +9448,11 @@ class NormalizationOperation():
         **remove_nulls** is invoked as the last normalization operation (if it is invoked
         at all, it can be time-expensive).
         """
-        COPY = "copy"
-        MOVE = "move"
-        MERGE = "merge"
-        REMOVE = "remove"
-        REMOVE_NULLS = "remove_nulls"
+        COPY = 'copy'
+        MOVE = 'move'
+        MERGE = 'merge'
+        REMOVE = 'remove'
+        REMOVE_NULLS = 'remove_nulls'
 
 
 class Notice():
@@ -9725,31 +9498,6 @@ class Notice():
         """
         Initialize a Notice object.
 
-        :param str notice_id: (optional) Identifies the notice. Many notices might
-               have the same ID. This field exists so that user applications can
-               programmatically identify a notice and take automatic corrective action.
-               Typical notice IDs include: `index_failed`,
-               `index_failed_too_many_requests`, `index_failed_incompatible_field`,
-               `index_failed_cluster_unavailable`, `ingestion_timeout`, `ingestion_error`,
-               `bad_request`, `internal_error`, `missing_model`, `unsupported_model`,
-               `smart_document_understanding_failed_incompatible_field`,
-               `smart_document_understanding_failed_internal_error`,
-               `smart_document_understanding_failed_internal_error`,
-               `smart_document_understanding_failed_warning`,
-               `smart_document_understanding_page_error`,
-               `smart_document_understanding_page_warning`. **Note:** This is not a
-               complete list, other values might be returned.
-        :param datetime created: (optional) The creation date of the collection in
-               the format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
-        :param str document_id: (optional) Unique identifier of the document.
-        :param str query_id: (optional) Unique identifier of the query used for
-               relevance training.
-        :param str severity: (optional) Severity level of the notice.
-        :param str step: (optional) Ingestion or training step in which the notice
-               occurred. Typical step values include: `classify_elements`,
-               `smartDocumentUnderstanding`, `ingestion`, `indexing`, `convert`. **Note:**
-               This is not a complete list, other values might be returned.
-        :param str description: (optional) The description of the notice.
         """
         self.notice_id = notice_id
         self.created = created
@@ -9763,15 +9511,6 @@ class Notice():
     def from_dict(cls, _dict: Dict) -> 'Notice':
         """Initialize a Notice object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'notice_id', 'created', 'document_id', 'query_id', 'severity',
-            'step', 'description'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Notice: ' +
-                ', '.join(bad_keys))
         if 'notice_id' in _dict:
             args['notice_id'] = _dict.get('notice_id')
         if 'created' in _dict:
@@ -9796,20 +9535,23 @@ class Notice():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'notice_id') and self.notice_id is not None:
-            _dict['notice_id'] = self.notice_id
-        if hasattr(self, 'created') and self.created is not None:
-            _dict['created'] = datetime_to_string(self.created)
-        if hasattr(self, 'document_id') and self.document_id is not None:
-            _dict['document_id'] = self.document_id
-        if hasattr(self, 'query_id') and self.query_id is not None:
-            _dict['query_id'] = self.query_id
-        if hasattr(self, 'severity') and self.severity is not None:
-            _dict['severity'] = self.severity
-        if hasattr(self, 'step') and self.step is not None:
-            _dict['step'] = self.step
-        if hasattr(self, 'description') and self.description is not None:
-            _dict['description'] = self.description
+        if hasattr(self, 'notice_id') and getattr(self,
+                                                  'notice_id') is not None:
+            _dict['notice_id'] = getattr(self, 'notice_id')
+        if hasattr(self, 'created') and getattr(self, 'created') is not None:
+            _dict['created'] = datetime_to_string(getattr(self, 'created'))
+        if hasattr(self, 'document_id') and getattr(self,
+                                                    'document_id') is not None:
+            _dict['document_id'] = getattr(self, 'document_id')
+        if hasattr(self, 'query_id') and getattr(self, 'query_id') is not None:
+            _dict['query_id'] = getattr(self, 'query_id')
+        if hasattr(self, 'severity') and getattr(self, 'severity') is not None:
+            _dict['severity'] = getattr(self, 'severity')
+        if hasattr(self, 'step') and getattr(self, 'step') is not None:
+            _dict['step'] = getattr(self, 'step')
+        if hasattr(self, 'description') and getattr(self,
+                                                    'description') is not None:
+            _dict['description'] = getattr(self, 'description')
         return _dict
 
     def _to_dict(self):
@@ -9818,7 +9560,7 @@ class Notice():
 
     def __str__(self) -> str:
         """Return a `str` version of this Notice object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Notice') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -9830,12 +9572,12 @@ class Notice():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class SeverityEnum(Enum):
+    class SeverityEnum(str, Enum):
         """
         Severity level of the notice.
         """
-        WARNING = "warning"
-        ERROR = "error"
+        WARNING = 'warning'
+        ERROR = 'error'
 
 
 class PdfHeadingDetection():
@@ -9858,15 +9600,9 @@ class PdfHeadingDetection():
     def from_dict(cls, _dict: Dict) -> 'PdfHeadingDetection':
         """Initialize a PdfHeadingDetection object from a json dictionary."""
         args = {}
-        valid_keys = ['fonts']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class PdfHeadingDetection: '
-                + ', '.join(bad_keys))
         if 'fonts' in _dict:
             args['fonts'] = [
-                FontSetting._from_dict(x) for x in (_dict.get('fonts'))
+                FontSetting.from_dict(x) for x in _dict.get('fonts')
             ]
         return cls(**args)
 
@@ -9879,7 +9615,7 @@ class PdfHeadingDetection():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'fonts') and self.fonts is not None:
-            _dict['fonts'] = [x._to_dict() for x in self.fonts]
+            _dict['fonts'] = [x.to_dict() for x in self.fonts]
         return _dict
 
     def _to_dict(self):
@@ -9888,7 +9624,7 @@ class PdfHeadingDetection():
 
     def __str__(self) -> str:
         """Return a `str` version of this PdfHeadingDetection object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'PdfHeadingDetection') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -9922,14 +9658,8 @@ class PdfSettings():
     def from_dict(cls, _dict: Dict) -> 'PdfSettings':
         """Initialize a PdfSettings object from a json dictionary."""
         args = {}
-        valid_keys = ['heading']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class PdfSettings: '
-                + ', '.join(bad_keys))
         if 'heading' in _dict:
-            args['heading'] = PdfHeadingDetection._from_dict(
+            args['heading'] = PdfHeadingDetection.from_dict(
                 _dict.get('heading'))
         return cls(**args)
 
@@ -9942,7 +9672,7 @@ class PdfSettings():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'heading') and self.heading is not None:
-            _dict['heading'] = self.heading._to_dict()
+            _dict['heading'] = self.heading.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -9951,7 +9681,7 @@ class PdfSettings():
 
     def __str__(self) -> str:
         """Return a `str` version of this PdfSettings object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'PdfSettings') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -10005,24 +9735,17 @@ class QueryAggregation():
         if disc_class != cls:
             return disc_class.from_dict(_dict)
         args = {}
-        valid_keys = ['type', 'results', 'matching_results', 'aggregations']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryAggregation: '
-                + ', '.join(bad_keys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'results' in _dict:
             args['results'] = [
-                AggregationResult._from_dict(x) for x in (_dict.get('results'))
+                AggregationResult.from_dict(x) for x in _dict.get('results')
             ]
         if 'matching_results' in _dict:
             args['matching_results'] = _dict.get('matching_results')
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                QueryAggregation._from_dict(x)
-                for x in (_dict.get('aggregations'))
+                QueryAggregation.from_dict(x) for x in _dict.get('aggregations')
             ]
         return cls(**args)
 
@@ -10037,12 +9760,12 @@ class QueryAggregation():
         if hasattr(self, 'type') and self.type is not None:
             _dict['type'] = self.type
         if hasattr(self, 'results') and self.results is not None:
-            _dict['results'] = [x._to_dict() for x in self.results]
+            _dict['results'] = [x.to_dict() for x in self.results]
         if hasattr(self,
                    'matching_results') and self.matching_results is not None:
             _dict['matching_results'] = self.matching_results
         if hasattr(self, 'aggregations') and self.aggregations is not None:
-            _dict['aggregations'] = [x._to_dict() for x in self.aggregations]
+            _dict['aggregations'] = [x.to_dict() for x in self.aggregations]
         return _dict
 
     def _to_dict(self):
@@ -10051,7 +9774,7 @@ class QueryAggregation():
 
     def __str__(self) -> str:
         """Return a `str` version of this QueryAggregation object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'QueryAggregation') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -10137,29 +9860,19 @@ class QueryNoticesResponse():
     def from_dict(cls, _dict: Dict) -> 'QueryNoticesResponse':
         """Initialize a QueryNoticesResponse object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'matching_results', 'results', 'aggregations', 'passages',
-            'duplicates_removed'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryNoticesResponse: '
-                + ', '.join(bad_keys))
         if 'matching_results' in _dict:
             args['matching_results'] = _dict.get('matching_results')
         if 'results' in _dict:
             args['results'] = [
-                QueryNoticesResult._from_dict(x) for x in (_dict.get('results'))
+                QueryNoticesResult.from_dict(x) for x in _dict.get('results')
             ]
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                QueryAggregation._from_dict(x)
-                for x in (_dict.get('aggregations'))
+                QueryAggregation.from_dict(x) for x in _dict.get('aggregations')
             ]
         if 'passages' in _dict:
             args['passages'] = [
-                QueryPassages._from_dict(x) for x in (_dict.get('passages'))
+                QueryPassages.from_dict(x) for x in _dict.get('passages')
             ]
         if 'duplicates_removed' in _dict:
             args['duplicates_removed'] = _dict.get('duplicates_removed')
@@ -10177,11 +9890,11 @@ class QueryNoticesResponse():
                    'matching_results') and self.matching_results is not None:
             _dict['matching_results'] = self.matching_results
         if hasattr(self, 'results') and self.results is not None:
-            _dict['results'] = [x._to_dict() for x in self.results]
+            _dict['results'] = [x.to_dict() for x in self.results]
         if hasattr(self, 'aggregations') and self.aggregations is not None:
-            _dict['aggregations'] = [x._to_dict() for x in self.aggregations]
+            _dict['aggregations'] = [x.to_dict() for x in self.aggregations]
         if hasattr(self, 'passages') and self.passages is not None:
-            _dict['passages'] = [x._to_dict() for x in self.passages]
+            _dict['passages'] = [x.to_dict() for x in self.passages]
         if hasattr(
                 self,
                 'duplicates_removed') and self.duplicates_removed is not None:
@@ -10194,7 +9907,7 @@ class QueryNoticesResponse():
 
     def __str__(self) -> str:
         """Return a `str` version of this QueryNoticesResponse object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'QueryNoticesResponse') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -10225,6 +9938,12 @@ class QueryNoticesResult():
           as a hexadecimal string).
     :attr List[Notice] notices: (optional) Array of notices for the document.
     """
+
+    # The set of defined properties for the class
+    _properties = frozenset([
+        'id', 'metadata', 'collection_id', 'result_metadata', 'code',
+        'filename', 'file_type', 'sha1', 'notices'
+    ])
 
     def __init__(self,
                  *,
@@ -10274,38 +9993,29 @@ class QueryNoticesResult():
     def from_dict(cls, _dict: Dict) -> 'QueryNoticesResult':
         """Initialize a QueryNoticesResult object from a json dictionary."""
         args = {}
-        xtra = _dict.copy()
         if 'id' in _dict:
             args['id'] = _dict.get('id')
-            del xtra['id']
         if 'metadata' in _dict:
             args['metadata'] = _dict.get('metadata')
-            del xtra['metadata']
         if 'collection_id' in _dict:
             args['collection_id'] = _dict.get('collection_id')
-            del xtra['collection_id']
         if 'result_metadata' in _dict:
-            args['result_metadata'] = QueryResultMetadata._from_dict(
+            args['result_metadata'] = QueryResultMetadata.from_dict(
                 _dict.get('result_metadata'))
-            del xtra['result_metadata']
         if 'code' in _dict:
             args['code'] = _dict.get('code')
-            del xtra['code']
         if 'filename' in _dict:
             args['filename'] = _dict.get('filename')
-            del xtra['filename']
         if 'file_type' in _dict:
             args['file_type'] = _dict.get('file_type')
-            del xtra['file_type']
         if 'sha1' in _dict:
             args['sha1'] = _dict.get('sha1')
-            del xtra['sha1']
         if 'notices' in _dict:
             args['notices'] = [
-                Notice._from_dict(x) for x in (_dict.get('notices'))
+                Notice.from_dict(x) for x in _dict.get('notices')
             ]
-            del xtra['notices']
-        args.update(xtra)
+        args.update(
+            {k: v for (k, v) in _dict.items() if k not in cls._properties})
         return cls(**args)
 
     @classmethod
@@ -10324,7 +10034,7 @@ class QueryNoticesResult():
             _dict['collection_id'] = self.collection_id
         if hasattr(self,
                    'result_metadata') and self.result_metadata is not None:
-            _dict['result_metadata'] = self.result_metadata._to_dict()
+            _dict['result_metadata'] = self.result_metadata.to_dict()
         if hasattr(self, 'code') and self.code is not None:
             _dict['code'] = self.code
         if hasattr(self, 'filename') and self.filename is not None:
@@ -10334,33 +10044,22 @@ class QueryNoticesResult():
         if hasattr(self, 'sha1') and self.sha1 is not None:
             _dict['sha1'] = self.sha1
         if hasattr(self, 'notices') and self.notices is not None:
-            _dict['notices'] = [x._to_dict() for x in self.notices]
-        if hasattr(self, '_additionalProperties'):
-            for _key in self._additionalProperties:
-                _value = getattr(self, _key, None)
-                if _value is not None:
-                    _dict[_key] = _value
+            _dict['notices'] = [x.to_dict() for x in self.notices]
+        for _key in [
+                k for k in vars(self).keys()
+                if k not in QueryNoticesResult._properties
+        ]:
+            if getattr(self, _key, None) is not None:
+                _dict[_key] = getattr(self, _key)
         return _dict
 
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         return self.to_dict()
 
-    def __setattr__(self, name: str, value: object) -> None:
-        properties = {
-            'id', 'metadata', 'collection_id', 'result_metadata', 'code',
-            'filename', 'file_type', 'sha1', 'notices'
-        }
-        if not hasattr(self, '_additionalProperties'):
-            super(QueryNoticesResult, self).__setattr__('_additionalProperties',
-                                                        set())
-        if name not in properties:
-            self._additionalProperties.add(name)
-        super(QueryNoticesResult, self).__setattr__(name, value)
-
     def __str__(self) -> str:
         """Return a `str` version of this QueryNoticesResult object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'QueryNoticesResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -10372,14 +10071,14 @@ class QueryNoticesResult():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class FileTypeEnum(Enum):
+    class FileTypeEnum(str, Enum):
         """
         The type of the original source file.
         """
-        PDF = "pdf"
-        HTML = "html"
-        WORD = "word"
-        JSON = "json"
+        PDF = 'pdf'
+        HTML = 'html'
+        WORD = 'word'
+        JSON = 'json'
 
 
 class QueryPassages():
@@ -10433,15 +10132,6 @@ class QueryPassages():
     def from_dict(cls, _dict: Dict) -> 'QueryPassages':
         """Initialize a QueryPassages object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'document_id', 'passage_score', 'passage_text', 'start_offset',
-            'end_offset', 'field'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryPassages: '
-                + ', '.join(bad_keys))
         if 'document_id' in _dict:
             args['document_id'] = _dict.get('document_id')
         if 'passage_score' in _dict:
@@ -10484,7 +10174,7 @@ class QueryPassages():
 
     def __str__(self) -> str:
         """Return a `str` version of this QueryPassages object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'QueryPassages') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -10566,37 +10256,26 @@ class QueryResponse():
     def from_dict(cls, _dict: Dict) -> 'QueryResponse':
         """Initialize a QueryResponse object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'matching_results', 'results', 'aggregations', 'passages',
-            'duplicates_removed', 'session_token', 'retrieval_details',
-            'suggested_query'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryResponse: '
-                + ', '.join(bad_keys))
         if 'matching_results' in _dict:
             args['matching_results'] = _dict.get('matching_results')
         if 'results' in _dict:
             args['results'] = [
-                QueryResult._from_dict(x) for x in (_dict.get('results'))
+                QueryResult.from_dict(x) for x in _dict.get('results')
             ]
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                QueryAggregation._from_dict(x)
-                for x in (_dict.get('aggregations'))
+                QueryAggregation.from_dict(x) for x in _dict.get('aggregations')
             ]
         if 'passages' in _dict:
             args['passages'] = [
-                QueryPassages._from_dict(x) for x in (_dict.get('passages'))
+                QueryPassages.from_dict(x) for x in _dict.get('passages')
             ]
         if 'duplicates_removed' in _dict:
             args['duplicates_removed'] = _dict.get('duplicates_removed')
         if 'session_token' in _dict:
             args['session_token'] = _dict.get('session_token')
         if 'retrieval_details' in _dict:
-            args['retrieval_details'] = RetrievalDetails._from_dict(
+            args['retrieval_details'] = RetrievalDetails.from_dict(
                 _dict.get('retrieval_details'))
         if 'suggested_query' in _dict:
             args['suggested_query'] = _dict.get('suggested_query')
@@ -10614,11 +10293,11 @@ class QueryResponse():
                    'matching_results') and self.matching_results is not None:
             _dict['matching_results'] = self.matching_results
         if hasattr(self, 'results') and self.results is not None:
-            _dict['results'] = [x._to_dict() for x in self.results]
+            _dict['results'] = [x.to_dict() for x in self.results]
         if hasattr(self, 'aggregations') and self.aggregations is not None:
-            _dict['aggregations'] = [x._to_dict() for x in self.aggregations]
+            _dict['aggregations'] = [x.to_dict() for x in self.aggregations]
         if hasattr(self, 'passages') and self.passages is not None:
-            _dict['passages'] = [x._to_dict() for x in self.passages]
+            _dict['passages'] = [x.to_dict() for x in self.passages]
         if hasattr(
                 self,
                 'duplicates_removed') and self.duplicates_removed is not None:
@@ -10627,7 +10306,7 @@ class QueryResponse():
             _dict['session_token'] = self.session_token
         if hasattr(self,
                    'retrieval_details') and self.retrieval_details is not None:
-            _dict['retrieval_details'] = self.retrieval_details._to_dict()
+            _dict['retrieval_details'] = self.retrieval_details.to_dict()
         if hasattr(self,
                    'suggested_query') and self.suggested_query is not None:
             _dict['suggested_query'] = self.suggested_query
@@ -10639,7 +10318,7 @@ class QueryResponse():
 
     def __str__(self) -> str:
         """Return a `str` version of this QueryResponse object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'QueryResponse') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -10663,6 +10342,10 @@ class QueryResult():
     :attr QueryResultMetadata result_metadata: (optional) Metadata of a query
           result.
     """
+
+    # The set of defined properties for the class
+    _properties = frozenset(
+        ['id', 'metadata', 'collection_id', 'result_metadata'])
 
     def __init__(self,
                  *,
@@ -10693,21 +10376,17 @@ class QueryResult():
     def from_dict(cls, _dict: Dict) -> 'QueryResult':
         """Initialize a QueryResult object from a json dictionary."""
         args = {}
-        xtra = _dict.copy()
         if 'id' in _dict:
             args['id'] = _dict.get('id')
-            del xtra['id']
         if 'metadata' in _dict:
             args['metadata'] = _dict.get('metadata')
-            del xtra['metadata']
         if 'collection_id' in _dict:
             args['collection_id'] = _dict.get('collection_id')
-            del xtra['collection_id']
         if 'result_metadata' in _dict:
-            args['result_metadata'] = QueryResultMetadata._from_dict(
+            args['result_metadata'] = QueryResultMetadata.from_dict(
                 _dict.get('result_metadata'))
-            del xtra['result_metadata']
-        args.update(xtra)
+        args.update(
+            {k: v for (k, v) in _dict.items() if k not in cls._properties})
         return cls(**args)
 
     @classmethod
@@ -10726,29 +10405,21 @@ class QueryResult():
             _dict['collection_id'] = self.collection_id
         if hasattr(self,
                    'result_metadata') and self.result_metadata is not None:
-            _dict['result_metadata'] = self.result_metadata._to_dict()
-        if hasattr(self, '_additionalProperties'):
-            for _key in self._additionalProperties:
-                _value = getattr(self, _key, None)
-                if _value is not None:
-                    _dict[_key] = _value
+            _dict['result_metadata'] = self.result_metadata.to_dict()
+        for _key in [
+                k for k in vars(self).keys() if k not in QueryResult._properties
+        ]:
+            if getattr(self, _key, None) is not None:
+                _dict[_key] = getattr(self, _key)
         return _dict
 
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         return self.to_dict()
 
-    def __setattr__(self, name: str, value: object) -> None:
-        properties = {'id', 'metadata', 'collection_id', 'result_metadata'}
-        if not hasattr(self, '_additionalProperties'):
-            super(QueryResult, self).__setattr__('_additionalProperties', set())
-        if name not in properties:
-            self._additionalProperties.add(name)
-        super(QueryResult, self).__setattr__(name, value)
-
     def __str__(self) -> str:
         """Return a `str` version of this QueryResult object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'QueryResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -10796,12 +10467,6 @@ class QueryResultMetadata():
     def from_dict(cls, _dict: Dict) -> 'QueryResultMetadata':
         """Initialize a QueryResultMetadata object from a json dictionary."""
         args = {}
-        valid_keys = ['score', 'confidence']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class QueryResultMetadata: '
-                + ', '.join(bad_keys))
         if 'score' in _dict:
             args['score'] = _dict.get('score')
         else:
@@ -10832,7 +10497,7 @@ class QueryResultMetadata():
 
     def __str__(self) -> str:
         """Return a `str` version of this QueryResultMetadata object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'QueryResultMetadata') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -10881,12 +10546,6 @@ class RetrievalDetails():
     def from_dict(cls, _dict: Dict) -> 'RetrievalDetails':
         """Initialize a RetrievalDetails object from a json dictionary."""
         args = {}
-        valid_keys = ['document_retrieval_strategy']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RetrievalDetails: '
-                + ', '.join(bad_keys))
         if 'document_retrieval_strategy' in _dict:
             args['document_retrieval_strategy'] = _dict.get(
                 'document_retrieval_strategy')
@@ -10912,7 +10571,7 @@ class RetrievalDetails():
 
     def __str__(self) -> str:
         """Return a `str` version of this RetrievalDetails object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'RetrievalDetails') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -10924,7 +10583,7 @@ class RetrievalDetails():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class DocumentRetrievalStrategyEnum(Enum):
+    class DocumentRetrievalStrategyEnum(str, Enum):
         """
         Indentifies the document retrieval strategy used for this query.
         `relevancy_training` indicates that the results were returned using a relevancy
@@ -10936,9 +10595,9 @@ class RetrievalDetails():
         model is not used to return results, the **document_retrieval_strategy** will be
         listed as `untrained`.
         """
-        UNTRAINED = "untrained"
-        RELEVANCY_TRAINING = "relevancy_training"
-        CONTINUOUS_RELEVANCY_TRAINING = "continuous_relevancy_training"
+        UNTRAINED = 'untrained'
+        RELEVANCY_TRAINING = 'relevancy_training'
+        CONTINUOUS_RELEVANCY_TRAINING = 'continuous_relevancy_training'
 
 
 class SduStatus():
@@ -11010,15 +10669,6 @@ class SduStatus():
     def from_dict(cls, _dict: Dict) -> 'SduStatus':
         """Initialize a SduStatus object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'enabled', 'total_annotated_pages', 'total_pages',
-            'total_documents', 'custom_fields'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SduStatus: '
-                + ', '.join(bad_keys))
         if 'enabled' in _dict:
             args['enabled'] = _dict.get('enabled')
         if 'total_annotated_pages' in _dict:
@@ -11028,7 +10678,7 @@ class SduStatus():
         if 'total_documents' in _dict:
             args['total_documents'] = _dict.get('total_documents')
         if 'custom_fields' in _dict:
-            args['custom_fields'] = SduStatusCustomFields._from_dict(
+            args['custom_fields'] = SduStatusCustomFields.from_dict(
                 _dict.get('custom_fields'))
         return cls(**args)
 
@@ -11051,7 +10701,7 @@ class SduStatus():
                    'total_documents') and self.total_documents is not None:
             _dict['total_documents'] = self.total_documents
         if hasattr(self, 'custom_fields') and self.custom_fields is not None:
-            _dict['custom_fields'] = self.custom_fields._to_dict()
+            _dict['custom_fields'] = self.custom_fields.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -11060,7 +10710,7 @@ class SduStatus():
 
     def __str__(self) -> str:
         """Return a `str` version of this SduStatus object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SduStatus') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -11103,12 +10753,6 @@ class SduStatusCustomFields():
     def from_dict(cls, _dict: Dict) -> 'SduStatusCustomFields':
         """Initialize a SduStatusCustomFields object from a json dictionary."""
         args = {}
-        valid_keys = ['defined', 'maximum_allowed']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SduStatusCustomFields: '
-                + ', '.join(bad_keys))
         if 'defined' in _dict:
             args['defined'] = _dict.get('defined')
         if 'maximum_allowed' in _dict:
@@ -11136,7 +10780,7 @@ class SduStatusCustomFields():
 
     def __str__(self) -> str:
         """Return a `str` version of this SduStatusCustomFields object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SduStatusCustomFields') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -11190,12 +10834,6 @@ class SearchStatus():
     def from_dict(cls, _dict: Dict) -> 'SearchStatus':
         """Initialize a SearchStatus object from a json dictionary."""
         args = {}
-        valid_keys = ['scope', 'status', 'status_description', 'last_trained']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SearchStatus: '
-                + ', '.join(bad_keys))
         if 'scope' in _dict:
             args['scope'] = _dict.get('scope')
         if 'status' in _dict:
@@ -11203,7 +10841,7 @@ class SearchStatus():
         if 'status_description' in _dict:
             args['status_description'] = _dict.get('status_description')
         if 'last_trained' in _dict:
-            args['last_trained'] = _dict.get('last_trained')
+            args['last_trained'] = string_to_date(_dict.get('last_trained'))
         return cls(**args)
 
     @classmethod
@@ -11223,7 +10861,7 @@ class SearchStatus():
                 'status_description') and self.status_description is not None:
             _dict['status_description'] = self.status_description
         if hasattr(self, 'last_trained') and self.last_trained is not None:
-            _dict['last_trained'] = self.last_trained
+            _dict['last_trained'] = date_to_string(self.last_trained)
         return _dict
 
     def _to_dict(self):
@@ -11232,7 +10870,7 @@ class SearchStatus():
 
     def __str__(self) -> str:
         """Return a `str` version of this SearchStatus object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SearchStatus') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -11244,15 +10882,15 @@ class SearchStatus():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class StatusEnum(Enum):
+    class StatusEnum(str, Enum):
         """
         The current status of Continuous Relevancy Training for this environment.
         """
-        NO_DATA = "NO_DATA"
-        INSUFFICENT_DATA = "INSUFFICENT_DATA"
-        TRAINING = "TRAINING"
-        TRAINED = "TRAINED"
-        NOT_APPLICABLE = "NOT_APPLICABLE"
+        NO_DATA = 'NO_DATA'
+        INSUFFICENT_DATA = 'INSUFFICENT_DATA'
+        TRAINING = 'TRAINING'
+        TRAINED = 'TRAINED'
+        NOT_APPLICABLE = 'NOT_APPLICABLE'
 
 
 class SegmentSettings():
@@ -11314,12 +10952,6 @@ class SegmentSettings():
     def from_dict(cls, _dict: Dict) -> 'SegmentSettings':
         """Initialize a SegmentSettings object from a json dictionary."""
         args = {}
-        valid_keys = ['enabled', 'selector_tags', 'annotated_fields']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SegmentSettings: '
-                + ', '.join(bad_keys))
         if 'enabled' in _dict:
             args['enabled'] = _dict.get('enabled')
         if 'selector_tags' in _dict:
@@ -11351,7 +10983,7 @@ class SegmentSettings():
 
     def __str__(self) -> str:
         """Return a `str` version of this SegmentSettings object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SegmentSettings') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -11423,20 +11055,14 @@ class Source():
     def from_dict(cls, _dict: Dict) -> 'Source':
         """Initialize a Source object from a json dictionary."""
         args = {}
-        valid_keys = ['type', 'credential_id', 'schedule', 'options']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Source: ' +
-                ', '.join(bad_keys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'credential_id' in _dict:
             args['credential_id'] = _dict.get('credential_id')
         if 'schedule' in _dict:
-            args['schedule'] = SourceSchedule._from_dict(_dict.get('schedule'))
+            args['schedule'] = SourceSchedule.from_dict(_dict.get('schedule'))
         if 'options' in _dict:
-            args['options'] = SourceOptions._from_dict(_dict.get('options'))
+            args['options'] = SourceOptions.from_dict(_dict.get('options'))
         return cls(**args)
 
     @classmethod
@@ -11452,9 +11078,9 @@ class Source():
         if hasattr(self, 'credential_id') and self.credential_id is not None:
             _dict['credential_id'] = self.credential_id
         if hasattr(self, 'schedule') and self.schedule is not None:
-            _dict['schedule'] = self.schedule._to_dict()
+            _dict['schedule'] = self.schedule.to_dict()
         if hasattr(self, 'options') and self.options is not None:
-            _dict['options'] = self.options._to_dict()
+            _dict['options'] = self.options.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -11463,7 +11089,7 @@ class Source():
 
     def __str__(self) -> str:
         """Return a `str` version of this Source object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Source') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -11475,7 +11101,7 @@ class Source():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class TypeEnum(Enum):
+    class TypeEnum(str, Enum):
         """
         The type of source to connect to.
         -  `box` indicates the configuration is to connect an instance of Enterprise Box.
@@ -11486,11 +11112,11 @@ class Source():
         -  `cloud_object_storage` indicates the configuration is to connect to a cloud
         object store.
         """
-        BOX = "box"
-        SALESFORCE = "salesforce"
-        SHAREPOINT = "sharepoint"
-        WEB_CRAWL = "web_crawl"
-        CLOUD_OBJECT_STORAGE = "cloud_object_storage"
+        BOX = 'box'
+        SALESFORCE = 'salesforce'
+        SHAREPOINT = 'sharepoint'
+        WEB_CRAWL = 'web_crawl'
+        CLOUD_OBJECT_STORAGE = 'cloud_object_storage'
 
 
 class SourceOptions():
@@ -11563,38 +11189,26 @@ class SourceOptions():
     def from_dict(cls, _dict: Dict) -> 'SourceOptions':
         """Initialize a SourceOptions object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'folders', 'objects', 'site_collections', 'urls', 'buckets',
-            'crawl_all_buckets'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SourceOptions: '
-                + ', '.join(bad_keys))
         if 'folders' in _dict:
             args['folders'] = [
-                SourceOptionsFolder._from_dict(x)
-                for x in (_dict.get('folders'))
+                SourceOptionsFolder.from_dict(x) for x in _dict.get('folders')
             ]
         if 'objects' in _dict:
             args['objects'] = [
-                SourceOptionsObject._from_dict(x)
-                for x in (_dict.get('objects'))
+                SourceOptionsObject.from_dict(x) for x in _dict.get('objects')
             ]
         if 'site_collections' in _dict:
             args['site_collections'] = [
-                SourceOptionsSiteColl._from_dict(x)
-                for x in (_dict.get('site_collections'))
+                SourceOptionsSiteColl.from_dict(x)
+                for x in _dict.get('site_collections')
             ]
         if 'urls' in _dict:
             args['urls'] = [
-                SourceOptionsWebCrawl._from_dict(x) for x in (_dict.get('urls'))
+                SourceOptionsWebCrawl.from_dict(x) for x in _dict.get('urls')
             ]
         if 'buckets' in _dict:
             args['buckets'] = [
-                SourceOptionsBuckets._from_dict(x)
-                for x in (_dict.get('buckets'))
+                SourceOptionsBuckets.from_dict(x) for x in _dict.get('buckets')
             ]
         if 'crawl_all_buckets' in _dict:
             args['crawl_all_buckets'] = _dict.get('crawl_all_buckets')
@@ -11609,18 +11223,18 @@ class SourceOptions():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'folders') and self.folders is not None:
-            _dict['folders'] = [x._to_dict() for x in self.folders]
+            _dict['folders'] = [x.to_dict() for x in self.folders]
         if hasattr(self, 'objects') and self.objects is not None:
-            _dict['objects'] = [x._to_dict() for x in self.objects]
+            _dict['objects'] = [x.to_dict() for x in self.objects]
         if hasattr(self,
                    'site_collections') and self.site_collections is not None:
             _dict['site_collections'] = [
-                x._to_dict() for x in self.site_collections
+                x.to_dict() for x in self.site_collections
             ]
         if hasattr(self, 'urls') and self.urls is not None:
-            _dict['urls'] = [x._to_dict() for x in self.urls]
+            _dict['urls'] = [x.to_dict() for x in self.urls]
         if hasattr(self, 'buckets') and self.buckets is not None:
-            _dict['buckets'] = [x._to_dict() for x in self.buckets]
+            _dict['buckets'] = [x.to_dict() for x in self.buckets]
         if hasattr(self,
                    'crawl_all_buckets') and self.crawl_all_buckets is not None:
             _dict['crawl_all_buckets'] = self.crawl_all_buckets
@@ -11632,7 +11246,7 @@ class SourceOptions():
 
     def __str__(self) -> str:
         """Return a `str` version of this SourceOptions object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SourceOptions') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -11670,12 +11284,6 @@ class SourceOptionsBuckets():
     def from_dict(cls, _dict: Dict) -> 'SourceOptionsBuckets':
         """Initialize a SourceOptionsBuckets object from a json dictionary."""
         args = {}
-        valid_keys = ['name', 'limit']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SourceOptionsBuckets: '
-                + ', '.join(bad_keys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         else:
@@ -11706,7 +11314,7 @@ class SourceOptionsBuckets():
 
     def __str__(self) -> str:
         """Return a `str` version of this SourceOptionsBuckets object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SourceOptionsBuckets') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -11752,12 +11360,6 @@ class SourceOptionsFolder():
     def from_dict(cls, _dict: Dict) -> 'SourceOptionsFolder':
         """Initialize a SourceOptionsFolder object from a json dictionary."""
         args = {}
-        valid_keys = ['owner_user_id', 'folder_id', 'limit']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SourceOptionsFolder: '
-                + ', '.join(bad_keys))
         if 'owner_user_id' in _dict:
             args['owner_user_id'] = _dict.get('owner_user_id')
         else:
@@ -11796,7 +11398,7 @@ class SourceOptionsFolder():
 
     def __str__(self) -> str:
         """Return a `str` version of this SourceOptionsFolder object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SourceOptionsFolder') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -11836,12 +11438,6 @@ class SourceOptionsObject():
     def from_dict(cls, _dict: Dict) -> 'SourceOptionsObject':
         """Initialize a SourceOptionsObject object from a json dictionary."""
         args = {}
-        valid_keys = ['name', 'limit']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SourceOptionsObject: '
-                + ', '.join(bad_keys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         else:
@@ -11872,7 +11468,7 @@ class SourceOptionsObject():
 
     def __str__(self) -> str:
         """Return a `str` version of this SourceOptionsObject object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SourceOptionsObject') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -11916,12 +11512,6 @@ class SourceOptionsSiteColl():
     def from_dict(cls, _dict: Dict) -> 'SourceOptionsSiteColl':
         """Initialize a SourceOptionsSiteColl object from a json dictionary."""
         args = {}
-        valid_keys = ['site_collection_path', 'limit']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SourceOptionsSiteColl: '
-                + ', '.join(bad_keys))
         if 'site_collection_path' in _dict:
             args['site_collection_path'] = _dict.get('site_collection_path')
         else:
@@ -11953,7 +11543,7 @@ class SourceOptionsSiteColl():
 
     def __str__(self) -> str:
         """Return a `str` version of this SourceOptionsSiteColl object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SourceOptionsSiteColl') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -12050,16 +11640,6 @@ class SourceOptionsWebCrawl():
     def from_dict(cls, _dict: Dict) -> 'SourceOptionsWebCrawl':
         """Initialize a SourceOptionsWebCrawl object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'url', 'limit_to_starting_hosts', 'crawl_speed',
-            'allow_untrusted_certificate', 'maximum_hops', 'request_timeout',
-            'override_robots_txt', 'blacklist'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SourceOptionsWebCrawl: '
-                + ', '.join(bad_keys))
         if 'url' in _dict:
             args['url'] = _dict.get('url')
         else:
@@ -12122,7 +11702,7 @@ class SourceOptionsWebCrawl():
 
     def __str__(self) -> str:
         """Return a `str` version of this SourceOptionsWebCrawl object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SourceOptionsWebCrawl') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -12134,7 +11714,7 @@ class SourceOptionsWebCrawl():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class CrawlSpeedEnum(Enum):
+    class CrawlSpeedEnum(str, Enum):
         """
         The number of concurrent URLs to fetch. `gentle` means one URL is fetched at a
         time with a delay between each call. `normal` means as many as two URLs are
@@ -12142,9 +11722,9 @@ class SourceOptionsWebCrawl():
         that up to ten URLs are fetched concurrently with a short delay between fetch
         calls.
         """
-        GENTLE = "gentle"
-        NORMAL = "normal"
-        AGGRESSIVE = "aggressive"
+        GENTLE = 'gentle'
+        NORMAL = 'normal'
+        AGGRESSIVE = 'aggressive'
 
 
 class SourceSchedule():
@@ -12200,12 +11780,6 @@ class SourceSchedule():
     def from_dict(cls, _dict: Dict) -> 'SourceSchedule':
         """Initialize a SourceSchedule object from a json dictionary."""
         args = {}
-        valid_keys = ['enabled', 'time_zone', 'frequency']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SourceSchedule: '
-                + ', '.join(bad_keys))
         if 'enabled' in _dict:
             args['enabled'] = _dict.get('enabled')
         if 'time_zone' in _dict:
@@ -12236,7 +11810,7 @@ class SourceSchedule():
 
     def __str__(self) -> str:
         """Return a `str` version of this SourceSchedule object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SourceSchedule') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -12248,7 +11822,7 @@ class SourceSchedule():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class FrequencyEnum(Enum):
+    class FrequencyEnum(str, Enum):
         """
         The crawl schedule in the specified **time_zone**.
         -  `five_minutes`: Runs every five minutes.
@@ -12257,11 +11831,11 @@ class SourceSchedule():
         -  `weekly`: Runs every week on Sunday between 00:00 and 06:00.
         -  `monthly`: Runs the on the first Sunday of every month between 00:00 and 06:00.
         """
-        DAILY = "daily"
-        WEEKLY = "weekly"
-        MONTHLY = "monthly"
-        FIVE_MINUTES = "five_minutes"
-        HOURLY = "hourly"
+        DAILY = 'daily'
+        WEEKLY = 'weekly'
+        MONTHLY = 'monthly'
+        FIVE_MINUTES = 'five_minutes'
+        HOURLY = 'hourly'
 
 
 class SourceStatus():
@@ -12306,12 +11880,6 @@ class SourceStatus():
     def from_dict(cls, _dict: Dict) -> 'SourceStatus':
         """Initialize a SourceStatus object from a json dictionary."""
         args = {}
-        valid_keys = ['status', 'next_crawl']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SourceStatus: '
-                + ', '.join(bad_keys))
         if 'status' in _dict:
             args['status'] = _dict.get('status')
         if 'next_crawl' in _dict:
@@ -12338,7 +11906,7 @@ class SourceStatus():
 
     def __str__(self) -> str:
         """Return a `str` version of this SourceStatus object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SourceStatus') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -12350,7 +11918,7 @@ class SourceStatus():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class StatusEnum(Enum):
+    class StatusEnum(str, Enum):
         """
         The current status of the source crawl for this collection. This field returns
         `not_configured` if the default configuration for this source does not have a
@@ -12361,11 +11929,11 @@ class SourceStatus():
         automatically restart when possible.
         -  `unknown` indicates that an unidentified error has occured in the service.
         """
-        RUNNING = "running"
-        COMPLETE = "complete"
-        NOT_CONFIGURED = "not_configured"
-        QUEUED = "queued"
-        UNKNOWN = "unknown"
+        RUNNING = 'running'
+        COMPLETE = 'complete'
+        NOT_CONFIGURED = 'not_configured'
+        QUEUED = 'queued'
+        UNKNOWN = 'unknown'
 
 
 class TokenDictRule():
@@ -12407,12 +11975,6 @@ class TokenDictRule():
     def from_dict(cls, _dict: Dict) -> 'TokenDictRule':
         """Initialize a TokenDictRule object from a json dictionary."""
         args = {}
-        valid_keys = ['text', 'tokens', 'readings', 'part_of_speech']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class TokenDictRule: '
-                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         else:
@@ -12458,7 +12020,7 @@ class TokenDictRule():
 
     def __str__(self) -> str:
         """Return a `str` version of this TokenDictRule object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'TokenDictRule') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -12497,12 +12059,6 @@ class TokenDictStatusResponse():
     def from_dict(cls, _dict: Dict) -> 'TokenDictStatusResponse':
         """Initialize a TokenDictStatusResponse object from a json dictionary."""
         args = {}
-        valid_keys = ['status', 'type']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class TokenDictStatusResponse: '
-                + ', '.join(bad_keys))
         if 'status' in _dict:
             args['status'] = _dict.get('status')
         if 'type' in _dict:
@@ -12529,7 +12085,7 @@ class TokenDictStatusResponse():
 
     def __str__(self) -> str:
         """Return a `str` version of this TokenDictStatusResponse object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'TokenDictStatusResponse') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -12541,13 +12097,13 @@ class TokenDictStatusResponse():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class StatusEnum(Enum):
+    class StatusEnum(str, Enum):
         """
         Current wordlist status for the specified collection.
         """
-        ACTIVE = "active"
-        PENDING = "pending"
-        NOT_FOUND = "not found"
+        ACTIVE = 'active'
+        PENDING = 'pending'
+        NOT_FOUND = 'not found'
 
 
 class TopHitsResults():
@@ -12577,18 +12133,10 @@ class TopHitsResults():
     def from_dict(cls, _dict: Dict) -> 'TopHitsResults':
         """Initialize a TopHitsResults object from a json dictionary."""
         args = {}
-        valid_keys = ['matching_results', 'hits']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class TopHitsResults: '
-                + ', '.join(bad_keys))
         if 'matching_results' in _dict:
             args['matching_results'] = _dict.get('matching_results')
         if 'hits' in _dict:
-            args['hits'] = [
-                QueryResult._from_dict(x) for x in (_dict.get('hits'))
-            ]
+            args['hits'] = [QueryResult.from_dict(x) for x in _dict.get('hits')]
         return cls(**args)
 
     @classmethod
@@ -12603,7 +12151,7 @@ class TopHitsResults():
                    'matching_results') and self.matching_results is not None:
             _dict['matching_results'] = self.matching_results
         if hasattr(self, 'hits') and self.hits is not None:
-            _dict['hits'] = [x._to_dict() for x in self.hits]
+            _dict['hits'] = [x.to_dict() for x in self.hits]
         return _dict
 
     def _to_dict(self):
@@ -12612,7 +12160,7 @@ class TopHitsResults():
 
     def __str__(self) -> str:
         """Return a `str` version of this TopHitsResults object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'TopHitsResults') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -12658,19 +12206,13 @@ class TrainingDataSet():
     def from_dict(cls, _dict: Dict) -> 'TrainingDataSet':
         """Initialize a TrainingDataSet object from a json dictionary."""
         args = {}
-        valid_keys = ['environment_id', 'collection_id', 'queries']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class TrainingDataSet: '
-                + ', '.join(bad_keys))
         if 'environment_id' in _dict:
             args['environment_id'] = _dict.get('environment_id')
         if 'collection_id' in _dict:
             args['collection_id'] = _dict.get('collection_id')
         if 'queries' in _dict:
             args['queries'] = [
-                TrainingQuery._from_dict(x) for x in (_dict.get('queries'))
+                TrainingQuery.from_dict(x) for x in _dict.get('queries')
             ]
         return cls(**args)
 
@@ -12687,7 +12229,7 @@ class TrainingDataSet():
         if hasattr(self, 'collection_id') and self.collection_id is not None:
             _dict['collection_id'] = self.collection_id
         if hasattr(self, 'queries') and self.queries is not None:
-            _dict['queries'] = [x._to_dict() for x in self.queries]
+            _dict['queries'] = [x.to_dict() for x in self.queries]
         return _dict
 
     def _to_dict(self):
@@ -12696,7 +12238,7 @@ class TrainingDataSet():
 
     def __str__(self) -> str:
         """Return a `str` version of this TrainingDataSet object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'TrainingDataSet') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -12742,12 +12284,6 @@ class TrainingExample():
     def from_dict(cls, _dict: Dict) -> 'TrainingExample':
         """Initialize a TrainingExample object from a json dictionary."""
         args = {}
-        valid_keys = ['document_id', 'cross_reference', 'relevance']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class TrainingExample: '
-                + ', '.join(bad_keys))
         if 'document_id' in _dict:
             args['document_id'] = _dict.get('document_id')
         if 'cross_reference' in _dict:
@@ -12779,7 +12315,7 @@ class TrainingExample():
 
     def __str__(self) -> str:
         """Return a `str` version of this TrainingExample object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'TrainingExample') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -12812,15 +12348,9 @@ class TrainingExampleList():
     def from_dict(cls, _dict: Dict) -> 'TrainingExampleList':
         """Initialize a TrainingExampleList object from a json dictionary."""
         args = {}
-        valid_keys = ['examples']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class TrainingExampleList: '
-                + ', '.join(bad_keys))
         if 'examples' in _dict:
             args['examples'] = [
-                TrainingExample._from_dict(x) for x in (_dict.get('examples'))
+                TrainingExample.from_dict(x) for x in _dict.get('examples')
             ]
         return cls(**args)
 
@@ -12833,7 +12363,7 @@ class TrainingExampleList():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'examples') and self.examples is not None:
-            _dict['examples'] = [x._to_dict() for x in self.examples]
+            _dict['examples'] = [x.to_dict() for x in self.examples]
         return _dict
 
     def _to_dict(self):
@@ -12842,7 +12372,7 @@ class TrainingExampleList():
 
     def __str__(self) -> str:
         """Return a `str` version of this TrainingExampleList object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'TrainingExampleList') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -12894,14 +12424,6 @@ class TrainingQuery():
     def from_dict(cls, _dict: Dict) -> 'TrainingQuery':
         """Initialize a TrainingQuery object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'query_id', 'natural_language_query', 'filter', 'examples'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class TrainingQuery: '
-                + ', '.join(bad_keys))
         if 'query_id' in _dict:
             args['query_id'] = _dict.get('query_id')
         if 'natural_language_query' in _dict:
@@ -12910,7 +12432,7 @@ class TrainingQuery():
             args['filter'] = _dict.get('filter')
         if 'examples' in _dict:
             args['examples'] = [
-                TrainingExample._from_dict(x) for x in (_dict.get('examples'))
+                TrainingExample.from_dict(x) for x in _dict.get('examples')
             ]
         return cls(**args)
 
@@ -12930,7 +12452,7 @@ class TrainingQuery():
         if hasattr(self, 'filter') and self.filter is not None:
             _dict['filter'] = self.filter
         if hasattr(self, 'examples') and self.examples is not None:
-            _dict['examples'] = [x._to_dict() for x in self.examples]
+            _dict['examples'] = [x.to_dict() for x in self.examples]
         return _dict
 
     def _to_dict(self):
@@ -12939,7 +12461,7 @@ class TrainingQuery():
 
     def __str__(self) -> str:
         """Return a `str` version of this TrainingQuery object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'TrainingQuery') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -13024,17 +12546,6 @@ class TrainingStatus():
     def from_dict(cls, _dict: Dict) -> 'TrainingStatus':
         """Initialize a TrainingStatus object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'total_examples', 'available', 'processing',
-            'minimum_queries_added', 'minimum_examples_added',
-            'sufficient_label_diversity', 'notices', 'successfully_trained',
-            'data_updated'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class TrainingStatus: '
-                + ', '.join(bad_keys))
         if 'total_examples' in _dict:
             args['total_examples'] = _dict.get('total_examples')
         if 'available' in _dict:
@@ -13097,7 +12608,7 @@ class TrainingStatus():
 
     def __str__(self) -> str:
         """Return a `str` version of this TrainingStatus object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'TrainingStatus') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -13138,19 +12649,13 @@ class WordHeadingDetection():
     def from_dict(cls, _dict: Dict) -> 'WordHeadingDetection':
         """Initialize a WordHeadingDetection object from a json dictionary."""
         args = {}
-        valid_keys = ['fonts', 'styles']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class WordHeadingDetection: '
-                + ', '.join(bad_keys))
         if 'fonts' in _dict:
             args['fonts'] = [
-                FontSetting._from_dict(x) for x in (_dict.get('fonts'))
+                FontSetting.from_dict(x) for x in _dict.get('fonts')
             ]
         if 'styles' in _dict:
             args['styles'] = [
-                WordStyle._from_dict(x) for x in (_dict.get('styles'))
+                WordStyle.from_dict(x) for x in _dict.get('styles')
             ]
         return cls(**args)
 
@@ -13163,9 +12668,9 @@ class WordHeadingDetection():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'fonts') and self.fonts is not None:
-            _dict['fonts'] = [x._to_dict() for x in self.fonts]
+            _dict['fonts'] = [x.to_dict() for x in self.fonts]
         if hasattr(self, 'styles') and self.styles is not None:
-            _dict['styles'] = [x._to_dict() for x in self.styles]
+            _dict['styles'] = [x.to_dict() for x in self.styles]
         return _dict
 
     def _to_dict(self):
@@ -13174,7 +12679,7 @@ class WordHeadingDetection():
 
     def __str__(self) -> str:
         """Return a `str` version of this WordHeadingDetection object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'WordHeadingDetection') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -13208,14 +12713,8 @@ class WordSettings():
     def from_dict(cls, _dict: Dict) -> 'WordSettings':
         """Initialize a WordSettings object from a json dictionary."""
         args = {}
-        valid_keys = ['heading']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class WordSettings: '
-                + ', '.join(bad_keys))
         if 'heading' in _dict:
-            args['heading'] = WordHeadingDetection._from_dict(
+            args['heading'] = WordHeadingDetection.from_dict(
                 _dict.get('heading'))
         return cls(**args)
 
@@ -13228,7 +12727,7 @@ class WordSettings():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'heading') and self.heading is not None:
-            _dict['heading'] = self.heading._to_dict()
+            _dict['heading'] = self.heading.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -13237,7 +12736,7 @@ class WordSettings():
 
     def __str__(self) -> str:
         """Return a `str` version of this WordSettings object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'WordSettings') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -13274,12 +12773,6 @@ class WordStyle():
     def from_dict(cls, _dict: Dict) -> 'WordStyle':
         """Initialize a WordStyle object from a json dictionary."""
         args = {}
-        valid_keys = ['level', 'names']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class WordStyle: '
-                + ', '.join(bad_keys))
         if 'level' in _dict:
             args['level'] = _dict.get('level')
         if 'names' in _dict:
@@ -13306,7 +12799,7 @@ class WordStyle():
 
     def __str__(self) -> str:
         """Return a `str` version of this WordStyle object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'WordStyle') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -13338,12 +12831,6 @@ class XPathPatterns():
     def from_dict(cls, _dict: Dict) -> 'XPathPatterns':
         """Initialize a XPathPatterns object from a json dictionary."""
         args = {}
-        valid_keys = ['xpaths']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class XPathPatterns: '
-                + ', '.join(bad_keys))
         if 'xpaths' in _dict:
             args['xpaths'] = _dict.get('xpaths')
         return cls(**args)
@@ -13366,7 +12853,7 @@ class XPathPatterns():
 
     def __str__(self) -> str:
         """Return a `str` version of this XPathPatterns object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'XPathPatterns') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -13421,27 +12908,17 @@ class Calculation(QueryAggregation):
     def from_dict(cls, _dict: Dict) -> 'Calculation':
         """Initialize a Calculation object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'type', 'results', 'matching_results', 'aggregations', 'field',
-            'value'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Calculation: '
-                + ', '.join(bad_keys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'results' in _dict:
             args['results'] = [
-                AggregationResult._from_dict(x) for x in (_dict.get('results'))
+                AggregationResult.from_dict(x) for x in _dict.get('results')
             ]
         if 'matching_results' in _dict:
             args['matching_results'] = _dict.get('matching_results')
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                QueryAggregation._from_dict(x)
-                for x in (_dict.get('aggregations'))
+                QueryAggregation.from_dict(x) for x in _dict.get('aggregations')
             ]
         if 'field' in _dict:
             args['field'] = _dict.get('field')
@@ -13460,12 +12937,12 @@ class Calculation(QueryAggregation):
         if hasattr(self, 'type') and self.type is not None:
             _dict['type'] = self.type
         if hasattr(self, 'results') and self.results is not None:
-            _dict['results'] = [x._to_dict() for x in self.results]
+            _dict['results'] = [x.to_dict() for x in self.results]
         if hasattr(self,
                    'matching_results') and self.matching_results is not None:
             _dict['matching_results'] = self.matching_results
         if hasattr(self, 'aggregations') and self.aggregations is not None:
-            _dict['aggregations'] = [x._to_dict() for x in self.aggregations]
+            _dict['aggregations'] = [x.to_dict() for x in self.aggregations]
         if hasattr(self, 'field') and self.field is not None:
             _dict['field'] = self.field
         if hasattr(self, 'value') and self.value is not None:
@@ -13478,7 +12955,7 @@ class Calculation(QueryAggregation):
 
     def __str__(self) -> str:
         """Return a `str` version of this Calculation object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Calculation') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -13527,26 +13004,17 @@ class Filter(QueryAggregation):
     def from_dict(cls, _dict: Dict) -> 'Filter':
         """Initialize a Filter object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'type', 'results', 'matching_results', 'aggregations', 'match'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Filter: ' +
-                ', '.join(bad_keys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'results' in _dict:
             args['results'] = [
-                AggregationResult._from_dict(x) for x in (_dict.get('results'))
+                AggregationResult.from_dict(x) for x in _dict.get('results')
             ]
         if 'matching_results' in _dict:
             args['matching_results'] = _dict.get('matching_results')
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                QueryAggregation._from_dict(x)
-                for x in (_dict.get('aggregations'))
+                QueryAggregation.from_dict(x) for x in _dict.get('aggregations')
             ]
         if 'match' in _dict:
             args['match'] = _dict.get('match')
@@ -13563,12 +13031,12 @@ class Filter(QueryAggregation):
         if hasattr(self, 'type') and self.type is not None:
             _dict['type'] = self.type
         if hasattr(self, 'results') and self.results is not None:
-            _dict['results'] = [x._to_dict() for x in self.results]
+            _dict['results'] = [x.to_dict() for x in self.results]
         if hasattr(self,
                    'matching_results') and self.matching_results is not None:
             _dict['matching_results'] = self.matching_results
         if hasattr(self, 'aggregations') and self.aggregations is not None:
-            _dict['aggregations'] = [x._to_dict() for x in self.aggregations]
+            _dict['aggregations'] = [x.to_dict() for x in self.aggregations]
         if hasattr(self, 'match') and self.match is not None:
             _dict['match'] = self.match
         return _dict
@@ -13579,7 +13047,7 @@ class Filter(QueryAggregation):
 
     def __str__(self) -> str:
         """Return a `str` version of this Filter object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Filter') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -13636,27 +13104,17 @@ class Histogram(QueryAggregation):
     def from_dict(cls, _dict: Dict) -> 'Histogram':
         """Initialize a Histogram object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'type', 'results', 'matching_results', 'aggregations', 'field',
-            'interval'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Histogram: '
-                + ', '.join(bad_keys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'results' in _dict:
             args['results'] = [
-                AggregationResult._from_dict(x) for x in (_dict.get('results'))
+                AggregationResult.from_dict(x) for x in _dict.get('results')
             ]
         if 'matching_results' in _dict:
             args['matching_results'] = _dict.get('matching_results')
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                QueryAggregation._from_dict(x)
-                for x in (_dict.get('aggregations'))
+                QueryAggregation.from_dict(x) for x in _dict.get('aggregations')
             ]
         if 'field' in _dict:
             args['field'] = _dict.get('field')
@@ -13675,12 +13133,12 @@ class Histogram(QueryAggregation):
         if hasattr(self, 'type') and self.type is not None:
             _dict['type'] = self.type
         if hasattr(self, 'results') and self.results is not None:
-            _dict['results'] = [x._to_dict() for x in self.results]
+            _dict['results'] = [x.to_dict() for x in self.results]
         if hasattr(self,
                    'matching_results') and self.matching_results is not None:
             _dict['matching_results'] = self.matching_results
         if hasattr(self, 'aggregations') and self.aggregations is not None:
-            _dict['aggregations'] = [x._to_dict() for x in self.aggregations]
+            _dict['aggregations'] = [x.to_dict() for x in self.aggregations]
         if hasattr(self, 'field') and self.field is not None:
             _dict['field'] = self.field
         if hasattr(self, 'interval') and self.interval is not None:
@@ -13693,7 +13151,7 @@ class Histogram(QueryAggregation):
 
     def __str__(self) -> str:
         """Return a `str` version of this Histogram object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Histogram') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -13744,26 +13202,17 @@ class Nested(QueryAggregation):
     def from_dict(cls, _dict: Dict) -> 'Nested':
         """Initialize a Nested object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'type', 'results', 'matching_results', 'aggregations', 'path'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Nested: ' +
-                ', '.join(bad_keys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'results' in _dict:
             args['results'] = [
-                AggregationResult._from_dict(x) for x in (_dict.get('results'))
+                AggregationResult.from_dict(x) for x in _dict.get('results')
             ]
         if 'matching_results' in _dict:
             args['matching_results'] = _dict.get('matching_results')
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                QueryAggregation._from_dict(x)
-                for x in (_dict.get('aggregations'))
+                QueryAggregation.from_dict(x) for x in _dict.get('aggregations')
             ]
         if 'path' in _dict:
             args['path'] = _dict.get('path')
@@ -13780,12 +13229,12 @@ class Nested(QueryAggregation):
         if hasattr(self, 'type') and self.type is not None:
             _dict['type'] = self.type
         if hasattr(self, 'results') and self.results is not None:
-            _dict['results'] = [x._to_dict() for x in self.results]
+            _dict['results'] = [x.to_dict() for x in self.results]
         if hasattr(self,
                    'matching_results') and self.matching_results is not None:
             _dict['matching_results'] = self.matching_results
         if hasattr(self, 'aggregations') and self.aggregations is not None:
-            _dict['aggregations'] = [x._to_dict() for x in self.aggregations]
+            _dict['aggregations'] = [x.to_dict() for x in self.aggregations]
         if hasattr(self, 'path') and self.path is not None:
             _dict['path'] = self.path
         return _dict
@@ -13796,7 +13245,7 @@ class Nested(QueryAggregation):
 
     def __str__(self) -> str:
         """Return a `str` version of this Nested object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Nested') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -13851,27 +13300,17 @@ class Term(QueryAggregation):
     def from_dict(cls, _dict: Dict) -> 'Term':
         """Initialize a Term object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'type', 'results', 'matching_results', 'aggregations', 'field',
-            'count'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Term: ' +
-                ', '.join(bad_keys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'results' in _dict:
             args['results'] = [
-                AggregationResult._from_dict(x) for x in (_dict.get('results'))
+                AggregationResult.from_dict(x) for x in _dict.get('results')
             ]
         if 'matching_results' in _dict:
             args['matching_results'] = _dict.get('matching_results')
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                QueryAggregation._from_dict(x)
-                for x in (_dict.get('aggregations'))
+                QueryAggregation.from_dict(x) for x in _dict.get('aggregations')
             ]
         if 'field' in _dict:
             args['field'] = _dict.get('field')
@@ -13890,12 +13329,12 @@ class Term(QueryAggregation):
         if hasattr(self, 'type') and self.type is not None:
             _dict['type'] = self.type
         if hasattr(self, 'results') and self.results is not None:
-            _dict['results'] = [x._to_dict() for x in self.results]
+            _dict['results'] = [x.to_dict() for x in self.results]
         if hasattr(self,
                    'matching_results') and self.matching_results is not None:
             _dict['matching_results'] = self.matching_results
         if hasattr(self, 'aggregations') and self.aggregations is not None:
-            _dict['aggregations'] = [x._to_dict() for x in self.aggregations]
+            _dict['aggregations'] = [x.to_dict() for x in self.aggregations]
         if hasattr(self, 'field') and self.field is not None:
             _dict['field'] = self.field
         if hasattr(self, 'count') and self.count is not None:
@@ -13908,7 +13347,7 @@ class Term(QueryAggregation):
 
     def __str__(self) -> str:
         """Return a `str` version of this Term object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Term') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -13975,27 +13414,17 @@ class Timeslice(QueryAggregation):
     def from_dict(cls, _dict: Dict) -> 'Timeslice':
         """Initialize a Timeslice object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'type', 'results', 'matching_results', 'aggregations', 'field',
-            'interval', 'anomaly'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Timeslice: '
-                + ', '.join(bad_keys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'results' in _dict:
             args['results'] = [
-                AggregationResult._from_dict(x) for x in (_dict.get('results'))
+                AggregationResult.from_dict(x) for x in _dict.get('results')
             ]
         if 'matching_results' in _dict:
             args['matching_results'] = _dict.get('matching_results')
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                QueryAggregation._from_dict(x)
-                for x in (_dict.get('aggregations'))
+                QueryAggregation.from_dict(x) for x in _dict.get('aggregations')
             ]
         if 'field' in _dict:
             args['field'] = _dict.get('field')
@@ -14016,12 +13445,12 @@ class Timeslice(QueryAggregation):
         if hasattr(self, 'type') and self.type is not None:
             _dict['type'] = self.type
         if hasattr(self, 'results') and self.results is not None:
-            _dict['results'] = [x._to_dict() for x in self.results]
+            _dict['results'] = [x.to_dict() for x in self.results]
         if hasattr(self,
                    'matching_results') and self.matching_results is not None:
             _dict['matching_results'] = self.matching_results
         if hasattr(self, 'aggregations') and self.aggregations is not None:
-            _dict['aggregations'] = [x._to_dict() for x in self.aggregations]
+            _dict['aggregations'] = [x.to_dict() for x in self.aggregations]
         if hasattr(self, 'field') and self.field is not None:
             _dict['field'] = self.field
         if hasattr(self, 'interval') and self.interval is not None:
@@ -14036,7 +13465,7 @@ class Timeslice(QueryAggregation):
 
     def __str__(self) -> str:
         """Return a `str` version of this Timeslice object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Timeslice') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -14089,32 +13518,22 @@ class TopHits(QueryAggregation):
     def from_dict(cls, _dict: Dict) -> 'TopHits':
         """Initialize a TopHits object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'type', 'results', 'matching_results', 'aggregations', 'size',
-            'hits'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class TopHits: ' +
-                ', '.join(bad_keys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'results' in _dict:
             args['results'] = [
-                AggregationResult._from_dict(x) for x in (_dict.get('results'))
+                AggregationResult.from_dict(x) for x in _dict.get('results')
             ]
         if 'matching_results' in _dict:
             args['matching_results'] = _dict.get('matching_results')
         if 'aggregations' in _dict:
             args['aggregations'] = [
-                QueryAggregation._from_dict(x)
-                for x in (_dict.get('aggregations'))
+                QueryAggregation.from_dict(x) for x in _dict.get('aggregations')
             ]
         if 'size' in _dict:
             args['size'] = _dict.get('size')
         if 'hits' in _dict:
-            args['hits'] = TopHitsResults._from_dict(_dict.get('hits'))
+            args['hits'] = TopHitsResults.from_dict(_dict.get('hits'))
         return cls(**args)
 
     @classmethod
@@ -14128,16 +13547,16 @@ class TopHits(QueryAggregation):
         if hasattr(self, 'type') and self.type is not None:
             _dict['type'] = self.type
         if hasattr(self, 'results') and self.results is not None:
-            _dict['results'] = [x._to_dict() for x in self.results]
+            _dict['results'] = [x.to_dict() for x in self.results]
         if hasattr(self,
                    'matching_results') and self.matching_results is not None:
             _dict['matching_results'] = self.matching_results
         if hasattr(self, 'aggregations') and self.aggregations is not None:
-            _dict['aggregations'] = [x._to_dict() for x in self.aggregations]
+            _dict['aggregations'] = [x.to_dict() for x in self.aggregations]
         if hasattr(self, 'size') and self.size is not None:
             _dict['size'] = self.size
         if hasattr(self, 'hits') and self.hits is not None:
-            _dict['hits'] = self.hits._to_dict()
+            _dict['hits'] = self.hits.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -14146,7 +13565,7 @@ class TopHits(QueryAggregation):
 
     def __str__(self) -> str:
         """Return a `str` version of this TopHits object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'TopHits') -> bool:
         """Return `true` when self and other are equal, false otherwise."""

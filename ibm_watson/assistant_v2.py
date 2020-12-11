@@ -13,6 +13,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-a45d89ef-20201209-192237
 """
 The IBM Watson&trade; Assistant service combines machine learning, natural language
 understanding, and an integrated dialog editor to create conversation flows between your
@@ -21,16 +23,17 @@ The Assistant v2 API provides runtime methods your client application can use to
 input to an assistant and receive a response.
 """
 
-import json
-from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
-from .common import get_sdk_headers
 from enum import Enum
-from ibm_cloud_sdk_core import BaseService
-from ibm_cloud_sdk_core import DetailedResponse
-from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
-from typing import Dict
-from typing import List
+from typing import Dict, List
+import json
 import sys
+
+from ibm_cloud_sdk_core import BaseService, DetailedResponse
+from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
+from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
+from ibm_cloud_sdk_core.utils import convert_model
+
+from .common import get_sdk_headers
 
 ##############################################################################
 # Service
@@ -52,27 +55,21 @@ class AssistantV2(BaseService):
         """
         Construct a new client for the Assistant service.
 
-        :param str version: The API version date to use with the service, in
-               "YYYY-MM-DD" format. Whenever the API is changed in a backwards
-               incompatible way, a new minor version of the API is released.
-               The service uses the API version for the date you specify, or
-               the most recent version before that date. Note that you should
-               not programmatically specify the current date at runtime, in
-               case the API has been updated since your application's release.
-               Instead, specify a version date that is compatible with your
-               application, and don't change it until your application is
-               ready for a later version.
+        :param str version: Release date of the API version you want to use.
+               Specify dates in YYYY-MM-DD format. The current version is `2020-04-01`.
 
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
         """
+        if version is None:
+            raise ValueError('version must be provided')
+
         if not authenticator:
             authenticator = get_authenticator_from_environment(service_name)
         BaseService.__init__(self,
                              service_url=self.DEFAULT_SERVICE_URL,
-                             authenticator=authenticator,
-                             disable_ssl_verification=False)
+                             authenticator=authenticator)
         self.version = version
         self.configure_service(service_name)
 
@@ -80,7 +77,7 @@ class AssistantV2(BaseService):
     # Sessions
     #########################
 
-    def create_session(self, assistant_id: str, **kwargs) -> 'DetailedResponse':
+    def create_session(self, assistant_id: str, **kwargs) -> DetailedResponse:
         """
         Create a session.
 
@@ -98,15 +95,12 @@ class AssistantV2(BaseService):
                **Note:** Currently, the v2 API does not support creating assistants.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `SessionResponse` object
         """
 
         if assistant_id is None:
             raise ValueError('assistant_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V2',
                                       operation_id='create_session')
@@ -114,8 +108,14 @@ class AssistantV2(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v2/assistants/{0}/sessions'.format(
-            *self._encode_path_vars(assistant_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['assistant_id']
+        path_param_values = self.encode_path_vars(assistant_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/assistants/{assistant_id}/sessions'.format(**path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -125,7 +125,7 @@ class AssistantV2(BaseService):
         return response
 
     def delete_session(self, assistant_id: str, session_id: str,
-                       **kwargs) -> 'DetailedResponse':
+                       **kwargs) -> DetailedResponse:
         """
         Delete session.
 
@@ -149,10 +149,7 @@ class AssistantV2(BaseService):
             raise ValueError('assistant_id must be provided')
         if session_id is None:
             raise ValueError('session_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V2',
                                       operation_id='delete_session')
@@ -160,8 +157,15 @@ class AssistantV2(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v2/assistants/{0}/sessions/{1}'.format(
-            *self._encode_path_vars(assistant_id, session_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['assistant_id', 'session_id']
+        path_param_values = self.encode_path_vars(assistant_id, session_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/assistants/{assistant_id}/sessions/{session_id}'.format(
+            **path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
@@ -180,7 +184,7 @@ class AssistantV2(BaseService):
                 *,
                 input: 'MessageInput' = None,
                 context: 'MessageContext' = None,
-                **kwargs) -> 'DetailedResponse':
+                **kwargs) -> DetailedResponse:
         """
         Send user input to assistant (stateful).
 
@@ -205,7 +209,7 @@ class AssistantV2(BaseService):
                cannot exceed 100KB.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `MessageResponse` object
         """
 
         if assistant_id is None:
@@ -213,13 +217,10 @@ class AssistantV2(BaseService):
         if session_id is None:
             raise ValueError('session_id must be provided')
         if input is not None:
-            input = self._convert_model(input)
+            input = convert_model(input)
         if context is not None:
-            context = self._convert_model(context)
-
+            context = convert_model(context)
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V2',
                                       operation_id='message')
@@ -228,9 +229,19 @@ class AssistantV2(BaseService):
         params = {'version': self.version}
 
         data = {'input': input, 'context': context}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v2/assistants/{0}/sessions/{1}/message'.format(
-            *self._encode_path_vars(assistant_id, session_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['assistant_id', 'session_id']
+        path_param_values = self.encode_path_vars(assistant_id, session_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/assistants/{assistant_id}/sessions/{session_id}/message'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -245,7 +256,7 @@ class AssistantV2(BaseService):
                           *,
                           input: 'MessageInputStateless' = None,
                           context: 'MessageContextStateless' = None,
-                          **kwargs) -> 'DetailedResponse':
+                          **kwargs) -> DetailedResponse:
         """
         Send user input to assistant (stateless).
 
@@ -269,19 +280,16 @@ class AssistantV2(BaseService):
                exceed 250KB.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `MessageResponseStateless` object
         """
 
         if assistant_id is None:
             raise ValueError('assistant_id must be provided')
         if input is not None:
-            input = self._convert_model(input)
+            input = convert_model(input)
         if context is not None:
-            context = self._convert_model(context)
-
+            context = convert_model(context)
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V2',
                                       operation_id='message_stateless')
@@ -290,9 +298,18 @@ class AssistantV2(BaseService):
         params = {'version': self.version}
 
         data = {'input': input, 'context': context}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v2/assistants/{0}/message'.format(
-            *self._encode_path_vars(assistant_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['assistant_id']
+        path_param_values = self.encode_path_vars(assistant_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/assistants/{assistant_id}/message'.format(**path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -313,7 +330,7 @@ class AssistantV2(BaseService):
                   filter: str = None,
                   page_limit: int = None,
                   cursor: str = None,
-                  **kwargs) -> 'DetailedResponse':
+                  **kwargs) -> DetailedResponse:
         """
         List log events for an assistant.
 
@@ -338,15 +355,12 @@ class AssistantV2(BaseService):
                retrieve.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `LogCollection` object
         """
 
         if assistant_id is None:
             raise ValueError('assistant_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V2',
                                       operation_id='list_logs')
@@ -360,8 +374,14 @@ class AssistantV2(BaseService):
             'cursor': cursor
         }
 
-        url = '/v2/assistants/{0}/logs'.format(
-            *self._encode_path_vars(assistant_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['assistant_id']
+        path_param_values = self.encode_path_vars(assistant_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/assistants/{assistant_id}/logs'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -374,8 +394,7 @@ class AssistantV2(BaseService):
     # User data
     #########################
 
-    def delete_user_data(self, customer_id: str,
-                         **kwargs) -> 'DetailedResponse':
+    def delete_user_data(self, customer_id: str, **kwargs) -> DetailedResponse:
         """
         Delete labeled data.
 
@@ -397,16 +416,17 @@ class AssistantV2(BaseService):
 
         if customer_id is None:
             raise ValueError('customer_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V2',
                                       operation_id='delete_user_data')
         headers.update(sdk_headers)
 
         params = {'version': self.version, 'customer_id': customer_id}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v2/user_data'
         request = self.prepare_request(method='DELETE',
@@ -425,7 +445,7 @@ class AssistantV2(BaseService):
                       skill_id: str,
                       *,
                       input: List['BulkClassifyUtterance'] = None,
-                      **kwargs) -> 'DetailedResponse':
+                      **kwargs) -> DetailedResponse:
         """
         Identify intents and entities in multiple user utterances.
 
@@ -442,17 +462,14 @@ class AssistantV2(BaseService):
                utterances to classify.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `BulkClassifyResponse` object
         """
 
         if skill_id is None:
             raise ValueError('skill_id must be provided')
         if input is not None:
-            input = [self._convert_model(x) for x in input]
-
+            input = [convert_model(x) for x in input]
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V2',
                                       operation_id='bulk_classify')
@@ -461,9 +478,19 @@ class AssistantV2(BaseService):
         params = {'version': self.version}
 
         data = {'input': input}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
 
-        url = '/v2/skills/{0}/workspace/bulk_classify'.format(
-            *self._encode_path_vars(skill_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['skill_id']
+        path_param_values = self.encode_path_vars(skill_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/skills/{skill_id}/workspace/bulk_classify'.format(
+            **path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -514,21 +541,15 @@ class BulkClassifyOutput():
     def from_dict(cls, _dict: Dict) -> 'BulkClassifyOutput':
         """Initialize a BulkClassifyOutput object from a json dictionary."""
         args = {}
-        valid_keys = ['input', 'entities', 'intents']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class BulkClassifyOutput: '
-                + ', '.join(bad_keys))
         if 'input' in _dict:
-            args['input'] = BulkClassifyUtterance._from_dict(_dict.get('input'))
+            args['input'] = BulkClassifyUtterance.from_dict(_dict.get('input'))
         if 'entities' in _dict:
             args['entities'] = [
-                RuntimeEntity._from_dict(x) for x in (_dict.get('entities'))
+                RuntimeEntity.from_dict(x) for x in _dict.get('entities')
             ]
         if 'intents' in _dict:
             args['intents'] = [
-                RuntimeIntent._from_dict(x) for x in (_dict.get('intents'))
+                RuntimeIntent.from_dict(x) for x in _dict.get('intents')
             ]
         return cls(**args)
 
@@ -541,11 +562,11 @@ class BulkClassifyOutput():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'input') and self.input is not None:
-            _dict['input'] = self.input._to_dict()
+            _dict['input'] = self.input.to_dict()
         if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x._to_dict() for x in self.entities]
+            _dict['entities'] = [x.to_dict() for x in self.entities]
         if hasattr(self, 'intents') and self.intents is not None:
-            _dict['intents'] = [x._to_dict() for x in self.intents]
+            _dict['intents'] = [x.to_dict() for x in self.intents]
         return _dict
 
     def _to_dict(self):
@@ -554,7 +575,7 @@ class BulkClassifyOutput():
 
     def __str__(self) -> str:
         """Return a `str` version of this BulkClassifyOutput object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'BulkClassifyOutput') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -588,15 +609,9 @@ class BulkClassifyResponse():
     def from_dict(cls, _dict: Dict) -> 'BulkClassifyResponse':
         """Initialize a BulkClassifyResponse object from a json dictionary."""
         args = {}
-        valid_keys = ['output']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class BulkClassifyResponse: '
-                + ', '.join(bad_keys))
         if 'output' in _dict:
             args['output'] = [
-                BulkClassifyOutput._from_dict(x) for x in (_dict.get('output'))
+                BulkClassifyOutput.from_dict(x) for x in _dict.get('output')
             ]
         return cls(**args)
 
@@ -609,7 +624,7 @@ class BulkClassifyResponse():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'output') and self.output is not None:
-            _dict['output'] = [x._to_dict() for x in self.output]
+            _dict['output'] = [x.to_dict() for x in self.output]
         return _dict
 
     def _to_dict(self):
@@ -618,7 +633,7 @@ class BulkClassifyResponse():
 
     def __str__(self) -> str:
         """Return a `str` version of this BulkClassifyResponse object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'BulkClassifyResponse') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -650,12 +665,6 @@ class BulkClassifyUtterance():
     def from_dict(cls, _dict: Dict) -> 'BulkClassifyUtterance':
         """Initialize a BulkClassifyUtterance object from a json dictionary."""
         args = {}
-        valid_keys = ['text']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class BulkClassifyUtterance: '
-                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         else:
@@ -682,7 +691,7 @@ class BulkClassifyUtterance():
 
     def __str__(self) -> str:
         """Return a `str` version of this BulkClassifyUtterance object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'BulkClassifyUtterance') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -719,12 +728,6 @@ class CaptureGroup():
     def from_dict(cls, _dict: Dict) -> 'CaptureGroup':
         """Initialize a CaptureGroup object from a json dictionary."""
         args = {}
-        valid_keys = ['group', 'location']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class CaptureGroup: '
-                + ', '.join(bad_keys))
         if 'group' in _dict:
             args['group'] = _dict.get('group')
         else:
@@ -754,7 +757,7 @@ class CaptureGroup():
 
     def __str__(self) -> str:
         """Return a `str` version of this CaptureGroup object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'CaptureGroup') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -789,12 +792,6 @@ class DialogLogMessage():
     def from_dict(cls, _dict: Dict) -> 'DialogLogMessage':
         """Initialize a DialogLogMessage object from a json dictionary."""
         args = {}
-        valid_keys = ['level', 'message']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DialogLogMessage: '
-                + ', '.join(bad_keys))
         if 'level' in _dict:
             args['level'] = _dict.get('level')
         else:
@@ -829,7 +826,7 @@ class DialogLogMessage():
 
     def __str__(self) -> str:
         """Return a `str` version of this DialogLogMessage object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DialogLogMessage') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -841,13 +838,13 @@ class DialogLogMessage():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class LevelEnum(Enum):
+    class LevelEnum(str, Enum):
         """
         The severity of the log message.
         """
-        INFO = "info"
-        ERROR = "error"
-        WARN = "warn"
+        INFO = 'info'
+        ERROR = 'error'
+        WARN = 'warn'
 
 
 class DialogNodeAction():
@@ -893,14 +890,6 @@ class DialogNodeAction():
     def from_dict(cls, _dict: Dict) -> 'DialogNodeAction':
         """Initialize a DialogNodeAction object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'name', 'type', 'parameters', 'result_variable', 'credentials'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DialogNodeAction: '
-                + ', '.join(bad_keys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         else:
@@ -948,7 +937,7 @@ class DialogNodeAction():
 
     def __str__(self) -> str:
         """Return a `str` version of this DialogNodeAction object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DialogNodeAction') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -960,14 +949,14 @@ class DialogNodeAction():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class TypeEnum(Enum):
+    class TypeEnum(str, Enum):
         """
         The type of action to invoke.
         """
-        CLIENT = "client"
-        SERVER = "server"
-        WEB_ACTION = "web-action"
-        CLOUD_FUNCTION = "cloud-function"
+        CLIENT = 'client'
+        SERVER = 'server'
+        WEB_ACTION = 'web-action'
+        CLOUD_FUNCTION = 'cloud-function'
 
 
 class DialogNodeOutputConnectToAgentTransferInfo():
@@ -990,12 +979,6 @@ class DialogNodeOutputConnectToAgentTransferInfo():
                   _dict: Dict) -> 'DialogNodeOutputConnectToAgentTransferInfo':
         """Initialize a DialogNodeOutputConnectToAgentTransferInfo object from a json dictionary."""
         args = {}
-        valid_keys = ['target']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DialogNodeOutputConnectToAgentTransferInfo: '
-                + ', '.join(bad_keys))
         if 'target' in _dict:
             args['target'] = _dict.get('target')
         return cls(**args)
@@ -1018,7 +1001,7 @@ class DialogNodeOutputConnectToAgentTransferInfo():
 
     def __str__(self) -> str:
         """Return a `str` version of this DialogNodeOutputConnectToAgentTransferInfo object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self,
                other: 'DialogNodeOutputConnectToAgentTransferInfo') -> bool:
@@ -1059,12 +1042,6 @@ class DialogNodeOutputOptionsElement():
     def from_dict(cls, _dict: Dict) -> 'DialogNodeOutputOptionsElement':
         """Initialize a DialogNodeOutputOptionsElement object from a json dictionary."""
         args = {}
-        valid_keys = ['label', 'value']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DialogNodeOutputOptionsElement: '
-                + ', '.join(bad_keys))
         if 'label' in _dict:
             args['label'] = _dict.get('label')
         else:
@@ -1072,7 +1049,7 @@ class DialogNodeOutputOptionsElement():
                 'Required property \'label\' not present in DialogNodeOutputOptionsElement JSON'
             )
         if 'value' in _dict:
-            args['value'] = DialogNodeOutputOptionsElementValue._from_dict(
+            args['value'] = DialogNodeOutputOptionsElementValue.from_dict(
                 _dict.get('value'))
         else:
             raise ValueError(
@@ -1091,7 +1068,7 @@ class DialogNodeOutputOptionsElement():
         if hasattr(self, 'label') and self.label is not None:
             _dict['label'] = self.label
         if hasattr(self, 'value') and self.value is not None:
-            _dict['value'] = self.value._to_dict()
+            _dict['value'] = self.value.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -1100,7 +1077,7 @@ class DialogNodeOutputOptionsElement():
 
     def __str__(self) -> str:
         """Return a `str` version of this DialogNodeOutputOptionsElement object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DialogNodeOutputOptionsElement') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1135,14 +1112,8 @@ class DialogNodeOutputOptionsElementValue():
     def from_dict(cls, _dict: Dict) -> 'DialogNodeOutputOptionsElementValue':
         """Initialize a DialogNodeOutputOptionsElementValue object from a json dictionary."""
         args = {}
-        valid_keys = ['input']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DialogNodeOutputOptionsElementValue: '
-                + ', '.join(bad_keys))
         if 'input' in _dict:
-            args['input'] = MessageInput._from_dict(_dict.get('input'))
+            args['input'] = MessageInput.from_dict(_dict.get('input'))
         return cls(**args)
 
     @classmethod
@@ -1154,7 +1125,7 @@ class DialogNodeOutputOptionsElementValue():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'input') and self.input is not None:
-            _dict['input'] = self.input._to_dict()
+            _dict['input'] = self.input.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -1163,7 +1134,7 @@ class DialogNodeOutputOptionsElementValue():
 
     def __str__(self) -> str:
         """Return a `str` version of this DialogNodeOutputOptionsElementValue object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DialogNodeOutputOptionsElementValue') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1208,12 +1179,6 @@ class DialogNodesVisited():
     def from_dict(cls, _dict: Dict) -> 'DialogNodesVisited':
         """Initialize a DialogNodesVisited object from a json dictionary."""
         args = {}
-        valid_keys = ['dialog_node', 'title', 'conditions']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DialogNodesVisited: '
-                + ', '.join(bad_keys))
         if 'dialog_node' in _dict:
             args['dialog_node'] = _dict.get('dialog_node')
         if 'title' in _dict:
@@ -1244,7 +1209,7 @@ class DialogNodesVisited():
 
     def __str__(self) -> str:
         """Return a `str` version of this DialogNodesVisited object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DialogNodesVisited') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1296,12 +1261,6 @@ class DialogSuggestion():
     def from_dict(cls, _dict: Dict) -> 'DialogSuggestion':
         """Initialize a DialogSuggestion object from a json dictionary."""
         args = {}
-        valid_keys = ['label', 'value', 'output']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DialogSuggestion: '
-                + ', '.join(bad_keys))
         if 'label' in _dict:
             args['label'] = _dict.get('label')
         else:
@@ -1309,7 +1268,7 @@ class DialogSuggestion():
                 'Required property \'label\' not present in DialogSuggestion JSON'
             )
         if 'value' in _dict:
-            args['value'] = DialogSuggestionValue._from_dict(_dict.get('value'))
+            args['value'] = DialogSuggestionValue.from_dict(_dict.get('value'))
         else:
             raise ValueError(
                 'Required property \'value\' not present in DialogSuggestion JSON'
@@ -1329,7 +1288,7 @@ class DialogSuggestion():
         if hasattr(self, 'label') and self.label is not None:
             _dict['label'] = self.label
         if hasattr(self, 'value') and self.value is not None:
-            _dict['value'] = self.value._to_dict()
+            _dict['value'] = self.value.to_dict()
         if hasattr(self, 'output') and self.output is not None:
             _dict['output'] = self.output
         return _dict
@@ -1340,7 +1299,7 @@ class DialogSuggestion():
 
     def __str__(self) -> str:
         """Return a `str` version of this DialogSuggestion object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DialogSuggestion') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1375,14 +1334,8 @@ class DialogSuggestionValue():
     def from_dict(cls, _dict: Dict) -> 'DialogSuggestionValue':
         """Initialize a DialogSuggestionValue object from a json dictionary."""
         args = {}
-        valid_keys = ['input']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DialogSuggestionValue: '
-                + ', '.join(bad_keys))
         if 'input' in _dict:
-            args['input'] = MessageInput._from_dict(_dict.get('input'))
+            args['input'] = MessageInput.from_dict(_dict.get('input'))
         return cls(**args)
 
     @classmethod
@@ -1394,7 +1347,7 @@ class DialogSuggestionValue():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'input') and self.input is not None:
-            _dict['input'] = self.input._to_dict()
+            _dict['input'] = self.input.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -1403,7 +1356,7 @@ class DialogSuggestionValue():
 
     def __str__(self) -> str:
         """Return a `str` version of this DialogSuggestionValue object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DialogSuggestionValue') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1490,28 +1443,18 @@ class Log():
     def from_dict(cls, _dict: Dict) -> 'Log':
         """Initialize a Log object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'log_id', 'request', 'response', 'assistant_id', 'session_id',
-            'skill_id', 'snapshot', 'request_timestamp', 'response_timestamp',
-            'language', 'customer_id'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Log: ' +
-                ', '.join(bad_keys))
         if 'log_id' in _dict:
             args['log_id'] = _dict.get('log_id')
         else:
             raise ValueError(
                 'Required property \'log_id\' not present in Log JSON')
         if 'request' in _dict:
-            args['request'] = MessageRequest._from_dict(_dict.get('request'))
+            args['request'] = MessageRequest.from_dict(_dict.get('request'))
         else:
             raise ValueError(
                 'Required property \'request\' not present in Log JSON')
         if 'response' in _dict:
-            args['response'] = MessageResponse._from_dict(_dict.get('response'))
+            args['response'] = MessageResponse.from_dict(_dict.get('response'))
         else:
             raise ValueError(
                 'Required property \'response\' not present in Log JSON')
@@ -1567,9 +1510,9 @@ class Log():
         if hasattr(self, 'log_id') and self.log_id is not None:
             _dict['log_id'] = self.log_id
         if hasattr(self, 'request') and self.request is not None:
-            _dict['request'] = self.request._to_dict()
+            _dict['request'] = self.request.to_dict()
         if hasattr(self, 'response') and self.response is not None:
-            _dict['response'] = self.response._to_dict()
+            _dict['response'] = self.response.to_dict()
         if hasattr(self, 'assistant_id') and self.assistant_id is not None:
             _dict['assistant_id'] = self.assistant_id
         if hasattr(self, 'session_id') and self.session_id is not None:
@@ -1597,7 +1540,7 @@ class Log():
 
     def __str__(self) -> str:
         """Return a `str` version of this Log object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Log') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1633,19 +1576,13 @@ class LogCollection():
     def from_dict(cls, _dict: Dict) -> 'LogCollection':
         """Initialize a LogCollection object from a json dictionary."""
         args = {}
-        valid_keys = ['logs', 'pagination']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class LogCollection: '
-                + ', '.join(bad_keys))
         if 'logs' in _dict:
-            args['logs'] = [Log._from_dict(x) for x in (_dict.get('logs'))]
+            args['logs'] = [Log.from_dict(x) for x in _dict.get('logs')]
         else:
             raise ValueError(
                 'Required property \'logs\' not present in LogCollection JSON')
         if 'pagination' in _dict:
-            args['pagination'] = LogPagination._from_dict(
+            args['pagination'] = LogPagination.from_dict(
                 _dict.get('pagination'))
         else:
             raise ValueError(
@@ -1662,9 +1599,9 @@ class LogCollection():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'logs') and self.logs is not None:
-            _dict['logs'] = [x._to_dict() for x in self.logs]
+            _dict['logs'] = [x.to_dict() for x in self.logs]
         if hasattr(self, 'pagination') and self.pagination is not None:
-            _dict['pagination'] = self.pagination._to_dict()
+            _dict['pagination'] = self.pagination.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -1673,7 +1610,7 @@ class LogCollection():
 
     def __str__(self) -> str:
         """Return a `str` version of this LogCollection object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'LogCollection') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1718,12 +1655,6 @@ class LogPagination():
     def from_dict(cls, _dict: Dict) -> 'LogPagination':
         """Initialize a LogPagination object from a json dictionary."""
         args = {}
-        valid_keys = ['next_url', 'matched', 'next_cursor']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class LogPagination: '
-                + ', '.join(bad_keys))
         if 'next_url' in _dict:
             args['next_url'] = _dict.get('next_url')
         if 'matched' in _dict:
@@ -1754,7 +1685,7 @@ class LogPagination():
 
     def __str__(self) -> str:
         """Return a `str` version of this LogPagination object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'LogPagination') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1773,8 +1704,8 @@ class MessageContext():
 
     :attr MessageContextGlobal global_: (optional) Session context data that is
           shared by all skills used by the Assistant.
-    :attr MessageContextSkills skills: (optional) Information specific to particular
-          skills used by the assistant.
+    :attr dict skills: (optional) Information specific to particular skills used by
+          the assistant.
           **Note:** Currently, only a single child property is supported, containing
           variables that apply to the dialog skill used by the assistant.
     """
@@ -1782,14 +1713,14 @@ class MessageContext():
     def __init__(self,
                  *,
                  global_: 'MessageContextGlobal' = None,
-                 skills: 'MessageContextSkills' = None) -> None:
+                 skills: dict = None) -> None:
         """
         Initialize a MessageContext object.
 
         :param MessageContextGlobal global_: (optional) Session context data that
                is shared by all skills used by the Assistant.
-        :param MessageContextSkills skills: (optional) Information specific to
-               particular skills used by the assistant.
+        :param dict skills: (optional) Information specific to particular skills
+               used by the assistant.
                **Note:** Currently, only a single child property is supported, containing
                variables that apply to the dialog skill used by the assistant.
         """
@@ -1800,18 +1731,14 @@ class MessageContext():
     def from_dict(cls, _dict: Dict) -> 'MessageContext':
         """Initialize a MessageContext object from a json dictionary."""
         args = {}
-        valid_keys = ['global_', 'global', 'skills']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class MessageContext: '
-                + ', '.join(bad_keys))
         if 'global' in _dict:
-            args['global_'] = MessageContextGlobal._from_dict(
+            args['global_'] = MessageContextGlobal.from_dict(
                 _dict.get('global'))
         if 'skills' in _dict:
-            args['skills'] = MessageContextSkills._from_dict(
-                _dict.get('skills'))
+            args['skills'] = {
+                k: MessageContextSkill.from_dict(v)
+                for k, v in _dict.get('skills').items()
+            }
         return cls(**args)
 
     @classmethod
@@ -1823,9 +1750,9 @@ class MessageContext():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'global_') and self.global_ is not None:
-            _dict['global'] = self.global_._to_dict()
+            _dict['global'] = self.global_.to_dict()
         if hasattr(self, 'skills') and self.skills is not None:
-            _dict['skills'] = self.skills._to_dict()
+            _dict['skills'] = {k: v.to_dict() for k, v in self.skills.items()}
         return _dict
 
     def _to_dict(self):
@@ -1834,7 +1761,7 @@ class MessageContext():
 
     def __str__(self) -> str:
         """Return a `str` version of this MessageContext object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'MessageContext') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1865,7 +1792,6 @@ class MessageContextGlobal():
 
         :param MessageContextGlobalSystem system: (optional) Built-in system
                properties that apply to all skills used by the assistant.
-        :param str session_id: (optional) The session ID.
         """
         self.system = system
         self.session_id = session_id
@@ -1874,14 +1800,8 @@ class MessageContextGlobal():
     def from_dict(cls, _dict: Dict) -> 'MessageContextGlobal':
         """Initialize a MessageContextGlobal object from a json dictionary."""
         args = {}
-        valid_keys = ['system', 'session_id']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class MessageContextGlobal: '
-                + ', '.join(bad_keys))
         if 'system' in _dict:
-            args['system'] = MessageContextGlobalSystem._from_dict(
+            args['system'] = MessageContextGlobalSystem.from_dict(
                 _dict.get('system'))
         if 'session_id' in _dict:
             args['session_id'] = _dict.get('session_id')
@@ -1896,9 +1816,10 @@ class MessageContextGlobal():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'system') and self.system is not None:
-            _dict['system'] = self.system._to_dict()
-        if hasattr(self, 'session_id') and self.session_id is not None:
-            _dict['session_id'] = self.session_id
+            _dict['system'] = self.system.to_dict()
+        if hasattr(self, 'session_id') and getattr(self,
+                                                   'session_id') is not None:
+            _dict['session_id'] = getattr(self, 'session_id')
         return _dict
 
     def _to_dict(self):
@@ -1907,7 +1828,7 @@ class MessageContextGlobal():
 
     def __str__(self) -> str:
         """Return a `str` version of this MessageContextGlobal object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'MessageContextGlobal') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1947,14 +1868,8 @@ class MessageContextGlobalStateless():
     def from_dict(cls, _dict: Dict) -> 'MessageContextGlobalStateless':
         """Initialize a MessageContextGlobalStateless object from a json dictionary."""
         args = {}
-        valid_keys = ['system', 'session_id']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class MessageContextGlobalStateless: '
-                + ', '.join(bad_keys))
         if 'system' in _dict:
-            args['system'] = MessageContextGlobalSystem._from_dict(
+            args['system'] = MessageContextGlobalSystem.from_dict(
                 _dict.get('system'))
         if 'session_id' in _dict:
             args['session_id'] = _dict.get('session_id')
@@ -1969,7 +1884,7 @@ class MessageContextGlobalStateless():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'system') and self.system is not None:
-            _dict['system'] = self.system._to_dict()
+            _dict['system'] = self.system.to_dict()
         if hasattr(self, 'session_id') and self.session_id is not None:
             _dict['session_id'] = self.session_id
         return _dict
@@ -1980,7 +1895,7 @@ class MessageContextGlobalStateless():
 
     def __str__(self) -> str:
         """Return a `str` version of this MessageContextGlobalStateless object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'MessageContextGlobalStateless') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2077,14 +1992,6 @@ class MessageContextGlobalSystem():
     def from_dict(cls, _dict: Dict) -> 'MessageContextGlobalSystem':
         """Initialize a MessageContextGlobalSystem object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'timezone', 'user_id', 'turn_count', 'locale', 'reference_time'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class MessageContextGlobalSystem: '
-                + ', '.join(bad_keys))
         if 'timezone' in _dict:
             args['timezone'] = _dict.get('timezone')
         if 'user_id' in _dict:
@@ -2123,7 +2030,7 @@ class MessageContextGlobalSystem():
 
     def __str__(self) -> str:
         """Return a `str` version of this MessageContextGlobalSystem object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'MessageContextGlobalSystem') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2135,7 +2042,7 @@ class MessageContextGlobalSystem():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class LocaleEnum(Enum):
+    class LocaleEnum(str, Enum):
         """
         The language code for localization in the user input. The specified locale
         overrides the default for the assistant, and is used for interpreting entity
@@ -2144,21 +2051,21 @@ class MessageContextGlobalSystem():
          This property is included only if the new system entities are enabled for the
         skill.
         """
-        EN_US = "en-us"
-        EN_CA = "en-ca"
-        EN_GB = "en-gb"
-        AR_AR = "ar-ar"
-        CS_CZ = "cs-cz"
-        DE_DE = "de-de"
-        ES_ES = "es-es"
-        FR_FR = "fr-fr"
-        IT_IT = "it-it"
-        JA_JP = "ja-jp"
-        KO_KR = "ko-kr"
-        NL_NL = "nl-nl"
-        PT_BR = "pt-br"
-        ZH_CN = "zh-cn"
-        ZH_TW = "zh-tw"
+        EN_US = 'en-us'
+        EN_CA = 'en-ca'
+        EN_GB = 'en-gb'
+        AR_AR = 'ar-ar'
+        CS_CZ = 'cs-cz'
+        DE_DE = 'de-de'
+        ES_ES = 'es-es'
+        FR_FR = 'fr-fr'
+        IT_IT = 'it-it'
+        JA_JP = 'ja-jp'
+        KO_KR = 'ko-kr'
+        NL_NL = 'nl-nl'
+        PT_BR = 'pt-br'
+        ZH_CN = 'zh-cn'
+        ZH_TW = 'zh-tw'
 
 
 class MessageContextSkill():
@@ -2191,16 +2098,10 @@ class MessageContextSkill():
     def from_dict(cls, _dict: Dict) -> 'MessageContextSkill':
         """Initialize a MessageContextSkill object from a json dictionary."""
         args = {}
-        valid_keys = ['user_defined', 'system']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class MessageContextSkill: '
-                + ', '.join(bad_keys))
         if 'user_defined' in _dict:
             args['user_defined'] = _dict.get('user_defined')
         if 'system' in _dict:
-            args['system'] = MessageContextSkillSystem._from_dict(
+            args['system'] = MessageContextSkillSystem.from_dict(
                 _dict.get('system'))
         return cls(**args)
 
@@ -2215,7 +2116,7 @@ class MessageContextSkill():
         if hasattr(self, 'user_defined') and self.user_defined is not None:
             _dict['user_defined'] = self.user_defined
         if hasattr(self, 'system') and self.system is not None:
-            _dict['system'] = self.system._to_dict()
+            _dict['system'] = self.system.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -2224,7 +2125,7 @@ class MessageContextSkill():
 
     def __str__(self) -> str:
         """Return a `str` version of this MessageContextSkill object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'MessageContextSkill') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2248,6 +2149,9 @@ class MessageContextSkillSystem():
           state value to restore a paused conversation whose session is expired.
     """
 
+    # The set of defined properties for the class
+    _properties = frozenset(['state'])
+
     def __init__(self, *, state: str = None, **kwargs) -> None:
         """
         Initialize a MessageContextSkillSystem object.
@@ -2267,11 +2171,10 @@ class MessageContextSkillSystem():
     def from_dict(cls, _dict: Dict) -> 'MessageContextSkillSystem':
         """Initialize a MessageContextSkillSystem object from a json dictionary."""
         args = {}
-        xtra = _dict.copy()
         if 'state' in _dict:
             args['state'] = _dict.get('state')
-            del xtra['state']
-        args.update(xtra)
+        args.update(
+            {k: v for (k, v) in _dict.items() if k not in cls._properties})
         return cls(**args)
 
     @classmethod
@@ -2284,29 +2187,21 @@ class MessageContextSkillSystem():
         _dict = {}
         if hasattr(self, 'state') and self.state is not None:
             _dict['state'] = self.state
-        if hasattr(self, '_additionalProperties'):
-            for _key in self._additionalProperties:
-                _value = getattr(self, _key, None)
-                if _value is not None:
-                    _dict[_key] = _value
+        for _key in [
+                k for k in vars(self).keys()
+                if k not in MessageContextSkillSystem._properties
+        ]:
+            if getattr(self, _key, None) is not None:
+                _dict[_key] = getattr(self, _key)
         return _dict
 
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         return self.to_dict()
 
-    def __setattr__(self, name: str, value: object) -> None:
-        properties = {'state'}
-        if not hasattr(self, '_additionalProperties'):
-            super(MessageContextSkillSystem,
-                  self).__setattr__('_additionalProperties', set())
-        if name not in properties:
-            self._additionalProperties.add(name)
-        super(MessageContextSkillSystem, self).__setattr__(name, value)
-
     def __str__(self) -> str:
         """Return a `str` version of this MessageContextSkillSystem object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'MessageContextSkillSystem') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2319,82 +2214,14 @@ class MessageContextSkillSystem():
         return not self == other
 
 
-class MessageContextSkills():
-    """
-    Information specific to particular skills used by the assistant.
-    **Note:** Currently, only a single child property is supported, containing variables
-    that apply to the dialog skill used by the assistant.
-
-    """
-
-    def __init__(self, **kwargs) -> None:
-        """
-        Initialize a MessageContextSkills object.
-
-        :param **kwargs: (optional) Any additional properties.
-        """
-        for _key, _value in kwargs.items():
-            setattr(self, _key, _value)
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'MessageContextSkills':
-        """Initialize a MessageContextSkills object from a json dictionary."""
-        args = {}
-        xtra = _dict.copy()
-        args.update(xtra)
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a MessageContextSkills object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, '_additionalProperties'):
-            for _key in self._additionalProperties:
-                _value = getattr(self, _key, None)
-                if _value is not None:
-                    _dict[_key] = _value
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __setattr__(self, name: str, value: object) -> None:
-        properties = {}
-        if not hasattr(self, '_additionalProperties'):
-            super(MessageContextSkills,
-                  self).__setattr__('_additionalProperties', set())
-        if name not in properties:
-            self._additionalProperties.add(name)
-        super(MessageContextSkills, self).__setattr__(name, value)
-
-    def __str__(self) -> str:
-        """Return a `str` version of this MessageContextSkills object."""
-        return json.dumps(self._to_dict(), indent=2)
-
-    def __eq__(self, other: 'MessageContextSkills') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'MessageContextSkills') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
 class MessageContextStateless():
     """
     MessageContextStateless.
 
     :attr MessageContextGlobalStateless global_: (optional) Session context data
           that is shared by all skills used by the Assistant.
-    :attr MessageContextSkills skills: (optional) Information specific to particular
-          skills used by the assistant.
+    :attr dict skills: (optional) Information specific to particular skills used by
+          the assistant.
           **Note:** Currently, only a single child property is supported, containing
           variables that apply to the dialog skill used by the assistant.
     """
@@ -2402,14 +2229,14 @@ class MessageContextStateless():
     def __init__(self,
                  *,
                  global_: 'MessageContextGlobalStateless' = None,
-                 skills: 'MessageContextSkills' = None) -> None:
+                 skills: dict = None) -> None:
         """
         Initialize a MessageContextStateless object.
 
         :param MessageContextGlobalStateless global_: (optional) Session context
                data that is shared by all skills used by the Assistant.
-        :param MessageContextSkills skills: (optional) Information specific to
-               particular skills used by the assistant.
+        :param dict skills: (optional) Information specific to particular skills
+               used by the assistant.
                **Note:** Currently, only a single child property is supported, containing
                variables that apply to the dialog skill used by the assistant.
         """
@@ -2420,18 +2247,14 @@ class MessageContextStateless():
     def from_dict(cls, _dict: Dict) -> 'MessageContextStateless':
         """Initialize a MessageContextStateless object from a json dictionary."""
         args = {}
-        valid_keys = ['global_', 'global', 'skills']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class MessageContextStateless: '
-                + ', '.join(bad_keys))
         if 'global' in _dict:
-            args['global_'] = MessageContextGlobalStateless._from_dict(
+            args['global_'] = MessageContextGlobalStateless.from_dict(
                 _dict.get('global'))
         if 'skills' in _dict:
-            args['skills'] = MessageContextSkills._from_dict(
-                _dict.get('skills'))
+            args['skills'] = {
+                k: MessageContextSkill.from_dict(v)
+                for k, v in _dict.get('skills').items()
+            }
         return cls(**args)
 
     @classmethod
@@ -2443,9 +2266,9 @@ class MessageContextStateless():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'global_') and self.global_ is not None:
-            _dict['global'] = self.global_._to_dict()
+            _dict['global'] = self.global_.to_dict()
         if hasattr(self, 'skills') and self.skills is not None:
-            _dict['skills'] = self.skills._to_dict()
+            _dict['skills'] = {k: v.to_dict() for k, v in self.skills.items()}
         return _dict
 
     def _to_dict(self):
@@ -2454,7 +2277,7 @@ class MessageContextStateless():
 
     def __str__(self) -> str:
         """Return a `str` version of this MessageContextStateless object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'MessageContextStateless') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2524,31 +2347,22 @@ class MessageInput():
     def from_dict(cls, _dict: Dict) -> 'MessageInput':
         """Initialize a MessageInput object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'message_type', 'text', 'intents', 'entities', 'suggestion_id',
-            'options'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class MessageInput: '
-                + ', '.join(bad_keys))
         if 'message_type' in _dict:
             args['message_type'] = _dict.get('message_type')
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'intents' in _dict:
             args['intents'] = [
-                RuntimeIntent._from_dict(x) for x in (_dict.get('intents'))
+                RuntimeIntent.from_dict(x) for x in _dict.get('intents')
             ]
         if 'entities' in _dict:
             args['entities'] = [
-                RuntimeEntity._from_dict(x) for x in (_dict.get('entities'))
+                RuntimeEntity.from_dict(x) for x in _dict.get('entities')
             ]
         if 'suggestion_id' in _dict:
             args['suggestion_id'] = _dict.get('suggestion_id')
         if 'options' in _dict:
-            args['options'] = MessageInputOptions._from_dict(
+            args['options'] = MessageInputOptions.from_dict(
                 _dict.get('options'))
         return cls(**args)
 
@@ -2565,13 +2379,13 @@ class MessageInput():
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self, 'intents') and self.intents is not None:
-            _dict['intents'] = [x._to_dict() for x in self.intents]
+            _dict['intents'] = [x.to_dict() for x in self.intents]
         if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x._to_dict() for x in self.entities]
+            _dict['entities'] = [x.to_dict() for x in self.entities]
         if hasattr(self, 'suggestion_id') and self.suggestion_id is not None:
             _dict['suggestion_id'] = self.suggestion_id
         if hasattr(self, 'options') and self.options is not None:
-            _dict['options'] = self.options._to_dict()
+            _dict['options'] = self.options.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -2580,7 +2394,7 @@ class MessageInput():
 
     def __str__(self) -> str:
         """Return a `str` version of this MessageInput object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'MessageInput') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2592,11 +2406,11 @@ class MessageInput():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class MessageTypeEnum(Enum):
+    class MessageTypeEnum(str, Enum):
         """
         The type of user input. Currently, only text input is supported.
         """
-        TEXT = "text"
+        TEXT = 'text'
 
 
 class MessageInputOptions():
@@ -2671,21 +2485,12 @@ class MessageInputOptions():
     def from_dict(cls, _dict: Dict) -> 'MessageInputOptions':
         """Initialize a MessageInputOptions object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'restart', 'alternate_intents', 'spelling', 'debug',
-            'return_context', 'export'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class MessageInputOptions: '
-                + ', '.join(bad_keys))
         if 'restart' in _dict:
             args['restart'] = _dict.get('restart')
         if 'alternate_intents' in _dict:
             args['alternate_intents'] = _dict.get('alternate_intents')
         if 'spelling' in _dict:
-            args['spelling'] = MessageInputOptionsSpelling._from_dict(
+            args['spelling'] = MessageInputOptionsSpelling.from_dict(
                 _dict.get('spelling'))
         if 'debug' in _dict:
             args['debug'] = _dict.get('debug')
@@ -2709,7 +2514,7 @@ class MessageInputOptions():
                    'alternate_intents') and self.alternate_intents is not None:
             _dict['alternate_intents'] = self.alternate_intents
         if hasattr(self, 'spelling') and self.spelling is not None:
-            _dict['spelling'] = self.spelling._to_dict()
+            _dict['spelling'] = self.spelling.to_dict()
         if hasattr(self, 'debug') and self.debug is not None:
             _dict['debug'] = self.debug
         if hasattr(self, 'return_context') and self.return_context is not None:
@@ -2724,7 +2529,7 @@ class MessageInputOptions():
 
     def __str__(self) -> str:
         """Return a `str` version of this MessageInputOptions object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'MessageInputOptions') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2785,12 +2590,6 @@ class MessageInputOptionsSpelling():
     def from_dict(cls, _dict: Dict) -> 'MessageInputOptionsSpelling':
         """Initialize a MessageInputOptionsSpelling object from a json dictionary."""
         args = {}
-        valid_keys = ['suggestions', 'auto_correct']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class MessageInputOptionsSpelling: '
-                + ', '.join(bad_keys))
         if 'suggestions' in _dict:
             args['suggestions'] = _dict.get('suggestions')
         if 'auto_correct' in _dict:
@@ -2817,7 +2616,7 @@ class MessageInputOptionsSpelling():
 
     def __str__(self) -> str:
         """Return a `str` version of this MessageInputOptionsSpelling object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'MessageInputOptionsSpelling') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2877,18 +2676,12 @@ class MessageInputOptionsStateless():
     def from_dict(cls, _dict: Dict) -> 'MessageInputOptionsStateless':
         """Initialize a MessageInputOptionsStateless object from a json dictionary."""
         args = {}
-        valid_keys = ['restart', 'alternate_intents', 'spelling', 'debug']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class MessageInputOptionsStateless: '
-                + ', '.join(bad_keys))
         if 'restart' in _dict:
             args['restart'] = _dict.get('restart')
         if 'alternate_intents' in _dict:
             args['alternate_intents'] = _dict.get('alternate_intents')
         if 'spelling' in _dict:
-            args['spelling'] = MessageInputOptionsSpelling._from_dict(
+            args['spelling'] = MessageInputOptionsSpelling.from_dict(
                 _dict.get('spelling'))
         if 'debug' in _dict:
             args['debug'] = _dict.get('debug')
@@ -2908,7 +2701,7 @@ class MessageInputOptionsStateless():
                    'alternate_intents') and self.alternate_intents is not None:
             _dict['alternate_intents'] = self.alternate_intents
         if hasattr(self, 'spelling') and self.spelling is not None:
-            _dict['spelling'] = self.spelling._to_dict()
+            _dict['spelling'] = self.spelling.to_dict()
         if hasattr(self, 'debug') and self.debug is not None:
             _dict['debug'] = self.debug
         return _dict
@@ -2919,7 +2712,7 @@ class MessageInputOptionsStateless():
 
     def __str__(self) -> str:
         """Return a `str` version of this MessageInputOptionsStateless object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'MessageInputOptionsStateless') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2989,31 +2782,22 @@ class MessageInputStateless():
     def from_dict(cls, _dict: Dict) -> 'MessageInputStateless':
         """Initialize a MessageInputStateless object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'message_type', 'text', 'intents', 'entities', 'suggestion_id',
-            'options'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class MessageInputStateless: '
-                + ', '.join(bad_keys))
         if 'message_type' in _dict:
             args['message_type'] = _dict.get('message_type')
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'intents' in _dict:
             args['intents'] = [
-                RuntimeIntent._from_dict(x) for x in (_dict.get('intents'))
+                RuntimeIntent.from_dict(x) for x in _dict.get('intents')
             ]
         if 'entities' in _dict:
             args['entities'] = [
-                RuntimeEntity._from_dict(x) for x in (_dict.get('entities'))
+                RuntimeEntity.from_dict(x) for x in _dict.get('entities')
             ]
         if 'suggestion_id' in _dict:
             args['suggestion_id'] = _dict.get('suggestion_id')
         if 'options' in _dict:
-            args['options'] = MessageInputOptionsStateless._from_dict(
+            args['options'] = MessageInputOptionsStateless.from_dict(
                 _dict.get('options'))
         return cls(**args)
 
@@ -3030,13 +2814,13 @@ class MessageInputStateless():
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self, 'intents') and self.intents is not None:
-            _dict['intents'] = [x._to_dict() for x in self.intents]
+            _dict['intents'] = [x.to_dict() for x in self.intents]
         if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x._to_dict() for x in self.entities]
+            _dict['entities'] = [x.to_dict() for x in self.entities]
         if hasattr(self, 'suggestion_id') and self.suggestion_id is not None:
             _dict['suggestion_id'] = self.suggestion_id
         if hasattr(self, 'options') and self.options is not None:
-            _dict['options'] = self.options._to_dict()
+            _dict['options'] = self.options.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -3045,7 +2829,7 @@ class MessageInputStateless():
 
     def __str__(self) -> str:
         """Return a `str` version of this MessageInputStateless object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'MessageInputStateless') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3057,11 +2841,11 @@ class MessageInputStateless():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class MessageTypeEnum(Enum):
+    class MessageTypeEnum(str, Enum):
         """
         The type of user input. Currently, only text input is supported.
         """
-        TEXT = "text"
+        TEXT = 'text'
 
 
 class MessageOutput():
@@ -3128,38 +2912,29 @@ class MessageOutput():
     def from_dict(cls, _dict: Dict) -> 'MessageOutput':
         """Initialize a MessageOutput object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'generic', 'intents', 'entities', 'actions', 'debug',
-            'user_defined', 'spelling'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class MessageOutput: '
-                + ', '.join(bad_keys))
         if 'generic' in _dict:
             args['generic'] = [
-                RuntimeResponseGeneric._from_dict(x)
-                for x in (_dict.get('generic'))
+                RuntimeResponseGeneric.from_dict(x)
+                for x in _dict.get('generic')
             ]
         if 'intents' in _dict:
             args['intents'] = [
-                RuntimeIntent._from_dict(x) for x in (_dict.get('intents'))
+                RuntimeIntent.from_dict(x) for x in _dict.get('intents')
             ]
         if 'entities' in _dict:
             args['entities'] = [
-                RuntimeEntity._from_dict(x) for x in (_dict.get('entities'))
+                RuntimeEntity.from_dict(x) for x in _dict.get('entities')
             ]
         if 'actions' in _dict:
             args['actions'] = [
-                DialogNodeAction._from_dict(x) for x in (_dict.get('actions'))
+                DialogNodeAction.from_dict(x) for x in _dict.get('actions')
             ]
         if 'debug' in _dict:
-            args['debug'] = MessageOutputDebug._from_dict(_dict.get('debug'))
+            args['debug'] = MessageOutputDebug.from_dict(_dict.get('debug'))
         if 'user_defined' in _dict:
             args['user_defined'] = _dict.get('user_defined')
         if 'spelling' in _dict:
-            args['spelling'] = MessageOutputSpelling._from_dict(
+            args['spelling'] = MessageOutputSpelling.from_dict(
                 _dict.get('spelling'))
         return cls(**args)
 
@@ -3172,19 +2947,19 @@ class MessageOutput():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'generic') and self.generic is not None:
-            _dict['generic'] = [x._to_dict() for x in self.generic]
+            _dict['generic'] = [x.to_dict() for x in self.generic]
         if hasattr(self, 'intents') and self.intents is not None:
-            _dict['intents'] = [x._to_dict() for x in self.intents]
+            _dict['intents'] = [x.to_dict() for x in self.intents]
         if hasattr(self, 'entities') and self.entities is not None:
-            _dict['entities'] = [x._to_dict() for x in self.entities]
+            _dict['entities'] = [x.to_dict() for x in self.entities]
         if hasattr(self, 'actions') and self.actions is not None:
-            _dict['actions'] = [x._to_dict() for x in self.actions]
+            _dict['actions'] = [x.to_dict() for x in self.actions]
         if hasattr(self, 'debug') and self.debug is not None:
-            _dict['debug'] = self.debug._to_dict()
+            _dict['debug'] = self.debug.to_dict()
         if hasattr(self, 'user_defined') and self.user_defined is not None:
             _dict['user_defined'] = self.user_defined
         if hasattr(self, 'spelling') and self.spelling is not None:
-            _dict['spelling'] = self.spelling._to_dict()
+            _dict['spelling'] = self.spelling.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -3193,7 +2968,7 @@ class MessageOutput():
 
     def __str__(self) -> str:
         """Return a `str` version of this MessageOutput object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'MessageOutput') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3251,24 +3026,14 @@ class MessageOutputDebug():
     def from_dict(cls, _dict: Dict) -> 'MessageOutputDebug':
         """Initialize a MessageOutputDebug object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'nodes_visited', 'log_messages', 'branch_exited',
-            'branch_exited_reason'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class MessageOutputDebug: '
-                + ', '.join(bad_keys))
         if 'nodes_visited' in _dict:
             args['nodes_visited'] = [
-                DialogNodesVisited._from_dict(x)
-                for x in (_dict.get('nodes_visited'))
+                DialogNodesVisited.from_dict(x)
+                for x in _dict.get('nodes_visited')
             ]
         if 'log_messages' in _dict:
             args['log_messages'] = [
-                DialogLogMessage._from_dict(x)
-                for x in (_dict.get('log_messages'))
+                DialogLogMessage.from_dict(x) for x in _dict.get('log_messages')
             ]
         if 'branch_exited' in _dict:
             args['branch_exited'] = _dict.get('branch_exited')
@@ -3285,9 +3050,9 @@ class MessageOutputDebug():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'nodes_visited') and self.nodes_visited is not None:
-            _dict['nodes_visited'] = [x._to_dict() for x in self.nodes_visited]
+            _dict['nodes_visited'] = [x.to_dict() for x in self.nodes_visited]
         if hasattr(self, 'log_messages') and self.log_messages is not None:
-            _dict['log_messages'] = [x._to_dict() for x in self.log_messages]
+            _dict['log_messages'] = [x.to_dict() for x in self.log_messages]
         if hasattr(self, 'branch_exited') and self.branch_exited is not None:
             _dict['branch_exited'] = self.branch_exited
         if hasattr(self, 'branch_exited_reason'
@@ -3301,7 +3066,7 @@ class MessageOutputDebug():
 
     def __str__(self) -> str:
         """Return a `str` version of this MessageOutputDebug object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'MessageOutputDebug') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3313,13 +3078,13 @@ class MessageOutputDebug():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class BranchExitedReasonEnum(Enum):
+    class BranchExitedReasonEnum(str, Enum):
         """
         When `branch_exited` is set to `true` by the Assistant, the `branch_exited_reason`
         specifies whether the dialog completed by itself or got interrupted.
         """
-        COMPLETED = "completed"
-        FALLBACK = "fallback"
+        COMPLETED = 'completed'
+        FALLBACK = 'fallback'
 
 
 class MessageOutputSpelling():
@@ -3362,12 +3127,6 @@ class MessageOutputSpelling():
     def from_dict(cls, _dict: Dict) -> 'MessageOutputSpelling':
         """Initialize a MessageOutputSpelling object from a json dictionary."""
         args = {}
-        valid_keys = ['text', 'original_text', 'suggested_text']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class MessageOutputSpelling: '
-                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'original_text' in _dict:
@@ -3398,7 +3157,7 @@ class MessageOutputSpelling():
 
     def __str__(self) -> str:
         """Return a `str` version of this MessageOutputSpelling object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'MessageOutputSpelling') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3448,16 +3207,10 @@ class MessageRequest():
     def from_dict(cls, _dict: Dict) -> 'MessageRequest':
         """Initialize a MessageRequest object from a json dictionary."""
         args = {}
-        valid_keys = ['input', 'context']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class MessageRequest: '
-                + ', '.join(bad_keys))
         if 'input' in _dict:
-            args['input'] = MessageInput._from_dict(_dict.get('input'))
+            args['input'] = MessageInput.from_dict(_dict.get('input'))
         if 'context' in _dict:
-            args['context'] = MessageContext._from_dict(_dict.get('context'))
+            args['context'] = MessageContext.from_dict(_dict.get('context'))
         return cls(**args)
 
     @classmethod
@@ -3469,9 +3222,9 @@ class MessageRequest():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'input') and self.input is not None:
-            _dict['input'] = self.input._to_dict()
+            _dict['input'] = self.input.to_dict()
         if hasattr(self, 'context') and self.context is not None:
-            _dict['context'] = self.context._to_dict()
+            _dict['context'] = self.context.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -3480,7 +3233,7 @@ class MessageRequest():
 
     def __str__(self) -> str:
         """Return a `str` version of this MessageRequest object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'MessageRequest') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3530,20 +3283,14 @@ class MessageResponse():
     def from_dict(cls, _dict: Dict) -> 'MessageResponse':
         """Initialize a MessageResponse object from a json dictionary."""
         args = {}
-        valid_keys = ['output', 'context']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class MessageResponse: '
-                + ', '.join(bad_keys))
         if 'output' in _dict:
-            args['output'] = MessageOutput._from_dict(_dict.get('output'))
+            args['output'] = MessageOutput.from_dict(_dict.get('output'))
         else:
             raise ValueError(
                 'Required property \'output\' not present in MessageResponse JSON'
             )
         if 'context' in _dict:
-            args['context'] = MessageContext._from_dict(_dict.get('context'))
+            args['context'] = MessageContext.from_dict(_dict.get('context'))
         return cls(**args)
 
     @classmethod
@@ -3555,9 +3302,9 @@ class MessageResponse():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'output') and self.output is not None:
-            _dict['output'] = self.output._to_dict()
+            _dict['output'] = self.output.to_dict()
         if hasattr(self, 'context') and self.context is not None:
-            _dict['context'] = self.context._to_dict()
+            _dict['context'] = self.context.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -3566,7 +3313,7 @@ class MessageResponse():
 
     def __str__(self) -> str:
         """Return a `str` version of this MessageResponse object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'MessageResponse') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3610,20 +3357,14 @@ class MessageResponseStateless():
     def from_dict(cls, _dict: Dict) -> 'MessageResponseStateless':
         """Initialize a MessageResponseStateless object from a json dictionary."""
         args = {}
-        valid_keys = ['output', 'context']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class MessageResponseStateless: '
-                + ', '.join(bad_keys))
         if 'output' in _dict:
-            args['output'] = MessageOutput._from_dict(_dict.get('output'))
+            args['output'] = MessageOutput.from_dict(_dict.get('output'))
         else:
             raise ValueError(
                 'Required property \'output\' not present in MessageResponseStateless JSON'
             )
         if 'context' in _dict:
-            args['context'] = MessageContextStateless._from_dict(
+            args['context'] = MessageContextStateless.from_dict(
                 _dict.get('context'))
         else:
             raise ValueError(
@@ -3640,9 +3381,9 @@ class MessageResponseStateless():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'output') and self.output is not None:
-            _dict['output'] = self.output._to_dict()
+            _dict['output'] = self.output.to_dict()
         if hasattr(self, 'context') and self.context is not None:
-            _dict['context'] = self.context._to_dict()
+            _dict['context'] = self.context.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -3651,7 +3392,7 @@ class MessageResponseStateless():
 
     def __str__(self) -> str:
         """Return a `str` version of this MessageResponseStateless object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'MessageResponseStateless') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3753,15 +3494,6 @@ class RuntimeEntity():
     def from_dict(cls, _dict: Dict) -> 'RuntimeEntity':
         """Initialize a RuntimeEntity object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'entity', 'location', 'value', 'confidence', 'metadata', 'groups',
-            'interpretation', 'alternatives', 'role'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RuntimeEntity: '
-                + ', '.join(bad_keys))
         if 'entity' in _dict:
             args['entity'] = _dict.get('entity')
         else:
@@ -3785,18 +3517,18 @@ class RuntimeEntity():
             args['metadata'] = _dict.get('metadata')
         if 'groups' in _dict:
             args['groups'] = [
-                CaptureGroup._from_dict(x) for x in (_dict.get('groups'))
+                CaptureGroup.from_dict(x) for x in _dict.get('groups')
             ]
         if 'interpretation' in _dict:
-            args['interpretation'] = RuntimeEntityInterpretation._from_dict(
+            args['interpretation'] = RuntimeEntityInterpretation.from_dict(
                 _dict.get('interpretation'))
         if 'alternatives' in _dict:
             args['alternatives'] = [
-                RuntimeEntityAlternative._from_dict(x)
-                for x in (_dict.get('alternatives'))
+                RuntimeEntityAlternative.from_dict(x)
+                for x in _dict.get('alternatives')
             ]
         if 'role' in _dict:
-            args['role'] = RuntimeEntityRole._from_dict(_dict.get('role'))
+            args['role'] = RuntimeEntityRole.from_dict(_dict.get('role'))
         return cls(**args)
 
     @classmethod
@@ -3818,13 +3550,13 @@ class RuntimeEntity():
         if hasattr(self, 'metadata') and self.metadata is not None:
             _dict['metadata'] = self.metadata
         if hasattr(self, 'groups') and self.groups is not None:
-            _dict['groups'] = [x._to_dict() for x in self.groups]
+            _dict['groups'] = [x.to_dict() for x in self.groups]
         if hasattr(self, 'interpretation') and self.interpretation is not None:
-            _dict['interpretation'] = self.interpretation._to_dict()
+            _dict['interpretation'] = self.interpretation.to_dict()
         if hasattr(self, 'alternatives') and self.alternatives is not None:
-            _dict['alternatives'] = [x._to_dict() for x in self.alternatives]
+            _dict['alternatives'] = [x.to_dict() for x in self.alternatives]
         if hasattr(self, 'role') and self.role is not None:
-            _dict['role'] = self.role._to_dict()
+            _dict['role'] = self.role.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -3833,7 +3565,7 @@ class RuntimeEntity():
 
     def __str__(self) -> str:
         """Return a `str` version of this RuntimeEntity object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'RuntimeEntity') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3872,12 +3604,6 @@ class RuntimeEntityAlternative():
     def from_dict(cls, _dict: Dict) -> 'RuntimeEntityAlternative':
         """Initialize a RuntimeEntityAlternative object from a json dictionary."""
         args = {}
-        valid_keys = ['value', 'confidence']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RuntimeEntityAlternative: '
-                + ', '.join(bad_keys))
         if 'value' in _dict:
             args['value'] = _dict.get('value')
         if 'confidence' in _dict:
@@ -3904,7 +3630,7 @@ class RuntimeEntityAlternative():
 
     def __str__(self) -> str:
         """Return a `str` version of this RuntimeEntityAlternative object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'RuntimeEntityAlternative') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4127,21 +3853,6 @@ class RuntimeEntityInterpretation():
     def from_dict(cls, _dict: Dict) -> 'RuntimeEntityInterpretation':
         """Initialize a RuntimeEntityInterpretation object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'calendar_type', 'datetime_link', 'festival', 'granularity',
-            'range_link', 'range_modifier', 'relative_day', 'relative_month',
-            'relative_week', 'relative_weekend', 'relative_year',
-            'specific_day', 'specific_day_of_week', 'specific_month',
-            'specific_quarter', 'specific_year', 'numeric_value', 'subtype',
-            'part_of_day', 'relative_hour', 'relative_minute',
-            'relative_second', 'specific_hour', 'specific_minute',
-            'specific_second', 'timezone'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RuntimeEntityInterpretation: '
-                + ', '.join(bad_keys))
         if 'calendar_type' in _dict:
             args['calendar_type'] = _dict.get('calendar_type')
         if 'datetime_link' in _dict:
@@ -4271,7 +3982,7 @@ class RuntimeEntityInterpretation():
 
     def __str__(self) -> str:
         """Return a `str` version of this RuntimeEntityInterpretation object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'RuntimeEntityInterpretation') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4283,22 +3994,22 @@ class RuntimeEntityInterpretation():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class GranularityEnum(Enum):
+    class GranularityEnum(str, Enum):
         """
         The precision or duration of a time range specified by a recognized `@sys-time` or
         `@sys-date` entity.
         """
-        DAY = "day"
-        FORTNIGHT = "fortnight"
-        HOUR = "hour"
-        INSTANT = "instant"
-        MINUTE = "minute"
-        MONTH = "month"
-        QUARTER = "quarter"
-        SECOND = "second"
-        WEEK = "week"
-        WEEKEND = "weekend"
-        YEAR = "year"
+        DAY = 'day'
+        FORTNIGHT = 'fortnight'
+        HOUR = 'hour'
+        INSTANT = 'instant'
+        MINUTE = 'minute'
+        MONTH = 'month'
+        QUARTER = 'quarter'
+        SECOND = 'second'
+        WEEK = 'week'
+        WEEKEND = 'weekend'
+        YEAR = 'year'
 
 
 class RuntimeEntityRole():
@@ -4322,12 +4033,6 @@ class RuntimeEntityRole():
     def from_dict(cls, _dict: Dict) -> 'RuntimeEntityRole':
         """Initialize a RuntimeEntityRole object from a json dictionary."""
         args = {}
-        valid_keys = ['type']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RuntimeEntityRole: '
-                + ', '.join(bad_keys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         return cls(**args)
@@ -4350,7 +4055,7 @@ class RuntimeEntityRole():
 
     def __str__(self) -> str:
         """Return a `str` version of this RuntimeEntityRole object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'RuntimeEntityRole') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4362,16 +4067,16 @@ class RuntimeEntityRole():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class TypeEnum(Enum):
+    class TypeEnum(str, Enum):
         """
         The relationship of the entity to the range.
         """
-        DATE_FROM = "date_from"
-        DATE_TO = "date_to"
-        NUMBER_FROM = "number_from"
-        NUMBER_TO = "number_to"
-        TIME_FROM = "time_from"
-        TIME_TO = "time_to"
+        DATE_FROM = 'date_from'
+        DATE_TO = 'date_to'
+        NUMBER_FROM = 'number_from'
+        NUMBER_TO = 'number_to'
+        TIME_FROM = 'time_from'
+        TIME_TO = 'time_to'
 
 
 class RuntimeIntent():
@@ -4398,12 +4103,6 @@ class RuntimeIntent():
     def from_dict(cls, _dict: Dict) -> 'RuntimeIntent':
         """Initialize a RuntimeIntent object from a json dictionary."""
         args = {}
-        valid_keys = ['intent', 'confidence']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RuntimeIntent: '
-                + ', '.join(bad_keys))
         if 'intent' in _dict:
             args['intent'] = _dict.get('intent')
         else:
@@ -4438,7 +4137,7 @@ class RuntimeIntent():
 
     def __str__(self) -> str:
         """Return a `str` version of this RuntimeIntent object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'RuntimeIntent') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4480,16 +4179,18 @@ class RuntimeResponseGeneric():
         disc_class = cls._get_class_by_discriminator(_dict)
         if disc_class != cls:
             return disc_class.from_dict(_dict)
-        msg = "Cannot convert dictionary into an instance of base class '{0}'. The discriminator value should map to a valid subclass: {1}".format(
-            cls.__name__, ", ".join([
-                'RuntimeResponseGenericRuntimeResponseTypeText',
-                'RuntimeResponseGenericRuntimeResponseTypePause',
-                'RuntimeResponseGenericRuntimeResponseTypeImage',
-                'RuntimeResponseGenericRuntimeResponseTypeOption',
-                'RuntimeResponseGenericRuntimeResponseTypeConnectToAgent',
-                'RuntimeResponseGenericRuntimeResponseTypeSuggestion',
-                'RuntimeResponseGenericRuntimeResponseTypeSearch'
-            ]))
+        msg = (
+            "Cannot convert dictionary into an instance of base class 'RuntimeResponseGeneric'. "
+            + "The discriminator value should map to a valid subclass: {1}"
+        ).format(", ".join([
+            'RuntimeResponseGenericRuntimeResponseTypeText',
+            'RuntimeResponseGenericRuntimeResponseTypePause',
+            'RuntimeResponseGenericRuntimeResponseTypeImage',
+            'RuntimeResponseGenericRuntimeResponseTypeOption',
+            'RuntimeResponseGenericRuntimeResponseTypeConnectToAgent',
+            'RuntimeResponseGenericRuntimeResponseTypeSuggestion',
+            'RuntimeResponseGenericRuntimeResponseTypeSearch'
+        ]))
         raise Exception(msg)
 
     @classmethod
@@ -4587,21 +4288,13 @@ class SearchResult():
     def from_dict(cls, _dict: Dict) -> 'SearchResult':
         """Initialize a SearchResult object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'id', 'result_metadata', 'body', 'title', 'url', 'highlight'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SearchResult: '
-                + ', '.join(bad_keys))
         if 'id' in _dict:
             args['id'] = _dict.get('id')
         else:
             raise ValueError(
                 'Required property \'id\' not present in SearchResult JSON')
         if 'result_metadata' in _dict:
-            args['result_metadata'] = SearchResultMetadata._from_dict(
+            args['result_metadata'] = SearchResultMetadata.from_dict(
                 _dict.get('result_metadata'))
         else:
             raise ValueError(
@@ -4614,7 +4307,7 @@ class SearchResult():
         if 'url' in _dict:
             args['url'] = _dict.get('url')
         if 'highlight' in _dict:
-            args['highlight'] = SearchResultHighlight._from_dict(
+            args['highlight'] = SearchResultHighlight.from_dict(
                 _dict.get('highlight'))
         return cls(**args)
 
@@ -4630,7 +4323,7 @@ class SearchResult():
             _dict['id'] = self.id
         if hasattr(self,
                    'result_metadata') and self.result_metadata is not None:
-            _dict['result_metadata'] = self.result_metadata._to_dict()
+            _dict['result_metadata'] = self.result_metadata.to_dict()
         if hasattr(self, 'body') and self.body is not None:
             _dict['body'] = self.body
         if hasattr(self, 'title') and self.title is not None:
@@ -4638,7 +4331,7 @@ class SearchResult():
         if hasattr(self, 'url') and self.url is not None:
             _dict['url'] = self.url
         if hasattr(self, 'highlight') and self.highlight is not None:
-            _dict['highlight'] = self.highlight._to_dict()
+            _dict['highlight'] = self.highlight.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -4647,7 +4340,7 @@ class SearchResult():
 
     def __str__(self) -> str:
         """Return a `str` version of this SearchResult object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SearchResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4674,6 +4367,9 @@ class SearchResultHighlight():
     :attr List[str] url: (optional) An array of strings containing segments taken
           from URLs in the search results, with query-matching substrings highlighted.
     """
+
+    # The set of defined properties for the class
+    _properties = frozenset(['body', 'title', 'url'])
 
     def __init__(self,
                  *,
@@ -4705,17 +4401,14 @@ class SearchResultHighlight():
     def from_dict(cls, _dict: Dict) -> 'SearchResultHighlight':
         """Initialize a SearchResultHighlight object from a json dictionary."""
         args = {}
-        xtra = _dict.copy()
         if 'body' in _dict:
             args['body'] = _dict.get('body')
-            del xtra['body']
         if 'title' in _dict:
             args['title'] = _dict.get('title')
-            del xtra['title']
         if 'url' in _dict:
             args['url'] = _dict.get('url')
-            del xtra['url']
-        args.update(xtra)
+        args.update(
+            {k: v for (k, v) in _dict.items() if k not in cls._properties})
         return cls(**args)
 
     @classmethod
@@ -4732,29 +4425,21 @@ class SearchResultHighlight():
             _dict['title'] = self.title
         if hasattr(self, 'url') and self.url is not None:
             _dict['url'] = self.url
-        if hasattr(self, '_additionalProperties'):
-            for _key in self._additionalProperties:
-                _value = getattr(self, _key, None)
-                if _value is not None:
-                    _dict[_key] = _value
+        for _key in [
+                k for k in vars(self).keys()
+                if k not in SearchResultHighlight._properties
+        ]:
+            if getattr(self, _key, None) is not None:
+                _dict[_key] = getattr(self, _key)
         return _dict
 
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         return self.to_dict()
 
-    def __setattr__(self, name: str, value: object) -> None:
-        properties = {'body', 'title', 'url'}
-        if not hasattr(self, '_additionalProperties'):
-            super(SearchResultHighlight,
-                  self).__setattr__('_additionalProperties', set())
-        if name not in properties:
-            self._additionalProperties.add(name)
-        super(SearchResultHighlight, self).__setattr__(name, value)
-
     def __str__(self) -> str:
         """Return a `str` version of this SearchResultHighlight object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SearchResultHighlight') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4800,12 +4485,6 @@ class SearchResultMetadata():
     def from_dict(cls, _dict: Dict) -> 'SearchResultMetadata':
         """Initialize a SearchResultMetadata object from a json dictionary."""
         args = {}
-        valid_keys = ['confidence', 'score']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SearchResultMetadata: '
-                + ', '.join(bad_keys))
         if 'confidence' in _dict:
             args['confidence'] = _dict.get('confidence')
         if 'score' in _dict:
@@ -4832,7 +4511,7 @@ class SearchResultMetadata():
 
     def __str__(self) -> str:
         """Return a `str` version of this SearchResultMetadata object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SearchResultMetadata') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4864,12 +4543,6 @@ class SessionResponse():
     def from_dict(cls, _dict: Dict) -> 'SessionResponse':
         """Initialize a SessionResponse object from a json dictionary."""
         args = {}
-        valid_keys = ['session_id']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SessionResponse: '
-                + ', '.join(bad_keys))
         if 'session_id' in _dict:
             args['session_id'] = _dict.get('session_id')
         else:
@@ -4896,7 +4569,7 @@ class SessionResponse():
 
     def __str__(self) -> str:
         """Return a `str` version of this SessionResponse object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SessionResponse') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4962,6 +4635,7 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
                conversation, derived from the **title** property of the relevant node or
                the **topic** property of the dialog node response.
         """
+        # pylint: disable=super-init-not-called
         self.response_type = response_type
         self.message_to_human_agent = message_to_human_agent
         self.agent_available = agent_available
@@ -4975,15 +4649,6 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
     ) -> 'RuntimeResponseGenericRuntimeResponseTypeConnectToAgent':
         """Initialize a RuntimeResponseGenericRuntimeResponseTypeConnectToAgent object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'response_type', 'message_to_human_agent', 'agent_available',
-            'agent_unavailable', 'transfer_info', 'topic'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent: '
-                + ', '.join(bad_keys))
         if 'response_type' in _dict:
             args['response_type'] = _dict.get('response_type')
         else:
@@ -4998,7 +4663,7 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
             args['agent_unavailable'] = _dict.get('agent_unavailable')
         if 'transfer_info' in _dict:
             args[
-                'transfer_info'] = DialogNodeOutputConnectToAgentTransferInfo._from_dict(
+                'transfer_info'] = DialogNodeOutputConnectToAgentTransferInfo.from_dict(
                     _dict.get('transfer_info'))
         if 'topic' in _dict:
             args['topic'] = _dict.get('topic')
@@ -5024,7 +4689,7 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
                    'agent_unavailable') and self.agent_unavailable is not None:
             _dict['agent_unavailable'] = self.agent_unavailable
         if hasattr(self, 'transfer_info') and self.transfer_info is not None:
-            _dict['transfer_info'] = self.transfer_info._to_dict()
+            _dict['transfer_info'] = self.transfer_info.to_dict()
         if hasattr(self, 'topic') and self.topic is not None:
             _dict['topic'] = self.topic
         return _dict
@@ -5035,7 +4700,7 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
 
     def __str__(self) -> str:
         """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypeConnectToAgent object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(
         self, other: 'RuntimeResponseGenericRuntimeResponseTypeConnectToAgent'
@@ -5051,12 +4716,12 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ResponseTypeEnum(Enum):
+    class ResponseTypeEnum(str, Enum):
         """
         The type of response returned by the dialog node. The specified response type must
         be supported by the client application or channel.
         """
-        CONNECT_TO_AGENT = "connect_to_agent"
+        CONNECT_TO_AGENT = 'connect_to_agent'
 
 
 class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
@@ -5087,6 +4752,7 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
         :param str description: (optional) The description to show with the the
                response.
         """
+        # pylint: disable=super-init-not-called
         self.response_type = response_type
         self.source = source
         self.title = title
@@ -5098,12 +4764,6 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
             _dict: Dict) -> 'RuntimeResponseGenericRuntimeResponseTypeImage':
         """Initialize a RuntimeResponseGenericRuntimeResponseTypeImage object from a json dictionary."""
         args = {}
-        valid_keys = ['response_type', 'source', 'title', 'description']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RuntimeResponseGenericRuntimeResponseTypeImage: '
-                + ', '.join(bad_keys))
         if 'response_type' in _dict:
             args['response_type'] = _dict.get('response_type')
         else:
@@ -5146,7 +4806,7 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
 
     def __str__(self) -> str:
         """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypeImage object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self,
                other: 'RuntimeResponseGenericRuntimeResponseTypeImage') -> bool:
@@ -5160,12 +4820,12 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ResponseTypeEnum(Enum):
+    class ResponseTypeEnum(str, Enum):
         """
         The type of response returned by the dialog node. The specified response type must
         be supported by the client application or channel.
         """
-        IMAGE = "image"
+        IMAGE = 'image'
 
 
 class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
@@ -5202,6 +4862,7 @@ class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
                response.
         :param str preference: (optional) The preferred type of control to display.
         """
+        # pylint: disable=super-init-not-called
         self.response_type = response_type
         self.title = title
         self.description = description
@@ -5214,14 +4875,6 @@ class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
             _dict: Dict) -> 'RuntimeResponseGenericRuntimeResponseTypeOption':
         """Initialize a RuntimeResponseGenericRuntimeResponseTypeOption object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'response_type', 'title', 'description', 'preference', 'options'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RuntimeResponseGenericRuntimeResponseTypeOption: '
-                + ', '.join(bad_keys))
         if 'response_type' in _dict:
             args['response_type'] = _dict.get('response_type')
         else:
@@ -5240,8 +4893,8 @@ class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
             args['preference'] = _dict.get('preference')
         if 'options' in _dict:
             args['options'] = [
-                DialogNodeOutputOptionsElement._from_dict(x)
-                for x in (_dict.get('options'))
+                DialogNodeOutputOptionsElement.from_dict(x)
+                for x in _dict.get('options')
             ]
         else:
             raise ValueError(
@@ -5266,7 +4919,7 @@ class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
         if hasattr(self, 'preference') and self.preference is not None:
             _dict['preference'] = self.preference
         if hasattr(self, 'options') and self.options is not None:
-            _dict['options'] = [x._to_dict() for x in self.options]
+            _dict['options'] = [x.to_dict() for x in self.options]
         return _dict
 
     def _to_dict(self):
@@ -5275,7 +4928,7 @@ class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
 
     def __str__(self) -> str:
         """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypeOption object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(
             self,
@@ -5291,19 +4944,19 @@ class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ResponseTypeEnum(Enum):
+    class ResponseTypeEnum(str, Enum):
         """
         The type of response returned by the dialog node. The specified response type must
         be supported by the client application or channel.
         """
-        OPTION = "option"
+        OPTION = 'option'
 
-    class PreferenceEnum(Enum):
+    class PreferenceEnum(str, Enum):
         """
         The preferred type of control to display.
         """
-        DROPDOWN = "dropdown"
-        BUTTON = "button"
+        DROPDOWN = 'dropdown'
+        BUTTON = 'button'
 
 
 class RuntimeResponseGenericRuntimeResponseTypePause(RuntimeResponseGeneric):
@@ -5332,6 +4985,7 @@ class RuntimeResponseGenericRuntimeResponseTypePause(RuntimeResponseGeneric):
         :param bool typing: (optional) Whether to send a "user is typing" event
                during the pause.
         """
+        # pylint: disable=super-init-not-called
         self.response_type = response_type
         self.time = time
         self.typing = typing
@@ -5342,12 +4996,6 @@ class RuntimeResponseGenericRuntimeResponseTypePause(RuntimeResponseGeneric):
             _dict: Dict) -> 'RuntimeResponseGenericRuntimeResponseTypePause':
         """Initialize a RuntimeResponseGenericRuntimeResponseTypePause object from a json dictionary."""
         args = {}
-        valid_keys = ['response_type', 'time', 'typing']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RuntimeResponseGenericRuntimeResponseTypePause: '
-                + ', '.join(bad_keys))
         if 'response_type' in _dict:
             args['response_type'] = _dict.get('response_type')
         else:
@@ -5386,7 +5034,7 @@ class RuntimeResponseGenericRuntimeResponseTypePause(RuntimeResponseGeneric):
 
     def __str__(self) -> str:
         """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypePause object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self,
                other: 'RuntimeResponseGenericRuntimeResponseTypePause') -> bool:
@@ -5400,12 +5048,12 @@ class RuntimeResponseGenericRuntimeResponseTypePause(RuntimeResponseGeneric):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ResponseTypeEnum(Enum):
+    class ResponseTypeEnum(str, Enum):
         """
         The type of response returned by the dialog node. The specified response type must
         be supported by the client application or channel.
         """
-        PAUSE = "pause"
+        PAUSE = 'pause'
 
 
 class RuntimeResponseGenericRuntimeResponseTypeSearch(RuntimeResponseGeneric):
@@ -5440,6 +5088,7 @@ class RuntimeResponseGenericRuntimeResponseTypeSearch(RuntimeResponseGeneric):
                contains additional search results that can be displayed to the user upon
                request.
         """
+        # pylint: disable=super-init-not-called
         self.response_type = response_type
         self.header = header
         self.primary_results = primary_results
@@ -5451,14 +5100,6 @@ class RuntimeResponseGenericRuntimeResponseTypeSearch(RuntimeResponseGeneric):
             _dict: Dict) -> 'RuntimeResponseGenericRuntimeResponseTypeSearch':
         """Initialize a RuntimeResponseGenericRuntimeResponseTypeSearch object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'response_type', 'header', 'primary_results', 'additional_results'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RuntimeResponseGenericRuntimeResponseTypeSearch: '
-                + ', '.join(bad_keys))
         if 'response_type' in _dict:
             args['response_type'] = _dict.get('response_type')
         else:
@@ -5473,8 +5114,7 @@ class RuntimeResponseGenericRuntimeResponseTypeSearch(RuntimeResponseGeneric):
             )
         if 'primary_results' in _dict:
             args['primary_results'] = [
-                SearchResult._from_dict(x)
-                for x in (_dict.get('primary_results'))
+                SearchResult.from_dict(x) for x in _dict.get('primary_results')
             ]
         else:
             raise ValueError(
@@ -5482,8 +5122,8 @@ class RuntimeResponseGenericRuntimeResponseTypeSearch(RuntimeResponseGeneric):
             )
         if 'additional_results' in _dict:
             args['additional_results'] = [
-                SearchResult._from_dict(x)
-                for x in (_dict.get('additional_results'))
+                SearchResult.from_dict(x)
+                for x in _dict.get('additional_results')
             ]
         else:
             raise ValueError(
@@ -5506,13 +5146,13 @@ class RuntimeResponseGenericRuntimeResponseTypeSearch(RuntimeResponseGeneric):
         if hasattr(self,
                    'primary_results') and self.primary_results is not None:
             _dict['primary_results'] = [
-                x._to_dict() for x in self.primary_results
+                x.to_dict() for x in self.primary_results
             ]
         if hasattr(
                 self,
                 'additional_results') and self.additional_results is not None:
             _dict['additional_results'] = [
-                x._to_dict() for x in self.additional_results
+                x.to_dict() for x in self.additional_results
             ]
         return _dict
 
@@ -5522,7 +5162,7 @@ class RuntimeResponseGenericRuntimeResponseTypeSearch(RuntimeResponseGeneric):
 
     def __str__(self) -> str:
         """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypeSearch object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(
             self,
@@ -5538,12 +5178,12 @@ class RuntimeResponseGenericRuntimeResponseTypeSearch(RuntimeResponseGeneric):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ResponseTypeEnum(Enum):
+    class ResponseTypeEnum(str, Enum):
         """
         The type of response returned by the dialog node. The specified response type must
         be supported by the client application or channel.
         """
-        SEARCH = "search"
+        SEARCH = 'search'
 
 
 class RuntimeResponseGenericRuntimeResponseTypeSuggestion(
@@ -5571,6 +5211,7 @@ class RuntimeResponseGenericRuntimeResponseTypeSuggestion(
         :param List[DialogSuggestion] suggestions: An array of objects describing
                the possible matching dialog nodes from which the user can choose.
         """
+        # pylint: disable=super-init-not-called
         self.response_type = response_type
         self.title = title
         self.suggestions = suggestions
@@ -5581,12 +5222,6 @@ class RuntimeResponseGenericRuntimeResponseTypeSuggestion(
     ) -> 'RuntimeResponseGenericRuntimeResponseTypeSuggestion':
         """Initialize a RuntimeResponseGenericRuntimeResponseTypeSuggestion object from a json dictionary."""
         args = {}
-        valid_keys = ['response_type', 'title', 'suggestions']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RuntimeResponseGenericRuntimeResponseTypeSuggestion: '
-                + ', '.join(bad_keys))
         if 'response_type' in _dict:
             args['response_type'] = _dict.get('response_type')
         else:
@@ -5601,8 +5236,7 @@ class RuntimeResponseGenericRuntimeResponseTypeSuggestion(
             )
         if 'suggestions' in _dict:
             args['suggestions'] = [
-                DialogSuggestion._from_dict(x)
-                for x in (_dict.get('suggestions'))
+                DialogSuggestion.from_dict(x) for x in _dict.get('suggestions')
             ]
         else:
             raise ValueError(
@@ -5623,7 +5257,7 @@ class RuntimeResponseGenericRuntimeResponseTypeSuggestion(
         if hasattr(self, 'title') and self.title is not None:
             _dict['title'] = self.title
         if hasattr(self, 'suggestions') and self.suggestions is not None:
-            _dict['suggestions'] = [x._to_dict() for x in self.suggestions]
+            _dict['suggestions'] = [x.to_dict() for x in self.suggestions]
         return _dict
 
     def _to_dict(self):
@@ -5632,7 +5266,7 @@ class RuntimeResponseGenericRuntimeResponseTypeSuggestion(
 
     def __str__(self) -> str:
         """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypeSuggestion object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(
             self, other: 'RuntimeResponseGenericRuntimeResponseTypeSuggestion'
@@ -5648,12 +5282,12 @@ class RuntimeResponseGenericRuntimeResponseTypeSuggestion(
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ResponseTypeEnum(Enum):
+    class ResponseTypeEnum(str, Enum):
         """
         The type of response returned by the dialog node. The specified response type must
         be supported by the client application or channel.
         """
-        SUGGESTION = "suggestion"
+        SUGGESTION = 'suggestion'
 
 
 class RuntimeResponseGenericRuntimeResponseTypeText(RuntimeResponseGeneric):
@@ -5674,6 +5308,7 @@ class RuntimeResponseGenericRuntimeResponseTypeText(RuntimeResponseGeneric):
                channel.
         :param str text: The text of the response.
         """
+        # pylint: disable=super-init-not-called
         self.response_type = response_type
         self.text = text
 
@@ -5683,12 +5318,6 @@ class RuntimeResponseGenericRuntimeResponseTypeText(RuntimeResponseGeneric):
             _dict: Dict) -> 'RuntimeResponseGenericRuntimeResponseTypeText':
         """Initialize a RuntimeResponseGenericRuntimeResponseTypeText object from a json dictionary."""
         args = {}
-        valid_keys = ['response_type', 'text']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RuntimeResponseGenericRuntimeResponseTypeText: '
-                + ', '.join(bad_keys))
         if 'response_type' in _dict:
             args['response_type'] = _dict.get('response_type')
         else:
@@ -5723,7 +5352,7 @@ class RuntimeResponseGenericRuntimeResponseTypeText(RuntimeResponseGeneric):
 
     def __str__(self) -> str:
         """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypeText object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self,
                other: 'RuntimeResponseGenericRuntimeResponseTypeText') -> bool:
@@ -5737,9 +5366,9 @@ class RuntimeResponseGenericRuntimeResponseTypeText(RuntimeResponseGeneric):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ResponseTypeEnum(Enum):
+    class ResponseTypeEnum(str, Enum):
         """
         The type of response returned by the dialog node. The specified response type must
         be supported by the client application or channel.
         """
-        TEXT = "text"
+        TEXT = 'text'

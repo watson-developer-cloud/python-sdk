@@ -13,6 +13,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-a45d89ef-20201209-192237
 """
 IBM Watson&trade; Visual Recognition is discontinued. Existing instances are supported
 until 1 December 2021, but as of 7 January 2021, you can't create instances. Any instance
@@ -23,19 +25,18 @@ and objects in images that you upload to the service. You can create and train a
 classifier to identify subjects that suit your needs.
 """
 
-import json
-from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
-from .common import get_sdk_headers
 from datetime import datetime
 from enum import Enum
-from ibm_cloud_sdk_core import BaseService
-from ibm_cloud_sdk_core import DetailedResponse
-from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
-from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
 from os.path import basename
-from typing import BinaryIO
-from typing import Dict
-from typing import List
+from typing import BinaryIO, Dict, List
+import json
+
+from ibm_cloud_sdk_core import BaseService, DetailedResponse
+from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
+from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
+from ibm_cloud_sdk_core.utils import datetime_to_string, string_to_datetime
+
+from .common import get_sdk_headers
 
 ##############################################################################
 # Service
@@ -57,28 +58,24 @@ class VisualRecognitionV3(BaseService):
         """
         Construct a new client for the Visual Recognition service.
 
-        :param str version: The API version date to use with the service, in
-               "YYYY-MM-DD" format. Whenever the API is changed in a backwards
-               incompatible way, a new minor version of the API is released.
-               The service uses the API version for the date you specify, or
-               the most recent version before that date. Note that you should
-               not programmatically specify the current date at runtime, in
-               case the API has been updated since your application's release.
-               Instead, specify a version date that is compatible with your
-               application, and don't change it until your application is
-               ready for a later version.
+        :param str version: Release date of the API version you want to use.
+               Specify dates in YYYY-MM-DD format. The current version is `2018-03-19`.
 
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
         """
-        print('warning: On 1 December 2021, Visual Recognition will no longer be available. For more information, see https://github.com/watson-developer-cloud/python-sdk/tree/master#visual-recognition-deprecation.')
+        print(
+            'warning: On 1 December 2021, Visual Recognition will no longer be available. For more information, see https://github.com/watson-developer-cloud/python-sdk/tree/master#visual-recognition-deprecation.'
+        )
+        if version is None:
+            raise ValueError('version must be provided')
+
         if not authenticator:
             authenticator = get_authenticator_from_environment(service_name)
         BaseService.__init__(self,
                              service_url=self.DEFAULT_SERVICE_URL,
-                             authenticator=authenticator,
-                             disable_ssl_verification=False)
+                             authenticator=authenticator)
         self.version = version
         self.configure_service(service_name)
 
@@ -93,16 +90,16 @@ class VisualRecognitionV3(BaseService):
                  images_file_content_type: str = None,
                  url: str = None,
                  threshold: float = None,
-                 owners: str = None,
-                 classifier_ids: str = None,
+                 owners: List[str] = None,
+                 classifier_ids: List[str] = None,
                  accept_language: str = None,
-                 **kwargs) -> 'DetailedResponse':
+                 **kwargs) -> DetailedResponse:
         """
         Classify images.
 
         Classify images with built-in or custom classifiers.
 
-        :param TextIO images_file: (optional) An image file (.gif, .jpg, .png,
+        :param BinaryIO images_file: (optional) An image file (.gif, .jpg, .png,
                .tif) or .zip file with images. Maximum image size is 10 MB. Include no
                more than 20 images and limit the .zip file to 100 MB. Encode the image and
                .zip file names in UTF-8 if they contain non-ASCII characters. The service
@@ -142,12 +139,10 @@ class VisualRecognitionV3(BaseService):
                response. See the response for details.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `ClassifiedImages` object
         """
 
         headers = {'Accept-Language': accept_language}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V3',
                                       operation_id='classify')
@@ -165,11 +160,10 @@ class VisualRecognitionV3(BaseService):
                                               images_file_content_type or
                                               'application/octet-stream')))
         if url:
-            url = str(url)
             form_data.append(('url', (None, url, 'text/plain')))
         if threshold:
-            threshold = str(threshold)
-            form_data.append(('threshold', (None, threshold, 'text/plain')))
+            form_data.append(
+                ('threshold', (None, str(threshold), 'text/plain')))
         if owners:
             owners = self._convert_list(owners)
             form_data.append(('owners', (None, owners, 'text/plain')))
@@ -177,6 +171,9 @@ class VisualRecognitionV3(BaseService):
             classifier_ids = self._convert_list(classifier_ids)
             form_data.append(
                 ('classifier_ids', (None, classifier_ids, 'text/plain')))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v3/classify'
         request = self.prepare_request(method='POST',
@@ -194,11 +191,11 @@ class VisualRecognitionV3(BaseService):
 
     def create_classifier(self,
                           name: str,
-                          positive_examples: BinaryIO,
+                          positive_examples: Dict[str, BinaryIO],
                           *,
                           negative_examples: BinaryIO = None,
                           negative_examples_filename: str = None,
-                          **kwargs) -> 'DetailedResponse':
+                          **kwargs) -> DetailedResponse:
         """
         Create a classifier.
 
@@ -229,7 +226,7 @@ class VisualRecognitionV3(BaseService):
                image resolution is 32X32 pixels. The maximum number of images is 10,000
                images or 100 MB per .zip file.
                Encode special characters in the file name in UTF-8.
-        :param TextIO negative_examples: (optional) A .zip file of images that do
+        :param BinaryIO negative_examples: (optional) A .zip file of images that do
                not depict the visual subject of any of the classes of the new classifier.
                Must contain a minimum of 10 images.
                Encode special characters in the file name in UTF-8.
@@ -237,17 +234,13 @@ class VisualRecognitionV3(BaseService):
                negative_examples.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Classifier` object
         """
-
         if name is None:
             raise ValueError('name must be provided')
         if not positive_examples:
             raise ValueError('positive_examples must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V3',
                                       operation_id='create_classifier')
@@ -256,15 +249,15 @@ class VisualRecognitionV3(BaseService):
         params = {'version': self.version}
 
         form_data = []
-        name = str(name)
         form_data.append(('name', (None, name, 'text/plain')))
         for key in positive_examples.keys():
             part_name = '%s_positive_examples' % (key)
             value = positive_examples[key]
+            filename = None
             if hasattr(value, 'name'):
                 filename = basename(value.name)
-                form_data.append(
-                    (part_name, (filename, value, 'application/octet-stream')))
+            form_data.append(
+                (part_name, (filename, value, 'application/octet-stream')))
         if negative_examples:
             if not negative_examples_filename and hasattr(
                     negative_examples, 'name'):
@@ -274,6 +267,10 @@ class VisualRecognitionV3(BaseService):
             form_data.append(('negative_examples',
                               (negative_examples_filename, negative_examples,
                                'application/octet-stream')))
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v3/classifiers'
         request = self.prepare_request(method='POST',
@@ -288,7 +285,7 @@ class VisualRecognitionV3(BaseService):
     def list_classifiers(self,
                          *,
                          verbose: bool = None,
-                         **kwargs) -> 'DetailedResponse':
+                         **kwargs) -> DetailedResponse:
         """
         Retrieve a list of classifiers.
 
@@ -296,18 +293,20 @@ class VisualRecognitionV3(BaseService):
                classifiers. Omit this parameter to return a brief list of classifiers.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Classifiers` object
         """
 
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V3',
                                       operation_id='list_classifiers')
         headers.update(sdk_headers)
 
         params = {'version': self.version, 'verbose': verbose}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v3/classifiers'
         request = self.prepare_request(method='GET',
@@ -318,8 +317,7 @@ class VisualRecognitionV3(BaseService):
         response = self.send(request)
         return response
 
-    def get_classifier(self, classifier_id: str,
-                       **kwargs) -> 'DetailedResponse':
+    def get_classifier(self, classifier_id: str, **kwargs) -> DetailedResponse:
         """
         Retrieve classifier details.
 
@@ -328,15 +326,12 @@ class VisualRecognitionV3(BaseService):
         :param str classifier_id: The ID of the classifier.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Classifier` object
         """
 
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V3',
                                       operation_id='get_classifier')
@@ -344,8 +339,14 @@ class VisualRecognitionV3(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v3/classifiers/{0}'.format(
-            *self._encode_path_vars(classifier_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['classifier_id']
+        path_param_values = self.encode_path_vars(classifier_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v3/classifiers/{classifier_id}'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -357,10 +358,10 @@ class VisualRecognitionV3(BaseService):
     def update_classifier(self,
                           classifier_id: str,
                           *,
-                          positive_examples: BinaryIO = {},
+                          positive_examples: Dict[str, BinaryIO] = {},
                           negative_examples: BinaryIO = None,
                           negative_examples_filename: str = None,
-                          **kwargs) -> 'DetailedResponse':
+                          **kwargs) -> DetailedResponse:
         """
         Update a classifier.
 
@@ -395,7 +396,7 @@ class VisualRecognitionV3(BaseService):
                image resolution is 32X32 pixels. The maximum number of images is 10,000
                images or 100 MB per .zip file.
                Encode special characters in the file name in UTF-8.
-        :param TextIO negative_examples: (optional) A .zip file of images that do
+        :param BinaryIO negative_examples: (optional) A .zip file of images that do
                not depict the visual subject of any of the classes of the new classifier.
                Must contain a minimum of 10 images.
                Encode special characters in the file name in UTF-8.
@@ -403,15 +404,11 @@ class VisualRecognitionV3(BaseService):
                negative_examples.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Classifier` object
         """
-
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V3',
                                       operation_id='update_classifier')
@@ -423,10 +420,11 @@ class VisualRecognitionV3(BaseService):
         for key in positive_examples.keys():
             part_name = '%s_positive_examples' % (key)
             value = positive_examples[key]
+            filename = None
             if hasattr(value, 'name'):
                 filename = basename(value.name)
-                form_data.append(
-                    (part_name, (filename, value, 'application/octet-stream')))
+            form_data.append(
+                (part_name, (filename, value, 'application/octet-stream')))
         if negative_examples:
             if not negative_examples_filename and hasattr(
                     negative_examples, 'name'):
@@ -437,8 +435,14 @@ class VisualRecognitionV3(BaseService):
                               (negative_examples_filename, negative_examples,
                                'application/octet-stream')))
 
-        url = '/v3/classifiers/{0}'.format(
-            *self._encode_path_vars(classifier_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['classifier_id']
+        path_param_values = self.encode_path_vars(classifier_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v3/classifiers/{classifier_id}'.format(**path_param_dict)
         request = self.prepare_request(method='POST',
                                        url=url,
                                        headers=headers,
@@ -449,7 +453,7 @@ class VisualRecognitionV3(BaseService):
         return response
 
     def delete_classifier(self, classifier_id: str,
-                          **kwargs) -> 'DetailedResponse':
+                          **kwargs) -> DetailedResponse:
         """
         Delete a classifier.
 
@@ -461,10 +465,7 @@ class VisualRecognitionV3(BaseService):
 
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V3',
                                       operation_id='delete_classifier')
@@ -472,8 +473,14 @@ class VisualRecognitionV3(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v3/classifiers/{0}'.format(
-            *self._encode_path_vars(classifier_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['classifier_id']
+        path_param_values = self.encode_path_vars(classifier_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v3/classifiers/{classifier_id}'.format(**path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
@@ -487,7 +494,7 @@ class VisualRecognitionV3(BaseService):
     #########################
 
     def get_core_ml_model(self, classifier_id: str,
-                          **kwargs) -> 'DetailedResponse':
+                          **kwargs) -> DetailedResponse:
         """
         Retrieve a Core ML model of a classifier.
 
@@ -497,15 +504,12 @@ class VisualRecognitionV3(BaseService):
         :param str classifier_id: The ID of the classifier.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `BinaryIO` result
         """
 
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V3',
                                       operation_id='get_core_ml_model')
@@ -513,8 +517,15 @@ class VisualRecognitionV3(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v3/classifiers/{0}/core_ml_model'.format(
-            *self._encode_path_vars(classifier_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/octet-stream'
+
+        path_param_keys = ['classifier_id']
+        path_param_values = self.encode_path_vars(classifier_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v3/classifiers/{classifier_id}/core_ml_model'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -527,8 +538,7 @@ class VisualRecognitionV3(BaseService):
     # User data
     #########################
 
-    def delete_user_data(self, customer_id: str,
-                         **kwargs) -> 'DetailedResponse':
+    def delete_user_data(self, customer_id: str, **kwargs) -> DetailedResponse:
         """
         Delete labeled data.
 
@@ -548,16 +558,17 @@ class VisualRecognitionV3(BaseService):
 
         if customer_id is None:
             raise ValueError('customer_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V3',
                                       operation_id='delete_user_data')
         headers.update(sdk_headers)
 
         params = {'version': self.version, 'customer_id': customer_id}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v3/user_data'
         request = self.prepare_request(method='DELETE',
@@ -569,9 +580,12 @@ class VisualRecognitionV3(BaseService):
         return response
 
 
-class ClassifyEnums(object):
+class ClassifyEnums:
+    """
+    Enums for classify parameters.
+    """
 
-    class AcceptLanguage(Enum):
+    class AcceptLanguage(str, Enum):
         """
         The desired language of parts of the response. See the response for details.
         """
@@ -612,12 +626,6 @@ class Class():
     def from_dict(cls, _dict: Dict) -> 'Class':
         """Initialize a Class object from a json dictionary."""
         args = {}
-        valid_keys = ['class_', 'class']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Class: ' +
-                ', '.join(bad_keys))
         if 'class' in _dict:
             args['class_'] = _dict.get('class')
         else:
@@ -643,7 +651,7 @@ class Class():
 
     def __str__(self) -> str:
         """Return a `str` version of this Class object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Class') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -705,12 +713,6 @@ class ClassResult():
     def from_dict(cls, _dict: Dict) -> 'ClassResult':
         """Initialize a ClassResult object from a json dictionary."""
         args = {}
-        valid_keys = ['class_', 'class', 'score', 'type_hierarchy']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ClassResult: '
-                + ', '.join(bad_keys))
         if 'class' in _dict:
             args['class_'] = _dict.get('class')
         else:
@@ -747,7 +749,7 @@ class ClassResult():
 
     def __str__(self) -> str:
         """Return a `str` version of this ClassResult object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ClassResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -807,14 +809,6 @@ class ClassifiedImage():
     def from_dict(cls, _dict: Dict) -> 'ClassifiedImage':
         """Initialize a ClassifiedImage object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'source_url', 'resolved_url', 'image', 'error', 'classifiers'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ClassifiedImage: '
-                + ', '.join(bad_keys))
         if 'source_url' in _dict:
             args['source_url'] = _dict.get('source_url')
         if 'resolved_url' in _dict:
@@ -822,11 +816,10 @@ class ClassifiedImage():
         if 'image' in _dict:
             args['image'] = _dict.get('image')
         if 'error' in _dict:
-            args['error'] = ErrorInfo._from_dict(_dict.get('error'))
+            args['error'] = ErrorInfo.from_dict(_dict.get('error'))
         if 'classifiers' in _dict:
             args['classifiers'] = [
-                ClassifierResult._from_dict(x)
-                for x in (_dict.get('classifiers'))
+                ClassifierResult.from_dict(x) for x in _dict.get('classifiers')
             ]
         else:
             raise ValueError(
@@ -849,9 +842,9 @@ class ClassifiedImage():
         if hasattr(self, 'image') and self.image is not None:
             _dict['image'] = self.image
         if hasattr(self, 'error') and self.error is not None:
-            _dict['error'] = self.error._to_dict()
+            _dict['error'] = self.error.to_dict()
         if hasattr(self, 'classifiers') and self.classifiers is not None:
-            _dict['classifiers'] = [x._to_dict() for x in self.classifiers]
+            _dict['classifiers'] = [x.to_dict() for x in self.classifiers]
         return _dict
 
     def _to_dict(self):
@@ -860,7 +853,7 @@ class ClassifiedImage():
 
     def __str__(self) -> str:
         """Return a `str` version of this ClassifiedImage object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ClassifiedImage') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -916,21 +909,13 @@ class ClassifiedImages():
     def from_dict(cls, _dict: Dict) -> 'ClassifiedImages':
         """Initialize a ClassifiedImages object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'custom_classes', 'images_processed', 'images', 'warnings'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ClassifiedImages: '
-                + ', '.join(bad_keys))
         if 'custom_classes' in _dict:
             args['custom_classes'] = _dict.get('custom_classes')
         if 'images_processed' in _dict:
             args['images_processed'] = _dict.get('images_processed')
         if 'images' in _dict:
             args['images'] = [
-                ClassifiedImage._from_dict(x) for x in (_dict.get('images'))
+                ClassifiedImage.from_dict(x) for x in _dict.get('images')
             ]
         else:
             raise ValueError(
@@ -938,7 +923,7 @@ class ClassifiedImages():
             )
         if 'warnings' in _dict:
             args['warnings'] = [
-                WarningInfo._from_dict(x) for x in (_dict.get('warnings'))
+                WarningInfo.from_dict(x) for x in _dict.get('warnings')
             ]
         return cls(**args)
 
@@ -956,9 +941,9 @@ class ClassifiedImages():
                    'images_processed') and self.images_processed is not None:
             _dict['images_processed'] = self.images_processed
         if hasattr(self, 'images') and self.images is not None:
-            _dict['images'] = [x._to_dict() for x in self.images]
+            _dict['images'] = [x.to_dict() for x in self.images]
         if hasattr(self, 'warnings') and self.warnings is not None:
-            _dict['warnings'] = [x._to_dict() for x in self.warnings]
+            _dict['warnings'] = [x.to_dict() for x in self.warnings]
         return _dict
 
     def _to_dict(self):
@@ -967,7 +952,7 @@ class ClassifiedImages():
 
     def __str__(self) -> str:
         """Return a `str` version of this ClassifiedImages object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ClassifiedImages') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1054,15 +1039,6 @@ class Classifier():
     def from_dict(cls, _dict: Dict) -> 'Classifier':
         """Initialize a Classifier object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'classifier_id', 'name', 'owner', 'status', 'core_ml_enabled',
-            'explanation', 'created', 'classes', 'retrained', 'updated'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Classifier: '
-                + ', '.join(bad_keys))
         if 'classifier_id' in _dict:
             args['classifier_id'] = _dict.get('classifier_id')
         else:
@@ -1085,9 +1061,7 @@ class Classifier():
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict.get('created'))
         if 'classes' in _dict:
-            args['classes'] = [
-                Class._from_dict(x) for x in (_dict.get('classes'))
-            ]
+            args['classes'] = [Class.from_dict(x) for x in _dict.get('classes')]
         if 'retrained' in _dict:
             args['retrained'] = string_to_datetime(_dict.get('retrained'))
         if 'updated' in _dict:
@@ -1118,7 +1092,7 @@ class Classifier():
         if hasattr(self, 'created') and self.created is not None:
             _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'classes') and self.classes is not None:
-            _dict['classes'] = [x._to_dict() for x in self.classes]
+            _dict['classes'] = [x.to_dict() for x in self.classes]
         if hasattr(self, 'retrained') and self.retrained is not None:
             _dict['retrained'] = datetime_to_string(self.retrained)
         if hasattr(self, 'updated') and self.updated is not None:
@@ -1131,7 +1105,7 @@ class Classifier():
 
     def __str__(self) -> str:
         """Return a `str` version of this Classifier object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Classifier') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1143,14 +1117,14 @@ class Classifier():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class StatusEnum(Enum):
+    class StatusEnum(str, Enum):
         """
         Training status of classifier.
         """
-        READY = "ready"
-        TRAINING = "training"
-        RETRAINING = "retraining"
-        FAILED = "failed"
+        READY = 'ready'
+        TRAINING = 'training'
+        RETRAINING = 'retraining'
+        FAILED = 'failed'
 
 
 class ClassifierResult():
@@ -1179,12 +1153,6 @@ class ClassifierResult():
     def from_dict(cls, _dict: Dict) -> 'ClassifierResult':
         """Initialize a ClassifierResult object from a json dictionary."""
         args = {}
-        valid_keys = ['name', 'classifier_id', 'classes']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ClassifierResult: '
-                + ', '.join(bad_keys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         else:
@@ -1199,7 +1167,7 @@ class ClassifierResult():
             )
         if 'classes' in _dict:
             args['classes'] = [
-                ClassResult._from_dict(x) for x in (_dict.get('classes'))
+                ClassResult.from_dict(x) for x in _dict.get('classes')
             ]
         else:
             raise ValueError(
@@ -1220,7 +1188,7 @@ class ClassifierResult():
         if hasattr(self, 'classifier_id') and self.classifier_id is not None:
             _dict['classifier_id'] = self.classifier_id
         if hasattr(self, 'classes') and self.classes is not None:
-            _dict['classes'] = [x._to_dict() for x in self.classes]
+            _dict['classes'] = [x.to_dict() for x in self.classes]
         return _dict
 
     def _to_dict(self):
@@ -1229,7 +1197,7 @@ class ClassifierResult():
 
     def __str__(self) -> str:
         """Return a `str` version of this ClassifierResult object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ClassifierResult') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1261,15 +1229,9 @@ class Classifiers():
     def from_dict(cls, _dict: Dict) -> 'Classifiers':
         """Initialize a Classifiers object from a json dictionary."""
         args = {}
-        valid_keys = ['classifiers']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Classifiers: '
-                + ', '.join(bad_keys))
         if 'classifiers' in _dict:
             args['classifiers'] = [
-                Classifier._from_dict(x) for x in (_dict.get('classifiers'))
+                Classifier.from_dict(x) for x in _dict.get('classifiers')
             ]
         else:
             raise ValueError(
@@ -1286,7 +1248,7 @@ class Classifiers():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'classifiers') and self.classifiers is not None:
-            _dict['classifiers'] = [x._to_dict() for x in self.classifiers]
+            _dict['classifiers'] = [x.to_dict() for x in self.classifiers]
         return _dict
 
     def _to_dict(self):
@@ -1295,7 +1257,7 @@ class Classifiers():
 
     def __str__(self) -> str:
         """Return a `str` version of this Classifiers object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Classifiers') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1336,12 +1298,6 @@ class ErrorInfo():
     def from_dict(cls, _dict: Dict) -> 'ErrorInfo':
         """Initialize a ErrorInfo object from a json dictionary."""
         args = {}
-        valid_keys = ['code', 'description', 'error_id']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ErrorInfo: '
-                + ', '.join(bad_keys))
         if 'code' in _dict:
             args['code'] = _dict.get('code')
         else:
@@ -1382,7 +1338,7 @@ class ErrorInfo():
 
     def __str__(self) -> str:
         """Return a `str` version of this ErrorInfo object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ErrorInfo') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1417,12 +1373,6 @@ class WarningInfo():
     def from_dict(cls, _dict: Dict) -> 'WarningInfo':
         """Initialize a WarningInfo object from a json dictionary."""
         args = {}
-        valid_keys = ['warning_id', 'description']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class WarningInfo: '
-                + ', '.join(bad_keys))
         if 'warning_id' in _dict:
             args['warning_id'] = _dict.get('warning_id')
         else:
@@ -1457,7 +1407,7 @@ class WarningInfo():
 
     def __str__(self) -> str:
         """Return a `str` version of this WarningInfo object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'WarningInfo') -> bool:
         """Return `true` when self and other are equal, false otherwise."""

@@ -13,23 +13,24 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-a45d89ef-20201209-192237
 """
 IBM Watson&trade; Compare and Comply analyzes governing documents to provide details about
 critical aspects of the documents.
 """
 
-import json
-from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
-from .common import get_sdk_headers
 from datetime import datetime
 from enum import Enum
-from ibm_cloud_sdk_core import BaseService
-from ibm_cloud_sdk_core import DetailedResponse
-from ibm_cloud_sdk_core import datetime_to_string, string_to_datetime
+from typing import BinaryIO, Dict, List
+import json
+
+from ibm_cloud_sdk_core import BaseService, DetailedResponse
+from ibm_cloud_sdk_core.authenticators.authenticator import Authenticator
 from ibm_cloud_sdk_core.get_authenticator import get_authenticator_from_environment
-from typing import BinaryIO
-from typing import Dict
-from typing import List
+from ibm_cloud_sdk_core.utils import convert_model, datetime_to_string, string_to_datetime
+
+from .common import get_sdk_headers
 
 ##############################################################################
 # Service
@@ -51,27 +52,21 @@ class CompareComplyV1(BaseService):
         """
         Construct a new client for the Compare Comply service.
 
-        :param str version: The API version date to use with the service, in
-               "YYYY-MM-DD" format. Whenever the API is changed in a backwards
-               incompatible way, a new minor version of the API is released.
-               The service uses the API version for the date you specify, or
-               the most recent version before that date. Note that you should
-               not programmatically specify the current date at runtime, in
-               case the API has been updated since your application's release.
-               Instead, specify a version date that is compatible with your
-               application, and don't change it until your application is
-               ready for a later version.
+        :param str version: Release date of the version of the API you want to use.
+               Specify dates in YYYY-MM-DD format. The current version is `2018-10-15`.
 
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
         """
+        if version is None:
+            raise ValueError('version must be provided')
+
         if not authenticator:
             authenticator = get_authenticator_from_environment(service_name)
         BaseService.__init__(self,
                              service_url=self.DEFAULT_SERVICE_URL,
-                             authenticator=authenticator,
-                             disable_ssl_verification=False)
+                             authenticator=authenticator)
         self.version = version
         self.configure_service(service_name)
 
@@ -84,13 +79,13 @@ class CompareComplyV1(BaseService):
                         *,
                         file_content_type: str = None,
                         model: str = None,
-                        **kwargs) -> 'DetailedResponse':
+                        **kwargs) -> DetailedResponse:
         """
         Convert document to HTML.
 
         Converts a document to HTML.
 
-        :param TextIO file: The document to convert.
+        :param BinaryIO file: The document to convert.
         :param str file_content_type: (optional) The content type of file.
         :param str model: (optional) The analysis model to be used by the service.
                For the **Element classification** and **Compare two documents** methods,
@@ -99,15 +94,12 @@ class CompareComplyV1(BaseService):
                the methods' use in batch-processing requests.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `HTMLReturn` object
         """
 
         if file is None:
             raise ValueError('file must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='convert_to_html')
@@ -118,6 +110,10 @@ class CompareComplyV1(BaseService):
         form_data = []
         form_data.append(('file', (None, file, file_content_type or
                                    'application/octet-stream')))
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v1/html_conversion'
         request = self.prepare_request(method='POST',
@@ -138,13 +134,13 @@ class CompareComplyV1(BaseService):
                           *,
                           file_content_type: str = None,
                           model: str = None,
-                          **kwargs) -> 'DetailedResponse':
+                          **kwargs) -> DetailedResponse:
         """
         Classify the elements of a document.
 
         Analyzes the structural and semantic elements of a document.
 
-        :param TextIO file: The document to classify.
+        :param BinaryIO file: The document to classify.
         :param str file_content_type: (optional) The content type of file.
         :param str model: (optional) The analysis model to be used by the service.
                For the **Element classification** and **Compare two documents** methods,
@@ -153,15 +149,12 @@ class CompareComplyV1(BaseService):
                the methods' use in batch-processing requests.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `ClassifyReturn` object
         """
 
         if file is None:
             raise ValueError('file must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='classify_elements')
@@ -172,6 +165,10 @@ class CompareComplyV1(BaseService):
         form_data = []
         form_data.append(('file', (None, file, file_content_type or
                                    'application/octet-stream')))
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v1/element_classification'
         request = self.prepare_request(method='POST',
@@ -192,13 +189,13 @@ class CompareComplyV1(BaseService):
                        *,
                        file_content_type: str = None,
                        model: str = None,
-                       **kwargs) -> 'DetailedResponse':
+                       **kwargs) -> DetailedResponse:
         """
         Extract a document's tables.
 
         Analyzes the tables in a document.
 
-        :param TextIO file: The document on which to run table extraction.
+        :param BinaryIO file: The document on which to run table extraction.
         :param str file_content_type: (optional) The content type of file.
         :param str model: (optional) The analysis model to be used by the service.
                For the **Element classification** and **Compare two documents** methods,
@@ -207,15 +204,12 @@ class CompareComplyV1(BaseService):
                the methods' use in batch-processing requests.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `TableReturn` object
         """
 
         if file is None:
             raise ValueError('file must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='extract_tables')
@@ -226,6 +220,10 @@ class CompareComplyV1(BaseService):
         form_data = []
         form_data.append(('file', (None, file, file_content_type or
                                    'application/octet-stream')))
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v1/tables'
         request = self.prepare_request(method='POST',
@@ -250,14 +248,14 @@ class CompareComplyV1(BaseService):
                           file_1_label: str = None,
                           file_2_label: str = None,
                           model: str = None,
-                          **kwargs) -> 'DetailedResponse':
+                          **kwargs) -> DetailedResponse:
         """
         Compare two documents.
 
         Compares two input documents. Documents must be in the same format.
 
-        :param TextIO file_1: The first document to compare.
-        :param TextIO file_2: The second document to compare.
+        :param BinaryIO file_1: The first document to compare.
+        :param BinaryIO file_2: The second document to compare.
         :param str file_1_content_type: (optional) The content type of file_1.
         :param str file_2_content_type: (optional) The content type of file_2.
         :param str file_1_label: (optional) A text label for the first document.
@@ -269,17 +267,14 @@ class CompareComplyV1(BaseService):
                the methods' use in batch-processing requests.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `CompareReturn` object
         """
 
         if file_1 is None:
             raise ValueError('file_1 must be provided')
         if file_2 is None:
             raise ValueError('file_2 must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='compare_documents')
@@ -297,6 +292,10 @@ class CompareComplyV1(BaseService):
                                      'application/octet-stream')))
         form_data.append(('file_2', (None, file_2, file_2_content_type or
                                      'application/octet-stream')))
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v1/comparison'
         request = self.prepare_request(method='POST',
@@ -317,7 +316,7 @@ class CompareComplyV1(BaseService):
                      *,
                      user_id: str = None,
                      comment: str = None,
-                     **kwargs) -> 'DetailedResponse':
+                     **kwargs) -> DetailedResponse:
         """
         Add feedback.
 
@@ -333,16 +332,13 @@ class CompareComplyV1(BaseService):
                feedback.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `FeedbackReturn` object
         """
 
         if feedback_data is None:
             raise ValueError('feedback_data must be provided')
-        feedback_data = self._convert_model(feedback_data)
-
+        feedback_data = convert_model(feedback_data)
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='add_feedback')
@@ -355,6 +351,13 @@ class CompareComplyV1(BaseService):
             'user_id': user_id,
             'comment': comment
         }
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v1/feedback'
         request = self.prepare_request(method='POST',
@@ -382,7 +385,7 @@ class CompareComplyV1(BaseService):
                       cursor: str = None,
                       sort: str = None,
                       include_total: bool = None,
-                      **kwargs) -> 'DetailedResponse':
+                      **kwargs) -> DetailedResponse:
         """
         List the feedback in a document.
 
@@ -438,12 +441,10 @@ class CompareComplyV1(BaseService):
                called `total` that gives the total count of feedback created.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `FeedbackList` object
         """
 
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='list_feedback')
@@ -467,6 +468,10 @@ class CompareComplyV1(BaseService):
             'include_total': include_total
         }
 
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
         url = '/v1/feedback'
         request = self.prepare_request(method='GET',
                                        url=url,
@@ -480,7 +485,7 @@ class CompareComplyV1(BaseService):
                      feedback_id: str,
                      *,
                      model: str = None,
-                     **kwargs) -> 'DetailedResponse':
+                     **kwargs) -> DetailedResponse:
         """
         Get a specified feedback entry.
 
@@ -495,15 +500,12 @@ class CompareComplyV1(BaseService):
                the methods' use in batch-processing requests.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `GetFeedback` object
         """
 
         if feedback_id is None:
             raise ValueError('feedback_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='get_feedback')
@@ -511,7 +513,14 @@ class CompareComplyV1(BaseService):
 
         params = {'version': self.version, 'model': model}
 
-        url = '/v1/feedback/{0}'.format(*self._encode_path_vars(feedback_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['feedback_id']
+        path_param_values = self.encode_path_vars(feedback_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/feedback/{feedback_id}'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -524,7 +533,7 @@ class CompareComplyV1(BaseService):
                         feedback_id: str,
                         *,
                         model: str = None,
-                        **kwargs) -> 'DetailedResponse':
+                        **kwargs) -> DetailedResponse:
         """
         Delete a specified feedback entry.
 
@@ -539,15 +548,12 @@ class CompareComplyV1(BaseService):
                the methods' use in batch-processing requests.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `FeedbackDeleted` object
         """
 
         if feedback_id is None:
             raise ValueError('feedback_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='delete_feedback')
@@ -555,7 +561,14 @@ class CompareComplyV1(BaseService):
 
         params = {'version': self.version, 'model': model}
 
-        url = '/v1/feedback/{0}'.format(*self._encode_path_vars(feedback_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['feedback_id']
+        path_param_values = self.encode_path_vars(feedback_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/feedback/{feedback_id}'.format(**path_param_dict)
         request = self.prepare_request(method='DELETE',
                                        url=url,
                                        headers=headers,
@@ -578,7 +591,7 @@ class CompareComplyV1(BaseService):
                      output_bucket_name: str,
                      *,
                      model: str = None,
-                     **kwargs) -> 'DetailedResponse':
+                     **kwargs) -> DetailedResponse:
         """
         Submit a batch-processing request.
 
@@ -591,7 +604,7 @@ class CompareComplyV1(BaseService):
 
         :param str function: The Compare and Comply method to run across the
                submitted input documents.
-        :param TextIO input_credentials_file: A JSON file containing the input
+        :param BinaryIO input_credentials_file: A JSON file containing the input
                Cloud Object Storage credentials. At a minimum, the credentials must enable
                `READ` permissions on the bucket defined by the `input_bucket_name`
                parameter.
@@ -600,7 +613,7 @@ class CompareComplyV1(BaseService):
                Object Storage instance; for example, `us-geo`, `eu-geo`, or `ap-geo`.
         :param str input_bucket_name: The name of the Cloud Object Storage input
                bucket.
-        :param TextIO output_credentials_file: A JSON file that lists the Cloud
+        :param BinaryIO output_credentials_file: A JSON file that lists the Cloud
                Object Storage output credentials. At a minimum, the credentials must
                enable `READ` and `WRITE` permissions on the bucket defined by the
                `output_bucket_name` parameter.
@@ -617,7 +630,7 @@ class CompareComplyV1(BaseService):
                the methods' use in batch-processing requests.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `BatchStatus` object
         """
 
         if function is None:
@@ -634,10 +647,7 @@ class CompareComplyV1(BaseService):
             raise ValueError('output_bucket_location must be provided')
         if output_bucket_name is None:
             raise ValueError('output_bucket_name must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='create_batch')
@@ -648,20 +658,20 @@ class CompareComplyV1(BaseService):
         form_data = []
         form_data.append(('input_credentials_file',
                           (None, input_credentials_file, 'application/json')))
-        input_bucket_location = str(input_bucket_location)
         form_data.append(('input_bucket_location', (None, input_bucket_location,
                                                     'text/plain')))
-        input_bucket_name = str(input_bucket_name)
         form_data.append(
             ('input_bucket_name', (None, input_bucket_name, 'text/plain')))
         form_data.append(('output_credentials_file',
                           (None, output_credentials_file, 'application/json')))
-        output_bucket_location = str(output_bucket_location)
         form_data.append(('output_bucket_location',
                           (None, output_bucket_location, 'text/plain')))
-        output_bucket_name = str(output_bucket_name)
         form_data.append(
             ('output_bucket_name', (None, output_bucket_name, 'text/plain')))
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v1/batches'
         request = self.prepare_request(method='POST',
@@ -673,7 +683,7 @@ class CompareComplyV1(BaseService):
         response = self.send(request)
         return response
 
-    def list_batches(self, **kwargs) -> 'DetailedResponse':
+    def list_batches(self, **kwargs) -> DetailedResponse:
         """
         List submitted batch-processing jobs.
 
@@ -681,18 +691,20 @@ class CompareComplyV1(BaseService):
 
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `Batches` object
         """
 
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='list_batches')
         headers.update(sdk_headers)
 
         params = {'version': self.version}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
 
         url = '/v1/batches'
         request = self.prepare_request(method='GET',
@@ -703,7 +715,7 @@ class CompareComplyV1(BaseService):
         response = self.send(request)
         return response
 
-    def get_batch(self, batch_id: str, **kwargs) -> 'DetailedResponse':
+    def get_batch(self, batch_id: str, **kwargs) -> DetailedResponse:
         """
         Get information about a specific batch-processing job.
 
@@ -713,15 +725,12 @@ class CompareComplyV1(BaseService):
                you want to retrieve.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `BatchStatus` object
         """
 
         if batch_id is None:
             raise ValueError('batch_id must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='get_batch')
@@ -729,7 +738,14 @@ class CompareComplyV1(BaseService):
 
         params = {'version': self.version}
 
-        url = '/v1/batches/{0}'.format(*self._encode_path_vars(batch_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['batch_id']
+        path_param_values = self.encode_path_vars(batch_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/batches/{batch_id}'.format(**path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
@@ -743,7 +759,7 @@ class CompareComplyV1(BaseService):
                      action: str,
                      *,
                      model: str = None,
-                     **kwargs) -> 'DetailedResponse':
+                     **kwargs) -> DetailedResponse:
         """
         Update a pending or active batch-processing job.
 
@@ -760,17 +776,14 @@ class CompareComplyV1(BaseService):
                the methods' use in batch-processing requests.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse
+        :rtype: DetailedResponse with `dict` result representing a `BatchStatus` object
         """
 
         if batch_id is None:
             raise ValueError('batch_id must be provided')
         if action is None:
             raise ValueError('action must be provided')
-
         headers = {}
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
                                       operation_id='update_batch')
@@ -778,7 +791,14 @@ class CompareComplyV1(BaseService):
 
         params = {'version': self.version, 'action': action, 'model': model}
 
-        url = '/v1/batches/{0}'.format(*self._encode_path_vars(batch_id))
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['batch_id']
+        path_param_values = self.encode_path_vars(batch_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/batches/{batch_id}'.format(**path_param_dict)
         request = self.prepare_request(method='PUT',
                                        url=url,
                                        headers=headers,
@@ -788,9 +808,12 @@ class CompareComplyV1(BaseService):
         return response
 
 
-class ConvertToHtmlEnums(object):
+class ConvertToHtmlEnums:
+    """
+    Enums for convert_to_html parameters.
+    """
 
-    class FileContentType(Enum):
+    class FileContentType(str, Enum):
         """
         The content type of file.
         """
@@ -804,7 +827,7 @@ class ConvertToHtmlEnums(object):
         IMAGE_TIFF = 'image/tiff'
         TEXT_PLAIN = 'text/plain'
 
-    class Model(Enum):
+    class Model(str, Enum):
         """
         The analysis model to be used by the service. For the **Element classification**
         and **Compare two documents** methods, the default is `contracts`. For the
@@ -815,9 +838,12 @@ class ConvertToHtmlEnums(object):
         TABLES = 'tables'
 
 
-class ClassifyElementsEnums(object):
+class ClassifyElementsEnums:
+    """
+    Enums for classify_elements parameters.
+    """
 
-    class FileContentType(Enum):
+    class FileContentType(str, Enum):
         """
         The content type of file.
         """
@@ -830,7 +856,7 @@ class ClassifyElementsEnums(object):
         IMAGE_PNG = 'image/png'
         IMAGE_TIFF = 'image/tiff'
 
-    class Model(Enum):
+    class Model(str, Enum):
         """
         The analysis model to be used by the service. For the **Element classification**
         and **Compare two documents** methods, the default is `contracts`. For the
@@ -841,9 +867,12 @@ class ClassifyElementsEnums(object):
         TABLES = 'tables'
 
 
-class ExtractTablesEnums(object):
+class ExtractTablesEnums:
+    """
+    Enums for extract_tables parameters.
+    """
 
-    class FileContentType(Enum):
+    class FileContentType(str, Enum):
         """
         The content type of file.
         """
@@ -857,7 +886,7 @@ class ExtractTablesEnums(object):
         IMAGE_TIFF = 'image/tiff'
         TEXT_PLAIN = 'text/plain'
 
-    class Model(Enum):
+    class Model(str, Enum):
         """
         The analysis model to be used by the service. For the **Element classification**
         and **Compare two documents** methods, the default is `contracts`. For the
@@ -868,9 +897,12 @@ class ExtractTablesEnums(object):
         TABLES = 'tables'
 
 
-class CompareDocumentsEnums(object):
+class CompareDocumentsEnums:
+    """
+    Enums for compare_documents parameters.
+    """
 
-    class File1ContentType(Enum):
+    class File1ContentType(str, Enum):
         """
         The content type of file_1.
         """
@@ -884,7 +916,7 @@ class CompareDocumentsEnums(object):
         IMAGE_PNG = 'image/png'
         IMAGE_TIFF = 'image/tiff'
 
-    class File2ContentType(Enum):
+    class File2ContentType(str, Enum):
         """
         The content type of file_2.
         """
@@ -898,7 +930,7 @@ class CompareDocumentsEnums(object):
         IMAGE_PNG = 'image/png'
         IMAGE_TIFF = 'image/tiff'
 
-    class Model(Enum):
+    class Model(str, Enum):
         """
         The analysis model to be used by the service. For the **Element classification**
         and **Compare two documents** methods, the default is `contracts`. For the
@@ -909,9 +941,12 @@ class CompareDocumentsEnums(object):
         TABLES = 'tables'
 
 
-class GetFeedbackEnums(object):
+class GetFeedbackEnums:
+    """
+    Enums for get_feedback parameters.
+    """
 
-    class Model(Enum):
+    class Model(str, Enum):
         """
         The analysis model to be used by the service. For the **Element classification**
         and **Compare two documents** methods, the default is `contracts`. For the
@@ -922,9 +957,12 @@ class GetFeedbackEnums(object):
         TABLES = 'tables'
 
 
-class DeleteFeedbackEnums(object):
+class DeleteFeedbackEnums:
+    """
+    Enums for delete_feedback parameters.
+    """
 
-    class Model(Enum):
+    class Model(str, Enum):
         """
         The analysis model to be used by the service. For the **Element classification**
         and **Compare two documents** methods, the default is `contracts`. For the
@@ -935,9 +973,12 @@ class DeleteFeedbackEnums(object):
         TABLES = 'tables'
 
 
-class CreateBatchEnums(object):
+class CreateBatchEnums:
+    """
+    Enums for create_batch parameters.
+    """
 
-    class Function(Enum):
+    class Function(str, Enum):
         """
         The Compare and Comply method to run across the submitted input documents.
         """
@@ -945,7 +986,7 @@ class CreateBatchEnums(object):
         ELEMENT_CLASSIFICATION = 'element_classification'
         TABLES = 'tables'
 
-    class Model(Enum):
+    class Model(str, Enum):
         """
         The analysis model to be used by the service. For the **Element classification**
         and **Compare two documents** methods, the default is `contracts`. For the
@@ -956,16 +997,19 @@ class CreateBatchEnums(object):
         TABLES = 'tables'
 
 
-class UpdateBatchEnums(object):
+class UpdateBatchEnums:
+    """
+    Enums for update_batch parameters.
+    """
 
-    class Action(Enum):
+    class Action(str, Enum):
         """
         The action you want to perform on the specified batch-processing job.
         """
         RESCAN = 'rescan'
         CANCEL = 'cancel'
 
-    class Model(Enum):
+    class Model(str, Enum):
         """
         The analysis model to be used by the service. For the **Element classification**
         and **Compare two documents** methods, the default is `contracts`. For the
@@ -1010,16 +1054,10 @@ class Address():
     def from_dict(cls, _dict: Dict) -> 'Address':
         """Initialize a Address object from a json dictionary."""
         args = {}
-        valid_keys = ['text', 'location']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Address: ' +
-                ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
+            args['location'] = Location.from_dict(_dict.get('location'))
         return cls(**args)
 
     @classmethod
@@ -1033,7 +1071,7 @@ class Address():
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
+            _dict['location'] = self.location.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -1042,7 +1080,7 @@ class Address():
 
     def __str__(self) -> str:
         """Return a `str` version of this Address object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Address') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1101,18 +1139,9 @@ class AlignedElement():
     def from_dict(cls, _dict: Dict) -> 'AlignedElement':
         """Initialize a AlignedElement object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'element_pair', 'identical_text', 'provenance_ids',
-            'significant_elements'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class AlignedElement: '
-                + ', '.join(bad_keys))
         if 'element_pair' in _dict:
             args['element_pair'] = [
-                ElementPair._from_dict(x) for x in (_dict.get('element_pair'))
+                ElementPair.from_dict(x) for x in _dict.get('element_pair')
             ]
         if 'identical_text' in _dict:
             args['identical_text'] = _dict.get('identical_text')
@@ -1131,7 +1160,7 @@ class AlignedElement():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'element_pair') and self.element_pair is not None:
-            _dict['element_pair'] = [x._to_dict() for x in self.element_pair]
+            _dict['element_pair'] = [x.to_dict() for x in self.element_pair]
         if hasattr(self, 'identical_text') and self.identical_text is not None:
             _dict['identical_text'] = self.identical_text
         if hasattr(self, 'provenance_ids') and self.provenance_ids is not None:
@@ -1147,7 +1176,7 @@ class AlignedElement():
 
     def __str__(self) -> str:
         """Return a `str` version of this AlignedElement object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'AlignedElement') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1193,18 +1222,12 @@ class Attribute():
     def from_dict(cls, _dict: Dict) -> 'Attribute':
         """Initialize a Attribute object from a json dictionary."""
         args = {}
-        valid_keys = ['type', 'text', 'location']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Attribute: '
-                + ', '.join(bad_keys))
         if 'type' in _dict:
             args['type'] = _dict.get('type')
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
+            args['location'] = Location.from_dict(_dict.get('location'))
         return cls(**args)
 
     @classmethod
@@ -1220,7 +1243,7 @@ class Attribute():
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
+            _dict['location'] = self.location.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -1229,7 +1252,7 @@ class Attribute():
 
     def __str__(self) -> str:
         """Return a `str` version of this Attribute object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Attribute') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1241,19 +1264,19 @@ class Attribute():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class TypeEnum(Enum):
+    class TypeEnum(str, Enum):
         """
         The type of attribute.
         """
-        CURRENCY = "Currency"
-        DATETIME = "DateTime"
-        DEFINEDTERM = "DefinedTerm"
-        DURATION = "Duration"
-        LOCATION = "Location"
-        NUMBER = "Number"
-        ORGANIZATION = "Organization"
-        PERCENTAGE = "Percentage"
-        PERSON = "Person"
+        CURRENCY = 'Currency'
+        DATETIME = 'DateTime'
+        DEFINEDTERM = 'DefinedTerm'
+        DURATION = 'Duration'
+        LOCATION = 'Location'
+        NUMBER = 'Number'
+        ORGANIZATION = 'Organization'
+        PERCENTAGE = 'Percentage'
+        PERSON = 'Person'
 
 
 class BatchStatus():
@@ -1331,16 +1354,6 @@ class BatchStatus():
     def from_dict(cls, _dict: Dict) -> 'BatchStatus':
         """Initialize a BatchStatus object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'function', 'input_bucket_location', 'input_bucket_name',
-            'output_bucket_location', 'output_bucket_name', 'batch_id',
-            'document_counts', 'status', 'created', 'updated'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class BatchStatus: '
-                + ', '.join(bad_keys))
         if 'function' in _dict:
             args['function'] = _dict.get('function')
         if 'input_bucket_location' in _dict:
@@ -1354,7 +1367,7 @@ class BatchStatus():
         if 'batch_id' in _dict:
             args['batch_id'] = _dict.get('batch_id')
         if 'document_counts' in _dict:
-            args['document_counts'] = DocCounts._from_dict(
+            args['document_counts'] = DocCounts.from_dict(
                 _dict.get('document_counts'))
         if 'status' in _dict:
             args['status'] = _dict.get('status')
@@ -1391,7 +1404,7 @@ class BatchStatus():
             _dict['batch_id'] = self.batch_id
         if hasattr(self,
                    'document_counts') and self.document_counts is not None:
-            _dict['document_counts'] = self.document_counts._to_dict()
+            _dict['document_counts'] = self.document_counts.to_dict()
         if hasattr(self, 'status') and self.status is not None:
             _dict['status'] = self.status
         if hasattr(self, 'created') and self.created is not None:
@@ -1406,7 +1419,7 @@ class BatchStatus():
 
     def __str__(self) -> str:
         """Return a `str` version of this BatchStatus object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'BatchStatus') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1418,14 +1431,14 @@ class BatchStatus():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class FunctionEnum(Enum):
+    class FunctionEnum(str, Enum):
         """
         The method to be run against the documents. Possible values are `html_conversion`,
         `element_classification`, and `tables`.
         """
-        ELEMENT_CLASSIFICATION = "element_classification"
-        HTML_CONVERSION = "html_conversion"
-        TABLES = "tables"
+        ELEMENT_CLASSIFICATION = 'element_classification'
+        HTML_CONVERSION = 'html_conversion'
+        TABLES = 'tables'
 
 
 class Batches():
@@ -1449,15 +1462,9 @@ class Batches():
     def from_dict(cls, _dict: Dict) -> 'Batches':
         """Initialize a Batches object from a json dictionary."""
         args = {}
-        valid_keys = ['batches']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Batches: ' +
-                ', '.join(bad_keys))
         if 'batches' in _dict:
             args['batches'] = [
-                BatchStatus._from_dict(x) for x in (_dict.get('batches'))
+                BatchStatus.from_dict(x) for x in _dict.get('batches')
             ]
         return cls(**args)
 
@@ -1470,7 +1477,7 @@ class Batches():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'batches') and self.batches is not None:
-            _dict['batches'] = [x._to_dict() for x in self.batches]
+            _dict['batches'] = [x.to_dict() for x in self.batches]
         return _dict
 
     def _to_dict(self):
@@ -1479,7 +1486,7 @@ class Batches():
 
     def __str__(self) -> str:
         """Return a `str` version of this Batches object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Batches') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1598,22 +1605,10 @@ class BodyCells():
     def from_dict(cls, _dict: Dict) -> 'BodyCells':
         """Initialize a BodyCells object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'cell_id', 'location', 'text', 'row_index_begin', 'row_index_end',
-            'column_index_begin', 'column_index_end', 'row_header_ids',
-            'row_header_texts', 'row_header_texts_normalized',
-            'column_header_ids', 'column_header_texts',
-            'column_header_texts_normalized', 'attributes'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class BodyCells: '
-                + ', '.join(bad_keys))
         if 'cell_id' in _dict:
             args['cell_id'] = _dict.get('cell_id')
         if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
+            args['location'] = Location.from_dict(_dict.get('location'))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'row_index_begin' in _dict:
@@ -1640,7 +1635,7 @@ class BodyCells():
                 'column_header_texts_normalized')
         if 'attributes' in _dict:
             args['attributes'] = [
-                Attribute._from_dict(x) for x in (_dict.get('attributes'))
+                Attribute.from_dict(x) for x in _dict.get('attributes')
             ]
         return cls(**args)
 
@@ -1655,7 +1650,7 @@ class BodyCells():
         if hasattr(self, 'cell_id') and self.cell_id is not None:
             _dict['cell_id'] = self.cell_id
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
+            _dict['location'] = self.location.to_dict()
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self,
@@ -1691,7 +1686,7 @@ class BodyCells():
             _dict[
                 'column_header_texts_normalized'] = self.column_header_texts_normalized
         if hasattr(self, 'attributes') and self.attributes is not None:
-            _dict['attributes'] = [x._to_dict() for x in self.attributes]
+            _dict['attributes'] = [x.to_dict() for x in self.attributes]
         return _dict
 
     def _to_dict(self):
@@ -1700,7 +1695,7 @@ class BodyCells():
 
     def __str__(self) -> str:
         """Return a `str` version of this BodyCells object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'BodyCells') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1746,12 +1741,6 @@ class Category():
     def from_dict(cls, _dict: Dict) -> 'Category':
         """Initialize a Category object from a json dictionary."""
         args = {}
-        valid_keys = ['label', 'provenance_ids', 'modification']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Category: '
-                + ', '.join(bad_keys))
         if 'label' in _dict:
             args['label'] = _dict.get('label')
         if 'provenance_ids' in _dict:
@@ -1782,7 +1771,7 @@ class Category():
 
     def __str__(self) -> str:
         """Return a `str` version of this Category object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Category') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1794,43 +1783,43 @@ class Category():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class LabelEnum(Enum):
+    class LabelEnum(str, Enum):
         """
         The category of the associated element.
         """
-        AMENDMENTS = "Amendments"
-        ASSET_USE = "Asset Use"
-        ASSIGNMENTS = "Assignments"
-        AUDITS = "Audits"
-        BUSINESS_CONTINUITY = "Business Continuity"
-        COMMUNICATION = "Communication"
-        CONFIDENTIALITY = "Confidentiality"
-        DELIVERABLES = "Deliverables"
-        DELIVERY = "Delivery"
-        DISPUTE_RESOLUTION = "Dispute Resolution"
-        FORCE_MAJEURE = "Force Majeure"
-        INDEMNIFICATION = "Indemnification"
-        INSURANCE = "Insurance"
-        INTELLECTUAL_PROPERTY = "Intellectual Property"
-        LIABILITY = "Liability"
-        ORDER_OF_PRECEDENCE = "Order of Precedence"
-        PAYMENT_TERMS_BILLING = "Payment Terms & Billing"
-        PRICING_TAXES = "Pricing & Taxes"
-        PRIVACY = "Privacy"
-        RESPONSIBILITIES = "Responsibilities"
-        SAFETY_AND_SECURITY = "Safety and Security"
-        SCOPE_OF_WORK = "Scope of Work"
-        SUBCONTRACTS = "Subcontracts"
-        TERM_TERMINATION = "Term & Termination"
-        WARRANTIES = "Warranties"
+        AMENDMENTS = 'Amendments'
+        ASSET_USE = 'Asset Use'
+        ASSIGNMENTS = 'Assignments'
+        AUDITS = 'Audits'
+        BUSINESS_CONTINUITY = 'Business Continuity'
+        COMMUNICATION = 'Communication'
+        CONFIDENTIALITY = 'Confidentiality'
+        DELIVERABLES = 'Deliverables'
+        DELIVERY = 'Delivery'
+        DISPUTE_RESOLUTION = 'Dispute Resolution'
+        FORCE_MAJEURE = 'Force Majeure'
+        INDEMNIFICATION = 'Indemnification'
+        INSURANCE = 'Insurance'
+        INTELLECTUAL_PROPERTY = 'Intellectual Property'
+        LIABILITY = 'Liability'
+        ORDER_OF_PRECEDENCE = 'Order of Precedence'
+        PAYMENT_TERMS_BILLING = 'Payment Terms & Billing'
+        PRICING_TAXES = 'Pricing & Taxes'
+        PRIVACY = 'Privacy'
+        RESPONSIBILITIES = 'Responsibilities'
+        SAFETY_AND_SECURITY = 'Safety and Security'
+        SCOPE_OF_WORK = 'Scope of Work'
+        SUBCONTRACTS = 'Subcontracts'
+        TERM_TERMINATION = 'Term & Termination'
+        WARRANTIES = 'Warranties'
 
-    class ModificationEnum(Enum):
+    class ModificationEnum(str, Enum):
         """
         The type of modification of the feedback entry in the updated labels response.
         """
-        ADDED = "added"
-        UNCHANGED = "unchanged"
-        REMOVED = "removed"
+        ADDED = 'added'
+        UNCHANGED = 'unchanged'
+        REMOVED = 'removed'
 
 
 class CategoryComparison():
@@ -1852,12 +1841,6 @@ class CategoryComparison():
     def from_dict(cls, _dict: Dict) -> 'CategoryComparison':
         """Initialize a CategoryComparison object from a json dictionary."""
         args = {}
-        valid_keys = ['label']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class CategoryComparison: '
-                + ', '.join(bad_keys))
         if 'label' in _dict:
             args['label'] = _dict.get('label')
         return cls(**args)
@@ -1880,7 +1863,7 @@ class CategoryComparison():
 
     def __str__(self) -> str:
         """Return a `str` version of this CategoryComparison object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'CategoryComparison') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -1892,35 +1875,35 @@ class CategoryComparison():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class LabelEnum(Enum):
+    class LabelEnum(str, Enum):
         """
         The category of the associated element.
         """
-        AMENDMENTS = "Amendments"
-        ASSET_USE = "Asset Use"
-        ASSIGNMENTS = "Assignments"
-        AUDITS = "Audits"
-        BUSINESS_CONTINUITY = "Business Continuity"
-        COMMUNICATION = "Communication"
-        CONFIDENTIALITY = "Confidentiality"
-        DELIVERABLES = "Deliverables"
-        DELIVERY = "Delivery"
-        DISPUTE_RESOLUTION = "Dispute Resolution"
-        FORCE_MAJEURE = "Force Majeure"
-        INDEMNIFICATION = "Indemnification"
-        INSURANCE = "Insurance"
-        INTELLECTUAL_PROPERTY = "Intellectual Property"
-        LIABILITY = "Liability"
-        ORDER_OF_PRECEDENCE = "Order of Precedence"
-        PAYMENT_TERMS_BILLING = "Payment Terms & Billing"
-        PRICING_TAXES = "Pricing & Taxes"
-        PRIVACY = "Privacy"
-        RESPONSIBILITIES = "Responsibilities"
-        SAFETY_AND_SECURITY = "Safety and Security"
-        SCOPE_OF_WORK = "Scope of Work"
-        SUBCONTRACTS = "Subcontracts"
-        TERM_TERMINATION = "Term & Termination"
-        WARRANTIES = "Warranties"
+        AMENDMENTS = 'Amendments'
+        ASSET_USE = 'Asset Use'
+        ASSIGNMENTS = 'Assignments'
+        AUDITS = 'Audits'
+        BUSINESS_CONTINUITY = 'Business Continuity'
+        COMMUNICATION = 'Communication'
+        CONFIDENTIALITY = 'Confidentiality'
+        DELIVERABLES = 'Deliverables'
+        DELIVERY = 'Delivery'
+        DISPUTE_RESOLUTION = 'Dispute Resolution'
+        FORCE_MAJEURE = 'Force Majeure'
+        INDEMNIFICATION = 'Indemnification'
+        INSURANCE = 'Insurance'
+        INTELLECTUAL_PROPERTY = 'Intellectual Property'
+        LIABILITY = 'Liability'
+        ORDER_OF_PRECEDENCE = 'Order of Precedence'
+        PAYMENT_TERMS_BILLING = 'Payment Terms & Billing'
+        PRICING_TAXES = 'Pricing & Taxes'
+        PRIVACY = 'Privacy'
+        RESPONSIBILITIES = 'Responsibilities'
+        SAFETY_AND_SECURITY = 'Safety and Security'
+        SCOPE_OF_WORK = 'Scope of Work'
+        SUBCONTRACTS = 'Subcontracts'
+        TERM_TERMINATION = 'Term & Termination'
+        WARRANTIES = 'Warranties'
 
 
 class ClassifyReturn():
@@ -2027,71 +2010,55 @@ class ClassifyReturn():
     def from_dict(cls, _dict: Dict) -> 'ClassifyReturn':
         """Initialize a ClassifyReturn object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'document', 'model_id', 'model_version', 'elements',
-            'effective_dates', 'contract_amounts', 'termination_dates',
-            'contract_types', 'contract_terms', 'payment_terms',
-            'contract_currencies', 'tables', 'document_structure', 'parties'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ClassifyReturn: '
-                + ', '.join(bad_keys))
         if 'document' in _dict:
-            args['document'] = Document._from_dict(_dict.get('document'))
+            args['document'] = Document.from_dict(_dict.get('document'))
         if 'model_id' in _dict:
             args['model_id'] = _dict.get('model_id')
         if 'model_version' in _dict:
             args['model_version'] = _dict.get('model_version')
         if 'elements' in _dict:
             args['elements'] = [
-                Element._from_dict(x) for x in (_dict.get('elements'))
+                Element.from_dict(x) for x in _dict.get('elements')
             ]
         if 'effective_dates' in _dict:
             args['effective_dates'] = [
-                EffectiveDates._from_dict(x)
-                for x in (_dict.get('effective_dates'))
+                EffectiveDates.from_dict(x)
+                for x in _dict.get('effective_dates')
             ]
         if 'contract_amounts' in _dict:
             args['contract_amounts'] = [
-                ContractAmts._from_dict(x)
-                for x in (_dict.get('contract_amounts'))
+                ContractAmts.from_dict(x) for x in _dict.get('contract_amounts')
             ]
         if 'termination_dates' in _dict:
             args['termination_dates'] = [
-                TerminationDates._from_dict(x)
-                for x in (_dict.get('termination_dates'))
+                TerminationDates.from_dict(x)
+                for x in _dict.get('termination_dates')
             ]
         if 'contract_types' in _dict:
             args['contract_types'] = [
-                ContractTypes._from_dict(x)
-                for x in (_dict.get('contract_types'))
+                ContractTypes.from_dict(x) for x in _dict.get('contract_types')
             ]
         if 'contract_terms' in _dict:
             args['contract_terms'] = [
-                ContractTerms._from_dict(x)
-                for x in (_dict.get('contract_terms'))
+                ContractTerms.from_dict(x) for x in _dict.get('contract_terms')
             ]
         if 'payment_terms' in _dict:
             args['payment_terms'] = [
-                PaymentTerms._from_dict(x) for x in (_dict.get('payment_terms'))
+                PaymentTerms.from_dict(x) for x in _dict.get('payment_terms')
             ]
         if 'contract_currencies' in _dict:
             args['contract_currencies'] = [
-                ContractCurrencies._from_dict(x)
-                for x in (_dict.get('contract_currencies'))
+                ContractCurrencies.from_dict(x)
+                for x in _dict.get('contract_currencies')
             ]
         if 'tables' in _dict:
-            args['tables'] = [
-                Tables._from_dict(x) for x in (_dict.get('tables'))
-            ]
+            args['tables'] = [Tables.from_dict(x) for x in _dict.get('tables')]
         if 'document_structure' in _dict:
-            args['document_structure'] = DocStructure._from_dict(
+            args['document_structure'] = DocStructure.from_dict(
                 _dict.get('document_structure'))
         if 'parties' in _dict:
             args['parties'] = [
-                Parties._from_dict(x) for x in (_dict.get('parties'))
+                Parties.from_dict(x) for x in _dict.get('parties')
             ]
         return cls(**args)
 
@@ -2104,52 +2071,48 @@ class ClassifyReturn():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'document') and self.document is not None:
-            _dict['document'] = self.document._to_dict()
+            _dict['document'] = self.document.to_dict()
         if hasattr(self, 'model_id') and self.model_id is not None:
             _dict['model_id'] = self.model_id
         if hasattr(self, 'model_version') and self.model_version is not None:
             _dict['model_version'] = self.model_version
         if hasattr(self, 'elements') and self.elements is not None:
-            _dict['elements'] = [x._to_dict() for x in self.elements]
+            _dict['elements'] = [x.to_dict() for x in self.elements]
         if hasattr(self,
                    'effective_dates') and self.effective_dates is not None:
             _dict['effective_dates'] = [
-                x._to_dict() for x in self.effective_dates
+                x.to_dict() for x in self.effective_dates
             ]
         if hasattr(self,
                    'contract_amounts') and self.contract_amounts is not None:
             _dict['contract_amounts'] = [
-                x._to_dict() for x in self.contract_amounts
+                x.to_dict() for x in self.contract_amounts
             ]
         if hasattr(self,
                    'termination_dates') and self.termination_dates is not None:
             _dict['termination_dates'] = [
-                x._to_dict() for x in self.termination_dates
+                x.to_dict() for x in self.termination_dates
             ]
         if hasattr(self, 'contract_types') and self.contract_types is not None:
-            _dict['contract_types'] = [
-                x._to_dict() for x in self.contract_types
-            ]
+            _dict['contract_types'] = [x.to_dict() for x in self.contract_types]
         if hasattr(self, 'contract_terms') and self.contract_terms is not None:
-            _dict['contract_terms'] = [
-                x._to_dict() for x in self.contract_terms
-            ]
+            _dict['contract_terms'] = [x.to_dict() for x in self.contract_terms]
         if hasattr(self, 'payment_terms') and self.payment_terms is not None:
-            _dict['payment_terms'] = [x._to_dict() for x in self.payment_terms]
+            _dict['payment_terms'] = [x.to_dict() for x in self.payment_terms]
         if hasattr(
                 self,
                 'contract_currencies') and self.contract_currencies is not None:
             _dict['contract_currencies'] = [
-                x._to_dict() for x in self.contract_currencies
+                x.to_dict() for x in self.contract_currencies
             ]
         if hasattr(self, 'tables') and self.tables is not None:
-            _dict['tables'] = [x._to_dict() for x in self.tables]
+            _dict['tables'] = [x.to_dict() for x in self.tables]
         if hasattr(
                 self,
                 'document_structure') and self.document_structure is not None:
-            _dict['document_structure'] = self.document_structure._to_dict()
+            _dict['document_structure'] = self.document_structure.to_dict()
         if hasattr(self, 'parties') and self.parties is not None:
-            _dict['parties'] = [x._to_dict() for x in self.parties]
+            _dict['parties'] = [x.to_dict() for x in self.parties]
         return _dict
 
     def _to_dict(self):
@@ -2158,7 +2121,7 @@ class ClassifyReturn():
 
     def __str__(self) -> str:
         """Return a `str` version of this ClassifyReturn object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ClassifyReturn') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2240,15 +2203,6 @@ class ColumnHeaders():
     def from_dict(cls, _dict: Dict) -> 'ColumnHeaders':
         """Initialize a ColumnHeaders object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'cell_id', 'location', 'text', 'text_normalized', 'row_index_begin',
-            'row_index_end', 'column_index_begin', 'column_index_end'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ColumnHeaders: '
-                + ', '.join(bad_keys))
         if 'cell_id' in _dict:
             args['cell_id'] = _dict.get('cell_id')
         if 'location' in _dict:
@@ -2304,7 +2258,7 @@ class ColumnHeaders():
 
     def __str__(self) -> str:
         """Return a `str` version of this ColumnHeaders object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ColumnHeaders') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2366,32 +2320,23 @@ class CompareReturn():
     def from_dict(cls, _dict: Dict) -> 'CompareReturn':
         """Initialize a CompareReturn object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'model_id', 'model_version', 'documents', 'aligned_elements',
-            'unaligned_elements'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class CompareReturn: '
-                + ', '.join(bad_keys))
         if 'model_id' in _dict:
             args['model_id'] = _dict.get('model_id')
         if 'model_version' in _dict:
             args['model_version'] = _dict.get('model_version')
         if 'documents' in _dict:
             args['documents'] = [
-                Document._from_dict(x) for x in (_dict.get('documents'))
+                Document.from_dict(x) for x in _dict.get('documents')
             ]
         if 'aligned_elements' in _dict:
             args['aligned_elements'] = [
-                AlignedElement._from_dict(x)
-                for x in (_dict.get('aligned_elements'))
+                AlignedElement.from_dict(x)
+                for x in _dict.get('aligned_elements')
             ]
         if 'unaligned_elements' in _dict:
             args['unaligned_elements'] = [
-                UnalignedElement._from_dict(x)
-                for x in (_dict.get('unaligned_elements'))
+                UnalignedElement.from_dict(x)
+                for x in _dict.get('unaligned_elements')
             ]
         return cls(**args)
 
@@ -2408,17 +2353,17 @@ class CompareReturn():
         if hasattr(self, 'model_version') and self.model_version is not None:
             _dict['model_version'] = self.model_version
         if hasattr(self, 'documents') and self.documents is not None:
-            _dict['documents'] = [x._to_dict() for x in self.documents]
+            _dict['documents'] = [x.to_dict() for x in self.documents]
         if hasattr(self,
                    'aligned_elements') and self.aligned_elements is not None:
             _dict['aligned_elements'] = [
-                x._to_dict() for x in self.aligned_elements
+                x.to_dict() for x in self.aligned_elements
             ]
         if hasattr(
                 self,
                 'unaligned_elements') and self.unaligned_elements is not None:
             _dict['unaligned_elements'] = [
-                x._to_dict() for x in self.unaligned_elements
+                x.to_dict() for x in self.unaligned_elements
             ]
         return _dict
 
@@ -2428,7 +2373,7 @@ class CompareReturn():
 
     def __str__(self) -> str:
         """Return a `str` version of this CompareReturn object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'CompareReturn') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2463,12 +2408,6 @@ class Contact():
     def from_dict(cls, _dict: Dict) -> 'Contact':
         """Initialize a Contact object from a json dictionary."""
         args = {}
-        valid_keys = ['name', 'role']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Contact: ' +
-                ', '.join(bad_keys))
         if 'name' in _dict:
             args['name'] = _dict.get('name')
         if 'role' in _dict:
@@ -2495,7 +2434,7 @@ class Contact():
 
     def __str__(self) -> str:
         """Return a `str` version of this Contact object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Contact') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2538,16 +2477,10 @@ class Contexts():
     def from_dict(cls, _dict: Dict) -> 'Contexts':
         """Initialize a Contexts object from a json dictionary."""
         args = {}
-        valid_keys = ['text', 'location']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Contexts: '
-                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
+            args['location'] = Location.from_dict(_dict.get('location'))
         return cls(**args)
 
     @classmethod
@@ -2561,7 +2494,7 @@ class Contexts():
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
+            _dict['location'] = self.location.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -2570,7 +2503,7 @@ class Contexts():
 
     def __str__(self) -> str:
         """Return a `str` version of this Contexts object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Contexts') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2640,15 +2573,6 @@ class ContractAmts():
     def from_dict(cls, _dict: Dict) -> 'ContractAmts':
         """Initialize a ContractAmts object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'confidence_level', 'text', 'text_normalized', 'interpretation',
-            'provenance_ids', 'location'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ContractAmts: '
-                + ', '.join(bad_keys))
         if 'confidence_level' in _dict:
             args['confidence_level'] = _dict.get('confidence_level')
         if 'text' in _dict:
@@ -2656,12 +2580,12 @@ class ContractAmts():
         if 'text_normalized' in _dict:
             args['text_normalized'] = _dict.get('text_normalized')
         if 'interpretation' in _dict:
-            args['interpretation'] = Interpretation._from_dict(
+            args['interpretation'] = Interpretation.from_dict(
                 _dict.get('interpretation'))
         if 'provenance_ids' in _dict:
             args['provenance_ids'] = _dict.get('provenance_ids')
         if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
+            args['location'] = Location.from_dict(_dict.get('location'))
         return cls(**args)
 
     @classmethod
@@ -2681,11 +2605,11 @@ class ContractAmts():
                    'text_normalized') and self.text_normalized is not None:
             _dict['text_normalized'] = self.text_normalized
         if hasattr(self, 'interpretation') and self.interpretation is not None:
-            _dict['interpretation'] = self.interpretation._to_dict()
+            _dict['interpretation'] = self.interpretation.to_dict()
         if hasattr(self, 'provenance_ids') and self.provenance_ids is not None:
             _dict['provenance_ids'] = self.provenance_ids
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
+            _dict['location'] = self.location.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -2694,7 +2618,7 @@ class ContractAmts():
 
     def __str__(self) -> str:
         """Return a `str` version of this ContractAmts object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ContractAmts') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2706,13 +2630,13 @@ class ContractAmts():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ConfidenceLevelEnum(Enum):
+    class ConfidenceLevelEnum(str, Enum):
         """
         The confidence level in the identification of the contract amount.
         """
-        HIGH = "High"
-        MEDIUM = "Medium"
-        LOW = "Low"
+        HIGH = 'High'
+        MEDIUM = 'Medium'
+        LOW = 'Low'
 
 
 class ContractCurrencies():
@@ -2766,15 +2690,6 @@ class ContractCurrencies():
     def from_dict(cls, _dict: Dict) -> 'ContractCurrencies':
         """Initialize a ContractCurrencies object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'confidence_level', 'text', 'text_normalized', 'provenance_ids',
-            'location'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ContractCurrencies: '
-                + ', '.join(bad_keys))
         if 'confidence_level' in _dict:
             args['confidence_level'] = _dict.get('confidence_level')
         if 'text' in _dict:
@@ -2784,7 +2699,7 @@ class ContractCurrencies():
         if 'provenance_ids' in _dict:
             args['provenance_ids'] = _dict.get('provenance_ids')
         if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
+            args['location'] = Location.from_dict(_dict.get('location'))
         return cls(**args)
 
     @classmethod
@@ -2806,7 +2721,7 @@ class ContractCurrencies():
         if hasattr(self, 'provenance_ids') and self.provenance_ids is not None:
             _dict['provenance_ids'] = self.provenance_ids
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
+            _dict['location'] = self.location.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -2815,7 +2730,7 @@ class ContractCurrencies():
 
     def __str__(self) -> str:
         """Return a `str` version of this ContractCurrencies object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ContractCurrencies') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2827,13 +2742,13 @@ class ContractCurrencies():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ConfidenceLevelEnum(Enum):
+    class ConfidenceLevelEnum(str, Enum):
         """
         The confidence level in the identification of the contract currency.
         """
-        HIGH = "High"
-        MEDIUM = "Medium"
-        LOW = "Low"
+        HIGH = 'High'
+        MEDIUM = 'Medium'
+        LOW = 'Low'
 
 
 class ContractTerms():
@@ -2893,15 +2808,6 @@ class ContractTerms():
     def from_dict(cls, _dict: Dict) -> 'ContractTerms':
         """Initialize a ContractTerms object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'confidence_level', 'text', 'text_normalized', 'interpretation',
-            'provenance_ids', 'location'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ContractTerms: '
-                + ', '.join(bad_keys))
         if 'confidence_level' in _dict:
             args['confidence_level'] = _dict.get('confidence_level')
         if 'text' in _dict:
@@ -2909,12 +2815,12 @@ class ContractTerms():
         if 'text_normalized' in _dict:
             args['text_normalized'] = _dict.get('text_normalized')
         if 'interpretation' in _dict:
-            args['interpretation'] = Interpretation._from_dict(
+            args['interpretation'] = Interpretation.from_dict(
                 _dict.get('interpretation'))
         if 'provenance_ids' in _dict:
             args['provenance_ids'] = _dict.get('provenance_ids')
         if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
+            args['location'] = Location.from_dict(_dict.get('location'))
         return cls(**args)
 
     @classmethod
@@ -2934,11 +2840,11 @@ class ContractTerms():
                    'text_normalized') and self.text_normalized is not None:
             _dict['text_normalized'] = self.text_normalized
         if hasattr(self, 'interpretation') and self.interpretation is not None:
-            _dict['interpretation'] = self.interpretation._to_dict()
+            _dict['interpretation'] = self.interpretation.to_dict()
         if hasattr(self, 'provenance_ids') and self.provenance_ids is not None:
             _dict['provenance_ids'] = self.provenance_ids
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
+            _dict['location'] = self.location.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -2947,7 +2853,7 @@ class ContractTerms():
 
     def __str__(self) -> str:
         """Return a `str` version of this ContractTerms object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ContractTerms') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -2959,13 +2865,13 @@ class ContractTerms():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ConfidenceLevelEnum(Enum):
+    class ConfidenceLevelEnum(str, Enum):
         """
         The confidence level in the identification of the contract term.
         """
-        HIGH = "High"
-        MEDIUM = "Medium"
-        LOW = "Low"
+        HIGH = 'High'
+        MEDIUM = 'Medium'
+        LOW = 'Low'
 
 
 class ContractTypes():
@@ -3009,12 +2915,6 @@ class ContractTypes():
     def from_dict(cls, _dict: Dict) -> 'ContractTypes':
         """Initialize a ContractTypes object from a json dictionary."""
         args = {}
-        valid_keys = ['confidence_level', 'text', 'provenance_ids', 'location']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ContractTypes: '
-                + ', '.join(bad_keys))
         if 'confidence_level' in _dict:
             args['confidence_level'] = _dict.get('confidence_level')
         if 'text' in _dict:
@@ -3022,7 +2922,7 @@ class ContractTypes():
         if 'provenance_ids' in _dict:
             args['provenance_ids'] = _dict.get('provenance_ids')
         if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
+            args['location'] = Location.from_dict(_dict.get('location'))
         return cls(**args)
 
     @classmethod
@@ -3041,7 +2941,7 @@ class ContractTypes():
         if hasattr(self, 'provenance_ids') and self.provenance_ids is not None:
             _dict['provenance_ids'] = self.provenance_ids
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
+            _dict['location'] = self.location.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -3050,7 +2950,7 @@ class ContractTypes():
 
     def __str__(self) -> str:
         """Return a `str` version of this ContractTypes object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ContractTypes') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3062,13 +2962,13 @@ class ContractTypes():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ConfidenceLevelEnum(Enum):
+    class ConfidenceLevelEnum(str, Enum):
         """
         The confidence level in the identification of the contract type.
         """
-        HIGH = "High"
-        MEDIUM = "Medium"
-        LOW = "Low"
+        HIGH = 'High'
+        MEDIUM = 'Medium'
+        LOW = 'Low'
 
 
 class DocCounts():
@@ -3106,12 +3006,6 @@ class DocCounts():
     def from_dict(cls, _dict: Dict) -> 'DocCounts':
         """Initialize a DocCounts object from a json dictionary."""
         args = {}
-        valid_keys = ['total', 'pending', 'successful', 'failed']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DocCounts: '
-                + ', '.join(bad_keys))
         if 'total' in _dict:
             args['total'] = _dict.get('total')
         if 'pending' in _dict:
@@ -3146,7 +3040,7 @@ class DocCounts():
 
     def __str__(self) -> str:
         """Return a `str` version of this DocCounts object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DocCounts') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3191,12 +3085,6 @@ class DocInfo():
     def from_dict(cls, _dict: Dict) -> 'DocInfo':
         """Initialize a DocInfo object from a json dictionary."""
         args = {}
-        valid_keys = ['html', 'title', 'hash']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DocInfo: ' +
-                ', '.join(bad_keys))
         if 'html' in _dict:
             args['html'] = _dict.get('html')
         if 'title' in _dict:
@@ -3227,7 +3115,7 @@ class DocInfo():
 
     def __str__(self) -> str:
         """Return a `str` version of this DocInfo object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DocInfo') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3280,25 +3168,18 @@ class DocStructure():
     def from_dict(cls, _dict: Dict) -> 'DocStructure':
         """Initialize a DocStructure object from a json dictionary."""
         args = {}
-        valid_keys = ['section_titles', 'leading_sentences', 'paragraphs']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class DocStructure: '
-                + ', '.join(bad_keys))
         if 'section_titles' in _dict:
             args['section_titles'] = [
-                SectionTitles._from_dict(x)
-                for x in (_dict.get('section_titles'))
+                SectionTitles.from_dict(x) for x in _dict.get('section_titles')
             ]
         if 'leading_sentences' in _dict:
             args['leading_sentences'] = [
-                LeadingSentence._from_dict(x)
-                for x in (_dict.get('leading_sentences'))
+                LeadingSentence.from_dict(x)
+                for x in _dict.get('leading_sentences')
             ]
         if 'paragraphs' in _dict:
             args['paragraphs'] = [
-                Paragraphs._from_dict(x) for x in (_dict.get('paragraphs'))
+                Paragraphs.from_dict(x) for x in _dict.get('paragraphs')
             ]
         return cls(**args)
 
@@ -3311,16 +3192,14 @@ class DocStructure():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'section_titles') and self.section_titles is not None:
-            _dict['section_titles'] = [
-                x._to_dict() for x in self.section_titles
-            ]
+            _dict['section_titles'] = [x.to_dict() for x in self.section_titles]
         if hasattr(self,
                    'leading_sentences') and self.leading_sentences is not None:
             _dict['leading_sentences'] = [
-                x._to_dict() for x in self.leading_sentences
+                x.to_dict() for x in self.leading_sentences
             ]
         if hasattr(self, 'paragraphs') and self.paragraphs is not None:
-            _dict['paragraphs'] = [x._to_dict() for x in self.paragraphs]
+            _dict['paragraphs'] = [x.to_dict() for x in self.paragraphs]
         return _dict
 
     def _to_dict(self):
@@ -3329,7 +3208,7 @@ class DocStructure():
 
     def __str__(self) -> str:
         """Return a `str` version of this DocStructure object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'DocStructure') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3379,12 +3258,6 @@ class Document():
     def from_dict(cls, _dict: Dict) -> 'Document':
         """Initialize a Document object from a json dictionary."""
         args = {}
-        valid_keys = ['title', 'html', 'hash', 'label']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Document: '
-                + ', '.join(bad_keys))
         if 'title' in _dict:
             args['title'] = _dict.get('title')
         if 'html' in _dict:
@@ -3419,7 +3292,7 @@ class Document():
 
     def __str__(self) -> str:
         """Return a `str` version of this Document object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Document') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3481,15 +3354,6 @@ class EffectiveDates():
     def from_dict(cls, _dict: Dict) -> 'EffectiveDates':
         """Initialize a EffectiveDates object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'confidence_level', 'text', 'text_normalized', 'provenance_ids',
-            'location'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class EffectiveDates: '
-                + ', '.join(bad_keys))
         if 'confidence_level' in _dict:
             args['confidence_level'] = _dict.get('confidence_level')
         if 'text' in _dict:
@@ -3499,7 +3363,7 @@ class EffectiveDates():
         if 'provenance_ids' in _dict:
             args['provenance_ids'] = _dict.get('provenance_ids')
         if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
+            args['location'] = Location.from_dict(_dict.get('location'))
         return cls(**args)
 
     @classmethod
@@ -3521,7 +3385,7 @@ class EffectiveDates():
         if hasattr(self, 'provenance_ids') and self.provenance_ids is not None:
             _dict['provenance_ids'] = self.provenance_ids
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
+            _dict['location'] = self.location.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -3530,7 +3394,7 @@ class EffectiveDates():
 
     def __str__(self) -> str:
         """Return a `str` version of this EffectiveDates object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'EffectiveDates') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3542,13 +3406,13 @@ class EffectiveDates():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ConfidenceLevelEnum(Enum):
+    class ConfidenceLevelEnum(str, Enum):
         """
         The confidence level in the identification of the effective date.
         """
-        HIGH = "High"
-        MEDIUM = "Medium"
-        LOW = "Low"
+        HIGH = 'High'
+        MEDIUM = 'Medium'
+        LOW = 'Low'
 
 
 class Element():
@@ -3597,27 +3461,19 @@ class Element():
     def from_dict(cls, _dict: Dict) -> 'Element':
         """Initialize a Element object from a json dictionary."""
         args = {}
-        valid_keys = ['location', 'text', 'types', 'categories', 'attributes']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Element: ' +
-                ', '.join(bad_keys))
         if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
+            args['location'] = Location.from_dict(_dict.get('location'))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'types' in _dict:
-            args['types'] = [
-                TypeLabel._from_dict(x) for x in (_dict.get('types'))
-            ]
+            args['types'] = [TypeLabel.from_dict(x) for x in _dict.get('types')]
         if 'categories' in _dict:
             args['categories'] = [
-                Category._from_dict(x) for x in (_dict.get('categories'))
+                Category.from_dict(x) for x in _dict.get('categories')
             ]
         if 'attributes' in _dict:
             args['attributes'] = [
-                Attribute._from_dict(x) for x in (_dict.get('attributes'))
+                Attribute.from_dict(x) for x in _dict.get('attributes')
             ]
         return cls(**args)
 
@@ -3630,15 +3486,15 @@ class Element():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
+            _dict['location'] = self.location.to_dict()
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self, 'types') and self.types is not None:
-            _dict['types'] = [x._to_dict() for x in self.types]
+            _dict['types'] = [x.to_dict() for x in self.types]
         if hasattr(self, 'categories') and self.categories is not None:
-            _dict['categories'] = [x._to_dict() for x in self.categories]
+            _dict['categories'] = [x.to_dict() for x in self.categories]
         if hasattr(self, 'attributes') and self.attributes is not None:
-            _dict['attributes'] = [x._to_dict() for x in self.attributes]
+            _dict['attributes'] = [x.to_dict() for x in self.attributes]
         return _dict
 
     def _to_dict(self):
@@ -3647,7 +3503,7 @@ class Element():
 
     def __str__(self) -> str:
         """Return a `str` version of this Element object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Element') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3687,12 +3543,6 @@ class ElementLocations():
     def from_dict(cls, _dict: Dict) -> 'ElementLocations':
         """Initialize a ElementLocations object from a json dictionary."""
         args = {}
-        valid_keys = ['begin', 'end']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ElementLocations: '
-                + ', '.join(bad_keys))
         if 'begin' in _dict:
             args['begin'] = _dict.get('begin')
         if 'end' in _dict:
@@ -3719,7 +3569,7 @@ class ElementLocations():
 
     def __str__(self) -> str:
         """Return a `str` version of this ElementLocations object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ElementLocations') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3787,33 +3637,23 @@ class ElementPair():
     def from_dict(cls, _dict: Dict) -> 'ElementPair':
         """Initialize a ElementPair object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'document_label', 'text', 'location', 'types', 'categories',
-            'attributes'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ElementPair: '
-                + ', '.join(bad_keys))
         if 'document_label' in _dict:
             args['document_label'] = _dict.get('document_label')
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
+            args['location'] = Location.from_dict(_dict.get('location'))
         if 'types' in _dict:
             args['types'] = [
-                TypeLabelComparison._from_dict(x) for x in (_dict.get('types'))
+                TypeLabelComparison.from_dict(x) for x in _dict.get('types')
             ]
         if 'categories' in _dict:
             args['categories'] = [
-                CategoryComparison._from_dict(x)
-                for x in (_dict.get('categories'))
+                CategoryComparison.from_dict(x) for x in _dict.get('categories')
             ]
         if 'attributes' in _dict:
             args['attributes'] = [
-                Attribute._from_dict(x) for x in (_dict.get('attributes'))
+                Attribute.from_dict(x) for x in _dict.get('attributes')
             ]
         return cls(**args)
 
@@ -3830,13 +3670,13 @@ class ElementPair():
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
+            _dict['location'] = self.location.to_dict()
         if hasattr(self, 'types') and self.types is not None:
-            _dict['types'] = [x._to_dict() for x in self.types]
+            _dict['types'] = [x.to_dict() for x in self.types]
         if hasattr(self, 'categories') and self.categories is not None:
-            _dict['categories'] = [x._to_dict() for x in self.categories]
+            _dict['categories'] = [x.to_dict() for x in self.categories]
         if hasattr(self, 'attributes') and self.attributes is not None:
-            _dict['attributes'] = [x._to_dict() for x in self.attributes]
+            _dict['attributes'] = [x.to_dict() for x in self.attributes]
         return _dict
 
     def _to_dict(self):
@@ -3845,7 +3685,7 @@ class ElementPair():
 
     def __str__(self) -> str:
         """Return a `str` version of this ElementPair object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ElementPair') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -3920,15 +3760,6 @@ class FeedbackDataInput():
     def from_dict(cls, _dict: Dict) -> 'FeedbackDataInput':
         """Initialize a FeedbackDataInput object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'feedback_type', 'document', 'model_id', 'model_version',
-            'location', 'text', 'original_labels', 'updated_labels'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class FeedbackDataInput: '
-                + ', '.join(bad_keys))
         if 'feedback_type' in _dict:
             args['feedback_type'] = _dict.get('feedback_type')
         else:
@@ -3936,13 +3767,13 @@ class FeedbackDataInput():
                 'Required property \'feedback_type\' not present in FeedbackDataInput JSON'
             )
         if 'document' in _dict:
-            args['document'] = ShortDoc._from_dict(_dict.get('document'))
+            args['document'] = ShortDoc.from_dict(_dict.get('document'))
         if 'model_id' in _dict:
             args['model_id'] = _dict.get('model_id')
         if 'model_version' in _dict:
             args['model_version'] = _dict.get('model_version')
         if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
+            args['location'] = Location.from_dict(_dict.get('location'))
         else:
             raise ValueError(
                 'Required property \'location\' not present in FeedbackDataInput JSON'
@@ -3954,14 +3785,14 @@ class FeedbackDataInput():
                 'Required property \'text\' not present in FeedbackDataInput JSON'
             )
         if 'original_labels' in _dict:
-            args['original_labels'] = OriginalLabelsIn._from_dict(
+            args['original_labels'] = OriginalLabelsIn.from_dict(
                 _dict.get('original_labels'))
         else:
             raise ValueError(
                 'Required property \'original_labels\' not present in FeedbackDataInput JSON'
             )
         if 'updated_labels' in _dict:
-            args['updated_labels'] = UpdatedLabelsIn._from_dict(
+            args['updated_labels'] = UpdatedLabelsIn.from_dict(
                 _dict.get('updated_labels'))
         else:
             raise ValueError(
@@ -3980,20 +3811,20 @@ class FeedbackDataInput():
         if hasattr(self, 'feedback_type') and self.feedback_type is not None:
             _dict['feedback_type'] = self.feedback_type
         if hasattr(self, 'document') and self.document is not None:
-            _dict['document'] = self.document._to_dict()
+            _dict['document'] = self.document.to_dict()
         if hasattr(self, 'model_id') and self.model_id is not None:
             _dict['model_id'] = self.model_id
         if hasattr(self, 'model_version') and self.model_version is not None:
             _dict['model_version'] = self.model_version
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
+            _dict['location'] = self.location.to_dict()
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self,
                    'original_labels') and self.original_labels is not None:
-            _dict['original_labels'] = self.original_labels._to_dict()
+            _dict['original_labels'] = self.original_labels.to_dict()
         if hasattr(self, 'updated_labels') and self.updated_labels is not None:
-            _dict['updated_labels'] = self.updated_labels._to_dict()
+            _dict['updated_labels'] = self.updated_labels.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -4002,7 +3833,7 @@ class FeedbackDataInput():
 
     def __str__(self) -> str:
         """Return a `str` version of this FeedbackDataInput object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'FeedbackDataInput') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4085,36 +3916,26 @@ class FeedbackDataOutput():
     def from_dict(cls, _dict: Dict) -> 'FeedbackDataOutput':
         """Initialize a FeedbackDataOutput object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'feedback_type', 'document', 'model_id', 'model_version',
-            'location', 'text', 'original_labels', 'updated_labels',
-            'pagination'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class FeedbackDataOutput: '
-                + ', '.join(bad_keys))
         if 'feedback_type' in _dict:
             args['feedback_type'] = _dict.get('feedback_type')
         if 'document' in _dict:
-            args['document'] = ShortDoc._from_dict(_dict.get('document'))
+            args['document'] = ShortDoc.from_dict(_dict.get('document'))
         if 'model_id' in _dict:
             args['model_id'] = _dict.get('model_id')
         if 'model_version' in _dict:
             args['model_version'] = _dict.get('model_version')
         if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
+            args['location'] = Location.from_dict(_dict.get('location'))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'original_labels' in _dict:
-            args['original_labels'] = OriginalLabelsOut._from_dict(
+            args['original_labels'] = OriginalLabelsOut.from_dict(
                 _dict.get('original_labels'))
         if 'updated_labels' in _dict:
-            args['updated_labels'] = UpdatedLabelsOut._from_dict(
+            args['updated_labels'] = UpdatedLabelsOut.from_dict(
                 _dict.get('updated_labels'))
         if 'pagination' in _dict:
-            args['pagination'] = Pagination._from_dict(_dict.get('pagination'))
+            args['pagination'] = Pagination.from_dict(_dict.get('pagination'))
         return cls(**args)
 
     @classmethod
@@ -4128,22 +3949,22 @@ class FeedbackDataOutput():
         if hasattr(self, 'feedback_type') and self.feedback_type is not None:
             _dict['feedback_type'] = self.feedback_type
         if hasattr(self, 'document') and self.document is not None:
-            _dict['document'] = self.document._to_dict()
+            _dict['document'] = self.document.to_dict()
         if hasattr(self, 'model_id') and self.model_id is not None:
             _dict['model_id'] = self.model_id
         if hasattr(self, 'model_version') and self.model_version is not None:
             _dict['model_version'] = self.model_version
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
+            _dict['location'] = self.location.to_dict()
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self,
                    'original_labels') and self.original_labels is not None:
-            _dict['original_labels'] = self.original_labels._to_dict()
+            _dict['original_labels'] = self.original_labels.to_dict()
         if hasattr(self, 'updated_labels') and self.updated_labels is not None:
-            _dict['updated_labels'] = self.updated_labels._to_dict()
+            _dict['updated_labels'] = self.updated_labels.to_dict()
         if hasattr(self, 'pagination') and self.pagination is not None:
-            _dict['pagination'] = self.pagination._to_dict()
+            _dict['pagination'] = self.pagination.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -4152,7 +3973,7 @@ class FeedbackDataOutput():
 
     def __str__(self) -> str:
         """Return a `str` version of this FeedbackDataOutput object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'FeedbackDataOutput') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4187,12 +4008,6 @@ class FeedbackDeleted():
     def from_dict(cls, _dict: Dict) -> 'FeedbackDeleted':
         """Initialize a FeedbackDeleted object from a json dictionary."""
         args = {}
-        valid_keys = ['status', 'message']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class FeedbackDeleted: '
-                + ', '.join(bad_keys))
         if 'status' in _dict:
             args['status'] = _dict.get('status')
         if 'message' in _dict:
@@ -4219,7 +4034,7 @@ class FeedbackDeleted():
 
     def __str__(self) -> str:
         """Return a `str` version of this FeedbackDeleted object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'FeedbackDeleted') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4253,15 +4068,9 @@ class FeedbackList():
     def from_dict(cls, _dict: Dict) -> 'FeedbackList':
         """Initialize a FeedbackList object from a json dictionary."""
         args = {}
-        valid_keys = ['feedback']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class FeedbackList: '
-                + ', '.join(bad_keys))
         if 'feedback' in _dict:
             args['feedback'] = [
-                GetFeedback._from_dict(x) for x in (_dict.get('feedback'))
+                GetFeedback.from_dict(x) for x in _dict.get('feedback')
             ]
         return cls(**args)
 
@@ -4274,7 +4083,7 @@ class FeedbackList():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'feedback') and self.feedback is not None:
-            _dict['feedback'] = [x._to_dict() for x in self.feedback]
+            _dict['feedback'] = [x.to_dict() for x in self.feedback]
         return _dict
 
     def _to_dict(self):
@@ -4283,7 +4092,7 @@ class FeedbackList():
 
     def __str__(self) -> str:
         """Return a `str` version of this FeedbackList object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'FeedbackList') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4341,14 +4150,6 @@ class FeedbackReturn():
     def from_dict(cls, _dict: Dict) -> 'FeedbackReturn':
         """Initialize a FeedbackReturn object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'feedback_id', 'user_id', 'comment', 'created', 'feedback_data'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class FeedbackReturn: '
-                + ', '.join(bad_keys))
         if 'feedback_id' in _dict:
             args['feedback_id'] = _dict.get('feedback_id')
         if 'user_id' in _dict:
@@ -4358,7 +4159,7 @@ class FeedbackReturn():
         if 'created' in _dict:
             args['created'] = string_to_datetime(_dict.get('created'))
         if 'feedback_data' in _dict:
-            args['feedback_data'] = FeedbackDataOutput._from_dict(
+            args['feedback_data'] = FeedbackDataOutput.from_dict(
                 _dict.get('feedback_data'))
         return cls(**args)
 
@@ -4379,7 +4180,7 @@ class FeedbackReturn():
         if hasattr(self, 'created') and self.created is not None:
             _dict['created'] = datetime_to_string(self.created)
         if hasattr(self, 'feedback_data') and self.feedback_data is not None:
-            _dict['feedback_data'] = self.feedback_data._to_dict()
+            _dict['feedback_data'] = self.feedback_data.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -4388,7 +4189,7 @@ class FeedbackReturn():
 
     def __str__(self) -> str:
         """Return a `str` version of this FeedbackReturn object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'FeedbackReturn') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4442,12 +4243,6 @@ class GetFeedback():
     def from_dict(cls, _dict: Dict) -> 'GetFeedback':
         """Initialize a GetFeedback object from a json dictionary."""
         args = {}
-        valid_keys = ['feedback_id', 'created', 'comment', 'feedback_data']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class GetFeedback: '
-                + ', '.join(bad_keys))
         if 'feedback_id' in _dict:
             args['feedback_id'] = _dict.get('feedback_id')
         if 'created' in _dict:
@@ -4455,7 +4250,7 @@ class GetFeedback():
         if 'comment' in _dict:
             args['comment'] = _dict.get('comment')
         if 'feedback_data' in _dict:
-            args['feedback_data'] = FeedbackDataOutput._from_dict(
+            args['feedback_data'] = FeedbackDataOutput.from_dict(
                 _dict.get('feedback_data'))
         return cls(**args)
 
@@ -4474,7 +4269,7 @@ class GetFeedback():
         if hasattr(self, 'comment') and self.comment is not None:
             _dict['comment'] = self.comment
         if hasattr(self, 'feedback_data') and self.feedback_data is not None:
-            _dict['feedback_data'] = self.feedback_data._to_dict()
+            _dict['feedback_data'] = self.feedback_data.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -4483,7 +4278,7 @@ class GetFeedback():
 
     def __str__(self) -> str:
         """Return a `str` version of this GetFeedback object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'GetFeedback') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4537,14 +4332,6 @@ class HTMLReturn():
     def from_dict(cls, _dict: Dict) -> 'HTMLReturn':
         """Initialize a HTMLReturn object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'num_pages', 'author', 'publication_date', 'title', 'html'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class HTMLReturn: '
-                + ', '.join(bad_keys))
         if 'num_pages' in _dict:
             args['num_pages'] = _dict.get('num_pages')
         if 'author' in _dict:
@@ -4584,7 +4371,7 @@ class HTMLReturn():
 
     def __str__(self) -> str:
         """Return a `str` version of this HTMLReturn object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'HTMLReturn') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4642,12 +4429,6 @@ class Interpretation():
     def from_dict(cls, _dict: Dict) -> 'Interpretation':
         """Initialize a Interpretation object from a json dictionary."""
         args = {}
-        valid_keys = ['value', 'numeric_value', 'unit']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Interpretation: '
-                + ', '.join(bad_keys))
         if 'value' in _dict:
             args['value'] = _dict.get('value')
         if 'numeric_value' in _dict:
@@ -4678,7 +4459,7 @@ class Interpretation():
 
     def __str__(self) -> str:
         """Return a `str` version of this Interpretation object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Interpretation') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4726,16 +4507,10 @@ class Key():
     def from_dict(cls, _dict: Dict) -> 'Key':
         """Initialize a Key object from a json dictionary."""
         args = {}
-        valid_keys = ['cell_id', 'location', 'text']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Key: ' +
-                ', '.join(bad_keys))
         if 'cell_id' in _dict:
             args['cell_id'] = _dict.get('cell_id')
         if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
+            args['location'] = Location.from_dict(_dict.get('location'))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         return cls(**args)
@@ -4751,7 +4526,7 @@ class Key():
         if hasattr(self, 'cell_id') and self.cell_id is not None:
             _dict['cell_id'] = self.cell_id
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
+            _dict['location'] = self.location.to_dict()
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         return _dict
@@ -4762,7 +4537,7 @@ class Key():
 
     def __str__(self) -> str:
         """Return a `str` version of this Key object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Key') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4800,16 +4575,10 @@ class KeyValuePair():
     def from_dict(cls, _dict: Dict) -> 'KeyValuePair':
         """Initialize a KeyValuePair object from a json dictionary."""
         args = {}
-        valid_keys = ['key', 'value']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class KeyValuePair: '
-                + ', '.join(bad_keys))
         if 'key' in _dict:
-            args['key'] = Key._from_dict(_dict.get('key'))
+            args['key'] = Key.from_dict(_dict.get('key'))
         if 'value' in _dict:
-            args['value'] = [Value._from_dict(x) for x in (_dict.get('value'))]
+            args['value'] = [Value.from_dict(x) for x in _dict.get('value')]
         return cls(**args)
 
     @classmethod
@@ -4821,9 +4590,9 @@ class KeyValuePair():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'key') and self.key is not None:
-            _dict['key'] = self.key._to_dict()
+            _dict['key'] = self.key.to_dict()
         if hasattr(self, 'value') and self.value is not None:
-            _dict['value'] = [x._to_dict() for x in self.value]
+            _dict['value'] = [x.to_dict() for x in self.value]
         return _dict
 
     def _to_dict(self):
@@ -4832,7 +4601,7 @@ class KeyValuePair():
 
     def __str__(self) -> str:
         """Return a `str` version of this KeyValuePair object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'KeyValuePair') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4869,12 +4638,6 @@ class Label():
     def from_dict(cls, _dict: Dict) -> 'Label':
         """Initialize a Label object from a json dictionary."""
         args = {}
-        valid_keys = ['nature', 'party']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Label: ' +
-                ', '.join(bad_keys))
         if 'nature' in _dict:
             args['nature'] = _dict.get('nature')
         else:
@@ -4907,7 +4670,7 @@ class Label():
 
     def __str__(self) -> str:
         """Return a `str` version of this Label object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Label') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -4955,20 +4718,14 @@ class LeadingSentence():
     def from_dict(cls, _dict: Dict) -> 'LeadingSentence':
         """Initialize a LeadingSentence object from a json dictionary."""
         args = {}
-        valid_keys = ['text', 'location', 'element_locations']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class LeadingSentence: '
-                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
+            args['location'] = Location.from_dict(_dict.get('location'))
         if 'element_locations' in _dict:
             args['element_locations'] = [
-                ElementLocations._from_dict(x)
-                for x in (_dict.get('element_locations'))
+                ElementLocations.from_dict(x)
+                for x in _dict.get('element_locations')
             ]
         return cls(**args)
 
@@ -4983,11 +4740,11 @@ class LeadingSentence():
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
+            _dict['location'] = self.location.to_dict()
         if hasattr(self,
                    'element_locations') and self.element_locations is not None:
             _dict['element_locations'] = [
-                x._to_dict() for x in self.element_locations
+                x.to_dict() for x in self.element_locations
             ]
         return _dict
 
@@ -4997,7 +4754,7 @@ class LeadingSentence():
 
     def __str__(self) -> str:
         """Return a `str` version of this LeadingSentence object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'LeadingSentence') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -5033,12 +4790,6 @@ class Location():
     def from_dict(cls, _dict: Dict) -> 'Location':
         """Initialize a Location object from a json dictionary."""
         args = {}
-        valid_keys = ['begin', 'end']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Location: '
-                + ', '.join(bad_keys))
         if 'begin' in _dict:
             args['begin'] = _dict.get('begin')
         else:
@@ -5071,7 +4822,7 @@ class Location():
 
     def __str__(self) -> str:
         """Return a `str` version of this Location object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Location') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -5113,16 +4864,10 @@ class Mention():
     def from_dict(cls, _dict: Dict) -> 'Mention':
         """Initialize a Mention object from a json dictionary."""
         args = {}
-        valid_keys = ['text', 'location']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Mention: ' +
-                ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
+            args['location'] = Location.from_dict(_dict.get('location'))
         return cls(**args)
 
     @classmethod
@@ -5136,7 +4881,7 @@ class Mention():
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
+            _dict['location'] = self.location.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -5145,7 +4890,7 @@ class Mention():
 
     def __str__(self) -> str:
         """Return a `str` version of this Mention object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Mention') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -5185,23 +4930,15 @@ class OriginalLabelsIn():
     def from_dict(cls, _dict: Dict) -> 'OriginalLabelsIn':
         """Initialize a OriginalLabelsIn object from a json dictionary."""
         args = {}
-        valid_keys = ['types', 'categories']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class OriginalLabelsIn: '
-                + ', '.join(bad_keys))
         if 'types' in _dict:
-            args['types'] = [
-                TypeLabel._from_dict(x) for x in (_dict.get('types'))
-            ]
+            args['types'] = [TypeLabel.from_dict(x) for x in _dict.get('types')]
         else:
             raise ValueError(
                 'Required property \'types\' not present in OriginalLabelsIn JSON'
             )
         if 'categories' in _dict:
             args['categories'] = [
-                Category._from_dict(x) for x in (_dict.get('categories'))
+                Category.from_dict(x) for x in _dict.get('categories')
             ]
         else:
             raise ValueError(
@@ -5218,9 +4955,9 @@ class OriginalLabelsIn():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'types') and self.types is not None:
-            _dict['types'] = [x._to_dict() for x in self.types]
+            _dict['types'] = [x.to_dict() for x in self.types]
         if hasattr(self, 'categories') and self.categories is not None:
-            _dict['categories'] = [x._to_dict() for x in self.categories]
+            _dict['categories'] = [x.to_dict() for x in self.categories]
         return _dict
 
     def _to_dict(self):
@@ -5229,7 +4966,7 @@ class OriginalLabelsIn():
 
     def __str__(self) -> str:
         """Return a `str` version of this OriginalLabelsIn object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'OriginalLabelsIn') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -5272,19 +5009,11 @@ class OriginalLabelsOut():
     def from_dict(cls, _dict: Dict) -> 'OriginalLabelsOut':
         """Initialize a OriginalLabelsOut object from a json dictionary."""
         args = {}
-        valid_keys = ['types', 'categories']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class OriginalLabelsOut: '
-                + ', '.join(bad_keys))
         if 'types' in _dict:
-            args['types'] = [
-                TypeLabel._from_dict(x) for x in (_dict.get('types'))
-            ]
+            args['types'] = [TypeLabel.from_dict(x) for x in _dict.get('types')]
         if 'categories' in _dict:
             args['categories'] = [
-                Category._from_dict(x) for x in (_dict.get('categories'))
+                Category.from_dict(x) for x in _dict.get('categories')
             ]
         return cls(**args)
 
@@ -5297,9 +5026,9 @@ class OriginalLabelsOut():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'types') and self.types is not None:
-            _dict['types'] = [x._to_dict() for x in self.types]
+            _dict['types'] = [x.to_dict() for x in self.types]
         if hasattr(self, 'categories') and self.categories is not None:
-            _dict['categories'] = [x._to_dict() for x in self.categories]
+            _dict['categories'] = [x.to_dict() for x in self.categories]
         return _dict
 
     def _to_dict(self):
@@ -5308,7 +5037,7 @@ class OriginalLabelsOut():
 
     def __str__(self) -> str:
         """Return a `str` version of this OriginalLabelsOut object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'OriginalLabelsOut') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -5364,14 +5093,6 @@ class Pagination():
     def from_dict(cls, _dict: Dict) -> 'Pagination':
         """Initialize a Pagination object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'refresh_cursor', 'next_cursor', 'refresh_url', 'next_url', 'total'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Pagination: '
-                + ', '.join(bad_keys))
         if 'refresh_cursor' in _dict:
             args['refresh_cursor'] = _dict.get('refresh_cursor')
         if 'next_cursor' in _dict:
@@ -5410,7 +5131,7 @@ class Pagination():
 
     def __str__(self) -> str:
         """Return a `str` version of this Pagination object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Pagination') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -5446,14 +5167,8 @@ class Paragraphs():
     def from_dict(cls, _dict: Dict) -> 'Paragraphs':
         """Initialize a Paragraphs object from a json dictionary."""
         args = {}
-        valid_keys = ['location']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Paragraphs: '
-                + ', '.join(bad_keys))
         if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
+            args['location'] = Location.from_dict(_dict.get('location'))
         return cls(**args)
 
     @classmethod
@@ -5465,7 +5180,7 @@ class Paragraphs():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
+            _dict['location'] = self.location.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -5474,7 +5189,7 @@ class Paragraphs():
 
     def __str__(self) -> str:
         """Return a `str` version of this Paragraphs object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Paragraphs') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -5537,14 +5252,6 @@ class Parties():
     def from_dict(cls, _dict: Dict) -> 'Parties':
         """Initialize a Parties object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'party', 'role', 'importance', 'addresses', 'contacts', 'mentions'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Parties: ' +
-                ', '.join(bad_keys))
         if 'party' in _dict:
             args['party'] = _dict.get('party')
         if 'role' in _dict:
@@ -5553,15 +5260,15 @@ class Parties():
             args['importance'] = _dict.get('importance')
         if 'addresses' in _dict:
             args['addresses'] = [
-                Address._from_dict(x) for x in (_dict.get('addresses'))
+                Address.from_dict(x) for x in _dict.get('addresses')
             ]
         if 'contacts' in _dict:
             args['contacts'] = [
-                Contact._from_dict(x) for x in (_dict.get('contacts'))
+                Contact.from_dict(x) for x in _dict.get('contacts')
             ]
         if 'mentions' in _dict:
             args['mentions'] = [
-                Mention._from_dict(x) for x in (_dict.get('mentions'))
+                Mention.from_dict(x) for x in _dict.get('mentions')
             ]
         return cls(**args)
 
@@ -5580,11 +5287,11 @@ class Parties():
         if hasattr(self, 'importance') and self.importance is not None:
             _dict['importance'] = self.importance
         if hasattr(self, 'addresses') and self.addresses is not None:
-            _dict['addresses'] = [x._to_dict() for x in self.addresses]
+            _dict['addresses'] = [x.to_dict() for x in self.addresses]
         if hasattr(self, 'contacts') and self.contacts is not None:
-            _dict['contacts'] = [x._to_dict() for x in self.contacts]
+            _dict['contacts'] = [x.to_dict() for x in self.contacts]
         if hasattr(self, 'mentions') and self.mentions is not None:
-            _dict['mentions'] = [x._to_dict() for x in self.mentions]
+            _dict['mentions'] = [x.to_dict() for x in self.mentions]
         return _dict
 
     def _to_dict(self):
@@ -5593,7 +5300,7 @@ class Parties():
 
     def __str__(self) -> str:
         """Return a `str` version of this Parties object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Parties') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -5605,12 +5312,12 @@ class Parties():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ImportanceEnum(Enum):
+    class ImportanceEnum(str, Enum):
         """
         A string that identifies the importance of the party.
         """
-        PRIMARY = "Primary"
-        UNKNOWN = "Unknown"
+        PRIMARY = 'Primary'
+        UNKNOWN = 'Unknown'
 
 
 class PaymentTerms():
@@ -5670,15 +5377,6 @@ class PaymentTerms():
     def from_dict(cls, _dict: Dict) -> 'PaymentTerms':
         """Initialize a PaymentTerms object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'confidence_level', 'text', 'text_normalized', 'interpretation',
-            'provenance_ids', 'location'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class PaymentTerms: '
-                + ', '.join(bad_keys))
         if 'confidence_level' in _dict:
             args['confidence_level'] = _dict.get('confidence_level')
         if 'text' in _dict:
@@ -5686,12 +5384,12 @@ class PaymentTerms():
         if 'text_normalized' in _dict:
             args['text_normalized'] = _dict.get('text_normalized')
         if 'interpretation' in _dict:
-            args['interpretation'] = Interpretation._from_dict(
+            args['interpretation'] = Interpretation.from_dict(
                 _dict.get('interpretation'))
         if 'provenance_ids' in _dict:
             args['provenance_ids'] = _dict.get('provenance_ids')
         if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
+            args['location'] = Location.from_dict(_dict.get('location'))
         return cls(**args)
 
     @classmethod
@@ -5711,11 +5409,11 @@ class PaymentTerms():
                    'text_normalized') and self.text_normalized is not None:
             _dict['text_normalized'] = self.text_normalized
         if hasattr(self, 'interpretation') and self.interpretation is not None:
-            _dict['interpretation'] = self.interpretation._to_dict()
+            _dict['interpretation'] = self.interpretation.to_dict()
         if hasattr(self, 'provenance_ids') and self.provenance_ids is not None:
             _dict['provenance_ids'] = self.provenance_ids
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
+            _dict['location'] = self.location.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -5724,7 +5422,7 @@ class PaymentTerms():
 
     def __str__(self) -> str:
         """Return a `str` version of this PaymentTerms object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'PaymentTerms') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -5736,13 +5434,13 @@ class PaymentTerms():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ConfidenceLevelEnum(Enum):
+    class ConfidenceLevelEnum(str, Enum):
         """
         The confidence level in the identification of the payment term.
         """
-        HIGH = "High"
-        MEDIUM = "Medium"
-        LOW = "Low"
+        HIGH = 'High'
+        MEDIUM = 'Medium'
+        LOW = 'Low'
 
 
 class RowHeaders():
@@ -5814,19 +5512,10 @@ class RowHeaders():
     def from_dict(cls, _dict: Dict) -> 'RowHeaders':
         """Initialize a RowHeaders object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'cell_id', 'location', 'text', 'text_normalized', 'row_index_begin',
-            'row_index_end', 'column_index_begin', 'column_index_end'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class RowHeaders: '
-                + ', '.join(bad_keys))
         if 'cell_id' in _dict:
             args['cell_id'] = _dict.get('cell_id')
         if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
+            args['location'] = Location.from_dict(_dict.get('location'))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'text_normalized' in _dict:
@@ -5852,7 +5541,7 @@ class RowHeaders():
         if hasattr(self, 'cell_id') and self.cell_id is not None:
             _dict['cell_id'] = self.cell_id
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
+            _dict['location'] = self.location.to_dict()
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self,
@@ -5878,7 +5567,7 @@ class RowHeaders():
 
     def __str__(self) -> str:
         """Return a `str` version of this RowHeaders object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'RowHeaders') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -5920,16 +5609,10 @@ class SectionTitle():
     def from_dict(cls, _dict: Dict) -> 'SectionTitle':
         """Initialize a SectionTitle object from a json dictionary."""
         args = {}
-        valid_keys = ['text', 'location']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SectionTitle: '
-                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
+            args['location'] = Location.from_dict(_dict.get('location'))
         return cls(**args)
 
     @classmethod
@@ -5943,7 +5626,7 @@ class SectionTitle():
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
+            _dict['location'] = self.location.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -5952,7 +5635,7 @@ class SectionTitle():
 
     def __str__(self) -> str:
         """Return a `str` version of this SectionTitle object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SectionTitle') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -6012,22 +5695,16 @@ class SectionTitles():
     def from_dict(cls, _dict: Dict) -> 'SectionTitles':
         """Initialize a SectionTitles object from a json dictionary."""
         args = {}
-        valid_keys = ['text', 'location', 'level', 'element_locations']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class SectionTitles: '
-                + ', '.join(bad_keys))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
+            args['location'] = Location.from_dict(_dict.get('location'))
         if 'level' in _dict:
             args['level'] = _dict.get('level')
         if 'element_locations' in _dict:
             args['element_locations'] = [
-                ElementLocations._from_dict(x)
-                for x in (_dict.get('element_locations'))
+                ElementLocations.from_dict(x)
+                for x in _dict.get('element_locations')
             ]
         return cls(**args)
 
@@ -6042,13 +5719,13 @@ class SectionTitles():
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
+            _dict['location'] = self.location.to_dict()
         if hasattr(self, 'level') and self.level is not None:
             _dict['level'] = self.level
         if hasattr(self,
                    'element_locations') and self.element_locations is not None:
             _dict['element_locations'] = [
-                x._to_dict() for x in self.element_locations
+                x.to_dict() for x in self.element_locations
             ]
         return _dict
 
@@ -6058,7 +5735,7 @@ class SectionTitles():
 
     def __str__(self) -> str:
         """Return a `str` version of this SectionTitles object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'SectionTitles') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -6094,12 +5771,6 @@ class ShortDoc():
     def from_dict(cls, _dict: Dict) -> 'ShortDoc':
         """Initialize a ShortDoc object from a json dictionary."""
         args = {}
-        valid_keys = ['title', 'hash']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class ShortDoc: '
-                + ', '.join(bad_keys))
         if 'title' in _dict:
             args['title'] = _dict.get('title')
         if 'hash' in _dict:
@@ -6126,7 +5797,7 @@ class ShortDoc():
 
     def __str__(self) -> str:
         """Return a `str` version of this ShortDoc object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'ShortDoc') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -6199,15 +5870,6 @@ class TableHeaders():
     def from_dict(cls, _dict: Dict) -> 'TableHeaders':
         """Initialize a TableHeaders object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'cell_id', 'location', 'text', 'row_index_begin', 'row_index_end',
-            'column_index_begin', 'column_index_end'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class TableHeaders: '
-                + ', '.join(bad_keys))
         if 'cell_id' in _dict:
             args['cell_id'] = _dict.get('cell_id')
         if 'location' in _dict:
@@ -6258,7 +5920,7 @@ class TableHeaders():
 
     def __str__(self) -> str:
         """Return a `str` version of this TableHeaders object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'TableHeaders') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -6309,22 +5971,14 @@ class TableReturn():
     def from_dict(cls, _dict: Dict) -> 'TableReturn':
         """Initialize a TableReturn object from a json dictionary."""
         args = {}
-        valid_keys = ['document', 'model_id', 'model_version', 'tables']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class TableReturn: '
-                + ', '.join(bad_keys))
         if 'document' in _dict:
-            args['document'] = DocInfo._from_dict(_dict.get('document'))
+            args['document'] = DocInfo.from_dict(_dict.get('document'))
         if 'model_id' in _dict:
             args['model_id'] = _dict.get('model_id')
         if 'model_version' in _dict:
             args['model_version'] = _dict.get('model_version')
         if 'tables' in _dict:
-            args['tables'] = [
-                Tables._from_dict(x) for x in (_dict.get('tables'))
-            ]
+            args['tables'] = [Tables.from_dict(x) for x in _dict.get('tables')]
         return cls(**args)
 
     @classmethod
@@ -6336,13 +5990,13 @@ class TableReturn():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'document') and self.document is not None:
-            _dict['document'] = self.document._to_dict()
+            _dict['document'] = self.document.to_dict()
         if hasattr(self, 'model_id') and self.model_id is not None:
             _dict['model_id'] = self.model_id
         if hasattr(self, 'model_version') and self.model_version is not None:
             _dict['model_version'] = self.model_version
         if hasattr(self, 'tables') and self.tables is not None:
-            _dict['tables'] = [x._to_dict() for x in self.tables]
+            _dict['tables'] = [x.to_dict() for x in self.tables]
         return _dict
 
     def _to_dict(self):
@@ -6351,7 +6005,7 @@ class TableReturn():
 
     def __str__(self) -> str:
         """Return a `str` version of this TableReturn object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'TableReturn') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -6396,14 +6050,8 @@ class TableTitle():
     def from_dict(cls, _dict: Dict) -> 'TableTitle':
         """Initialize a TableTitle object from a json dictionary."""
         args = {}
-        valid_keys = ['location', 'text']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class TableTitle: '
-                + ', '.join(bad_keys))
         if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
+            args['location'] = Location.from_dict(_dict.get('location'))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         return cls(**args)
@@ -6417,7 +6065,7 @@ class TableTitle():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
+            _dict['location'] = self.location.to_dict()
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         return _dict
@@ -6428,7 +6076,7 @@ class TableTitle():
 
     def __str__(self) -> str:
         """Return a `str` version of this TableTitle object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'TableTitle') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -6532,50 +6180,38 @@ class Tables():
     def from_dict(cls, _dict: Dict) -> 'Tables':
         """Initialize a Tables object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'location', 'text', 'section_title', 'title', 'table_headers',
-            'row_headers', 'column_headers', 'body_cells', 'contexts',
-            'key_value_pairs'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Tables: ' +
-                ', '.join(bad_keys))
         if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
+            args['location'] = Location.from_dict(_dict.get('location'))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'section_title' in _dict:
-            args['section_title'] = SectionTitle._from_dict(
+            args['section_title'] = SectionTitle.from_dict(
                 _dict.get('section_title'))
         if 'title' in _dict:
-            args['title'] = TableTitle._from_dict(_dict.get('title'))
+            args['title'] = TableTitle.from_dict(_dict.get('title'))
         if 'table_headers' in _dict:
             args['table_headers'] = [
-                TableHeaders._from_dict(x) for x in (_dict.get('table_headers'))
+                TableHeaders.from_dict(x) for x in _dict.get('table_headers')
             ]
         if 'row_headers' in _dict:
             args['row_headers'] = [
-                RowHeaders._from_dict(x) for x in (_dict.get('row_headers'))
+                RowHeaders.from_dict(x) for x in _dict.get('row_headers')
             ]
         if 'column_headers' in _dict:
             args['column_headers'] = [
-                ColumnHeaders._from_dict(x)
-                for x in (_dict.get('column_headers'))
+                ColumnHeaders.from_dict(x) for x in _dict.get('column_headers')
             ]
         if 'body_cells' in _dict:
             args['body_cells'] = [
-                BodyCells._from_dict(x) for x in (_dict.get('body_cells'))
+                BodyCells.from_dict(x) for x in _dict.get('body_cells')
             ]
         if 'contexts' in _dict:
             args['contexts'] = [
-                Contexts._from_dict(x) for x in (_dict.get('contexts'))
+                Contexts.from_dict(x) for x in _dict.get('contexts')
             ]
         if 'key_value_pairs' in _dict:
             args['key_value_pairs'] = [
-                KeyValuePair._from_dict(x)
-                for x in (_dict.get('key_value_pairs'))
+                KeyValuePair.from_dict(x) for x in _dict.get('key_value_pairs')
             ]
         return cls(**args)
 
@@ -6588,29 +6224,27 @@ class Tables():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
+            _dict['location'] = self.location.to_dict()
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self, 'section_title') and self.section_title is not None:
-            _dict['section_title'] = self.section_title._to_dict()
+            _dict['section_title'] = self.section_title.to_dict()
         if hasattr(self, 'title') and self.title is not None:
-            _dict['title'] = self.title._to_dict()
+            _dict['title'] = self.title.to_dict()
         if hasattr(self, 'table_headers') and self.table_headers is not None:
-            _dict['table_headers'] = [x._to_dict() for x in self.table_headers]
+            _dict['table_headers'] = [x.to_dict() for x in self.table_headers]
         if hasattr(self, 'row_headers') and self.row_headers is not None:
-            _dict['row_headers'] = [x._to_dict() for x in self.row_headers]
+            _dict['row_headers'] = [x.to_dict() for x in self.row_headers]
         if hasattr(self, 'column_headers') and self.column_headers is not None:
-            _dict['column_headers'] = [
-                x._to_dict() for x in self.column_headers
-            ]
+            _dict['column_headers'] = [x.to_dict() for x in self.column_headers]
         if hasattr(self, 'body_cells') and self.body_cells is not None:
-            _dict['body_cells'] = [x._to_dict() for x in self.body_cells]
+            _dict['body_cells'] = [x.to_dict() for x in self.body_cells]
         if hasattr(self, 'contexts') and self.contexts is not None:
-            _dict['contexts'] = [x._to_dict() for x in self.contexts]
+            _dict['contexts'] = [x.to_dict() for x in self.contexts]
         if hasattr(self,
                    'key_value_pairs') and self.key_value_pairs is not None:
             _dict['key_value_pairs'] = [
-                x._to_dict() for x in self.key_value_pairs
+                x.to_dict() for x in self.key_value_pairs
             ]
         return _dict
 
@@ -6620,7 +6254,7 @@ class Tables():
 
     def __str__(self) -> str:
         """Return a `str` version of this Tables object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Tables') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -6682,15 +6316,6 @@ class TerminationDates():
     def from_dict(cls, _dict: Dict) -> 'TerminationDates':
         """Initialize a TerminationDates object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'confidence_level', 'text', 'text_normalized', 'provenance_ids',
-            'location'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class TerminationDates: '
-                + ', '.join(bad_keys))
         if 'confidence_level' in _dict:
             args['confidence_level'] = _dict.get('confidence_level')
         if 'text' in _dict:
@@ -6700,7 +6325,7 @@ class TerminationDates():
         if 'provenance_ids' in _dict:
             args['provenance_ids'] = _dict.get('provenance_ids')
         if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
+            args['location'] = Location.from_dict(_dict.get('location'))
         return cls(**args)
 
     @classmethod
@@ -6722,7 +6347,7 @@ class TerminationDates():
         if hasattr(self, 'provenance_ids') and self.provenance_ids is not None:
             _dict['provenance_ids'] = self.provenance_ids
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
+            _dict['location'] = self.location.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -6731,7 +6356,7 @@ class TerminationDates():
 
     def __str__(self) -> str:
         """Return a `str` version of this TerminationDates object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'TerminationDates') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -6743,13 +6368,13 @@ class TerminationDates():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ConfidenceLevelEnum(Enum):
+    class ConfidenceLevelEnum(str, Enum):
         """
         The confidence level in the identification of the termination date.
         """
-        HIGH = "High"
-        MEDIUM = "Medium"
-        LOW = "Low"
+        HIGH = 'High'
+        MEDIUM = 'Medium'
+        LOW = 'Low'
 
 
 class TypeLabel():
@@ -6789,14 +6414,8 @@ class TypeLabel():
     def from_dict(cls, _dict: Dict) -> 'TypeLabel':
         """Initialize a TypeLabel object from a json dictionary."""
         args = {}
-        valid_keys = ['label', 'provenance_ids', 'modification']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class TypeLabel: '
-                + ', '.join(bad_keys))
         if 'label' in _dict:
-            args['label'] = Label._from_dict(_dict.get('label'))
+            args['label'] = Label.from_dict(_dict.get('label'))
         if 'provenance_ids' in _dict:
             args['provenance_ids'] = _dict.get('provenance_ids')
         if 'modification' in _dict:
@@ -6812,7 +6431,7 @@ class TypeLabel():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'label') and self.label is not None:
-            _dict['label'] = self.label._to_dict()
+            _dict['label'] = self.label.to_dict()
         if hasattr(self, 'provenance_ids') and self.provenance_ids is not None:
             _dict['provenance_ids'] = self.provenance_ids
         if hasattr(self, 'modification') and self.modification is not None:
@@ -6825,7 +6444,7 @@ class TypeLabel():
 
     def __str__(self) -> str:
         """Return a `str` version of this TypeLabel object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'TypeLabel') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -6837,13 +6456,13 @@ class TypeLabel():
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ModificationEnum(Enum):
+    class ModificationEnum(str, Enum):
         """
         The type of modification of the feedback entry in the updated labels response.
         """
-        ADDED = "added"
-        UNCHANGED = "unchanged"
-        REMOVED = "removed"
+        ADDED = 'added'
+        UNCHANGED = 'unchanged'
+        REMOVED = 'removed'
 
 
 class TypeLabelComparison():
@@ -6869,14 +6488,8 @@ class TypeLabelComparison():
     def from_dict(cls, _dict: Dict) -> 'TypeLabelComparison':
         """Initialize a TypeLabelComparison object from a json dictionary."""
         args = {}
-        valid_keys = ['label']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class TypeLabelComparison: '
-                + ', '.join(bad_keys))
         if 'label' in _dict:
-            args['label'] = Label._from_dict(_dict.get('label'))
+            args['label'] = Label.from_dict(_dict.get('label'))
         return cls(**args)
 
     @classmethod
@@ -6888,7 +6501,7 @@ class TypeLabelComparison():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'label') and self.label is not None:
-            _dict['label'] = self.label._to_dict()
+            _dict['label'] = self.label.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -6897,7 +6510,7 @@ class TypeLabelComparison():
 
     def __str__(self) -> str:
         """Return a `str` version of this TypeLabelComparison object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'TypeLabelComparison') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -6965,33 +6578,23 @@ class UnalignedElement():
     def from_dict(cls, _dict: Dict) -> 'UnalignedElement':
         """Initialize a UnalignedElement object from a json dictionary."""
         args = {}
-        valid_keys = [
-            'document_label', 'location', 'text', 'types', 'categories',
-            'attributes'
-        ]
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class UnalignedElement: '
-                + ', '.join(bad_keys))
         if 'document_label' in _dict:
             args['document_label'] = _dict.get('document_label')
         if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
+            args['location'] = Location.from_dict(_dict.get('location'))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         if 'types' in _dict:
             args['types'] = [
-                TypeLabelComparison._from_dict(x) for x in (_dict.get('types'))
+                TypeLabelComparison.from_dict(x) for x in _dict.get('types')
             ]
         if 'categories' in _dict:
             args['categories'] = [
-                CategoryComparison._from_dict(x)
-                for x in (_dict.get('categories'))
+                CategoryComparison.from_dict(x) for x in _dict.get('categories')
             ]
         if 'attributes' in _dict:
             args['attributes'] = [
-                Attribute._from_dict(x) for x in (_dict.get('attributes'))
+                Attribute.from_dict(x) for x in _dict.get('attributes')
             ]
         return cls(**args)
 
@@ -7006,15 +6609,15 @@ class UnalignedElement():
         if hasattr(self, 'document_label') and self.document_label is not None:
             _dict['document_label'] = self.document_label
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
+            _dict['location'] = self.location.to_dict()
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         if hasattr(self, 'types') and self.types is not None:
-            _dict['types'] = [x._to_dict() for x in self.types]
+            _dict['types'] = [x.to_dict() for x in self.types]
         if hasattr(self, 'categories') and self.categories is not None:
-            _dict['categories'] = [x._to_dict() for x in self.categories]
+            _dict['categories'] = [x.to_dict() for x in self.categories]
         if hasattr(self, 'attributes') and self.attributes is not None:
-            _dict['attributes'] = [x._to_dict() for x in self.attributes]
+            _dict['attributes'] = [x.to_dict() for x in self.attributes]
         return _dict
 
     def _to_dict(self):
@@ -7023,7 +6626,7 @@ class UnalignedElement():
 
     def __str__(self) -> str:
         """Return a `str` version of this UnalignedElement object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'UnalignedElement') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -7063,23 +6666,15 @@ class UpdatedLabelsIn():
     def from_dict(cls, _dict: Dict) -> 'UpdatedLabelsIn':
         """Initialize a UpdatedLabelsIn object from a json dictionary."""
         args = {}
-        valid_keys = ['types', 'categories']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class UpdatedLabelsIn: '
-                + ', '.join(bad_keys))
         if 'types' in _dict:
-            args['types'] = [
-                TypeLabel._from_dict(x) for x in (_dict.get('types'))
-            ]
+            args['types'] = [TypeLabel.from_dict(x) for x in _dict.get('types')]
         else:
             raise ValueError(
                 'Required property \'types\' not present in UpdatedLabelsIn JSON'
             )
         if 'categories' in _dict:
             args['categories'] = [
-                Category._from_dict(x) for x in (_dict.get('categories'))
+                Category.from_dict(x) for x in _dict.get('categories')
             ]
         else:
             raise ValueError(
@@ -7096,9 +6691,9 @@ class UpdatedLabelsIn():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'types') and self.types is not None:
-            _dict['types'] = [x._to_dict() for x in self.types]
+            _dict['types'] = [x.to_dict() for x in self.types]
         if hasattr(self, 'categories') and self.categories is not None:
-            _dict['categories'] = [x._to_dict() for x in self.categories]
+            _dict['categories'] = [x.to_dict() for x in self.categories]
         return _dict
 
     def _to_dict(self):
@@ -7107,7 +6702,7 @@ class UpdatedLabelsIn():
 
     def __str__(self) -> str:
         """Return a `str` version of this UpdatedLabelsIn object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'UpdatedLabelsIn') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -7150,19 +6745,11 @@ class UpdatedLabelsOut():
     def from_dict(cls, _dict: Dict) -> 'UpdatedLabelsOut':
         """Initialize a UpdatedLabelsOut object from a json dictionary."""
         args = {}
-        valid_keys = ['types', 'categories']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class UpdatedLabelsOut: '
-                + ', '.join(bad_keys))
         if 'types' in _dict:
-            args['types'] = [
-                TypeLabel._from_dict(x) for x in (_dict.get('types'))
-            ]
+            args['types'] = [TypeLabel.from_dict(x) for x in _dict.get('types')]
         if 'categories' in _dict:
             args['categories'] = [
-                Category._from_dict(x) for x in (_dict.get('categories'))
+                Category.from_dict(x) for x in _dict.get('categories')
             ]
         return cls(**args)
 
@@ -7175,9 +6762,9 @@ class UpdatedLabelsOut():
         """Return a json dictionary representing this model."""
         _dict = {}
         if hasattr(self, 'types') and self.types is not None:
-            _dict['types'] = [x._to_dict() for x in self.types]
+            _dict['types'] = [x.to_dict() for x in self.types]
         if hasattr(self, 'categories') and self.categories is not None:
-            _dict['categories'] = [x._to_dict() for x in self.categories]
+            _dict['categories'] = [x.to_dict() for x in self.categories]
         return _dict
 
     def _to_dict(self):
@@ -7186,7 +6773,7 @@ class UpdatedLabelsOut():
 
     def __str__(self) -> str:
         """Return a `str` version of this UpdatedLabelsOut object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'UpdatedLabelsOut') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
@@ -7234,16 +6821,10 @@ class Value():
     def from_dict(cls, _dict: Dict) -> 'Value':
         """Initialize a Value object from a json dictionary."""
         args = {}
-        valid_keys = ['cell_id', 'location', 'text']
-        bad_keys = set(_dict.keys()) - set(valid_keys)
-        if bad_keys:
-            raise ValueError(
-                'Unrecognized keys detected in dictionary for class Value: ' +
-                ', '.join(bad_keys))
         if 'cell_id' in _dict:
             args['cell_id'] = _dict.get('cell_id')
         if 'location' in _dict:
-            args['location'] = Location._from_dict(_dict.get('location'))
+            args['location'] = Location.from_dict(_dict.get('location'))
         if 'text' in _dict:
             args['text'] = _dict.get('text')
         return cls(**args)
@@ -7259,7 +6840,7 @@ class Value():
         if hasattr(self, 'cell_id') and self.cell_id is not None:
             _dict['cell_id'] = self.cell_id
         if hasattr(self, 'location') and self.location is not None:
-            _dict['location'] = self.location._to_dict()
+            _dict['location'] = self.location.to_dict()
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
         return _dict
@@ -7270,7 +6851,7 @@ class Value():
 
     def __str__(self) -> str:
         """Return a `str` version of this Value object."""
-        return json.dumps(self._to_dict(), indent=2)
+        return json.dumps(self.to_dict(), indent=2)
 
     def __eq__(self, other: 'Value') -> bool:
         """Return `true` when self and other are equal, false otherwise."""
