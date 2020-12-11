@@ -1,3 +1,27 @@
+# [5.0.0](https://github.com/watson-developer-cloud/python-sdk/compare/v4.7.1...v5.0.0) (2020-12-11)
+
+
+### Features
+
+* regenerate services using latest api def and generator ([59e7ded](https://github.com/watson-developer-cloud/python-sdk/commit/59e7dede81f530ea027b480fd007f9df67180ab1))
+* regenerate using current api def and add deprecation warnings ([c3e1f07](https://github.com/watson-developer-cloud/python-sdk/commit/c3e1f07697b15d05f87cec39e36a9a2d28db7b91))
+* regenerate with current API and add deprecation warnings ([4faa938](https://github.com/watson-developer-cloud/python-sdk/commit/4faa9380a606eeb8e8794b918b0f72313e4b1d86))
+* regenrate language translator ([8fdebc4](https://github.com/watson-developer-cloud/python-sdk/commit/8fdebc45f0dfd1044d848969cb5cb3b8cb15a313))
+* regenrate services using current api def and generator ([e84a0cb](https://github.com/watson-developer-cloud/python-sdk/commit/e84a0cb0636cd0add767903391de150bd65a4cd2))
+* regenrate using current api def and generator 3.21 ([33e0d93](https://github.com/watson-developer-cloud/python-sdk/commit/33e0d9356ac43b7f988200c853b46b6cf4f703ab))
+* **AssistantV1:** add support for bulkClassify ([e17b24c](https://github.com/watson-developer-cloud/python-sdk/commit/e17b24cc565bf6ee603497aeb5c11436ee09b0dc))
+* **AssistantV2:** add support for bulkClassify ([8b14dda](https://github.com/watson-developer-cloud/python-sdk/commit/8b14dda82de980f09a031b1e15ab53573a5b55d8))
+* **CompareComply:** remove before and after from list feedback ([5af17b7](https://github.com/watson-developer-cloud/python-sdk/commit/5af17b7557b2bd3f178c17b7ba7de907c0a3045e))
+* **TextToSpeechV1:** change voice model signaturess to custom models ([12ee072](https://github.com/watson-developer-cloud/python-sdk/commit/12ee072189d54a7b6462c82cb0e5d4d123822ea5))
+* **VisRecV4:** change  start time and end time to date from string ([f2f40e7](https://github.com/watson-developer-cloud/python-sdk/commit/f2f40e7a6e9aa90f3938d576081998cb5667a0f8))
+
+
+### BREAKING CHANGES
+
+* **VisRecV4:** change start and end time for training usage to date time format
+* **CompareComply:** remove before and after from list feedback
+* **TextToSpeechV1:** This update breaks the users using any methods of type _voice_models
+
 ## [4.7.1](https://github.com/watson-developer-cloud/python-sdk/compare/v4.7.0...v4.7.1) (2020-09-03)
 
 
