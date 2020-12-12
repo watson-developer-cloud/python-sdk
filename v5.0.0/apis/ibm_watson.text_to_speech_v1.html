@@ -1,0 +1,2117 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ibm_watson.text_to_speech_v1 module &#8212; Watson Developer Cloud Python SDK 5.0.0 documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ibm_watson.tone_analyzer_v3 module" href="ibm_watson.tone_analyzer_v3.html" />
+    <link rel="prev" title="ibm_watson.text_to_speech_adapter_v1 module" href="ibm_watson.text_to_speech_adapter_v1.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-ibm_watson.text_to_speech_v1">
+<span id="ibm-watson-text-to-speech-v1-module"></span><h1>ibm_watson.text_to_speech_v1 module<a class="headerlink" href="#module-ibm_watson.text_to_speech_v1" title="Permalink to this headline">¶</a></h1>
+<p>The IBM Watson&amp;trade; Text to Speech service provides APIs that use IBM’s speech-synthesis
+capabilities to synthesize text into natural-sounding speech in a variety of languages,
+dialects, and voices. The service supports at least one male or female voice, sometimes
+both, for each language. The audio is streamed back to the client with minimal delay.
+For speech synthesis, the service supports a synchronous HTTP Representational State
+Transfer (REST) interface and a WebSocket interface. Both interfaces support plain text
+and SSML input. SSML is an XML-based markup language that provides text annotation for
+speech-synthesis applications. The WebSocket interface also supports the SSML
+&lt;code&gt;&amp;lt;mark&amp;gt;&lt;/code&gt; element and word timings.
+The service offers a customization interface that you can use to define sounds-like or
+phonetic translations for words. A sounds-like translation consists of one or more words
+that, when combined, sound like the word. A phonetic translation is based on the SSML
+phoneme format for representing a word. You can specify a phonetic translation in standard
+International Phonetic Alphabet (IPA) representation or in the proprietary IBM Symbolic
+Phonetic Representation (SPR). The Arabic, Chinese, Dutch, and Korean languages support
+only IPA.</p>
+<dl class="py class">
+<dt id="ibm_watson.text_to_speech_v1.TextToSpeechV1">
+<em class="property">class </em><code class="sig-name descname">TextToSpeechV1</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">authenticator</span><span class="p">:</span> <span class="n">ibm_cloud_sdk_core.authenticators.authenticator.Authenticator</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">service_name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span> <span class="o">=</span> <span class="default_value">'text_to_speech'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#TextToSpeechV1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.TextToSpeechV1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ibm_cloud_sdk_core.base_service.BaseService</span></code></p>
+<p>The Text to Speech V1 service.</p>
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.TextToSpeechV1.DEFAULT_SERVICE_URL">
+<code class="sig-name descname">DEFAULT_SERVICE_URL</code><em class="property"> = 'https://api.us-south.text-to-speech.watson.cloud.ibm.com'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.TextToSpeechV1.DEFAULT_SERVICE_URL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.TextToSpeechV1.DEFAULT_SERVICE_NAME">
+<code class="sig-name descname">DEFAULT_SERVICE_NAME</code><em class="property"> = 'text_to_speech'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.TextToSpeechV1.DEFAULT_SERVICE_NAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.TextToSpeechV1.list_voices">
+<code class="sig-name descname">list_voices</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#TextToSpeechV1.list_voices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.TextToSpeechV1.list_voices" title="Permalink to this definition">¶</a></dt>
+<dd><p>List voices.</p>
+<p>Lists all voices available for use with the service. The information includes the
+name, language, gender, and other details about the voice. The ordering of the
+list of voices can change from call to call; do not rely on an alphabetized or
+static list of voices. To see information about a specific voice, use the <strong>Get a
+voice</strong> method.
+<strong>See also:</strong> [Listing all available
+voices](<a class="reference external" href="https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices#listVoices">https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices#listVoices</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse with <cite>dict</cite> result representing a <cite>Voices</cite> object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.TextToSpeechV1.get_voice">
+<code class="sig-name descname">get_voice</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">voice</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">customization_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#TextToSpeechV1.get_voice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.TextToSpeechV1.get_voice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a voice.</p>
+<p>Gets information about the specified voice. The information includes the name,
+language, gender, and other details about the voice. Specify a customization ID to
+obtain information for a custom model that is defined for the language of the
+specified voice. To list information about all available voices, use the <strong>List
+voices</strong> method.
+<strong>See also:</strong> [Listing a specific
+voice](<a class="reference external" href="https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices#listVoice">https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices#listVoice</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>voice</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The voice for which information is to be returned.</p></li>
+<li><p><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – (optional) The customization ID (GUID) of a
+custom model for which information is to be returned. You must make the
+request with credentials for the instance of the service that owns the
+custom model. Omit the parameter to see information about the specified
+voice with no customization.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse with <cite>dict</cite> result representing a <cite>Voice</cite> object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.TextToSpeechV1.synthesize">
+<code class="sig-name descname">synthesize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">accept</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">voice</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">customization_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#TextToSpeechV1.synthesize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.TextToSpeechV1.synthesize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Synthesize audio.</p>
+<p>Synthesizes text to audio that is spoken in the specified voice. The service bases
+its understanding of the language for the input text on the specified voice. Use a
+voice that matches the language of the input text.
+The method accepts a maximum of 5 KB of input text in the body of the request, and
+8 KB for the URL and headers. The 5 KB limit includes any SSML tags that you
+specify. The service returns the synthesized audio stream as an array of bytes.
+<strong>See also:</strong> [The HTTP
+interface](<a class="reference external" href="https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-usingHTTP#usingHTTP">https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-usingHTTP#usingHTTP</a>).
+### Audio formats (accept types)</p>
+<blockquote>
+<div><p>The service can return audio in the following formats (MIME types).</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>Where indicated, you can optionally specify the sampling rate (<cite>rate</cite>) of the</p></li>
+</ul>
+<p>audio. You must specify a sampling rate for the <cite>audio/l16</cite> and <cite>audio/mulaw</cite>
+formats. A specified sampling rate must lie in the range of 8 kHz to 192 kHz. Some
+formats restrict the sampling rate to certain values, as noted.
+* For the <cite>audio/l16</cite> format, you can optionally specify the endianness
+(<cite>endianness</cite>) of the audio: <cite>endianness=big-endian</cite> or
+<cite>endianness=little-endian</cite>.
+Use the <cite>Accept</cite> header or the <cite>accept</cite> parameter to specify the requested format
+of the response audio. If you omit an audio format altogether, the service returns
+the audio in Ogg format with the Opus codec (<cite>audio/ogg;codecs=opus</cite>). The service
+always returns single-channel audio.
+* <cite>audio/basic</cite> - The service returns audio with a sampling rate of 8000 Hz.
+* <cite>audio/flac</cite> - You can optionally specify the <cite>rate</cite> of the audio. The default
+sampling rate is 22,050 Hz.
+* <cite>audio/l16</cite> - You must specify the <cite>rate</cite> of the audio. You can optionally
+specify the <cite>endianness</cite> of the audio. The default endianness is <cite>little-endian</cite>.
+* <cite>audio/mp3</cite> - You can optionally specify the <cite>rate</cite> of the audio. The default
+sampling rate is 22,050 Hz.
+* <cite>audio/mpeg</cite> - You can optionally specify the <cite>rate</cite> of the audio. The default
+sampling rate is 22,050 Hz.
+* <cite>audio/mulaw</cite> - You must specify the <cite>rate</cite> of the audio.
+* <cite>audio/ogg</cite> - The service returns the audio in the <cite>vorbis</cite> codec. You can
+optionally specify the <cite>rate</cite> of the audio. The default sampling rate is 22,050
+Hz.
+* <cite>audio/ogg;codecs=opus</cite> - You can optionally specify the <cite>rate</cite> of the audio.
+Only the following values are valid sampling rates: <cite>48000</cite>, <cite>24000</cite>, <cite>16000</cite>,
+<cite>12000</cite>, or <cite>8000</cite>. If you specify a value other than one of these, the service
+returns an error. The default sampling rate is 48,000 Hz.
+* <cite>audio/ogg;codecs=vorbis</cite> - You can optionally specify the <cite>rate</cite> of the audio.
+The default sampling rate is 22,050 Hz.
+* <cite>audio/wav</cite> - You can optionally specify the <cite>rate</cite> of the audio. The default
+sampling rate is 22,050 Hz.
+* <cite>audio/webm</cite> - The service returns the audio in the <cite>opus</cite> codec. The service
+returns audio with a sampling rate of 48,000 Hz.
+* <cite>audio/webm;codecs=opus</cite> - The service returns audio with a sampling rate of
+48,000 Hz.
+* <cite>audio/webm;codecs=vorbis</cite> - You can optionally specify the <cite>rate</cite> of the audio.
+The default sampling rate is 22,050 Hz.
+For more information about specifying an audio format, including additional
+details about some of the formats, see [Audio
+formats](<a class="reference external" href="https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-audioFormats#audioFormats">https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-audioFormats#audioFormats</a>).
+### Warning messages</p>
+<blockquote>
+<div><p>If a request includes invalid query parameters, the service returns a <cite>Warnings</cite></p>
+</div></blockquote>
+<p>response header that provides messages about the invalid parameters. The warning
+includes a descriptive message and a list of invalid argument strings. For
+example, a message such as <cite>“Unknown arguments:”</cite> or <cite>“Unknown url query
+arguments:”</cite> followed by a list of the form <cite>“{invalid_arg_1}, {invalid_arg_2}.”</cite>
+The request succeeds despite the warnings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The text to synthesize.</p></li>
+<li><p><strong>accept</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – (optional) The requested format (MIME type) of the
+audio. You can use the <cite>Accept</cite> header or the <cite>accept</cite> parameter to specify
+the audio format. For more information about specifying an audio format,
+see <strong>Audio formats (accept types)</strong> in the method description.</p></li>
+<li><p><strong>voice</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – (optional) The voice to use for synthesis.</p></li>
+<li><p><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – (optional) The customization ID (GUID) of a
+custom model to use for the synthesis. If a custom model is specified, it
+works only if it matches the language of the indicated voice. You must make
+the request with credentials for the instance of the service that owns the
+custom model. Omit the parameter to use the specified voice with no
+customization.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse with <cite>BinaryIO</cite> result</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.TextToSpeechV1.get_pronunciation">
+<code class="sig-name descname">get_pronunciation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">voice</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">format</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">customization_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#TextToSpeechV1.get_pronunciation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.TextToSpeechV1.get_pronunciation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get pronunciation.</p>
+<p>Gets the phonetic pronunciation for the specified word. You can request the
+pronunciation for a specific format. You can also request the pronunciation for a
+specific voice to see the default translation for the language of that voice or
+for a specific custom model to see the translation for that model.
+<strong>See also:</strong> [Querying a word from a
+language](<a class="reference external" href="https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuWordsQueryLanguage">https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuWordsQueryLanguage</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The word for which the pronunciation is requested.</p></li>
+<li><p><strong>voice</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – (optional) A voice that specifies the language in which
+the pronunciation is to be returned. All voices for the same language (for
+example, <cite>en-US</cite>) return the same translation.</p></li>
+<li><p><strong>format</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – (optional) The phoneme format in which to return the
+pronunciation. The Arabic, Chinese, Dutch, and Korean languages support
+only IPA. Omit the parameter to obtain the pronunciation in the default
+format.</p></li>
+<li><p><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – (optional) The customization ID (GUID) of a
+custom model for which the pronunciation is to be returned. The language of
+a specified custom model must match the language of the specified voice. If
+the word is not defined in the specified custom model, the service returns
+the default translation for the custom model’s language. You must make the
+request with credentials for the instance of the service that owns the
+custom model. Omit the parameter to see the translation for the specified
+voice with no customization.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse with <cite>dict</cite> result representing a <cite>Pronunciation</cite> object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.TextToSpeechV1.create_custom_model">
+<code class="sig-name descname">create_custom_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">language</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">description</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#TextToSpeechV1.create_custom_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.TextToSpeechV1.create_custom_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a custom model.</p>
+<p>Creates a new empty custom model. You must specify a name for the new custom
+model. You can optionally specify the language and a description for the new
+model. The model is owned by the instance of the service whose credentials are
+used to create it.
+<strong>See also:</strong> [Creating a custom
+model](<a class="reference external" href="https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customModels#cuModelsCreate">https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customModels#cuModelsCreate</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The name of the new custom model.</p></li>
+<li><p><strong>language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – (optional) The language of the new custom model. You
+create a custom model for a specific language, not for a specific voice. A
+custom model can be used with any voice, standard or neural, for its
+specified language. Omit the parameter to use the the default language,
+<cite>en-US</cite>.</p></li>
+<li><p><strong>description</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – (optional) A description of the new custom model.
+Specifying a description is recommended.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse with <cite>dict</cite> result representing a <cite>CustomModel</cite> object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.TextToSpeechV1.list_custom_models">
+<code class="sig-name descname">list_custom_models</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">language</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#TextToSpeechV1.list_custom_models"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.TextToSpeechV1.list_custom_models" title="Permalink to this definition">¶</a></dt>
+<dd><p>List custom models.</p>
+<p>Lists metadata such as the name and description for all custom models that are
+owned by an instance of the service. Specify a language to list the custom models
+for that language only. To see the words in addition to the metadata for a
+specific custom model, use the <strong>List a custom model</strong> method. You must use
+credentials for the instance of the service that owns a model to list information
+about it.
+<strong>See also:</strong> [Querying all custom
+models](<a class="reference external" href="https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customModels#cuModelsQueryAll">https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customModels#cuModelsQueryAll</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>language</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – (optional) The language for which custom models that
+are owned by the requesting credentials are to be returned. Omit the
+parameter to see all custom models that are owned by the requester.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse with <cite>dict</cite> result representing a <cite>CustomModels</cite> object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.TextToSpeechV1.update_custom_model">
+<code class="sig-name descname">update_custom_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">customization_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">description</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">words</span><span class="p">:</span> <span class="n">List<span class="p">[</span><a class="reference internal" href="#ibm_watson.text_to_speech_v1.Word" title="ibm_watson.text_to_speech_v1.Word">Word</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#TextToSpeechV1.update_custom_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.TextToSpeechV1.update_custom_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update a custom model.</p>
+<p>Updates information for the specified custom model. You can update metadata such
+as the name and description of the model. You can also update the words in the
+model and their translations. Adding a new translation for a word that already
+exists in a custom model overwrites the word’s existing translation. A custom
+model can contain no more than 20,000 entries. You must use credentials for the
+instance of the service that owns a model to update it.
+You can define sounds-like or phonetic translations for words. A sounds-like
+translation consists of one or more words that, when combined, sound like the
+word. Phonetic translations are based on the SSML phoneme format for representing
+a word. You can specify them in standard International Phonetic Alphabet (IPA)
+representation</p>
+<blockquote>
+<div><p>&lt;code&gt;&amp;lt;phoneme alphabet=”ipa”</p>
+</div></blockquote>
+<dl class="simple">
+<dt>ph=”t&amp;#601;m&amp;#712;&amp;#593;to”&amp;gt;&amp;lt;/phoneme&amp;gt;&lt;/code&gt;</dt><dd><p>or in the proprietary IBM Symbolic Phonetic Representation (SPR)
+&lt;code&gt;&amp;lt;phoneme alphabet=”ibm”</p>
+</dd>
+</dl>
+<p>ph=”1gAstroEntxrYFXs”&amp;gt;&amp;lt;/phoneme&amp;gt;&lt;/code&gt;
+<strong>See also:</strong>
+* [Updating a custom
+model](<a class="reference external" href="https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customModels#cuModelsUpdate">https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customModels#cuModelsUpdate</a>)
+* [Adding words to a Japanese custom
+model](<a class="reference external" href="https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuJapaneseAdd">https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuJapaneseAdd</a>)
+* [Understanding
+customization](<a class="reference external" href="https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customIntro#customIntro">https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customIntro#customIntro</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The customization ID (GUID) of the custom
+model. You must make the request with credentials for the instance of the
+service that owns the custom model.</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – (optional) A new name for the custom model.</p></li>
+<li><p><strong>description</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – (optional) A new description for the custom model.</p></li>
+<li><p><strong>words</strong> (<em>List</em><em>[</em><a class="reference internal" href="ibm_watson.speech_to_text_v1.html#ibm_watson.speech_to_text_v1.Word" title="ibm_watson.speech_to_text_v1.Word"><em>Word</em></a><em>]</em>) – (optional) An array of <cite>Word</cite> objects that
+provides the words and their translations that are to be added or updated
+for the custom model. Pass an empty array to make no additions or updates.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.TextToSpeechV1.get_custom_model">
+<code class="sig-name descname">get_custom_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">customization_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#TextToSpeechV1.get_custom_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.TextToSpeechV1.get_custom_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a custom model.</p>
+<p>Gets all information about a specified custom model. In addition to metadata such
+as the name and description of the custom model, the output includes the words and
+their translations as defined in the model. To see just the metadata for a model,
+use the <strong>List custom models</strong> method.
+<strong>See also:</strong> [Querying a custom
+model](<a class="reference external" href="https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customModels#cuModelsQuery">https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customModels#cuModelsQuery</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The customization ID (GUID) of the custom
+model. You must make the request with credentials for the instance of the
+service that owns the custom model.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse with <cite>dict</cite> result representing a <cite>CustomModel</cite> object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.TextToSpeechV1.delete_custom_model">
+<code class="sig-name descname">delete_custom_model</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">customization_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#TextToSpeechV1.delete_custom_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.TextToSpeechV1.delete_custom_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a custom model.</p>
+<p>Deletes the specified custom model. You must use credentials for the instance of
+the service that owns a model to delete it.
+<strong>See also:</strong> [Deleting a custom
+model](<a class="reference external" href="https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customModels#cuModelsDelete">https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customModels#cuModelsDelete</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The customization ID (GUID) of the custom
+model. You must make the request with credentials for the instance of the
+service that owns the custom model.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.TextToSpeechV1.add_words">
+<code class="sig-name descname">add_words</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">customization_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">words</span><span class="p">:</span> <span class="n">List<span class="p">[</span><a class="reference internal" href="#ibm_watson.text_to_speech_v1.Word" title="ibm_watson.text_to_speech_v1.Word">Word</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#TextToSpeechV1.add_words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.TextToSpeechV1.add_words" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add custom words.</p>
+<p>Adds one or more words and their translations to the specified custom model.
+Adding a new translation for a word that already exists in a custom model
+overwrites the word’s existing translation. A custom model can contain no more
+than 20,000 entries. You must use credentials for the instance of the service that
+owns a model to add words to it.
+You can define sounds-like or phonetic translations for words. A sounds-like
+translation consists of one or more words that, when combined, sound like the
+word. Phonetic translations are based on the SSML phoneme format for representing
+a word. You can specify them in standard International Phonetic Alphabet (IPA)
+representation</p>
+<blockquote>
+<div><p>&lt;code&gt;&amp;lt;phoneme alphabet=”ipa”</p>
+</div></blockquote>
+<dl class="simple">
+<dt>ph=”t&amp;#601;m&amp;#712;&amp;#593;to”&amp;gt;&amp;lt;/phoneme&amp;gt;&lt;/code&gt;</dt><dd><p>or in the proprietary IBM Symbolic Phonetic Representation (SPR)
+&lt;code&gt;&amp;lt;phoneme alphabet=”ibm”</p>
+</dd>
+</dl>
+<p>ph=”1gAstroEntxrYFXs”&amp;gt;&amp;lt;/phoneme&amp;gt;&lt;/code&gt;
+<strong>See also:</strong>
+* [Adding multiple words to a custom
+model](<a class="reference external" href="https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuWordsAdd">https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuWordsAdd</a>)
+* [Adding words to a Japanese custom
+model](<a class="reference external" href="https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuJapaneseAdd">https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuJapaneseAdd</a>)
+* [Understanding
+customization](<a class="reference external" href="https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customIntro#customIntro">https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customIntro#customIntro</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The customization ID (GUID) of the custom
+model. You must make the request with credentials for the instance of the
+service that owns the custom model.</p></li>
+<li><p><strong>words</strong> (<em>List</em><em>[</em><a class="reference internal" href="ibm_watson.speech_to_text_v1.html#ibm_watson.speech_to_text_v1.Word" title="ibm_watson.speech_to_text_v1.Word"><em>Word</em></a><em>]</em>) – The <strong>Add custom words</strong> method accepts an array
+of <cite>Word</cite> objects. Each object provides a word that is to be added or
+updated for the custom model and the word’s translation.
+The <strong>List custom words</strong> method returns an array of <cite>Word</cite> objects. Each
+object shows a word and its translation from the custom model. The words
+are listed in alphabetical order, with uppercase letters listed before
+lowercase letters. The array is empty if the custom model contains no
+words.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.TextToSpeechV1.list_words">
+<code class="sig-name descname">list_words</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">customization_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#TextToSpeechV1.list_words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.TextToSpeechV1.list_words" title="Permalink to this definition">¶</a></dt>
+<dd><p>List custom words.</p>
+<p>Lists all of the words and their translations for the specified custom model. The
+output shows the translations as they are defined in the model. You must use
+credentials for the instance of the service that owns a model to list its words.
+<strong>See also:</strong> [Querying all words from a custom
+model](<a class="reference external" href="https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuWordsQueryModel">https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuWordsQueryModel</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The customization ID (GUID) of the custom
+model. You must make the request with credentials for the instance of the
+service that owns the custom model.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse with <cite>dict</cite> result representing a <cite>Words</cite> object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.TextToSpeechV1.add_word">
+<code class="sig-name descname">add_word</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">customization_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">word</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">translation</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">part_of_speech</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#TextToSpeechV1.add_word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.TextToSpeechV1.add_word" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a custom word.</p>
+<p>Adds a single word and its translation to the specified custom model. Adding a new
+translation for a word that already exists in a custom model overwrites the word’s
+existing translation. A custom model can contain no more than 20,000 entries. You
+must use credentials for the instance of the service that owns a model to add a
+word to it.
+You can define sounds-like or phonetic translations for words. A sounds-like
+translation consists of one or more words that, when combined, sound like the
+word. Phonetic translations are based on the SSML phoneme format for representing
+a word. You can specify them in standard International Phonetic Alphabet (IPA)
+representation</p>
+<blockquote>
+<div><p>&lt;code&gt;&amp;lt;phoneme alphabet=”ipa”</p>
+</div></blockquote>
+<dl class="simple">
+<dt>ph=”t&amp;#601;m&amp;#712;&amp;#593;to”&amp;gt;&amp;lt;/phoneme&amp;gt;&lt;/code&gt;</dt><dd><p>or in the proprietary IBM Symbolic Phonetic Representation (SPR)
+&lt;code&gt;&amp;lt;phoneme alphabet=”ibm”</p>
+</dd>
+</dl>
+<p>ph=”1gAstroEntxrYFXs”&amp;gt;&amp;lt;/phoneme&amp;gt;&lt;/code&gt;
+<strong>See also:</strong>
+* [Adding a single word to a custom
+model](<a class="reference external" href="https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuWordAdd">https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuWordAdd</a>)
+* [Adding words to a Japanese custom
+model](<a class="reference external" href="https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuJapaneseAdd">https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuJapaneseAdd</a>)
+* [Understanding
+customization](<a class="reference external" href="https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customIntro#customIntro">https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customIntro#customIntro</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The customization ID (GUID) of the custom
+model. You must make the request with credentials for the instance of the
+service that owns the custom model.</p></li>
+<li><p><strong>word</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The word that is to be added or updated for the custom
+model.</p></li>
+<li><p><strong>translation</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The phonetic or sounds-like translation for the
+word. A phonetic translation is based on the SSML format for representing
+the phonetic string of a word either as an IPA translation or as an IBM SPR
+translation. The Arabic, Chinese, Dutch, and Korean languages support only
+IPA. A sounds-like is one or more words that, when combined, sound like the
+word.</p></li>
+<li><p><strong>part_of_speech</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – (optional) <strong>Japanese only.</strong> The part of speech
+for the word. The service uses the value to produce the correct intonation
+for the word. You can create only a single entry, with or without a single
+part of speech, for any word; you cannot create multiple entries with
+different parts of speech for the same word. For more information, see
+[Working with Japanese
+entries](<a class="reference external" href="https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-rules#jaNotes">https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-rules#jaNotes</a>).</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.TextToSpeechV1.get_word">
+<code class="sig-name descname">get_word</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">customization_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">word</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#TextToSpeechV1.get_word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.TextToSpeechV1.get_word" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a custom word.</p>
+<p>Gets the translation for a single word from the specified custom model. The output
+shows the translation as it is defined in the model. You must use credentials for
+the instance of the service that owns a model to list its words.
+<strong>See also:</strong> [Querying a single word from a custom
+model](<a class="reference external" href="https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuWordQueryModel">https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuWordQueryModel</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The customization ID (GUID) of the custom
+model. You must make the request with credentials for the instance of the
+service that owns the custom model.</p></li>
+<li><p><strong>word</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The word that is to be queried from the custom model.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse with <cite>dict</cite> result representing a <cite>Translation</cite> object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.TextToSpeechV1.delete_word">
+<code class="sig-name descname">delete_word</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">customization_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">word</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#TextToSpeechV1.delete_word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.TextToSpeechV1.delete_word" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a custom word.</p>
+<p>Deletes a single word from the specified custom model. You must use credentials
+for the instance of the service that owns a model to delete its words.
+<strong>See also:</strong> [Deleting a word from a custom
+model](<a class="reference external" href="https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuWordDelete">https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-customWords#cuWordDelete</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>customization_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The customization ID (GUID) of the custom
+model. You must make the request with credentials for the instance of the
+service that owns the custom model.</p></li>
+<li><p><strong>word</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The word that is to be deleted from the custom model.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.TextToSpeechV1.delete_user_data">
+<code class="sig-name descname">delete_user_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">customer_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#TextToSpeechV1.delete_user_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.TextToSpeechV1.delete_user_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete labeled data.</p>
+<p>Deletes all data that is associated with a specified customer ID. The method
+deletes all data for the customer ID, regardless of the method by which the
+information was added. The method has no effect if no data is associated with the
+customer ID. You must issue the request with credentials for the same instance of
+the service that was used to associate the customer ID with the data. You
+associate a customer ID with data by passing the <cite>X-Watson-Metadata</cite> header with a
+request that passes the data.
+<strong>Note:</strong> If you delete an instance of the service from the service console, all
+data associated with that service instance is automatically deleted. This includes
+all custom models and word/translation pairs, and all data related to speech
+synthesis requests.
+<strong>See also:</strong> [Information
+security](<a class="reference external" href="https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-information-security#information-security">https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-information-security#information-security</a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>customer_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The customer ID for which all data is to be
+deleted.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums">
+<em class="property">class </em><code class="sig-name descname">GetVoiceEnums</code><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#GetVoiceEnums"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Enums for get_voice parameters.</p>
+<dl class="py class">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice">
+<em class="property">class </em><code class="sig-name descname">Voice</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#GetVoiceEnums.Voice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>The voice for which information is to be returned.</p>
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.AR_AR_OMARVOICE">
+<code class="sig-name descname">AR_AR_OMARVOICE</code><em class="property"> = 'ar-AR_OmarVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.AR_AR_OMARVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.DE_DE_BIRGITVOICE">
+<code class="sig-name descname">DE_DE_BIRGITVOICE</code><em class="property"> = 'de-DE_BirgitVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.DE_DE_BIRGITVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.DE_DE_BIRGITV3VOICE">
+<code class="sig-name descname">DE_DE_BIRGITV3VOICE</code><em class="property"> = 'de-DE_BirgitV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.DE_DE_BIRGITV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.DE_DE_DIETERVOICE">
+<code class="sig-name descname">DE_DE_DIETERVOICE</code><em class="property"> = 'de-DE_DieterVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.DE_DE_DIETERVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.DE_DE_DIETERV3VOICE">
+<code class="sig-name descname">DE_DE_DIETERV3VOICE</code><em class="property"> = 'de-DE_DieterV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.DE_DE_DIETERV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.DE_DE_ERIKAV3VOICE">
+<code class="sig-name descname">DE_DE_ERIKAV3VOICE</code><em class="property"> = 'de-DE_ErikaV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.DE_DE_ERIKAV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.EN_GB_CHARLOTTEV3VOICE">
+<code class="sig-name descname">EN_GB_CHARLOTTEV3VOICE</code><em class="property"> = 'en-GB_CharlotteV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.EN_GB_CHARLOTTEV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.EN_GB_JAMESV3VOICE">
+<code class="sig-name descname">EN_GB_JAMESV3VOICE</code><em class="property"> = 'en-GB_JamesV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.EN_GB_JAMESV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.EN_GB_KATEVOICE">
+<code class="sig-name descname">EN_GB_KATEVOICE</code><em class="property"> = 'en-GB_KateVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.EN_GB_KATEVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.EN_GB_KATEV3VOICE">
+<code class="sig-name descname">EN_GB_KATEV3VOICE</code><em class="property"> = 'en-GB_KateV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.EN_GB_KATEV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.EN_US_ALLISONVOICE">
+<code class="sig-name descname">EN_US_ALLISONVOICE</code><em class="property"> = 'en-US_AllisonVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.EN_US_ALLISONVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.EN_US_ALLISONV3VOICE">
+<code class="sig-name descname">EN_US_ALLISONV3VOICE</code><em class="property"> = 'en-US_AllisonV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.EN_US_ALLISONV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.EN_US_EMILYV3VOICE">
+<code class="sig-name descname">EN_US_EMILYV3VOICE</code><em class="property"> = 'en-US_EmilyV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.EN_US_EMILYV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.EN_US_HENRYV3VOICE">
+<code class="sig-name descname">EN_US_HENRYV3VOICE</code><em class="property"> = 'en-US_HenryV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.EN_US_HENRYV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.EN_US_KEVINV3VOICE">
+<code class="sig-name descname">EN_US_KEVINV3VOICE</code><em class="property"> = 'en-US_KevinV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.EN_US_KEVINV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.EN_US_LISAVOICE">
+<code class="sig-name descname">EN_US_LISAVOICE</code><em class="property"> = 'en-US_LisaVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.EN_US_LISAVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.EN_US_LISAV3VOICE">
+<code class="sig-name descname">EN_US_LISAV3VOICE</code><em class="property"> = 'en-US_LisaV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.EN_US_LISAV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.EN_US_MICHAELVOICE">
+<code class="sig-name descname">EN_US_MICHAELVOICE</code><em class="property"> = 'en-US_MichaelVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.EN_US_MICHAELVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.EN_US_MICHAELV3VOICE">
+<code class="sig-name descname">EN_US_MICHAELV3VOICE</code><em class="property"> = 'en-US_MichaelV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.EN_US_MICHAELV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.EN_US_OLIVIAV3VOICE">
+<code class="sig-name descname">EN_US_OLIVIAV3VOICE</code><em class="property"> = 'en-US_OliviaV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.EN_US_OLIVIAV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.ES_ES_ENRIQUEVOICE">
+<code class="sig-name descname">ES_ES_ENRIQUEVOICE</code><em class="property"> = 'es-ES_EnriqueVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.ES_ES_ENRIQUEVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.ES_ES_ENRIQUEV3VOICE">
+<code class="sig-name descname">ES_ES_ENRIQUEV3VOICE</code><em class="property"> = 'es-ES_EnriqueV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.ES_ES_ENRIQUEV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.ES_ES_LAURAVOICE">
+<code class="sig-name descname">ES_ES_LAURAVOICE</code><em class="property"> = 'es-ES_LauraVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.ES_ES_LAURAVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.ES_ES_LAURAV3VOICE">
+<code class="sig-name descname">ES_ES_LAURAV3VOICE</code><em class="property"> = 'es-ES_LauraV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.ES_ES_LAURAV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.ES_LA_SOFIAVOICE">
+<code class="sig-name descname">ES_LA_SOFIAVOICE</code><em class="property"> = 'es-LA_SofiaVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.ES_LA_SOFIAVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.ES_LA_SOFIAV3VOICE">
+<code class="sig-name descname">ES_LA_SOFIAV3VOICE</code><em class="property"> = 'es-LA_SofiaV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.ES_LA_SOFIAV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.ES_US_SOFIAVOICE">
+<code class="sig-name descname">ES_US_SOFIAVOICE</code><em class="property"> = 'es-US_SofiaVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.ES_US_SOFIAVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.ES_US_SOFIAV3VOICE">
+<code class="sig-name descname">ES_US_SOFIAV3VOICE</code><em class="property"> = 'es-US_SofiaV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.ES_US_SOFIAV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.FR_FR_NICOLASV3VOICE">
+<code class="sig-name descname">FR_FR_NICOLASV3VOICE</code><em class="property"> = 'fr-FR_NicolasV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.FR_FR_NICOLASV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.FR_FR_RENEEVOICE">
+<code class="sig-name descname">FR_FR_RENEEVOICE</code><em class="property"> = 'fr-FR_ReneeVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.FR_FR_RENEEVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.FR_FR_RENEEV3VOICE">
+<code class="sig-name descname">FR_FR_RENEEV3VOICE</code><em class="property"> = 'fr-FR_ReneeV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.FR_FR_RENEEV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.IT_IT_FRANCESCAVOICE">
+<code class="sig-name descname">IT_IT_FRANCESCAVOICE</code><em class="property"> = 'it-IT_FrancescaVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.IT_IT_FRANCESCAVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.IT_IT_FRANCESCAV3VOICE">
+<code class="sig-name descname">IT_IT_FRANCESCAV3VOICE</code><em class="property"> = 'it-IT_FrancescaV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.IT_IT_FRANCESCAV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.JA_JP_EMIVOICE">
+<code class="sig-name descname">JA_JP_EMIVOICE</code><em class="property"> = 'ja-JP_EmiVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.JA_JP_EMIVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.JA_JP_EMIV3VOICE">
+<code class="sig-name descname">JA_JP_EMIV3VOICE</code><em class="property"> = 'ja-JP_EmiV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.JA_JP_EMIV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.KO_KR_YOUNGMIVOICE">
+<code class="sig-name descname">KO_KR_YOUNGMIVOICE</code><em class="property"> = 'ko-KR_YoungmiVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.KO_KR_YOUNGMIVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.KO_KR_YUNAVOICE">
+<code class="sig-name descname">KO_KR_YUNAVOICE</code><em class="property"> = 'ko-KR_YunaVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.KO_KR_YUNAVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.NL_NL_EMMAVOICE">
+<code class="sig-name descname">NL_NL_EMMAVOICE</code><em class="property"> = 'nl-NL_EmmaVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.NL_NL_EMMAVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.NL_NL_LIAMVOICE">
+<code class="sig-name descname">NL_NL_LIAMVOICE</code><em class="property"> = 'nl-NL_LiamVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.NL_NL_LIAMVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.PT_BR_ISABELAVOICE">
+<code class="sig-name descname">PT_BR_ISABELAVOICE</code><em class="property"> = 'pt-BR_IsabelaVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.PT_BR_ISABELAVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.PT_BR_ISABELAV3VOICE">
+<code class="sig-name descname">PT_BR_ISABELAV3VOICE</code><em class="property"> = 'pt-BR_IsabelaV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.PT_BR_ISABELAV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.ZH_CN_LINAVOICE">
+<code class="sig-name descname">ZH_CN_LINAVOICE</code><em class="property"> = 'zh-CN_LiNaVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.ZH_CN_LINAVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.ZH_CN_WANGWEIVOICE">
+<code class="sig-name descname">ZH_CN_WANGWEIVOICE</code><em class="property"> = 'zh-CN_WangWeiVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.ZH_CN_WANGWEIVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.ZH_CN_ZHANGJINGVOICE">
+<code class="sig-name descname">ZH_CN_ZHANGJINGVOICE</code><em class="property"> = 'zh-CN_ZhangJingVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetVoiceEnums.Voice.ZH_CN_ZHANGJINGVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums">
+<em class="property">class </em><code class="sig-name descname">SynthesizeEnums</code><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#SynthesizeEnums"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Enums for synthesize parameters.</p>
+<dl class="py class">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Accept">
+<em class="property">class </em><code class="sig-name descname">Accept</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#SynthesizeEnums.Accept"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Accept" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>The requested format (MIME type) of the audio. You can use the <cite>Accept</cite> header or
+the <cite>accept</cite> parameter to specify the audio format. For more information about
+specifying an audio format, see <strong>Audio formats (accept types)</strong> in the method
+description.</p>
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Accept.AUDIO_BASIC">
+<code class="sig-name descname">AUDIO_BASIC</code><em class="property"> = 'audio/basic'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Accept.AUDIO_BASIC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Accept.AUDIO_FLAC">
+<code class="sig-name descname">AUDIO_FLAC</code><em class="property"> = 'audio/flac'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Accept.AUDIO_FLAC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Accept.AUDIO_L16">
+<code class="sig-name descname">AUDIO_L16</code><em class="property"> = 'audio/l16'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Accept.AUDIO_L16" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Accept.AUDIO_OGG">
+<code class="sig-name descname">AUDIO_OGG</code><em class="property"> = 'audio/ogg'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Accept.AUDIO_OGG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Accept.AUDIO_OGG_CODECS_OPUS">
+<code class="sig-name descname">AUDIO_OGG_CODECS_OPUS</code><em class="property"> = 'audio/ogg;codecs=opus'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Accept.AUDIO_OGG_CODECS_OPUS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Accept.AUDIO_OGG_CODECS_VORBIS">
+<code class="sig-name descname">AUDIO_OGG_CODECS_VORBIS</code><em class="property"> = 'audio/ogg;codecs=vorbis'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Accept.AUDIO_OGG_CODECS_VORBIS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Accept.AUDIO_MP3">
+<code class="sig-name descname">AUDIO_MP3</code><em class="property"> = 'audio/mp3'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Accept.AUDIO_MP3" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Accept.AUDIO_MPEG">
+<code class="sig-name descname">AUDIO_MPEG</code><em class="property"> = 'audio/mpeg'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Accept.AUDIO_MPEG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Accept.AUDIO_MULAW">
+<code class="sig-name descname">AUDIO_MULAW</code><em class="property"> = 'audio/mulaw'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Accept.AUDIO_MULAW" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Accept.AUDIO_WAV">
+<code class="sig-name descname">AUDIO_WAV</code><em class="property"> = 'audio/wav'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Accept.AUDIO_WAV" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Accept.AUDIO_WEBM">
+<code class="sig-name descname">AUDIO_WEBM</code><em class="property"> = 'audio/webm'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Accept.AUDIO_WEBM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Accept.AUDIO_WEBM_CODECS_OPUS">
+<code class="sig-name descname">AUDIO_WEBM_CODECS_OPUS</code><em class="property"> = 'audio/webm;codecs=opus'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Accept.AUDIO_WEBM_CODECS_OPUS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Accept.AUDIO_WEBM_CODECS_VORBIS">
+<code class="sig-name descname">AUDIO_WEBM_CODECS_VORBIS</code><em class="property"> = 'audio/webm;codecs=vorbis'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Accept.AUDIO_WEBM_CODECS_VORBIS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice">
+<em class="property">class </em><code class="sig-name descname">Voice</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#SynthesizeEnums.Voice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>The voice to use for synthesis.</p>
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.AR_AR_OMARVOICE">
+<code class="sig-name descname">AR_AR_OMARVOICE</code><em class="property"> = 'ar-AR_OmarVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.AR_AR_OMARVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.DE_DE_BIRGITVOICE">
+<code class="sig-name descname">DE_DE_BIRGITVOICE</code><em class="property"> = 'de-DE_BirgitVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.DE_DE_BIRGITVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.DE_DE_BIRGITV3VOICE">
+<code class="sig-name descname">DE_DE_BIRGITV3VOICE</code><em class="property"> = 'de-DE_BirgitV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.DE_DE_BIRGITV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.DE_DE_DIETERVOICE">
+<code class="sig-name descname">DE_DE_DIETERVOICE</code><em class="property"> = 'de-DE_DieterVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.DE_DE_DIETERVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.DE_DE_DIETERV3VOICE">
+<code class="sig-name descname">DE_DE_DIETERV3VOICE</code><em class="property"> = 'de-DE_DieterV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.DE_DE_DIETERV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.DE_DE_ERIKAV3VOICE">
+<code class="sig-name descname">DE_DE_ERIKAV3VOICE</code><em class="property"> = 'de-DE_ErikaV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.DE_DE_ERIKAV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.EN_GB_CHARLOTTEV3VOICE">
+<code class="sig-name descname">EN_GB_CHARLOTTEV3VOICE</code><em class="property"> = 'en-GB_CharlotteV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.EN_GB_CHARLOTTEV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.EN_GB_JAMESV3VOICE">
+<code class="sig-name descname">EN_GB_JAMESV3VOICE</code><em class="property"> = 'en-GB_JamesV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.EN_GB_JAMESV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.EN_GB_KATEVOICE">
+<code class="sig-name descname">EN_GB_KATEVOICE</code><em class="property"> = 'en-GB_KateVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.EN_GB_KATEVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.EN_GB_KATEV3VOICE">
+<code class="sig-name descname">EN_GB_KATEV3VOICE</code><em class="property"> = 'en-GB_KateV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.EN_GB_KATEV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.EN_US_ALLISONVOICE">
+<code class="sig-name descname">EN_US_ALLISONVOICE</code><em class="property"> = 'en-US_AllisonVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.EN_US_ALLISONVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.EN_US_ALLISONV3VOICE">
+<code class="sig-name descname">EN_US_ALLISONV3VOICE</code><em class="property"> = 'en-US_AllisonV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.EN_US_ALLISONV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.EN_US_EMILYV3VOICE">
+<code class="sig-name descname">EN_US_EMILYV3VOICE</code><em class="property"> = 'en-US_EmilyV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.EN_US_EMILYV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.EN_US_HENRYV3VOICE">
+<code class="sig-name descname">EN_US_HENRYV3VOICE</code><em class="property"> = 'en-US_HenryV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.EN_US_HENRYV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.EN_US_KEVINV3VOICE">
+<code class="sig-name descname">EN_US_KEVINV3VOICE</code><em class="property"> = 'en-US_KevinV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.EN_US_KEVINV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.EN_US_LISAVOICE">
+<code class="sig-name descname">EN_US_LISAVOICE</code><em class="property"> = 'en-US_LisaVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.EN_US_LISAVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.EN_US_LISAV3VOICE">
+<code class="sig-name descname">EN_US_LISAV3VOICE</code><em class="property"> = 'en-US_LisaV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.EN_US_LISAV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.EN_US_MICHAELVOICE">
+<code class="sig-name descname">EN_US_MICHAELVOICE</code><em class="property"> = 'en-US_MichaelVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.EN_US_MICHAELVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.EN_US_MICHAELV3VOICE">
+<code class="sig-name descname">EN_US_MICHAELV3VOICE</code><em class="property"> = 'en-US_MichaelV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.EN_US_MICHAELV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.EN_US_OLIVIAV3VOICE">
+<code class="sig-name descname">EN_US_OLIVIAV3VOICE</code><em class="property"> = 'en-US_OliviaV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.EN_US_OLIVIAV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.ES_ES_ENRIQUEVOICE">
+<code class="sig-name descname">ES_ES_ENRIQUEVOICE</code><em class="property"> = 'es-ES_EnriqueVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.ES_ES_ENRIQUEVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.ES_ES_ENRIQUEV3VOICE">
+<code class="sig-name descname">ES_ES_ENRIQUEV3VOICE</code><em class="property"> = 'es-ES_EnriqueV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.ES_ES_ENRIQUEV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.ES_ES_LAURAVOICE">
+<code class="sig-name descname">ES_ES_LAURAVOICE</code><em class="property"> = 'es-ES_LauraVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.ES_ES_LAURAVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.ES_ES_LAURAV3VOICE">
+<code class="sig-name descname">ES_ES_LAURAV3VOICE</code><em class="property"> = 'es-ES_LauraV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.ES_ES_LAURAV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.ES_LA_SOFIAVOICE">
+<code class="sig-name descname">ES_LA_SOFIAVOICE</code><em class="property"> = 'es-LA_SofiaVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.ES_LA_SOFIAVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.ES_LA_SOFIAV3VOICE">
+<code class="sig-name descname">ES_LA_SOFIAV3VOICE</code><em class="property"> = 'es-LA_SofiaV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.ES_LA_SOFIAV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.ES_US_SOFIAVOICE">
+<code class="sig-name descname">ES_US_SOFIAVOICE</code><em class="property"> = 'es-US_SofiaVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.ES_US_SOFIAVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.ES_US_SOFIAV3VOICE">
+<code class="sig-name descname">ES_US_SOFIAV3VOICE</code><em class="property"> = 'es-US_SofiaV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.ES_US_SOFIAV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.FR_FR_NICOLASV3VOICE">
+<code class="sig-name descname">FR_FR_NICOLASV3VOICE</code><em class="property"> = 'fr-FR_NicolasV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.FR_FR_NICOLASV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.FR_FR_RENEEVOICE">
+<code class="sig-name descname">FR_FR_RENEEVOICE</code><em class="property"> = 'fr-FR_ReneeVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.FR_FR_RENEEVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.FR_FR_RENEEV3VOICE">
+<code class="sig-name descname">FR_FR_RENEEV3VOICE</code><em class="property"> = 'fr-FR_ReneeV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.FR_FR_RENEEV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.IT_IT_FRANCESCAVOICE">
+<code class="sig-name descname">IT_IT_FRANCESCAVOICE</code><em class="property"> = 'it-IT_FrancescaVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.IT_IT_FRANCESCAVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.IT_IT_FRANCESCAV3VOICE">
+<code class="sig-name descname">IT_IT_FRANCESCAV3VOICE</code><em class="property"> = 'it-IT_FrancescaV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.IT_IT_FRANCESCAV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.JA_JP_EMIVOICE">
+<code class="sig-name descname">JA_JP_EMIVOICE</code><em class="property"> = 'ja-JP_EmiVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.JA_JP_EMIVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.JA_JP_EMIV3VOICE">
+<code class="sig-name descname">JA_JP_EMIV3VOICE</code><em class="property"> = 'ja-JP_EmiV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.JA_JP_EMIV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.KO_KR_YOUNGMIVOICE">
+<code class="sig-name descname">KO_KR_YOUNGMIVOICE</code><em class="property"> = 'ko-KR_YoungmiVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.KO_KR_YOUNGMIVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.KO_KR_YUNAVOICE">
+<code class="sig-name descname">KO_KR_YUNAVOICE</code><em class="property"> = 'ko-KR_YunaVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.KO_KR_YUNAVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.NL_NL_EMMAVOICE">
+<code class="sig-name descname">NL_NL_EMMAVOICE</code><em class="property"> = 'nl-NL_EmmaVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.NL_NL_EMMAVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.NL_NL_LIAMVOICE">
+<code class="sig-name descname">NL_NL_LIAMVOICE</code><em class="property"> = 'nl-NL_LiamVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.NL_NL_LIAMVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.PT_BR_ISABELAVOICE">
+<code class="sig-name descname">PT_BR_ISABELAVOICE</code><em class="property"> = 'pt-BR_IsabelaVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.PT_BR_ISABELAVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.PT_BR_ISABELAV3VOICE">
+<code class="sig-name descname">PT_BR_ISABELAV3VOICE</code><em class="property"> = 'pt-BR_IsabelaV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.PT_BR_ISABELAV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.ZH_CN_LINAVOICE">
+<code class="sig-name descname">ZH_CN_LINAVOICE</code><em class="property"> = 'zh-CN_LiNaVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.ZH_CN_LINAVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.ZH_CN_WANGWEIVOICE">
+<code class="sig-name descname">ZH_CN_WANGWEIVOICE</code><em class="property"> = 'zh-CN_WangWeiVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.ZH_CN_WANGWEIVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.ZH_CN_ZHANGJINGVOICE">
+<code class="sig-name descname">ZH_CN_ZHANGJINGVOICE</code><em class="property"> = 'zh-CN_ZhangJingVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SynthesizeEnums.Voice.ZH_CN_ZHANGJINGVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums">
+<em class="property">class </em><code class="sig-name descname">GetPronunciationEnums</code><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#GetPronunciationEnums"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Enums for get_pronunciation parameters.</p>
+<dl class="py class">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice">
+<em class="property">class </em><code class="sig-name descname">Voice</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#GetPronunciationEnums.Voice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>A voice that specifies the language in which the pronunciation is to be returned.
+All voices for the same language (for example, <cite>en-US</cite>) return the same
+translation.</p>
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.AR_AR_OMARVOICE">
+<code class="sig-name descname">AR_AR_OMARVOICE</code><em class="property"> = 'ar-AR_OmarVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.AR_AR_OMARVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.DE_DE_BIRGITVOICE">
+<code class="sig-name descname">DE_DE_BIRGITVOICE</code><em class="property"> = 'de-DE_BirgitVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.DE_DE_BIRGITVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.DE_DE_BIRGITV3VOICE">
+<code class="sig-name descname">DE_DE_BIRGITV3VOICE</code><em class="property"> = 'de-DE_BirgitV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.DE_DE_BIRGITV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.DE_DE_DIETERVOICE">
+<code class="sig-name descname">DE_DE_DIETERVOICE</code><em class="property"> = 'de-DE_DieterVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.DE_DE_DIETERVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.DE_DE_DIETERV3VOICE">
+<code class="sig-name descname">DE_DE_DIETERV3VOICE</code><em class="property"> = 'de-DE_DieterV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.DE_DE_DIETERV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.DE_DE_ERIKAV3VOICE">
+<code class="sig-name descname">DE_DE_ERIKAV3VOICE</code><em class="property"> = 'de-DE_ErikaV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.DE_DE_ERIKAV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.EN_GB_CHARLOTTEV3VOICE">
+<code class="sig-name descname">EN_GB_CHARLOTTEV3VOICE</code><em class="property"> = 'en-GB_CharlotteV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.EN_GB_CHARLOTTEV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.EN_GB_JAMESV3VOICE">
+<code class="sig-name descname">EN_GB_JAMESV3VOICE</code><em class="property"> = 'en-GB_JamesV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.EN_GB_JAMESV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.EN_GB_KATEVOICE">
+<code class="sig-name descname">EN_GB_KATEVOICE</code><em class="property"> = 'en-GB_KateVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.EN_GB_KATEVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.EN_GB_KATEV3VOICE">
+<code class="sig-name descname">EN_GB_KATEV3VOICE</code><em class="property"> = 'en-GB_KateV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.EN_GB_KATEV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.EN_US_ALLISONVOICE">
+<code class="sig-name descname">EN_US_ALLISONVOICE</code><em class="property"> = 'en-US_AllisonVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.EN_US_ALLISONVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.EN_US_ALLISONV3VOICE">
+<code class="sig-name descname">EN_US_ALLISONV3VOICE</code><em class="property"> = 'en-US_AllisonV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.EN_US_ALLISONV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.EN_US_EMILYV3VOICE">
+<code class="sig-name descname">EN_US_EMILYV3VOICE</code><em class="property"> = 'en-US_EmilyV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.EN_US_EMILYV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.EN_US_HENRYV3VOICE">
+<code class="sig-name descname">EN_US_HENRYV3VOICE</code><em class="property"> = 'en-US_HenryV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.EN_US_HENRYV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.EN_US_KEVINV3VOICE">
+<code class="sig-name descname">EN_US_KEVINV3VOICE</code><em class="property"> = 'en-US_KevinV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.EN_US_KEVINV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.EN_US_LISAVOICE">
+<code class="sig-name descname">EN_US_LISAVOICE</code><em class="property"> = 'en-US_LisaVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.EN_US_LISAVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.EN_US_LISAV3VOICE">
+<code class="sig-name descname">EN_US_LISAV3VOICE</code><em class="property"> = 'en-US_LisaV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.EN_US_LISAV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.EN_US_MICHAELVOICE">
+<code class="sig-name descname">EN_US_MICHAELVOICE</code><em class="property"> = 'en-US_MichaelVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.EN_US_MICHAELVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.EN_US_MICHAELV3VOICE">
+<code class="sig-name descname">EN_US_MICHAELV3VOICE</code><em class="property"> = 'en-US_MichaelV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.EN_US_MICHAELV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.EN_US_OLIVIAV3VOICE">
+<code class="sig-name descname">EN_US_OLIVIAV3VOICE</code><em class="property"> = 'en-US_OliviaV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.EN_US_OLIVIAV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.ES_ES_ENRIQUEVOICE">
+<code class="sig-name descname">ES_ES_ENRIQUEVOICE</code><em class="property"> = 'es-ES_EnriqueVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.ES_ES_ENRIQUEVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.ES_ES_ENRIQUEV3VOICE">
+<code class="sig-name descname">ES_ES_ENRIQUEV3VOICE</code><em class="property"> = 'es-ES_EnriqueV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.ES_ES_ENRIQUEV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.ES_ES_LAURAVOICE">
+<code class="sig-name descname">ES_ES_LAURAVOICE</code><em class="property"> = 'es-ES_LauraVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.ES_ES_LAURAVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.ES_ES_LAURAV3VOICE">
+<code class="sig-name descname">ES_ES_LAURAV3VOICE</code><em class="property"> = 'es-ES_LauraV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.ES_ES_LAURAV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.ES_LA_SOFIAVOICE">
+<code class="sig-name descname">ES_LA_SOFIAVOICE</code><em class="property"> = 'es-LA_SofiaVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.ES_LA_SOFIAVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.ES_LA_SOFIAV3VOICE">
+<code class="sig-name descname">ES_LA_SOFIAV3VOICE</code><em class="property"> = 'es-LA_SofiaV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.ES_LA_SOFIAV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.ES_US_SOFIAVOICE">
+<code class="sig-name descname">ES_US_SOFIAVOICE</code><em class="property"> = 'es-US_SofiaVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.ES_US_SOFIAVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.ES_US_SOFIAV3VOICE">
+<code class="sig-name descname">ES_US_SOFIAV3VOICE</code><em class="property"> = 'es-US_SofiaV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.ES_US_SOFIAV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.FR_FR_NICOLASV3VOICE">
+<code class="sig-name descname">FR_FR_NICOLASV3VOICE</code><em class="property"> = 'fr-FR_NicolasV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.FR_FR_NICOLASV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.FR_FR_RENEEVOICE">
+<code class="sig-name descname">FR_FR_RENEEVOICE</code><em class="property"> = 'fr-FR_ReneeVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.FR_FR_RENEEVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.FR_FR_RENEEV3VOICE">
+<code class="sig-name descname">FR_FR_RENEEV3VOICE</code><em class="property"> = 'fr-FR_ReneeV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.FR_FR_RENEEV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.IT_IT_FRANCESCAVOICE">
+<code class="sig-name descname">IT_IT_FRANCESCAVOICE</code><em class="property"> = 'it-IT_FrancescaVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.IT_IT_FRANCESCAVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.IT_IT_FRANCESCAV3VOICE">
+<code class="sig-name descname">IT_IT_FRANCESCAV3VOICE</code><em class="property"> = 'it-IT_FrancescaV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.IT_IT_FRANCESCAV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.JA_JP_EMIVOICE">
+<code class="sig-name descname">JA_JP_EMIVOICE</code><em class="property"> = 'ja-JP_EmiVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.JA_JP_EMIVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.JA_JP_EMIV3VOICE">
+<code class="sig-name descname">JA_JP_EMIV3VOICE</code><em class="property"> = 'ja-JP_EmiV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.JA_JP_EMIV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.KO_KR_YOUNGMIVOICE">
+<code class="sig-name descname">KO_KR_YOUNGMIVOICE</code><em class="property"> = 'ko-KR_YoungmiVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.KO_KR_YOUNGMIVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.KO_KR_YUNAVOICE">
+<code class="sig-name descname">KO_KR_YUNAVOICE</code><em class="property"> = 'ko-KR_YunaVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.KO_KR_YUNAVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.NL_NL_EMMAVOICE">
+<code class="sig-name descname">NL_NL_EMMAVOICE</code><em class="property"> = 'nl-NL_EmmaVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.NL_NL_EMMAVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.NL_NL_LIAMVOICE">
+<code class="sig-name descname">NL_NL_LIAMVOICE</code><em class="property"> = 'nl-NL_LiamVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.NL_NL_LIAMVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.PT_BR_ISABELAVOICE">
+<code class="sig-name descname">PT_BR_ISABELAVOICE</code><em class="property"> = 'pt-BR_IsabelaVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.PT_BR_ISABELAVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.PT_BR_ISABELAV3VOICE">
+<code class="sig-name descname">PT_BR_ISABELAV3VOICE</code><em class="property"> = 'pt-BR_IsabelaV3Voice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.PT_BR_ISABELAV3VOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.ZH_CN_LINAVOICE">
+<code class="sig-name descname">ZH_CN_LINAVOICE</code><em class="property"> = 'zh-CN_LiNaVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.ZH_CN_LINAVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.ZH_CN_WANGWEIVOICE">
+<code class="sig-name descname">ZH_CN_WANGWEIVOICE</code><em class="property"> = 'zh-CN_WangWeiVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.ZH_CN_WANGWEIVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.ZH_CN_ZHANGJINGVOICE">
+<code class="sig-name descname">ZH_CN_ZHANGJINGVOICE</code><em class="property"> = 'zh-CN_ZhangJingVoice'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Voice.ZH_CN_ZHANGJINGVOICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Format">
+<em class="property">class </em><code class="sig-name descname">Format</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#GetPronunciationEnums.Format"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Format" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>The phoneme format in which to return the pronunciation. The Arabic, Chinese,
+Dutch, and Korean languages support only IPA. Omit the parameter to obtain the
+pronunciation in the default format.</p>
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Format.IBM">
+<code class="sig-name descname">IBM</code><em class="property"> = 'ibm'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Format.IBM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.GetPronunciationEnums.Format.IPA">
+<code class="sig-name descname">IPA</code><em class="property"> = 'ipa'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.GetPronunciationEnums.Format.IPA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.text_to_speech_v1.ListCustomModelsEnums">
+<em class="property">class </em><code class="sig-name descname">ListCustomModelsEnums</code><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#ListCustomModelsEnums"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.ListCustomModelsEnums" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Enums for list_custom_models parameters.</p>
+<dl class="py class">
+<dt id="ibm_watson.text_to_speech_v1.ListCustomModelsEnums.Language">
+<em class="property">class </em><code class="sig-name descname">Language</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#ListCustomModelsEnums.Language"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.ListCustomModelsEnums.Language" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>The language for which custom models that are owned by the requesting credentials
+are to be returned. Omit the parameter to see all custom models that are owned by
+the requester.</p>
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.ListCustomModelsEnums.Language.DE_DE">
+<code class="sig-name descname">DE_DE</code><em class="property"> = 'de-DE'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.ListCustomModelsEnums.Language.DE_DE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.ListCustomModelsEnums.Language.EN_GB">
+<code class="sig-name descname">EN_GB</code><em class="property"> = 'en-GB'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.ListCustomModelsEnums.Language.EN_GB" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.ListCustomModelsEnums.Language.EN_US">
+<code class="sig-name descname">EN_US</code><em class="property"> = 'en-US'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.ListCustomModelsEnums.Language.EN_US" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.ListCustomModelsEnums.Language.ES_ES">
+<code class="sig-name descname">ES_ES</code><em class="property"> = 'es-ES'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.ListCustomModelsEnums.Language.ES_ES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.ListCustomModelsEnums.Language.ES_LA">
+<code class="sig-name descname">ES_LA</code><em class="property"> = 'es-LA'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.ListCustomModelsEnums.Language.ES_LA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.ListCustomModelsEnums.Language.ES_US">
+<code class="sig-name descname">ES_US</code><em class="property"> = 'es-US'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.ListCustomModelsEnums.Language.ES_US" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.ListCustomModelsEnums.Language.FR_FR">
+<code class="sig-name descname">FR_FR</code><em class="property"> = 'fr-FR'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.ListCustomModelsEnums.Language.FR_FR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.ListCustomModelsEnums.Language.IT_IT">
+<code class="sig-name descname">IT_IT</code><em class="property"> = 'it-IT'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.ListCustomModelsEnums.Language.IT_IT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.ListCustomModelsEnums.Language.JA_JP">
+<code class="sig-name descname">JA_JP</code><em class="property"> = 'ja-JP'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.ListCustomModelsEnums.Language.JA_JP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.ListCustomModelsEnums.Language.KO_KR">
+<code class="sig-name descname">KO_KR</code><em class="property"> = 'ko-KR'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.ListCustomModelsEnums.Language.KO_KR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.ListCustomModelsEnums.Language.NL_NL">
+<code class="sig-name descname">NL_NL</code><em class="property"> = 'nl-NL'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.ListCustomModelsEnums.Language.NL_NL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.ListCustomModelsEnums.Language.PT_BR">
+<code class="sig-name descname">PT_BR</code><em class="property"> = 'pt-BR'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.ListCustomModelsEnums.Language.PT_BR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.ListCustomModelsEnums.Language.ZH_CN">
+<code class="sig-name descname">ZH_CN</code><em class="property"> = 'zh-CN'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.ListCustomModelsEnums.Language.ZH_CN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.text_to_speech_v1.CustomModel">
+<em class="property">class </em><code class="sig-name descname">CustomModel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">customization_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">language</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">owner</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">created</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">last_modified</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">description</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">words</span><span class="p">:</span> <span class="n">List<span class="p">[</span><a class="reference internal" href="#ibm_watson.text_to_speech_v1.Word" title="ibm_watson.text_to_speech_v1.Word">Word</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#CustomModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.CustomModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Information about an existing custom model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str customization_id</dt>
+<dd class="field-odd"><p>The customization ID (GUID) of the custom model. The
+<strong>Create a custom model</strong> method returns only this field. It does not not return
+the other fields of this object.</p>
+</dd>
+<dt class="field-even">Attr str name</dt>
+<dd class="field-even"><p>(optional) The name of the custom model.</p>
+</dd>
+<dt class="field-odd">Attr str language</dt>
+<dd class="field-odd"><p>(optional) The language identifier of the custom model (for
+example, <cite>en-US</cite>).</p>
+</dd>
+<dt class="field-even">Attr str owner</dt>
+<dd class="field-even"><p>(optional) The GUID of the credentials for the instance of the
+service that owns the custom model.</p>
+</dd>
+<dt class="field-odd">Attr str created</dt>
+<dd class="field-odd"><p>(optional) The date and time in Coordinated Universal Time
+(UTC) at which the custom model was created. The value is provided in full ISO
+8601 format (<cite>YYYY-MM-DDThh:mm:ss.sTZD</cite>).</p>
+</dd>
+<dt class="field-even">Attr str last_modified</dt>
+<dd class="field-even"><p>(optional) The date and time in Coordinated Universal
+Time (UTC) at which the custom model was last modified. The <cite>created</cite> and
+<cite>updated</cite> fields are equal when a model is first added but has yet to be
+updated. The value is provided in full ISO 8601 format
+(<cite>YYYY-MM-DDThh:mm:ss.sTZD</cite>).</p>
+</dd>
+<dt class="field-odd">Attr str description</dt>
+<dd class="field-odd"><p>(optional) The description of the custom model.</p>
+</dd>
+<dt class="field-even">Attr List[Word] words</dt>
+<dd class="field-even"><p>(optional) An array of <cite>Word</cite> objects that lists the
+words and their translations from the custom model. The words are listed in
+alphabetical order, with uppercase letters listed before lowercase letters. The
+array is empty if the custom model contains no words. This field is returned
+only by the <strong>Get a voice</strong> method and only when you specify the customization
+ID of a custom model.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.CustomModel.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.text_to_speech_v1.CustomModel" title="ibm_watson.text_to_speech_v1.CustomModel">ibm_watson.text_to_speech_v1.CustomModel</a><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#CustomModel.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.CustomModel.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a CustomModel object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.CustomModel.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#CustomModel.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.CustomModel.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.text_to_speech_v1.CustomModels">
+<em class="property">class </em><code class="sig-name descname">CustomModels</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">customizations</span><span class="p">:</span> <span class="n">List<span class="p">[</span><a class="reference internal" href="#ibm_watson.text_to_speech_v1.CustomModel" title="ibm_watson.text_to_speech_v1.CustomModel">CustomModel</a><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#CustomModels"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.CustomModels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Information about existing custom models.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr List[CustomModel] customizations</dt>
+<dd class="field-odd"><p>An array of <cite>CustomModel</cite> objects that
+provides information about each available custom model. The array is empty if
+the requesting credentials own no custom models (if no language is specified) or
+own no custom models for the specified language.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.CustomModels.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.text_to_speech_v1.CustomModels" title="ibm_watson.text_to_speech_v1.CustomModels">ibm_watson.text_to_speech_v1.CustomModels</a><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#CustomModels.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.CustomModels.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a CustomModels object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.CustomModels.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#CustomModels.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.CustomModels.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.text_to_speech_v1.Pronunciation">
+<em class="property">class </em><code class="sig-name descname">Pronunciation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pronunciation</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#Pronunciation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Pronunciation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The pronunciation of the specified text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str pronunciation</dt>
+<dd class="field-odd"><p>The pronunciation of the specified text in the
+requested voice and format. If a custom model is specified, the pronunciation
+also reflects that custom model.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.Pronunciation.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.text_to_speech_v1.Pronunciation" title="ibm_watson.text_to_speech_v1.Pronunciation">ibm_watson.text_to_speech_v1.Pronunciation</a><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#Pronunciation.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Pronunciation.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a Pronunciation object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.Pronunciation.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#Pronunciation.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Pronunciation.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.text_to_speech_v1.SupportedFeatures">
+<em class="property">class </em><code class="sig-name descname">SupportedFeatures</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">custom_pronunciation</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></span></em>, <em class="sig-param"><span class="n">voice_transformation</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#SupportedFeatures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SupportedFeatures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Additional service features that are supported with the voice.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr bool custom_pronunciation</dt>
+<dd class="field-odd"><p>If <cite>true</cite>, the voice can be customized; if
+<cite>false</cite>, the voice cannot be customized. (Same as <cite>customizable</cite>.).</p>
+</dd>
+<dt class="field-even">Attr bool voice_transformation</dt>
+<dd class="field-even"><p>If <cite>true</cite>, the voice can be transformed by
+using the SSML &amp;lt;voice-transformation&amp;gt; element; if <cite>false</cite>, the voice
+cannot be transformed.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.SupportedFeatures.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.text_to_speech_v1.SupportedFeatures" title="ibm_watson.text_to_speech_v1.SupportedFeatures">ibm_watson.text_to_speech_v1.SupportedFeatures</a><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#SupportedFeatures.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SupportedFeatures.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a SupportedFeatures object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.SupportedFeatures.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#SupportedFeatures.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.SupportedFeatures.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.text_to_speech_v1.Translation">
+<em class="property">class </em><code class="sig-name descname">Translation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">translation</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">part_of_speech</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#Translation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Translation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Information about the translation for the specified text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str translation</dt>
+<dd class="field-odd"><p>The phonetic or sounds-like translation for the word. A
+phonetic translation is based on the SSML format for representing the phonetic
+string of a word either as an IPA translation or as an IBM SPR translation. The
+Arabic, Chinese, Dutch, and Korean languages support only IPA. A sounds-like is
+one or more words that, when combined, sound like the word.</p>
+</dd>
+<dt class="field-even">Attr str part_of_speech</dt>
+<dd class="field-even"><p>(optional) <strong>Japanese only.</strong> The part of speech for
+the word. The service uses the value to produce the correct intonation for the
+word. You can create only a single entry, with or without a single part of
+speech, for any word; you cannot create multiple entries with different parts of
+speech for the same word. For more information, see [Working with Japanese
+entries](<a class="reference external" href="https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-rules#jaNotes">https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-rules#jaNotes</a>).</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.Translation.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.text_to_speech_v1.Translation" title="ibm_watson.text_to_speech_v1.Translation">ibm_watson.text_to_speech_v1.Translation</a><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#Translation.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Translation.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a Translation object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.Translation.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#Translation.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Translation.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum">
+<em class="property">class </em><code class="sig-name descname">PartOfSpeechEnum</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#Translation.PartOfSpeechEnum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p><strong>Japanese only.</strong> The part of speech for the word. The service uses the value to
+produce the correct intonation for the word. You can create only a single entry,
+with or without a single part of speech, for any word; you cannot create multiple
+entries with different parts of speech for the same word. For more information,
+see [Working with Japanese
+entries](<a class="reference external" href="https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-rules#jaNotes">https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-rules#jaNotes</a>).</p>
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.DOSI">
+<code class="sig-name descname">DOSI</code><em class="property"> = 'Dosi'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.DOSI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.FUKU">
+<code class="sig-name descname">FUKU</code><em class="property"> = 'Fuku'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.FUKU" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.GOBI">
+<code class="sig-name descname">GOBI</code><em class="property"> = 'Gobi'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.GOBI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.HOKA">
+<code class="sig-name descname">HOKA</code><em class="property"> = 'Hoka'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.HOKA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.JODO">
+<code class="sig-name descname">JODO</code><em class="property"> = 'Jodo'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.JODO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.JOSI">
+<code class="sig-name descname">JOSI</code><em class="property"> = 'Josi'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.JOSI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.KATO">
+<code class="sig-name descname">KATO</code><em class="property"> = 'Kato'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.KATO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.KEDO">
+<code class="sig-name descname">KEDO</code><em class="property"> = 'Kedo'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.KEDO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.KEYO">
+<code class="sig-name descname">KEYO</code><em class="property"> = 'Keyo'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.KEYO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.KIGO">
+<code class="sig-name descname">KIGO</code><em class="property"> = 'Kigo'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.KIGO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.KOYU">
+<code class="sig-name descname">KOYU</code><em class="property"> = 'Koyu'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.KOYU" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.MESI">
+<code class="sig-name descname">MESI</code><em class="property"> = 'Mesi'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.MESI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.RETA">
+<code class="sig-name descname">RETA</code><em class="property"> = 'Reta'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.RETA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.STBI">
+<code class="sig-name descname">STBI</code><em class="property"> = 'Stbi'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.STBI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.STTO">
+<code class="sig-name descname">STTO</code><em class="property"> = 'Stto'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.STTO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.STZO">
+<code class="sig-name descname">STZO</code><em class="property"> = 'Stzo'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.STZO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.SUJI">
+<code class="sig-name descname">SUJI</code><em class="property"> = 'Suji'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Translation.PartOfSpeechEnum.SUJI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.text_to_speech_v1.Voice">
+<em class="property">class </em><code class="sig-name descname">Voice</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">gender</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">language</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">description</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">customizable</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></span></em>, <em class="sig-param"><span class="n">supported_features</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#ibm_watson.text_to_speech_v1.SupportedFeatures" title="ibm_watson.text_to_speech_v1.SupportedFeatures">ibm_watson.text_to_speech_v1.SupportedFeatures</a></span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">customization</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="#ibm_watson.text_to_speech_v1.CustomModel" title="ibm_watson.text_to_speech_v1.CustomModel">ibm_watson.text_to_speech_v1.CustomModel</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#Voice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Voice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Information about an available voice.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str url</dt>
+<dd class="field-odd"><p>The URI of the voice.</p>
+</dd>
+<dt class="field-even">Attr str gender</dt>
+<dd class="field-even"><p>The gender of the voice: <cite>male</cite> or <cite>female</cite>.</p>
+</dd>
+<dt class="field-odd">Attr str name</dt>
+<dd class="field-odd"><p>The name of the voice. Use this as the voice identifier in all
+requests.</p>
+</dd>
+<dt class="field-even">Attr str language</dt>
+<dd class="field-even"><p>The language and region of the voice (for example, <cite>en-US</cite>).</p>
+</dd>
+<dt class="field-odd">Attr str description</dt>
+<dd class="field-odd"><p>A textual description of the voice.</p>
+</dd>
+<dt class="field-even">Attr bool customizable</dt>
+<dd class="field-even"><p>If <cite>true</cite>, the voice can be customized; if <cite>false</cite>, the
+voice cannot be customized. (Same as <cite>custom_pronunciation</cite>; maintained for
+backward compatibility.).</p>
+</dd>
+<dt class="field-odd">Attr SupportedFeatures supported_features</dt>
+<dd class="field-odd"><p>Additional service features that are
+supported with the voice.</p>
+</dd>
+<dt class="field-even">Attr CustomModel customization</dt>
+<dd class="field-even"><p>(optional) Returns information about a
+specified custom model. This field is returned only by the <strong>Get a voice</strong>
+method and only when you specify the customization ID of a custom model.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.Voice.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.text_to_speech_v1.Voice" title="ibm_watson.text_to_speech_v1.Voice">ibm_watson.text_to_speech_v1.Voice</a><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#Voice.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Voice.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a Voice object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.Voice.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#Voice.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Voice.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.text_to_speech_v1.Voices">
+<em class="property">class </em><code class="sig-name descname">Voices</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">voices</span><span class="p">:</span> <span class="n">List<span class="p">[</span><a class="reference internal" href="#ibm_watson.text_to_speech_v1.Voice" title="ibm_watson.text_to_speech_v1.Voice">Voice</a><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#Voices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Voices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Information about all available voices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr List[Voice] voices</dt>
+<dd class="field-odd"><p>A list of available voices.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.Voices.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.text_to_speech_v1.Voices" title="ibm_watson.text_to_speech_v1.Voices">ibm_watson.text_to_speech_v1.Voices</a><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#Voices.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Voices.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a Voices object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.Voices.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#Voices.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Voices.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.text_to_speech_v1.Word">
+<em class="property">class </em><code class="sig-name descname">Word</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">word</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">translation</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">part_of_speech</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#Word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Word" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Information about a word for the custom model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str word</dt>
+<dd class="field-odd"><p>The word for the custom model. The maximum length of a word is
+49 characters.</p>
+</dd>
+<dt class="field-even">Attr str translation</dt>
+<dd class="field-even"><p>The phonetic or sounds-like translation for the word. A
+phonetic translation is based on the SSML format for representing the phonetic
+string of a word either as an IPA or IBM SPR translation. The Arabic, Chinese,
+Dutch, and Korean languages support only IPA. A sounds-like translation consists
+of one or more words that, when combined, sound like the word. The maximum
+length of a translation is 499 characters.</p>
+</dd>
+<dt class="field-odd">Attr str part_of_speech</dt>
+<dd class="field-odd"><p>(optional) <strong>Japanese only.</strong> The part of speech for
+the word. The service uses the value to produce the correct intonation for the
+word. You can create only a single entry, with or without a single part of
+speech, for any word; you cannot create multiple entries with different parts of
+speech for the same word. For more information, see [Working with Japanese
+entries](<a class="reference external" href="https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-rules#jaNotes">https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-rules#jaNotes</a>).</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.Word.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.text_to_speech_v1.Word" title="ibm_watson.text_to_speech_v1.Word">ibm_watson.text_to_speech_v1.Word</a><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#Word.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Word.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a Word object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.Word.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#Word.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Word.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum">
+<em class="property">class </em><code class="sig-name descname">PartOfSpeechEnum</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#Word.PartOfSpeechEnum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p><strong>Japanese only.</strong> The part of speech for the word. The service uses the value to
+produce the correct intonation for the word. You can create only a single entry,
+with or without a single part of speech, for any word; you cannot create multiple
+entries with different parts of speech for the same word. For more information,
+see [Working with Japanese
+entries](<a class="reference external" href="https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-rules#jaNotes">https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-rules#jaNotes</a>).</p>
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.DOSI">
+<code class="sig-name descname">DOSI</code><em class="property"> = 'Dosi'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.DOSI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.FUKU">
+<code class="sig-name descname">FUKU</code><em class="property"> = 'Fuku'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.FUKU" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.GOBI">
+<code class="sig-name descname">GOBI</code><em class="property"> = 'Gobi'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.GOBI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.HOKA">
+<code class="sig-name descname">HOKA</code><em class="property"> = 'Hoka'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.HOKA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.JODO">
+<code class="sig-name descname">JODO</code><em class="property"> = 'Jodo'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.JODO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.JOSI">
+<code class="sig-name descname">JOSI</code><em class="property"> = 'Josi'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.JOSI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.KATO">
+<code class="sig-name descname">KATO</code><em class="property"> = 'Kato'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.KATO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.KEDO">
+<code class="sig-name descname">KEDO</code><em class="property"> = 'Kedo'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.KEDO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.KEYO">
+<code class="sig-name descname">KEYO</code><em class="property"> = 'Keyo'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.KEYO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.KIGO">
+<code class="sig-name descname">KIGO</code><em class="property"> = 'Kigo'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.KIGO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.KOYU">
+<code class="sig-name descname">KOYU</code><em class="property"> = 'Koyu'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.KOYU" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.MESI">
+<code class="sig-name descname">MESI</code><em class="property"> = 'Mesi'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.MESI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.RETA">
+<code class="sig-name descname">RETA</code><em class="property"> = 'Reta'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.RETA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.STBI">
+<code class="sig-name descname">STBI</code><em class="property"> = 'Stbi'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.STBI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.STTO">
+<code class="sig-name descname">STTO</code><em class="property"> = 'Stto'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.STTO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.STZO">
+<code class="sig-name descname">STZO</code><em class="property"> = 'Stzo'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.STZO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.SUJI">
+<code class="sig-name descname">SUJI</code><em class="property"> = 'Suji'</em><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Word.PartOfSpeechEnum.SUJI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.text_to_speech_v1.Words">
+<em class="property">class </em><code class="sig-name descname">Words</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">words</span><span class="p">:</span> <span class="n">List<span class="p">[</span><a class="reference internal" href="#ibm_watson.text_to_speech_v1.Word" title="ibm_watson.text_to_speech_v1.Word">Word</a><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#Words"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Words" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>For the <strong>Add custom words</strong> method, one or more words that are to be added or updated
+for the custom model and the translation for each specified word.
+For the <strong>List custom words</strong> method, the words and their translations from the custom
+model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr List[Word] words</dt>
+<dd class="field-odd"><p>The <strong>Add custom words</strong> method accepts an array of
+<cite>Word</cite> objects. Each object provides a word that is to be added or updated for
+the custom model and the word’s translation.
+The <strong>List custom words</strong> method returns an array of <cite>Word</cite> objects. Each object
+shows a word and its translation from the custom model. The words are listed in
+alphabetical order, with uppercase letters listed before lowercase letters. The
+array is empty if the custom model contains no words.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.Words.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.text_to_speech_v1.Words" title="ibm_watson.text_to_speech_v1.Words">ibm_watson.text_to_speech_v1.Words</a><a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#Words.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Words.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a Words object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.text_to_speech_v1.Words.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/text_to_speech_v1.html#Words.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.text_to_speech_v1.Words.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="ibm_watson.text_to_speech_adapter_v1.html" title="previous chapter">ibm_watson.text_to_speech_adapter_v1 module</a></li>
+      <li>Next: <a href="ibm_watson.tone_analyzer_v3.html" title="next chapter">ibm_watson.tone_analyzer_v3 module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
