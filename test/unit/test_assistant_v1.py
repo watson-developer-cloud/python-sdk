@@ -291,6 +291,123 @@ class TestMessage():
 ##############################################################################
 
 ##############################################################################
+# Start of Service: BulkClassify
+##############################################################################
+# region
+
+class TestBulkClassify():
+    """
+    Test Class for bulk_classify
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_bulk_classify_all_params(self):
+        """
+        bulk_classify()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v1/workspaces/testString/bulk_classify')
+        mock_response = '{"output": [{"input": {"text": "text"}, "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "intents": [{"intent": "intent", "confidence": 10}]}]}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Construct a dict representation of a BulkClassifyUtterance model
+        bulk_classify_utterance_model = {}
+        bulk_classify_utterance_model['text'] = 'testString'
+
+        # Set up parameter values
+        workspace_id = 'testString'
+        input = [bulk_classify_utterance_model]
+
+        # Invoke method
+        response = service.bulk_classify(
+            workspace_id,
+            input=input,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['input'] == [bulk_classify_utterance_model]
+
+
+    @responses.activate
+    def test_bulk_classify_required_params(self):
+        """
+        test_bulk_classify_required_params()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v1/workspaces/testString/bulk_classify')
+        mock_response = '{"output": [{"input": {"text": "text"}, "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "intents": [{"intent": "intent", "confidence": 10}]}]}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        workspace_id = 'testString'
+
+        # Invoke method
+        response = service.bulk_classify(
+            workspace_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    @responses.activate
+    def test_bulk_classify_value_error(self):
+        """
+        test_bulk_classify_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v1/workspaces/testString/bulk_classify')
+        mock_response = '{"output": [{"input": {"text": "text"}, "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "intents": [{"intent": "intent", "confidence": 10}]}]}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        workspace_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "workspace_id": workspace_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                service.bulk_classify(**req_copy)
+
+
+
+# endregion
+##############################################################################
+# End of Service: BulkClassify
+##############################################################################
+
+##############################################################################
 # Start of Service: Workspaces
 ##############################################################################
 # region
@@ -6256,128 +6373,40 @@ class TestDeleteUserData():
 # End of Service: UserData
 ##############################################################################
 
-##############################################################################
-# Start of Service: BulkClassify
-##############################################################################
-# region
-
-class TestBulkClassify():
-    """
-    Test Class for bulk_classify
-    """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
-    @responses.activate
-    def test_bulk_classify_all_params(self):
-        """
-        bulk_classify()
-        """
-        # Set up mock
-        url = self.preprocess_url(base_url + '/v1/workspaces/testString/bulk_classify')
-        mock_response = '{"output": [{"input": {"text": "text"}, "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "intents": [{"intent": "intent", "confidence": 10}]}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Construct a dict representation of a BulkClassifyUtterance model
-        bulk_classify_utterance_model = {}
-        bulk_classify_utterance_model['text'] = 'testString'
-
-        # Set up parameter values
-        workspace_id = 'testString'
-        input = [bulk_classify_utterance_model]
-
-        # Invoke method
-        response = service.bulk_classify(
-            workspace_id,
-            input=input,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-        # Validate body params
-        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
-        assert req_body['input'] == [bulk_classify_utterance_model]
-
-
-    @responses.activate
-    def test_bulk_classify_required_params(self):
-        """
-        test_bulk_classify_required_params()
-        """
-        # Set up mock
-        url = self.preprocess_url(base_url + '/v1/workspaces/testString/bulk_classify')
-        mock_response = '{"output": [{"input": {"text": "text"}, "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "intents": [{"intent": "intent", "confidence": 10}]}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        workspace_id = 'testString'
-
-        # Invoke method
-        response = service.bulk_classify(
-            workspace_id,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 200
-
-
-    @responses.activate
-    def test_bulk_classify_value_error(self):
-        """
-        test_bulk_classify_value_error()
-        """
-        # Set up mock
-        url = self.preprocess_url(base_url + '/v1/workspaces/testString/bulk_classify')
-        mock_response = '{"output": [{"input": {"text": "text"}, "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "intents": [{"intent": "intent", "confidence": 10}]}]}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=200)
-
-        # Set up parameter values
-        workspace_id = 'testString'
-
-        # Pass in all but one required param and check for a ValueError
-        req_param_dict = {
-            "workspace_id": workspace_id,
-        }
-        for param in req_param_dict.keys():
-            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
-            with pytest.raises(ValueError):
-                service.bulk_classify(**req_copy)
-
-
-
-# endregion
-##############################################################################
-# End of Service: BulkClassify
-##############################################################################
-
 
 ##############################################################################
 # Start of Model Tests
 ##############################################################################
 # region
+class TestAgentAvailabilityMessage():
+    """
+    Test Class for AgentAvailabilityMessage
+    """
+
+    def test_agent_availability_message_serialization(self):
+        """
+        Test serialization/deserialization for AgentAvailabilityMessage
+        """
+
+        # Construct a json representation of a AgentAvailabilityMessage model
+        agent_availability_message_model_json = {}
+        agent_availability_message_model_json['message'] = 'testString'
+
+        # Construct a model instance of AgentAvailabilityMessage by calling from_dict on the json representation
+        agent_availability_message_model = AgentAvailabilityMessage.from_dict(agent_availability_message_model_json)
+        assert agent_availability_message_model != False
+
+        # Construct a model instance of AgentAvailabilityMessage by calling from_dict on the json representation
+        agent_availability_message_model_dict = AgentAvailabilityMessage.from_dict(agent_availability_message_model_json).__dict__
+        agent_availability_message_model2 = AgentAvailabilityMessage(**agent_availability_message_model_dict)
+
+        # Verify the model instances are equivalent
+        assert agent_availability_message_model == agent_availability_message_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        agent_availability_message_model_json2 = agent_availability_message_model.to_dict()
+        assert agent_availability_message_model_json2 == agent_availability_message_model_json
+
 class TestBulkClassifyOutput():
     """
     Test Class for BulkClassifyOutput
@@ -10007,6 +10036,9 @@ class TestDialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
+        agent_availability_message_model = {} # AgentAvailabilityMessage
+        agent_availability_message_model['message'] = 'testString'
+
         dialog_node_output_connect_to_agent_transfer_info_model = {} # DialogNodeOutputConnectToAgentTransferInfo
         dialog_node_output_connect_to_agent_transfer_info_model['target'] = {}
 
@@ -10014,8 +10046,8 @@ class TestDialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent():
         dialog_node_output_generic_dialog_node_output_response_type_connect_to_agent_model_json = {}
         dialog_node_output_generic_dialog_node_output_response_type_connect_to_agent_model_json['response_type'] = 'connect_to_agent'
         dialog_node_output_generic_dialog_node_output_response_type_connect_to_agent_model_json['message_to_human_agent'] = 'testString'
-        dialog_node_output_generic_dialog_node_output_response_type_connect_to_agent_model_json['agent_available'] = 'testString'
-        dialog_node_output_generic_dialog_node_output_response_type_connect_to_agent_model_json['agent_unavailable'] = 'testString'
+        dialog_node_output_generic_dialog_node_output_response_type_connect_to_agent_model_json['agent_available'] = agent_availability_message_model
+        dialog_node_output_generic_dialog_node_output_response_type_connect_to_agent_model_json['agent_unavailable'] = agent_availability_message_model
         dialog_node_output_generic_dialog_node_output_response_type_connect_to_agent_model_json['transfer_info'] = dialog_node_output_connect_to_agent_transfer_info_model
 
         # Construct a model instance of DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent by calling from_dict on the json representation
@@ -10284,6 +10316,9 @@ class TestRuntimeResponseGenericRuntimeResponseTypeConnectToAgent():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
+        agent_availability_message_model = {} # AgentAvailabilityMessage
+        agent_availability_message_model['message'] = 'testString'
+
         dialog_node_output_connect_to_agent_transfer_info_model = {} # DialogNodeOutputConnectToAgentTransferInfo
         dialog_node_output_connect_to_agent_transfer_info_model['target'] = {}
 
@@ -10291,8 +10326,8 @@ class TestRuntimeResponseGenericRuntimeResponseTypeConnectToAgent():
         runtime_response_generic_runtime_response_type_connect_to_agent_model_json = {}
         runtime_response_generic_runtime_response_type_connect_to_agent_model_json['response_type'] = 'connect_to_agent'
         runtime_response_generic_runtime_response_type_connect_to_agent_model_json['message_to_human_agent'] = 'testString'
-        runtime_response_generic_runtime_response_type_connect_to_agent_model_json['agent_available'] = 'testString'
-        runtime_response_generic_runtime_response_type_connect_to_agent_model_json['agent_unavailable'] = 'testString'
+        runtime_response_generic_runtime_response_type_connect_to_agent_model_json['agent_available'] = agent_availability_message_model
+        runtime_response_generic_runtime_response_type_connect_to_agent_model_json['agent_unavailable'] = agent_availability_message_model
         runtime_response_generic_runtime_response_type_connect_to_agent_model_json['transfer_info'] = dialog_node_output_connect_to_agent_transfer_info_model
         runtime_response_generic_runtime_response_type_connect_to_agent_model_json['topic'] = 'testString'
         runtime_response_generic_runtime_response_type_connect_to_agent_model_json['dialog_node'] = 'testString'

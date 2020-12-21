@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-a45d89ef-20201209-192237
+# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-a45d89ef-20201221-115123
 """
 The IBM Watson&trade; Assistant service combines machine learning, natural language
 understanding, and an integrated dialog editor to create conversation flows between your
@@ -320,6 +320,69 @@ class AssistantV2(BaseService):
         return response
 
     #########################
+    # Bulk classify
+    #########################
+
+    def bulk_classify(self,
+                      skill_id: str,
+                      *,
+                      input: List['BulkClassifyUtterance'] = None,
+                      **kwargs) -> DetailedResponse:
+        """
+        Identify intents and entities in multiple user utterances.
+
+        Send multiple user inputs to a dialog skill in a single request and receive
+        information about the intents and entities recognized in each input. This method
+        is useful for testing and comparing the performance of different skills or skill
+        versions.
+        This method is available only with Premium plans.
+
+        :param str skill_id: Unique identifier of the skill. To find the skill ID
+               in the Watson Assistant user interface, open the skill settings and click
+               **API Details**.
+        :param List[BulkClassifyUtterance] input: (optional) An array of input
+               utterances to classify.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `BulkClassifyResponse` object
+        """
+
+        if skill_id is None:
+            raise ValueError('skill_id must be provided')
+        if input is not None:
+            input = [convert_model(x) for x in input]
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='bulk_classify')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        data = {'input': input}
+        data = {k: v for (k, v) in data.items() if v is not None}
+        data = json.dumps(data)
+        headers['content-type'] = 'application/json'
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['skill_id']
+        path_param_values = self.encode_path_vars(skill_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/skills/{skill_id}/workspace/bulk_classify'.format(
+            **path_param_dict)
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       data=data)
+
+        response = self.send(request)
+        return response
+
+    #########################
     # Logs
     #########################
 
@@ -437,73 +500,64 @@ class AssistantV2(BaseService):
         response = self.send(request)
         return response
 
-    #########################
-    # bulkClassify
-    #########################
-
-    def bulk_classify(self,
-                      skill_id: str,
-                      *,
-                      input: List['BulkClassifyUtterance'] = None,
-                      **kwargs) -> DetailedResponse:
-        """
-        Identify intents and entities in multiple user utterances.
-
-        Send multiple user inputs to a dialog skill in a single request and receive
-        information about the intents and entities recognized in each input. This method
-        is useful for testing and comparing the performance of different skills or skill
-        versions.
-        This method is available only with Premium plans.
-
-        :param str skill_id: Unique identifier of the skill. To find the skill ID
-               in the Watson Assistant user interface, open the skill settings and click
-               **API Details**.
-        :param List[BulkClassifyUtterance] input: (optional) An array of input
-               utterances to classify.
-        :param dict headers: A `dict` containing the request headers
-        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `BulkClassifyResponse` object
-        """
-
-        if skill_id is None:
-            raise ValueError('skill_id must be provided')
-        if input is not None:
-            input = [convert_model(x) for x in input]
-        headers = {}
-        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
-                                      service_version='V2',
-                                      operation_id='bulk_classify')
-        headers.update(sdk_headers)
-
-        params = {'version': self.version}
-
-        data = {'input': input}
-        data = {k: v for (k, v) in data.items() if v is not None}
-        data = json.dumps(data)
-        headers['content-type'] = 'application/json'
-
-        if 'headers' in kwargs:
-            headers.update(kwargs.get('headers'))
-        headers['Accept'] = 'application/json'
-
-        path_param_keys = ['skill_id']
-        path_param_values = self.encode_path_vars(skill_id)
-        path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v2/skills/{skill_id}/workspace/bulk_classify'.format(
-            **path_param_dict)
-        request = self.prepare_request(method='POST',
-                                       url=url,
-                                       headers=headers,
-                                       params=params,
-                                       data=data)
-
-        response = self.send(request)
-        return response
-
 
 ##############################################################################
 # Models
 ##############################################################################
+
+
+class AgentAvailabilityMessage():
+    """
+    AgentAvailabilityMessage.
+
+    :attr str message: (optional) The text of the message.
+    """
+
+    def __init__(self, *, message: str = None) -> None:
+        """
+        Initialize a AgentAvailabilityMessage object.
+
+        :param str message: (optional) The text of the message.
+        """
+        self.message = message
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'AgentAvailabilityMessage':
+        """Initialize a AgentAvailabilityMessage object from a json dictionary."""
+        args = {}
+        if 'message' in _dict:
+            args['message'] = _dict.get('message')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a AgentAvailabilityMessage object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'message') and self.message is not None:
+            _dict['message'] = self.message
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this AgentAvailabilityMessage object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'AgentAvailabilityMessage') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'AgentAvailabilityMessage') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
 
 
 class BulkClassifyOutput():
@@ -4591,12 +4645,12 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
           specified response type must be supported by the client application or channel.
     :attr str message_to_human_agent: (optional) A message to be sent to the human
           agent who will be taking over the conversation.
-    :attr str agent_available: (optional) An optional message to be displayed to the
-          user to indicate that the conversation will be transferred to the next available
-          agent.
-    :attr str agent_unavailable: (optional) An optional message to be displayed to
-          the user to indicate that no online agent is available to take over the
-          conversation.
+    :attr AgentAvailabilityMessage agent_available: (optional) An optional message
+          to be displayed to the user to indicate that the conversation will be
+          transferred to the next available agent.
+    :attr AgentAvailabilityMessage agent_unavailable: (optional) An optional message
+          to be displayed to the user to indicate that no online agent is available to
+          take over the conversation.
     :attr DialogNodeOutputConnectToAgentTransferInfo transfer_info: (optional)
           Routing or other contextual information to be used by target service desk
           systems.
@@ -4610,8 +4664,8 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
             response_type: str,
             *,
             message_to_human_agent: str = None,
-            agent_available: str = None,
-            agent_unavailable: str = None,
+            agent_available: 'AgentAvailabilityMessage' = None,
+            agent_unavailable: 'AgentAvailabilityMessage' = None,
             transfer_info: 'DialogNodeOutputConnectToAgentTransferInfo' = None,
             topic: str = None) -> None:
         """
@@ -4622,12 +4676,12 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
                channel.
         :param str message_to_human_agent: (optional) A message to be sent to the
                human agent who will be taking over the conversation.
-        :param str agent_available: (optional) An optional message to be displayed
-               to the user to indicate that the conversation will be transferred to the
-               next available agent.
-        :param str agent_unavailable: (optional) An optional message to be
-               displayed to the user to indicate that no online agent is available to take
-               over the conversation.
+        :param AgentAvailabilityMessage agent_available: (optional) An optional
+               message to be displayed to the user to indicate that the conversation will
+               be transferred to the next available agent.
+        :param AgentAvailabilityMessage agent_unavailable: (optional) An optional
+               message to be displayed to the user to indicate that no online agent is
+               available to take over the conversation.
         :param DialogNodeOutputConnectToAgentTransferInfo transfer_info: (optional)
                Routing or other contextual information to be used by target service desk
                systems.
@@ -4658,9 +4712,11 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
         if 'message_to_human_agent' in _dict:
             args['message_to_human_agent'] = _dict.get('message_to_human_agent')
         if 'agent_available' in _dict:
-            args['agent_available'] = _dict.get('agent_available')
+            args['agent_available'] = AgentAvailabilityMessage.from_dict(
+                _dict.get('agent_available'))
         if 'agent_unavailable' in _dict:
-            args['agent_unavailable'] = _dict.get('agent_unavailable')
+            args['agent_unavailable'] = AgentAvailabilityMessage.from_dict(
+                _dict.get('agent_unavailable'))
         if 'transfer_info' in _dict:
             args[
                 'transfer_info'] = DialogNodeOutputConnectToAgentTransferInfo.from_dict(
@@ -4684,10 +4740,10 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
             _dict['message_to_human_agent'] = self.message_to_human_agent
         if hasattr(self,
                    'agent_available') and self.agent_available is not None:
-            _dict['agent_available'] = self.agent_available
+            _dict['agent_available'] = self.agent_available.to_dict()
         if hasattr(self,
                    'agent_unavailable') and self.agent_unavailable is not None:
-            _dict['agent_unavailable'] = self.agent_unavailable
+            _dict['agent_unavailable'] = self.agent_unavailable.to_dict()
         if hasattr(self, 'transfer_info') and self.transfer_info is not None:
             _dict['transfer_info'] = self.transfer_info.to_dict()
         if hasattr(self, 'topic') and self.topic is not None:
