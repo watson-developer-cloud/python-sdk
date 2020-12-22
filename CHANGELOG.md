@@ -1,3 +1,10 @@
+## [5.0.1](https://github.com/watson-developer-cloud/python-sdk/compare/v5.0.0...v5.0.1) (2020-12-22)
+
+
+### Bug Fixes
+
+* **Assistant:** node dialog response should have agent props ([53e532e](https://github.com/watson-developer-cloud/python-sdk/commit/53e532e04ab141d93e54f040965dbca993186543))
+
 # [5.0.0](https://github.com/watson-developer-cloud/python-sdk/compare/v4.7.1...v5.0.0) (2020-12-11)
 
 
