@@ -19,3 +19,6 @@ bumpversion>=0.5.3
 
 # Web sockets
 websocket-client==0.48.0
+
+# lock JWT
+PyJWT==1.7.1
