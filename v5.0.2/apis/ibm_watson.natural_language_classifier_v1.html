@@ -1,0 +1,497 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ibm_watson.natural_language_classifier_v1 module &#8212; Watson Developer Cloud Python SDK 5.0.2 documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ibm_watson.natural_language_understanding_v1 module" href="ibm_watson.natural_language_understanding_v1.html" />
+    <link rel="prev" title="ibm_watson.language_translator_v3 module" href="ibm_watson.language_translator_v3.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-ibm_watson.natural_language_classifier_v1">
+<span id="ibm-watson-natural-language-classifier-v1-module"></span><h1>ibm_watson.natural_language_classifier_v1 module<a class="headerlink" href="#module-ibm_watson.natural_language_classifier_v1" title="Permalink to this headline">¶</a></h1>
+<p>IBM Watson&amp;trade; Natural Language Classifier uses machine learning algorithms to return
+the top matching predefined classes for short text input. You create and train a
+classifier to connect predefined classes to example texts so that the service can apply
+those classes to new inputs.</p>
+<dl class="py class">
+<dt id="ibm_watson.natural_language_classifier_v1.NaturalLanguageClassifierV1">
+<em class="property">class </em><code class="sig-name descname">NaturalLanguageClassifierV1</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">authenticator</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>ibm_cloud_sdk_core.authenticators.authenticator.Authenticator<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">service_name</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span> <span class="o">=</span> <span class="default_value">'natural_language_classifier'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_classifier_v1.html#NaturalLanguageClassifierV1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.NaturalLanguageClassifierV1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ibm_cloud_sdk_core.base_service.BaseService</span></code></p>
+<p>The Natural Language Classifier V1 service.</p>
+<dl class="py attribute">
+<dt id="ibm_watson.natural_language_classifier_v1.NaturalLanguageClassifierV1.DEFAULT_SERVICE_URL">
+<code class="sig-name descname">DEFAULT_SERVICE_URL</code><em class="property"> = 'https://api.us-south.natural-language-classifier.watson.cloud.ibm.com'</em><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.NaturalLanguageClassifierV1.DEFAULT_SERVICE_URL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.natural_language_classifier_v1.NaturalLanguageClassifierV1.DEFAULT_SERVICE_NAME">
+<code class="sig-name descname">DEFAULT_SERVICE_NAME</code><em class="property"> = 'natural_language_classifier'</em><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.NaturalLanguageClassifierV1.DEFAULT_SERVICE_NAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.natural_language_classifier_v1.NaturalLanguageClassifierV1.classify">
+<code class="sig-name descname">classify</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">classifier_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">text</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/natural_language_classifier_v1.html#NaturalLanguageClassifierV1.classify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.NaturalLanguageClassifierV1.classify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Classify a phrase.</p>
+<p>Returns label information for the input. The status must be <cite>Available</cite> before you
+can use the classifier to classify text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>classifier_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Classifier ID to use.</p></li>
+<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The submitted phrase. The maximum length is 2048
+characters.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse with <cite>dict</cite> result representing a <cite>Classification</cite> object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.natural_language_classifier_v1.NaturalLanguageClassifierV1.classify_collection">
+<code class="sig-name descname">classify_collection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">classifier_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">collection</span><span class="p">:</span> <span class="n">List<span class="p">[</span><a class="reference internal" href="#ibm_watson.natural_language_classifier_v1.ClassifyInput" title="ibm_watson.natural_language_classifier_v1.ClassifyInput">ibm_watson.natural_language_classifier_v1.ClassifyInput</a><span class="p">]</span></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/natural_language_classifier_v1.html#NaturalLanguageClassifierV1.classify_collection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.NaturalLanguageClassifierV1.classify_collection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Classify multiple phrases.</p>
+<p>Returns label information for multiple phrases. The status must be <cite>Available</cite>
+before you can use the classifier to classify text.
+Note that classifying Japanese texts is a beta feature.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>classifier_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Classifier ID to use.</p></li>
+<li><p><strong>collection</strong> (<em>List</em><em>[</em><a class="reference internal" href="#ibm_watson.natural_language_classifier_v1.ClassifyInput" title="ibm_watson.natural_language_classifier_v1.ClassifyInput"><em>ClassifyInput</em></a><em>]</em>) – The submitted phrases.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse with <cite>dict</cite> result representing a <cite>ClassificationCollection</cite> object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.natural_language_classifier_v1.NaturalLanguageClassifierV1.create_classifier">
+<code class="sig-name descname">create_classifier</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">training_metadata</span><span class="p">:</span> <span class="n">BinaryIO</span></em>, <em class="sig-param"><span class="n">training_data</span><span class="p">:</span> <span class="n">BinaryIO</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/natural_language_classifier_v1.html#NaturalLanguageClassifierV1.create_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.NaturalLanguageClassifierV1.create_classifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create classifier.</p>
+<p>Sends data to create and train a classifier and returns information about the new
+classifier.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>training_metadata</strong> (<em>BinaryIO</em>) – Metadata in JSON format. The metadata
+identifies the language of the data, and an optional name to identify the
+classifier. Specify the language with the 2-letter primary language code as
+assigned in ISO standard 639.
+Supported languages are English (<cite>en</cite>), Arabic (<cite>ar</cite>), French (<cite>fr</cite>),
+German, (<cite>de</cite>), Italian (<cite>it</cite>), Japanese (<cite>ja</cite>), Korean (<cite>ko</cite>), Brazilian
+Portuguese (<cite>pt</cite>), and Spanish (<cite>es</cite>).</p></li>
+<li><p><strong>training_data</strong> (<em>BinaryIO</em>) – Training data in CSV format. Each text value
+must have at least one class. The data can include up to 3,000 classes and
+20,000 records. For details, see [Data
+preparation](<a class="reference external" href="https://cloud.ibm.com/docs/natural-language-classifier?topic=natural-language-classifier-using-your-data">https://cloud.ibm.com/docs/natural-language-classifier?topic=natural-language-classifier-using-your-data</a>).</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse with <cite>dict</cite> result representing a <cite>Classifier</cite> object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.natural_language_classifier_v1.NaturalLanguageClassifierV1.list_classifiers">
+<code class="sig-name descname">list_classifiers</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/natural_language_classifier_v1.html#NaturalLanguageClassifierV1.list_classifiers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.NaturalLanguageClassifierV1.list_classifiers" title="Permalink to this definition">¶</a></dt>
+<dd><p>List classifiers.</p>
+<p>Returns an empty array if no classifiers are available.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse with <cite>dict</cite> result representing a <cite>ClassifierList</cite> object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.natural_language_classifier_v1.NaturalLanguageClassifierV1.get_classifier">
+<code class="sig-name descname">get_classifier</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">classifier_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/natural_language_classifier_v1.html#NaturalLanguageClassifierV1.get_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.NaturalLanguageClassifierV1.get_classifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get information about a classifier.</p>
+<p>Returns status and other information about a classifier.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>classifier_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Classifier ID to query.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse with <cite>dict</cite> result representing a <cite>Classifier</cite> object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.natural_language_classifier_v1.NaturalLanguageClassifierV1.delete_classifier">
+<code class="sig-name descname">delete_classifier</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">classifier_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span> &#x2192; ibm_cloud_sdk_core.detailed_response.DetailedResponse<a class="reference internal" href="../_modules/ibm_watson/natural_language_classifier_v1.html#NaturalLanguageClassifierV1.delete_classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.NaturalLanguageClassifierV1.delete_classifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete classifier.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>classifier_id</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Classifier ID to delete.</p></li>
+<li><p><strong>headers</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – A <cite>dict</cite> containing the request headers</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A <cite>DetailedResponse</cite> containing the result, headers and HTTP status code.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DetailedResponse</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.natural_language_classifier_v1.Classification">
+<em class="property">class </em><code class="sig-name descname">Classification</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">classifier_id</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">url</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">text</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">top_class</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">classes</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span><a class="reference internal" href="#ibm_watson.natural_language_classifier_v1.ClassifiedClass" title="ibm_watson.natural_language_classifier_v1.ClassifiedClass">ibm_watson.natural_language_classifier_v1.ClassifiedClass</a><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_classifier_v1.html#Classification"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.Classification" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Response from the classifier for a phrase.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str classifier_id</dt>
+<dd class="field-odd"><p>(optional) Unique identifier for this classifier.</p>
+</dd>
+<dt class="field-even">Attr str url</dt>
+<dd class="field-even"><p>(optional) Link to the classifier.</p>
+</dd>
+<dt class="field-odd">Attr str text</dt>
+<dd class="field-odd"><p>(optional) The submitted phrase.</p>
+</dd>
+<dt class="field-even">Attr str top_class</dt>
+<dd class="field-even"><p>(optional) The class with the highest confidence.</p>
+</dd>
+<dt class="field-odd">Attr List[ClassifiedClass] classes</dt>
+<dd class="field-odd"><p>(optional) An array of up to ten
+class-confidence pairs sorted in descending order of confidence.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.natural_language_classifier_v1.Classification.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.natural_language_classifier_v1.Classification" title="ibm_watson.natural_language_classifier_v1.Classification">ibm_watson.natural_language_classifier_v1.Classification</a><a class="reference internal" href="../_modules/ibm_watson/natural_language_classifier_v1.html#Classification.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.Classification.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a Classification object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.natural_language_classifier_v1.Classification.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/natural_language_classifier_v1.html#Classification.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.Classification.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.natural_language_classifier_v1.ClassificationCollection">
+<em class="property">class </em><code class="sig-name descname">ClassificationCollection</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">classifier_id</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">url</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">collection</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span><a class="reference internal" href="#ibm_watson.natural_language_classifier_v1.CollectionItem" title="ibm_watson.natural_language_classifier_v1.CollectionItem">ibm_watson.natural_language_classifier_v1.CollectionItem</a><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_classifier_v1.html#ClassificationCollection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.ClassificationCollection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Response from the classifier for multiple phrases.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str classifier_id</dt>
+<dd class="field-odd"><p>(optional) Unique identifier for this classifier.</p>
+</dd>
+<dt class="field-even">Attr str url</dt>
+<dd class="field-even"><p>(optional) Link to the classifier.</p>
+</dd>
+<dt class="field-odd">Attr List[CollectionItem] collection</dt>
+<dd class="field-odd"><p>(optional) An array of classifier
+responses for each submitted phrase.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.natural_language_classifier_v1.ClassificationCollection.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.natural_language_classifier_v1.ClassificationCollection" title="ibm_watson.natural_language_classifier_v1.ClassificationCollection">ibm_watson.natural_language_classifier_v1.ClassificationCollection</a><a class="reference internal" href="../_modules/ibm_watson/natural_language_classifier_v1.html#ClassificationCollection.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.ClassificationCollection.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a ClassificationCollection object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.natural_language_classifier_v1.ClassificationCollection.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/natural_language_classifier_v1.html#ClassificationCollection.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.ClassificationCollection.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.natural_language_classifier_v1.ClassifiedClass">
+<em class="property">class </em><code class="sig-name descname">ClassifiedClass</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">confidence</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)">float</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">class_name</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_classifier_v1.html#ClassifiedClass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.ClassifiedClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Class and confidence.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr float confidence</dt>
+<dd class="field-odd"><p>(optional) A decimal percentage that represents the
+confidence that Watson has in this class. Higher values represent higher
+confidences.</p>
+</dd>
+<dt class="field-even">Attr str class_name</dt>
+<dd class="field-even"><p>(optional) Class label.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.natural_language_classifier_v1.ClassifiedClass.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.natural_language_classifier_v1.ClassifiedClass" title="ibm_watson.natural_language_classifier_v1.ClassifiedClass">ibm_watson.natural_language_classifier_v1.ClassifiedClass</a><a class="reference internal" href="../_modules/ibm_watson/natural_language_classifier_v1.html#ClassifiedClass.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.ClassifiedClass.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a ClassifiedClass object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.natural_language_classifier_v1.ClassifiedClass.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/natural_language_classifier_v1.html#ClassifiedClass.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.ClassifiedClass.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.natural_language_classifier_v1.Classifier">
+<em class="property">class </em><code class="sig-name descname">Classifier</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="n">classifier_id</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">status</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">created</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.9)">datetime.datetime</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">status_description</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">language</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_classifier_v1.html#Classifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.Classifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A classifier for natural language phrases.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str name</dt>
+<dd class="field-odd"><p>(optional) User-supplied name for the classifier.</p>
+</dd>
+<dt class="field-even">Attr str url</dt>
+<dd class="field-even"><p>Link to the classifier.</p>
+</dd>
+<dt class="field-odd">Attr str status</dt>
+<dd class="field-odd"><p>(optional) The state of the classifier.</p>
+</dd>
+<dt class="field-even">Attr str classifier_id</dt>
+<dd class="field-even"><p>Unique identifier for this classifier.</p>
+</dd>
+<dt class="field-odd">Attr datetime created</dt>
+<dd class="field-odd"><p>(optional) Date and time (UTC) the classifier was
+created.</p>
+</dd>
+<dt class="field-even">Attr str status_description</dt>
+<dd class="field-even"><p>(optional) Additional detail about the status.</p>
+</dd>
+<dt class="field-odd">Attr str language</dt>
+<dd class="field-odd"><p>(optional) The language used for the classifier.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.natural_language_classifier_v1.Classifier.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.natural_language_classifier_v1.Classifier" title="ibm_watson.natural_language_classifier_v1.Classifier">ibm_watson.natural_language_classifier_v1.Classifier</a><a class="reference internal" href="../_modules/ibm_watson/natural_language_classifier_v1.html#Classifier.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.Classifier.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a Classifier object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.natural_language_classifier_v1.Classifier.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/natural_language_classifier_v1.html#Classifier.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.Classifier.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.natural_language_classifier_v1.Classifier.StatusEnum">
+<em class="property">class </em><code class="sig-name descname">StatusEnum</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_classifier_v1.html#Classifier.StatusEnum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.Classifier.StatusEnum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>The state of the classifier.</p>
+<dl class="py attribute">
+<dt id="ibm_watson.natural_language_classifier_v1.Classifier.StatusEnum.NON_EXISTENT">
+<code class="sig-name descname">NON_EXISTENT</code><em class="property"> = 'Non Existent'</em><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.Classifier.StatusEnum.NON_EXISTENT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.natural_language_classifier_v1.Classifier.StatusEnum.TRAINING">
+<code class="sig-name descname">TRAINING</code><em class="property"> = 'Training'</em><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.Classifier.StatusEnum.TRAINING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.natural_language_classifier_v1.Classifier.StatusEnum.FAILED">
+<code class="sig-name descname">FAILED</code><em class="property"> = 'Failed'</em><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.Classifier.StatusEnum.FAILED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.natural_language_classifier_v1.Classifier.StatusEnum.AVAILABLE">
+<code class="sig-name descname">AVAILABLE</code><em class="property"> = 'Available'</em><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.Classifier.StatusEnum.AVAILABLE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="ibm_watson.natural_language_classifier_v1.Classifier.StatusEnum.UNAVAILABLE">
+<code class="sig-name descname">UNAVAILABLE</code><em class="property"> = 'Unavailable'</em><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.Classifier.StatusEnum.UNAVAILABLE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.natural_language_classifier_v1.ClassifierList">
+<em class="property">class </em><code class="sig-name descname">ClassifierList</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">classifiers</span><span class="p">:</span> <span class="n">List<span class="p">[</span><a class="reference internal" href="#ibm_watson.natural_language_classifier_v1.Classifier" title="ibm_watson.natural_language_classifier_v1.Classifier">ibm_watson.natural_language_classifier_v1.Classifier</a><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_classifier_v1.html#ClassifierList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.ClassifierList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>List of available classifiers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr List[Classifier] classifiers</dt>
+<dd class="field-odd"><p>The classifiers available to the user.
+Returns an empty array if no classifiers are available.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.natural_language_classifier_v1.ClassifierList.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.natural_language_classifier_v1.ClassifierList" title="ibm_watson.natural_language_classifier_v1.ClassifierList">ibm_watson.natural_language_classifier_v1.ClassifierList</a><a class="reference internal" href="../_modules/ibm_watson/natural_language_classifier_v1.html#ClassifierList.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.ClassifierList.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a ClassifierList object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.natural_language_classifier_v1.ClassifierList.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/natural_language_classifier_v1.html#ClassifierList.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.ClassifierList.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.natural_language_classifier_v1.ClassifyInput">
+<em class="property">class </em><code class="sig-name descname">ClassifyInput</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span><span class="p">:</span> <span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_classifier_v1.html#ClassifyInput"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.ClassifyInput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Request payload to classify.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str text</dt>
+<dd class="field-odd"><p>The submitted phrase. The maximum length is 2048 characters.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.natural_language_classifier_v1.ClassifyInput.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.natural_language_classifier_v1.ClassifyInput" title="ibm_watson.natural_language_classifier_v1.ClassifyInput">ibm_watson.natural_language_classifier_v1.ClassifyInput</a><a class="reference internal" href="../_modules/ibm_watson/natural_language_classifier_v1.html#ClassifyInput.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.ClassifyInput.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a ClassifyInput object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.natural_language_classifier_v1.ClassifyInput.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/natural_language_classifier_v1.html#ClassifyInput.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.ClassifyInput.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ibm_watson.natural_language_classifier_v1.CollectionItem">
+<em class="property">class </em><code class="sig-name descname">CollectionItem</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">text</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">top_class</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">classes</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span><a class="reference internal" href="#ibm_watson.natural_language_classifier_v1.ClassifiedClass" title="ibm_watson.natural_language_classifier_v1.ClassifiedClass">ibm_watson.natural_language_classifier_v1.ClassifiedClass</a><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/natural_language_classifier_v1.html#CollectionItem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.CollectionItem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Response from the classifier for a phrase in a collection.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Attr str text</dt>
+<dd class="field-odd"><p>(optional) The submitted phrase. The maximum length is 2048
+characters.</p>
+</dd>
+<dt class="field-even">Attr str top_class</dt>
+<dd class="field-even"><p>(optional) The class with the highest confidence.</p>
+</dd>
+<dt class="field-odd">Attr List[ClassifiedClass] classes</dt>
+<dd class="field-odd"><p>(optional) An array of up to ten
+class-confidence pairs sorted in descending order of confidence.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="ibm_watson.natural_language_classifier_v1.CollectionItem.from_dict">
+<em class="property">classmethod </em><code class="sig-name descname">from_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">_dict</span><span class="p">:</span> <span class="n">Dict</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#ibm_watson.natural_language_classifier_v1.CollectionItem" title="ibm_watson.natural_language_classifier_v1.CollectionItem">ibm_watson.natural_language_classifier_v1.CollectionItem</a><a class="reference internal" href="../_modules/ibm_watson/natural_language_classifier_v1.html#CollectionItem.from_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.CollectionItem.from_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize a CollectionItem object from a json dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.natural_language_classifier_v1.CollectionItem.to_dict">
+<code class="sig-name descname">to_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<a class="reference internal" href="../_modules/ibm_watson/natural_language_classifier_v1.html#CollectionItem.to_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ibm_watson.natural_language_classifier_v1.CollectionItem.to_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a json dictionary representing this model.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="ibm_watson.language_translator_v3.html" title="previous chapter">ibm_watson.language_translator_v3 module</a></li>
+      <li>Next: <a href="ibm_watson.natural_language_understanding_v1.html" title="next chapter">ibm_watson.natural_language_understanding_v1 module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
