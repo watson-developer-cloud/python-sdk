@@ -1815,7 +1815,7 @@ class DiscoveryV1(BaseService):
                parameter.
         :param bool spelling_suggestions: (optional) When `true` and the
                **natural_language_query** parameter is used, the **natural_languge_query**
-               parameter is spell checked. The most likely correction is retunred in the
+               parameter is spell checked. The most likely correction is returned in the
                **suggested_query** field of the response (if one exists).
                **Important:** this parameter is only valid when using the Cloud Pak
                version of Discovery.
