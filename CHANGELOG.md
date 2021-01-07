@@ -1,3 +1,10 @@
+## [5.0.2](https://github.com/watson-developer-cloud/python-sdk/compare/v5.0.1...v5.0.2) (2020-12-28)
+
+
+### Bug Fixes
+
+* lock JWT version to 1.7.1 ([8fcdfc6](https://github.com/watson-developer-cloud/python-sdk/commit/8fcdfc64db1bcf6a230e8be80de6dfcad8e8811f))
+
 ## [5.0.1](https://github.com/watson-developer-cloud/python-sdk/compare/v5.0.0...v5.0.1) (2020-12-22)
 
 
