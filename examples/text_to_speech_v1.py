@@ -22,18 +22,18 @@ with open(join(dirname(__file__), '../resources/output.wav'),
 pronunciation = service.get_pronunciation('Watson', format='spr').get_result()
 print(json.dumps(pronunciation, indent=2))
 
-voice_models = service.list_voice_models().get_result()
+voice_models = service.list_custom_models().get_result()
 print(json.dumps(voice_models, indent=2))
 
-# voice_model = service.create_voice_model('test-customization').get_result()
-# print(json.dumps(voice_model, indent=2))
+# voice_model = service.create_custom_model('test-customization').get_result()
+# print(json.dumps(custom_model, indent=2))
 
-# updated_voice_model = service.update_voice_model(
+# updated_custom_model = service.update_custom_model(
 #     'YOUR CUSTOMIZATION ID', name='new name').get_result()
-# print(updated_voice_model)
+# print(updated_custom_model)
 
-# voice_model = service.get_voice_model('YOUR CUSTOMIZATION ID').get_result()
-# print(json.dumps(voice_model, indent=2))
+# custom_model = service.get_custom_model('YOUR CUSTOMIZATION ID').get_result()
+# print(json.dumps(custom_model, indent=2))
 
 # words = service.list_words('YOUR CUSTOMIZATIONID').get_result()
 # print(json.dumps(words, indent=2))

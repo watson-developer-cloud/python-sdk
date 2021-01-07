@@ -13,163 +13,195 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from datetime import datetime
+"""
+Unit Tests for NaturalLanguageClassifierV1
+"""
+
+from datetime import datetime, timezone
 from ibm_cloud_sdk_core.authenticators.no_auth_authenticator import NoAuthAuthenticator
 import inspect
+import io
 import json
 import pytest
+import re
 import responses
 import tempfile
-import ibm_watson.natural_language_classifier_v1
+import urllib
 from ibm_watson.natural_language_classifier_v1 import *
 
+
+service = NaturalLanguageClassifierV1(
+    authenticator=NoAuthAuthenticator()
+    )
+
 base_url = 'https://api.us-south.natural-language-classifier.watson.cloud.ibm.com'
+service.set_service_url(base_url)
 
 ##############################################################################
 # Start of Service: ClassifyText
 ##############################################################################
 # region
 
-#-----------------------------------------------------------------------------
-# Test Class for classify
-#-----------------------------------------------------------------------------
 class TestClassify():
+    """
+    Test Class for classify
+    """
 
-    #--------------------------------------------------------
-    # Test 1: Send fake data and check response
-    #--------------------------------------------------------
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     @responses.activate
-    def test_classify_response(self):
-        body = self.construct_full_body()
-        response = fake_response_Classification_json
-        send_request(self, body, response)
-        assert len(responses.calls) == 1
-
-    #--------------------------------------------------------
-    # Test 2: Send only required fake data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_classify_required_response(self):
-        # Check response with required params
-        body = self.construct_required_body()
-        response = fake_response_Classification_json
-        send_request(self, body, response)
-        assert len(responses.calls) == 1
-
-    #--------------------------------------------------------
-    # Test 3: Send empty data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_classify_empty(self):
-        check_empty_required_params(self, fake_response_Classification_json)
-        check_missing_required_params(self)
-        assert len(responses.calls) == 0
-
-    #-----------
-    #- Helpers -
-    #-----------
-    def make_url(self, body):
-        endpoint = '/v1/classifiers/{0}/classify'.format(body['classifier_id'])
-        url = '{0}{1}'.format(base_url, endpoint)
-        return url
-
-    def add_mock_response(self, url, response):
+    def test_classify_all_params(self):
+        """
+        classify()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v1/classifiers/testString/classify')
+        mock_response = '{"classifier_id": "classifier_id", "url": "url", "text": "text", "top_class": "top_class", "classes": [{"confidence": 10, "class_name": "class_name"}]}'
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
-    def call_service(self, body):
-        service = NaturalLanguageClassifierV1(
-            authenticator=NoAuthAuthenticator(),
-            )
-        service.set_service_url(base_url)
-        output = service.classify(**body)
-        return output
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
 
-    def construct_full_body(self):
-        body = dict()
-        body['classifier_id'] = "string1"
-        body.update({"text": "string1", })
-        return body
+        # Set up parameter values
+        classifier_id = 'testString'
+        text = 'testString'
 
-    def construct_required_body(self):
-        body = dict()
-        body['classifier_id'] = "string1"
-        body.update({"text": "string1", })
-        return body
+        # Invoke method
+        response = service.classify(
+            classifier_id,
+            text,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['text'] == 'testString'
 
 
-#-----------------------------------------------------------------------------
-# Test Class for classify_collection
-#-----------------------------------------------------------------------------
+    @responses.activate
+    def test_classify_value_error(self):
+        """
+        test_classify_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v1/classifiers/testString/classify')
+        mock_response = '{"classifier_id": "classifier_id", "url": "url", "text": "text", "top_class": "top_class", "classes": [{"confidence": 10, "class_name": "class_name"}]}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        classifier_id = 'testString'
+        text = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "classifier_id": classifier_id,
+            "text": text,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                service.classify(**req_copy)
+
+
+
 class TestClassifyCollection():
+    """
+    Test Class for classify_collection
+    """
 
-    #--------------------------------------------------------
-    # Test 1: Send fake data and check response
-    #--------------------------------------------------------
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     @responses.activate
-    def test_classify_collection_response(self):
-        body = self.construct_full_body()
-        response = fake_response_ClassificationCollection_json
-        send_request(self, body, response)
-        assert len(responses.calls) == 1
-
-    #--------------------------------------------------------
-    # Test 2: Send only required fake data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_classify_collection_required_response(self):
-        # Check response with required params
-        body = self.construct_required_body()
-        response = fake_response_ClassificationCollection_json
-        send_request(self, body, response)
-        assert len(responses.calls) == 1
-
-    #--------------------------------------------------------
-    # Test 3: Send empty data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_classify_collection_empty(self):
-        check_empty_required_params(self, fake_response_ClassificationCollection_json)
-        check_missing_required_params(self)
-        assert len(responses.calls) == 0
-
-    #-----------
-    #- Helpers -
-    #-----------
-    def make_url(self, body):
-        endpoint = '/v1/classifiers/{0}/classify_collection'.format(body['classifier_id'])
-        url = '{0}{1}'.format(base_url, endpoint)
-        return url
-
-    def add_mock_response(self, url, response):
+    def test_classify_collection_all_params(self):
+        """
+        classify_collection()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v1/classifiers/testString/classify_collection')
+        mock_response = '{"classifier_id": "classifier_id", "url": "url", "collection": [{"text": "text", "top_class": "top_class", "classes": [{"confidence": 10, "class_name": "class_name"}]}]}'
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
-    def call_service(self, body):
-        service = NaturalLanguageClassifierV1(
-            authenticator=NoAuthAuthenticator(),
-            )
-        service.set_service_url(base_url)
-        output = service.classify_collection(**body)
-        return output
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
 
-    def construct_full_body(self):
-        body = dict()
-        body['classifier_id'] = "string1"
-        body.update({"collection": [], })
-        return body
+        # Construct a dict representation of a ClassifyInput model
+        classify_input_model = {}
+        classify_input_model['text'] = 'How hot will it be today?'
 
-    def construct_required_body(self):
-        body = dict()
-        body['classifier_id'] = "string1"
-        body.update({"collection": [], })
-        return body
+        # Set up parameter values
+        classifier_id = 'testString'
+        collection = [classify_input_model]
+
+        # Invoke method
+        response = service.classify_collection(
+            classifier_id,
+            collection,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate body params
+        req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
+        assert req_body['collection'] == [classify_input_model]
+
+
+    @responses.activate
+    def test_classify_collection_value_error(self):
+        """
+        test_classify_collection_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v1/classifiers/testString/classify_collection')
+        mock_response = '{"classifier_id": "classifier_id", "url": "url", "collection": [{"text": "text", "top_class": "top_class", "classes": [{"confidence": 10, "class_name": "class_name"}]}]}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Construct a dict representation of a ClassifyInput model
+        classify_input_model = {}
+        classify_input_model['text'] = 'How hot will it be today?'
+
+        # Set up parameter values
+        classifier_id = 'testString'
+        collection = [classify_input_model]
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "classifier_id": classifier_id,
+            "collection": collection,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                service.classify_collection(**req_copy)
+
 
 
 # endregion
@@ -182,279 +214,249 @@ class TestClassifyCollection():
 ##############################################################################
 # region
 
-#-----------------------------------------------------------------------------
-# Test Class for create_classifier
-#-----------------------------------------------------------------------------
 class TestCreateClassifier():
+    """
+    Test Class for create_classifier
+    """
 
-    #--------------------------------------------------------
-    # Test 1: Send fake data and check response
-    #--------------------------------------------------------
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     @responses.activate
-    def test_create_classifier_response(self):
-        body = self.construct_full_body()
-        response = fake_response_Classifier_json
-        send_request(self, body, response)
-        assert len(responses.calls) == 1
-
-    #--------------------------------------------------------
-    # Test 2: Send only required fake data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_create_classifier_required_response(self):
-        # Check response with required params
-        body = self.construct_required_body()
-        response = fake_response_Classifier_json
-        send_request(self, body, response)
-        assert len(responses.calls) == 1
-
-    #--------------------------------------------------------
-    # Test 3: Send empty data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_create_classifier_empty(self):
-        check_empty_required_params(self, fake_response_Classifier_json)
-        check_missing_required_params(self)
-        assert len(responses.calls) == 0
-
-    #-----------
-    #- Helpers -
-    #-----------
-    def make_url(self, body):
-        endpoint = '/v1/classifiers'
-        url = '{0}{1}'.format(base_url, endpoint)
-        return url
-
-    def add_mock_response(self, url, response):
+    def test_create_classifier_all_params(self):
+        """
+        create_classifier()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v1/classifiers')
+        mock_response = '{"name": "name", "url": "url", "status": "Non Existent", "classifier_id": "classifier_id", "created": "2019-01-01T12:00:00", "status_description": "status_description", "language": "language"}'
         responses.add(responses.POST,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
-    def call_service(self, body):
-        service = NaturalLanguageClassifierV1(
-            authenticator=NoAuthAuthenticator(),
-            )
-        service.set_service_url(base_url)
-        output = service.create_classifier(**body)
-        return output
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
 
-    def construct_full_body(self):
-        body = dict()
-        body['training_metadata'] = tempfile.NamedTemporaryFile()
-        body['training_data'] = tempfile.NamedTemporaryFile()
-        return body
+        # Set up parameter values
+        training_metadata = io.BytesIO(b'This is a mock file.').getvalue()
+        training_data = io.BytesIO(b'This is a mock file.').getvalue()
 
-    def construct_required_body(self):
-        body = dict()
-        body['training_metadata'] = tempfile.NamedTemporaryFile()
-        body['training_data'] = tempfile.NamedTemporaryFile()
-        return body
+        # Invoke method
+        response = service.create_classifier(
+            training_metadata,
+            training_data,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
 
 
-#-----------------------------------------------------------------------------
-# Test Class for list_classifiers
-#-----------------------------------------------------------------------------
+    @responses.activate
+    def test_create_classifier_value_error(self):
+        """
+        test_create_classifier_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v1/classifiers')
+        mock_response = '{"name": "name", "url": "url", "status": "Non Existent", "classifier_id": "classifier_id", "created": "2019-01-01T12:00:00", "status_description": "status_description", "language": "language"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        training_metadata = io.BytesIO(b'This is a mock file.').getvalue()
+        training_data = io.BytesIO(b'This is a mock file.').getvalue()
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "training_metadata": training_metadata,
+            "training_data": training_data,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                service.create_classifier(**req_copy)
+
+
+
 class TestListClassifiers():
+    """
+    Test Class for list_classifiers
+    """
 
-    #--------------------------------------------------------
-    # Test 1: Send fake data and check response
-    #--------------------------------------------------------
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     @responses.activate
-    def test_list_classifiers_response(self):
-        body = self.construct_full_body()
-        response = fake_response_ClassifierList_json
-        send_request(self, body, response)
-        assert len(responses.calls) == 1
-
-    #--------------------------------------------------------
-    # Test 2: Send only required fake data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_list_classifiers_required_response(self):
-        # Check response with required params
-        body = self.construct_required_body()
-        response = fake_response_ClassifierList_json
-        send_request(self, body, response)
-        assert len(responses.calls) == 1
-
-    #--------------------------------------------------------
-    # Test 3: Send empty data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_list_classifiers_empty(self):
-        check_empty_response(self)
-        assert len(responses.calls) == 1
-
-    #-----------
-    #- Helpers -
-    #-----------
-    def make_url(self, body):
-        endpoint = '/v1/classifiers'
-        url = '{0}{1}'.format(base_url, endpoint)
-        return url
-
-    def add_mock_response(self, url, response):
+    def test_list_classifiers_all_params(self):
+        """
+        list_classifiers()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v1/classifiers')
+        mock_response = '{"classifiers": [{"name": "name", "url": "url", "status": "Non Existent", "classifier_id": "classifier_id", "created": "2019-01-01T12:00:00", "status_description": "status_description", "language": "language"}]}'
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
-    def call_service(self, body):
-        service = NaturalLanguageClassifierV1(
-            authenticator=NoAuthAuthenticator(),
-            )
-        service.set_service_url(base_url)
-        output = service.list_classifiers(**body)
-        return output
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
 
-    def construct_full_body(self):
-        body = dict()
-        return body
-
-    def construct_required_body(self):
-        body = dict()
-        return body
+        # Invoke method
+        response = service.list_classifiers()
 
 
-#-----------------------------------------------------------------------------
-# Test Class for get_classifier
-#-----------------------------------------------------------------------------
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
 class TestGetClassifier():
+    """
+    Test Class for get_classifier
+    """
 
-    #--------------------------------------------------------
-    # Test 1: Send fake data and check response
-    #--------------------------------------------------------
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     @responses.activate
-    def test_get_classifier_response(self):
-        body = self.construct_full_body()
-        response = fake_response_Classifier_json
-        send_request(self, body, response)
-        assert len(responses.calls) == 1
-
-    #--------------------------------------------------------
-    # Test 2: Send only required fake data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_get_classifier_required_response(self):
-        # Check response with required params
-        body = self.construct_required_body()
-        response = fake_response_Classifier_json
-        send_request(self, body, response)
-        assert len(responses.calls) == 1
-
-    #--------------------------------------------------------
-    # Test 3: Send empty data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_get_classifier_empty(self):
-        check_empty_required_params(self, fake_response_Classifier_json)
-        check_missing_required_params(self)
-        assert len(responses.calls) == 0
-
-    #-----------
-    #- Helpers -
-    #-----------
-    def make_url(self, body):
-        endpoint = '/v1/classifiers/{0}'.format(body['classifier_id'])
-        url = '{0}{1}'.format(base_url, endpoint)
-        return url
-
-    def add_mock_response(self, url, response):
+    def test_get_classifier_all_params(self):
+        """
+        get_classifier()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v1/classifiers/testString')
+        mock_response = '{"name": "name", "url": "url", "status": "Non Existent", "classifier_id": "classifier_id", "created": "2019-01-01T12:00:00", "status_description": "status_description", "language": "language"}'
         responses.add(responses.GET,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='application/json')
-    
-    def call_service(self, body):
-        service = NaturalLanguageClassifierV1(
-            authenticator=NoAuthAuthenticator(),
-            )
-        service.set_service_url(base_url)
-        output = service.get_classifier(**body)
-        return output
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
 
-    def construct_full_body(self):
-        body = dict()
-        body['classifier_id'] = "string1"
-        return body
+        # Set up parameter values
+        classifier_id = 'testString'
 
-    def construct_required_body(self):
-        body = dict()
-        body['classifier_id'] = "string1"
-        return body
+        # Invoke method
+        response = service.get_classifier(
+            classifier_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
 
 
-#-----------------------------------------------------------------------------
-# Test Class for delete_classifier
-#-----------------------------------------------------------------------------
+    @responses.activate
+    def test_get_classifier_value_error(self):
+        """
+        test_get_classifier_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v1/classifiers/testString')
+        mock_response = '{"name": "name", "url": "url", "status": "Non Existent", "classifier_id": "classifier_id", "created": "2019-01-01T12:00:00", "status_description": "status_description", "language": "language"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        classifier_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "classifier_id": classifier_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                service.get_classifier(**req_copy)
+
+
+
 class TestDeleteClassifier():
+    """
+    Test Class for delete_classifier
+    """
 
-    #--------------------------------------------------------
-    # Test 1: Send fake data and check response
-    #--------------------------------------------------------
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
     @responses.activate
-    def test_delete_classifier_response(self):
-        body = self.construct_full_body()
-        response = fake_response__json
-        send_request(self, body, response)
-        assert len(responses.calls) == 1
-
-    #--------------------------------------------------------
-    # Test 2: Send only required fake data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_delete_classifier_required_response(self):
-        # Check response with required params
-        body = self.construct_required_body()
-        response = fake_response__json
-        send_request(self, body, response)
-        assert len(responses.calls) == 1
-
-    #--------------------------------------------------------
-    # Test 3: Send empty data and check response
-    #--------------------------------------------------------
-    @responses.activate
-    def test_delete_classifier_empty(self):
-        check_empty_required_params(self, fake_response__json)
-        check_missing_required_params(self)
-        assert len(responses.calls) == 0
-
-    #-----------
-    #- Helpers -
-    #-----------
-    def make_url(self, body):
-        endpoint = '/v1/classifiers/{0}'.format(body['classifier_id'])
-        url = '{0}{1}'.format(base_url, endpoint)
-        return url
-
-    def add_mock_response(self, url, response):
+    def test_delete_classifier_all_params(self):
+        """
+        delete_classifier()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v1/classifiers/testString')
         responses.add(responses.DELETE,
-                    url,
-                    body=json.dumps(response),
-                    status=200,
-                    content_type='')
-    
-    def call_service(self, body):
-        service = NaturalLanguageClassifierV1(
-            authenticator=NoAuthAuthenticator(),
-            )
-        service.set_service_url(base_url)
-        output = service.delete_classifier(**body)
-        return output
+                      url,
+                      status=200)
 
-    def construct_full_body(self):
-        body = dict()
-        body['classifier_id'] = "string1"
-        return body
+        # Set up parameter values
+        classifier_id = 'testString'
 
-    def construct_required_body(self):
-        body = dict()
-        body['classifier_id'] = "string1"
-        return body
+        # Invoke method
+        response = service.delete_classifier(
+            classifier_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    @responses.activate
+    def test_delete_classifier_value_error(self):
+        """
+        test_delete_classifier_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(base_url + '/v1/classifiers/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=200)
+
+        # Set up parameter values
+        classifier_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "classifier_id": classifier_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                service.delete_classifier(**req_copy)
+
 
 
 # endregion
@@ -463,72 +465,264 @@ class TestDeleteClassifier():
 ##############################################################################
 
 
-def check_empty_required_params(obj, response):
-    """Test function to assert that the operation will throw an error when given empty required data
-
-    Args:
-        obj: The generated test function
-
+##############################################################################
+# Start of Model Tests
+##############################################################################
+# region
+class TestClassification():
     """
-    body = obj.construct_full_body()
-    body = {k: None for k in body.keys()}
-    error = False
-    try:
-        send_request(obj, body, response)
-    except ValueError as e:
-        error = True
-    assert error
-
-def check_missing_required_params(obj):
-    """Test function to assert that the operation will throw an error when missing required data
-
-    Args:
-        obj: The generated test function
-
+    Test Class for Classification
     """
-    body = obj.construct_full_body()
-    url = obj.make_url(body)
-    error = False
-    try:
-        send_request(obj, {}, {}, url=url)
-    except TypeError as e:
-        error = True
-    assert error
 
-def check_empty_response(obj):
-    """Test function to assert that the operation will return an empty response when given an empty request
+    def test_classification_serialization(self):
+        """
+        Test serialization/deserialization for Classification
+        """
 
-    Args:
-        obj: The generated test function
+        # Construct dict forms of any model objects needed in order to build this model.
 
+        classified_class_model = {} # ClassifiedClass
+        classified_class_model['confidence'] = 72.5
+        classified_class_model['class_name'] = 'testString'
+
+        # Construct a json representation of a Classification model
+        classification_model_json = {}
+        classification_model_json['classifier_id'] = 'testString'
+        classification_model_json['url'] = 'testString'
+        classification_model_json['text'] = 'testString'
+        classification_model_json['top_class'] = 'testString'
+        classification_model_json['classes'] = [classified_class_model]
+
+        # Construct a model instance of Classification by calling from_dict on the json representation
+        classification_model = Classification.from_dict(classification_model_json)
+        assert classification_model != False
+
+        # Construct a model instance of Classification by calling from_dict on the json representation
+        classification_model_dict = Classification.from_dict(classification_model_json).__dict__
+        classification_model2 = Classification(**classification_model_dict)
+
+        # Verify the model instances are equivalent
+        assert classification_model == classification_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        classification_model_json2 = classification_model.to_dict()
+        assert classification_model_json2 == classification_model_json
+
+class TestClassificationCollection():
     """
-    body = obj.construct_full_body()
-    url = obj.make_url(body)
-    send_request(obj, {}, {}, url=url)
-
-def send_request(obj, body, response, url=None):
-    """Test function to create a request, send it, and assert its accuracy to the mock response
-
-    Args:
-        obj: The generated test function
-        body: Dict filled with fake data for calling the service
-        response_str: Mock response string
-
+    Test Class for ClassificationCollection
     """
-    if not url:
-        url = obj.make_url(body)
-    obj.add_mock_response(url, response)
-    output = obj.call_service(body)
-    assert responses.calls[0].request.url.startswith(url)
-    assert output.get_result() == response
 
-####################
-## Mock Responses ##
-####################
+    def test_classification_collection_serialization(self):
+        """
+        Test serialization/deserialization for ClassificationCollection
+        """
 
-fake_response__json = None
-fake_response_Classification_json = """{"classifier_id": "fake_classifier_id", "url": "fake_url", "text": "fake_text", "top_class": "fake_top_class", "classes": []}"""
-fake_response_ClassificationCollection_json = """{"classifier_id": "fake_classifier_id", "url": "fake_url", "collection": []}"""
-fake_response_Classifier_json = """{"name": "fake_name", "url": "fake_url", "status": "fake_status", "classifier_id": "fake_classifier_id", "created": "2017-05-16T13:56:54.957Z", "status_description": "fake_status_description", "language": "fake_language"}"""
-fake_response_ClassifierList_json = """{"classifiers": []}"""
-fake_response_Classifier_json = """{"name": "fake_name", "url": "fake_url", "status": "fake_status", "classifier_id": "fake_classifier_id", "created": "2017-05-16T13:56:54.957Z", "status_description": "fake_status_description", "language": "fake_language"}"""
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        classified_class_model = {} # ClassifiedClass
+        classified_class_model['confidence'] = 72.5
+        classified_class_model['class_name'] = 'testString'
+
+        collection_item_model = {} # CollectionItem
+        collection_item_model['text'] = 'testString'
+        collection_item_model['top_class'] = 'testString'
+        collection_item_model['classes'] = [classified_class_model]
+
+        # Construct a json representation of a ClassificationCollection model
+        classification_collection_model_json = {}
+        classification_collection_model_json['classifier_id'] = 'testString'
+        classification_collection_model_json['url'] = 'testString'
+        classification_collection_model_json['collection'] = [collection_item_model]
+
+        # Construct a model instance of ClassificationCollection by calling from_dict on the json representation
+        classification_collection_model = ClassificationCollection.from_dict(classification_collection_model_json)
+        assert classification_collection_model != False
+
+        # Construct a model instance of ClassificationCollection by calling from_dict on the json representation
+        classification_collection_model_dict = ClassificationCollection.from_dict(classification_collection_model_json).__dict__
+        classification_collection_model2 = ClassificationCollection(**classification_collection_model_dict)
+
+        # Verify the model instances are equivalent
+        assert classification_collection_model == classification_collection_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        classification_collection_model_json2 = classification_collection_model.to_dict()
+        assert classification_collection_model_json2 == classification_collection_model_json
+
+class TestClassifiedClass():
+    """
+    Test Class for ClassifiedClass
+    """
+
+    def test_classified_class_serialization(self):
+        """
+        Test serialization/deserialization for ClassifiedClass
+        """
+
+        # Construct a json representation of a ClassifiedClass model
+        classified_class_model_json = {}
+        classified_class_model_json['confidence'] = 72.5
+        classified_class_model_json['class_name'] = 'testString'
+
+        # Construct a model instance of ClassifiedClass by calling from_dict on the json representation
+        classified_class_model = ClassifiedClass.from_dict(classified_class_model_json)
+        assert classified_class_model != False
+
+        # Construct a model instance of ClassifiedClass by calling from_dict on the json representation
+        classified_class_model_dict = ClassifiedClass.from_dict(classified_class_model_json).__dict__
+        classified_class_model2 = ClassifiedClass(**classified_class_model_dict)
+
+        # Verify the model instances are equivalent
+        assert classified_class_model == classified_class_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        classified_class_model_json2 = classified_class_model.to_dict()
+        assert classified_class_model_json2 == classified_class_model_json
+
+class TestClassifier():
+    """
+    Test Class for Classifier
+    """
+
+    def test_classifier_serialization(self):
+        """
+        Test serialization/deserialization for Classifier
+        """
+
+        # Construct a json representation of a Classifier model
+        classifier_model_json = {}
+        classifier_model_json['name'] = 'testString'
+        classifier_model_json['url'] = 'testString'
+        classifier_model_json['status'] = 'Non Existent'
+        classifier_model_json['classifier_id'] = 'testString'
+        classifier_model_json['created'] = '2020-01-28T18:40:40.123456Z'
+        classifier_model_json['status_description'] = 'testString'
+        classifier_model_json['language'] = 'testString'
+
+        # Construct a model instance of Classifier by calling from_dict on the json representation
+        classifier_model = Classifier.from_dict(classifier_model_json)
+        assert classifier_model != False
+
+        # Construct a model instance of Classifier by calling from_dict on the json representation
+        classifier_model_dict = Classifier.from_dict(classifier_model_json).__dict__
+        classifier_model2 = Classifier(**classifier_model_dict)
+
+        # Verify the model instances are equivalent
+        assert classifier_model == classifier_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        classifier_model_json2 = classifier_model.to_dict()
+        assert classifier_model_json2 == classifier_model_json
+
+class TestClassifierList():
+    """
+    Test Class for ClassifierList
+    """
+
+    def test_classifier_list_serialization(self):
+        """
+        Test serialization/deserialization for ClassifierList
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        classifier_model = {} # Classifier
+        classifier_model['name'] = 'testString'
+        classifier_model['url'] = 'testString'
+        classifier_model['status'] = 'Non Existent'
+        classifier_model['classifier_id'] = 'testString'
+        classifier_model['created'] = '2020-01-28T18:40:40.123456Z'
+        classifier_model['status_description'] = 'testString'
+        classifier_model['language'] = 'testString'
+
+        # Construct a json representation of a ClassifierList model
+        classifier_list_model_json = {}
+        classifier_list_model_json['classifiers'] = [classifier_model]
+
+        # Construct a model instance of ClassifierList by calling from_dict on the json representation
+        classifier_list_model = ClassifierList.from_dict(classifier_list_model_json)
+        assert classifier_list_model != False
+
+        # Construct a model instance of ClassifierList by calling from_dict on the json representation
+        classifier_list_model_dict = ClassifierList.from_dict(classifier_list_model_json).__dict__
+        classifier_list_model2 = ClassifierList(**classifier_list_model_dict)
+
+        # Verify the model instances are equivalent
+        assert classifier_list_model == classifier_list_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        classifier_list_model_json2 = classifier_list_model.to_dict()
+        assert classifier_list_model_json2 == classifier_list_model_json
+
+class TestClassifyInput():
+    """
+    Test Class for ClassifyInput
+    """
+
+    def test_classify_input_serialization(self):
+        """
+        Test serialization/deserialization for ClassifyInput
+        """
+
+        # Construct a json representation of a ClassifyInput model
+        classify_input_model_json = {}
+        classify_input_model_json['text'] = 'testString'
+
+        # Construct a model instance of ClassifyInput by calling from_dict on the json representation
+        classify_input_model = ClassifyInput.from_dict(classify_input_model_json)
+        assert classify_input_model != False
+
+        # Construct a model instance of ClassifyInput by calling from_dict on the json representation
+        classify_input_model_dict = ClassifyInput.from_dict(classify_input_model_json).__dict__
+        classify_input_model2 = ClassifyInput(**classify_input_model_dict)
+
+        # Verify the model instances are equivalent
+        assert classify_input_model == classify_input_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        classify_input_model_json2 = classify_input_model.to_dict()
+        assert classify_input_model_json2 == classify_input_model_json
+
+class TestCollectionItem():
+    """
+    Test Class for CollectionItem
+    """
+
+    def test_collection_item_serialization(self):
+        """
+        Test serialization/deserialization for CollectionItem
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        classified_class_model = {} # ClassifiedClass
+        classified_class_model['confidence'] = 72.5
+        classified_class_model['class_name'] = 'testString'
+
+        # Construct a json representation of a CollectionItem model
+        collection_item_model_json = {}
+        collection_item_model_json['text'] = 'testString'
+        collection_item_model_json['top_class'] = 'testString'
+        collection_item_model_json['classes'] = [classified_class_model]
+
+        # Construct a model instance of CollectionItem by calling from_dict on the json representation
+        collection_item_model = CollectionItem.from_dict(collection_item_model_json)
+        assert collection_item_model != False
+
+        # Construct a model instance of CollectionItem by calling from_dict on the json representation
+        collection_item_model_dict = CollectionItem.from_dict(collection_item_model_json).__dict__
+        collection_item_model2 = CollectionItem(**collection_item_model_dict)
+
+        # Verify the model instances are equivalent
+        assert collection_item_model == collection_item_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        collection_item_model_json2 = collection_item_model.to_dict()
+        assert collection_item_model_json2 == collection_item_model_json
+
+
+# endregion
+##############################################################################
+# End of Model Tests
+##############################################################################
