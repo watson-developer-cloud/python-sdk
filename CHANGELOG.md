@@ -1,3 +1,10 @@
+# [5.1.0](https://github.com/watson-developer-cloud/python-sdk/compare/v5.0.2...v5.1.0) (2021-01-12)
+
+
+### Features
+
+* upate core to use 3.3.6 ([83d5f6a](https://github.com/watson-developer-cloud/python-sdk/commit/83d5f6a7ad4c69fc3c2dbecc6cadee0dc69eeadf))
+
 ## [5.0.2](https://github.com/watson-developer-cloud/python-sdk/compare/v5.0.1...v5.0.2) (2020-12-28)
 
 
