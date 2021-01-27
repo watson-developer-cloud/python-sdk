@@ -43,6 +43,9 @@ Python client library to quickly get started with the various [Watson APIs][wdc]
 </details>
 
 ## ANNOUNCEMENTS!
+### Updating endpoint URLs from watsonplatform.net
+Watson API endpoint URLs at watsonplatform.net are changing and will not work after 26 May 2021. Update your calls to use the newer endpoint URLs. For more information, see https://cloud.ibm.com/docs/watson?topic=watson-endpoint-change.
+
 ### Personality Insights deprecation
 IBM Watson™ Personality Insights is discontinued. For a period of one year from 1 December 2020, you will still be able to use Watson Personality Insights. However, as of 1 December 2021, the offering will no longer be available.
 
@@ -50,6 +53,9 @@ As an alternative, we encourage you to consider migrating to IBM Watson™ [Natu
 
 ### Visual Recognition deprecation
 IBM Watson™ Visual Recognition is discontinued. Existing instances are supported until 1 December 2021, but as of 7 January 2021, you can't create instances. Any instance that is provisioned on 1 December 2021 will be deleted.
+
+### Compare and Comply deprecation
+IBM Watson™ Compare and Comply is discontinued. Existing instances are supported until 30 November 2021, but as of 1 December 2020, you can't create instances. Any instance that exists on 30 November 2021 will be deleted. Consider migrating to Watson Discovery Premium on IBM Cloud for your Compare and Comply use cases. To start the migration process, visit https://ibm.biz/contact-wdc-premium.
 
 ## Before you begin
 * You need an [IBM Cloud][ibm-cloud-onboarding] account. We now only support `python 3.5` and above
