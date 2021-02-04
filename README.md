@@ -387,19 +387,19 @@ Every SDK call returns a response with a transaction ID in the `X-Global-Transac
 
 ### Suceess
 ```python
-from ibm_watson import MyService
+from ibm_watson import AssistantV1
 
-service = MyService(authenticator=my_authenticator)
+service = AssistantV1(authenticator={my_authenticator})
 response_headers = service.my_service_call().get_headers()
 print(response_headers.get('X-Global-Transaction-Id'))
 ```
 
 ### Failure
 ```python
-from ibm_watson import MyService, ApiException
+from ibm_watson import AssistantV1, ApiException
 
 try:
-    service = MyService(authenticator=my_authenticators)
+    service = AssistantV1(authenticator={my_authenticator})
     service.my_service_call()
 except ApiException as e:
     print(e.global_transaction_id)
@@ -410,9 +410,9 @@ except ApiException as e:
 However, the transaction ID isn't available when the API doesn't return a response for some reason. In that case, you can set your own transaction ID in the request. For example, replace `<my-unique-transaction-id>` in the following example with a unique transaction ID.
 
 ```python
-from ibm_watson import MyService
+from ibm_watson import AssistantV1
 
-service = MyService(authenticator=my_authenticator)
+service = AssistantV1(authenticator={my_authenticator})
 service.my_service_call(headers={'X-Global-Transaction-Id': '<my-unique-transaction-id>'})
 ```
 
