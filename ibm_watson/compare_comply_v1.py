@@ -59,6 +59,9 @@ class CompareComplyV1(BaseService):
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
         """
+        print(
+            'warning: On 30 November 2021, Compare and Comply will no longer be available. For more information, see https://github.com/watson-developer-cloud/python-sdk#compare-and-comply-deprecation.'
+        )
         if version is None:
             raise ValueError('version must be provided')
 
