@@ -1722,7 +1722,7 @@ class DiscoveryV1(BaseService):
               passages: bool = None,
               aggregation: str = None,
               count: int = None,
-              return_: str = None,
+              return_: List[str] = None,
               offset: int = None,
               sort: str = None,
               highlight: bool = None,
@@ -1764,8 +1764,8 @@ class DiscoveryV1(BaseService):
                applications to build lists, tables, and time series. For a full list of
                possible aggregations, see the Query reference.
         :param int count: (optional) Number of results to return.
-        :param str return_: (optional) A comma-separated list of the portion of the
-               document hierarchy to return.
+        :param List[str] return_: (optional) A comma-separated list of the portion
+               of the document hierarchy to return.
         :param int offset: (optional) The number of query results to skip at the
                beginning. For example, if the total number of results that are returned is
                10 and the offset is 8, it returns the last two results.
@@ -1845,7 +1845,7 @@ class DiscoveryV1(BaseService):
             'passages': passages,
             'aggregation': aggregation,
             'count': count,
-            'return': return_,
+            'return': convert_list(return_),
             'offset': offset,
             'sort': sort,
             'highlight': highlight,
@@ -2032,7 +2032,7 @@ class DiscoveryV1(BaseService):
                         passages: bool = None,
                         aggregation: str = None,
                         count: int = None,
-                        return_: str = None,
+                        return_: List[str] = None,
                         offset: int = None,
                         sort: str = None,
                         highlight: bool = None,
@@ -2074,7 +2074,7 @@ class DiscoveryV1(BaseService):
                applications to build lists, tables, and time series. For a full list of
                possible aggregations, see the Query reference.
         :param int count: (optional) Number of results to return.
-        :param str return_: (optional) A comma-separated list of the portion of the
+        :param List[str] return_: (optional) A comma-separated list of the portion of the
                document hierarchy to return.
         :param int offset: (optional) The number of query results to skip at the
                beginning. For example, if the total number of results that are returned is
@@ -2150,7 +2150,7 @@ class DiscoveryV1(BaseService):
             'passages': passages,
             'aggregation': aggregation,
             'count': count,
-            'return': return_,
+            'return': convert_list(return_),
             'offset': offset,
             'sort': sort,
             'highlight': highlight,
