@@ -766,7 +766,7 @@ class TestQueryNotices():
         query_notices()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/notices')
+        url = self.preprocess_url(base_url + '/v2/projects/testString/collections/testString/notices')
         mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
         responses.add(responses.GET,
                       url,
@@ -776,6 +776,7 @@ class TestQueryNotices():
 
         # Set up parameter values
         project_id = 'testString'
+        collection_id = 'testString'
         filter = 'testString'
         query = 'testString'
         natural_language_query = 'testString'
@@ -785,6 +786,7 @@ class TestQueryNotices():
         # Invoke method
         response = service.query_notices(
             project_id,
+            collection_id,
             filter=filter,
             query=query,
             natural_language_query=natural_language_query,
@@ -812,7 +814,7 @@ class TestQueryNotices():
         test_query_notices_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/notices')
+        url = self.preprocess_url(base_url + '/v2/projects/testString/collections/testString/notices')
         mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
         responses.add(responses.GET,
                       url,
@@ -822,10 +824,12 @@ class TestQueryNotices():
 
         # Set up parameter values
         project_id = 'testString'
+        collection_id = 'testString'
 
         # Invoke method
         response = service.query_notices(
             project_id,
+            collection_id,
             headers={}
         )
 
@@ -840,7 +844,7 @@ class TestQueryNotices():
         test_query_notices_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/notices')
+        url = self.preprocess_url(base_url + '/v2/projects/testString/collections/testString/notices')
         mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
         responses.add(responses.GET,
                       url,
@@ -850,10 +854,12 @@ class TestQueryNotices():
 
         # Set up parameter values
         project_id = 'testString'
+        collection_id = 'testString'
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
             "project_id": project_id,
+            "collection_id": collection_id,
         }
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}

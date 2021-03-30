@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-a45d89ef-20201210-124536
+# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-8d569e8f-20210330-113527
 """
 IBM Watson&trade; Discovery is a cognitive search and content analytics engine that you
 can add to applications to identify patterns, trends and actionable insights to drive
@@ -541,6 +541,7 @@ class DiscoveryV2(BaseService):
 
     def query_notices(self,
                       project_id: str,
+                      collection_id: str,
                       *,
                       filter: str = None,
                       query: str = None,
@@ -557,6 +558,7 @@ class DiscoveryV2(BaseService):
 
         :param str project_id: The ID of the project. This information can be found
                from the deploy page of the Discovery administrative tooling.
+        :param str collection_id: The ID of the collection.
         :param str filter: (optional) A cacheable query that excludes documents
                that don't mention the query content. Filter searches are better for
                metadata-type searches and for assessing the concepts in the data set.
@@ -579,6 +581,8 @@ class DiscoveryV2(BaseService):
 
         if project_id is None:
             raise ValueError('project_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V2',
@@ -598,10 +602,11 @@ class DiscoveryV2(BaseService):
             headers.update(kwargs.get('headers'))
         headers['Accept'] = 'application/json'
 
-        path_param_keys = ['project_id']
-        path_param_values = self.encode_path_vars(project_id)
+        path_param_keys = ['project_id', 'collection_id']
+        path_param_values = self.encode_path_vars(project_id, collection_id)
         path_param_dict = dict(zip(path_param_keys, path_param_values))
-        url = '/v2/projects/{project_id}/notices'.format(**path_param_dict)
+        url = '/v2/projects/{project_id}/collections/{collection_id}/notices'.format(
+            **path_param_dict)
         request = self.prepare_request(method='GET',
                                        url=url,
                                        headers=headers,
