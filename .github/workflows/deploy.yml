@@ -2,14 +2,14 @@
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support documentation.
 # This workflow will download a prebuilt Python version, install dependencies, build and deploy/publish a new release
-# For more information see: https://help.github.com/actions/language-and-framework-guides/publishing-nodejs-packages
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
 name: Deploy and Publish
 
 on:
   workflow_run:
     workflows: ["Build and Test"]
-    branches: [ master ]
+    branches: [ '**' ]
     types:
       - completed
 
@@ -26,10 +26,10 @@ jobs:
     - uses: actions/checkout@v2
       with:
         persist-credentials: false
-    - name: Set up Node
-      uses: actions/setup-node@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
       with:
-        node-version: 12
+        python-version: '3.8'
     - name: Install Semantic Release dependencies
       run: |
         sudo apt-get install bumpversion
@@ -40,10 +40,23 @@ jobs:
         npm install -g @semantic-release/github
         npm install -g @semantic-release/commit-analyzer
         npm install -g @semantic-release/release-notes-generator
+    - name: Publish js docs
+      if: ${{ github.event.workflow_run.conclusion == 'success' }}
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        GHA_BRANCH: ${{ github.ref }} # non PR only need to get last part
+        GHA_COMMIT: ${{ github.sha }}
+      run: docs/publish_gha.sh
     - name: Publish to Git Releases and Tags
       if: ${{ github.event.workflow_run.conclusion == 'success' }}
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: npx semantic-release --dry-run
-
+    - name: Publish to Python (should be an action)
+      if: ${{ github.event.workflow_run.conclusion == 'success' }}
+      env:
+        PYPI_PASSWORD: "${{secrets.PYPI_PASSWORD}}"
+        user: watson-devex
+        repository: https://upload.pypi.org/legacy
+      run: pypi
