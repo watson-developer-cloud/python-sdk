@@ -45,7 +45,8 @@ jobs:
       if: matrix.python-version == '3.5'
       uses: codecov/codecov-action@v1
       with:
-        file: ./coverage.xml
+        file: coverage.xml
+        directory: ${{ env.GITHUB_REPOSITORY }}
         name: py${{ matrix.python-version }}-${{ matrix.os }}
     - name: Execute Python unit tests
       if: matrix.python-version != '3.5'
