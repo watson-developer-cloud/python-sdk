@@ -32,7 +32,6 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        pip3 install tox tox-gh-actions
         pip3 install -r requirements.txt
         pip3 install -r requirements-dev.txt
         pip3 install --editable .
@@ -46,7 +45,6 @@ jobs:
       uses: codecov/codecov-action@v1
       with:
         name: py${{ matrix.python-version }}-${{ matrix.os }}
-        verbose: true
     - name: Execute Python unit tests
       if: matrix.python-version != '3.5'
       run: |
