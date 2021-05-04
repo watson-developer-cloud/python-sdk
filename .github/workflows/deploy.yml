@@ -53,11 +53,5 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: npx semantic-release --dry-run
-    - name: Publish a Python distribution to PyPI
-      if: startsWith(github.ref, 'refs/tags')
-      uses: pypa/gh-action-pypi-publish@master
-      with:
-        password: ${{ secrets.PYPI_PASSWORD }}
-        user: watson-devex
-        repository_url: https://upload.pypi.org/legacy
+
 
