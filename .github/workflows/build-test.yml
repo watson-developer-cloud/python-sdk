@@ -39,5 +39,4 @@ jobs:
     - name: Execute Python unit tests
       run: |
         pip3 install -U python-dotenv
-#        tox
         py.test --reruns 3 --cov=ibm_watson
