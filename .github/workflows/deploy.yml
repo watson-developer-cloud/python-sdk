@@ -49,6 +49,7 @@ jobs:
         npm install -g @semantic-release/commit-analyzer
         npm install -g @semantic-release/release-notes-generator
     - name: Publish js docs
+      if: github.event.workflow_run.conclusion == 'success' && startsWith(github.ref, 'refs/tags')
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
         GHA_BRANCH: ${{ github.ref }} # non PR only need to get last part
