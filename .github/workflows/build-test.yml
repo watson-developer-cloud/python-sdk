@@ -32,7 +32,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        pip3 install -r requirements.txt --use-deprecated=legacy-resolver --no-deps
+      #  pip3 install -r requirements.txt --use-deprecated=legacy-resolver --no-deps
         pip3 install -r requirements-dev.txt
         pip3 install --editable .
     - name: Execute Python unit tests for code coverage
