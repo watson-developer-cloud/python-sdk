@@ -33,7 +33,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip3 install -r requirements.txt
-        pip3 install -r requirements-dev.txt
+        pip3 install -r requirements-dev.txt --use-deprecated=legacy-resolver
         pip3 install --editable .
     - name: Execute Python unit tests for code coverage
       if: matrix.python-version == '3.5'
