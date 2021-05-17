@@ -1,0 +1,74 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support documentation.
+# This workflow will download a prebuilt Python version, install dependencies, build and deploy/publish a new release
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Deploy and Publish
+
+on:
+  workflow_run:
+    workflows: ["Build and Test"]
+    branches: [ master ]
+    types:
+      - completed
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
+    name: Deploy and Publish
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        persist-credentials: false
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+    - name: Setup Node
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12
+    - name: Install dependencies
+      run: |
+        pip3 install -r requirements.txt
+        pip3 install -r requirements-dev.txt
+        pip3 install --editable .
+    - name: Install Semantic Release dependencies
+      run: |
+        sudo apt-get install bumpversion
+        npm install -g semantic-release
+        npm install -g @semantic-release/changelog
+        npm install -g @semantic-release/exec
+        npm install -g @semantic-release/git
+        npm install -g @semantic-release/github
+        npm install -g @semantic-release/commit-analyzer
+        npm install -g @semantic-release/release-notes-generator
+    - name: Publish js docs
+      if: github.event.workflow_run.conclusion == 'success' && startsWith(github.ref, 'refs/tags')
+      env:
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        GHA_BRANCH: ${{ github.ref }} # non PR only need to get last part
+        GHA_COMMIT: ${{ github.sha }}
+      run: |
+        sudo apt-get install python3-sphinx
+        docs/publish_gha.sh
+    - name: Publish to Git Releases and Tags
+      if: ${{ github.event.workflow_run.conclusion == 'success' }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      run: npx semantic-release # --dry-run
+    - name: Publish a Python distribution to PyPI # must have built dist before
+      if: github.event.workflow_run.conclusion == 'success' && github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+      uses: pypa/gh-action-pypi-publish@master
+      with:
+        password: ${{ secrets.PYPI_PASSWORD }}
+        user: watson-devex
+        repository_url: https://upload.pypi.org/legacy
+        verbose: false

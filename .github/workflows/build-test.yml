@@ -1,0 +1,52 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support documentation.
+# This workflow will do a clean install of python dependencies, build the source code and run tests across different versions of python
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Build and Test
+
+on:
+  push:
+    branches: [ '**' ]
+  pull_request:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build_test:
+    name: Build and Test on Python ${{ matrix.python-version }} and ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        python-version: ['3.5', '3.6', '3.7', '3.8']
+        os: [ubuntu-latest]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        pip3 install -r requirements.txt
+        pip3 install -r requirements-dev.txt
+        pip3 install --editable .
+    - name: Execute Python unit tests for code coverage
+      if: matrix.python-version == '3.5'
+      run: |
+        pip3 install -U python-dotenv
+        py.test --reruns 3 --cov=ibm_watson
+    - name: Upload coverage to Codecov
+      if: matrix.python-version == '3.5'
+      uses: codecov/codecov-action@v1
+      with:
+        name: py${{ matrix.python-version }}-${{ matrix.os }}
+    - name: Execute Python unit tests
+      if: matrix.python-version != '3.5'
+      run: |
+        pip3 install -U python-dotenv
+        py.test
