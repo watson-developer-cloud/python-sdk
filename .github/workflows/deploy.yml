@@ -63,7 +63,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      run: npx semantic-release # --dry-run
+      run: npx semantic-release --dry-run
     - name: Build binary wheel and a source tarball
       run: python setup.py sdist
     - name: Publish a Python distribution to PyPI # must have built dist before
