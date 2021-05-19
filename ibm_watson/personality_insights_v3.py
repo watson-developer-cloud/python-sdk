@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2016, 2020.
+# (C) Copyright IBM Corp. 2016, 2021.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,17 +14,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-a45d89ef-20201209-192237
+# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-902c9336-20210507-162723
 """
-IBM&reg; will begin sunsetting IBM Watson&trade; Personality Insights on 1 December 2020.
-For a period of one year from this date, you will still be able to use Watson Personality
-Insights. However, as of 1 December 2021, the offering will no longer be
-available.<br/><br/>As an alternative, we encourage you to consider migrating to IBM
-Watson&trade; Natural Language Understanding, a service on IBM Cloud&reg; that uses deep
-learning to extract data and insights from text such as keywords, categories, sentiment,
-emotion, and syntax to provide insights for your business or industry. For more
-information, see [About Natural Language
-Understanding](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-about).
+IBM Watson&trade; Personality Insights is discontinued. Existing instances are supported
+until 1 December 2021, but as of 1 December 2020, you cannot create new instances. Any
+instance that exists on 1 December 2021 will be deleted.<br/><br/>No direct replacement
+exists for Personality Insights. However, you can consider using [IBM Watson&trade;
+Natural Language
+Understanding](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-about)
+on IBM Cloud&reg; as part of a replacement analytic workflow for your Personality Insights
+use cases. You can use Natural Language Understanding to extract data and insights from
+text, such as keywords, categories, sentiment, emotion, and syntax. For more information
+about the personality models in Personality Insights, see [The science behind the
+service](https://cloud.ibm.com/docs/personality-insights?topic=personality-insights-science).
 {: deprecated}
 The IBM Watson Personality Insights service enables applications to derive insights from
 social media, enterprise data, or other digital communications. The service uses
