@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019, 2020.
+# (C) Copyright IBM Corp. 2019, 2021.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-a45d89ef-20201221-115123
+# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-902c9336-20210507-162723
 """
 The IBM Watson&trade; Assistant service combines machine learning, natural language
 understanding, and an integrated dialog editor to create conversation flows between your
@@ -56,7 +56,7 @@ class AssistantV2(BaseService):
         Construct a new client for the Assistant service.
 
         :param str version: Release date of the API version you want to use.
-               Specify dates in YYYY-MM-DD format. The current version is `2020-04-01`.
+               Specify dates in YYYY-MM-DD format. The current version is `2020-09-24`.
 
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
@@ -184,6 +184,7 @@ class AssistantV2(BaseService):
                 *,
                 input: 'MessageInput' = None,
                 context: 'MessageContext' = None,
+                user_id: str = None,
                 **kwargs) -> DetailedResponse:
         """
         Send user input to assistant (stateful).
@@ -207,6 +208,16 @@ class AssistantV2(BaseService):
                assistant on a per-session basis.
                **Note:** The total size of the context data stored for a stateful session
                cannot exceed 100KB.
+        :param str user_id: (optional) A string value that identifies the user who
+               is interacting with the assistant. The client must provide a unique
+               identifier for each individual end user who accesses the application. For
+               user-based plans, this user ID is used to identify unique users for billing
+               purposes. This string cannot contain carriage return, newline, or tab
+               characters. If no value is specified in the input, **user_id** is
+               automatically set to the value of **context.global.session_id**.
+               **Note:** This property is the same as the **user_id** property in the
+               global system context. If **user_id** is specified in both locations, the
+               value specified at the root is used.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `MessageResponse` object
@@ -228,7 +239,7 @@ class AssistantV2(BaseService):
 
         params = {'version': self.version}
 
-        data = {'input': input, 'context': context}
+        data = {'input': input, 'context': context, 'user_id': user_id}
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
         headers['content-type'] = 'application/json'
@@ -256,6 +267,7 @@ class AssistantV2(BaseService):
                           *,
                           input: 'MessageInputStateless' = None,
                           context: 'MessageContextStateless' = None,
+                          user_id: str = None,
                           **kwargs) -> DetailedResponse:
         """
         Send user input to assistant (stateless).
@@ -278,6 +290,16 @@ class AssistantV2(BaseService):
                previous response.
                **Note:** The total size of the context data for a stateless session cannot
                exceed 250KB.
+        :param str user_id: (optional) A string value that identifies the user who
+               is interacting with the assistant. The client must provide a unique
+               identifier for each individual end user who accesses the application. For
+               user-based plans, this user ID is used to identify unique users for billing
+               purposes. This string cannot contain carriage return, newline, or tab
+               characters. If no value is specified in the input, **user_id** is
+               automatically set to the value of **context.global.session_id**.
+               **Note:** This property is the same as the **user_id** property in the
+               global system context. If **user_id** is specified in both locations in a
+               message request, the value specified at the root is used.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `MessageResponseStateless` object
@@ -297,7 +319,7 @@ class AssistantV2(BaseService):
 
         params = {'version': self.version}
 
-        data = {'input': input, 'context': context}
+        data = {'input': input, 'context': context, 'user_id': user_id}
         data = {k: v for (k, v) in data.items() if v is not None}
         data = json.dumps(data)
         headers['content-type'] = 'application/json'
@@ -335,7 +357,7 @@ class AssistantV2(BaseService):
         information about the intents and entities recognized in each input. This method
         is useful for testing and comparing the performance of different skills or skill
         versions.
-        This method is available only with Premium plans.
+        This method is available only with Enterprise with Data Isolation plans.
 
         :param str skill_id: Unique identifier of the skill. To find the skill ID
                in the Watson Assistant user interface, open the skill settings and click
@@ -398,7 +420,7 @@ class AssistantV2(BaseService):
         List log events for an assistant.
 
         List the events from the log of an assistant.
-        This method is available only with Premium plans.
+        This method requires Manager access, and is available only with Enterprise plans.
 
         :param str assistant_id: Unique identifier of the assistant. To find the
                assistant ID in the Watson Assistant user interface, open the assistant
@@ -467,8 +489,11 @@ class AssistantV2(BaseService):
         with a request that passes data. For more information about personal data and
         customer IDs, see [Information
         security](https://cloud.ibm.com/docs/assistant?topic=assistant-information-security#information-security).
-        This operation is limited to 4 requests per minute. For more information, see
-        **Rate limiting**.
+        **Note:** This operation is intended only for deleting data associated with a
+        single specific customer, not for deleting data associated with multiple customers
+        or for any other purpose. For more information, see [Labeling and deleting data in
+        Watson
+        Assistant](https://cloud.ibm.com/docs/assistant?topic=assistant-information-security#information-security-gdpr-wa).
 
         :param str customer_id: The customer ID for which all data is to be
                deleted.
@@ -824,23 +849,217 @@ class CaptureGroup():
         return not self == other
 
 
+class ChannelTransferInfo():
+    """
+    Information used by an integration to transfer the conversation to a different
+    channel.
+
+    :attr ChannelTransferTarget target: An object specifying target channels
+          available for the transfer. Each property of this object represents an available
+          transfer target. Currently, the only supported property is **chat**,
+          representing the web chat integration.
+    """
+
+    def __init__(self, target: 'ChannelTransferTarget') -> None:
+        """
+        Initialize a ChannelTransferInfo object.
+
+        :param ChannelTransferTarget target: An object specifying target channels
+               available for the transfer. Each property of this object represents an
+               available transfer target. Currently, the only supported property is
+               **chat**, representing the web chat integration.
+        """
+        self.target = target
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ChannelTransferInfo':
+        """Initialize a ChannelTransferInfo object from a json dictionary."""
+        args = {}
+        if 'target' in _dict:
+            args['target'] = ChannelTransferTarget.from_dict(
+                _dict.get('target'))
+        else:
+            raise ValueError(
+                'Required property \'target\' not present in ChannelTransferInfo JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ChannelTransferInfo object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'target') and self.target is not None:
+            _dict['target'] = self.target.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ChannelTransferInfo object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ChannelTransferInfo') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ChannelTransferInfo') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ChannelTransferTarget():
+    """
+    An object specifying target channels available for the transfer. Each property of this
+    object represents an available transfer target. Currently, the only supported property
+    is **chat**, representing the web chat integration.
+
+    :attr ChannelTransferTargetChat chat: (optional) Information for transferring to
+          the web chat integration.
+    """
+
+    def __init__(self, *, chat: 'ChannelTransferTargetChat' = None) -> None:
+        """
+        Initialize a ChannelTransferTarget object.
+
+        :param ChannelTransferTargetChat chat: (optional) Information for
+               transferring to the web chat integration.
+        """
+        self.chat = chat
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ChannelTransferTarget':
+        """Initialize a ChannelTransferTarget object from a json dictionary."""
+        args = {}
+        if 'chat' in _dict:
+            args['chat'] = ChannelTransferTargetChat.from_dict(
+                _dict.get('chat'))
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ChannelTransferTarget object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'chat') and self.chat is not None:
+            _dict['chat'] = self.chat.to_dict()
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ChannelTransferTarget object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ChannelTransferTarget') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ChannelTransferTarget') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ChannelTransferTargetChat():
+    """
+    Information for transferring to the web chat integration.
+
+    :attr str url: (optional) The URL of the target web chat.
+    """
+
+    def __init__(self, *, url: str = None) -> None:
+        """
+        Initialize a ChannelTransferTargetChat object.
+
+        :param str url: (optional) The URL of the target web chat.
+        """
+        self.url = url
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ChannelTransferTargetChat':
+        """Initialize a ChannelTransferTargetChat object from a json dictionary."""
+        args = {}
+        if 'url' in _dict:
+            args['url'] = _dict.get('url')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ChannelTransferTargetChat object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'url') and self.url is not None:
+            _dict['url'] = self.url
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ChannelTransferTargetChat object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ChannelTransferTargetChat') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ChannelTransferTargetChat') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class DialogLogMessage():
     """
     Dialog log message details.
 
     :attr str level: The severity of the log message.
     :attr str message: The text of the log message.
+    :attr str code: A code that indicates the category to which the error message
+          belongs.
+    :attr LogMessageSource source: (optional) An object that identifies the dialog
+          element that generated the error message.
     """
 
-    def __init__(self, level: str, message: str) -> None:
+    def __init__(self,
+                 level: str,
+                 message: str,
+                 code: str,
+                 *,
+                 source: 'LogMessageSource' = None) -> None:
         """
         Initialize a DialogLogMessage object.
 
         :param str level: The severity of the log message.
         :param str message: The text of the log message.
+        :param str code: A code that indicates the category to which the error
+               message belongs.
+        :param LogMessageSource source: (optional) An object that identifies the
+               dialog element that generated the error message.
         """
         self.level = level
         self.message = message
+        self.code = code
+        self.source = source
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'DialogLogMessage':
@@ -858,6 +1077,14 @@ class DialogLogMessage():
             raise ValueError(
                 'Required property \'message\' not present in DialogLogMessage JSON'
             )
+        if 'code' in _dict:
+            args['code'] = _dict.get('code')
+        else:
+            raise ValueError(
+                'Required property \'code\' not present in DialogLogMessage JSON'
+            )
+        if 'source' in _dict:
+            args['source'] = LogMessageSource.from_dict(_dict.get('source'))
         return cls(**args)
 
     @classmethod
@@ -872,6 +1099,10 @@ class DialogLogMessage():
             _dict['level'] = self.level
         if hasattr(self, 'message') and self.message is not None:
             _dict['message'] = self.message
+        if hasattr(self, 'code') and self.code is not None:
+            _dict['code'] = self.code
+        if hasattr(self, 'source') and self.source is not None:
+            _dict['source'] = self.source.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -1677,6 +1908,66 @@ class LogCollection():
         return not self == other
 
 
+class LogMessageSource():
+    """
+    An object that identifies the dialog element that generated the error message.
+
+    """
+
+    def __init__(self) -> None:
+        """
+        Initialize a LogMessageSource object.
+
+        """
+        msg = "Cannot instantiate base class. Instead, instantiate one of the defined subclasses: {0}".format(
+            ", ".join([
+                'LogMessageSourceDialogNode', 'LogMessageSourceAction',
+                'LogMessageSourceStep', 'LogMessageSourceHandler'
+            ]))
+        raise Exception(msg)
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'LogMessageSource':
+        """Initialize a LogMessageSource object from a json dictionary."""
+        disc_class = cls._get_class_by_discriminator(_dict)
+        if disc_class != cls:
+            return disc_class.from_dict(_dict)
+        msg = (
+            "Cannot convert dictionary into an instance of base class 'LogMessageSource'. "
+            + "The discriminator value should map to a valid subclass: {1}"
+        ).format(", ".join([
+            'LogMessageSourceDialogNode', 'LogMessageSourceAction',
+            'LogMessageSourceStep', 'LogMessageSourceHandler'
+        ]))
+        raise Exception(msg)
+
+    @classmethod
+    def _from_dict(cls, _dict: Dict):
+        """Initialize a LogMessageSource object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    @classmethod
+    def _get_class_by_discriminator(cls, _dict: Dict) -> object:
+        mapping = {}
+        mapping['dialog_node'] = 'LogMessageSourceDialogNode'
+        mapping['action'] = 'LogMessageSourceAction'
+        mapping['step'] = 'LogMessageSourceStep'
+        mapping['handler'] = 'LogMessageSourceHandler'
+        disc_value = _dict.get('type')
+        if disc_value is None:
+            raise ValueError(
+                'Discriminator property \'type\' not found in LogMessageSource JSON'
+            )
+        class_name = mapping.get(disc_value, disc_value)
+        try:
+            disc_class = getattr(sys.modules[__name__], class_name)
+        except AttributeError:
+            disc_class = cls
+        if isinstance(disc_class, object):
+            return disc_class
+        raise TypeError('%s is not a discriminator class' % class_name)
+
+
 class LogPagination():
     """
     The pagination data for the returned objects.
@@ -1970,9 +2261,14 @@ class MessageContextGlobalSystem():
           zone to correctly resolve relative time references.
     :attr str user_id: (optional) A string value that identifies the user who is
           interacting with the assistant. The client must provide a unique identifier for
-          each individual end user who accesses the application. For Plus and Premium
-          plans, this user ID is used to identify unique users for billing purposes. This
-          string cannot contain carriage return, newline, or tab characters.
+          each individual end user who accesses the application. For user-based plans,
+          this user ID is used to identify unique users for billing purposes. This string
+          cannot contain carriage return, newline, or tab characters. If no value is
+          specified in the input, **user_id** is automatically set to the value of
+          **context.global.session_id**.
+          **Note:** This property is the same as the **user_id** property at the root of
+          the message body. If **user_id** is specified in both locations in a message
+          request, the value specified at the root is used.
     :attr int turn_count: (optional) A counter that is automatically incremented
           with each turn of the conversation. A value of 1 indicates that this is the the
           first turn of a new conversation, which can affect the behavior of some skills
@@ -2010,9 +2306,13 @@ class MessageContextGlobalSystem():
         :param str user_id: (optional) A string value that identifies the user who
                is interacting with the assistant. The client must provide a unique
                identifier for each individual end user who accesses the application. For
-               Plus and Premium plans, this user ID is used to identify unique users for
-               billing purposes. This string cannot contain carriage return, newline, or
-               tab characters.
+               user-based plans, this user ID is used to identify unique users for billing
+               purposes. This string cannot contain carriage return, newline, or tab
+               characters. If no value is specified in the input, **user_id** is
+               automatically set to the value of **context.global.session_id**.
+               **Note:** This property is the same as the **user_id** property at the root
+               of the message body. If **user_id** is specified in both locations in a
+               message request, the value specified at the root is used.
         :param int turn_count: (optional) A counter that is automatically
                incremented with each turn of the conversation. A value of 1 indicates that
                this is the the first turn of a new conversation, which can affect the
@@ -3236,12 +3536,23 @@ class MessageRequest():
           per-session basis.
           **Note:** The total size of the context data stored for a stateful session
           cannot exceed 100KB.
+    :attr str user_id: (optional) A string value that identifies the user who is
+          interacting with the assistant. The client must provide a unique identifier for
+          each individual end user who accesses the application. For user-based plans,
+          this user ID is used to identify unique users for billing purposes. This string
+          cannot contain carriage return, newline, or tab characters. If no value is
+          specified in the input, **user_id** is automatically set to the value of
+          **context.global.session_id**.
+          **Note:** This property is the same as the **user_id** property in the global
+          system context. If **user_id** is specified in both locations, the value
+          specified at the root is used.
     """
 
     def __init__(self,
                  *,
                  input: 'MessageInput' = None,
-                 context: 'MessageContext' = None) -> None:
+                 context: 'MessageContext' = None,
+                 user_id: str = None) -> None:
         """
         Initialize a MessageRequest object.
 
@@ -3253,9 +3564,20 @@ class MessageRequest():
                assistant on a per-session basis.
                **Note:** The total size of the context data stored for a stateful session
                cannot exceed 100KB.
+        :param str user_id: (optional) A string value that identifies the user who
+               is interacting with the assistant. The client must provide a unique
+               identifier for each individual end user who accesses the application. For
+               user-based plans, this user ID is used to identify unique users for billing
+               purposes. This string cannot contain carriage return, newline, or tab
+               characters. If no value is specified in the input, **user_id** is
+               automatically set to the value of **context.global.session_id**.
+               **Note:** This property is the same as the **user_id** property in the
+               global system context. If **user_id** is specified in both locations, the
+               value specified at the root is used.
         """
         self.input = input
         self.context = context
+        self.user_id = user_id
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'MessageRequest':
@@ -3265,6 +3587,8 @@ class MessageRequest():
             args['input'] = MessageInput.from_dict(_dict.get('input'))
         if 'context' in _dict:
             args['context'] = MessageContext.from_dict(_dict.get('context'))
+        if 'user_id' in _dict:
+            args['user_id'] = _dict.get('user_id')
         return cls(**args)
 
     @classmethod
@@ -3279,6 +3603,8 @@ class MessageRequest():
             _dict['input'] = self.input.to_dict()
         if hasattr(self, 'context') and self.context is not None:
             _dict['context'] = self.context.to_dict()
+        if hasattr(self, 'user_id') and self.user_id is not None:
+            _dict['user_id'] = self.user_id
         return _dict
 
     def _to_dict(self):
@@ -3312,10 +3638,20 @@ class MessageResponse():
           **Note:** The context is included in message responses only if
           **return_context**=`true` in the message request. Full context is always
           included in logs.
+    :attr str user_id: A string value that identifies the user who is interacting
+          with the assistant. The client must provide a unique identifier for each
+          individual end user who accesses the application. For user-based plans, this
+          user ID is used to identify unique users for billing purposes. This string
+          cannot contain carriage return, newline, or tab characters. If no value is
+          specified in the input, **user_id** is automatically set to the value of
+          **context.global.session_id**.
+          **Note:** This property is the same as the **user_id** property in the global
+          system context.
     """
 
     def __init__(self,
                  output: 'MessageOutput',
+                 user_id: str,
                  *,
                  context: 'MessageContext' = None) -> None:
         """
@@ -3323,6 +3659,15 @@ class MessageResponse():
 
         :param MessageOutput output: Assistant output to be rendered or processed
                by the client.
+        :param str user_id: A string value that identifies the user who is
+               interacting with the assistant. The client must provide a unique identifier
+               for each individual end user who accesses the application. For user-based
+               plans, this user ID is used to identify unique users for billing purposes.
+               This string cannot contain carriage return, newline, or tab characters. If
+               no value is specified in the input, **user_id** is automatically set to the
+               value of **context.global.session_id**.
+               **Note:** This property is the same as the **user_id** property in the
+               global system context.
         :param MessageContext context: (optional) Context data for the
                conversation. You can use this property to access context variables. The
                context is stored by the assistant on a per-session basis.
@@ -3332,6 +3677,7 @@ class MessageResponse():
         """
         self.output = output
         self.context = context
+        self.user_id = user_id
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'MessageResponse':
@@ -3345,6 +3691,12 @@ class MessageResponse():
             )
         if 'context' in _dict:
             args['context'] = MessageContext.from_dict(_dict.get('context'))
+        if 'user_id' in _dict:
+            args['user_id'] = _dict.get('user_id')
+        else:
+            raise ValueError(
+                'Required property \'user_id\' not present in MessageResponse JSON'
+            )
         return cls(**args)
 
     @classmethod
@@ -3359,6 +3711,8 @@ class MessageResponse():
             _dict['output'] = self.output.to_dict()
         if hasattr(self, 'context') and self.context is not None:
             _dict['context'] = self.context.to_dict()
+        if hasattr(self, 'user_id') and self.user_id is not None:
+            _dict['user_id'] = self.user_id
         return _dict
 
     def _to_dict(self):
@@ -3390,10 +3744,22 @@ class MessageResponseStateless():
           can use this property to access context variables. The context is not stored by
           the assistant; to maintain session state, include the context from the response
           in the next message.
+    :attr str user_id: (optional) A string value that identifies the user who is
+          interacting with the assistant. The client must provide a unique identifier for
+          each individual end user who accesses the application. For user-based plans,
+          this user ID is used to identify unique users for billing purposes. This string
+          cannot contain carriage return, newline, or tab characters. If no value is
+          specified in the input, **user_id** is automatically set to the value of
+          **context.global.session_id**.
+          **Note:** This property is the same as the **user_id** property in the global
+          system context.
     """
 
-    def __init__(self, output: 'MessageOutput',
-                 context: 'MessageContextStateless') -> None:
+    def __init__(self,
+                 output: 'MessageOutput',
+                 context: 'MessageContextStateless',
+                 *,
+                 user_id: str = None) -> None:
         """
         Initialize a MessageResponseStateless object.
 
@@ -3403,9 +3769,19 @@ class MessageResponseStateless():
                You can use this property to access context variables. The context is not
                stored by the assistant; to maintain session state, include the context
                from the response in the next message.
+        :param str user_id: (optional) A string value that identifies the user who
+               is interacting with the assistant. The client must provide a unique
+               identifier for each individual end user who accesses the application. For
+               user-based plans, this user ID is used to identify unique users for billing
+               purposes. This string cannot contain carriage return, newline, or tab
+               characters. If no value is specified in the input, **user_id** is
+               automatically set to the value of **context.global.session_id**.
+               **Note:** This property is the same as the **user_id** property in the
+               global system context.
         """
         self.output = output
         self.context = context
+        self.user_id = user_id
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'MessageResponseStateless':
@@ -3424,6 +3800,8 @@ class MessageResponseStateless():
             raise ValueError(
                 'Required property \'context\' not present in MessageResponseStateless JSON'
             )
+        if 'user_id' in _dict:
+            args['user_id'] = _dict.get('user_id')
         return cls(**args)
 
     @classmethod
@@ -3438,6 +3816,8 @@ class MessageResponseStateless():
             _dict['output'] = self.output.to_dict()
         if hasattr(self, 'context') and self.context is not None:
             _dict['context'] = self.context.to_dict()
+        if hasattr(self, 'user_id') and self.user_id is not None:
+            _dict['user_id'] = self.user_id
         return _dict
 
     def _to_dict(self):
@@ -3455,6 +3835,61 @@ class MessageResponseStateless():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'MessageResponseStateless') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ResponseGenericChannel():
+    """
+    ResponseGenericChannel.
+
+    :attr str channel: (optional) A channel for which the response is intended.
+    """
+
+    def __init__(self, *, channel: str = None) -> None:
+        """
+        Initialize a ResponseGenericChannel object.
+
+        :param str channel: (optional) A channel for which the response is
+               intended.
+        """
+        self.channel = channel
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ResponseGenericChannel':
+        """Initialize a ResponseGenericChannel object from a json dictionary."""
+        args = {}
+        if 'channel' in _dict:
+            args['channel'] = _dict.get('channel')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ResponseGenericChannel object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'channel') and self.channel is not None:
+            _dict['channel'] = self.channel
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ResponseGenericChannel object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ResponseGenericChannel') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ResponseGenericChannel') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -4223,7 +4658,9 @@ class RuntimeResponseGeneric():
                 'RuntimeResponseGenericRuntimeResponseTypeOption',
                 'RuntimeResponseGenericRuntimeResponseTypeConnectToAgent',
                 'RuntimeResponseGenericRuntimeResponseTypeSuggestion',
-                'RuntimeResponseGenericRuntimeResponseTypeSearch'
+                'RuntimeResponseGenericRuntimeResponseTypeChannelTransfer',
+                'RuntimeResponseGenericRuntimeResponseTypeSearch',
+                'RuntimeResponseGenericRuntimeResponseTypeUserDefined'
             ]))
         raise Exception(msg)
 
@@ -4243,7 +4680,9 @@ class RuntimeResponseGeneric():
             'RuntimeResponseGenericRuntimeResponseTypeOption',
             'RuntimeResponseGenericRuntimeResponseTypeConnectToAgent',
             'RuntimeResponseGenericRuntimeResponseTypeSuggestion',
-            'RuntimeResponseGenericRuntimeResponseTypeSearch'
+            'RuntimeResponseGenericRuntimeResponseTypeChannelTransfer',
+            'RuntimeResponseGenericRuntimeResponseTypeSearch',
+            'RuntimeResponseGenericRuntimeResponseTypeUserDefined'
         ]))
         raise Exception(msg)
 
@@ -4256,6 +4695,8 @@ class RuntimeResponseGeneric():
     def _get_class_by_discriminator(cls, _dict: Dict) -> object:
         mapping = {}
         mapping[
+            'channel_transfer'] = 'RuntimeResponseGenericRuntimeResponseTypeChannelTransfer'
+        mapping[
             'connect_to_agent'] = 'RuntimeResponseGenericRuntimeResponseTypeConnectToAgent'
         mapping['image'] = 'RuntimeResponseGenericRuntimeResponseTypeImage'
         mapping['option'] = 'RuntimeResponseGenericRuntimeResponseTypeOption'
@@ -4264,6 +4705,8 @@ class RuntimeResponseGeneric():
         mapping['pause'] = 'RuntimeResponseGenericRuntimeResponseTypePause'
         mapping['search'] = 'RuntimeResponseGenericRuntimeResponseTypeSearch'
         mapping['text'] = 'RuntimeResponseGenericRuntimeResponseTypeText'
+        mapping[
+            'user_defined'] = 'RuntimeResponseGenericRuntimeResponseTypeUserDefined'
         disc_value = _dict.get('response_type')
         if disc_value is None:
             raise ValueError(
@@ -4286,7 +4729,7 @@ class SearchResult():
     :attr str id: The unique identifier of the document in the Discovery service
           collection.
           This property is included in responses from search skills, which are available
-          only to Plus or Premium plan users.
+          only to Plus or Enterprise plan users.
     :attr SearchResultMetadata result_metadata: An object containing search result
           metadata from the Discovery service.
     :attr str body: (optional) A description of the search result. This is taken
@@ -4316,7 +4759,7 @@ class SearchResult():
         :param str id: The unique identifier of the document in the Discovery
                service collection.
                This property is included in responses from search skills, which are
-               available only to Plus or Premium plan users.
+               available only to Plus or Enterprise plan users.
         :param SearchResultMetadata result_metadata: An object containing search
                result metadata from the Discovery service.
         :param str body: (optional) A description of the search result. This is
@@ -4510,9 +4953,8 @@ class SearchResultMetadata():
     """
     An object containing search result metadata from the Discovery service.
 
-    :attr float confidence: (optional) The confidence score for the given result.
-          For more information about how the confidence is calculated, see the Discovery
-          service [documentation](../discovery#query-your-collection).
+    :attr float confidence: (optional) The confidence score for the given result, as
+          returned by the Discovery service.
     :attr float score: (optional) An unbounded measure of the relevance of a
           particular result, dependent on the query and matching document. A higher score
           indicates a greater match to the query parameters.
@@ -4526,8 +4968,7 @@ class SearchResultMetadata():
         Initialize a SearchResultMetadata object.
 
         :param float confidence: (optional) The confidence score for the given
-               result. For more information about how the confidence is calculated, see
-               the Discovery service [documentation](../discovery#query-your-collection).
+               result, as returned by the Discovery service.
         :param float score: (optional) An unbounded measure of the relevance of a
                particular result, dependent on the query and matching document. A higher
                score indicates a greater match to the query parameters.
@@ -4636,10 +5077,464 @@ class SessionResponse():
         return not self == other
 
 
+class LogMessageSourceAction(LogMessageSource):
+    """
+    An object that identifies the dialog element that generated the error message.
+
+    :attr str type: A string that indicates the type of dialog element that
+          generated the error message.
+    :attr str action: The unique identifier of the action that generated the error
+          message.
+    """
+
+    def __init__(self, type: str, action: str) -> None:
+        """
+        Initialize a LogMessageSourceAction object.
+
+        :param str type: A string that indicates the type of dialog element that
+               generated the error message.
+        :param str action: The unique identifier of the action that generated the
+               error message.
+        """
+        # pylint: disable=super-init-not-called
+        self.type = type
+        self.action = action
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'LogMessageSourceAction':
+        """Initialize a LogMessageSourceAction object from a json dictionary."""
+        args = {}
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        else:
+            raise ValueError(
+                'Required property \'type\' not present in LogMessageSourceAction JSON'
+            )
+        if 'action' in _dict:
+            args['action'] = _dict.get('action')
+        else:
+            raise ValueError(
+                'Required property \'action\' not present in LogMessageSourceAction JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a LogMessageSourceAction object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'action') and self.action is not None:
+            _dict['action'] = self.action
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this LogMessageSourceAction object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'LogMessageSourceAction') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'LogMessageSourceAction') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class LogMessageSourceDialogNode(LogMessageSource):
+    """
+    An object that identifies the dialog element that generated the error message.
+
+    :attr str type: A string that indicates the type of dialog element that
+          generated the error message.
+    :attr str dialog_node: The unique identifier of the dialog node that generated
+          the error message.
+    """
+
+    def __init__(self, type: str, dialog_node: str) -> None:
+        """
+        Initialize a LogMessageSourceDialogNode object.
+
+        :param str type: A string that indicates the type of dialog element that
+               generated the error message.
+        :param str dialog_node: The unique identifier of the dialog node that
+               generated the error message.
+        """
+        # pylint: disable=super-init-not-called
+        self.type = type
+        self.dialog_node = dialog_node
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'LogMessageSourceDialogNode':
+        """Initialize a LogMessageSourceDialogNode object from a json dictionary."""
+        args = {}
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        else:
+            raise ValueError(
+                'Required property \'type\' not present in LogMessageSourceDialogNode JSON'
+            )
+        if 'dialog_node' in _dict:
+            args['dialog_node'] = _dict.get('dialog_node')
+        else:
+            raise ValueError(
+                'Required property \'dialog_node\' not present in LogMessageSourceDialogNode JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a LogMessageSourceDialogNode object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'dialog_node') and self.dialog_node is not None:
+            _dict['dialog_node'] = self.dialog_node
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this LogMessageSourceDialogNode object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'LogMessageSourceDialogNode') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'LogMessageSourceDialogNode') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class LogMessageSourceHandler(LogMessageSource):
+    """
+    An object that identifies the dialog element that generated the error message.
+
+    :attr str type: A string that indicates the type of dialog element that
+          generated the error message.
+    :attr str action: The unique identifier of the action that generated the error
+          message.
+    :attr str step: (optional) The unique identifier of the step that generated the
+          error message.
+    :attr str handler: The unique identifier of the handler that generated the error
+          message.
+    """
+
+    def __init__(self,
+                 type: str,
+                 action: str,
+                 handler: str,
+                 *,
+                 step: str = None) -> None:
+        """
+        Initialize a LogMessageSourceHandler object.
+
+        :param str type: A string that indicates the type of dialog element that
+               generated the error message.
+        :param str action: The unique identifier of the action that generated the
+               error message.
+        :param str handler: The unique identifier of the handler that generated the
+               error message.
+        :param str step: (optional) The unique identifier of the step that
+               generated the error message.
+        """
+        # pylint: disable=super-init-not-called
+        self.type = type
+        self.action = action
+        self.step = step
+        self.handler = handler
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'LogMessageSourceHandler':
+        """Initialize a LogMessageSourceHandler object from a json dictionary."""
+        args = {}
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        else:
+            raise ValueError(
+                'Required property \'type\' not present in LogMessageSourceHandler JSON'
+            )
+        if 'action' in _dict:
+            args['action'] = _dict.get('action')
+        else:
+            raise ValueError(
+                'Required property \'action\' not present in LogMessageSourceHandler JSON'
+            )
+        if 'step' in _dict:
+            args['step'] = _dict.get('step')
+        if 'handler' in _dict:
+            args['handler'] = _dict.get('handler')
+        else:
+            raise ValueError(
+                'Required property \'handler\' not present in LogMessageSourceHandler JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a LogMessageSourceHandler object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'action') and self.action is not None:
+            _dict['action'] = self.action
+        if hasattr(self, 'step') and self.step is not None:
+            _dict['step'] = self.step
+        if hasattr(self, 'handler') and self.handler is not None:
+            _dict['handler'] = self.handler
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this LogMessageSourceHandler object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'LogMessageSourceHandler') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'LogMessageSourceHandler') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class LogMessageSourceStep(LogMessageSource):
+    """
+    An object that identifies the dialog element that generated the error message.
+
+    :attr str type: A string that indicates the type of dialog element that
+          generated the error message.
+    :attr str action: The unique identifier of the action that generated the error
+          message.
+    :attr str step: The unique identifier of the step that generated the error
+          message.
+    """
+
+    def __init__(self, type: str, action: str, step: str) -> None:
+        """
+        Initialize a LogMessageSourceStep object.
+
+        :param str type: A string that indicates the type of dialog element that
+               generated the error message.
+        :param str action: The unique identifier of the action that generated the
+               error message.
+        :param str step: The unique identifier of the step that generated the error
+               message.
+        """
+        # pylint: disable=super-init-not-called
+        self.type = type
+        self.action = action
+        self.step = step
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'LogMessageSourceStep':
+        """Initialize a LogMessageSourceStep object from a json dictionary."""
+        args = {}
+        if 'type' in _dict:
+            args['type'] = _dict.get('type')
+        else:
+            raise ValueError(
+                'Required property \'type\' not present in LogMessageSourceStep JSON'
+            )
+        if 'action' in _dict:
+            args['action'] = _dict.get('action')
+        else:
+            raise ValueError(
+                'Required property \'action\' not present in LogMessageSourceStep JSON'
+            )
+        if 'step' in _dict:
+            args['step'] = _dict.get('step')
+        else:
+            raise ValueError(
+                'Required property \'step\' not present in LogMessageSourceStep JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a LogMessageSourceStep object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'type') and self.type is not None:
+            _dict['type'] = self.type
+        if hasattr(self, 'action') and self.action is not None:
+            _dict['action'] = self.action
+        if hasattr(self, 'step') and self.step is not None:
+            _dict['step'] = self.step
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this LogMessageSourceStep object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'LogMessageSourceStep') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'LogMessageSourceStep') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class RuntimeResponseGenericRuntimeResponseTypeChannelTransfer(
+        RuntimeResponseGeneric):
+    """
+    RuntimeResponseGenericRuntimeResponseTypeChannelTransfer.
+
+    :attr str response_type: The type of response returned by the dialog node. The
+          specified response type must be supported by the client application or channel.
+    :attr str message_to_user: The message to display to the user when initiating a
+          channel transfer.
+    :attr ChannelTransferInfo transfer_info: Information used by an integration to
+          transfer the conversation to a different channel.
+    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+          specifying channels for which the response is intended. If **channels** is
+          present, the response is intended for a built-in integration and should not be
+          handled by an API client.
+    """
+
+    def __init__(self,
+                 response_type: str,
+                 message_to_user: str,
+                 transfer_info: 'ChannelTransferInfo',
+                 *,
+                 channels: List['ResponseGenericChannel'] = None) -> None:
+        """
+        Initialize a RuntimeResponseGenericRuntimeResponseTypeChannelTransfer object.
+
+        :param str response_type: The type of response returned by the dialog node.
+               The specified response type must be supported by the client application or
+               channel.
+        :param str message_to_user: The message to display to the user when
+               initiating a channel transfer.
+        :param ChannelTransferInfo transfer_info: Information used by an
+               integration to transfer the conversation to a different channel.
+        :param List[ResponseGenericChannel] channels: (optional) An array of
+               objects specifying channels for which the response is intended. If
+               **channels** is present, the response is intended for a built-in
+               integration and should not be handled by an API client.
+        """
+        # pylint: disable=super-init-not-called
+        self.response_type = response_type
+        self.message_to_user = message_to_user
+        self.transfer_info = transfer_info
+        self.channels = channels
+
+    @classmethod
+    def from_dict(
+        cls, _dict: Dict
+    ) -> 'RuntimeResponseGenericRuntimeResponseTypeChannelTransfer':
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeChannelTransfer object from a json dictionary."""
+        args = {}
+        if 'response_type' in _dict:
+            args['response_type'] = _dict.get('response_type')
+        else:
+            raise ValueError(
+                'Required property \'response_type\' not present in RuntimeResponseGenericRuntimeResponseTypeChannelTransfer JSON'
+            )
+        if 'message_to_user' in _dict:
+            args['message_to_user'] = _dict.get('message_to_user')
+        else:
+            raise ValueError(
+                'Required property \'message_to_user\' not present in RuntimeResponseGenericRuntimeResponseTypeChannelTransfer JSON'
+            )
+        if 'transfer_info' in _dict:
+            args['transfer_info'] = ChannelTransferInfo.from_dict(
+                _dict.get('transfer_info'))
+        else:
+            raise ValueError(
+                'Required property \'transfer_info\' not present in RuntimeResponseGenericRuntimeResponseTypeChannelTransfer JSON'
+            )
+        if 'channels' in _dict:
+            args['channels'] = [
+                ResponseGenericChannel.from_dict(x)
+                for x in _dict.get('channels')
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeChannelTransfer object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'response_type') and self.response_type is not None:
+            _dict['response_type'] = self.response_type
+        if hasattr(self,
+                   'message_to_user') and self.message_to_user is not None:
+            _dict['message_to_user'] = self.message_to_user
+        if hasattr(self, 'transfer_info') and self.transfer_info is not None:
+            _dict['transfer_info'] = self.transfer_info.to_dict()
+        if hasattr(self, 'channels') and self.channels is not None:
+            _dict['channels'] = [x.to_dict() for x in self.channels]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypeChannelTransfer object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+        self, other: 'RuntimeResponseGenericRuntimeResponseTypeChannelTransfer'
+    ) -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+        self, other: 'RuntimeResponseGenericRuntimeResponseTypeChannelTransfer'
+    ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
         RuntimeResponseGeneric):
     """
-    An object that describes a response with response type `connect_to_agent`.
+    RuntimeResponseGenericRuntimeResponseTypeConnectToAgent.
 
     :attr str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
@@ -4657,6 +5552,10 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
     :attr str topic: (optional) A label identifying the topic of the conversation,
           derived from the **title** property of the relevant node or the **topic**
           property of the dialog node response.
+    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+          specifying channels for which the response is intended. If **channels** is
+          present, the response is intended for a built-in integration and should not be
+          handled by an API client.
     """
 
     def __init__(
@@ -4667,7 +5566,8 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
             agent_available: 'AgentAvailabilityMessage' = None,
             agent_unavailable: 'AgentAvailabilityMessage' = None,
             transfer_info: 'DialogNodeOutputConnectToAgentTransferInfo' = None,
-            topic: str = None) -> None:
+            topic: str = None,
+            channels: List['ResponseGenericChannel'] = None) -> None:
         """
         Initialize a RuntimeResponseGenericRuntimeResponseTypeConnectToAgent object.
 
@@ -4688,6 +5588,10 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
         :param str topic: (optional) A label identifying the topic of the
                conversation, derived from the **title** property of the relevant node or
                the **topic** property of the dialog node response.
+        :param List[ResponseGenericChannel] channels: (optional) An array of
+               objects specifying channels for which the response is intended. If
+               **channels** is present, the response is intended for a built-in
+               integration and should not be handled by an API client.
         """
         # pylint: disable=super-init-not-called
         self.response_type = response_type
@@ -4696,6 +5600,7 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
         self.agent_unavailable = agent_unavailable
         self.transfer_info = transfer_info
         self.topic = topic
+        self.channels = channels
 
     @classmethod
     def from_dict(
@@ -4723,6 +5628,11 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
                     _dict.get('transfer_info'))
         if 'topic' in _dict:
             args['topic'] = _dict.get('topic')
+        if 'channels' in _dict:
+            args['channels'] = [
+                ResponseGenericChannel.from_dict(x)
+                for x in _dict.get('channels')
+            ]
         return cls(**args)
 
     @classmethod
@@ -4748,6 +5658,8 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
             _dict['transfer_info'] = self.transfer_info.to_dict()
         if hasattr(self, 'topic') and self.topic is not None:
             _dict['topic'] = self.topic
+        if hasattr(self, 'channels') and self.channels is not None:
+            _dict['channels'] = [x.to_dict() for x in self.channels]
         return _dict
 
     def _to_dict(self):
@@ -4772,23 +5684,20 @@ class RuntimeResponseGenericRuntimeResponseTypeConnectToAgent(
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ResponseTypeEnum(str, Enum):
-        """
-        The type of response returned by the dialog node. The specified response type must
-        be supported by the client application or channel.
-        """
-        CONNECT_TO_AGENT = 'connect_to_agent'
-
 
 class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
     """
-    An object that describes a response with response type `image`.
+    RuntimeResponseGenericRuntimeResponseTypeImage.
 
     :attr str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
     :attr str source: The URL of the image.
     :attr str title: (optional) The title to show before the response.
     :attr str description: (optional) The description to show with the the response.
+    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+          specifying channels for which the response is intended. If **channels** is
+          present, the response is intended for a built-in integration and should not be
+          handled by an API client.
     """
 
     def __init__(self,
@@ -4796,7 +5705,8 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
                  source: str,
                  *,
                  title: str = None,
-                 description: str = None) -> None:
+                 description: str = None,
+                 channels: List['ResponseGenericChannel'] = None) -> None:
         """
         Initialize a RuntimeResponseGenericRuntimeResponseTypeImage object.
 
@@ -4807,12 +5717,17 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
         :param str title: (optional) The title to show before the response.
         :param str description: (optional) The description to show with the the
                response.
+        :param List[ResponseGenericChannel] channels: (optional) An array of
+               objects specifying channels for which the response is intended. If
+               **channels** is present, the response is intended for a built-in
+               integration and should not be handled by an API client.
         """
         # pylint: disable=super-init-not-called
         self.response_type = response_type
         self.source = source
         self.title = title
         self.description = description
+        self.channels = channels
 
     @classmethod
     def from_dict(
@@ -4836,6 +5751,11 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
             args['title'] = _dict.get('title')
         if 'description' in _dict:
             args['description'] = _dict.get('description')
+        if 'channels' in _dict:
+            args['channels'] = [
+                ResponseGenericChannel.from_dict(x)
+                for x in _dict.get('channels')
+            ]
         return cls(**args)
 
     @classmethod
@@ -4854,6 +5774,8 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
             _dict['title'] = self.title
         if hasattr(self, 'description') and self.description is not None:
             _dict['description'] = self.description
+        if hasattr(self, 'channels') and self.channels is not None:
+            _dict['channels'] = [x.to_dict() for x in self.channels]
         return _dict
 
     def _to_dict(self):
@@ -4876,17 +5798,10 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ResponseTypeEnum(str, Enum):
-        """
-        The type of response returned by the dialog node. The specified response type must
-        be supported by the client application or channel.
-        """
-        IMAGE = 'image'
-
 
 class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
     """
-    An object that describes a response with response type `option`.
+    RuntimeResponseGenericRuntimeResponseTypeOption.
 
     :attr str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
@@ -4895,6 +5810,10 @@ class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
     :attr str preference: (optional) The preferred type of control to display.
     :attr List[DialogNodeOutputOptionsElement] options: An array of objects
           describing the options from which the user can choose.
+    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+          specifying channels for which the response is intended. If **channels** is
+          present, the response is intended for a built-in integration and should not be
+          handled by an API client.
     """
 
     def __init__(self,
@@ -4903,7 +5822,8 @@ class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
                  options: List['DialogNodeOutputOptionsElement'],
                  *,
                  description: str = None,
-                 preference: str = None) -> None:
+                 preference: str = None,
+                 channels: List['ResponseGenericChannel'] = None) -> None:
         """
         Initialize a RuntimeResponseGenericRuntimeResponseTypeOption object.
 
@@ -4917,6 +5837,10 @@ class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
         :param str description: (optional) The description to show with the the
                response.
         :param str preference: (optional) The preferred type of control to display.
+        :param List[ResponseGenericChannel] channels: (optional) An array of
+               objects specifying channels for which the response is intended. If
+               **channels** is present, the response is intended for a built-in
+               integration and should not be handled by an API client.
         """
         # pylint: disable=super-init-not-called
         self.response_type = response_type
@@ -4924,6 +5848,7 @@ class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
         self.description = description
         self.preference = preference
         self.options = options
+        self.channels = channels
 
     @classmethod
     def from_dict(
@@ -4956,6 +5881,11 @@ class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
             raise ValueError(
                 'Required property \'options\' not present in RuntimeResponseGenericRuntimeResponseTypeOption JSON'
             )
+        if 'channels' in _dict:
+            args['channels'] = [
+                ResponseGenericChannel.from_dict(x)
+                for x in _dict.get('channels')
+            ]
         return cls(**args)
 
     @classmethod
@@ -4976,6 +5906,8 @@ class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
             _dict['preference'] = self.preference
         if hasattr(self, 'options') and self.options is not None:
             _dict['options'] = [x.to_dict() for x in self.options]
+        if hasattr(self, 'channels') and self.channels is not None:
+            _dict['channels'] = [x.to_dict() for x in self.channels]
         return _dict
 
     def _to_dict(self):
@@ -5000,13 +5932,6 @@ class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ResponseTypeEnum(str, Enum):
-        """
-        The type of response returned by the dialog node. The specified response type must
-        be supported by the client application or channel.
-        """
-        OPTION = 'option'
-
     class PreferenceEnum(str, Enum):
         """
         The preferred type of control to display.
@@ -5017,20 +5942,25 @@ class RuntimeResponseGenericRuntimeResponseTypeOption(RuntimeResponseGeneric):
 
 class RuntimeResponseGenericRuntimeResponseTypePause(RuntimeResponseGeneric):
     """
-    An object that describes a response with response type `pause`.
+    RuntimeResponseGenericRuntimeResponseTypePause.
 
     :attr str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
     :attr int time: How long to pause, in milliseconds.
     :attr bool typing: (optional) Whether to send a "user is typing" event during
           the pause.
+    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+          specifying channels for which the response is intended. If **channels** is
+          present, the response is intended for a built-in integration and should not be
+          handled by an API client.
     """
 
     def __init__(self,
                  response_type: str,
                  time: int,
                  *,
-                 typing: bool = None) -> None:
+                 typing: bool = None,
+                 channels: List['ResponseGenericChannel'] = None) -> None:
         """
         Initialize a RuntimeResponseGenericRuntimeResponseTypePause object.
 
@@ -5040,11 +5970,16 @@ class RuntimeResponseGenericRuntimeResponseTypePause(RuntimeResponseGeneric):
         :param int time: How long to pause, in milliseconds.
         :param bool typing: (optional) Whether to send a "user is typing" event
                during the pause.
+        :param List[ResponseGenericChannel] channels: (optional) An array of
+               objects specifying channels for which the response is intended. If
+               **channels** is present, the response is intended for a built-in
+               integration and should not be handled by an API client.
         """
         # pylint: disable=super-init-not-called
         self.response_type = response_type
         self.time = time
         self.typing = typing
+        self.channels = channels
 
     @classmethod
     def from_dict(
@@ -5066,6 +6001,11 @@ class RuntimeResponseGenericRuntimeResponseTypePause(RuntimeResponseGeneric):
             )
         if 'typing' in _dict:
             args['typing'] = _dict.get('typing')
+        if 'channels' in _dict:
+            args['channels'] = [
+                ResponseGenericChannel.from_dict(x)
+                for x in _dict.get('channels')
+            ]
         return cls(**args)
 
     @classmethod
@@ -5082,6 +6022,8 @@ class RuntimeResponseGenericRuntimeResponseTypePause(RuntimeResponseGeneric):
             _dict['time'] = self.time
         if hasattr(self, 'typing') and self.typing is not None:
             _dict['typing'] = self.typing
+        if hasattr(self, 'channels') and self.channels is not None:
+            _dict['channels'] = [x.to_dict() for x in self.channels]
         return _dict
 
     def _to_dict(self):
@@ -5104,17 +6046,10 @@ class RuntimeResponseGenericRuntimeResponseTypePause(RuntimeResponseGeneric):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ResponseTypeEnum(str, Enum):
-        """
-        The type of response returned by the dialog node. The specified response type must
-        be supported by the client application or channel.
-        """
-        PAUSE = 'pause'
-
 
 class RuntimeResponseGenericRuntimeResponseTypeSearch(RuntimeResponseGeneric):
     """
-    An object that describes a response with response type `search`.
+    RuntimeResponseGenericRuntimeResponseTypeSearch.
 
     :attr str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
@@ -5124,11 +6059,19 @@ class RuntimeResponseGenericRuntimeResponseTypeSearch(RuntimeResponseGeneric):
           search results to be displayed in the initial response to the user.
     :attr List[SearchResult] additional_results: An array of objects that contains
           additional search results that can be displayed to the user upon request.
+    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+          specifying channels for which the response is intended. If **channels** is
+          present, the response is intended for a built-in integration and should not be
+          handled by an API client.
     """
 
-    def __init__(self, response_type: str, header: str,
+    def __init__(self,
+                 response_type: str,
+                 header: str,
                  primary_results: List['SearchResult'],
-                 additional_results: List['SearchResult']) -> None:
+                 additional_results: List['SearchResult'],
+                 *,
+                 channels: List['ResponseGenericChannel'] = None) -> None:
         """
         Initialize a RuntimeResponseGenericRuntimeResponseTypeSearch object.
 
@@ -5143,12 +6086,17 @@ class RuntimeResponseGenericRuntimeResponseTypeSearch(RuntimeResponseGeneric):
         :param List[SearchResult] additional_results: An array of objects that
                contains additional search results that can be displayed to the user upon
                request.
+        :param List[ResponseGenericChannel] channels: (optional) An array of
+               objects specifying channels for which the response is intended. If
+               **channels** is present, the response is intended for a built-in
+               integration and should not be handled by an API client.
         """
         # pylint: disable=super-init-not-called
         self.response_type = response_type
         self.header = header
         self.primary_results = primary_results
         self.additional_results = additional_results
+        self.channels = channels
 
     @classmethod
     def from_dict(
@@ -5185,6 +6133,11 @@ class RuntimeResponseGenericRuntimeResponseTypeSearch(RuntimeResponseGeneric):
             raise ValueError(
                 'Required property \'additional_results\' not present in RuntimeResponseGenericRuntimeResponseTypeSearch JSON'
             )
+        if 'channels' in _dict:
+            args['channels'] = [
+                ResponseGenericChannel.from_dict(x)
+                for x in _dict.get('channels')
+            ]
         return cls(**args)
 
     @classmethod
@@ -5210,6 +6163,8 @@ class RuntimeResponseGenericRuntimeResponseTypeSearch(RuntimeResponseGeneric):
             _dict['additional_results'] = [
                 x.to_dict() for x in self.additional_results
             ]
+        if hasattr(self, 'channels') and self.channels is not None:
+            _dict['channels'] = [x.to_dict() for x in self.channels]
         return _dict
 
     def _to_dict(self):
@@ -5234,28 +6189,29 @@ class RuntimeResponseGenericRuntimeResponseTypeSearch(RuntimeResponseGeneric):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ResponseTypeEnum(str, Enum):
-        """
-        The type of response returned by the dialog node. The specified response type must
-        be supported by the client application or channel.
-        """
-        SEARCH = 'search'
-
 
 class RuntimeResponseGenericRuntimeResponseTypeSuggestion(
         RuntimeResponseGeneric):
     """
-    An object that describes a response with response type `suggestion`.
+    RuntimeResponseGenericRuntimeResponseTypeSuggestion.
 
     :attr str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
     :attr str title: The title or introductory text to show before the response.
     :attr List[DialogSuggestion] suggestions: An array of objects describing the
           possible matching dialog nodes from which the user can choose.
+    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+          specifying channels for which the response is intended. If **channels** is
+          present, the response is intended for a built-in integration and should not be
+          handled by an API client.
     """
 
-    def __init__(self, response_type: str, title: str,
-                 suggestions: List['DialogSuggestion']) -> None:
+    def __init__(self,
+                 response_type: str,
+                 title: str,
+                 suggestions: List['DialogSuggestion'],
+                 *,
+                 channels: List['ResponseGenericChannel'] = None) -> None:
         """
         Initialize a RuntimeResponseGenericRuntimeResponseTypeSuggestion object.
 
@@ -5266,11 +6222,16 @@ class RuntimeResponseGenericRuntimeResponseTypeSuggestion(
                response.
         :param List[DialogSuggestion] suggestions: An array of objects describing
                the possible matching dialog nodes from which the user can choose.
+        :param List[ResponseGenericChannel] channels: (optional) An array of
+               objects specifying channels for which the response is intended. If
+               **channels** is present, the response is intended for a built-in
+               integration and should not be handled by an API client.
         """
         # pylint: disable=super-init-not-called
         self.response_type = response_type
         self.title = title
         self.suggestions = suggestions
+        self.channels = channels
 
     @classmethod
     def from_dict(
@@ -5298,6 +6259,11 @@ class RuntimeResponseGenericRuntimeResponseTypeSuggestion(
             raise ValueError(
                 'Required property \'suggestions\' not present in RuntimeResponseGenericRuntimeResponseTypeSuggestion JSON'
             )
+        if 'channels' in _dict:
+            args['channels'] = [
+                ResponseGenericChannel.from_dict(x)
+                for x in _dict.get('channels')
+            ]
         return cls(**args)
 
     @classmethod
@@ -5314,6 +6280,8 @@ class RuntimeResponseGenericRuntimeResponseTypeSuggestion(
             _dict['title'] = self.title
         if hasattr(self, 'suggestions') and self.suggestions is not None:
             _dict['suggestions'] = [x.to_dict() for x in self.suggestions]
+        if hasattr(self, 'channels') and self.channels is not None:
+            _dict['channels'] = [x.to_dict() for x in self.channels]
         return _dict
 
     def _to_dict(self):
@@ -5338,24 +6306,25 @@ class RuntimeResponseGenericRuntimeResponseTypeSuggestion(
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ResponseTypeEnum(str, Enum):
-        """
-        The type of response returned by the dialog node. The specified response type must
-        be supported by the client application or channel.
-        """
-        SUGGESTION = 'suggestion'
-
 
 class RuntimeResponseGenericRuntimeResponseTypeText(RuntimeResponseGeneric):
     """
-    An object that describes a response with response type `text`.
+    RuntimeResponseGenericRuntimeResponseTypeText.
 
     :attr str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
     :attr str text: The text of the response.
+    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+          specifying channels for which the response is intended. If **channels** is
+          present, the response is intended for a built-in integration and should not be
+          handled by an API client.
     """
 
-    def __init__(self, response_type: str, text: str) -> None:
+    def __init__(self,
+                 response_type: str,
+                 text: str,
+                 *,
+                 channels: List['ResponseGenericChannel'] = None) -> None:
         """
         Initialize a RuntimeResponseGenericRuntimeResponseTypeText object.
 
@@ -5363,10 +6332,15 @@ class RuntimeResponseGenericRuntimeResponseTypeText(RuntimeResponseGeneric):
                The specified response type must be supported by the client application or
                channel.
         :param str text: The text of the response.
+        :param List[ResponseGenericChannel] channels: (optional) An array of
+               objects specifying channels for which the response is intended. If
+               **channels** is present, the response is intended for a built-in
+               integration and should not be handled by an API client.
         """
         # pylint: disable=super-init-not-called
         self.response_type = response_type
         self.text = text
+        self.channels = channels
 
     @classmethod
     def from_dict(
@@ -5386,6 +6360,11 @@ class RuntimeResponseGenericRuntimeResponseTypeText(RuntimeResponseGeneric):
             raise ValueError(
                 'Required property \'text\' not present in RuntimeResponseGenericRuntimeResponseTypeText JSON'
             )
+        if 'channels' in _dict:
+            args['channels'] = [
+                ResponseGenericChannel.from_dict(x)
+                for x in _dict.get('channels')
+            ]
         return cls(**args)
 
     @classmethod
@@ -5400,6 +6379,8 @@ class RuntimeResponseGenericRuntimeResponseTypeText(RuntimeResponseGeneric):
             _dict['response_type'] = self.response_type
         if hasattr(self, 'text') and self.text is not None:
             _dict['text'] = self.text
+        if hasattr(self, 'channels') and self.channels is not None:
+            _dict['channels'] = [x.to_dict() for x in self.channels]
         return _dict
 
     def _to_dict(self):
@@ -5422,9 +6403,104 @@ class RuntimeResponseGenericRuntimeResponseTypeText(RuntimeResponseGeneric):
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
-    class ResponseTypeEnum(str, Enum):
+
+class RuntimeResponseGenericRuntimeResponseTypeUserDefined(
+        RuntimeResponseGeneric):
+    """
+    RuntimeResponseGenericRuntimeResponseTypeUserDefined.
+
+    :attr str response_type: The type of response returned by the dialog node. The
+          specified response type must be supported by the client application or channel.
+    :attr dict user_defined: An object containing any properties for the
+          user-defined response type.
+    :attr List[ResponseGenericChannel] channels: (optional) An array of objects
+          specifying channels for which the response is intended. If **channels** is
+          present, the response is intended for a built-in integration and should not be
+          handled by an API client.
+    """
+
+    def __init__(self,
+                 response_type: str,
+                 user_defined: dict,
+                 *,
+                 channels: List['ResponseGenericChannel'] = None) -> None:
         """
-        The type of response returned by the dialog node. The specified response type must
-        be supported by the client application or channel.
+        Initialize a RuntimeResponseGenericRuntimeResponseTypeUserDefined object.
+
+        :param str response_type: The type of response returned by the dialog node.
+               The specified response type must be supported by the client application or
+               channel.
+        :param dict user_defined: An object containing any properties for the
+               user-defined response type.
+        :param List[ResponseGenericChannel] channels: (optional) An array of
+               objects specifying channels for which the response is intended. If
+               **channels** is present, the response is intended for a built-in
+               integration and should not be handled by an API client.
         """
-        TEXT = 'text'
+        # pylint: disable=super-init-not-called
+        self.response_type = response_type
+        self.user_defined = user_defined
+        self.channels = channels
+
+    @classmethod
+    def from_dict(
+            cls, _dict: Dict
+    ) -> 'RuntimeResponseGenericRuntimeResponseTypeUserDefined':
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeUserDefined object from a json dictionary."""
+        args = {}
+        if 'response_type' in _dict:
+            args['response_type'] = _dict.get('response_type')
+        else:
+            raise ValueError(
+                'Required property \'response_type\' not present in RuntimeResponseGenericRuntimeResponseTypeUserDefined JSON'
+            )
+        if 'user_defined' in _dict:
+            args['user_defined'] = _dict.get('user_defined')
+        else:
+            raise ValueError(
+                'Required property \'user_defined\' not present in RuntimeResponseGenericRuntimeResponseTypeUserDefined JSON'
+            )
+        if 'channels' in _dict:
+            args['channels'] = [
+                ResponseGenericChannel.from_dict(x)
+                for x in _dict.get('channels')
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a RuntimeResponseGenericRuntimeResponseTypeUserDefined object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'response_type') and self.response_type is not None:
+            _dict['response_type'] = self.response_type
+        if hasattr(self, 'user_defined') and self.user_defined is not None:
+            _dict['user_defined'] = self.user_defined
+        if hasattr(self, 'channels') and self.channels is not None:
+            _dict['channels'] = [x.to_dict() for x in self.channels]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this RuntimeResponseGenericRuntimeResponseTypeUserDefined object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(
+            self, other: 'RuntimeResponseGenericRuntimeResponseTypeUserDefined'
+    ) -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(
+            self, other: 'RuntimeResponseGenericRuntimeResponseTypeUserDefined'
+    ) -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
