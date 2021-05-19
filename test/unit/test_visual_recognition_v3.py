@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2016, 2020.
+# (C) Copyright IBM Corp. 2016, 2021.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ Unit Tests for VisualRecognitionV3
 
 from datetime import datetime, timezone
 from ibm_cloud_sdk_core.authenticators.no_auth_authenticator import NoAuthAuthenticator
+from ibm_cloud_sdk_core.utils import datetime_to_string, string_to_datetime
 import inspect
 import io
 import json
@@ -32,13 +33,13 @@ from ibm_watson.visual_recognition_v3 import *
 
 version = 'testString'
 
-service = VisualRecognitionV3(
+_service = VisualRecognitionV3(
     authenticator=NoAuthAuthenticator(),
     version=version
     )
 
-base_url = 'https://api.us-south.visual-recognition.watson.cloud.ibm.com'
-service.set_service_url(base_url)
+_base_url = 'https://api.us-south.visual-recognition.watson.cloud.ibm.com'
+_service.set_service_url(_base_url)
 
 ##############################################################################
 # Start of Service: General
@@ -65,7 +66,7 @@ class TestClassify():
         classify()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/classify')
+        url = self.preprocess_url(_base_url + '/v3/classify')
         mock_response = '{"custom_classes": 14, "images_processed": 16, "images": [{"source_url": "source_url", "resolved_url": "resolved_url", "image": "image", "error": {"code": 4, "description": "description", "error_id": "error_id"}, "classifiers": [{"name": "name", "classifier_id": "classifier_id", "classes": [{"class": "class_", "score": 0, "type_hierarchy": "type_hierarchy"}]}]}], "warnings": [{"warning_id": "warning_id", "description": "description"}]}'
         responses.add(responses.POST,
                       url,
@@ -84,7 +85,7 @@ class TestClassify():
         accept_language = 'en'
 
         # Invoke method
-        response = service.classify(
+        response = _service.classify(
             images_file=images_file,
             images_filename=images_filename,
             images_file_content_type=images_file_content_type,
@@ -107,7 +108,7 @@ class TestClassify():
         test_classify_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/classify')
+        url = self.preprocess_url(_base_url + '/v3/classify')
         mock_response = '{"custom_classes": 14, "images_processed": 16, "images": [{"source_url": "source_url", "resolved_url": "resolved_url", "image": "image", "error": {"code": 4, "description": "description", "error_id": "error_id"}, "classifiers": [{"name": "name", "classifier_id": "classifier_id", "classes": [{"class": "class_", "score": 0, "type_hierarchy": "type_hierarchy"}]}]}], "warnings": [{"warning_id": "warning_id", "description": "description"}]}'
         responses.add(responses.POST,
                       url,
@@ -116,7 +117,7 @@ class TestClassify():
                       status=200)
 
         # Invoke method
-        response = service.classify()
+        response = _service.classify()
 
 
         # Check for correct operation
@@ -130,7 +131,7 @@ class TestClassify():
         test_classify_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/classify')
+        url = self.preprocess_url(_base_url + '/v3/classify')
         mock_response = '{"custom_classes": 14, "images_processed": 16, "images": [{"source_url": "source_url", "resolved_url": "resolved_url", "image": "image", "error": {"code": 4, "description": "description", "error_id": "error_id"}, "classifiers": [{"name": "name", "classifier_id": "classifier_id", "classes": [{"class": "class_", "score": 0, "type_hierarchy": "type_hierarchy"}]}]}], "warnings": [{"warning_id": "warning_id", "description": "description"}]}'
         responses.add(responses.POST,
                       url,
@@ -144,7 +145,7 @@ class TestClassify():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.classify(**req_copy)
+                _service.classify(**req_copy)
 
 
 
@@ -178,8 +179,8 @@ class TestCreateClassifier():
         create_classifier()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/classifiers')
-        mock_response = '{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(_base_url + '/v3/classifiers')
+        mock_response = '{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00.000Z", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -193,7 +194,7 @@ class TestCreateClassifier():
         negative_examples_filename = 'testString'
 
         # Invoke method
-        response = service.create_classifier(
+        response = _service.create_classifier(
             name,
             positive_examples,
             negative_examples=negative_examples,
@@ -212,8 +213,8 @@ class TestCreateClassifier():
         test_create_classifier_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/classifiers')
-        mock_response = '{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(_base_url + '/v3/classifiers')
+        mock_response = '{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00.000Z", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -225,7 +226,7 @@ class TestCreateClassifier():
         positive_examples = { 'key': io.BytesIO(b'This is a mock file.').getvalue() }
 
         # Invoke method
-        response = service.create_classifier(
+        response = _service.create_classifier(
             name,
             positive_examples,
             headers={}
@@ -242,8 +243,8 @@ class TestCreateClassifier():
         test_create_classifier_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/classifiers')
-        mock_response = '{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(_base_url + '/v3/classifiers')
+        mock_response = '{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00.000Z", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -262,7 +263,7 @@ class TestCreateClassifier():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.create_classifier(**req_copy)
+                _service.create_classifier(**req_copy)
 
 
 
@@ -286,8 +287,8 @@ class TestListClassifiers():
         list_classifiers()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/classifiers')
-        mock_response = '{"classifiers": [{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}]}'
+        url = self.preprocess_url(_base_url + '/v3/classifiers')
+        mock_response = '{"classifiers": [{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00.000Z", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -298,7 +299,7 @@ class TestListClassifiers():
         verbose = True
 
         # Invoke method
-        response = service.list_classifiers(
+        response = _service.list_classifiers(
             verbose=verbose,
             headers={}
         )
@@ -318,8 +319,8 @@ class TestListClassifiers():
         test_list_classifiers_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/classifiers')
-        mock_response = '{"classifiers": [{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}]}'
+        url = self.preprocess_url(_base_url + '/v3/classifiers')
+        mock_response = '{"classifiers": [{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00.000Z", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -327,7 +328,7 @@ class TestListClassifiers():
                       status=200)
 
         # Invoke method
-        response = service.list_classifiers()
+        response = _service.list_classifiers()
 
 
         # Check for correct operation
@@ -341,8 +342,8 @@ class TestListClassifiers():
         test_list_classifiers_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/classifiers')
-        mock_response = '{"classifiers": [{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}]}'
+        url = self.preprocess_url(_base_url + '/v3/classifiers')
+        mock_response = '{"classifiers": [{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00.000Z", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -355,7 +356,7 @@ class TestListClassifiers():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.list_classifiers(**req_copy)
+                _service.list_classifiers(**req_copy)
 
 
 
@@ -379,8 +380,8 @@ class TestGetClassifier():
         get_classifier()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/classifiers/testString')
-        mock_response = '{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(_base_url + '/v3/classifiers/testString')
+        mock_response = '{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00.000Z", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -391,7 +392,7 @@ class TestGetClassifier():
         classifier_id = 'testString'
 
         # Invoke method
-        response = service.get_classifier(
+        response = _service.get_classifier(
             classifier_id,
             headers={}
         )
@@ -407,8 +408,8 @@ class TestGetClassifier():
         test_get_classifier_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/classifiers/testString')
-        mock_response = '{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(_base_url + '/v3/classifiers/testString')
+        mock_response = '{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00.000Z", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -425,7 +426,7 @@ class TestGetClassifier():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_classifier(**req_copy)
+                _service.get_classifier(**req_copy)
 
 
 
@@ -449,8 +450,8 @@ class TestUpdateClassifier():
         update_classifier()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/classifiers/testString')
-        mock_response = '{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(_base_url + '/v3/classifiers/testString')
+        mock_response = '{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00.000Z", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -464,7 +465,7 @@ class TestUpdateClassifier():
         negative_examples_filename = 'testString'
 
         # Invoke method
-        response = service.update_classifier(
+        response = _service.update_classifier(
             classifier_id,
             positive_examples=positive_examples,
             negative_examples=negative_examples,
@@ -483,8 +484,8 @@ class TestUpdateClassifier():
         test_update_classifier_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/classifiers/testString')
-        mock_response = '{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(_base_url + '/v3/classifiers/testString')
+        mock_response = '{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00.000Z", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -495,7 +496,7 @@ class TestUpdateClassifier():
         classifier_id = 'testString'
 
         # Invoke method
-        response = service.update_classifier(
+        response = _service.update_classifier(
             classifier_id,
             headers={}
         )
@@ -511,8 +512,8 @@ class TestUpdateClassifier():
         test_update_classifier_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/classifiers/testString')
-        mock_response = '{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(_base_url + '/v3/classifiers/testString')
+        mock_response = '{"classifier_id": "classifier_id", "name": "name", "owner": "owner", "status": "ready", "core_ml_enabled": false, "explanation": "explanation", "created": "2019-01-01T12:00:00.000Z", "classes": [{"class": "class_"}], "retrained": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -529,7 +530,7 @@ class TestUpdateClassifier():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.update_classifier(**req_copy)
+                _service.update_classifier(**req_copy)
 
 
 
@@ -553,7 +554,7 @@ class TestDeleteClassifier():
         delete_classifier()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/classifiers/testString')
+        url = self.preprocess_url(_base_url + '/v3/classifiers/testString')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -562,7 +563,7 @@ class TestDeleteClassifier():
         classifier_id = 'testString'
 
         # Invoke method
-        response = service.delete_classifier(
+        response = _service.delete_classifier(
             classifier_id,
             headers={}
         )
@@ -578,7 +579,7 @@ class TestDeleteClassifier():
         test_delete_classifier_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/classifiers/testString')
+        url = self.preprocess_url(_base_url + '/v3/classifiers/testString')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -593,7 +594,7 @@ class TestDeleteClassifier():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.delete_classifier(**req_copy)
+                _service.delete_classifier(**req_copy)
 
 
 
@@ -627,7 +628,7 @@ class TestGetCoreMlModel():
         get_core_ml_model()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/classifiers/testString/core_ml_model')
+        url = self.preprocess_url(_base_url + '/v3/classifiers/testString/core_ml_model')
         mock_response = 'This is a mock binary response.'
         responses.add(responses.GET,
                       url,
@@ -639,7 +640,7 @@ class TestGetCoreMlModel():
         classifier_id = 'testString'
 
         # Invoke method
-        response = service.get_core_ml_model(
+        response = _service.get_core_ml_model(
             classifier_id,
             headers={}
         )
@@ -655,7 +656,7 @@ class TestGetCoreMlModel():
         test_get_core_ml_model_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/classifiers/testString/core_ml_model')
+        url = self.preprocess_url(_base_url + '/v3/classifiers/testString/core_ml_model')
         mock_response = 'This is a mock binary response.'
         responses.add(responses.GET,
                       url,
@@ -673,7 +674,7 @@ class TestGetCoreMlModel():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_core_ml_model(**req_copy)
+                _service.get_core_ml_model(**req_copy)
 
 
 
@@ -707,7 +708,7 @@ class TestDeleteUserData():
         delete_user_data()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/user_data')
+        url = self.preprocess_url(_base_url + '/v3/user_data')
         responses.add(responses.DELETE,
                       url,
                       status=202)
@@ -716,7 +717,7 @@ class TestDeleteUserData():
         customer_id = 'testString'
 
         # Invoke method
-        response = service.delete_user_data(
+        response = _service.delete_user_data(
             customer_id,
             headers={}
         )
@@ -736,7 +737,7 @@ class TestDeleteUserData():
         test_delete_user_data_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/user_data')
+        url = self.preprocess_url(_base_url + '/v3/user_data')
         responses.add(responses.DELETE,
                       url,
                       status=202)
@@ -751,7 +752,7 @@ class TestDeleteUserData():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.delete_user_data(**req_copy)
+                _service.delete_user_data(**req_copy)
 
 
 
@@ -958,10 +959,10 @@ class TestClassifier():
         classifier_model_json['status'] = 'ready'
         classifier_model_json['core_ml_enabled'] = True
         classifier_model_json['explanation'] = 'testString'
-        classifier_model_json['created'] = '2020-01-28T18:40:40.123456Z'
+        classifier_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
         classifier_model_json['classes'] = [class_model]
-        classifier_model_json['retrained'] = '2020-01-28T18:40:40.123456Z'
-        classifier_model_json['updated'] = '2020-01-28T18:40:40.123456Z'
+        classifier_model_json['retrained'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        classifier_model_json['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
 
         # Construct a model instance of Classifier by calling from_dict on the json representation
         classifier_model = Classifier.from_dict(classifier_model_json)
@@ -1038,10 +1039,10 @@ class TestClassifiers():
         classifier_model['status'] = 'ready'
         classifier_model['core_ml_enabled'] = True
         classifier_model['explanation'] = 'testString'
-        classifier_model['created'] = '2020-01-28T18:40:40.123456Z'
+        classifier_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
         classifier_model['classes'] = [class_model]
-        classifier_model['retrained'] = '2020-01-28T18:40:40.123456Z'
-        classifier_model['updated'] = '2020-01-28T18:40:40.123456Z'
+        classifier_model['retrained'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        classifier_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
 
         # Construct a json representation of a Classifiers model
         classifiers_model_json = {}

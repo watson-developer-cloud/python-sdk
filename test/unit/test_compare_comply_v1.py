@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2018, 2020.
+# (C) Copyright IBM Corp. 2018, 2021.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ Unit Tests for CompareComplyV1
 
 from datetime import datetime, timezone
 from ibm_cloud_sdk_core.authenticators.no_auth_authenticator import NoAuthAuthenticator
+from ibm_cloud_sdk_core.utils import datetime_to_string, string_to_datetime
 import inspect
 import io
 import json
@@ -32,13 +33,13 @@ from ibm_watson.compare_comply_v1 import *
 
 version = 'testString'
 
-service = CompareComplyV1(
+_service = CompareComplyV1(
     authenticator=NoAuthAuthenticator(),
     version=version
     )
 
-base_url = 'https://api.us-south.compare-comply.watson.cloud.ibm.com'
-service.set_service_url(base_url)
+_base_url = 'https://api.us-south.compare-comply.watson.cloud.ibm.com'
+_service.set_service_url(_base_url)
 
 ##############################################################################
 # Start of Service: HTMLConversion
@@ -65,7 +66,7 @@ class TestConvertToHtml():
         convert_to_html()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/html_conversion')
+        url = self.preprocess_url(_base_url + '/v1/html_conversion')
         mock_response = '{"num_pages": "num_pages", "author": "author", "publication_date": "publication_date", "title": "title", "html": "html"}'
         responses.add(responses.POST,
                       url,
@@ -79,7 +80,7 @@ class TestConvertToHtml():
         model = 'contracts'
 
         # Invoke method
-        response = service.convert_to_html(
+        response = _service.convert_to_html(
             file,
             file_content_type=file_content_type,
             model=model,
@@ -101,7 +102,7 @@ class TestConvertToHtml():
         test_convert_to_html_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/html_conversion')
+        url = self.preprocess_url(_base_url + '/v1/html_conversion')
         mock_response = '{"num_pages": "num_pages", "author": "author", "publication_date": "publication_date", "title": "title", "html": "html"}'
         responses.add(responses.POST,
                       url,
@@ -113,7 +114,7 @@ class TestConvertToHtml():
         file = io.BytesIO(b'This is a mock file.').getvalue()
 
         # Invoke method
-        response = service.convert_to_html(
+        response = _service.convert_to_html(
             file,
             headers={}
         )
@@ -129,7 +130,7 @@ class TestConvertToHtml():
         test_convert_to_html_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/html_conversion')
+        url = self.preprocess_url(_base_url + '/v1/html_conversion')
         mock_response = '{"num_pages": "num_pages", "author": "author", "publication_date": "publication_date", "title": "title", "html": "html"}'
         responses.add(responses.POST,
                       url,
@@ -147,7 +148,7 @@ class TestConvertToHtml():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.convert_to_html(**req_copy)
+                _service.convert_to_html(**req_copy)
 
 
 
@@ -181,7 +182,7 @@ class TestClassifyElements():
         classify_elements()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/element_classification')
+        url = self.preprocess_url(_base_url + '/v1/element_classification')
         mock_response = '{"document": {"title": "title", "html": "html", "hash": "hash", "label": "label"}, "model_id": "model_id", "model_version": "model_version", "elements": [{"location": {"begin": 5, "end": 3}, "text": "text", "types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}], "attributes": [{"type": "Currency", "text": "text", "location": {"begin": 5, "end": 3}}]}], "effective_dates": [{"confidence_level": "High", "text": "text", "text_normalized": "text_normalized", "provenance_ids": ["provenance_ids"], "location": {"begin": 5, "end": 3}}], "contract_amounts": [{"confidence_level": "High", "text": "text", "text_normalized": "text_normalized", "interpretation": {"value": "value", "numeric_value": 13, "unit": "unit"}, "provenance_ids": ["provenance_ids"], "location": {"begin": 5, "end": 3}}], "termination_dates": [{"confidence_level": "High", "text": "text", "text_normalized": "text_normalized", "provenance_ids": ["provenance_ids"], "location": {"begin": 5, "end": 3}}], "contract_types": [{"confidence_level": "High", "text": "text", "provenance_ids": ["provenance_ids"], "location": {"begin": 5, "end": 3}}], "contract_terms": [{"confidence_level": "High", "text": "text", "text_normalized": "text_normalized", "interpretation": {"value": "value", "numeric_value": 13, "unit": "unit"}, "provenance_ids": ["provenance_ids"], "location": {"begin": 5, "end": 3}}], "payment_terms": [{"confidence_level": "High", "text": "text", "text_normalized": "text_normalized", "interpretation": {"value": "value", "numeric_value": 13, "unit": "unit"}, "provenance_ids": ["provenance_ids"], "location": {"begin": 5, "end": 3}}], "contract_currencies": [{"confidence_level": "High", "text": "text", "text_normalized": "text_normalized", "provenance_ids": ["provenance_ids"], "location": {"begin": 5, "end": 3}}], "tables": [{"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"location": {"begin": 5, "end": 3}, "text": "text"}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": ["row_header_ids"], "row_header_texts": ["row_header_texts"], "row_header_texts_normalized": ["row_header_texts_normalized"], "column_header_ids": ["column_header_ids"], "column_header_texts": ["column_header_texts"], "column_header_texts_normalized": ["column_header_texts_normalized"], "attributes": [{"type": "Currency", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}]}], "document_structure": {"section_titles": [{"text": "text", "location": {"begin": 5, "end": 3}, "level": 5, "element_locations": [{"begin": 5, "end": 3}]}], "leading_sentences": [{"text": "text", "location": {"begin": 5, "end": 3}, "element_locations": [{"begin": 5, "end": 3}]}], "paragraphs": [{"location": {"begin": 5, "end": 3}}]}, "parties": [{"party": "party", "role": "role", "importance": "Primary", "addresses": [{"text": "text", "location": {"begin": 5, "end": 3}}], "contacts": [{"name": "name", "role": "role"}], "mentions": [{"text": "text", "location": {"begin": 5, "end": 3}}]}]}'
         responses.add(responses.POST,
                       url,
@@ -195,7 +196,7 @@ class TestClassifyElements():
         model = 'contracts'
 
         # Invoke method
-        response = service.classify_elements(
+        response = _service.classify_elements(
             file,
             file_content_type=file_content_type,
             model=model,
@@ -217,7 +218,7 @@ class TestClassifyElements():
         test_classify_elements_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/element_classification')
+        url = self.preprocess_url(_base_url + '/v1/element_classification')
         mock_response = '{"document": {"title": "title", "html": "html", "hash": "hash", "label": "label"}, "model_id": "model_id", "model_version": "model_version", "elements": [{"location": {"begin": 5, "end": 3}, "text": "text", "types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}], "attributes": [{"type": "Currency", "text": "text", "location": {"begin": 5, "end": 3}}]}], "effective_dates": [{"confidence_level": "High", "text": "text", "text_normalized": "text_normalized", "provenance_ids": ["provenance_ids"], "location": {"begin": 5, "end": 3}}], "contract_amounts": [{"confidence_level": "High", "text": "text", "text_normalized": "text_normalized", "interpretation": {"value": "value", "numeric_value": 13, "unit": "unit"}, "provenance_ids": ["provenance_ids"], "location": {"begin": 5, "end": 3}}], "termination_dates": [{"confidence_level": "High", "text": "text", "text_normalized": "text_normalized", "provenance_ids": ["provenance_ids"], "location": {"begin": 5, "end": 3}}], "contract_types": [{"confidence_level": "High", "text": "text", "provenance_ids": ["provenance_ids"], "location": {"begin": 5, "end": 3}}], "contract_terms": [{"confidence_level": "High", "text": "text", "text_normalized": "text_normalized", "interpretation": {"value": "value", "numeric_value": 13, "unit": "unit"}, "provenance_ids": ["provenance_ids"], "location": {"begin": 5, "end": 3}}], "payment_terms": [{"confidence_level": "High", "text": "text", "text_normalized": "text_normalized", "interpretation": {"value": "value", "numeric_value": 13, "unit": "unit"}, "provenance_ids": ["provenance_ids"], "location": {"begin": 5, "end": 3}}], "contract_currencies": [{"confidence_level": "High", "text": "text", "text_normalized": "text_normalized", "provenance_ids": ["provenance_ids"], "location": {"begin": 5, "end": 3}}], "tables": [{"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"location": {"begin": 5, "end": 3}, "text": "text"}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": ["row_header_ids"], "row_header_texts": ["row_header_texts"], "row_header_texts_normalized": ["row_header_texts_normalized"], "column_header_ids": ["column_header_ids"], "column_header_texts": ["column_header_texts"], "column_header_texts_normalized": ["column_header_texts_normalized"], "attributes": [{"type": "Currency", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}]}], "document_structure": {"section_titles": [{"text": "text", "location": {"begin": 5, "end": 3}, "level": 5, "element_locations": [{"begin": 5, "end": 3}]}], "leading_sentences": [{"text": "text", "location": {"begin": 5, "end": 3}, "element_locations": [{"begin": 5, "end": 3}]}], "paragraphs": [{"location": {"begin": 5, "end": 3}}]}, "parties": [{"party": "party", "role": "role", "importance": "Primary", "addresses": [{"text": "text", "location": {"begin": 5, "end": 3}}], "contacts": [{"name": "name", "role": "role"}], "mentions": [{"text": "text", "location": {"begin": 5, "end": 3}}]}]}'
         responses.add(responses.POST,
                       url,
@@ -229,7 +230,7 @@ class TestClassifyElements():
         file = io.BytesIO(b'This is a mock file.').getvalue()
 
         # Invoke method
-        response = service.classify_elements(
+        response = _service.classify_elements(
             file,
             headers={}
         )
@@ -245,7 +246,7 @@ class TestClassifyElements():
         test_classify_elements_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/element_classification')
+        url = self.preprocess_url(_base_url + '/v1/element_classification')
         mock_response = '{"document": {"title": "title", "html": "html", "hash": "hash", "label": "label"}, "model_id": "model_id", "model_version": "model_version", "elements": [{"location": {"begin": 5, "end": 3}, "text": "text", "types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}], "attributes": [{"type": "Currency", "text": "text", "location": {"begin": 5, "end": 3}}]}], "effective_dates": [{"confidence_level": "High", "text": "text", "text_normalized": "text_normalized", "provenance_ids": ["provenance_ids"], "location": {"begin": 5, "end": 3}}], "contract_amounts": [{"confidence_level": "High", "text": "text", "text_normalized": "text_normalized", "interpretation": {"value": "value", "numeric_value": 13, "unit": "unit"}, "provenance_ids": ["provenance_ids"], "location": {"begin": 5, "end": 3}}], "termination_dates": [{"confidence_level": "High", "text": "text", "text_normalized": "text_normalized", "provenance_ids": ["provenance_ids"], "location": {"begin": 5, "end": 3}}], "contract_types": [{"confidence_level": "High", "text": "text", "provenance_ids": ["provenance_ids"], "location": {"begin": 5, "end": 3}}], "contract_terms": [{"confidence_level": "High", "text": "text", "text_normalized": "text_normalized", "interpretation": {"value": "value", "numeric_value": 13, "unit": "unit"}, "provenance_ids": ["provenance_ids"], "location": {"begin": 5, "end": 3}}], "payment_terms": [{"confidence_level": "High", "text": "text", "text_normalized": "text_normalized", "interpretation": {"value": "value", "numeric_value": 13, "unit": "unit"}, "provenance_ids": ["provenance_ids"], "location": {"begin": 5, "end": 3}}], "contract_currencies": [{"confidence_level": "High", "text": "text", "text_normalized": "text_normalized", "provenance_ids": ["provenance_ids"], "location": {"begin": 5, "end": 3}}], "tables": [{"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"location": {"begin": 5, "end": 3}, "text": "text"}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": ["row_header_ids"], "row_header_texts": ["row_header_texts"], "row_header_texts_normalized": ["row_header_texts_normalized"], "column_header_ids": ["column_header_ids"], "column_header_texts": ["column_header_texts"], "column_header_texts_normalized": ["column_header_texts_normalized"], "attributes": [{"type": "Currency", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}]}], "document_structure": {"section_titles": [{"text": "text", "location": {"begin": 5, "end": 3}, "level": 5, "element_locations": [{"begin": 5, "end": 3}]}], "leading_sentences": [{"text": "text", "location": {"begin": 5, "end": 3}, "element_locations": [{"begin": 5, "end": 3}]}], "paragraphs": [{"location": {"begin": 5, "end": 3}}]}, "parties": [{"party": "party", "role": "role", "importance": "Primary", "addresses": [{"text": "text", "location": {"begin": 5, "end": 3}}], "contacts": [{"name": "name", "role": "role"}], "mentions": [{"text": "text", "location": {"begin": 5, "end": 3}}]}]}'
         responses.add(responses.POST,
                       url,
@@ -263,7 +264,7 @@ class TestClassifyElements():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.classify_elements(**req_copy)
+                _service.classify_elements(**req_copy)
 
 
 
@@ -297,7 +298,7 @@ class TestExtractTables():
         extract_tables()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/tables')
+        url = self.preprocess_url(_base_url + '/v1/tables')
         mock_response = '{"document": {"html": "html", "title": "title", "hash": "hash"}, "model_id": "model_id", "model_version": "model_version", "tables": [{"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"location": {"begin": 5, "end": 3}, "text": "text"}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": ["row_header_ids"], "row_header_texts": ["row_header_texts"], "row_header_texts_normalized": ["row_header_texts_normalized"], "column_header_ids": ["column_header_ids"], "column_header_texts": ["column_header_texts"], "column_header_texts_normalized": ["column_header_texts_normalized"], "attributes": [{"type": "Currency", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}]}]}'
         responses.add(responses.POST,
                       url,
@@ -311,7 +312,7 @@ class TestExtractTables():
         model = 'contracts'
 
         # Invoke method
-        response = service.extract_tables(
+        response = _service.extract_tables(
             file,
             file_content_type=file_content_type,
             model=model,
@@ -333,7 +334,7 @@ class TestExtractTables():
         test_extract_tables_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/tables')
+        url = self.preprocess_url(_base_url + '/v1/tables')
         mock_response = '{"document": {"html": "html", "title": "title", "hash": "hash"}, "model_id": "model_id", "model_version": "model_version", "tables": [{"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"location": {"begin": 5, "end": 3}, "text": "text"}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": ["row_header_ids"], "row_header_texts": ["row_header_texts"], "row_header_texts_normalized": ["row_header_texts_normalized"], "column_header_ids": ["column_header_ids"], "column_header_texts": ["column_header_texts"], "column_header_texts_normalized": ["column_header_texts_normalized"], "attributes": [{"type": "Currency", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}]}]}'
         responses.add(responses.POST,
                       url,
@@ -345,7 +346,7 @@ class TestExtractTables():
         file = io.BytesIO(b'This is a mock file.').getvalue()
 
         # Invoke method
-        response = service.extract_tables(
+        response = _service.extract_tables(
             file,
             headers={}
         )
@@ -361,7 +362,7 @@ class TestExtractTables():
         test_extract_tables_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/tables')
+        url = self.preprocess_url(_base_url + '/v1/tables')
         mock_response = '{"document": {"html": "html", "title": "title", "hash": "hash"}, "model_id": "model_id", "model_version": "model_version", "tables": [{"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"location": {"begin": 5, "end": 3}, "text": "text"}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": ["row_header_ids"], "row_header_texts": ["row_header_texts"], "row_header_texts_normalized": ["row_header_texts_normalized"], "column_header_ids": ["column_header_ids"], "column_header_texts": ["column_header_texts"], "column_header_texts_normalized": ["column_header_texts_normalized"], "attributes": [{"type": "Currency", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}]}]}'
         responses.add(responses.POST,
                       url,
@@ -379,7 +380,7 @@ class TestExtractTables():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.extract_tables(**req_copy)
+                _service.extract_tables(**req_copy)
 
 
 
@@ -413,7 +414,7 @@ class TestCompareDocuments():
         compare_documents()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/comparison')
+        url = self.preprocess_url(_base_url + '/v1/comparison')
         mock_response = '{"model_id": "model_id", "model_version": "model_version", "documents": [{"title": "title", "html": "html", "hash": "hash", "label": "label"}], "aligned_elements": [{"element_pair": [{"document_label": "document_label", "text": "text", "location": {"begin": 5, "end": 3}, "types": [{"label": {"nature": "nature", "party": "party"}}], "categories": [{"label": "Amendments"}], "attributes": [{"type": "Currency", "text": "text", "location": {"begin": 5, "end": 3}}]}], "identical_text": true, "provenance_ids": ["provenance_ids"], "significant_elements": true}], "unaligned_elements": [{"document_label": "document_label", "location": {"begin": 5, "end": 3}, "text": "text", "types": [{"label": {"nature": "nature", "party": "party"}}], "categories": [{"label": "Amendments"}], "attributes": [{"type": "Currency", "text": "text", "location": {"begin": 5, "end": 3}}]}]}'
         responses.add(responses.POST,
                       url,
@@ -431,7 +432,7 @@ class TestCompareDocuments():
         model = 'contracts'
 
         # Invoke method
-        response = service.compare_documents(
+        response = _service.compare_documents(
             file_1,
             file_2,
             file_1_content_type=file_1_content_type,
@@ -459,7 +460,7 @@ class TestCompareDocuments():
         test_compare_documents_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/comparison')
+        url = self.preprocess_url(_base_url + '/v1/comparison')
         mock_response = '{"model_id": "model_id", "model_version": "model_version", "documents": [{"title": "title", "html": "html", "hash": "hash", "label": "label"}], "aligned_elements": [{"element_pair": [{"document_label": "document_label", "text": "text", "location": {"begin": 5, "end": 3}, "types": [{"label": {"nature": "nature", "party": "party"}}], "categories": [{"label": "Amendments"}], "attributes": [{"type": "Currency", "text": "text", "location": {"begin": 5, "end": 3}}]}], "identical_text": true, "provenance_ids": ["provenance_ids"], "significant_elements": true}], "unaligned_elements": [{"document_label": "document_label", "location": {"begin": 5, "end": 3}, "text": "text", "types": [{"label": {"nature": "nature", "party": "party"}}], "categories": [{"label": "Amendments"}], "attributes": [{"type": "Currency", "text": "text", "location": {"begin": 5, "end": 3}}]}]}'
         responses.add(responses.POST,
                       url,
@@ -472,7 +473,7 @@ class TestCompareDocuments():
         file_2 = io.BytesIO(b'This is a mock file.').getvalue()
 
         # Invoke method
-        response = service.compare_documents(
+        response = _service.compare_documents(
             file_1,
             file_2,
             headers={}
@@ -489,7 +490,7 @@ class TestCompareDocuments():
         test_compare_documents_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/comparison')
+        url = self.preprocess_url(_base_url + '/v1/comparison')
         mock_response = '{"model_id": "model_id", "model_version": "model_version", "documents": [{"title": "title", "html": "html", "hash": "hash", "label": "label"}], "aligned_elements": [{"element_pair": [{"document_label": "document_label", "text": "text", "location": {"begin": 5, "end": 3}, "types": [{"label": {"nature": "nature", "party": "party"}}], "categories": [{"label": "Amendments"}], "attributes": [{"type": "Currency", "text": "text", "location": {"begin": 5, "end": 3}}]}], "identical_text": true, "provenance_ids": ["provenance_ids"], "significant_elements": true}], "unaligned_elements": [{"document_label": "document_label", "location": {"begin": 5, "end": 3}, "text": "text", "types": [{"label": {"nature": "nature", "party": "party"}}], "categories": [{"label": "Amendments"}], "attributes": [{"type": "Currency", "text": "text", "location": {"begin": 5, "end": 3}}]}]}'
         responses.add(responses.POST,
                       url,
@@ -509,7 +510,7 @@ class TestCompareDocuments():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.compare_documents(**req_copy)
+                _service.compare_documents(**req_copy)
 
 
 
@@ -543,8 +544,8 @@ class TestAddFeedback():
         add_feedback()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/feedback')
-        mock_response = '{"feedback_id": "feedback_id", "user_id": "user_id", "comment": "comment", "created": "2019-01-01T12:00:00", "feedback_data": {"feedback_type": "feedback_type", "document": {"title": "title", "hash": "hash"}, "model_id": "model_id", "model_version": "model_version", "location": {"begin": 5, "end": 3}, "text": "text", "original_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "updated_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "pagination": {"refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor", "refresh_url": "refresh_url", "next_url": "next_url", "total": 5}}}'
+        url = self.preprocess_url(_base_url + '/v1/feedback')
+        mock_response = '{"feedback_id": "feedback_id", "user_id": "user_id", "comment": "comment", "created": "2019-01-01T12:00:00.000Z", "feedback_data": {"feedback_type": "feedback_type", "document": {"title": "title", "hash": "hash"}, "model_id": "model_id", "model_version": "model_version", "location": {"begin": 5, "end": 3}, "text": "text", "original_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "updated_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "pagination": {"refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor", "refresh_url": "refresh_url", "next_url": "next_url", "total": 5}}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -605,7 +606,7 @@ class TestAddFeedback():
         comment = 'testString'
 
         # Invoke method
-        response = service.add_feedback(
+        response = _service.add_feedback(
             feedback_data,
             user_id=user_id,
             comment=comment,
@@ -628,8 +629,8 @@ class TestAddFeedback():
         test_add_feedback_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/feedback')
-        mock_response = '{"feedback_id": "feedback_id", "user_id": "user_id", "comment": "comment", "created": "2019-01-01T12:00:00", "feedback_data": {"feedback_type": "feedback_type", "document": {"title": "title", "hash": "hash"}, "model_id": "model_id", "model_version": "model_version", "location": {"begin": 5, "end": 3}, "text": "text", "original_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "updated_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "pagination": {"refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor", "refresh_url": "refresh_url", "next_url": "next_url", "total": 5}}}'
+        url = self.preprocess_url(_base_url + '/v1/feedback')
+        mock_response = '{"feedback_id": "feedback_id", "user_id": "user_id", "comment": "comment", "created": "2019-01-01T12:00:00.000Z", "feedback_data": {"feedback_type": "feedback_type", "document": {"title": "title", "hash": "hash"}, "model_id": "model_id", "model_version": "model_version", "location": {"begin": 5, "end": 3}, "text": "text", "original_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "updated_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "pagination": {"refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor", "refresh_url": "refresh_url", "next_url": "next_url", "total": 5}}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -696,7 +697,7 @@ class TestAddFeedback():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.add_feedback(**req_copy)
+                _service.add_feedback(**req_copy)
 
 
 
@@ -720,8 +721,8 @@ class TestListFeedback():
         list_feedback()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/feedback')
-        mock_response = '{"feedback": [{"feedback_id": "feedback_id", "created": "2019-01-01T12:00:00", "comment": "comment", "feedback_data": {"feedback_type": "feedback_type", "document": {"title": "title", "hash": "hash"}, "model_id": "model_id", "model_version": "model_version", "location": {"begin": 5, "end": 3}, "text": "text", "original_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "updated_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "pagination": {"refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor", "refresh_url": "refresh_url", "next_url": "next_url", "total": 5}}}]}'
+        url = self.preprocess_url(_base_url + '/v1/feedback')
+        mock_response = '{"feedback": [{"feedback_id": "feedback_id", "created": "2019-01-01T12:00:00.000Z", "comment": "comment", "feedback_data": {"feedback_type": "feedback_type", "document": {"title": "title", "hash": "hash"}, "model_id": "model_id", "model_version": "model_version", "location": {"begin": 5, "end": 3}, "text": "text", "original_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "updated_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "pagination": {"refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor", "refresh_url": "refresh_url", "next_url": "next_url", "total": 5}}}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -745,7 +746,7 @@ class TestListFeedback():
         include_total = True
 
         # Invoke method
-        response = service.list_feedback(
+        response = _service.list_feedback(
             feedback_type=feedback_type,
             document_title=document_title,
             model_id=model_id,
@@ -791,8 +792,8 @@ class TestListFeedback():
         test_list_feedback_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/feedback')
-        mock_response = '{"feedback": [{"feedback_id": "feedback_id", "created": "2019-01-01T12:00:00", "comment": "comment", "feedback_data": {"feedback_type": "feedback_type", "document": {"title": "title", "hash": "hash"}, "model_id": "model_id", "model_version": "model_version", "location": {"begin": 5, "end": 3}, "text": "text", "original_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "updated_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "pagination": {"refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor", "refresh_url": "refresh_url", "next_url": "next_url", "total": 5}}}]}'
+        url = self.preprocess_url(_base_url + '/v1/feedback')
+        mock_response = '{"feedback": [{"feedback_id": "feedback_id", "created": "2019-01-01T12:00:00.000Z", "comment": "comment", "feedback_data": {"feedback_type": "feedback_type", "document": {"title": "title", "hash": "hash"}, "model_id": "model_id", "model_version": "model_version", "location": {"begin": 5, "end": 3}, "text": "text", "original_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "updated_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "pagination": {"refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor", "refresh_url": "refresh_url", "next_url": "next_url", "total": 5}}}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -800,7 +801,7 @@ class TestListFeedback():
                       status=200)
 
         # Invoke method
-        response = service.list_feedback()
+        response = _service.list_feedback()
 
 
         # Check for correct operation
@@ -814,8 +815,8 @@ class TestListFeedback():
         test_list_feedback_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/feedback')
-        mock_response = '{"feedback": [{"feedback_id": "feedback_id", "created": "2019-01-01T12:00:00", "comment": "comment", "feedback_data": {"feedback_type": "feedback_type", "document": {"title": "title", "hash": "hash"}, "model_id": "model_id", "model_version": "model_version", "location": {"begin": 5, "end": 3}, "text": "text", "original_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "updated_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "pagination": {"refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor", "refresh_url": "refresh_url", "next_url": "next_url", "total": 5}}}]}'
+        url = self.preprocess_url(_base_url + '/v1/feedback')
+        mock_response = '{"feedback": [{"feedback_id": "feedback_id", "created": "2019-01-01T12:00:00.000Z", "comment": "comment", "feedback_data": {"feedback_type": "feedback_type", "document": {"title": "title", "hash": "hash"}, "model_id": "model_id", "model_version": "model_version", "location": {"begin": 5, "end": 3}, "text": "text", "original_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "updated_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "pagination": {"refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor", "refresh_url": "refresh_url", "next_url": "next_url", "total": 5}}}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -828,7 +829,7 @@ class TestListFeedback():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.list_feedback(**req_copy)
+                _service.list_feedback(**req_copy)
 
 
 
@@ -852,8 +853,8 @@ class TestGetFeedback():
         get_feedback()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/feedback/testString')
-        mock_response = '{"feedback_id": "feedback_id", "created": "2019-01-01T12:00:00", "comment": "comment", "feedback_data": {"feedback_type": "feedback_type", "document": {"title": "title", "hash": "hash"}, "model_id": "model_id", "model_version": "model_version", "location": {"begin": 5, "end": 3}, "text": "text", "original_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "updated_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "pagination": {"refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor", "refresh_url": "refresh_url", "next_url": "next_url", "total": 5}}}'
+        url = self.preprocess_url(_base_url + '/v1/feedback/testString')
+        mock_response = '{"feedback_id": "feedback_id", "created": "2019-01-01T12:00:00.000Z", "comment": "comment", "feedback_data": {"feedback_type": "feedback_type", "document": {"title": "title", "hash": "hash"}, "model_id": "model_id", "model_version": "model_version", "location": {"begin": 5, "end": 3}, "text": "text", "original_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "updated_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "pagination": {"refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor", "refresh_url": "refresh_url", "next_url": "next_url", "total": 5}}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -865,7 +866,7 @@ class TestGetFeedback():
         model = 'contracts'
 
         # Invoke method
-        response = service.get_feedback(
+        response = _service.get_feedback(
             feedback_id,
             model=model,
             headers={}
@@ -886,8 +887,8 @@ class TestGetFeedback():
         test_get_feedback_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/feedback/testString')
-        mock_response = '{"feedback_id": "feedback_id", "created": "2019-01-01T12:00:00", "comment": "comment", "feedback_data": {"feedback_type": "feedback_type", "document": {"title": "title", "hash": "hash"}, "model_id": "model_id", "model_version": "model_version", "location": {"begin": 5, "end": 3}, "text": "text", "original_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "updated_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "pagination": {"refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor", "refresh_url": "refresh_url", "next_url": "next_url", "total": 5}}}'
+        url = self.preprocess_url(_base_url + '/v1/feedback/testString')
+        mock_response = '{"feedback_id": "feedback_id", "created": "2019-01-01T12:00:00.000Z", "comment": "comment", "feedback_data": {"feedback_type": "feedback_type", "document": {"title": "title", "hash": "hash"}, "model_id": "model_id", "model_version": "model_version", "location": {"begin": 5, "end": 3}, "text": "text", "original_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "updated_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "pagination": {"refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor", "refresh_url": "refresh_url", "next_url": "next_url", "total": 5}}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -898,7 +899,7 @@ class TestGetFeedback():
         feedback_id = 'testString'
 
         # Invoke method
-        response = service.get_feedback(
+        response = _service.get_feedback(
             feedback_id,
             headers={}
         )
@@ -914,8 +915,8 @@ class TestGetFeedback():
         test_get_feedback_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/feedback/testString')
-        mock_response = '{"feedback_id": "feedback_id", "created": "2019-01-01T12:00:00", "comment": "comment", "feedback_data": {"feedback_type": "feedback_type", "document": {"title": "title", "hash": "hash"}, "model_id": "model_id", "model_version": "model_version", "location": {"begin": 5, "end": 3}, "text": "text", "original_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "updated_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "pagination": {"refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor", "refresh_url": "refresh_url", "next_url": "next_url", "total": 5}}}'
+        url = self.preprocess_url(_base_url + '/v1/feedback/testString')
+        mock_response = '{"feedback_id": "feedback_id", "created": "2019-01-01T12:00:00.000Z", "comment": "comment", "feedback_data": {"feedback_type": "feedback_type", "document": {"title": "title", "hash": "hash"}, "model_id": "model_id", "model_version": "model_version", "location": {"begin": 5, "end": 3}, "text": "text", "original_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "updated_labels": {"types": [{"label": {"nature": "nature", "party": "party"}, "provenance_ids": ["provenance_ids"], "modification": "added"}], "categories": [{"label": "Amendments", "provenance_ids": ["provenance_ids"], "modification": "added"}]}, "pagination": {"refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor", "refresh_url": "refresh_url", "next_url": "next_url", "total": 5}}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -932,7 +933,7 @@ class TestGetFeedback():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_feedback(**req_copy)
+                _service.get_feedback(**req_copy)
 
 
 
@@ -956,7 +957,7 @@ class TestDeleteFeedback():
         delete_feedback()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/feedback/testString')
+        url = self.preprocess_url(_base_url + '/v1/feedback/testString')
         mock_response = '{"status": 6, "message": "message"}'
         responses.add(responses.DELETE,
                       url,
@@ -969,7 +970,7 @@ class TestDeleteFeedback():
         model = 'contracts'
 
         # Invoke method
-        response = service.delete_feedback(
+        response = _service.delete_feedback(
             feedback_id,
             model=model,
             headers={}
@@ -990,7 +991,7 @@ class TestDeleteFeedback():
         test_delete_feedback_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/feedback/testString')
+        url = self.preprocess_url(_base_url + '/v1/feedback/testString')
         mock_response = '{"status": 6, "message": "message"}'
         responses.add(responses.DELETE,
                       url,
@@ -1002,7 +1003,7 @@ class TestDeleteFeedback():
         feedback_id = 'testString'
 
         # Invoke method
-        response = service.delete_feedback(
+        response = _service.delete_feedback(
             feedback_id,
             headers={}
         )
@@ -1018,7 +1019,7 @@ class TestDeleteFeedback():
         test_delete_feedback_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/feedback/testString')
+        url = self.preprocess_url(_base_url + '/v1/feedback/testString')
         mock_response = '{"status": 6, "message": "message"}'
         responses.add(responses.DELETE,
                       url,
@@ -1036,7 +1037,7 @@ class TestDeleteFeedback():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.delete_feedback(**req_copy)
+                _service.delete_feedback(**req_copy)
 
 
 
@@ -1070,8 +1071,8 @@ class TestCreateBatch():
         create_batch()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/batches')
-        mock_response = '{"function": "element_classification", "input_bucket_location": "input_bucket_location", "input_bucket_name": "input_bucket_name", "output_bucket_location": "output_bucket_location", "output_bucket_name": "output_bucket_name", "batch_id": "batch_id", "document_counts": {"total": 5, "pending": 7, "successful": 10, "failed": 6}, "status": "status", "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(_base_url + '/v1/batches')
+        mock_response = '{"function": "element_classification", "input_bucket_location": "input_bucket_location", "input_bucket_name": "input_bucket_name", "output_bucket_location": "output_bucket_location", "output_bucket_name": "output_bucket_name", "batch_id": "batch_id", "document_counts": {"total": 5, "pending": 7, "successful": 10, "failed": 6}, "status": "status", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1089,7 +1090,7 @@ class TestCreateBatch():
         model = 'contracts'
 
         # Invoke method
-        response = service.create_batch(
+        response = _service.create_batch(
             function,
             input_credentials_file,
             input_bucket_location,
@@ -1117,8 +1118,8 @@ class TestCreateBatch():
         test_create_batch_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/batches')
-        mock_response = '{"function": "element_classification", "input_bucket_location": "input_bucket_location", "input_bucket_name": "input_bucket_name", "output_bucket_location": "output_bucket_location", "output_bucket_name": "output_bucket_name", "batch_id": "batch_id", "document_counts": {"total": 5, "pending": 7, "successful": 10, "failed": 6}, "status": "status", "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(_base_url + '/v1/batches')
+        mock_response = '{"function": "element_classification", "input_bucket_location": "input_bucket_location", "input_bucket_name": "input_bucket_name", "output_bucket_location": "output_bucket_location", "output_bucket_name": "output_bucket_name", "batch_id": "batch_id", "document_counts": {"total": 5, "pending": 7, "successful": 10, "failed": 6}, "status": "status", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1135,7 +1136,7 @@ class TestCreateBatch():
         output_bucket_name = 'testString'
 
         # Invoke method
-        response = service.create_batch(
+        response = _service.create_batch(
             function,
             input_credentials_file,
             input_bucket_location,
@@ -1161,8 +1162,8 @@ class TestCreateBatch():
         test_create_batch_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/batches')
-        mock_response = '{"function": "element_classification", "input_bucket_location": "input_bucket_location", "input_bucket_name": "input_bucket_name", "output_bucket_location": "output_bucket_location", "output_bucket_name": "output_bucket_name", "batch_id": "batch_id", "document_counts": {"total": 5, "pending": 7, "successful": 10, "failed": 6}, "status": "status", "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(_base_url + '/v1/batches')
+        mock_response = '{"function": "element_classification", "input_bucket_location": "input_bucket_location", "input_bucket_name": "input_bucket_name", "output_bucket_location": "output_bucket_location", "output_bucket_name": "output_bucket_name", "batch_id": "batch_id", "document_counts": {"total": 5, "pending": 7, "successful": 10, "failed": 6}, "status": "status", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1191,7 +1192,7 @@ class TestCreateBatch():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.create_batch(**req_copy)
+                _service.create_batch(**req_copy)
 
 
 
@@ -1215,8 +1216,8 @@ class TestListBatches():
         list_batches()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/batches')
-        mock_response = '{"batches": [{"function": "element_classification", "input_bucket_location": "input_bucket_location", "input_bucket_name": "input_bucket_name", "output_bucket_location": "output_bucket_location", "output_bucket_name": "output_bucket_name", "batch_id": "batch_id", "document_counts": {"total": 5, "pending": 7, "successful": 10, "failed": 6}, "status": "status", "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}]}'
+        url = self.preprocess_url(_base_url + '/v1/batches')
+        mock_response = '{"batches": [{"function": "element_classification", "input_bucket_location": "input_bucket_location", "input_bucket_name": "input_bucket_name", "output_bucket_location": "output_bucket_location", "output_bucket_name": "output_bucket_name", "batch_id": "batch_id", "document_counts": {"total": 5, "pending": 7, "successful": 10, "failed": 6}, "status": "status", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1224,7 +1225,7 @@ class TestListBatches():
                       status=200)
 
         # Invoke method
-        response = service.list_batches()
+        response = _service.list_batches()
 
 
         # Check for correct operation
@@ -1238,8 +1239,8 @@ class TestListBatches():
         test_list_batches_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/batches')
-        mock_response = '{"batches": [{"function": "element_classification", "input_bucket_location": "input_bucket_location", "input_bucket_name": "input_bucket_name", "output_bucket_location": "output_bucket_location", "output_bucket_name": "output_bucket_name", "batch_id": "batch_id", "document_counts": {"total": 5, "pending": 7, "successful": 10, "failed": 6}, "status": "status", "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}]}'
+        url = self.preprocess_url(_base_url + '/v1/batches')
+        mock_response = '{"batches": [{"function": "element_classification", "input_bucket_location": "input_bucket_location", "input_bucket_name": "input_bucket_name", "output_bucket_location": "output_bucket_location", "output_bucket_name": "output_bucket_name", "batch_id": "batch_id", "document_counts": {"total": 5, "pending": 7, "successful": 10, "failed": 6}, "status": "status", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1252,7 +1253,7 @@ class TestListBatches():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.list_batches(**req_copy)
+                _service.list_batches(**req_copy)
 
 
 
@@ -1276,8 +1277,8 @@ class TestGetBatch():
         get_batch()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/batches/testString')
-        mock_response = '{"function": "element_classification", "input_bucket_location": "input_bucket_location", "input_bucket_name": "input_bucket_name", "output_bucket_location": "output_bucket_location", "output_bucket_name": "output_bucket_name", "batch_id": "batch_id", "document_counts": {"total": 5, "pending": 7, "successful": 10, "failed": 6}, "status": "status", "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(_base_url + '/v1/batches/testString')
+        mock_response = '{"function": "element_classification", "input_bucket_location": "input_bucket_location", "input_bucket_name": "input_bucket_name", "output_bucket_location": "output_bucket_location", "output_bucket_name": "output_bucket_name", "batch_id": "batch_id", "document_counts": {"total": 5, "pending": 7, "successful": 10, "failed": 6}, "status": "status", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1288,7 +1289,7 @@ class TestGetBatch():
         batch_id = 'testString'
 
         # Invoke method
-        response = service.get_batch(
+        response = _service.get_batch(
             batch_id,
             headers={}
         )
@@ -1304,8 +1305,8 @@ class TestGetBatch():
         test_get_batch_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/batches/testString')
-        mock_response = '{"function": "element_classification", "input_bucket_location": "input_bucket_location", "input_bucket_name": "input_bucket_name", "output_bucket_location": "output_bucket_location", "output_bucket_name": "output_bucket_name", "batch_id": "batch_id", "document_counts": {"total": 5, "pending": 7, "successful": 10, "failed": 6}, "status": "status", "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(_base_url + '/v1/batches/testString')
+        mock_response = '{"function": "element_classification", "input_bucket_location": "input_bucket_location", "input_bucket_name": "input_bucket_name", "output_bucket_location": "output_bucket_location", "output_bucket_name": "output_bucket_name", "batch_id": "batch_id", "document_counts": {"total": 5, "pending": 7, "successful": 10, "failed": 6}, "status": "status", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1322,7 +1323,7 @@ class TestGetBatch():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_batch(**req_copy)
+                _service.get_batch(**req_copy)
 
 
 
@@ -1346,8 +1347,8 @@ class TestUpdateBatch():
         update_batch()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/batches/testString')
-        mock_response = '{"function": "element_classification", "input_bucket_location": "input_bucket_location", "input_bucket_name": "input_bucket_name", "output_bucket_location": "output_bucket_location", "output_bucket_name": "output_bucket_name", "batch_id": "batch_id", "document_counts": {"total": 5, "pending": 7, "successful": 10, "failed": 6}, "status": "status", "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(_base_url + '/v1/batches/testString')
+        mock_response = '{"function": "element_classification", "input_bucket_location": "input_bucket_location", "input_bucket_name": "input_bucket_name", "output_bucket_location": "output_bucket_location", "output_bucket_name": "output_bucket_name", "batch_id": "batch_id", "document_counts": {"total": 5, "pending": 7, "successful": 10, "failed": 6}, "status": "status", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -1360,7 +1361,7 @@ class TestUpdateBatch():
         model = 'contracts'
 
         # Invoke method
-        response = service.update_batch(
+        response = _service.update_batch(
             batch_id,
             action,
             model=model,
@@ -1383,8 +1384,8 @@ class TestUpdateBatch():
         test_update_batch_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/batches/testString')
-        mock_response = '{"function": "element_classification", "input_bucket_location": "input_bucket_location", "input_bucket_name": "input_bucket_name", "output_bucket_location": "output_bucket_location", "output_bucket_name": "output_bucket_name", "batch_id": "batch_id", "document_counts": {"total": 5, "pending": 7, "successful": 10, "failed": 6}, "status": "status", "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(_base_url + '/v1/batches/testString')
+        mock_response = '{"function": "element_classification", "input_bucket_location": "input_bucket_location", "input_bucket_name": "input_bucket_name", "output_bucket_location": "output_bucket_location", "output_bucket_name": "output_bucket_name", "batch_id": "batch_id", "document_counts": {"total": 5, "pending": 7, "successful": 10, "failed": 6}, "status": "status", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -1396,7 +1397,7 @@ class TestUpdateBatch():
         action = 'rescan'
 
         # Invoke method
-        response = service.update_batch(
+        response = _service.update_batch(
             batch_id,
             action,
             headers={}
@@ -1417,8 +1418,8 @@ class TestUpdateBatch():
         test_update_batch_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/batches/testString')
-        mock_response = '{"function": "element_classification", "input_bucket_location": "input_bucket_location", "input_bucket_name": "input_bucket_name", "output_bucket_location": "output_bucket_location", "output_bucket_name": "output_bucket_name", "batch_id": "batch_id", "document_counts": {"total": 5, "pending": 7, "successful": 10, "failed": 6}, "status": "status", "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}'
+        url = self.preprocess_url(_base_url + '/v1/batches/testString')
+        mock_response = '{"function": "element_classification", "input_bucket_location": "input_bucket_location", "input_bucket_name": "input_bucket_name", "output_bucket_location": "output_bucket_location", "output_bucket_name": "output_bucket_name", "batch_id": "batch_id", "document_counts": {"total": 5, "pending": 7, "successful": 10, "failed": 6}, "status": "status", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -1437,7 +1438,7 @@ class TestUpdateBatch():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.update_batch(**req_copy)
+                _service.update_batch(**req_copy)
 
 
 
@@ -1613,8 +1614,8 @@ class TestBatchStatus():
         batch_status_model_json['batch_id'] = 'testString'
         batch_status_model_json['document_counts'] = doc_counts_model
         batch_status_model_json['status'] = 'testString'
-        batch_status_model_json['created'] = '2020-01-28T18:40:40.123456Z'
-        batch_status_model_json['updated'] = '2020-01-28T18:40:40.123456Z'
+        batch_status_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        batch_status_model_json['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
 
         # Construct a model instance of BatchStatus by calling from_dict on the json representation
         batch_status_model = BatchStatus.from_dict(batch_status_model_json)
@@ -1658,8 +1659,8 @@ class TestBatches():
         batch_status_model['batch_id'] = 'testString'
         batch_status_model['document_counts'] = doc_counts_model
         batch_status_model['status'] = 'testString'
-        batch_status_model['created'] = '2020-01-28T18:40:40.123456Z'
-        batch_status_model['updated'] = '2020-01-28T18:40:40.123456Z'
+        batch_status_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        batch_status_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
 
         # Construct a json representation of a Batches model
         batches_model_json = {}
@@ -1821,7 +1822,7 @@ class TestClassifyReturn():
 
         type_label_model = {} # TypeLabel
         type_label_model['label'] = label_model
-        type_label_model['provenance_ids'] = ['testString']
+        type_label_model['provenance_ids'] = ['Nlu0ogWAEGms4vjhhzpMv3iXhm8b8fBqMBNtT/bXH8JI=', 'Pqjd5I+s/Fdpx2NbIwCRMtyPLV8n1Hq+wINPGAr/PNtcRCSdxR9P7RLf1/eXPKQYI']
         type_label_model['modification'] = 'added'
 
         category_model = {} # Category
@@ -1942,12 +1943,12 @@ class TestClassifyReturn():
         body_cells_model['row_index_end'] = 1
         body_cells_model['column_index_begin'] = 0
         body_cells_model['column_index_end'] = 0
-        body_cells_model['row_header_ids'] = ['testString']
-        body_cells_model['row_header_texts'] = ['testString']
-        body_cells_model['row_header_texts_normalized'] = ['testString']
-        body_cells_model['column_header_ids'] = ['testString']
-        body_cells_model['column_header_texts'] = ['testString']
-        body_cells_model['column_header_texts_normalized'] = ['testString']
+        body_cells_model['row_header_ids'] = []
+        body_cells_model['row_header_texts'] = []
+        body_cells_model['row_header_texts_normalized'] = []
+        body_cells_model['column_header_ids'] = ['colHeader-23489-23496']
+        body_cells_model['column_header_texts'] = ['Res Ref']
+        body_cells_model['column_header_texts_normalized'] = ['Res Ref']
         body_cells_model['attributes'] = [attribute_model]
 
         contexts_model = {} # Contexts
@@ -2139,7 +2140,7 @@ class TestCompareReturn():
         aligned_element_model = {} # AlignedElement
         aligned_element_model['element_pair'] = [element_pair_model]
         aligned_element_model['identical_text'] = True
-        aligned_element_model['provenance_ids'] = ['testString']
+        aligned_element_model['provenance_ids'] = ['1mSG/96z1wY4De35LAExJzhCo2t0DfvbYnTl+vbavjY=']
         aligned_element_model['significant_elements'] = True
 
         unaligned_element_model = {} # UnalignedElement
@@ -2938,12 +2939,12 @@ class TestFeedbackList():
 
         type_label_model = {} # TypeLabel
         type_label_model['label'] = label_model
-        type_label_model['provenance_ids'] = ['testString']
+        type_label_model['provenance_ids'] = ['85f5981a-ba91-44f5-9efa-0bd22e64b7bc', 'ce0480a1-5ef1-4c3e-9861-3743b5610795']
         type_label_model['modification'] = 'unchanged'
 
         category_model = {} # Category
         category_model['label'] = 'Responsibilities'
-        category_model['provenance_ids'] = ['testString']
+        category_model['provenance_ids'] = []
         category_model['modification'] = 'unchanged'
 
         original_labels_out_model = {} # OriginalLabelsOut
@@ -2974,7 +2975,7 @@ class TestFeedbackList():
 
         get_feedback_model = {} # GetFeedback
         get_feedback_model['feedback_id'] = '9730b437-cb86-4d40-9a84-ff6948bb3dd1'
-        get_feedback_model['created'] = '2020-01-28T18:40:40.123456Z'
+        get_feedback_model['created'] = datetime_to_string(string_to_datetime("2018-07-03T10:16:05-0500"))
         get_feedback_model['comment'] = 'testString'
         get_feedback_model['feedback_data'] = feedback_data_output_model
 
@@ -3062,7 +3063,7 @@ class TestFeedbackReturn():
         feedback_return_model_json['feedback_id'] = 'testString'
         feedback_return_model_json['user_id'] = 'testString'
         feedback_return_model_json['comment'] = 'testString'
-        feedback_return_model_json['created'] = '2020-01-28T18:40:40.123456Z'
+        feedback_return_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
         feedback_return_model_json['feedback_data'] = feedback_data_output_model
 
         # Construct a model instance of FeedbackReturn by calling from_dict on the json representation
@@ -3106,12 +3107,12 @@ class TestGetFeedback():
 
         type_label_model = {} # TypeLabel
         type_label_model['label'] = label_model
-        type_label_model['provenance_ids'] = ['testString']
+        type_label_model['provenance_ids'] = ['85f5981a-ba91-44f5-9efa-0bd22e64b7bc', 'ce0480a1-5ef1-4c3e-9861-3743b5610795']
         type_label_model['modification'] = 'unchanged'
 
         category_model = {} # Category
         category_model['label'] = 'obligation'
-        category_model['provenance_ids'] = ['testString']
+        category_model['provenance_ids'] = ['85f5981a-ba91-44f5-9efa-0bd22e64b7bc', 'ce0480a1-5ef1-4c3e-9861-3743b5610795']
         category_model['modification'] = 'removed'
 
         original_labels_out_model = {} # OriginalLabelsOut
@@ -3143,7 +3144,7 @@ class TestGetFeedback():
         # Construct a json representation of a GetFeedback model
         get_feedback_model_json = {}
         get_feedback_model_json['feedback_id'] = 'testString'
-        get_feedback_model_json['created'] = '2020-01-28T18:40:40.123456Z'
+        get_feedback_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
         get_feedback_model_json['comment'] = 'testString'
         get_feedback_model_json['feedback_data'] = feedback_data_output_model
 
@@ -3959,12 +3960,12 @@ class TestTableReturn():
         body_cells_model['row_index_end'] = 2
         body_cells_model['column_index_begin'] = 1
         body_cells_model['column_index_end'] = 1
-        body_cells_model['row_header_ids'] = ['testString']
-        body_cells_model['row_header_texts'] = ['testString']
-        body_cells_model['row_header_texts_normalized'] = ['testString']
-        body_cells_model['column_header_ids'] = ['testString']
-        body_cells_model['column_header_texts'] = ['testString']
-        body_cells_model['column_header_texts_normalized'] = ['testString']
+        body_cells_model['row_header_ids'] = ['rowHeader-2244-2262']
+        body_cells_model['row_header_texts'] = ['Statutory tax rate']
+        body_cells_model['row_header_texts_normalized'] = ['Statutory tax rate']
+        body_cells_model['column_header_ids'] = ['colHeader-1050-1082', 'colHeader-1544-1548']
+        body_cells_model['column_header_texts'] = ['Three months ended September 30, ', '2005']
+        body_cells_model['column_header_texts_normalized'] = ['Three months ended September 30, ', 'Year 1']
         body_cells_model['attributes'] = [attribute_model]
 
         contexts_model = {} # Contexts
