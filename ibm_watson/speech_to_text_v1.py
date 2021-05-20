@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2015, 2020.
+# (C) Copyright IBM Corp. 2015, 2021.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,14 +14,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-a45d89ef-20201209-192237
+# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-902c9336-20210507-162723
 """
 The IBM Watson&trade; Speech to Text service provides APIs that use IBM's
 speech-recognition capabilities to produce transcripts of spoken audio. The service can
 transcribe speech from various languages and audio formats. In addition to basic
 transcription, the service can produce detailed information about many different aspects
-of the audio. For most languages, the service supports two sampling rates, broadband and
-narrowband. It returns all JSON response content in the UTF-8 character set.
+of the audio. It returns all JSON response content in the UTF-8 character set.
+The service supports two types of models: previous-generation models that include the
+terms `Broadband` and `Narrowband` in their names, and beta next-generation models that
+include the terms `Multimedia` and `Telephony` in their names. Broadband and multimedia
+models have minimum sampling rates of 16 kHz. Narrowband and telephony models have minimum
+sampling rates of 8 kHz. The beta next-generation models currently support fewer languages
+and features, but they offer high throughput and greater transcription accuracy.
 For speech recognition, the service supports synchronous and asynchronous HTTP
 Representational State Transfer (REST) interfaces. It also supports a WebSocket interface
 that provides a full-duplex, low-latency communication channel: Clients send requests and
@@ -32,8 +37,9 @@ customization to adapt a base model for the acoustic characteristics of your aud
 language model customization, the service also supports grammars. A grammar is a formal
 language specification that lets you restrict the phrases that the service can recognize.
 Language model customization and acoustic model customization are generally available for
-production use with all language models that are generally available. Grammars are beta
-functionality for all language models that support language model customization.
+production use with all previous-generation models that are generally available. Grammars
+are beta functionality for all previous-generation models that support language model
+customization. Next-generation models do not support customization at this time.
 """
 
 from enum import Enum
@@ -89,8 +95,8 @@ class SpeechToTextV1(BaseService):
         information includes the name of the model and its minimum sampling rate in Hertz,
         among other things. The ordering of the list of models can change from call to
         call; do not rely on an alphabetized or static list of models.
-        **See also:** [Languages and
-        models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models#models).
+        **See also:** [Listing
+        models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models-list).
 
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -120,11 +126,12 @@ class SpeechToTextV1(BaseService):
         Gets information for a single specified language model that is available for use
         with the service. The information includes the name of the model and its minimum
         sampling rate in Hertz, among other things.
-        **See also:** [Languages and
-        models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models#models).
+        **See also:** [Listing
+        models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models-list).
 
         :param str model_id: The identifier of the model in the form of its name
-               from the output of the **Get a model** method.
+               from the output of the **Get a model** method. (**Note:** The model
+               `ar-AR_BroadbandModel` is deprecated; use `ar-MS_BroadbandModel` instead.).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `SpeechModel` object
@@ -182,6 +189,7 @@ class SpeechToTextV1(BaseService):
                   split_transcript_at_phrase_end: bool = None,
                   speech_detector_sensitivity: float = None,
                   background_audio_suppression: float = None,
+                  low_latency: bool = None,
                   **kwargs) -> DetailedResponse:
         """
         Recognize audio.
@@ -240,8 +248,33 @@ class SpeechToTextV1(BaseService):
         required rate, the service down-samples the audio to the appropriate rate. If the
         sampling rate of the audio is lower than the minimum required rate, the request
         fails.
-         **See also:** [Audio
-        formats](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-audio-formats#audio-formats).
+         **See also:** [Supported audio
+        formats](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-audio-formats).
+        ### Next-generation models
+         **Note:** The next-generation language models are beta functionality. They
+        support a limited number of languages and features at this time. The supported
+        languages, models, and features will increase with future releases.
+        The service supports next-generation `Multimedia` (16 kHz) and `Telephony` (8 kHz)
+        models for many languages. Next-generation models have higher throughput than the
+        service's previous generation of `Broadband` and `Narrowband` models. When you use
+        next-generation models, the service can return transcriptions more quickly and
+        also provide noticeably better transcription accuracy.
+        You specify a next-generation model by using the `model` query parameter, as you
+        do a previous-generation model. Next-generation models support the same request
+        headers as previous-generation models, but they support only the following
+        additional query parameters:
+        * `background_audio_suppression`
+        * `inactivity_timeout`
+        * `profanity_filter`
+        * `redaction`
+        * `smart_formatting`
+        * `speaker_labels`
+        * `speech_detector_sensitivity`
+        * `timestamps`
+        Many next-generation models also support the beta `low_latency` parameter, which
+        is not available with previous-generation models.
+        **See also:** [Next-generation languages and
+        models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models-ng).
         ### Multipart speech recognition
          **Note:** The Watson SDKs do not support multipart speech recognition.
         The HTTP `POST` method of the service also supports multipart speech recognition.
@@ -261,15 +294,19 @@ class SpeechToTextV1(BaseService):
                For more information about specifying an audio format, see **Audio formats
                (content types)** in the method description.
         :param str model: (optional) The identifier of the model that is to be used
-               for the recognition request. See [Languages and
-               models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models#models).
+               for the recognition request. (**Note:** The model `ar-AR_BroadbandModel` is
+               deprecated; use `ar-MS_BroadbandModel` instead.) See [Languages and
+               models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models)
+               and [Next-generation languages and
+               models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models-ng).
         :param str language_customization_id: (optional) The customization ID
                (GUID) of a custom language model that is to be used with the recognition
                request. The base model of the specified custom language model must match
                the model specified with the `model` parameter. You must make the request
                with credentials for the instance of the service that owns the custom
-               model. By default, no custom language model is used. See [Custom
-               models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-input#custom-input).
+               model. By default, no custom language model is used. See [Using a custom
+               language model for speech
+               recognition](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-languageUse).
                **Note:** Use this parameter instead of the deprecated `customization_id`
                parameter.
         :param str acoustic_customization_id: (optional) The customization ID
@@ -277,15 +314,17 @@ class SpeechToTextV1(BaseService):
                request. The base model of the specified custom acoustic model must match
                the model specified with the `model` parameter. You must make the request
                with credentials for the instance of the service that owns the custom
-               model. By default, no custom acoustic model is used. See [Custom
-               models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-input#custom-input).
+               model. By default, no custom acoustic model is used. See [Using a custom
+               acoustic model for speech
+               recognition](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-acousticUse).
         :param str base_model_version: (optional) The version of the specified base
                model that is to be used with the recognition request. Multiple versions of
                a base model can exist when a model is updated for internal improvements.
                The parameter is intended primarily for use with custom models that have
                been upgraded for a new base model. The default value depends on whether
-               the parameter is used with or without a custom model. See [Base model
-               version](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-input#version).
+               the parameter is used with or without a custom model. See [Making speech
+               recognition requests with upgraded custom
+               models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-custom-upgrade-use#custom-upgrade-use-recognition).
         :param float customization_weight: (optional) If you specify the
                customization ID (GUID) of a custom language model with the recognition
                request, the customization weight tells the service how much weight to give
@@ -300,8 +339,8 @@ class SpeechToTextV1(BaseService):
                Use caution when setting the weight: a higher value can improve the
                accuracy of phrases from the custom model's domain, but it can negatively
                affect performance on non-domain phrases.
-               See [Custom
-               models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-input#custom-input).
+               See [Using customization
+               weight](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-languageUse#weight).
         :param int inactivity_timeout: (optional) The time in seconds after which,
                if only silence (no speech) is detected in streaming audio, the connection
                is closed with a 400 error. The parameter is useful for stopping audio
@@ -319,39 +358,39 @@ class SpeechToTextV1(BaseService):
                effective length for double-byte languages might be shorter. Keywords are
                case-insensitive.
                See [Keyword
-               spotting](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#keyword_spotting).
+               spotting](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-spotting#keyword-spotting).
         :param float keywords_threshold: (optional) A confidence value that is the
                lower bound for spotting a keyword. A word is considered to match a keyword
                if its confidence is greater than or equal to the threshold. Specify a
                probability between 0.0 and 1.0. If you specify a threshold, you must also
                specify one or more keywords. The service performs no keyword spotting if
                you omit either parameter. See [Keyword
-               spotting](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#keyword_spotting).
+               spotting](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-spotting#keyword-spotting).
         :param int max_alternatives: (optional) The maximum number of alternative
                transcripts that the service is to return. By default, the service returns
                a single transcript. If you specify a value of `0`, the service uses the
                default value, `1`. See [Maximum
-               alternatives](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#max_alternatives).
+               alternatives](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-metadata#max-alternatives).
         :param float word_alternatives_threshold: (optional) A confidence value
                that is the lower bound for identifying a hypothesis as a possible word
                alternative (also known as "Confusion Networks"). An alternative word is
                considered if its confidence is greater than or equal to the threshold.
                Specify a probability between 0.0 and 1.0. By default, the service computes
                no alternative words. See [Word
-               alternatives](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#word_alternatives).
+               alternatives](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-spotting#word-alternatives).
         :param bool word_confidence: (optional) If `true`, the service returns a
                confidence measure in the range of 0.0 to 1.0 for each word. By default,
                the service returns no word confidence scores. See [Word
-               confidence](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#word_confidence).
+               confidence](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-metadata#word-confidence).
         :param bool timestamps: (optional) If `true`, the service returns time
                alignment for each word. By default, no timestamps are returned. See [Word
-               timestamps](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#word_timestamps).
+               timestamps](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-metadata#word-timestamps).
         :param bool profanity_filter: (optional) If `true`, the service filters
                profanity from all output except for keyword results by replacing
                inappropriate words with a series of asterisks. Set the parameter to
-               `false` to return results with no censoring. Applies to US English
-               transcription only. See [Profanity
-               filtering](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#profanity_filter).
+               `false` to return results with no censoring. Applies to US English and
+               Japanese transcription only. See [Profanity
+               filtering](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-formatting#profanity-filtering).
         :param bool smart_formatting: (optional) If `true`, the service converts
                dates, times, series of digits and numbers, phone numbers, currency values,
                and internet addresses into more readable, conventional representations in
@@ -360,17 +399,20 @@ class SpeechToTextV1(BaseService):
                the service performs no smart formatting.
                **Note:** Applies to US English, Japanese, and Spanish transcription only.
                See [Smart
-               formatting](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#smart_formatting).
+               formatting](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-formatting#smart-formatting).
         :param bool speaker_labels: (optional) If `true`, the response includes
                labels that identify which words were spoken by which participants in a
                multi-person exchange. By default, the service returns no speaker labels.
                Setting `speaker_labels` to `true` forces the `timestamps` parameter to be
                `true`, regardless of whether you specify `false` for the parameter.
-               **Note:** Applies to US English, Australian English, German, Japanese,
-               Korean, and Spanish (both broadband and narrowband models) and UK English
-               (narrowband model) transcription only.
-               See [Speaker
-               labels](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#speaker_labels).
+               * For previous-generation models, can be used for US English, Australian
+               English, German, Japanese, Korean, and Spanish (both broadband and
+               narrowband models) and UK English (narrowband model) transcription only.
+               * For next-generation models, can be used for English (Australian, UK, and
+               US), German, and Spanish transcription only.
+               Restrictions and limitations apply to the use of speaker labels for both
+               types of models. See [Speaker
+               labels](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-speaker-labels).
         :param str customization_id: (optional) **Deprecated.** Use the
                `language_customization_id` parameter to specify the customization ID
                (GUID) of a custom language model that is to be used with the recognition
@@ -381,7 +423,8 @@ class SpeechToTextV1(BaseService):
                custom language model for which the grammar is defined. The service
                recognizes only strings that are recognized by the specified grammar; it
                does not recognize other custom words from the model's words resource. See
-               [Grammars](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-input#grammars-input).
+               [Using a grammar for speech
+               recognition](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-grammarUse).
         :param bool redaction: (optional) If `true`, the service redacts, or masks,
                numeric data from final transcripts. The feature redacts any number that
                has three or more consecutive digits by replacing each digit with an `X`
@@ -395,13 +438,13 @@ class SpeechToTextV1(BaseService):
                be `1`).
                **Note:** Applies to US English, Japanese, and Korean transcription only.
                See [Numeric
-               redaction](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#redaction).
+               redaction](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-formatting#numeric-redaction).
         :param bool audio_metrics: (optional) If `true`, requests detailed
                information about the signal characteristics of the input audio. The
                service returns audio metrics with the final transcription results. By
                default, the service returns no audio metrics.
                See [Audio
-               metrics](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-metrics#audio_metrics).
+               metrics](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-metrics#audio-metrics).
         :param float end_of_phrase_silence_time: (optional) If `true`, specifies
                the duration of the pause interval at which the service splits a transcript
                into multiple final results. If the service detects pauses or extended
@@ -416,7 +459,7 @@ class SpeechToTextV1(BaseService):
                The default pause interval for most languages is 0.8 seconds; the default
                for Chinese is 0.6 seconds.
                See [End of phrase silence
-               time](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#silence_time).
+               time](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-parsing#silence-time).
         :param bool split_transcript_at_phrase_end: (optional) If `true`, directs
                the service to split the transcript into multiple final results based on
                semantic features of the input, for example, at the conclusion of
@@ -426,7 +469,7 @@ class SpeechToTextV1(BaseService):
                where the service splits a transcript. By default, the service splits
                transcripts based solely on the pause interval.
                See [Split transcript at phrase
-               end](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#split_transcript).
+               end](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-parsing#split-transcript).
         :param float speech_detector_sensitivity: (optional) The sensitivity of
                speech activity detection that the service is to perform. Use the parameter
                to suppress word insertions from music, coughing, and other non-speech
@@ -438,8 +481,8 @@ class SpeechToTextV1(BaseService):
                * 0.5 (the default) provides a reasonable compromise for the level of
                sensitivity.
                * 1.0 suppresses no audio (speech detection sensitivity is disabled).
-               The values increase on a monotonic curve. See [Speech Activity
-               Detection](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-input#detection).
+               The values increase on a monotonic curve. See [Speech detector
+               sensitivity](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-detection#detection-parameters-sensitivity).
         :param float background_audio_suppression: (optional) The level to which
                the service is to suppress background audio based on its volume to prevent
                it from being transcribed as speech. Use the parameter to suppress side
@@ -449,8 +492,24 @@ class SpeechToTextV1(BaseService):
                is disabled).
                * 0.5 provides a reasonable level of audio suppression for general usage.
                * 1.0 suppresses all audio (no audio is transcribed).
-               The values increase on a monotonic curve. See [Speech Activity
-               Detection](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-input#detection).
+               The values increase on a monotonic curve. See [Background audio
+               suppression](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-detection#detection-parameters-suppression).
+        :param bool low_latency: (optional) If `true` for next-generation
+               `Multimedia` and `Telephony` models that support low latency, directs the
+               service to produce results even more quickly than it usually does.
+               Next-generation models produce transcription results faster than
+               previous-generation models. The `low_latency` parameter causes the models
+               to produce results even more quickly, though the results might be less
+               accurate when the parameter is used.
+               **Note:** The parameter is beta functionality. It is not available for
+               previous-generation `Broadband` and `Narrowband` models. It is available
+               only for some next-generation models.
+               * For a list of next-generation models that support low latency, see
+               [Supported language
+               models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models-ng#models-ng-supported)
+               for next-generation models.
+               * For more information about the `low_latency` parameter, see [Low
+               latency](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-interim#low-latency).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `SpeechRecognitionResults` object
@@ -487,7 +546,8 @@ class SpeechToTextV1(BaseService):
             'end_of_phrase_silence_time': end_of_phrase_silence_time,
             'split_transcript_at_phrase_end': split_transcript_at_phrase_end,
             'speech_detector_sensitivity': speech_detector_sensitivity,
-            'background_audio_suppression': background_audio_suppression
+            'background_audio_suppression': background_audio_suppression,
+            'low_latency': low_latency
         }
 
         data = audio
@@ -659,6 +719,7 @@ class SpeechToTextV1(BaseService):
                    split_transcript_at_phrase_end: bool = None,
                    speech_detector_sensitivity: float = None,
                    background_audio_suppression: float = None,
+                   low_latency: bool = None,
                    **kwargs) -> DetailedResponse:
         """
         Create a job.
@@ -743,16 +804,44 @@ class SpeechToTextV1(BaseService):
         required rate, the service down-samples the audio to the appropriate rate. If the
         sampling rate of the audio is lower than the minimum required rate, the request
         fails.
-         **See also:** [Audio
-        formats](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-audio-formats#audio-formats).
+         **See also:** [Supported audio
+        formats](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-audio-formats).
+        ### Next-generation models
+         **Note:** The next-generation language models are beta functionality. They
+        support a limited number of languages and features at this time. The supported
+        languages, models, and features will increase with future releases.
+        The service supports next-generation `Multimedia` (16 kHz) and `Telephony` (8 kHz)
+        models for many languages. Next-generation models have higher throughput than the
+        service's previous generation of `Broadband` and `Narrowband` models. When you use
+        next-generation models, the service can return transcriptions more quickly and
+        also provide noticeably better transcription accuracy.
+        You specify a next-generation model by using the `model` query parameter, as you
+        do a previous-generation model. Next-generation models support the same request
+        headers as previous-generation models, but they support only the following
+        additional query parameters:
+        * `background_audio_suppression`
+        * `inactivity_timeout`
+        * `profanity_filter`
+        * `redaction`
+        * `smart_formatting`
+        * `speaker_labels`
+        * `speech_detector_sensitivity`
+        * `timestamps`
+        Many next-generation models also support the beta `low_latency` parameter, which
+        is not available with previous-generation models.
+        **See also:** [Next-generation languages and
+        models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models-ng).
 
         :param BinaryIO audio: The audio to transcribe.
         :param str content_type: (optional) The format (MIME type) of the audio.
                For more information about specifying an audio format, see **Audio formats
                (content types)** in the method description.
         :param str model: (optional) The identifier of the model that is to be used
-               for the recognition request. See [Languages and
-               models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models#models).
+               for the recognition request. (**Note:** The model `ar-AR_BroadbandModel` is
+               deprecated; use `ar-MS_BroadbandModel` instead.) See [Languages and
+               models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models)
+               and [Next-generation languages and
+               models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models-ng).
         :param str callback_url: (optional) A URL to which callback notifications
                are to be sent. The URL must already be successfully allowlisted by using
                the **Register a callback** method. You can include the same callback URL
@@ -794,8 +883,9 @@ class SpeechToTextV1(BaseService):
                request. The base model of the specified custom language model must match
                the model specified with the `model` parameter. You must make the request
                with credentials for the instance of the service that owns the custom
-               model. By default, no custom language model is used. See [Custom
-               models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-input#custom-input).
+               model. By default, no custom language model is used. See [Using a custom
+               language model for speech
+               recognition](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-languageUse).
                **Note:** Use this parameter instead of the deprecated `customization_id`
                parameter.
         :param str acoustic_customization_id: (optional) The customization ID
@@ -803,15 +893,17 @@ class SpeechToTextV1(BaseService):
                request. The base model of the specified custom acoustic model must match
                the model specified with the `model` parameter. You must make the request
                with credentials for the instance of the service that owns the custom
-               model. By default, no custom acoustic model is used. See [Custom
-               models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-input#custom-input).
+               model. By default, no custom acoustic model is used. See [Using a custom
+               acoustic model for speech
+               recognition](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-acousticUse).
         :param str base_model_version: (optional) The version of the specified base
                model that is to be used with the recognition request. Multiple versions of
                a base model can exist when a model is updated for internal improvements.
                The parameter is intended primarily for use with custom models that have
                been upgraded for a new base model. The default value depends on whether
-               the parameter is used with or without a custom model. See [Base model
-               version](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-input#version).
+               the parameter is used with or without a custom model. See [Making speech
+               recognition requests with upgraded custom
+               models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-custom-upgrade-use#custom-upgrade-use-recognition).
         :param float customization_weight: (optional) If you specify the
                customization ID (GUID) of a custom language model with the recognition
                request, the customization weight tells the service how much weight to give
@@ -826,8 +918,8 @@ class SpeechToTextV1(BaseService):
                Use caution when setting the weight: a higher value can improve the
                accuracy of phrases from the custom model's domain, but it can negatively
                affect performance on non-domain phrases.
-               See [Custom
-               models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-input#custom-input).
+               See [Using customization
+               weight](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-languageUse#weight).
         :param int inactivity_timeout: (optional) The time in seconds after which,
                if only silence (no speech) is detected in streaming audio, the connection
                is closed with a 400 error. The parameter is useful for stopping audio
@@ -845,39 +937,39 @@ class SpeechToTextV1(BaseService):
                effective length for double-byte languages might be shorter. Keywords are
                case-insensitive.
                See [Keyword
-               spotting](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#keyword_spotting).
+               spotting](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-spotting#keyword-spotting).
         :param float keywords_threshold: (optional) A confidence value that is the
                lower bound for spotting a keyword. A word is considered to match a keyword
                if its confidence is greater than or equal to the threshold. Specify a
                probability between 0.0 and 1.0. If you specify a threshold, you must also
                specify one or more keywords. The service performs no keyword spotting if
                you omit either parameter. See [Keyword
-               spotting](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#keyword_spotting).
+               spotting](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-spotting#keyword-spotting).
         :param int max_alternatives: (optional) The maximum number of alternative
                transcripts that the service is to return. By default, the service returns
                a single transcript. If you specify a value of `0`, the service uses the
                default value, `1`. See [Maximum
-               alternatives](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#max_alternatives).
+               alternatives](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-metadata#max-alternatives).
         :param float word_alternatives_threshold: (optional) A confidence value
                that is the lower bound for identifying a hypothesis as a possible word
                alternative (also known as "Confusion Networks"). An alternative word is
                considered if its confidence is greater than or equal to the threshold.
                Specify a probability between 0.0 and 1.0. By default, the service computes
                no alternative words. See [Word
-               alternatives](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#word_alternatives).
+               alternatives](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-spotting#word-alternatives).
         :param bool word_confidence: (optional) If `true`, the service returns a
                confidence measure in the range of 0.0 to 1.0 for each word. By default,
                the service returns no word confidence scores. See [Word
-               confidence](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#word_confidence).
+               confidence](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-metadata#word-confidence).
         :param bool timestamps: (optional) If `true`, the service returns time
                alignment for each word. By default, no timestamps are returned. See [Word
-               timestamps](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#word_timestamps).
+               timestamps](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-metadata#word-timestamps).
         :param bool profanity_filter: (optional) If `true`, the service filters
                profanity from all output except for keyword results by replacing
                inappropriate words with a series of asterisks. Set the parameter to
-               `false` to return results with no censoring. Applies to US English
-               transcription only. See [Profanity
-               filtering](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#profanity_filter).
+               `false` to return results with no censoring. Applies to US English and
+               Japanese transcription only. See [Profanity
+               filtering](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-formatting#profanity-filtering).
         :param bool smart_formatting: (optional) If `true`, the service converts
                dates, times, series of digits and numbers, phone numbers, currency values,
                and internet addresses into more readable, conventional representations in
@@ -886,17 +978,20 @@ class SpeechToTextV1(BaseService):
                the service performs no smart formatting.
                **Note:** Applies to US English, Japanese, and Spanish transcription only.
                See [Smart
-               formatting](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#smart_formatting).
+               formatting](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-formatting#smart-formatting).
         :param bool speaker_labels: (optional) If `true`, the response includes
                labels that identify which words were spoken by which participants in a
                multi-person exchange. By default, the service returns no speaker labels.
                Setting `speaker_labels` to `true` forces the `timestamps` parameter to be
                `true`, regardless of whether you specify `false` for the parameter.
-               **Note:** Applies to US English, Australian English, German, Japanese,
-               Korean, and Spanish (both broadband and narrowband models) and UK English
-               (narrowband model) transcription only.
-               See [Speaker
-               labels](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#speaker_labels).
+               * For previous-generation models, can be used for US English, Australian
+               English, German, Japanese, Korean, and Spanish (both broadband and
+               narrowband models) and UK English (narrowband model) transcription only.
+               * For next-generation models, can be used for English (Australian, UK, and
+               US), German, and Spanish transcription only.
+               Restrictions and limitations apply to the use of speaker labels for both
+               types of models. See [Speaker
+               labels](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-speaker-labels).
         :param str customization_id: (optional) **Deprecated.** Use the
                `language_customization_id` parameter to specify the customization ID
                (GUID) of a custom language model that is to be used with the recognition
@@ -907,7 +1002,8 @@ class SpeechToTextV1(BaseService):
                custom language model for which the grammar is defined. The service
                recognizes only strings that are recognized by the specified grammar; it
                does not recognize other custom words from the model's words resource. See
-               [Grammars](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-input#grammars-input).
+               [Using a grammar for speech
+               recognition](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-grammarUse).
         :param bool redaction: (optional) If `true`, the service redacts, or masks,
                numeric data from final transcripts. The feature redacts any number that
                has three or more consecutive digits by replacing each digit with an `X`
@@ -921,7 +1017,7 @@ class SpeechToTextV1(BaseService):
                be `1`).
                **Note:** Applies to US English, Japanese, and Korean transcription only.
                See [Numeric
-               redaction](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#redaction).
+               redaction](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-formatting#numeric-redaction).
         :param bool processing_metrics: (optional) If `true`, requests processing
                metrics about the service's transcription of the input audio. The service
                returns processing metrics at the interval specified by the
@@ -929,7 +1025,7 @@ class SpeechToTextV1(BaseService):
                for transcription events, for example, for final and interim results. By
                default, the service returns no processing metrics.
                See [Processing
-               metrics](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-metrics#processing_metrics).
+               metrics](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-metrics#processing-metrics).
         :param float processing_metrics_interval: (optional) Specifies the interval
                in real wall-clock seconds at which the service is to return processing
                metrics. The parameter is ignored unless the `processing_metrics` parameter
@@ -943,13 +1039,13 @@ class SpeechToTextV1(BaseService):
                duration of the audio, the service returns processing metrics only for
                transcription events.
                See [Processing
-               metrics](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-metrics#processing_metrics).
+               metrics](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-metrics#processing-metrics).
         :param bool audio_metrics: (optional) If `true`, requests detailed
                information about the signal characteristics of the input audio. The
                service returns audio metrics with the final transcription results. By
                default, the service returns no audio metrics.
                See [Audio
-               metrics](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-metrics#audio_metrics).
+               metrics](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-metrics#audio-metrics).
         :param float end_of_phrase_silence_time: (optional) If `true`, specifies
                the duration of the pause interval at which the service splits a transcript
                into multiple final results. If the service detects pauses or extended
@@ -964,7 +1060,7 @@ class SpeechToTextV1(BaseService):
                The default pause interval for most languages is 0.8 seconds; the default
                for Chinese is 0.6 seconds.
                See [End of phrase silence
-               time](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#silence_time).
+               time](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-parsing#silence-time).
         :param bool split_transcript_at_phrase_end: (optional) If `true`, directs
                the service to split the transcript into multiple final results based on
                semantic features of the input, for example, at the conclusion of
@@ -974,7 +1070,7 @@ class SpeechToTextV1(BaseService):
                where the service splits a transcript. By default, the service splits
                transcripts based solely on the pause interval.
                See [Split transcript at phrase
-               end](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-output#split_transcript).
+               end](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-parsing#split-transcript).
         :param float speech_detector_sensitivity: (optional) The sensitivity of
                speech activity detection that the service is to perform. Use the parameter
                to suppress word insertions from music, coughing, and other non-speech
@@ -986,8 +1082,8 @@ class SpeechToTextV1(BaseService):
                * 0.5 (the default) provides a reasonable compromise for the level of
                sensitivity.
                * 1.0 suppresses no audio (speech detection sensitivity is disabled).
-               The values increase on a monotonic curve. See [Speech Activity
-               Detection](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-input#detection).
+               The values increase on a monotonic curve. See [Speech detector
+               sensitivity](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-detection#detection-parameters-sensitivity).
         :param float background_audio_suppression: (optional) The level to which
                the service is to suppress background audio based on its volume to prevent
                it from being transcribed as speech. Use the parameter to suppress side
@@ -997,8 +1093,24 @@ class SpeechToTextV1(BaseService):
                is disabled).
                * 0.5 provides a reasonable level of audio suppression for general usage.
                * 1.0 suppresses all audio (no audio is transcribed).
-               The values increase on a monotonic curve. See [Speech Activity
-               Detection](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-input#detection).
+               The values increase on a monotonic curve. See [Background audio
+               suppression](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-detection#detection-parameters-suppression).
+        :param bool low_latency: (optional) If `true` for next-generation
+               `Multimedia` and `Telephony` models that support low latency, directs the
+               service to produce results even more quickly than it usually does.
+               Next-generation models produce transcription results faster than
+               previous-generation models. The `low_latency` parameter causes the models
+               to produce results even more quickly, though the results might be less
+               accurate when the parameter is used.
+               **Note:** The parameter is beta functionality. It is not available for
+               previous-generation `Broadband` and `Narrowband` models. It is available
+               only for some next-generation models.
+               * For a list of next-generation models that support low latency, see
+               [Supported language
+               models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models-ng#models-ng-supported)
+               for next-generation models.
+               * For more information about the `low_latency` parameter, see [Low
+               latency](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-interim#low-latency).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `RecognitionJob` object
@@ -1041,7 +1153,8 @@ class SpeechToTextV1(BaseService):
             'end_of_phrase_silence_time': end_of_phrase_silence_time,
             'split_transcript_at_phrase_end': split_transcript_at_phrase_end,
             'speech_detector_sensitivity': speech_detector_sensitivity,
-            'background_audio_suppression': background_audio_suppression
+            'background_audio_suppression': background_audio_suppression,
+            'low_latency': low_latency
         }
 
         data = audio
@@ -1299,7 +1412,8 @@ class SpeechToTextV1(BaseService):
         :param str language: (optional) The identifier of the language for which
                custom language or custom acoustic models are to be returned. Omit the
                parameter to see all custom language or custom acoustic models that are
-               owned by the requesting credentials.
+               owned by the requesting credentials. (**Note:** The identifier `ar-AR` is
+               deprecated; use `ar-MS` instead.)
                To determine the languages for which customization is available, see
                [Language support for
                customization](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-customization#languageSupport).
@@ -1477,6 +1591,8 @@ class SpeechToTextV1(BaseService):
                The value that you assign is used for all recognition requests that use the
                model. You can override it for any recognition request by specifying a
                customization weight for that request.
+               See [Using customization
+               weight](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-languageUse#weight).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `TrainingResponse` object
@@ -1577,7 +1693,7 @@ class SpeechToTextV1(BaseService):
         resumes the status that it had prior to upgrade. The service cannot accept
         subsequent requests for the model until the upgrade completes.
         **See also:** [Upgrading a custom language
-        model](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-customUpgrade#upgradeLanguage).
+        model](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-custom-upgrade#custom-upgrade-language).
 
         :param str customization_id: The customization ID (GUID) of the custom
                language model that is to be used for the request. You must make the
@@ -2587,7 +2703,8 @@ class SpeechToTextV1(BaseService):
                `Mobile custom model` or `Noisy car custom model`.
         :param str base_model_name: The name of the base language model that is to
                be customized by the new custom acoustic model. The new custom model can be
-               used only with the base model that it customizes.
+               used only with the base model that it customizes. (**Note:** The model
+               `ar-AR_BroadbandModel` is deprecated; use `ar-MS_BroadbandModel` instead.)
                To determine whether a base model supports acoustic model customization,
                refer to [Language support for
                customization](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-customization#languageSupport).
@@ -2649,7 +2766,8 @@ class SpeechToTextV1(BaseService):
         :param str language: (optional) The identifier of the language for which
                custom language or custom acoustic models are to be returned. Omit the
                parameter to see all custom language or custom acoustic models that are
-               owned by the requesting credentials.
+               owned by the requesting credentials. (**Note:** The identifier `ar-AR` is
+               deprecated; use `ar-MS` instead.)
                To determine the languages for which customization is available, see
                [Language support for
                customization](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-customization#languageSupport).
@@ -2949,7 +3067,7 @@ class SpeechToTextV1(BaseService):
         the custom acoustic model can be upgraded. Omit the parameter if the custom
         acoustic model was not trained with a custom language model.
         **See also:** [Upgrading a custom acoustic
-        model](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-customUpgrade#upgradeAcoustic).
+        model](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-custom-upgrade#custom-upgrade-acoustic).
 
         :param str customization_id: The customization ID (GUID) of the custom
                acoustic model that is to be used for the request. You must make the
@@ -2967,7 +3085,7 @@ class SpeechToTextV1(BaseService):
                model that is trained with a custom language model, and only if you receive
                a 400 response code and the message `No input data modified since last
                training`. See [Upgrading a custom acoustic
-               model](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-customUpgrade#upgradeAcoustic).
+               model](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-custom-upgrade#custom-upgrade-acoustic).
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -3123,8 +3241,8 @@ class SpeechToTextV1(BaseService):
         minimum required rate, the service down-samples the audio to the appropriate rate.
         If the sampling rate of the audio is lower than the minimum required rate, the
         service labels the audio file as `invalid`.
-         **See also:** [Audio
-        formats](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-audio-formats#audio-formats).
+         **See also:** [Supported audio
+        formats](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-audio-formats).
         ### Content types for archive-type resources
          You can add an archive file (**.zip** or **.tar.gz** file) that contains audio
         files in any format that the service supports for speech recognition. For an
@@ -3409,18 +3527,26 @@ class GetModelEnums:
     class ModelId(str, Enum):
         """
         The identifier of the model in the form of its name from the output of the **Get a
-        model** method.
+        model** method. (**Note:** The model `ar-AR_BroadbandModel` is deprecated; use
+        `ar-MS_BroadbandModel` instead.).
         """
         AR_AR_BROADBANDMODEL = 'ar-AR_BroadbandModel'
+        AR_MS_BROADBANDMODEL = 'ar-MS_BroadbandModel'
+        AR_MS_TELEPHONY = 'ar-MS_Telephony'
         DE_DE_BROADBANDMODEL = 'de-DE_BroadbandModel'
         DE_DE_NARROWBANDMODEL = 'de-DE_NarrowbandModel'
+        DE_DE_TELEPHONY = 'de-DE_Telephony'
         EN_AU_BROADBANDMODEL = 'en-AU_BroadbandModel'
         EN_AU_NARROWBANDMODEL = 'en-AU_NarrowbandModel'
+        EN_AU_TELEPHONY = 'en-AU_Telephony'
         EN_GB_BROADBANDMODEL = 'en-GB_BroadbandModel'
         EN_GB_NARROWBANDMODEL = 'en-GB_NarrowbandModel'
+        EN_GB_TELEPHONY = 'en-GB_Telephony'
         EN_US_BROADBANDMODEL = 'en-US_BroadbandModel'
+        EN_US_MULTIMEDIA = 'en-US_Multimedia'
         EN_US_NARROWBANDMODEL = 'en-US_NarrowbandModel'
         EN_US_SHORTFORM_NARROWBANDMODEL = 'en-US_ShortForm_NarrowbandModel'
+        EN_US_TELEPHONY = 'en-US_Telephony'
         ES_AR_BROADBANDMODEL = 'es-AR_BroadbandModel'
         ES_AR_NARROWBANDMODEL = 'es-AR_NarrowbandModel'
         ES_CL_BROADBANDMODEL = 'es-CL_BroadbandModel'
@@ -3429,16 +3555,20 @@ class GetModelEnums:
         ES_CO_NARROWBANDMODEL = 'es-CO_NarrowbandModel'
         ES_ES_BROADBANDMODEL = 'es-ES_BroadbandModel'
         ES_ES_NARROWBANDMODEL = 'es-ES_NarrowbandModel'
+        ES_ES_TELEPHONY = 'es-ES_Telephony'
         ES_MX_BROADBANDMODEL = 'es-MX_BroadbandModel'
         ES_MX_NARROWBANDMODEL = 'es-MX_NarrowbandModel'
         ES_PE_BROADBANDMODEL = 'es-PE_BroadbandModel'
         ES_PE_NARROWBANDMODEL = 'es-PE_NarrowbandModel'
         FR_CA_BROADBANDMODEL = 'fr-CA_BroadbandModel'
         FR_CA_NARROWBANDMODEL = 'fr-CA_NarrowbandModel'
+        FR_CA_TELEPHONY = 'fr-CA_Telephony'
         FR_FR_BROADBANDMODEL = 'fr-FR_BroadbandModel'
         FR_FR_NARROWBANDMODEL = 'fr-FR_NarrowbandModel'
+        FR_FR_TELEPHONY = 'fr-FR_Telephony'
         IT_IT_BROADBANDMODEL = 'it-IT_BroadbandModel'
         IT_IT_NARROWBANDMODEL = 'it-IT_NarrowbandModel'
+        IT_IT_TELEPHONY = 'it-IT_Telephony'
         JA_JP_BROADBANDMODEL = 'ja-JP_BroadbandModel'
         JA_JP_NARROWBANDMODEL = 'ja-JP_NarrowbandModel'
         KO_KR_BROADBANDMODEL = 'ko-KR_BroadbandModel'
@@ -3447,6 +3577,7 @@ class GetModelEnums:
         NL_NL_NARROWBANDMODEL = 'nl-NL_NarrowbandModel'
         PT_BR_BROADBANDMODEL = 'pt-BR_BroadbandModel'
         PT_BR_NARROWBANDMODEL = 'pt-BR_NarrowbandModel'
+        PT_BR_TELEPHONY = 'pt-BR_Telephony'
         ZH_CN_BROADBANDMODEL = 'zh-CN_BroadbandModel'
         ZH_CN_NARROWBANDMODEL = 'zh-CN_NarrowbandModel'
 
@@ -3480,20 +3611,30 @@ class RecognizeEnums:
 
     class Model(str, Enum):
         """
-        The identifier of the model that is to be used for the recognition request. See
-        [Languages and
-        models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models#models).
+        The identifier of the model that is to be used for the recognition request.
+        (**Note:** The model `ar-AR_BroadbandModel` is deprecated; use
+        `ar-MS_BroadbandModel` instead.) See [Languages and
+        models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models) and
+        [Next-generation languages and
+        models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models-ng).
         """
         AR_AR_BROADBANDMODEL = 'ar-AR_BroadbandModel'
+        AR_MS_BROADBANDMODEL = 'ar-MS_BroadbandModel'
+        AR_MS_TELEPHONY = 'ar-MS_Telephony'
         DE_DE_BROADBANDMODEL = 'de-DE_BroadbandModel'
         DE_DE_NARROWBANDMODEL = 'de-DE_NarrowbandModel'
+        DE_DE_TELEPHONY = 'de-DE_Telephony'
         EN_AU_BROADBANDMODEL = 'en-AU_BroadbandModel'
         EN_AU_NARROWBANDMODEL = 'en-AU_NarrowbandModel'
+        EN_AU_TELEPHONY = 'en-AU_Telephony'
         EN_GB_BROADBANDMODEL = 'en-GB_BroadbandModel'
         EN_GB_NARROWBANDMODEL = 'en-GB_NarrowbandModel'
+        EN_GB_TELEPHONY = 'en-GB_Telephony'
         EN_US_BROADBANDMODEL = 'en-US_BroadbandModel'
+        EN_US_MULTIMEDIA = 'en-US_Multimedia'
         EN_US_NARROWBANDMODEL = 'en-US_NarrowbandModel'
         EN_US_SHORTFORM_NARROWBANDMODEL = 'en-US_ShortForm_NarrowbandModel'
+        EN_US_TELEPHONY = 'en-US_Telephony'
         ES_AR_BROADBANDMODEL = 'es-AR_BroadbandModel'
         ES_AR_NARROWBANDMODEL = 'es-AR_NarrowbandModel'
         ES_CL_BROADBANDMODEL = 'es-CL_BroadbandModel'
@@ -3502,16 +3643,20 @@ class RecognizeEnums:
         ES_CO_NARROWBANDMODEL = 'es-CO_NarrowbandModel'
         ES_ES_BROADBANDMODEL = 'es-ES_BroadbandModel'
         ES_ES_NARROWBANDMODEL = 'es-ES_NarrowbandModel'
+        ES_ES_TELEPHONY = 'es-ES_Telephony'
         ES_MX_BROADBANDMODEL = 'es-MX_BroadbandModel'
         ES_MX_NARROWBANDMODEL = 'es-MX_NarrowbandModel'
         ES_PE_BROADBANDMODEL = 'es-PE_BroadbandModel'
         ES_PE_NARROWBANDMODEL = 'es-PE_NarrowbandModel'
         FR_CA_BROADBANDMODEL = 'fr-CA_BroadbandModel'
         FR_CA_NARROWBANDMODEL = 'fr-CA_NarrowbandModel'
+        FR_CA_TELEPHONY = 'fr-CA_Telephony'
         FR_FR_BROADBANDMODEL = 'fr-FR_BroadbandModel'
         FR_FR_NARROWBANDMODEL = 'fr-FR_NarrowbandModel'
+        FR_FR_TELEPHONY = 'fr-FR_Telephony'
         IT_IT_BROADBANDMODEL = 'it-IT_BroadbandModel'
         IT_IT_NARROWBANDMODEL = 'it-IT_NarrowbandModel'
+        IT_IT_TELEPHONY = 'it-IT_Telephony'
         JA_JP_BROADBANDMODEL = 'ja-JP_BroadbandModel'
         JA_JP_NARROWBANDMODEL = 'ja-JP_NarrowbandModel'
         KO_KR_BROADBANDMODEL = 'ko-KR_BroadbandModel'
@@ -3520,6 +3665,7 @@ class RecognizeEnums:
         NL_NL_NARROWBANDMODEL = 'nl-NL_NarrowbandModel'
         PT_BR_BROADBANDMODEL = 'pt-BR_BroadbandModel'
         PT_BR_NARROWBANDMODEL = 'pt-BR_NarrowbandModel'
+        PT_BR_TELEPHONY = 'pt-BR_Telephony'
         ZH_CN_BROADBANDMODEL = 'zh-CN_BroadbandModel'
         ZH_CN_NARROWBANDMODEL = 'zh-CN_NarrowbandModel'
 
@@ -3553,20 +3699,30 @@ class CreateJobEnums:
 
     class Model(str, Enum):
         """
-        The identifier of the model that is to be used for the recognition request. See
-        [Languages and
-        models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models#models).
+        The identifier of the model that is to be used for the recognition request.
+        (**Note:** The model `ar-AR_BroadbandModel` is deprecated; use
+        `ar-MS_BroadbandModel` instead.) See [Languages and
+        models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models) and
+        [Next-generation languages and
+        models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models-ng).
         """
         AR_AR_BROADBANDMODEL = 'ar-AR_BroadbandModel'
+        AR_MS_BROADBANDMODEL = 'ar-MS_BroadbandModel'
+        AR_MS_TELEPHONY = 'ar-MS_Telephony'
         DE_DE_BROADBANDMODEL = 'de-DE_BroadbandModel'
         DE_DE_NARROWBANDMODEL = 'de-DE_NarrowbandModel'
+        DE_DE_TELEPHONY = 'de-DE_Telephony'
         EN_AU_BROADBANDMODEL = 'en-AU_BroadbandModel'
         EN_AU_NARROWBANDMODEL = 'en-AU_NarrowbandModel'
+        EN_AU_TELEPHONY = 'en-AU_Telephony'
         EN_GB_BROADBANDMODEL = 'en-GB_BroadbandModel'
         EN_GB_NARROWBANDMODEL = 'en-GB_NarrowbandModel'
+        EN_GB_TELEPHONY = 'en-GB_Telephony'
         EN_US_BROADBANDMODEL = 'en-US_BroadbandModel'
+        EN_US_MULTIMEDIA = 'en-US_Multimedia'
         EN_US_NARROWBANDMODEL = 'en-US_NarrowbandModel'
         EN_US_SHORTFORM_NARROWBANDMODEL = 'en-US_ShortForm_NarrowbandModel'
+        EN_US_TELEPHONY = 'en-US_Telephony'
         ES_AR_BROADBANDMODEL = 'es-AR_BroadbandModel'
         ES_AR_NARROWBANDMODEL = 'es-AR_NarrowbandModel'
         ES_CL_BROADBANDMODEL = 'es-CL_BroadbandModel'
@@ -3575,16 +3731,20 @@ class CreateJobEnums:
         ES_CO_NARROWBANDMODEL = 'es-CO_NarrowbandModel'
         ES_ES_BROADBANDMODEL = 'es-ES_BroadbandModel'
         ES_ES_NARROWBANDMODEL = 'es-ES_NarrowbandModel'
+        ES_ES_TELEPHONY = 'es-ES_Telephony'
         ES_MX_BROADBANDMODEL = 'es-MX_BroadbandModel'
         ES_MX_NARROWBANDMODEL = 'es-MX_NarrowbandModel'
         ES_PE_BROADBANDMODEL = 'es-PE_BroadbandModel'
         ES_PE_NARROWBANDMODEL = 'es-PE_NarrowbandModel'
         FR_CA_BROADBANDMODEL = 'fr-CA_BroadbandModel'
         FR_CA_NARROWBANDMODEL = 'fr-CA_NarrowbandModel'
+        FR_CA_TELEPHONY = 'fr-CA_Telephony'
         FR_FR_BROADBANDMODEL = 'fr-FR_BroadbandModel'
         FR_FR_NARROWBANDMODEL = 'fr-FR_NarrowbandModel'
+        FR_FR_TELEPHONY = 'fr-FR_Telephony'
         IT_IT_BROADBANDMODEL = 'it-IT_BroadbandModel'
         IT_IT_NARROWBANDMODEL = 'it-IT_NarrowbandModel'
+        IT_IT_TELEPHONY = 'it-IT_Telephony'
         JA_JP_BROADBANDMODEL = 'ja-JP_BroadbandModel'
         JA_JP_NARROWBANDMODEL = 'ja-JP_NarrowbandModel'
         KO_KR_BROADBANDMODEL = 'ko-KR_BroadbandModel'
@@ -3593,6 +3753,7 @@ class CreateJobEnums:
         NL_NL_NARROWBANDMODEL = 'nl-NL_NarrowbandModel'
         PT_BR_BROADBANDMODEL = 'pt-BR_BroadbandModel'
         PT_BR_NARROWBANDMODEL = 'pt-BR_NarrowbandModel'
+        PT_BR_TELEPHONY = 'pt-BR_Telephony'
         ZH_CN_BROADBANDMODEL = 'zh-CN_BroadbandModel'
         ZH_CN_NARROWBANDMODEL = 'zh-CN_NarrowbandModel'
 
@@ -3631,12 +3792,14 @@ class ListLanguageModelsEnums:
         """
         The identifier of the language for which custom language or custom acoustic models
         are to be returned. Omit the parameter to see all custom language or custom
-        acoustic models that are owned by the requesting credentials.
+        acoustic models that are owned by the requesting credentials. (**Note:** The
+        identifier `ar-AR` is deprecated; use `ar-MS` instead.)
         To determine the languages for which customization is available, see [Language
         support for
         customization](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-customization#languageSupport).
         """
         AR_AR = 'ar-AR'
+        AR_MS = 'ar-MS'
         DE_DE = 'de-DE'
         EN_AU = 'en-AU'
         EN_GB = 'en-GB'
@@ -3735,12 +3898,14 @@ class ListAcousticModelsEnums:
         """
         The identifier of the language for which custom language or custom acoustic models
         are to be returned. Omit the parameter to see all custom language or custom
-        acoustic models that are owned by the requesting credentials.
+        acoustic models that are owned by the requesting credentials. (**Note:** The
+        identifier `ar-AR` is deprecated; use `ar-MS` instead.)
         To determine the languages for which customization is available, see [Language
         support for
         customization](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-customization#languageSupport).
         """
         AR_AR = 'ar-AR'
+        AR_MS = 'ar-MS'
         DE_DE = 'de-DE'
         EN_AU = 'en-AU'
         EN_GB = 'en-GB'
@@ -6888,8 +7053,10 @@ class SpeechRecognitionAlternative():
 
     :attr str transcript: A transcription of the audio.
     :attr float confidence: (optional) A score that indicates the service's
-          confidence in the transcript in the range of 0.0 to 1.0. A confidence score is
-          returned only for the best alternative and only with results marked as final.
+          confidence in the transcript in the range of 0.0 to 1.0. For speech recognition
+          with previous-generation models, a confidence score is returned only for the
+          best alternative and only with results marked as final. For speech recognition
+          with next-generation models, a confidence score is never returned.
     :attr List[str] timestamps: (optional) Time alignments for each word from the
           transcript as a list of lists. Each inner list consists of three elements: the
           word followed by its start and end time in seconds, for example:
@@ -6913,9 +7080,11 @@ class SpeechRecognitionAlternative():
 
         :param str transcript: A transcription of the audio.
         :param float confidence: (optional) A score that indicates the service's
-               confidence in the transcript in the range of 0.0 to 1.0. A confidence score
-               is returned only for the best alternative and only with results marked as
-               final.
+               confidence in the transcript in the range of 0.0 to 1.0. For speech
+               recognition with previous-generation models, a confidence score is returned
+               only for the best alternative and only with results marked as final. For
+               speech recognition with next-generation models, a confidence score is never
+               returned.
         :param List[str] timestamps: (optional) Time alignments for each word from
                the transcript as a list of lists. Each inner list consists of three
                elements: the word followed by its start and end time in seconds, for
@@ -7338,10 +7507,17 @@ class SupportedFeatures():
           supported only for US English, Australian English, German, Japanese, Korean, and
           Spanish (both broadband and narrowband models) and UK English (narrowband model
           only). Speaker labels are not supported for any other models.
+    :attr bool low_latency: (optional) Indicates whether the `low_latency` parameter
+          can be used with a next-generation language model. The field is returned only
+          for next-generation models. Previous-generation models do not support the
+          `low_latency` parameter.
     """
 
-    def __init__(self, custom_language_model: bool,
-                 speaker_labels: bool) -> None:
+    def __init__(self,
+                 custom_language_model: bool,
+                 speaker_labels: bool,
+                 *,
+                 low_latency: bool = None) -> None:
         """
         Initialize a SupportedFeatures object.
 
@@ -7355,9 +7531,14 @@ class SupportedFeatures():
                Korean, and Spanish (both broadband and narrowband models) and UK English
                (narrowband model only). Speaker labels are not supported for any other
                models.
+        :param bool low_latency: (optional) Indicates whether the `low_latency`
+               parameter can be used with a next-generation language model. The field is
+               returned only for next-generation models. Previous-generation models do not
+               support the `low_latency` parameter.
         """
         self.custom_language_model = custom_language_model
         self.speaker_labels = speaker_labels
+        self.low_latency = low_latency
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'SupportedFeatures':
@@ -7375,6 +7556,8 @@ class SupportedFeatures():
             raise ValueError(
                 'Required property \'speaker_labels\' not present in SupportedFeatures JSON'
             )
+        if 'low_latency' in _dict:
+            args['low_latency'] = _dict.get('low_latency')
         return cls(**args)
 
     @classmethod
@@ -7390,6 +7573,8 @@ class SupportedFeatures():
             _dict['custom_language_model'] = self.custom_language_model
         if hasattr(self, 'speaker_labels') and self.speaker_labels is not None:
             _dict['speaker_labels'] = self.speaker_labels
+        if hasattr(self, 'low_latency') and self.low_latency is not None:
+            _dict['low_latency'] = self.low_latency
         return _dict
 
     def _to_dict(self):
