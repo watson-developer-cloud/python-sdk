@@ -72,6 +72,35 @@ class TestIntegrationTextToSpeechV1(unittest.TestCase):
                                             'MACLs').get_result()
         assert word['translation'] == 'mackles'
 
+    def test_custom_prompts(self):
+        customization_id = self.created_customization.get('customization_id')
+        prompt_id = "Hello"
+        metadata = {
+            "prompt_text": "Hello how are you today?" 
+        }
+        
+        with open("resources/tts_audio.wav", "rb") as audio_file:
+            self.text_to_speech.add_custom_prompt(
+                customization_id, prompt_id, metadata, audio_file
+                ).get_result()
+            prompts = self.text_to_speech.list_custom_prompts(customization_id).get_result()
+            assert len(prompts) > 0
+            prompt = self.text_to_speech.get_custom_prompt(customization_id, prompt_id).get_result()
+            assert prompt["prompt_id"] == prompt_id
+            self.text_to_speech.delete_custom_prompt(customization_id, prompt_id)
+
+    def test_speaker_models(self):
+        speaker_name = "Angelo"
+
+        with open("resources/tts_audio.wav", "rb") as audio_file:
+            speaker_id = self.text_to_speech.create_speaker_model(
+                speaker_name, audio_file
+            ).get_result()["speaker_id"]
+            speaker_models = self.text_to_speech.list_speaker_models().get_result()
+            assert len(speaker_models) > 0
+            speaker_model = self.text_to_speech.get_speaker_model(speaker_id).get_result()
+            self.text_to_speech.delete_speaker_model(speaker_id)
+
     def test_synthesize_using_websocket(self):
         file = 'tongue_twister.wav'
 
