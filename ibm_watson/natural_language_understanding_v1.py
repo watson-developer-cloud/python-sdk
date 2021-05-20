@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019, 2020.
+# (C) Copyright IBM Corp. 2019, 2021.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-a45d89ef-20201209-192237
+# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-902c9336-20210507-162723
 """
 Analyze various features of text content at scale. Provide text, raw HTML, or a public URL
 and IBM Watson Natural Language Understanding will give you results for the features you
@@ -28,7 +28,7 @@ Understanding.
 
 from datetime import datetime
 from enum import Enum
-from typing import Dict, List
+from typing import BinaryIO, Dict, List
 import json
 
 from ibm_cloud_sdk_core import BaseService, DetailedResponse
@@ -59,7 +59,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
         Construct a new client for the Natural Language Understanding service.
 
         :param str version: Release date of the API version you want to use.
-               Specify dates in YYYY-MM-DD format. The current version is `2020-08-01`.
+               Specify dates in YYYY-MM-DD format. The current version is `2021-03-25`.
 
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
@@ -98,6 +98,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
 
         Analyzes text, HTML, or a public webpage for the following features:
         - Categories
+        - Classifications
         - Concepts
         - Emotion
         - Entities
@@ -260,6 +261,895 @@ class NaturalLanguageUnderstandingV1(BaseService):
         response = self.send(request)
         return response
 
+    #########################
+    # Manage sentiment models
+    #########################
+
+    def create_sentiment_model(self,
+                               language: str,
+                               training_data: BinaryIO,
+                               *,
+                               name: str = None,
+                               description: str = None,
+                               model_version: str = None,
+                               workspace_id: str = None,
+                               version_description: str = None,
+                               **kwargs) -> DetailedResponse:
+        """
+        Create sentiment model.
+
+        (Beta) Creates a custom sentiment model by uploading training data and associated
+        metadata. The model begins the training and deploying process and is ready to use
+        when the `status` is `available`.
+
+        :param str language: The 2-letter language code of this model.
+        :param BinaryIO training_data: Training data in CSV format. For more
+               information, see [Sentiment training data
+               requirements](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-custom-sentiment#sentiment-training-data-requirements).
+        :param str name: (optional) An optional name for the model.
+        :param str description: (optional) An optional description of the model.
+        :param str model_version: (optional) An optional version string.
+        :param str workspace_id: (optional) ID of the Watson Knowledge Studio
+               workspace that deployed this model to Natural Language Understanding.
+        :param str version_description: (optional) The description of the version.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `SentimentModel` object
+        """
+
+        if language is None:
+            raise ValueError('language must be provided')
+        if training_data is None:
+            raise ValueError('training_data must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='create_sentiment_model')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        form_data = []
+        form_data.append(('language', (None, language, 'text/plain')))
+        form_data.append(('training_data', (None, training_data, 'text/csv')))
+        if name:
+            form_data.append(('name', (None, name, 'text/plain')))
+        if description:
+            form_data.append(('description', (None, description, 'text/plain')))
+        if model_version:
+            form_data.append(
+                ('model_version', (None, model_version, 'text/plain')))
+        if workspace_id:
+            form_data.append(
+                ('workspace_id', (None, workspace_id, 'text/plain')))
+        if version_description:
+            form_data.append(('version_description', (None, version_description,
+                                                      'text/plain')))
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        url = '/v1/models/sentiment'
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data)
+
+        response = self.send(request)
+        return response
+
+    def list_sentiment_models(self, **kwargs) -> DetailedResponse:
+        """
+        List sentiment models.
+
+        (Beta) Returns all custom sentiment models associated with this service instance.
+
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ListSentimentModelsResponse` object
+        """
+
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='list_sentiment_models')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        url = '/v1/models/sentiment'
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
+    def get_sentiment_model(self, model_id: str, **kwargs) -> DetailedResponse:
+        """
+        Get sentiment model details.
+
+        (Beta) Returns the status of the sentiment model with the given model ID.
+
+        :param str model_id: ID of the model.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `SentimentModel` object
+        """
+
+        if model_id is None:
+            raise ValueError('model_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='get_sentiment_model')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['model_id']
+        path_param_values = self.encode_path_vars(model_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/models/sentiment/{model_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
+    def update_sentiment_model(self,
+                               model_id: str,
+                               language: str,
+                               training_data: BinaryIO,
+                               *,
+                               name: str = None,
+                               description: str = None,
+                               model_version: str = None,
+                               workspace_id: str = None,
+                               version_description: str = None,
+                               **kwargs) -> DetailedResponse:
+        """
+        Update sentiment model.
+
+        (Beta) Overwrites the training data associated with this custom sentiment model
+        and retrains the model. The new model replaces the current deployment.
+
+        :param str model_id: ID of the model.
+        :param str language: The 2-letter language code of this model.
+        :param BinaryIO training_data: Training data in CSV format. For more
+               information, see [Sentiment training data
+               requirements](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-custom-sentiment#sentiment-training-data-requirements).
+        :param str name: (optional) An optional name for the model.
+        :param str description: (optional) An optional description of the model.
+        :param str model_version: (optional) An optional version string.
+        :param str workspace_id: (optional) ID of the Watson Knowledge Studio
+               workspace that deployed this model to Natural Language Understanding.
+        :param str version_description: (optional) The description of the version.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `SentimentModel` object
+        """
+
+        if model_id is None:
+            raise ValueError('model_id must be provided')
+        if language is None:
+            raise ValueError('language must be provided')
+        if training_data is None:
+            raise ValueError('training_data must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='update_sentiment_model')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        form_data = []
+        form_data.append(('language', (None, language, 'text/plain')))
+        form_data.append(('training_data', (None, training_data, 'text/csv')))
+        if name:
+            form_data.append(('name', (None, name, 'text/plain')))
+        if description:
+            form_data.append(('description', (None, description, 'text/plain')))
+        if model_version:
+            form_data.append(
+                ('model_version', (None, model_version, 'text/plain')))
+        if workspace_id:
+            form_data.append(
+                ('workspace_id', (None, workspace_id, 'text/plain')))
+        if version_description:
+            form_data.append(('version_description', (None, version_description,
+                                                      'text/plain')))
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['model_id']
+        path_param_values = self.encode_path_vars(model_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/models/sentiment/{model_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='PUT',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data)
+
+        response = self.send(request)
+        return response
+
+    def delete_sentiment_model(self, model_id: str,
+                               **kwargs) -> DetailedResponse:
+        """
+        Delete sentiment model.
+
+        (Beta) Un-deploys the custom sentiment model with the given model ID and deletes
+        all associated customer data, including any training data or binary artifacts.
+
+        :param str model_id: ID of the model.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `DeleteModelResults` object
+        """
+
+        if model_id is None:
+            raise ValueError('model_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='delete_sentiment_model')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['model_id']
+        path_param_values = self.encode_path_vars(model_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/models/sentiment/{model_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
+    #########################
+    # Manage categories models
+    #########################
+
+    def create_categories_model(self,
+                                language: str,
+                                training_data: BinaryIO,
+                                *,
+                                training_data_content_type: str = None,
+                                name: str = None,
+                                description: str = None,
+                                model_version: str = None,
+                                workspace_id: str = None,
+                                version_description: str = None,
+                                **kwargs) -> DetailedResponse:
+        """
+        Create categories model.
+
+        (Beta) Creates a custom categories model by uploading training data and associated
+        metadata. The model begins the training and deploying process and is ready to use
+        when the `status` is `available`.
+
+        :param str language: The 2-letter language code of this model.
+        :param BinaryIO training_data: Training data in JSON format. For more
+               information, see [Categories training data
+               requirements](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-categories##categories-training-data-requirements).
+        :param str training_data_content_type: (optional) The content type of
+               training_data.
+        :param str name: (optional) An optional name for the model.
+        :param str description: (optional) An optional description of the model.
+        :param str model_version: (optional) An optional version string.
+        :param str workspace_id: (optional) ID of the Watson Knowledge Studio
+               workspace that deployed this model to Natural Language Understanding.
+        :param str version_description: (optional) The description of the version.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `CategoriesModel` object
+        """
+
+        if language is None:
+            raise ValueError('language must be provided')
+        if training_data is None:
+            raise ValueError('training_data must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='create_categories_model')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        form_data = []
+        form_data.append(('language', (None, language, 'text/plain')))
+        form_data.append(('training_data',
+                          (None, training_data, training_data_content_type or
+                           'application/octet-stream')))
+        if name:
+            form_data.append(('name', (None, name, 'text/plain')))
+        if description:
+            form_data.append(('description', (None, description, 'text/plain')))
+        if model_version:
+            form_data.append(
+                ('model_version', (None, model_version, 'text/plain')))
+        if workspace_id:
+            form_data.append(
+                ('workspace_id', (None, workspace_id, 'text/plain')))
+        if version_description:
+            form_data.append(('version_description', (None, version_description,
+                                                      'text/plain')))
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        url = '/v1/models/categories'
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data)
+
+        response = self.send(request)
+        return response
+
+    def list_categories_models(self, **kwargs) -> DetailedResponse:
+        """
+        List categories models.
+
+        (Beta) Returns all custom categories models associated with this service instance.
+
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ListCategoriesModelsResponse` object
+        """
+
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='list_categories_models')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        url = '/v1/models/categories'
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
+    def get_categories_model(self, model_id: str, **kwargs) -> DetailedResponse:
+        """
+        Get categories model details.
+
+        (Beta) Returns the status of the categories model with the given model ID.
+
+        :param str model_id: ID of the model.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `CategoriesModel` object
+        """
+
+        if model_id is None:
+            raise ValueError('model_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='get_categories_model')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['model_id']
+        path_param_values = self.encode_path_vars(model_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/models/categories/{model_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
+    def update_categories_model(self,
+                                model_id: str,
+                                language: str,
+                                training_data: BinaryIO,
+                                *,
+                                training_data_content_type: str = None,
+                                name: str = None,
+                                description: str = None,
+                                model_version: str = None,
+                                workspace_id: str = None,
+                                version_description: str = None,
+                                **kwargs) -> DetailedResponse:
+        """
+        Update categories model.
+
+        (Beta) Overwrites the training data associated with this custom categories model
+        and retrains the model. The new model replaces the current deployment.
+
+        :param str model_id: ID of the model.
+        :param str language: The 2-letter language code of this model.
+        :param BinaryIO training_data: Training data in JSON format. For more
+               information, see [Categories training data
+               requirements](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-categories##categories-training-data-requirements).
+        :param str training_data_content_type: (optional) The content type of
+               training_data.
+        :param str name: (optional) An optional name for the model.
+        :param str description: (optional) An optional description of the model.
+        :param str model_version: (optional) An optional version string.
+        :param str workspace_id: (optional) ID of the Watson Knowledge Studio
+               workspace that deployed this model to Natural Language Understanding.
+        :param str version_description: (optional) The description of the version.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `CategoriesModel` object
+        """
+
+        if model_id is None:
+            raise ValueError('model_id must be provided')
+        if language is None:
+            raise ValueError('language must be provided')
+        if training_data is None:
+            raise ValueError('training_data must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='update_categories_model')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        form_data = []
+        form_data.append(('language', (None, language, 'text/plain')))
+        form_data.append(('training_data',
+                          (None, training_data, training_data_content_type or
+                           'application/octet-stream')))
+        if name:
+            form_data.append(('name', (None, name, 'text/plain')))
+        if description:
+            form_data.append(('description', (None, description, 'text/plain')))
+        if model_version:
+            form_data.append(
+                ('model_version', (None, model_version, 'text/plain')))
+        if workspace_id:
+            form_data.append(
+                ('workspace_id', (None, workspace_id, 'text/plain')))
+        if version_description:
+            form_data.append(('version_description', (None, version_description,
+                                                      'text/plain')))
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['model_id']
+        path_param_values = self.encode_path_vars(model_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/models/categories/{model_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='PUT',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data)
+
+        response = self.send(request)
+        return response
+
+    def delete_categories_model(self, model_id: str,
+                                **kwargs) -> DetailedResponse:
+        """
+        Delete categories model.
+
+        (Beta) Un-deploys the custom categories model with the given model ID and deletes
+        all associated customer data, including any training data or binary artifacts.
+
+        :param str model_id: ID of the model.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `DeleteModelResults` object
+        """
+
+        if model_id is None:
+            raise ValueError('model_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='delete_categories_model')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['model_id']
+        path_param_values = self.encode_path_vars(model_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/models/categories/{model_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
+    #########################
+    # Manage classifications models
+    #########################
+
+    def create_classifications_model(self,
+                                     language: str,
+                                     training_data: BinaryIO,
+                                     *,
+                                     training_data_content_type: str = None,
+                                     name: str = None,
+                                     description: str = None,
+                                     model_version: str = None,
+                                     workspace_id: str = None,
+                                     version_description: str = None,
+                                     **kwargs) -> DetailedResponse:
+        """
+        Create classifications model.
+
+        (Beta) Creates a custom classifications model by uploading training data and
+        associated metadata. The model begins the training and deploying process and is
+        ready to use when the `status` is `available`.
+
+        :param str language: The 2-letter language code of this model.
+        :param BinaryIO training_data: Training data in JSON format. For more
+               information, see [Classifications training data
+               requirements](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-classifications#classification-training-data-requirements).
+        :param str training_data_content_type: (optional) The content type of
+               training_data.
+        :param str name: (optional) An optional name for the model.
+        :param str description: (optional) An optional description of the model.
+        :param str model_version: (optional) An optional version string.
+        :param str workspace_id: (optional) ID of the Watson Knowledge Studio
+               workspace that deployed this model to Natural Language Understanding.
+        :param str version_description: (optional) The description of the version.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ClassificationsModel` object
+        """
+
+        if language is None:
+            raise ValueError('language must be provided')
+        if training_data is None:
+            raise ValueError('training_data must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='create_classifications_model')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        form_data = []
+        form_data.append(('language', (None, language, 'text/plain')))
+        form_data.append(('training_data',
+                          (None, training_data, training_data_content_type or
+                           'application/octet-stream')))
+        if name:
+            form_data.append(('name', (None, name, 'text/plain')))
+        if description:
+            form_data.append(('description', (None, description, 'text/plain')))
+        if model_version:
+            form_data.append(
+                ('model_version', (None, model_version, 'text/plain')))
+        if workspace_id:
+            form_data.append(
+                ('workspace_id', (None, workspace_id, 'text/plain')))
+        if version_description:
+            form_data.append(('version_description', (None, version_description,
+                                                      'text/plain')))
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        url = '/v1/models/classifications'
+        request = self.prepare_request(method='POST',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data)
+
+        response = self.send(request)
+        return response
+
+    def list_classifications_models(self, **kwargs) -> DetailedResponse:
+        """
+        List classifications models.
+
+        (Beta) Returns all custom classifications models associated with this service
+        instance.
+
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ListClassificationsModelsResponse` object
+        """
+
+        headers = {}
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='list_classifications_models')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        url = '/v1/models/classifications'
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
+    def get_classifications_model(self, model_id: str,
+                                  **kwargs) -> DetailedResponse:
+        """
+        Get classifications model details.
+
+        (Beta) Returns the status of the classifications model with the given model ID.
+
+        :param str model_id: ID of the model.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ClassificationsModel` object
+        """
+
+        if model_id is None:
+            raise ValueError('model_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V1',
+                                      operation_id='get_classifications_model')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['model_id']
+        path_param_values = self.encode_path_vars(model_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/models/classifications/{model_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
+    def update_classifications_model(self,
+                                     model_id: str,
+                                     language: str,
+                                     training_data: BinaryIO,
+                                     *,
+                                     training_data_content_type: str = None,
+                                     name: str = None,
+                                     description: str = None,
+                                     model_version: str = None,
+                                     workspace_id: str = None,
+                                     version_description: str = None,
+                                     **kwargs) -> DetailedResponse:
+        """
+        Update classifications model.
+
+        (Beta) Overwrites the training data associated with this custom classifications
+        model and retrains the model. The new model replaces the current deployment.
+
+        :param str model_id: ID of the model.
+        :param str language: The 2-letter language code of this model.
+        :param BinaryIO training_data: Training data in JSON format. For more
+               information, see [Classifications training data
+               requirements](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-classifications#classification-training-data-requirements).
+        :param str training_data_content_type: (optional) The content type of
+               training_data.
+        :param str name: (optional) An optional name for the model.
+        :param str description: (optional) An optional description of the model.
+        :param str model_version: (optional) An optional version string.
+        :param str workspace_id: (optional) ID of the Watson Knowledge Studio
+               workspace that deployed this model to Natural Language Understanding.
+        :param str version_description: (optional) The description of the version.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `ClassificationsModel` object
+        """
+
+        if model_id is None:
+            raise ValueError('model_id must be provided')
+        if language is None:
+            raise ValueError('language must be provided')
+        if training_data is None:
+            raise ValueError('training_data must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='update_classifications_model')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        form_data = []
+        form_data.append(('language', (None, language, 'text/plain')))
+        form_data.append(('training_data',
+                          (None, training_data, training_data_content_type or
+                           'application/octet-stream')))
+        if name:
+            form_data.append(('name', (None, name, 'text/plain')))
+        if description:
+            form_data.append(('description', (None, description, 'text/plain')))
+        if model_version:
+            form_data.append(
+                ('model_version', (None, model_version, 'text/plain')))
+        if workspace_id:
+            form_data.append(
+                ('workspace_id', (None, workspace_id, 'text/plain')))
+        if version_description:
+            form_data.append(('version_description', (None, version_description,
+                                                      'text/plain')))
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['model_id']
+        path_param_values = self.encode_path_vars(model_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/models/classifications/{model_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='PUT',
+                                       url=url,
+                                       headers=headers,
+                                       params=params,
+                                       files=form_data)
+
+        response = self.send(request)
+        return response
+
+    def delete_classifications_model(self, model_id: str,
+                                     **kwargs) -> DetailedResponse:
+        """
+        Delete classifications model.
+
+        (Beta) Un-deploys the custom classifications model with the given model ID and
+        deletes all associated customer data, including any training data or binary
+        artifacts.
+
+        :param str model_id: ID of the model.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `DeleteModelResults` object
+        """
+
+        if model_id is None:
+            raise ValueError('model_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(
+            service_name=self.DEFAULT_SERVICE_NAME,
+            service_version='V1',
+            operation_id='delete_classifications_model')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['model_id']
+        path_param_values = self.encode_path_vars(model_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v1/models/classifications/{model_id}'.format(**path_param_dict)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
+
+class CreateCategoriesModelEnums:
+    """
+    Enums for create_categories_model parameters.
+    """
+
+    class TrainingDataContentType(str, Enum):
+        """
+        The content type of training_data.
+        """
+        JSON = 'json'
+        APPLICATION_JSON = 'application/json'
+
+
+class UpdateCategoriesModelEnums:
+    """
+    Enums for update_categories_model parameters.
+    """
+
+    class TrainingDataContentType(str, Enum):
+        """
+        The content type of training_data.
+        """
+        JSON = 'json'
+        APPLICATION_JSON = 'application/json'
+
+
+class CreateClassificationsModelEnums:
+    """
+    Enums for create_classifications_model parameters.
+    """
+
+    class TrainingDataContentType(str, Enum):
+        """
+        The content type of training_data.
+        """
+        JSON = 'json'
+        APPLICATION_JSON = 'application/json'
+
+
+class UpdateClassificationsModelEnums:
+    """
+    Enums for update_classifications_model parameters.
+    """
+
+    class TrainingDataContentType(str, Enum):
+        """
+        The content type of training_data.
+        """
+        JSON = 'json'
+        APPLICATION_JSON = 'application/json'
+
 
 ##############################################################################
 # Models
@@ -283,6 +1173,8 @@ class AnalysisResults():
           text.
     :attr List[CategoriesResult] categories: (optional) The categories that the
           service assigned to the analyzed text.
+    :attr List[ClassificationsResult] classifications: (optional) The
+          classifications assigned to the analyzed text.
     :attr EmotionResult emotion: (optional) The anger, disgust, fear, joy, or
           sadness conveyed by the content.
     :attr FeaturesResultsMetadata metadata: (optional) Webpage metadata, such as the
@@ -306,6 +1198,7 @@ class AnalysisResults():
                  entities: List['EntitiesResult'] = None,
                  keywords: List['KeywordsResult'] = None,
                  categories: List['CategoriesResult'] = None,
+                 classifications: List['ClassificationsResult'] = None,
                  emotion: 'EmotionResult' = None,
                  metadata: 'FeaturesResultsMetadata' = None,
                  relations: List['RelationsResult'] = None,
@@ -328,6 +1221,8 @@ class AnalysisResults():
                analyzed text.
         :param List[CategoriesResult] categories: (optional) The categories that
                the service assigned to the analyzed text.
+        :param List[ClassificationsResult] classifications: (optional) The
+               classifications assigned to the analyzed text.
         :param EmotionResult emotion: (optional) The anger, disgust, fear, joy, or
                sadness conveyed by the content.
         :param FeaturesResultsMetadata metadata: (optional) Webpage metadata, such
@@ -348,6 +1243,7 @@ class AnalysisResults():
         self.entities = entities
         self.keywords = keywords
         self.categories = categories
+        self.classifications = classifications
         self.emotion = emotion
         self.metadata = metadata
         self.relations = relations
@@ -382,6 +1278,11 @@ class AnalysisResults():
         if 'categories' in _dict:
             args['categories'] = [
                 CategoriesResult.from_dict(x) for x in _dict.get('categories')
+            ]
+        if 'classifications' in _dict:
+            args['classifications'] = [
+                ClassificationsResult.from_dict(x)
+                for x in _dict.get('classifications')
             ]
         if 'emotion' in _dict:
             args['emotion'] = EmotionResult.from_dict(_dict.get('emotion'))
@@ -428,6 +1329,11 @@ class AnalysisResults():
             _dict['keywords'] = [x.to_dict() for x in self.keywords]
         if hasattr(self, 'categories') and self.categories is not None:
             _dict['categories'] = [x.to_dict() for x in self.categories]
+        if hasattr(self,
+                   'classifications') and self.classifications is not None:
+            _dict['classifications'] = [
+                x.to_dict() for x in self.classifications
+            ]
         if hasattr(self, 'emotion') and self.emotion is not None:
             _dict['emotion'] = self.emotion.to_dict()
         if hasattr(self, 'metadata') and self.metadata is not None:
@@ -589,6 +1495,265 @@ class Author():
         return not self == other
 
 
+class CategoriesModel():
+    """
+    Categories model.
+
+    :attr str name: (optional) An optional name for the model.
+    :attr dict user_metadata: (optional) An optional map of metadata key-value pairs
+          to store with this model.
+    :attr str language: The 2-letter language code of this model.
+    :attr str description: (optional) An optional description of the model.
+    :attr str model_version: (optional) An optional version string.
+    :attr str workspace_id: (optional) ID of the Watson Knowledge Studio workspace
+          that deployed this model to Natural Language Understanding.
+    :attr str version_description: (optional) The description of the version.
+    :attr List[str] features: (optional) The service features that are supported by
+          the custom model.
+    :attr str status: When the status is `available`, the model is ready to use.
+    :attr str model_id: Unique model ID.
+    :attr datetime created: dateTime indicating when the model was created.
+    :attr List[Notice] notices: (optional)
+    :attr datetime last_trained: (optional) dateTime of last successful model
+          training.
+    :attr datetime last_deployed: (optional) dateTime of last successful model
+          deployment.
+    """
+
+    def __init__(self,
+                 language: str,
+                 status: str,
+                 model_id: str,
+                 created: datetime,
+                 *,
+                 name: str = None,
+                 user_metadata: dict = None,
+                 description: str = None,
+                 model_version: str = None,
+                 workspace_id: str = None,
+                 version_description: str = None,
+                 features: List[str] = None,
+                 notices: List['Notice'] = None,
+                 last_trained: datetime = None,
+                 last_deployed: datetime = None) -> None:
+        """
+        Initialize a CategoriesModel object.
+
+        :param str language: The 2-letter language code of this model.
+        :param str status: When the status is `available`, the model is ready to
+               use.
+        :param str model_id: Unique model ID.
+        :param datetime created: dateTime indicating when the model was created.
+        :param str name: (optional) An optional name for the model.
+        :param dict user_metadata: (optional) An optional map of metadata key-value
+               pairs to store with this model.
+        :param str description: (optional) An optional description of the model.
+        :param str model_version: (optional) An optional version string.
+        :param str workspace_id: (optional) ID of the Watson Knowledge Studio
+               workspace that deployed this model to Natural Language Understanding.
+        :param str version_description: (optional) The description of the version.
+        :param List[str] features: (optional) The service features that are
+               supported by the custom model.
+        :param List[Notice] notices: (optional)
+        :param datetime last_trained: (optional) dateTime of last successful model
+               training.
+        :param datetime last_deployed: (optional) dateTime of last successful model
+               deployment.
+        """
+        self.name = name
+        self.user_metadata = user_metadata
+        self.language = language
+        self.description = description
+        self.model_version = model_version
+        self.workspace_id = workspace_id
+        self.version_description = version_description
+        self.features = features
+        self.status = status
+        self.model_id = model_id
+        self.created = created
+        self.notices = notices
+        self.last_trained = last_trained
+        self.last_deployed = last_deployed
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'CategoriesModel':
+        """Initialize a CategoriesModel object from a json dictionary."""
+        args = {}
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        if 'user_metadata' in _dict:
+            args['user_metadata'] = _dict.get('user_metadata')
+        if 'language' in _dict:
+            args['language'] = _dict.get('language')
+        else:
+            raise ValueError(
+                'Required property \'language\' not present in CategoriesModel JSON'
+            )
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'model_version' in _dict:
+            args['model_version'] = _dict.get('model_version')
+        if 'workspace_id' in _dict:
+            args['workspace_id'] = _dict.get('workspace_id')
+        if 'version_description' in _dict:
+            args['version_description'] = _dict.get('version_description')
+        if 'features' in _dict:
+            args['features'] = _dict.get('features')
+        if 'status' in _dict:
+            args['status'] = _dict.get('status')
+        else:
+            raise ValueError(
+                'Required property \'status\' not present in CategoriesModel JSON'
+            )
+        if 'model_id' in _dict:
+            args['model_id'] = _dict.get('model_id')
+        else:
+            raise ValueError(
+                'Required property \'model_id\' not present in CategoriesModel JSON'
+            )
+        if 'created' in _dict:
+            args['created'] = string_to_datetime(_dict.get('created'))
+        else:
+            raise ValueError(
+                'Required property \'created\' not present in CategoriesModel JSON'
+            )
+        if 'notices' in _dict:
+            args['notices'] = [
+                Notice.from_dict(x) for x in _dict.get('notices')
+            ]
+        if 'last_trained' in _dict:
+            args['last_trained'] = string_to_datetime(_dict.get('last_trained'))
+        if 'last_deployed' in _dict:
+            args['last_deployed'] = string_to_datetime(
+                _dict.get('last_deployed'))
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CategoriesModel object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'user_metadata') and self.user_metadata is not None:
+            _dict['user_metadata'] = self.user_metadata
+        if hasattr(self, 'language') and self.language is not None:
+            _dict['language'] = self.language
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'model_version') and self.model_version is not None:
+            _dict['model_version'] = self.model_version
+        if hasattr(self, 'workspace_id') and self.workspace_id is not None:
+            _dict['workspace_id'] = self.workspace_id
+        if hasattr(
+                self,
+                'version_description') and self.version_description is not None:
+            _dict['version_description'] = self.version_description
+        if hasattr(self, 'features') and self.features is not None:
+            _dict['features'] = self.features
+        if hasattr(self, 'status') and self.status is not None:
+            _dict['status'] = self.status
+        if hasattr(self, 'model_id') and self.model_id is not None:
+            _dict['model_id'] = self.model_id
+        if hasattr(self, 'created') and self.created is not None:
+            _dict['created'] = datetime_to_string(self.created)
+        if hasattr(self, 'notices') and self.notices is not None:
+            _dict['notices'] = [x.to_dict() for x in self.notices]
+        if hasattr(self, 'last_trained') and self.last_trained is not None:
+            _dict['last_trained'] = datetime_to_string(self.last_trained)
+        if hasattr(self, 'last_deployed') and self.last_deployed is not None:
+            _dict['last_deployed'] = datetime_to_string(self.last_deployed)
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this CategoriesModel object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'CategoriesModel') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'CategoriesModel') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class StatusEnum(str, Enum):
+        """
+        When the status is `available`, the model is ready to use.
+        """
+        STARTING = 'starting'
+        TRAINING = 'training'
+        DEPLOYING = 'deploying'
+        AVAILABLE = 'available'
+        ERROR = 'error'
+        DELETED = 'deleted'
+
+
+class CategoriesModelList():
+    """
+    List of categories models.
+
+    :attr List[CategoriesModel] models: (optional) The categories models.
+    """
+
+    def __init__(self, *, models: List['CategoriesModel'] = None) -> None:
+        """
+        Initialize a CategoriesModelList object.
+
+        :param List[CategoriesModel] models: (optional) The categories models.
+        """
+        self.models = models
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'CategoriesModelList':
+        """Initialize a CategoriesModelList object from a json dictionary."""
+        args = {}
+        if 'models' in _dict:
+            args['models'] = [
+                CategoriesModel.from_dict(x) for x in _dict.get('models')
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a CategoriesModelList object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'models') and self.models is not None:
+            _dict['models'] = [x.to_dict() for x in self.models]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this CategoriesModelList object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'CategoriesModelList') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'CategoriesModelList') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class CategoriesOptions():
     """
     Returns a five-level taxonomy of the content. The top three categories are returned.
@@ -598,14 +1763,10 @@ class CategoriesOptions():
     :attr bool explanation: (optional) Set this to `true` to return explanations for
           each categorization. **This is available only for English categories.**.
     :attr int limit: (optional) Maximum number of categories to return.
-    :attr str model: (optional) Enter a [custom
+    :attr str model: (optional) (Beta) Enter a [custom
           model](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-customizing)
-          ID to override the standard categories model.
-          The custom categories experimental feature will be retired on 19 December 2019.
-          On that date, deployed custom categories models will no longer be accessible in
-          Natural Language Understanding. The feature will be removed from Knowledge
-          Studio on an earlier date. Custom categories models will no longer be accessible
-          in Knowledge Studio on 17 December 2019.
+          ID to override the standard categories model. **This is available only for
+          English categories.**.
     """
 
     def __init__(self,
@@ -620,14 +1781,10 @@ class CategoriesOptions():
                explanations for each categorization. **This is available only for English
                categories.**.
         :param int limit: (optional) Maximum number of categories to return.
-        :param str model: (optional) Enter a [custom
+        :param str model: (optional) (Beta) Enter a [custom
                model](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-customizing)
-               ID to override the standard categories model.
-               The custom categories experimental feature will be retired on 19 December
-               2019. On that date, deployed custom categories models will no longer be
-               accessible in Natural Language Understanding. The feature will be removed
-               from Knowledge Studio on an earlier date. Custom categories models will no
-               longer be accessible in Knowledge Studio on 17 December 2019.
+               ID to override the standard categories model. **This is available only for
+               English categories.**.
         """
         self.explanation = explanation
         self.limit = limit
@@ -879,6 +2036,391 @@ class CategoriesResultExplanation():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'CategoriesResultExplanation') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ClassificationsModel():
+    """
+    Classifications model.
+
+    :attr str name: (optional) An optional name for the model.
+    :attr dict user_metadata: (optional) An optional map of metadata key-value pairs
+          to store with this model.
+    :attr str language: The 2-letter language code of this model.
+    :attr str description: (optional) An optional description of the model.
+    :attr str model_version: (optional) An optional version string.
+    :attr str workspace_id: (optional) ID of the Watson Knowledge Studio workspace
+          that deployed this model to Natural Language Understanding.
+    :attr str version_description: (optional) The description of the version.
+    :attr List[str] features: (optional) The service features that are supported by
+          the custom model.
+    :attr str status: When the status is `available`, the model is ready to use.
+    :attr str model_id: Unique model ID.
+    :attr datetime created: dateTime indicating when the model was created.
+    :attr List[Notice] notices: (optional)
+    :attr datetime last_trained: (optional) dateTime of last successful model
+          training.
+    :attr datetime last_deployed: (optional) dateTime of last successful model
+          deployment.
+    """
+
+    def __init__(self,
+                 language: str,
+                 status: str,
+                 model_id: str,
+                 created: datetime,
+                 *,
+                 name: str = None,
+                 user_metadata: dict = None,
+                 description: str = None,
+                 model_version: str = None,
+                 workspace_id: str = None,
+                 version_description: str = None,
+                 features: List[str] = None,
+                 notices: List['Notice'] = None,
+                 last_trained: datetime = None,
+                 last_deployed: datetime = None) -> None:
+        """
+        Initialize a ClassificationsModel object.
+
+        :param str language: The 2-letter language code of this model.
+        :param str status: When the status is `available`, the model is ready to
+               use.
+        :param str model_id: Unique model ID.
+        :param datetime created: dateTime indicating when the model was created.
+        :param str name: (optional) An optional name for the model.
+        :param dict user_metadata: (optional) An optional map of metadata key-value
+               pairs to store with this model.
+        :param str description: (optional) An optional description of the model.
+        :param str model_version: (optional) An optional version string.
+        :param str workspace_id: (optional) ID of the Watson Knowledge Studio
+               workspace that deployed this model to Natural Language Understanding.
+        :param str version_description: (optional) The description of the version.
+        :param List[str] features: (optional) The service features that are
+               supported by the custom model.
+        :param List[Notice] notices: (optional)
+        :param datetime last_trained: (optional) dateTime of last successful model
+               training.
+        :param datetime last_deployed: (optional) dateTime of last successful model
+               deployment.
+        """
+        self.name = name
+        self.user_metadata = user_metadata
+        self.language = language
+        self.description = description
+        self.model_version = model_version
+        self.workspace_id = workspace_id
+        self.version_description = version_description
+        self.features = features
+        self.status = status
+        self.model_id = model_id
+        self.created = created
+        self.notices = notices
+        self.last_trained = last_trained
+        self.last_deployed = last_deployed
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ClassificationsModel':
+        """Initialize a ClassificationsModel object from a json dictionary."""
+        args = {}
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        if 'user_metadata' in _dict:
+            args['user_metadata'] = _dict.get('user_metadata')
+        if 'language' in _dict:
+            args['language'] = _dict.get('language')
+        else:
+            raise ValueError(
+                'Required property \'language\' not present in ClassificationsModel JSON'
+            )
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'model_version' in _dict:
+            args['model_version'] = _dict.get('model_version')
+        if 'workspace_id' in _dict:
+            args['workspace_id'] = _dict.get('workspace_id')
+        if 'version_description' in _dict:
+            args['version_description'] = _dict.get('version_description')
+        if 'features' in _dict:
+            args['features'] = _dict.get('features')
+        if 'status' in _dict:
+            args['status'] = _dict.get('status')
+        else:
+            raise ValueError(
+                'Required property \'status\' not present in ClassificationsModel JSON'
+            )
+        if 'model_id' in _dict:
+            args['model_id'] = _dict.get('model_id')
+        else:
+            raise ValueError(
+                'Required property \'model_id\' not present in ClassificationsModel JSON'
+            )
+        if 'created' in _dict:
+            args['created'] = string_to_datetime(_dict.get('created'))
+        else:
+            raise ValueError(
+                'Required property \'created\' not present in ClassificationsModel JSON'
+            )
+        if 'notices' in _dict:
+            args['notices'] = [
+                Notice.from_dict(x) for x in _dict.get('notices')
+            ]
+        if 'last_trained' in _dict:
+            args['last_trained'] = string_to_datetime(_dict.get('last_trained'))
+        if 'last_deployed' in _dict:
+            args['last_deployed'] = string_to_datetime(
+                _dict.get('last_deployed'))
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ClassificationsModel object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'user_metadata') and self.user_metadata is not None:
+            _dict['user_metadata'] = self.user_metadata
+        if hasattr(self, 'language') and self.language is not None:
+            _dict['language'] = self.language
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'model_version') and self.model_version is not None:
+            _dict['model_version'] = self.model_version
+        if hasattr(self, 'workspace_id') and self.workspace_id is not None:
+            _dict['workspace_id'] = self.workspace_id
+        if hasattr(
+                self,
+                'version_description') and self.version_description is not None:
+            _dict['version_description'] = self.version_description
+        if hasattr(self, 'features') and self.features is not None:
+            _dict['features'] = self.features
+        if hasattr(self, 'status') and self.status is not None:
+            _dict['status'] = self.status
+        if hasattr(self, 'model_id') and self.model_id is not None:
+            _dict['model_id'] = self.model_id
+        if hasattr(self, 'created') and self.created is not None:
+            _dict['created'] = datetime_to_string(self.created)
+        if hasattr(self, 'notices') and self.notices is not None:
+            _dict['notices'] = [x.to_dict() for x in self.notices]
+        if hasattr(self, 'last_trained') and self.last_trained is not None:
+            _dict['last_trained'] = datetime_to_string(self.last_trained)
+        if hasattr(self, 'last_deployed') and self.last_deployed is not None:
+            _dict['last_deployed'] = datetime_to_string(self.last_deployed)
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ClassificationsModel object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ClassificationsModel') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ClassificationsModel') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class StatusEnum(str, Enum):
+        """
+        When the status is `available`, the model is ready to use.
+        """
+        STARTING = 'starting'
+        TRAINING = 'training'
+        DEPLOYING = 'deploying'
+        AVAILABLE = 'available'
+        ERROR = 'error'
+        DELETED = 'deleted'
+
+
+class ClassificationsModelList():
+    """
+    List of classifications models.
+
+    :attr List[ClassificationsModel] models: (optional) The classifications models.
+    """
+
+    def __init__(self, *, models: List['ClassificationsModel'] = None) -> None:
+        """
+        Initialize a ClassificationsModelList object.
+
+        :param List[ClassificationsModel] models: (optional) The classifications
+               models.
+        """
+        self.models = models
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ClassificationsModelList':
+        """Initialize a ClassificationsModelList object from a json dictionary."""
+        args = {}
+        if 'models' in _dict:
+            args['models'] = [
+                ClassificationsModel.from_dict(x) for x in _dict.get('models')
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ClassificationsModelList object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'models') and self.models is not None:
+            _dict['models'] = [x.to_dict() for x in self.models]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ClassificationsModelList object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ClassificationsModelList') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ClassificationsModelList') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ClassificationsOptions():
+    """
+    Returns text classifications for the content.
+    Supported languages: English only.
+
+    :attr str model: (optional) (Beta) Enter a [custom
+          model](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-customizing)
+          ID of the classification model to be used.
+    """
+
+    def __init__(self, *, model: str = None) -> None:
+        """
+        Initialize a ClassificationsOptions object.
+
+        :param str model: (optional) (Beta) Enter a [custom
+               model](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-customizing)
+               ID of the classification model to be used.
+        """
+        self.model = model
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ClassificationsOptions':
+        """Initialize a ClassificationsOptions object from a json dictionary."""
+        args = {}
+        if 'model' in _dict:
+            args['model'] = _dict.get('model')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ClassificationsOptions object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'model') and self.model is not None:
+            _dict['model'] = self.model
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ClassificationsOptions object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ClassificationsOptions') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ClassificationsOptions') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ClassificationsResult():
+    """
+    A classification of the analyzed text.
+
+    :attr str class_name: (optional) Classification assigned to the text.
+    :attr float confidence: (optional) Confidence score for the classification.
+          Higher values indicate greater confidence.
+    """
+
+    def __init__(self,
+                 *,
+                 class_name: str = None,
+                 confidence: float = None) -> None:
+        """
+        Initialize a ClassificationsResult object.
+
+        :param str class_name: (optional) Classification assigned to the text.
+        :param float confidence: (optional) Confidence score for the
+               classification. Higher values indicate greater confidence.
+        """
+        self.class_name = class_name
+        self.confidence = confidence
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ClassificationsResult':
+        """Initialize a ClassificationsResult object from a json dictionary."""
+        args = {}
+        if 'class_name' in _dict:
+            args['class_name'] = _dict.get('class_name')
+        if 'confidence' in _dict:
+            args['confidence'] = _dict.get('confidence')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ClassificationsResult object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'class_name') and self.class_name is not None:
+            _dict['class_name'] = self.class_name
+        if hasattr(self, 'confidence') and self.confidence is not None:
+            _dict['confidence'] = self.confidence
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ClassificationsResult object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ClassificationsResult') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ClassificationsResult') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -1896,6 +3438,13 @@ class Features():
     """
     Analysis features and options.
 
+    :attr CategoriesOptions categories: (optional) Returns a five-level taxonomy of
+          the content. The top three categories are returned.
+          Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
+          Portuguese, Spanish.
+    :attr ClassificationsOptions classifications: (optional) Returns text
+          classifications for the content.
+          Supported languages: English only.
     :attr ConceptsOptions concepts: (optional) Returns high-level concepts in the
           content. For example, a research paper about deep learning might return the
           concept, "Artificial Intelligence" although the term is not mentioned.
@@ -1917,9 +3466,9 @@ class Features():
           content.
           Supported languages: English, French, German, Italian, Japanese, Korean,
           Portuguese, Russian, Spanish, Swedish.
-    :attr object metadata: (optional) Returns information from the document,
-          including author name, title, RSS/ATOM feeds, prominent page image, and
-          publication date. Supports URL and HTML input types only.
+    :attr MetadataOptions metadata: (optional) Returns information from the
+          document, including author name, title, RSS/ATOM feeds, prominent page image,
+          and publication date. Supports URL and HTML input types only.
     :attr RelationsOptions relations: (optional) Recognizes when two entities are
           related and identifies the type of relation. For example, an `awardedTo`
           relation might connect the entities "Nobel Prize" and "Albert Einstein". For
@@ -1937,29 +3486,37 @@ class Features():
           `keywords.sentiment`.
            Supported languages: Arabic, English, French, German, Italian, Japanese,
           Korean, Portuguese, Russian, Spanish.
-    :attr CategoriesOptions categories: (optional) Returns a five-level taxonomy of
-          the content. The top three categories are returned.
-          Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
-          Portuguese, Spanish.
+    :attr SummarizationOptions summarization: (optional) (Experimental) Returns a
+          summary of content.
+          Supported languages: English only.
     :attr SyntaxOptions syntax: (optional) Returns tokens and sentences from the
           input text.
     """
 
     def __init__(self,
                  *,
+                 categories: 'CategoriesOptions' = None,
+                 classifications: 'ClassificationsOptions' = None,
                  concepts: 'ConceptsOptions' = None,
                  emotion: 'EmotionOptions' = None,
                  entities: 'EntitiesOptions' = None,
                  keywords: 'KeywordsOptions' = None,
-                 metadata: object = None,
+                 metadata: 'MetadataOptions' = None,
                  relations: 'RelationsOptions' = None,
                  semantic_roles: 'SemanticRolesOptions' = None,
                  sentiment: 'SentimentOptions' = None,
-                 categories: 'CategoriesOptions' = None,
+                 summarization: 'SummarizationOptions' = None,
                  syntax: 'SyntaxOptions' = None) -> None:
         """
         Initialize a Features object.
 
+        :param CategoriesOptions categories: (optional) Returns a five-level
+               taxonomy of the content. The top three categories are returned.
+               Supported languages: Arabic, English, French, German, Italian, Japanese,
+               Korean, Portuguese, Spanish.
+        :param ClassificationsOptions classifications: (optional) Returns text
+               classifications for the content.
+               Supported languages: English only.
         :param ConceptsOptions concepts: (optional) Returns high-level concepts in
                the content. For example, a research paper about deep learning might return
                the concept, "Artificial Intelligence" although the term is not mentioned.
@@ -1982,9 +3539,9 @@ class Features():
                the content.
                Supported languages: English, French, German, Italian, Japanese, Korean,
                Portuguese, Russian, Spanish, Swedish.
-        :param object metadata: (optional) Returns information from the document,
-               including author name, title, RSS/ATOM feeds, prominent page image, and
-               publication date. Supports URL and HTML input types only.
+        :param MetadataOptions metadata: (optional) Returns information from the
+               document, including author name, title, RSS/ATOM feeds, prominent page
+               image, and publication date. Supports URL and HTML input types only.
         :param RelationsOptions relations: (optional) Recognizes when two entities
                are related and identifies the type of relation. For example, an
                `awardedTo` relation might connect the entities "Nobel Prize" and "Albert
@@ -2002,13 +3559,14 @@ class Features():
                and for keywords with `keywords.sentiment`.
                 Supported languages: Arabic, English, French, German, Italian, Japanese,
                Korean, Portuguese, Russian, Spanish.
-        :param CategoriesOptions categories: (optional) Returns a five-level
-               taxonomy of the content. The top three categories are returned.
-               Supported languages: Arabic, English, French, German, Italian, Japanese,
-               Korean, Portuguese, Spanish.
+        :param SummarizationOptions summarization: (optional) (Experimental)
+               Returns a summary of content.
+               Supported languages: English only.
         :param SyntaxOptions syntax: (optional) Returns tokens and sentences from
                the input text.
         """
+        self.categories = categories
+        self.classifications = classifications
         self.concepts = concepts
         self.emotion = emotion
         self.entities = entities
@@ -2017,13 +3575,19 @@ class Features():
         self.relations = relations
         self.semantic_roles = semantic_roles
         self.sentiment = sentiment
-        self.categories = categories
+        self.summarization = summarization
         self.syntax = syntax
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'Features':
         """Initialize a Features object from a json dictionary."""
         args = {}
+        if 'categories' in _dict:
+            args['categories'] = CategoriesOptions.from_dict(
+                _dict.get('categories'))
+        if 'classifications' in _dict:
+            args['classifications'] = ClassificationsOptions.from_dict(
+                _dict.get('classifications'))
         if 'concepts' in _dict:
             args['concepts'] = ConceptsOptions.from_dict(_dict.get('concepts'))
         if 'emotion' in _dict:
@@ -2033,7 +3597,7 @@ class Features():
         if 'keywords' in _dict:
             args['keywords'] = KeywordsOptions.from_dict(_dict.get('keywords'))
         if 'metadata' in _dict:
-            args['metadata'] = _dict.get('metadata')
+            args['metadata'] = MetadataOptions.from_dict(_dict.get('metadata'))
         if 'relations' in _dict:
             args['relations'] = RelationsOptions.from_dict(
                 _dict.get('relations'))
@@ -2043,9 +3607,9 @@ class Features():
         if 'sentiment' in _dict:
             args['sentiment'] = SentimentOptions.from_dict(
                 _dict.get('sentiment'))
-        if 'categories' in _dict:
-            args['categories'] = CategoriesOptions.from_dict(
-                _dict.get('categories'))
+        if 'summarization' in _dict:
+            args['summarization'] = SummarizationOptions.from_dict(
+                _dict.get('summarization'))
         if 'syntax' in _dict:
             args['syntax'] = SyntaxOptions.from_dict(_dict.get('syntax'))
         return cls(**args)
@@ -2058,6 +3622,11 @@ class Features():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
+        if hasattr(self, 'categories') and self.categories is not None:
+            _dict['categories'] = self.categories.to_dict()
+        if hasattr(self,
+                   'classifications') and self.classifications is not None:
+            _dict['classifications'] = self.classifications.to_dict()
         if hasattr(self, 'concepts') and self.concepts is not None:
             _dict['concepts'] = self.concepts.to_dict()
         if hasattr(self, 'emotion') and self.emotion is not None:
@@ -2067,15 +3636,15 @@ class Features():
         if hasattr(self, 'keywords') and self.keywords is not None:
             _dict['keywords'] = self.keywords.to_dict()
         if hasattr(self, 'metadata') and self.metadata is not None:
-            _dict['metadata'] = self.metadata
+            _dict['metadata'] = self.metadata.to_dict()
         if hasattr(self, 'relations') and self.relations is not None:
             _dict['relations'] = self.relations.to_dict()
         if hasattr(self, 'semantic_roles') and self.semantic_roles is not None:
             _dict['semantic_roles'] = self.semantic_roles.to_dict()
         if hasattr(self, 'sentiment') and self.sentiment is not None:
             _dict['sentiment'] = self.sentiment.to_dict()
-        if hasattr(self, 'categories') and self.categories is not None:
-            _dict['categories'] = self.categories.to_dict()
+        if hasattr(self, 'summarization') and self.summarization is not None:
+            _dict['summarization'] = self.summarization.to_dict()
         if hasattr(self, 'syntax') and self.syntax is not None:
             _dict['syntax'] = self.syntax.to_dict()
         return _dict
@@ -2421,6 +3990,121 @@ class KeywordsResult():
         return not self == other
 
 
+class ListCategoriesModelsResponse():
+    """
+    ListCategoriesModelsResponse.
+
+    :attr List[CategoriesModelList] models: (optional)
+    """
+
+    def __init__(self, *, models: List['CategoriesModelList'] = None) -> None:
+        """
+        Initialize a ListCategoriesModelsResponse object.
+
+        :param List[CategoriesModelList] models: (optional)
+        """
+        self.models = models
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ListCategoriesModelsResponse':
+        """Initialize a ListCategoriesModelsResponse object from a json dictionary."""
+        args = {}
+        if 'models' in _dict:
+            args['models'] = [
+                CategoriesModelList.from_dict(x) for x in _dict.get('models')
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ListCategoriesModelsResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'models') and self.models is not None:
+            _dict['models'] = [x.to_dict() for x in self.models]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ListCategoriesModelsResponse object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ListCategoriesModelsResponse') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ListCategoriesModelsResponse') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ListClassificationsModelsResponse():
+    """
+    ListClassificationsModelsResponse.
+
+    :attr List[ClassificationsModelList] models: (optional)
+    """
+
+    def __init__(self,
+                 *,
+                 models: List['ClassificationsModelList'] = None) -> None:
+        """
+        Initialize a ListClassificationsModelsResponse object.
+
+        :param List[ClassificationsModelList] models: (optional)
+        """
+        self.models = models
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ListClassificationsModelsResponse':
+        """Initialize a ListClassificationsModelsResponse object from a json dictionary."""
+        args = {}
+        if 'models' in _dict:
+            args['models'] = [
+                ClassificationsModelList.from_dict(x)
+                for x in _dict.get('models')
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ListClassificationsModelsResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'models') and self.models is not None:
+            _dict['models'] = [x.to_dict() for x in self.models]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ListClassificationsModelsResponse object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ListClassificationsModelsResponse') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ListClassificationsModelsResponse') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
 class ListModelsResults():
     """
     Custom models that are available for entities and relations.
@@ -2471,6 +4155,108 @@ class ListModelsResults():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'ListModelsResults') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ListSentimentModelsResponse():
+    """
+    ListSentimentModelsResponse.
+
+    :attr List[SentimentModel] models: (optional)
+    """
+
+    def __init__(self, *, models: List['SentimentModel'] = None) -> None:
+        """
+        Initialize a ListSentimentModelsResponse object.
+
+        :param List[SentimentModel] models: (optional)
+        """
+        self.models = models
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ListSentimentModelsResponse':
+        """Initialize a ListSentimentModelsResponse object from a json dictionary."""
+        args = {}
+        if 'models' in _dict:
+            args['models'] = [
+                SentimentModel.from_dict(x) for x in _dict.get('models')
+            ]
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ListSentimentModelsResponse object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'models') and self.models is not None:
+            _dict['models'] = [x.to_dict() for x in self.models]
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ListSentimentModelsResponse object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ListSentimentModelsResponse') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ListSentimentModelsResponse') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class MetadataOptions():
+    """
+    Returns information from the document, including author name, title, RSS/ATOM feeds,
+    prominent page image, and publication date. Supports URL and HTML input types only.
+
+    """
+
+    def __init__(self) -> None:
+        """
+        Initialize a MetadataOptions object.
+
+        """
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'MetadataOptions':
+        """Initialize a MetadataOptions object from a json dictionary."""
+        return cls(**_dict)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a MetadataOptions object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        return vars(self)
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this MetadataOptions object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'MetadataOptions') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'MetadataOptions') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
@@ -2618,6 +4404,60 @@ class Model():
         AVAILABLE = 'available'
         ERROR = 'error'
         DELETED = 'deleted'
+
+
+class Notice():
+    """
+    A list of messages describing model training issues when model status is `error`.
+
+    :attr str message: (optional) Describes deficiencies or inconsistencies in
+          training data.
+    """
+
+    def __init__(self, *, message: str = None) -> None:
+        """
+        Initialize a Notice object.
+
+        """
+        self.message = message
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'Notice':
+        """Initialize a Notice object from a json dictionary."""
+        args = {}
+        if 'message' in _dict:
+            args['message'] = _dict.get('message')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a Notice object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'message') and getattr(self, 'message') is not None:
+            _dict['message'] = getattr(self, 'message')
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this Notice object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'Notice') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'Notice') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
 
 
 class RelationArgument():
@@ -3535,6 +5375,196 @@ class SentenceResult():
         return not self == other
 
 
+class SentimentModel():
+    """
+    SentimentModel.
+
+    :attr List[str] features: (optional) The service features that are supported by
+          the custom model.
+    :attr str status: (optional) When the status is `available`, the model is ready
+          to use.
+    :attr str model_id: (optional) Unique model ID.
+    :attr datetime created: (optional) dateTime indicating when the model was
+          created.
+    :attr datetime last_trained: (optional) dateTime of last successful model
+          training.
+    :attr datetime last_deployed: (optional) dateTime of last successful model
+          deployment.
+    :attr str name: (optional) A name for the model.
+    :attr dict user_metadata: (optional) An optional map of metadata key-value pairs
+          to store with this model.
+    :attr str language: (optional) The 2-letter language code of this model.
+    :attr str description: (optional) An optional description of the model.
+    :attr str model_version: (optional) An optional version string.
+    :attr List[Notice] notices: (optional)
+    :attr str workspace_id: (optional) ID of the Watson Knowledge Studio workspace
+          that deployed this model to Natural Language Understanding.
+    :attr str version_description: (optional) The description of the version.
+    """
+
+    def __init__(self,
+                 *,
+                 features: List[str] = None,
+                 status: str = None,
+                 model_id: str = None,
+                 created: datetime = None,
+                 last_trained: datetime = None,
+                 last_deployed: datetime = None,
+                 name: str = None,
+                 user_metadata: dict = None,
+                 language: str = None,
+                 description: str = None,
+                 model_version: str = None,
+                 notices: List['Notice'] = None,
+                 workspace_id: str = None,
+                 version_description: str = None) -> None:
+        """
+        Initialize a SentimentModel object.
+
+        :param List[str] features: (optional) The service features that are
+               supported by the custom model.
+        :param str status: (optional) When the status is `available`, the model is
+               ready to use.
+        :param str model_id: (optional) Unique model ID.
+        :param datetime created: (optional) dateTime indicating when the model was
+               created.
+        :param datetime last_trained: (optional) dateTime of last successful model
+               training.
+        :param datetime last_deployed: (optional) dateTime of last successful model
+               deployment.
+        :param str name: (optional) A name for the model.
+        :param dict user_metadata: (optional) An optional map of metadata key-value
+               pairs to store with this model.
+        :param str language: (optional) The 2-letter language code of this model.
+        :param str description: (optional) An optional description of the model.
+        :param str model_version: (optional) An optional version string.
+        :param List[Notice] notices: (optional)
+        :param str workspace_id: (optional) ID of the Watson Knowledge Studio
+               workspace that deployed this model to Natural Language Understanding.
+        :param str version_description: (optional) The description of the version.
+        """
+        self.features = features
+        self.status = status
+        self.model_id = model_id
+        self.created = created
+        self.last_trained = last_trained
+        self.last_deployed = last_deployed
+        self.name = name
+        self.user_metadata = user_metadata
+        self.language = language
+        self.description = description
+        self.model_version = model_version
+        self.notices = notices
+        self.workspace_id = workspace_id
+        self.version_description = version_description
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'SentimentModel':
+        """Initialize a SentimentModel object from a json dictionary."""
+        args = {}
+        if 'features' in _dict:
+            args['features'] = _dict.get('features')
+        if 'status' in _dict:
+            args['status'] = _dict.get('status')
+        if 'model_id' in _dict:
+            args['model_id'] = _dict.get('model_id')
+        if 'created' in _dict:
+            args['created'] = string_to_datetime(_dict.get('created'))
+        if 'last_trained' in _dict:
+            args['last_trained'] = string_to_datetime(_dict.get('last_trained'))
+        if 'last_deployed' in _dict:
+            args['last_deployed'] = string_to_datetime(
+                _dict.get('last_deployed'))
+        if 'name' in _dict:
+            args['name'] = _dict.get('name')
+        if 'user_metadata' in _dict:
+            args['user_metadata'] = _dict.get('user_metadata')
+        if 'language' in _dict:
+            args['language'] = _dict.get('language')
+        if 'description' in _dict:
+            args['description'] = _dict.get('description')
+        if 'model_version' in _dict:
+            args['model_version'] = _dict.get('model_version')
+        if 'notices' in _dict:
+            args['notices'] = [
+                Notice.from_dict(x) for x in _dict.get('notices')
+            ]
+        if 'workspace_id' in _dict:
+            args['workspace_id'] = _dict.get('workspace_id')
+        if 'version_description' in _dict:
+            args['version_description'] = _dict.get('version_description')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SentimentModel object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'features') and self.features is not None:
+            _dict['features'] = self.features
+        if hasattr(self, 'status') and self.status is not None:
+            _dict['status'] = self.status
+        if hasattr(self, 'model_id') and self.model_id is not None:
+            _dict['model_id'] = self.model_id
+        if hasattr(self, 'created') and self.created is not None:
+            _dict['created'] = datetime_to_string(self.created)
+        if hasattr(self, 'last_trained') and self.last_trained is not None:
+            _dict['last_trained'] = datetime_to_string(self.last_trained)
+        if hasattr(self, 'last_deployed') and self.last_deployed is not None:
+            _dict['last_deployed'] = datetime_to_string(self.last_deployed)
+        if hasattr(self, 'name') and self.name is not None:
+            _dict['name'] = self.name
+        if hasattr(self, 'user_metadata') and self.user_metadata is not None:
+            _dict['user_metadata'] = self.user_metadata
+        if hasattr(self, 'language') and self.language is not None:
+            _dict['language'] = self.language
+        if hasattr(self, 'description') and self.description is not None:
+            _dict['description'] = self.description
+        if hasattr(self, 'model_version') and self.model_version is not None:
+            _dict['model_version'] = self.model_version
+        if hasattr(self, 'notices') and self.notices is not None:
+            _dict['notices'] = [x.to_dict() for x in self.notices]
+        if hasattr(self, 'workspace_id') and self.workspace_id is not None:
+            _dict['workspace_id'] = self.workspace_id
+        if hasattr(
+                self,
+                'version_description') and self.version_description is not None:
+            _dict['version_description'] = self.version_description
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this SentimentModel object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'SentimentModel') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'SentimentModel') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+    class StatusEnum(str, Enum):
+        """
+        When the status is `available`, the model is ready to use.
+        """
+        STARTING = 'starting'
+        TRAINING = 'training'
+        DEPLOYING = 'deploying'
+        AVAILABLE = 'available'
+        ERROR = 'error'
+        DELETED = 'deleted'
+
+
 class SentimentOptions():
     """
     Analyzes the general sentiment of your content or the sentiment toward specific target
@@ -3547,12 +5577,18 @@ class SentimentOptions():
           sentiment results.
     :attr List[str] targets: (optional) Sentiment results will be returned for each
           target string that is found in the document.
+    :attr str model: (optional) (Beta) Enter a [custom
+          model](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-customizing)
+          ID to override the standard sentiment model for all sentiment analysis
+          operations in the request, including targeted sentiment for entities and
+          keywords.
     """
 
     def __init__(self,
                  *,
                  document: bool = None,
-                 targets: List[str] = None) -> None:
+                 targets: List[str] = None,
+                 model: str = None) -> None:
         """
         Initialize a SentimentOptions object.
 
@@ -3560,9 +5596,15 @@ class SentimentOptions():
                sentiment results.
         :param List[str] targets: (optional) Sentiment results will be returned for
                each target string that is found in the document.
+        :param str model: (optional) (Beta) Enter a [custom
+               model](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-customizing)
+               ID to override the standard sentiment model for all sentiment analysis
+               operations in the request, including targeted sentiment for entities and
+               keywords.
         """
         self.document = document
         self.targets = targets
+        self.model = model
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'SentimentOptions':
@@ -3572,6 +5614,8 @@ class SentimentOptions():
             args['document'] = _dict.get('document')
         if 'targets' in _dict:
             args['targets'] = _dict.get('targets')
+        if 'model' in _dict:
+            args['model'] = _dict.get('model')
         return cls(**args)
 
     @classmethod
@@ -3586,6 +5630,8 @@ class SentimentOptions():
             _dict['document'] = self.document
         if hasattr(self, 'targets') and self.targets is not None:
             _dict['targets'] = self.targets
+        if hasattr(self, 'model') and self.model is not None:
+            _dict['model'] = self.model
         return _dict
 
     def _to_dict(self):
@@ -3675,6 +5721,61 @@ class SentimentResult():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'SentimentResult') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SummarizationOptions():
+    """
+    (Experimental) Returns a summary of content.
+    Supported languages: English only.
+
+    :attr int limit: (optional) Maximum number of summary sentences to return.
+    """
+
+    def __init__(self, *, limit: int = None) -> None:
+        """
+        Initialize a SummarizationOptions object.
+
+        :param int limit: (optional) Maximum number of summary sentences to return.
+        """
+        self.limit = limit
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'SummarizationOptions':
+        """Initialize a SummarizationOptions object from a json dictionary."""
+        args = {}
+        if 'limit' in _dict:
+            args['limit'] = _dict.get('limit')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SummarizationOptions object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'limit') and self.limit is not None:
+            _dict['limit'] = self.limit
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this SummarizationOptions object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'SummarizationOptions') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'SummarizationOptions') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 

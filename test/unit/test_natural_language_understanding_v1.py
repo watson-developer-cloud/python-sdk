@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2020.
+# (C) Copyright IBM Corp. 2019, 2021.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,24 +19,27 @@ Unit Tests for NaturalLanguageUnderstandingV1
 
 from datetime import datetime, timezone
 from ibm_cloud_sdk_core.authenticators.no_auth_authenticator import NoAuthAuthenticator
+from ibm_cloud_sdk_core.utils import datetime_to_string, string_to_datetime
 import inspect
+import io
 import json
 import pytest
 import re
 import requests
 import responses
+import tempfile
 import urllib
 from ibm_watson.natural_language_understanding_v1 import *
 
 version = 'testString'
 
-service = NaturalLanguageUnderstandingV1(
+_service = NaturalLanguageUnderstandingV1(
     authenticator=NoAuthAuthenticator(),
     version=version
     )
 
-base_url = 'https://api.us-south.natural-language-understanding.watson.cloud.ibm.com'
-service.set_service_url(base_url)
+_base_url = 'https://api.us-south.natural-language-understanding.watson.cloud.ibm.com'
+_service.set_service_url(_base_url)
 
 ##############################################################################
 # Start of Service: Analyze
@@ -63,13 +66,23 @@ class TestAnalyze():
         analyze()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/analyze')
-        mock_response = '{"language": "language", "analyzed_text": "analyzed_text", "retrieved_url": "retrieved_url", "usage": {"features": 8, "text_characters": 15, "text_units": 10}, "concepts": [{"text": "text", "relevance": 9, "dbpedia_resource": "dbpedia_resource"}], "entities": [{"type": "type", "text": "text", "relevance": 9, "confidence": 10, "mentions": [{"text": "text", "location": [8], "confidence": 10}], "count": 5, "emotion": {"anger": 5, "disgust": 7, "fear": 4, "joy": 3, "sadness": 7}, "sentiment": {"score": 5}, "disambiguation": {"name": "name", "dbpedia_resource": "dbpedia_resource", "subtype": ["subtype"]}}], "keywords": [{"count": 5, "relevance": 9, "text": "text", "emotion": {"anger": 5, "disgust": 7, "fear": 4, "joy": 3, "sadness": 7}, "sentiment": {"score": 5}}], "categories": [{"label": "label", "score": 5, "explanation": {"relevant_text": [{"text": "text"}]}}], "emotion": {"document": {"emotion": {"anger": 5, "disgust": 7, "fear": 4, "joy": 3, "sadness": 7}}, "targets": [{"text": "text", "emotion": {"anger": 5, "disgust": 7, "fear": 4, "joy": 3, "sadness": 7}}]}, "metadata": {"authors": [{"name": "name"}], "publication_date": "publication_date", "title": "title", "image": "image", "feeds": [{"link": "link"}]}, "relations": [{"score": 5, "sentence": "sentence", "type": "type", "arguments": [{"entities": [{"text": "text", "type": "type"}], "location": [8], "text": "text"}]}], "semantic_roles": [{"sentence": "sentence", "subject": {"text": "text", "entities": [{"type": "type", "text": "text"}], "keywords": [{"text": "text"}]}, "action": {"text": "text", "normalized": "normalized", "verb": {"text": "text", "tense": "tense"}}, "object": {"text": "text", "keywords": [{"text": "text"}]}}], "sentiment": {"document": {"label": "label", "score": 5}, "targets": [{"text": "text", "score": 5}]}, "syntax": {"tokens": [{"text": "text", "part_of_speech": "ADJ", "location": [8], "lemma": "lemma"}], "sentences": [{"text": "text", "location": [8]}]}}'
+        url = self.preprocess_url(_base_url + '/v1/analyze')
+        mock_response = '{"language": "language", "analyzed_text": "analyzed_text", "retrieved_url": "retrieved_url", "usage": {"features": 8, "text_characters": 15, "text_units": 10}, "concepts": [{"text": "text", "relevance": 9, "dbpedia_resource": "dbpedia_resource"}], "entities": [{"type": "type", "text": "text", "relevance": 9, "confidence": 10, "mentions": [{"text": "text", "location": [8], "confidence": 10}], "count": 5, "emotion": {"anger": 5, "disgust": 7, "fear": 4, "joy": 3, "sadness": 7}, "sentiment": {"score": 5}, "disambiguation": {"name": "name", "dbpedia_resource": "dbpedia_resource", "subtype": ["subtype"]}}], "keywords": [{"count": 5, "relevance": 9, "text": "text", "emotion": {"anger": 5, "disgust": 7, "fear": 4, "joy": 3, "sadness": 7}, "sentiment": {"score": 5}}], "categories": [{"label": "label", "score": 5, "explanation": {"relevant_text": [{"text": "text"}]}}], "classifications": [{"class_name": "class_name", "confidence": 10}], "emotion": {"document": {"emotion": {"anger": 5, "disgust": 7, "fear": 4, "joy": 3, "sadness": 7}}, "targets": [{"text": "text", "emotion": {"anger": 5, "disgust": 7, "fear": 4, "joy": 3, "sadness": 7}}]}, "metadata": {"authors": [{"name": "name"}], "publication_date": "publication_date", "title": "title", "image": "image", "feeds": [{"link": "link"}]}, "relations": [{"score": 5, "sentence": "sentence", "type": "type", "arguments": [{"entities": [{"text": "text", "type": "type"}], "location": [8], "text": "text"}]}], "semantic_roles": [{"sentence": "sentence", "subject": {"text": "text", "entities": [{"type": "type", "text": "text"}], "keywords": [{"text": "text"}]}, "action": {"text": "text", "normalized": "normalized", "verb": {"text": "text", "tense": "tense"}}, "object": {"text": "text", "keywords": [{"text": "text"}]}}], "sentiment": {"document": {"label": "label", "score": 5}, "targets": [{"text": "text", "score": 5}]}, "syntax": {"tokens": [{"text": "text", "part_of_speech": "ADJ", "location": [8], "lemma": "lemma"}], "sentences": [{"text": "text", "location": [8]}]}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
                       content_type='application/json',
                       status=200)
+
+        # Construct a dict representation of a CategoriesOptions model
+        categories_options_model = {}
+        categories_options_model['explanation'] = True
+        categories_options_model['limit'] = 10
+        categories_options_model['model'] = 'testString'
+
+        # Construct a dict representation of a ClassificationsOptions model
+        classifications_options_model = {}
+        classifications_options_model['model'] = 'testString'
 
         # Construct a dict representation of a ConceptsOptions model
         concepts_options_model = {}
@@ -94,6 +107,9 @@ class TestAnalyze():
         keywords_options_model['sentiment'] = True
         keywords_options_model['emotion'] = True
 
+        # Construct a dict representation of a MetadataOptions model
+        metadata_options_model = {}
+
         # Construct a dict representation of a RelationsOptions model
         relations_options_model = {}
         relations_options_model['model'] = 'testString'
@@ -108,12 +124,11 @@ class TestAnalyze():
         sentiment_options_model = {}
         sentiment_options_model['document'] = True
         sentiment_options_model['targets'] = ['testString']
+        sentiment_options_model['model'] = 'testString'
 
-        # Construct a dict representation of a CategoriesOptions model
-        categories_options_model = {}
-        categories_options_model['explanation'] = True
-        categories_options_model['limit'] = 10
-        categories_options_model['model'] = 'testString'
+        # Construct a dict representation of a SummarizationOptions model
+        summarization_options_model = {}
+        summarization_options_model['limit'] = 10
 
         # Construct a dict representation of a SyntaxOptionsTokens model
         syntax_options_tokens_model = {}
@@ -127,15 +142,17 @@ class TestAnalyze():
 
         # Construct a dict representation of a Features model
         features_model = {}
+        features_model['categories'] = categories_options_model
+        features_model['classifications'] = classifications_options_model
         features_model['concepts'] = concepts_options_model
         features_model['emotion'] = emotion_options_model
         features_model['entities'] = entities_options_model
         features_model['keywords'] = keywords_options_model
-        features_model['metadata'] = { 'foo': 'bar' }
+        features_model['metadata'] = metadata_options_model
         features_model['relations'] = relations_options_model
         features_model['semantic_roles'] = semantic_roles_options_model
         features_model['sentiment'] = sentiment_options_model
-        features_model['categories'] = categories_options_model
+        features_model['summarization'] = summarization_options_model
         features_model['syntax'] = syntax_options_model
 
         # Set up parameter values
@@ -151,7 +168,7 @@ class TestAnalyze():
         limit_text_characters = 38
 
         # Invoke method
-        response = service.analyze(
+        response = _service.analyze(
             features,
             text=text,
             html=html,
@@ -188,13 +205,23 @@ class TestAnalyze():
         test_analyze_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/analyze')
-        mock_response = '{"language": "language", "analyzed_text": "analyzed_text", "retrieved_url": "retrieved_url", "usage": {"features": 8, "text_characters": 15, "text_units": 10}, "concepts": [{"text": "text", "relevance": 9, "dbpedia_resource": "dbpedia_resource"}], "entities": [{"type": "type", "text": "text", "relevance": 9, "confidence": 10, "mentions": [{"text": "text", "location": [8], "confidence": 10}], "count": 5, "emotion": {"anger": 5, "disgust": 7, "fear": 4, "joy": 3, "sadness": 7}, "sentiment": {"score": 5}, "disambiguation": {"name": "name", "dbpedia_resource": "dbpedia_resource", "subtype": ["subtype"]}}], "keywords": [{"count": 5, "relevance": 9, "text": "text", "emotion": {"anger": 5, "disgust": 7, "fear": 4, "joy": 3, "sadness": 7}, "sentiment": {"score": 5}}], "categories": [{"label": "label", "score": 5, "explanation": {"relevant_text": [{"text": "text"}]}}], "emotion": {"document": {"emotion": {"anger": 5, "disgust": 7, "fear": 4, "joy": 3, "sadness": 7}}, "targets": [{"text": "text", "emotion": {"anger": 5, "disgust": 7, "fear": 4, "joy": 3, "sadness": 7}}]}, "metadata": {"authors": [{"name": "name"}], "publication_date": "publication_date", "title": "title", "image": "image", "feeds": [{"link": "link"}]}, "relations": [{"score": 5, "sentence": "sentence", "type": "type", "arguments": [{"entities": [{"text": "text", "type": "type"}], "location": [8], "text": "text"}]}], "semantic_roles": [{"sentence": "sentence", "subject": {"text": "text", "entities": [{"type": "type", "text": "text"}], "keywords": [{"text": "text"}]}, "action": {"text": "text", "normalized": "normalized", "verb": {"text": "text", "tense": "tense"}}, "object": {"text": "text", "keywords": [{"text": "text"}]}}], "sentiment": {"document": {"label": "label", "score": 5}, "targets": [{"text": "text", "score": 5}]}, "syntax": {"tokens": [{"text": "text", "part_of_speech": "ADJ", "location": [8], "lemma": "lemma"}], "sentences": [{"text": "text", "location": [8]}]}}'
+        url = self.preprocess_url(_base_url + '/v1/analyze')
+        mock_response = '{"language": "language", "analyzed_text": "analyzed_text", "retrieved_url": "retrieved_url", "usage": {"features": 8, "text_characters": 15, "text_units": 10}, "concepts": [{"text": "text", "relevance": 9, "dbpedia_resource": "dbpedia_resource"}], "entities": [{"type": "type", "text": "text", "relevance": 9, "confidence": 10, "mentions": [{"text": "text", "location": [8], "confidence": 10}], "count": 5, "emotion": {"anger": 5, "disgust": 7, "fear": 4, "joy": 3, "sadness": 7}, "sentiment": {"score": 5}, "disambiguation": {"name": "name", "dbpedia_resource": "dbpedia_resource", "subtype": ["subtype"]}}], "keywords": [{"count": 5, "relevance": 9, "text": "text", "emotion": {"anger": 5, "disgust": 7, "fear": 4, "joy": 3, "sadness": 7}, "sentiment": {"score": 5}}], "categories": [{"label": "label", "score": 5, "explanation": {"relevant_text": [{"text": "text"}]}}], "classifications": [{"class_name": "class_name", "confidence": 10}], "emotion": {"document": {"emotion": {"anger": 5, "disgust": 7, "fear": 4, "joy": 3, "sadness": 7}}, "targets": [{"text": "text", "emotion": {"anger": 5, "disgust": 7, "fear": 4, "joy": 3, "sadness": 7}}]}, "metadata": {"authors": [{"name": "name"}], "publication_date": "publication_date", "title": "title", "image": "image", "feeds": [{"link": "link"}]}, "relations": [{"score": 5, "sentence": "sentence", "type": "type", "arguments": [{"entities": [{"text": "text", "type": "type"}], "location": [8], "text": "text"}]}], "semantic_roles": [{"sentence": "sentence", "subject": {"text": "text", "entities": [{"type": "type", "text": "text"}], "keywords": [{"text": "text"}]}, "action": {"text": "text", "normalized": "normalized", "verb": {"text": "text", "tense": "tense"}}, "object": {"text": "text", "keywords": [{"text": "text"}]}}], "sentiment": {"document": {"label": "label", "score": 5}, "targets": [{"text": "text", "score": 5}]}, "syntax": {"tokens": [{"text": "text", "part_of_speech": "ADJ", "location": [8], "lemma": "lemma"}], "sentences": [{"text": "text", "location": [8]}]}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
                       content_type='application/json',
                       status=200)
+
+        # Construct a dict representation of a CategoriesOptions model
+        categories_options_model = {}
+        categories_options_model['explanation'] = True
+        categories_options_model['limit'] = 10
+        categories_options_model['model'] = 'testString'
+
+        # Construct a dict representation of a ClassificationsOptions model
+        classifications_options_model = {}
+        classifications_options_model['model'] = 'testString'
 
         # Construct a dict representation of a ConceptsOptions model
         concepts_options_model = {}
@@ -219,6 +246,9 @@ class TestAnalyze():
         keywords_options_model['sentiment'] = True
         keywords_options_model['emotion'] = True
 
+        # Construct a dict representation of a MetadataOptions model
+        metadata_options_model = {}
+
         # Construct a dict representation of a RelationsOptions model
         relations_options_model = {}
         relations_options_model['model'] = 'testString'
@@ -233,12 +263,11 @@ class TestAnalyze():
         sentiment_options_model = {}
         sentiment_options_model['document'] = True
         sentiment_options_model['targets'] = ['testString']
+        sentiment_options_model['model'] = 'testString'
 
-        # Construct a dict representation of a CategoriesOptions model
-        categories_options_model = {}
-        categories_options_model['explanation'] = True
-        categories_options_model['limit'] = 10
-        categories_options_model['model'] = 'testString'
+        # Construct a dict representation of a SummarizationOptions model
+        summarization_options_model = {}
+        summarization_options_model['limit'] = 10
 
         # Construct a dict representation of a SyntaxOptionsTokens model
         syntax_options_tokens_model = {}
@@ -252,15 +281,17 @@ class TestAnalyze():
 
         # Construct a dict representation of a Features model
         features_model = {}
+        features_model['categories'] = categories_options_model
+        features_model['classifications'] = classifications_options_model
         features_model['concepts'] = concepts_options_model
         features_model['emotion'] = emotion_options_model
         features_model['entities'] = entities_options_model
         features_model['keywords'] = keywords_options_model
-        features_model['metadata'] = { 'foo': 'bar' }
+        features_model['metadata'] = metadata_options_model
         features_model['relations'] = relations_options_model
         features_model['semantic_roles'] = semantic_roles_options_model
         features_model['sentiment'] = sentiment_options_model
-        features_model['categories'] = categories_options_model
+        features_model['summarization'] = summarization_options_model
         features_model['syntax'] = syntax_options_model
 
         # Set up parameter values
@@ -282,7 +313,7 @@ class TestAnalyze():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.analyze(**req_copy)
+                _service.analyze(**req_copy)
 
 
 
@@ -316,8 +347,8 @@ class TestListModels():
         list_models()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/models')
-        mock_response = '{"models": [{"status": "starting", "model_id": "model_id", "language": "language", "description": "description", "workspace_id": "workspace_id", "model_version": "model_version", "version": "version", "version_description": "version_description", "created": "2019-01-01T12:00:00"}]}'
+        url = self.preprocess_url(_base_url + '/v1/models')
+        mock_response = '{"models": [{"status": "starting", "model_id": "model_id", "language": "language", "description": "description", "workspace_id": "workspace_id", "model_version": "model_version", "version": "version", "version_description": "version_description", "created": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -325,7 +356,7 @@ class TestListModels():
                       status=200)
 
         # Invoke method
-        response = service.list_models()
+        response = _service.list_models()
 
 
         # Check for correct operation
@@ -339,8 +370,8 @@ class TestListModels():
         test_list_models_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/models')
-        mock_response = '{"models": [{"status": "starting", "model_id": "model_id", "language": "language", "description": "description", "workspace_id": "workspace_id", "model_version": "model_version", "version": "version", "version_description": "version_description", "created": "2019-01-01T12:00:00"}]}'
+        url = self.preprocess_url(_base_url + '/v1/models')
+        mock_response = '{"models": [{"status": "starting", "model_id": "model_id", "language": "language", "description": "description", "workspace_id": "workspace_id", "model_version": "model_version", "version": "version", "version_description": "version_description", "created": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -353,7 +384,7 @@ class TestListModels():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.list_models(**req_copy)
+                _service.list_models(**req_copy)
 
 
 
@@ -377,7 +408,7 @@ class TestDeleteModel():
         delete_model()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/models/testString')
+        url = self.preprocess_url(_base_url + '/v1/models/testString')
         mock_response = '{"deleted": "deleted"}'
         responses.add(responses.DELETE,
                       url,
@@ -389,7 +420,7 @@ class TestDeleteModel():
         model_id = 'testString'
 
         # Invoke method
-        response = service.delete_model(
+        response = _service.delete_model(
             model_id,
             headers={}
         )
@@ -405,7 +436,7 @@ class TestDeleteModel():
         test_delete_model_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v1/models/testString')
+        url = self.preprocess_url(_base_url + '/v1/models/testString')
         mock_response = '{"deleted": "deleted"}'
         responses.add(responses.DELETE,
                       url,
@@ -423,13 +454,1356 @@ class TestDeleteModel():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.delete_model(**req_copy)
+                _service.delete_model(**req_copy)
 
 
 
 # endregion
 ##############################################################################
 # End of Service: ManageModels
+##############################################################################
+
+##############################################################################
+# Start of Service: ManageSentimentModels
+##############################################################################
+# region
+
+class TestCreateSentimentModel():
+    """
+    Test Class for create_sentiment_model
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_create_sentiment_model_all_params(self):
+        """
+        create_sentiment_model()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/sentiment')
+        mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Set up parameter values
+        language = 'testString'
+        training_data = io.BytesIO(b'This is a mock file.').getvalue()
+        name = 'testString'
+        description = 'testString'
+        model_version = 'testString'
+        workspace_id = 'testString'
+        version_description = 'testString'
+
+        # Invoke method
+        response = _service.create_sentiment_model(
+            language,
+            training_data,
+            name=name,
+            description=description,
+            model_version=model_version,
+            workspace_id=workspace_id,
+            version_description=version_description,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 201
+
+
+    @responses.activate
+    def test_create_sentiment_model_required_params(self):
+        """
+        test_create_sentiment_model_required_params()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/sentiment')
+        mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Set up parameter values
+        language = 'testString'
+        training_data = io.BytesIO(b'This is a mock file.').getvalue()
+
+        # Invoke method
+        response = _service.create_sentiment_model(
+            language,
+            training_data,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 201
+
+
+    @responses.activate
+    def test_create_sentiment_model_value_error(self):
+        """
+        test_create_sentiment_model_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/sentiment')
+        mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Set up parameter values
+        language = 'testString'
+        training_data = io.BytesIO(b'This is a mock file.').getvalue()
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "language": language,
+            "training_data": training_data,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.create_sentiment_model(**req_copy)
+
+
+
+class TestListSentimentModels():
+    """
+    Test Class for list_sentiment_models
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_list_sentiment_models_all_params(self):
+        """
+        list_sentiment_models()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/sentiment')
+        mock_response = '{"models": [{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Invoke method
+        response = _service.list_sentiment_models()
+
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    @responses.activate
+    def test_list_sentiment_models_value_error(self):
+        """
+        test_list_sentiment_models_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/sentiment')
+        mock_response = '{"models": [{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.list_sentiment_models(**req_copy)
+
+
+
+class TestGetSentimentModel():
+    """
+    Test Class for get_sentiment_model
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_get_sentiment_model_all_params(self):
+        """
+        get_sentiment_model()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/sentiment/testString')
+        mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        model_id = 'testString'
+
+        # Invoke method
+        response = _service.get_sentiment_model(
+            model_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    @responses.activate
+    def test_get_sentiment_model_value_error(self):
+        """
+        test_get_sentiment_model_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/sentiment/testString')
+        mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        model_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "model_id": model_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.get_sentiment_model(**req_copy)
+
+
+
+class TestUpdateSentimentModel():
+    """
+    Test Class for update_sentiment_model
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_update_sentiment_model_all_params(self):
+        """
+        update_sentiment_model()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/sentiment/testString')
+        mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
+        responses.add(responses.PUT,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        model_id = 'testString'
+        language = 'testString'
+        training_data = io.BytesIO(b'This is a mock file.').getvalue()
+        name = 'testString'
+        description = 'testString'
+        model_version = 'testString'
+        workspace_id = 'testString'
+        version_description = 'testString'
+
+        # Invoke method
+        response = _service.update_sentiment_model(
+            model_id,
+            language,
+            training_data,
+            name=name,
+            description=description,
+            model_version=model_version,
+            workspace_id=workspace_id,
+            version_description=version_description,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    @responses.activate
+    def test_update_sentiment_model_required_params(self):
+        """
+        test_update_sentiment_model_required_params()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/sentiment/testString')
+        mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
+        responses.add(responses.PUT,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        model_id = 'testString'
+        language = 'testString'
+        training_data = io.BytesIO(b'This is a mock file.').getvalue()
+
+        # Invoke method
+        response = _service.update_sentiment_model(
+            model_id,
+            language,
+            training_data,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    @responses.activate
+    def test_update_sentiment_model_value_error(self):
+        """
+        test_update_sentiment_model_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/sentiment/testString')
+        mock_response = '{"features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z", "name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "notices": [{"message": "message"}], "workspace_id": "workspace_id", "version_description": "version_description"}'
+        responses.add(responses.PUT,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        model_id = 'testString'
+        language = 'testString'
+        training_data = io.BytesIO(b'This is a mock file.').getvalue()
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "model_id": model_id,
+            "language": language,
+            "training_data": training_data,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.update_sentiment_model(**req_copy)
+
+
+
+class TestDeleteSentimentModel():
+    """
+    Test Class for delete_sentiment_model
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_delete_sentiment_model_all_params(self):
+        """
+        delete_sentiment_model()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/sentiment/testString')
+        mock_response = '{"deleted": "deleted"}'
+        responses.add(responses.DELETE,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        model_id = 'testString'
+
+        # Invoke method
+        response = _service.delete_sentiment_model(
+            model_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    @responses.activate
+    def test_delete_sentiment_model_value_error(self):
+        """
+        test_delete_sentiment_model_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/sentiment/testString')
+        mock_response = '{"deleted": "deleted"}'
+        responses.add(responses.DELETE,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        model_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "model_id": model_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.delete_sentiment_model(**req_copy)
+
+
+
+# endregion
+##############################################################################
+# End of Service: ManageSentimentModels
+##############################################################################
+
+##############################################################################
+# Start of Service: ManageCategoriesModels
+##############################################################################
+# region
+
+class TestCreateCategoriesModel():
+    """
+    Test Class for create_categories_model
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_create_categories_model_all_params(self):
+        """
+        create_categories_model()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/categories')
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Set up parameter values
+        language = 'testString'
+        training_data = io.BytesIO(b'This is a mock file.').getvalue()
+        training_data_content_type = 'json'
+        name = 'testString'
+        description = 'testString'
+        model_version = 'testString'
+        workspace_id = 'testString'
+        version_description = 'testString'
+
+        # Invoke method
+        response = _service.create_categories_model(
+            language,
+            training_data,
+            training_data_content_type=training_data_content_type,
+            name=name,
+            description=description,
+            model_version=model_version,
+            workspace_id=workspace_id,
+            version_description=version_description,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 201
+
+
+    @responses.activate
+    def test_create_categories_model_required_params(self):
+        """
+        test_create_categories_model_required_params()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/categories')
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Set up parameter values
+        language = 'testString'
+        training_data = io.BytesIO(b'This is a mock file.').getvalue()
+
+        # Invoke method
+        response = _service.create_categories_model(
+            language,
+            training_data,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 201
+
+
+    @responses.activate
+    def test_create_categories_model_value_error(self):
+        """
+        test_create_categories_model_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/categories')
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Set up parameter values
+        language = 'testString'
+        training_data = io.BytesIO(b'This is a mock file.').getvalue()
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "language": language,
+            "training_data": training_data,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.create_categories_model(**req_copy)
+
+
+
+class TestListCategoriesModels():
+    """
+    Test Class for list_categories_models
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_list_categories_models_all_params(self):
+        """
+        list_categories_models()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/categories')
+        mock_response = '{"models": [{"models": [{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}]}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Invoke method
+        response = _service.list_categories_models()
+
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    @responses.activate
+    def test_list_categories_models_value_error(self):
+        """
+        test_list_categories_models_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/categories')
+        mock_response = '{"models": [{"models": [{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}]}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.list_categories_models(**req_copy)
+
+
+
+class TestGetCategoriesModel():
+    """
+    Test Class for get_categories_model
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_get_categories_model_all_params(self):
+        """
+        get_categories_model()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/categories/testString')
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        model_id = 'testString'
+
+        # Invoke method
+        response = _service.get_categories_model(
+            model_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    @responses.activate
+    def test_get_categories_model_value_error(self):
+        """
+        test_get_categories_model_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/categories/testString')
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        model_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "model_id": model_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.get_categories_model(**req_copy)
+
+
+
+class TestUpdateCategoriesModel():
+    """
+    Test Class for update_categories_model
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_update_categories_model_all_params(self):
+        """
+        update_categories_model()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/categories/testString')
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.PUT,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        model_id = 'testString'
+        language = 'testString'
+        training_data = io.BytesIO(b'This is a mock file.').getvalue()
+        training_data_content_type = 'json'
+        name = 'testString'
+        description = 'testString'
+        model_version = 'testString'
+        workspace_id = 'testString'
+        version_description = 'testString'
+
+        # Invoke method
+        response = _service.update_categories_model(
+            model_id,
+            language,
+            training_data,
+            training_data_content_type=training_data_content_type,
+            name=name,
+            description=description,
+            model_version=model_version,
+            workspace_id=workspace_id,
+            version_description=version_description,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    @responses.activate
+    def test_update_categories_model_required_params(self):
+        """
+        test_update_categories_model_required_params()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/categories/testString')
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.PUT,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        model_id = 'testString'
+        language = 'testString'
+        training_data = io.BytesIO(b'This is a mock file.').getvalue()
+
+        # Invoke method
+        response = _service.update_categories_model(
+            model_id,
+            language,
+            training_data,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    @responses.activate
+    def test_update_categories_model_value_error(self):
+        """
+        test_update_categories_model_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/categories/testString')
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.PUT,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        model_id = 'testString'
+        language = 'testString'
+        training_data = io.BytesIO(b'This is a mock file.').getvalue()
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "model_id": model_id,
+            "language": language,
+            "training_data": training_data,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.update_categories_model(**req_copy)
+
+
+
+class TestDeleteCategoriesModel():
+    """
+    Test Class for delete_categories_model
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_delete_categories_model_all_params(self):
+        """
+        delete_categories_model()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/categories/testString')
+        mock_response = '{"deleted": "deleted"}'
+        responses.add(responses.DELETE,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        model_id = 'testString'
+
+        # Invoke method
+        response = _service.delete_categories_model(
+            model_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    @responses.activate
+    def test_delete_categories_model_value_error(self):
+        """
+        test_delete_categories_model_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/categories/testString')
+        mock_response = '{"deleted": "deleted"}'
+        responses.add(responses.DELETE,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        model_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "model_id": model_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.delete_categories_model(**req_copy)
+
+
+
+# endregion
+##############################################################################
+# End of Service: ManageCategoriesModels
+##############################################################################
+
+##############################################################################
+# Start of Service: ManageClassificationsModels
+##############################################################################
+# region
+
+class TestCreateClassificationsModel():
+    """
+    Test Class for create_classifications_model
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_create_classifications_model_all_params(self):
+        """
+        create_classifications_model()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/classifications')
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Set up parameter values
+        language = 'testString'
+        training_data = io.BytesIO(b'This is a mock file.').getvalue()
+        training_data_content_type = 'json'
+        name = 'testString'
+        description = 'testString'
+        model_version = 'testString'
+        workspace_id = 'testString'
+        version_description = 'testString'
+
+        # Invoke method
+        response = _service.create_classifications_model(
+            language,
+            training_data,
+            training_data_content_type=training_data_content_type,
+            name=name,
+            description=description,
+            model_version=model_version,
+            workspace_id=workspace_id,
+            version_description=version_description,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 201
+
+
+    @responses.activate
+    def test_create_classifications_model_required_params(self):
+        """
+        test_create_classifications_model_required_params()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/classifications')
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Set up parameter values
+        language = 'testString'
+        training_data = io.BytesIO(b'This is a mock file.').getvalue()
+
+        # Invoke method
+        response = _service.create_classifications_model(
+            language,
+            training_data,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 201
+
+
+    @responses.activate
+    def test_create_classifications_model_value_error(self):
+        """
+        test_create_classifications_model_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/classifications')
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.POST,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=201)
+
+        # Set up parameter values
+        language = 'testString'
+        training_data = io.BytesIO(b'This is a mock file.').getvalue()
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "language": language,
+            "training_data": training_data,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.create_classifications_model(**req_copy)
+
+
+
+class TestListClassificationsModels():
+    """
+    Test Class for list_classifications_models
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_list_classifications_models_all_params(self):
+        """
+        list_classifications_models()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/classifications')
+        mock_response = '{"models": [{"models": [{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}]}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Invoke method
+        response = _service.list_classifications_models()
+
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    @responses.activate
+    def test_list_classifications_models_value_error(self):
+        """
+        test_list_classifications_models_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/classifications')
+        mock_response = '{"models": [{"models": [{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}]}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.list_classifications_models(**req_copy)
+
+
+
+class TestGetClassificationsModel():
+    """
+    Test Class for get_classifications_model
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_get_classifications_model_all_params(self):
+        """
+        get_classifications_model()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/classifications/testString')
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        model_id = 'testString'
+
+        # Invoke method
+        response = _service.get_classifications_model(
+            model_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    @responses.activate
+    def test_get_classifications_model_value_error(self):
+        """
+        test_get_classifications_model_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/classifications/testString')
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        model_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "model_id": model_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.get_classifications_model(**req_copy)
+
+
+
+class TestUpdateClassificationsModel():
+    """
+    Test Class for update_classifications_model
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_update_classifications_model_all_params(self):
+        """
+        update_classifications_model()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/classifications/testString')
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.PUT,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        model_id = 'testString'
+        language = 'testString'
+        training_data = io.BytesIO(b'This is a mock file.').getvalue()
+        training_data_content_type = 'json'
+        name = 'testString'
+        description = 'testString'
+        model_version = 'testString'
+        workspace_id = 'testString'
+        version_description = 'testString'
+
+        # Invoke method
+        response = _service.update_classifications_model(
+            model_id,
+            language,
+            training_data,
+            training_data_content_type=training_data_content_type,
+            name=name,
+            description=description,
+            model_version=model_version,
+            workspace_id=workspace_id,
+            version_description=version_description,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    @responses.activate
+    def test_update_classifications_model_required_params(self):
+        """
+        test_update_classifications_model_required_params()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/classifications/testString')
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.PUT,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        model_id = 'testString'
+        language = 'testString'
+        training_data = io.BytesIO(b'This is a mock file.').getvalue()
+
+        # Invoke method
+        response = _service.update_classifications_model(
+            model_id,
+            language,
+            training_data,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    @responses.activate
+    def test_update_classifications_model_value_error(self):
+        """
+        test_update_classifications_model_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/classifications/testString')
+        mock_response = '{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}'
+        responses.add(responses.PUT,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        model_id = 'testString'
+        language = 'testString'
+        training_data = io.BytesIO(b'This is a mock file.').getvalue()
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "model_id": model_id,
+            "language": language,
+            "training_data": training_data,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.update_classifications_model(**req_copy)
+
+
+
+class TestDeleteClassificationsModel():
+    """
+    Test Class for delete_classifications_model
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_delete_classifications_model_all_params(self):
+        """
+        delete_classifications_model()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/classifications/testString')
+        mock_response = '{"deleted": "deleted"}'
+        responses.add(responses.DELETE,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        model_id = 'testString'
+
+        # Invoke method
+        response = _service.delete_classifications_model(
+            model_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    @responses.activate
+    def test_delete_classifications_model_value_error(self):
+        """
+        test_delete_classifications_model_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v1/models/classifications/testString')
+        mock_response = '{"deleted": "deleted"}'
+        responses.add(responses.DELETE,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        model_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "model_id": model_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.delete_classifications_model(**req_copy)
+
+
+
+# endregion
+##############################################################################
+# End of Service: ManageClassificationsModels
 ##############################################################################
 
 
@@ -508,6 +1882,10 @@ class TestAnalysisResults():
         categories_result_model['score'] = 0.594296
         categories_result_model['explanation'] = categories_result_explanation_model
 
+        classifications_result_model = {} # ClassificationsResult
+        classifications_result_model['class_name'] = 'temperature'
+        classifications_result_model['confidence'] = 0.562519
+
         document_emotion_results_model = {} # DocumentEmotionResults
         document_emotion_results_model['emotion'] = emotion_scores_model
 
@@ -538,7 +1916,7 @@ class TestAnalysisResults():
 
         relation_argument_model = {} # RelationArgument
         relation_argument_model['entities'] = [relation_entity_model]
-        relation_argument_model['location'] = [38]
+        relation_argument_model['location'] = [22, 32]
         relation_argument_model['text'] = 'Best Actor'
 
         relations_result_model = {} # RelationsResult
@@ -614,6 +1992,7 @@ class TestAnalysisResults():
         analysis_results_model_json['entities'] = [entities_result_model]
         analysis_results_model_json['keywords'] = [keywords_result_model]
         analysis_results_model_json['categories'] = [categories_result_model]
+        analysis_results_model_json['classifications'] = [classifications_result_model]
         analysis_results_model_json['emotion'] = emotion_result_model
         analysis_results_model_json['metadata'] = features_results_metadata_model
         analysis_results_model_json['relations'] = [relations_result_model]
@@ -695,6 +2074,103 @@ class TestAuthor():
         # Convert model instance back to dict and verify no loss of data
         author_model_json2 = author_model.to_dict()
         assert author_model_json2 == author_model_json
+
+class TestCategoriesModel():
+    """
+    Test Class for CategoriesModel
+    """
+
+    def test_categories_model_serialization(self):
+        """
+        Test serialization/deserialization for CategoriesModel
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        notice_model = {} # Notice
+        notice_model['message'] = 'Not enough examples for class \'foo\'. 4 were given but 5 are required.'
+
+        # Construct a json representation of a CategoriesModel model
+        categories_model_model_json = {}
+        categories_model_model_json['name'] = 'testString'
+        categories_model_model_json['user_metadata'] = {}
+        categories_model_model_json['language'] = 'testString'
+        categories_model_model_json['description'] = 'testString'
+        categories_model_model_json['model_version'] = 'testString'
+        categories_model_model_json['workspace_id'] = 'testString'
+        categories_model_model_json['version_description'] = 'testString'
+        categories_model_model_json['features'] = ['testString']
+        categories_model_model_json['status'] = 'starting'
+        categories_model_model_json['model_id'] = 'testString'
+        categories_model_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        categories_model_model_json['notices'] = [notice_model]
+        categories_model_model_json['last_trained'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        categories_model_model_json['last_deployed'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+
+        # Construct a model instance of CategoriesModel by calling from_dict on the json representation
+        categories_model_model = CategoriesModel.from_dict(categories_model_model_json)
+        assert categories_model_model != False
+
+        # Construct a model instance of CategoriesModel by calling from_dict on the json representation
+        categories_model_model_dict = CategoriesModel.from_dict(categories_model_model_json).__dict__
+        categories_model_model2 = CategoriesModel(**categories_model_model_dict)
+
+        # Verify the model instances are equivalent
+        assert categories_model_model == categories_model_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        categories_model_model_json2 = categories_model_model.to_dict()
+        assert categories_model_model_json2 == categories_model_model_json
+
+class TestCategoriesModelList():
+    """
+    Test Class for CategoriesModelList
+    """
+
+    def test_categories_model_list_serialization(self):
+        """
+        Test serialization/deserialization for CategoriesModelList
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        notice_model = {} # Notice
+        notice_model['message'] = 'Not enough examples for class \'foo\'. 4 were given but 5 are required.'
+
+        categories_model_model = {} # CategoriesModel
+        categories_model_model['name'] = 'testString'
+        categories_model_model['user_metadata'] = {}
+        categories_model_model['language'] = 'testString'
+        categories_model_model['description'] = 'testString'
+        categories_model_model['model_version'] = 'testString'
+        categories_model_model['workspace_id'] = 'testString'
+        categories_model_model['version_description'] = 'testString'
+        categories_model_model['features'] = ['testString']
+        categories_model_model['status'] = 'starting'
+        categories_model_model['model_id'] = 'testString'
+        categories_model_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        categories_model_model['notices'] = [notice_model]
+        categories_model_model['last_trained'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        categories_model_model['last_deployed'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+
+        # Construct a json representation of a CategoriesModelList model
+        categories_model_list_model_json = {}
+        categories_model_list_model_json['models'] = [categories_model_model]
+
+        # Construct a model instance of CategoriesModelList by calling from_dict on the json representation
+        categories_model_list_model = CategoriesModelList.from_dict(categories_model_list_model_json)
+        assert categories_model_list_model != False
+
+        # Construct a model instance of CategoriesModelList by calling from_dict on the json representation
+        categories_model_list_model_dict = CategoriesModelList.from_dict(categories_model_list_model_json).__dict__
+        categories_model_list_model2 = CategoriesModelList(**categories_model_list_model_dict)
+
+        # Verify the model instances are equivalent
+        assert categories_model_list_model == categories_model_list_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        categories_model_list_model_json2 = categories_model_list_model.to_dict()
+        assert categories_model_list_model_json2 == categories_model_list_model_json
 
 class TestCategoriesOptions():
     """
@@ -828,6 +2304,162 @@ class TestCategoriesResultExplanation():
         # Convert model instance back to dict and verify no loss of data
         categories_result_explanation_model_json2 = categories_result_explanation_model.to_dict()
         assert categories_result_explanation_model_json2 == categories_result_explanation_model_json
+
+class TestClassificationsModel():
+    """
+    Test Class for ClassificationsModel
+    """
+
+    def test_classifications_model_serialization(self):
+        """
+        Test serialization/deserialization for ClassificationsModel
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        notice_model = {} # Notice
+        notice_model['message'] = 'Not enough examples for class \'foo\'. 4 were given but 5 are required.'
+
+        # Construct a json representation of a ClassificationsModel model
+        classifications_model_model_json = {}
+        classifications_model_model_json['name'] = 'testString'
+        classifications_model_model_json['user_metadata'] = {}
+        classifications_model_model_json['language'] = 'testString'
+        classifications_model_model_json['description'] = 'testString'
+        classifications_model_model_json['model_version'] = 'testString'
+        classifications_model_model_json['workspace_id'] = 'testString'
+        classifications_model_model_json['version_description'] = 'testString'
+        classifications_model_model_json['features'] = ['testString']
+        classifications_model_model_json['status'] = 'starting'
+        classifications_model_model_json['model_id'] = 'testString'
+        classifications_model_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        classifications_model_model_json['notices'] = [notice_model]
+        classifications_model_model_json['last_trained'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        classifications_model_model_json['last_deployed'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+
+        # Construct a model instance of ClassificationsModel by calling from_dict on the json representation
+        classifications_model_model = ClassificationsModel.from_dict(classifications_model_model_json)
+        assert classifications_model_model != False
+
+        # Construct a model instance of ClassificationsModel by calling from_dict on the json representation
+        classifications_model_model_dict = ClassificationsModel.from_dict(classifications_model_model_json).__dict__
+        classifications_model_model2 = ClassificationsModel(**classifications_model_model_dict)
+
+        # Verify the model instances are equivalent
+        assert classifications_model_model == classifications_model_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        classifications_model_model_json2 = classifications_model_model.to_dict()
+        assert classifications_model_model_json2 == classifications_model_model_json
+
+class TestClassificationsModelList():
+    """
+    Test Class for ClassificationsModelList
+    """
+
+    def test_classifications_model_list_serialization(self):
+        """
+        Test serialization/deserialization for ClassificationsModelList
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        notice_model = {} # Notice
+        notice_model['message'] = 'Not enough examples for class \'foo\'. 4 were given but 5 are required.'
+
+        classifications_model_model = {} # ClassificationsModel
+        classifications_model_model['name'] = 'testString'
+        classifications_model_model['user_metadata'] = {}
+        classifications_model_model['language'] = 'testString'
+        classifications_model_model['description'] = 'testString'
+        classifications_model_model['model_version'] = 'testString'
+        classifications_model_model['workspace_id'] = 'testString'
+        classifications_model_model['version_description'] = 'testString'
+        classifications_model_model['features'] = ['testString']
+        classifications_model_model['status'] = 'starting'
+        classifications_model_model['model_id'] = 'testString'
+        classifications_model_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        classifications_model_model['notices'] = [notice_model]
+        classifications_model_model['last_trained'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        classifications_model_model['last_deployed'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+
+        # Construct a json representation of a ClassificationsModelList model
+        classifications_model_list_model_json = {}
+        classifications_model_list_model_json['models'] = [classifications_model_model]
+
+        # Construct a model instance of ClassificationsModelList by calling from_dict on the json representation
+        classifications_model_list_model = ClassificationsModelList.from_dict(classifications_model_list_model_json)
+        assert classifications_model_list_model != False
+
+        # Construct a model instance of ClassificationsModelList by calling from_dict on the json representation
+        classifications_model_list_model_dict = ClassificationsModelList.from_dict(classifications_model_list_model_json).__dict__
+        classifications_model_list_model2 = ClassificationsModelList(**classifications_model_list_model_dict)
+
+        # Verify the model instances are equivalent
+        assert classifications_model_list_model == classifications_model_list_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        classifications_model_list_model_json2 = classifications_model_list_model.to_dict()
+        assert classifications_model_list_model_json2 == classifications_model_list_model_json
+
+class TestClassificationsOptions():
+    """
+    Test Class for ClassificationsOptions
+    """
+
+    def test_classifications_options_serialization(self):
+        """
+        Test serialization/deserialization for ClassificationsOptions
+        """
+
+        # Construct a json representation of a ClassificationsOptions model
+        classifications_options_model_json = {}
+        classifications_options_model_json['model'] = 'testString'
+
+        # Construct a model instance of ClassificationsOptions by calling from_dict on the json representation
+        classifications_options_model = ClassificationsOptions.from_dict(classifications_options_model_json)
+        assert classifications_options_model != False
+
+        # Construct a model instance of ClassificationsOptions by calling from_dict on the json representation
+        classifications_options_model_dict = ClassificationsOptions.from_dict(classifications_options_model_json).__dict__
+        classifications_options_model2 = ClassificationsOptions(**classifications_options_model_dict)
+
+        # Verify the model instances are equivalent
+        assert classifications_options_model == classifications_options_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        classifications_options_model_json2 = classifications_options_model.to_dict()
+        assert classifications_options_model_json2 == classifications_options_model_json
+
+class TestClassificationsResult():
+    """
+    Test Class for ClassificationsResult
+    """
+
+    def test_classifications_result_serialization(self):
+        """
+        Test serialization/deserialization for ClassificationsResult
+        """
+
+        # Construct a json representation of a ClassificationsResult model
+        classifications_result_model_json = {}
+        classifications_result_model_json['class_name'] = 'testString'
+        classifications_result_model_json['confidence'] = 72.5
+
+        # Construct a model instance of ClassificationsResult by calling from_dict on the json representation
+        classifications_result_model = ClassificationsResult.from_dict(classifications_result_model_json)
+        assert classifications_result_model != False
+
+        # Construct a model instance of ClassificationsResult by calling from_dict on the json representation
+        classifications_result_model_dict = ClassificationsResult.from_dict(classifications_result_model_json).__dict__
+        classifications_result_model2 = ClassificationsResult(**classifications_result_model_dict)
+
+        # Verify the model instances are equivalent
+        assert classifications_result_model == classifications_result_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        classifications_result_model_json2 = classifications_result_model.to_dict()
+        assert classifications_result_model_json2 == classifications_result_model_json
 
 class TestConceptsOptions():
     """
@@ -1290,6 +2922,14 @@ class TestFeatures():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
+        categories_options_model = {} # CategoriesOptions
+        categories_options_model['explanation'] = True
+        categories_options_model['limit'] = 10
+        categories_options_model['model'] = 'testString'
+
+        classifications_options_model = {} # ClassificationsOptions
+        classifications_options_model['model'] = 'testString'
+
         concepts_options_model = {} # ConceptsOptions
         concepts_options_model['limit'] = 50
 
@@ -1309,6 +2949,8 @@ class TestFeatures():
         keywords_options_model['sentiment'] = True
         keywords_options_model['emotion'] = True
 
+        metadata_options_model = {} # MetadataOptions
+
         relations_options_model = {} # RelationsOptions
         relations_options_model['model'] = 'testString'
 
@@ -1320,11 +2962,10 @@ class TestFeatures():
         sentiment_options_model = {} # SentimentOptions
         sentiment_options_model['document'] = True
         sentiment_options_model['targets'] = ['testString']
+        sentiment_options_model['model'] = 'testString'
 
-        categories_options_model = {} # CategoriesOptions
-        categories_options_model['explanation'] = True
-        categories_options_model['limit'] = 10
-        categories_options_model['model'] = 'testString'
+        summarization_options_model = {} # SummarizationOptions
+        summarization_options_model['limit'] = 10
 
         syntax_options_tokens_model = {} # SyntaxOptionsTokens
         syntax_options_tokens_model['lemma'] = True
@@ -1336,15 +2977,17 @@ class TestFeatures():
 
         # Construct a json representation of a Features model
         features_model_json = {}
+        features_model_json['categories'] = categories_options_model
+        features_model_json['classifications'] = classifications_options_model
         features_model_json['concepts'] = concepts_options_model
         features_model_json['emotion'] = emotion_options_model
         features_model_json['entities'] = entities_options_model
         features_model_json['keywords'] = keywords_options_model
-        features_model_json['metadata'] = { 'foo': 'bar' }
+        features_model_json['metadata'] = metadata_options_model
         features_model_json['relations'] = relations_options_model
         features_model_json['semantic_roles'] = semantic_roles_options_model
         features_model_json['sentiment'] = sentiment_options_model
-        features_model_json['categories'] = categories_options_model
+        features_model_json['summarization'] = summarization_options_model
         features_model_json['syntax'] = syntax_options_model
 
         # Construct a model instance of Features by calling from_dict on the json representation
@@ -1508,6 +3151,112 @@ class TestKeywordsResult():
         keywords_result_model_json2 = keywords_result_model.to_dict()
         assert keywords_result_model_json2 == keywords_result_model_json
 
+class TestListCategoriesModelsResponse():
+    """
+    Test Class for ListCategoriesModelsResponse
+    """
+
+    def test_list_categories_models_response_serialization(self):
+        """
+        Test serialization/deserialization for ListCategoriesModelsResponse
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        notice_model = {} # Notice
+        notice_model['message'] = 'Not enough examples for class \'foo\'. 4 were given but 5 are required.'
+
+        categories_model_model = {} # CategoriesModel
+        categories_model_model['name'] = 'testString'
+        categories_model_model['user_metadata'] = {}
+        categories_model_model['language'] = 'testString'
+        categories_model_model['description'] = 'testString'
+        categories_model_model['model_version'] = 'testString'
+        categories_model_model['workspace_id'] = 'testString'
+        categories_model_model['version_description'] = 'testString'
+        categories_model_model['features'] = ['testString']
+        categories_model_model['status'] = 'starting'
+        categories_model_model['model_id'] = 'testString'
+        categories_model_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        categories_model_model['notices'] = [notice_model]
+        categories_model_model['last_trained'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        categories_model_model['last_deployed'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+
+        categories_model_list_model = {} # CategoriesModelList
+        categories_model_list_model['models'] = [categories_model_model]
+
+        # Construct a json representation of a ListCategoriesModelsResponse model
+        list_categories_models_response_model_json = {}
+        list_categories_models_response_model_json['models'] = [categories_model_list_model]
+
+        # Construct a model instance of ListCategoriesModelsResponse by calling from_dict on the json representation
+        list_categories_models_response_model = ListCategoriesModelsResponse.from_dict(list_categories_models_response_model_json)
+        assert list_categories_models_response_model != False
+
+        # Construct a model instance of ListCategoriesModelsResponse by calling from_dict on the json representation
+        list_categories_models_response_model_dict = ListCategoriesModelsResponse.from_dict(list_categories_models_response_model_json).__dict__
+        list_categories_models_response_model2 = ListCategoriesModelsResponse(**list_categories_models_response_model_dict)
+
+        # Verify the model instances are equivalent
+        assert list_categories_models_response_model == list_categories_models_response_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        list_categories_models_response_model_json2 = list_categories_models_response_model.to_dict()
+        assert list_categories_models_response_model_json2 == list_categories_models_response_model_json
+
+class TestListClassificationsModelsResponse():
+    """
+    Test Class for ListClassificationsModelsResponse
+    """
+
+    def test_list_classifications_models_response_serialization(self):
+        """
+        Test serialization/deserialization for ListClassificationsModelsResponse
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        notice_model = {} # Notice
+        notice_model['message'] = 'Not enough examples for class \'foo\'. 4 were given but 5 are required.'
+
+        classifications_model_model = {} # ClassificationsModel
+        classifications_model_model['name'] = 'testString'
+        classifications_model_model['user_metadata'] = {}
+        classifications_model_model['language'] = 'testString'
+        classifications_model_model['description'] = 'testString'
+        classifications_model_model['model_version'] = 'testString'
+        classifications_model_model['workspace_id'] = 'testString'
+        classifications_model_model['version_description'] = 'testString'
+        classifications_model_model['features'] = ['testString']
+        classifications_model_model['status'] = 'starting'
+        classifications_model_model['model_id'] = 'testString'
+        classifications_model_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        classifications_model_model['notices'] = [notice_model]
+        classifications_model_model['last_trained'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        classifications_model_model['last_deployed'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+
+        classifications_model_list_model = {} # ClassificationsModelList
+        classifications_model_list_model['models'] = [classifications_model_model]
+
+        # Construct a json representation of a ListClassificationsModelsResponse model
+        list_classifications_models_response_model_json = {}
+        list_classifications_models_response_model_json['models'] = [classifications_model_list_model]
+
+        # Construct a model instance of ListClassificationsModelsResponse by calling from_dict on the json representation
+        list_classifications_models_response_model = ListClassificationsModelsResponse.from_dict(list_classifications_models_response_model_json)
+        assert list_classifications_models_response_model != False
+
+        # Construct a model instance of ListClassificationsModelsResponse by calling from_dict on the json representation
+        list_classifications_models_response_model_dict = ListClassificationsModelsResponse.from_dict(list_classifications_models_response_model_json).__dict__
+        list_classifications_models_response_model2 = ListClassificationsModelsResponse(**list_classifications_models_response_model_dict)
+
+        # Verify the model instances are equivalent
+        assert list_classifications_models_response_model == list_classifications_models_response_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        list_classifications_models_response_model_json2 = list_classifications_models_response_model.to_dict()
+        assert list_classifications_models_response_model_json2 == list_classifications_models_response_model_json
+
 class TestListModelsResults():
     """
     Test Class for ListModelsResults
@@ -1529,7 +3278,7 @@ class TestListModelsResults():
         model_model['model_version'] = 'testString'
         model_model['version'] = 'testString'
         model_model['version_description'] = 'testString'
-        model_model['created'] = '2020-01-28T18:40:40.123456Z'
+        model_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
 
         # Construct a json representation of a ListModelsResults model
         list_models_results_model_json = {}
@@ -1549,6 +3298,84 @@ class TestListModelsResults():
         # Convert model instance back to dict and verify no loss of data
         list_models_results_model_json2 = list_models_results_model.to_dict()
         assert list_models_results_model_json2 == list_models_results_model_json
+
+class TestListSentimentModelsResponse():
+    """
+    Test Class for ListSentimentModelsResponse
+    """
+
+    def test_list_sentiment_models_response_serialization(self):
+        """
+        Test serialization/deserialization for ListSentimentModelsResponse
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        notice_model = {} # Notice
+        notice_model['message'] = 'Not enough examples for class \'foo\'. 4 were given but 5 are required.'
+
+        sentiment_model_model = {} # SentimentModel
+        sentiment_model_model['features'] = ['testString']
+        sentiment_model_model['status'] = 'starting'
+        sentiment_model_model['model_id'] = 'testString'
+        sentiment_model_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        sentiment_model_model['last_trained'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        sentiment_model_model['last_deployed'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        sentiment_model_model['name'] = 'testString'
+        sentiment_model_model['user_metadata'] = {}
+        sentiment_model_model['language'] = 'testString'
+        sentiment_model_model['description'] = 'testString'
+        sentiment_model_model['model_version'] = 'testString'
+        sentiment_model_model['notices'] = [notice_model]
+        sentiment_model_model['workspace_id'] = 'testString'
+        sentiment_model_model['version_description'] = 'testString'
+
+        # Construct a json representation of a ListSentimentModelsResponse model
+        list_sentiment_models_response_model_json = {}
+        list_sentiment_models_response_model_json['models'] = [sentiment_model_model]
+
+        # Construct a model instance of ListSentimentModelsResponse by calling from_dict on the json representation
+        list_sentiment_models_response_model = ListSentimentModelsResponse.from_dict(list_sentiment_models_response_model_json)
+        assert list_sentiment_models_response_model != False
+
+        # Construct a model instance of ListSentimentModelsResponse by calling from_dict on the json representation
+        list_sentiment_models_response_model_dict = ListSentimentModelsResponse.from_dict(list_sentiment_models_response_model_json).__dict__
+        list_sentiment_models_response_model2 = ListSentimentModelsResponse(**list_sentiment_models_response_model_dict)
+
+        # Verify the model instances are equivalent
+        assert list_sentiment_models_response_model == list_sentiment_models_response_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        list_sentiment_models_response_model_json2 = list_sentiment_models_response_model.to_dict()
+        assert list_sentiment_models_response_model_json2 == list_sentiment_models_response_model_json
+
+class TestMetadataOptions():
+    """
+    Test Class for MetadataOptions
+    """
+
+    def test_metadata_options_serialization(self):
+        """
+        Test serialization/deserialization for MetadataOptions
+        """
+
+        # Construct a json representation of a MetadataOptions model
+        metadata_options_model_json = {}
+
+        # Construct a model instance of MetadataOptions by calling from_dict on the json representation
+        metadata_options_model = MetadataOptions.from_dict(metadata_options_model_json)
+        assert metadata_options_model != False
+
+        # Construct a model instance of MetadataOptions by calling from_dict on the json representation
+        metadata_options_model_dict = MetadataOptions.from_dict(metadata_options_model_json).__dict__
+        metadata_options_model2 = MetadataOptions(**metadata_options_model_dict)
+
+        # Verify the model instances are equivalent
+        assert metadata_options_model == metadata_options_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        metadata_options_model_json2 = metadata_options_model.to_dict()
+        assert metadata_options_model_json2 == metadata_options_model_json
 
 class TestModel():
     """
@@ -1570,7 +3397,7 @@ class TestModel():
         model_model_json['model_version'] = 'testString'
         model_model_json['version'] = 'testString'
         model_model_json['version_description'] = 'testString'
-        model_model_json['created'] = '2020-01-28T18:40:40.123456Z'
+        model_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
 
         # Construct a model instance of Model by calling from_dict on the json representation
         model_model = Model.from_dict(model_model_json)
@@ -1586,6 +3413,35 @@ class TestModel():
         # Convert model instance back to dict and verify no loss of data
         model_model_json2 = model_model.to_dict()
         assert model_model_json2 == model_model_json
+
+class TestNotice():
+    """
+    Test Class for Notice
+    """
+
+    def test_notice_serialization(self):
+        """
+        Test serialization/deserialization for Notice
+        """
+
+        # Construct a json representation of a Notice model
+        notice_model_json = {}
+        notice_model_json['message'] = 'testString'
+
+        # Construct a model instance of Notice by calling from_dict on the json representation
+        notice_model = Notice.from_dict(notice_model_json)
+        assert notice_model != False
+
+        # Construct a model instance of Notice by calling from_dict on the json representation
+        notice_model_dict = Notice.from_dict(notice_model_json).__dict__
+        notice_model2 = Notice(**notice_model_dict)
+
+        # Verify the model instances are equivalent
+        assert notice_model == notice_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        notice_model_json2 = notice_model.to_dict()
+        assert notice_model_json2 == notice_model_json
 
 class TestRelationArgument():
     """
@@ -2047,6 +3903,53 @@ class TestSentenceResult():
         sentence_result_model_json2 = sentence_result_model.to_dict()
         assert sentence_result_model_json2 == sentence_result_model_json
 
+class TestSentimentModel():
+    """
+    Test Class for SentimentModel
+    """
+
+    def test_sentiment_model_serialization(self):
+        """
+        Test serialization/deserialization for SentimentModel
+        """
+
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        notice_model = {} # Notice
+        notice_model['message'] = 'Not enough examples for class \'foo\'. 4 were given but 5 are required.'
+
+        # Construct a json representation of a SentimentModel model
+        sentiment_model_model_json = {}
+        sentiment_model_model_json['features'] = ['testString']
+        sentiment_model_model_json['status'] = 'starting'
+        sentiment_model_model_json['model_id'] = 'testString'
+        sentiment_model_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        sentiment_model_model_json['last_trained'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        sentiment_model_model_json['last_deployed'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        sentiment_model_model_json['name'] = 'testString'
+        sentiment_model_model_json['user_metadata'] = {}
+        sentiment_model_model_json['language'] = 'testString'
+        sentiment_model_model_json['description'] = 'testString'
+        sentiment_model_model_json['model_version'] = 'testString'
+        sentiment_model_model_json['notices'] = [notice_model]
+        sentiment_model_model_json['workspace_id'] = 'testString'
+        sentiment_model_model_json['version_description'] = 'testString'
+
+        # Construct a model instance of SentimentModel by calling from_dict on the json representation
+        sentiment_model_model = SentimentModel.from_dict(sentiment_model_model_json)
+        assert sentiment_model_model != False
+
+        # Construct a model instance of SentimentModel by calling from_dict on the json representation
+        sentiment_model_model_dict = SentimentModel.from_dict(sentiment_model_model_json).__dict__
+        sentiment_model_model2 = SentimentModel(**sentiment_model_model_dict)
+
+        # Verify the model instances are equivalent
+        assert sentiment_model_model == sentiment_model_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        sentiment_model_model_json2 = sentiment_model_model.to_dict()
+        assert sentiment_model_model_json2 == sentiment_model_model_json
+
 class TestSentimentOptions():
     """
     Test Class for SentimentOptions
@@ -2061,6 +3964,7 @@ class TestSentimentOptions():
         sentiment_options_model_json = {}
         sentiment_options_model_json['document'] = True
         sentiment_options_model_json['targets'] = ['testString']
+        sentiment_options_model_json['model'] = 'testString'
 
         # Construct a model instance of SentimentOptions by calling from_dict on the json representation
         sentiment_options_model = SentimentOptions.from_dict(sentiment_options_model_json)
@@ -2116,6 +4020,35 @@ class TestSentimentResult():
         # Convert model instance back to dict and verify no loss of data
         sentiment_result_model_json2 = sentiment_result_model.to_dict()
         assert sentiment_result_model_json2 == sentiment_result_model_json
+
+class TestSummarizationOptions():
+    """
+    Test Class for SummarizationOptions
+    """
+
+    def test_summarization_options_serialization(self):
+        """
+        Test serialization/deserialization for SummarizationOptions
+        """
+
+        # Construct a json representation of a SummarizationOptions model
+        summarization_options_model_json = {}
+        summarization_options_model_json['limit'] = 10
+
+        # Construct a model instance of SummarizationOptions by calling from_dict on the json representation
+        summarization_options_model = SummarizationOptions.from_dict(summarization_options_model_json)
+        assert summarization_options_model != False
+
+        # Construct a model instance of SummarizationOptions by calling from_dict on the json representation
+        summarization_options_model_dict = SummarizationOptions.from_dict(summarization_options_model_json).__dict__
+        summarization_options_model2 = SummarizationOptions(**summarization_options_model_dict)
+
+        # Verify the model instances are equivalent
+        assert summarization_options_model == summarization_options_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        summarization_options_model_json2 = summarization_options_model.to_dict()
+        assert summarization_options_model_json2 == summarization_options_model_json
 
 class TestSyntaxOptions():
     """
