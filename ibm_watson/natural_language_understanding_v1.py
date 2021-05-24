@@ -623,7 +623,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
 
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `ListCategoriesModelsResponse` object
+        :rtype: DetailedResponse with `dict` result representing a `CategoriesModelList` object
         """
 
         headers = {}
@@ -3986,62 +3986,6 @@ class KeywordsResult():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'KeywordsResult') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class ListCategoriesModelsResponse():
-    """
-    ListCategoriesModelsResponse.
-
-    :attr List[CategoriesModelList] models: (optional)
-    """
-
-    def __init__(self, *, models: List['CategoriesModelList'] = None) -> None:
-        """
-        Initialize a ListCategoriesModelsResponse object.
-
-        :param List[CategoriesModelList] models: (optional)
-        """
-        self.models = models
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'ListCategoriesModelsResponse':
-        """Initialize a ListCategoriesModelsResponse object from a json dictionary."""
-        args = {}
-        if 'models' in _dict:
-            args['models'] = [
-                CategoriesModelList.from_dict(x) for x in _dict.get('models')
-            ]
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a ListCategoriesModelsResponse object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'models') and self.models is not None:
-            _dict['models'] = [x.to_dict() for x in self.models]
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this ListCategoriesModelsResponse object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'ListCategoriesModelsResponse') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'ListCategoriesModelsResponse') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 

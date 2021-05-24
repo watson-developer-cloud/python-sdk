@@ -1050,7 +1050,7 @@ class TestListCategoriesModels():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/models/categories')
-        mock_response = '{"models": [{"models": [{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}]}]}'
+        mock_response = '{"models": [{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1073,7 +1073,7 @@ class TestListCategoriesModels():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/models/categories')
-        mock_response = '{"models": [{"models": [{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}]}]}'
+        mock_response = '{"models": [{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -3150,59 +3150,6 @@ class TestKeywordsResult():
         # Convert model instance back to dict and verify no loss of data
         keywords_result_model_json2 = keywords_result_model.to_dict()
         assert keywords_result_model_json2 == keywords_result_model_json
-
-class TestListCategoriesModelsResponse():
-    """
-    Test Class for ListCategoriesModelsResponse
-    """
-
-    def test_list_categories_models_response_serialization(self):
-        """
-        Test serialization/deserialization for ListCategoriesModelsResponse
-        """
-
-        # Construct dict forms of any model objects needed in order to build this model.
-
-        notice_model = {} # Notice
-        notice_model['message'] = 'Not enough examples for class \'foo\'. 4 were given but 5 are required.'
-
-        categories_model_model = {} # CategoriesModel
-        categories_model_model['name'] = 'testString'
-        categories_model_model['user_metadata'] = {}
-        categories_model_model['language'] = 'testString'
-        categories_model_model['description'] = 'testString'
-        categories_model_model['model_version'] = 'testString'
-        categories_model_model['workspace_id'] = 'testString'
-        categories_model_model['version_description'] = 'testString'
-        categories_model_model['features'] = ['testString']
-        categories_model_model['status'] = 'starting'
-        categories_model_model['model_id'] = 'testString'
-        categories_model_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        categories_model_model['notices'] = [notice_model]
-        categories_model_model['last_trained'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        categories_model_model['last_deployed'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-
-        categories_model_list_model = {} # CategoriesModelList
-        categories_model_list_model['models'] = [categories_model_model]
-
-        # Construct a json representation of a ListCategoriesModelsResponse model
-        list_categories_models_response_model_json = {}
-        list_categories_models_response_model_json['models'] = [categories_model_list_model]
-
-        # Construct a model instance of ListCategoriesModelsResponse by calling from_dict on the json representation
-        list_categories_models_response_model = ListCategoriesModelsResponse.from_dict(list_categories_models_response_model_json)
-        assert list_categories_models_response_model != False
-
-        # Construct a model instance of ListCategoriesModelsResponse by calling from_dict on the json representation
-        list_categories_models_response_model_dict = ListCategoriesModelsResponse.from_dict(list_categories_models_response_model_json).__dict__
-        list_categories_models_response_model2 = ListCategoriesModelsResponse(**list_categories_models_response_model_dict)
-
-        # Verify the model instances are equivalent
-        assert list_categories_models_response_model == list_categories_models_response_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        list_categories_models_response_model_json2 = list_categories_models_response_model.to_dict()
-        assert list_categories_models_response_model_json2 == list_categories_models_response_model_json
 
 class TestListClassificationsModelsResponse():
     """
