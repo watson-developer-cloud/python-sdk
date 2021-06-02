@@ -1,6 +1,5 @@
 language: python
 python:
-- 3.5
 - 3.6
 - 3.7
 - 3.8
@@ -16,7 +15,7 @@ before_script:
 - pip3 install --editable .
 script:
 - pip3 install -U python-dotenv
-- tox
+- tox -vv
 before_deploy:
 - pip3 install bumpversion pypandoc
 - sudo apt-get update
