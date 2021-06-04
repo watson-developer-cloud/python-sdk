@@ -1,33 +1,20 @@
 environment:
-
   matrix:
-
-    - PYTHON: "C:\\Python35"
-    - PYTHON: "C:\\Python36-x64"
+    - TOXENV: py36
+    - TOXENV: py37
+    - TOXENV: py38
 
 install:
 
-  # Install Python (from the official .msi of https://python.org) and pip when
-  # not already installed.
-  - ps: if (-not(Test-Path($env:PYTHON))) { & appveyor\install.ps1 }
-
-  # Prepend newly installed Python to the PATH of this build
-  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
-
-  - "python -m pip install --upgrade pip"
-
-  - "pip install --editable ."
-
-  - "pip install -r requirements-dev.txt"
+  # Install Tox
+  - pip install tox==3.23.0
 
 build: off
 
 test_script:
-
-  - ps: py.test --reruns 3 --cov=ibm_watson
+  - tox
 
 deploy: off
 
 matrix:
   fast_finish: true
-
