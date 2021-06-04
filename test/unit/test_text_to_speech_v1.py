@@ -1319,7 +1319,6 @@ class TestAddCustomPrompt():
         prompt_id = 'testString'
         metadata = prompt_metadata_model
         file = io.BytesIO(b'This is a mock file.').getvalue()
-        filename = 'testString'
 
         # Invoke method
         response = _service.add_custom_prompt(
@@ -1327,48 +1326,6 @@ class TestAddCustomPrompt():
             prompt_id,
             metadata,
             file,
-            filename=filename,
-            headers={}
-        )
-
-        # Check for correct operation
-        assert len(responses.calls) == 1
-        assert response.status_code == 201
-
-
-    @responses.activate
-    def test_add_custom_prompt_required_params(self):
-        """
-        test_add_custom_prompt_required_params()
-        """
-        # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/customizations/testString/prompts/testString')
-        mock_response = '{"prompt": "prompt", "prompt_id": "prompt_id", "status": "status", "error": "error", "speaker_id": "speaker_id"}'
-        responses.add(responses.POST,
-                      url,
-                      body=mock_response,
-                      content_type='application/json',
-                      status=201)
-
-        # Construct a dict representation of a PromptMetadata model
-        prompt_metadata_model = {}
-        prompt_metadata_model['prompt_text'] = 'testString'
-        prompt_metadata_model['speaker_id'] = 'testString'
-
-        # Set up parameter values
-        customization_id = 'testString'
-        prompt_id = 'testString'
-        metadata = prompt_metadata_model
-        file = io.BytesIO(b'This is a mock file.').getvalue()
-        filename = 'testString'
-
-        # Invoke method
-        response = _service.add_custom_prompt(
-            customization_id,
-            prompt_id,
-            metadata,
-            file,
-            filename=filename,
             headers={}
         )
 
@@ -1401,7 +1358,6 @@ class TestAddCustomPrompt():
         prompt_id = 'testString'
         metadata = prompt_metadata_model
         file = io.BytesIO(b'This is a mock file.').getvalue()
-        filename = 'testString'
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {

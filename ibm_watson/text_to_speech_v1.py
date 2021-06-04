@@ -38,7 +38,6 @@ support custom prompts only for US English custom models and voices.
 """
 
 from enum import Enum
-from os.path import basename
 from typing import BinaryIO, Dict, List
 import json
 
@@ -1061,13 +1060,8 @@ class TextToSpeechV1(BaseService):
         response = self.send(request)
         return response
 
-    def add_custom_prompt(self,
-                          customization_id: str,
-                          prompt_id: str,
-                          metadata: 'PromptMetadata',
-                          file: BinaryIO,
-                          *,
-                          filename: str = None,
+    def add_custom_prompt(self, customization_id: str, prompt_id: str,
+                          metadata: 'PromptMetadata', file: BinaryIO,
                           **kwargs) -> DetailedResponse:
         """
         Add a custom prompt.
@@ -1166,7 +1160,6 @@ class TextToSpeechV1(BaseService):
                rate of 16 kHz. The service accepts audio with higher sampling rates. The
                service transcodes all audio to 16 kHz before processing it.
                * The length of the prompt audio is limited to 30 seconds.
-        :param str filename: (optional) The filename for file.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `Prompt` object
@@ -1189,11 +1182,7 @@ class TextToSpeechV1(BaseService):
         form_data = []
         form_data.append(
             ('metadata', (None, json.dumps(metadata), 'application/json')))
-        if not filename and hasattr(file, 'name'):
-            filename = basename(file.name)
-        if not filename:
-            raise ValueError('filename must be provided')
-        form_data.append(('file', (filename, file, 'audio/wav')))
+        form_data.append(('file', (None, file, 'audio/wav')))
 
         if 'headers' in kwargs:
             headers.update(kwargs.get('headers'))
