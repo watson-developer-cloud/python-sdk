@@ -3,7 +3,6 @@ pytest==6.2.4
 responses==0.13.3
 python_dotenv==0.17.1;python_version!='3.2'
 pylint==2.8.2
-tox==3.23.0
 pytest-rerunfailures==9.1.1
 ibm_cloud_sdk_core>=3.3.6, == 3.*
 
