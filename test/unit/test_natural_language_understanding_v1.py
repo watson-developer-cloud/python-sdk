@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2019, 2021.
+# (C) Copyright IBM Corp. 2021.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -74,12 +74,6 @@ class TestAnalyze():
                       content_type='application/json',
                       status=200)
 
-        # Construct a dict representation of a CategoriesOptions model
-        categories_options_model = {}
-        categories_options_model['explanation'] = True
-        categories_options_model['limit'] = 10
-        categories_options_model['model'] = 'testString'
-
         # Construct a dict representation of a ClassificationsOptions model
         classifications_options_model = {}
         classifications_options_model['model'] = 'testString'
@@ -130,6 +124,12 @@ class TestAnalyze():
         summarization_options_model = {}
         summarization_options_model['limit'] = 10
 
+        # Construct a dict representation of a CategoriesOptions model
+        categories_options_model = {}
+        categories_options_model['explanation'] = True
+        categories_options_model['limit'] = 10
+        categories_options_model['model'] = 'testString'
+
         # Construct a dict representation of a SyntaxOptionsTokens model
         syntax_options_tokens_model = {}
         syntax_options_tokens_model['lemma'] = True
@@ -142,7 +142,6 @@ class TestAnalyze():
 
         # Construct a dict representation of a Features model
         features_model = {}
-        features_model['categories'] = categories_options_model
         features_model['classifications'] = classifications_options_model
         features_model['concepts'] = concepts_options_model
         features_model['emotion'] = emotion_options_model
@@ -153,6 +152,7 @@ class TestAnalyze():
         features_model['semantic_roles'] = semantic_roles_options_model
         features_model['sentiment'] = sentiment_options_model
         features_model['summarization'] = summarization_options_model
+        features_model['categories'] = categories_options_model
         features_model['syntax'] = syntax_options_model
 
         # Set up parameter values
@@ -213,12 +213,6 @@ class TestAnalyze():
                       content_type='application/json',
                       status=200)
 
-        # Construct a dict representation of a CategoriesOptions model
-        categories_options_model = {}
-        categories_options_model['explanation'] = True
-        categories_options_model['limit'] = 10
-        categories_options_model['model'] = 'testString'
-
         # Construct a dict representation of a ClassificationsOptions model
         classifications_options_model = {}
         classifications_options_model['model'] = 'testString'
@@ -269,6 +263,12 @@ class TestAnalyze():
         summarization_options_model = {}
         summarization_options_model['limit'] = 10
 
+        # Construct a dict representation of a CategoriesOptions model
+        categories_options_model = {}
+        categories_options_model['explanation'] = True
+        categories_options_model['limit'] = 10
+        categories_options_model['model'] = 'testString'
+
         # Construct a dict representation of a SyntaxOptionsTokens model
         syntax_options_tokens_model = {}
         syntax_options_tokens_model['lemma'] = True
@@ -281,7 +281,6 @@ class TestAnalyze():
 
         # Construct a dict representation of a Features model
         features_model = {}
-        features_model['categories'] = categories_options_model
         features_model['classifications'] = classifications_options_model
         features_model['concepts'] = concepts_options_model
         features_model['emotion'] = emotion_options_model
@@ -292,6 +291,7 @@ class TestAnalyze():
         features_model['semantic_roles'] = semantic_roles_options_model
         features_model['sentiment'] = sentiment_options_model
         features_model['summarization'] = summarization_options_model
+        features_model['categories'] = categories_options_model
         features_model['syntax'] = syntax_options_model
 
         # Set up parameter values
@@ -2922,11 +2922,6 @@ class TestFeatures():
 
         # Construct dict forms of any model objects needed in order to build this model.
 
-        categories_options_model = {} # CategoriesOptions
-        categories_options_model['explanation'] = True
-        categories_options_model['limit'] = 10
-        categories_options_model['model'] = 'testString'
-
         classifications_options_model = {} # ClassificationsOptions
         classifications_options_model['model'] = 'testString'
 
@@ -2967,6 +2962,11 @@ class TestFeatures():
         summarization_options_model = {} # SummarizationOptions
         summarization_options_model['limit'] = 10
 
+        categories_options_model = {} # CategoriesOptions
+        categories_options_model['explanation'] = True
+        categories_options_model['limit'] = 10
+        categories_options_model['model'] = 'testString'
+
         syntax_options_tokens_model = {} # SyntaxOptionsTokens
         syntax_options_tokens_model['lemma'] = True
         syntax_options_tokens_model['part_of_speech'] = True
@@ -2977,7 +2977,6 @@ class TestFeatures():
 
         # Construct a json representation of a Features model
         features_model_json = {}
-        features_model_json['categories'] = categories_options_model
         features_model_json['classifications'] = classifications_options_model
         features_model_json['concepts'] = concepts_options_model
         features_model_json['emotion'] = emotion_options_model
@@ -2988,6 +2987,7 @@ class TestFeatures():
         features_model_json['semantic_roles'] = semantic_roles_options_model
         features_model_json['sentiment'] = sentiment_options_model
         features_model_json['summarization'] = summarization_options_model
+        features_model_json['categories'] = categories_options_model
         features_model_json['syntax'] = syntax_options_model
 
         # Construct a model instance of Features by calling from_dict on the json representation

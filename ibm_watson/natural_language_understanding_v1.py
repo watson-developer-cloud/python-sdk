@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019, 2021.
+# (C) Copyright IBM Corp. 2021.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -3438,10 +3438,6 @@ class Features():
     """
     Analysis features and options.
 
-    :attr CategoriesOptions categories: (optional) Returns a five-level taxonomy of
-          the content. The top three categories are returned.
-          Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
-          Portuguese, Spanish.
     :attr ClassificationsOptions classifications: (optional) Returns text
           classifications for the content.
           Supported languages: English only.
@@ -3489,13 +3485,16 @@ class Features():
     :attr SummarizationOptions summarization: (optional) (Experimental) Returns a
           summary of content.
           Supported languages: English only.
+    :attr CategoriesOptions categories: (optional) Returns a five-level taxonomy of
+          the content. The top three categories are returned.
+          Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
+          Portuguese, Spanish.
     :attr SyntaxOptions syntax: (optional) Returns tokens and sentences from the
           input text.
     """
 
     def __init__(self,
                  *,
-                 categories: 'CategoriesOptions' = None,
                  classifications: 'ClassificationsOptions' = None,
                  concepts: 'ConceptsOptions' = None,
                  emotion: 'EmotionOptions' = None,
@@ -3506,14 +3505,11 @@ class Features():
                  semantic_roles: 'SemanticRolesOptions' = None,
                  sentiment: 'SentimentOptions' = None,
                  summarization: 'SummarizationOptions' = None,
+                 categories: 'CategoriesOptions' = None,
                  syntax: 'SyntaxOptions' = None) -> None:
         """
         Initialize a Features object.
 
-        :param CategoriesOptions categories: (optional) Returns a five-level
-               taxonomy of the content. The top three categories are returned.
-               Supported languages: Arabic, English, French, German, Italian, Japanese,
-               Korean, Portuguese, Spanish.
         :param ClassificationsOptions classifications: (optional) Returns text
                classifications for the content.
                Supported languages: English only.
@@ -3562,10 +3558,13 @@ class Features():
         :param SummarizationOptions summarization: (optional) (Experimental)
                Returns a summary of content.
                Supported languages: English only.
+        :param CategoriesOptions categories: (optional) Returns a five-level
+               taxonomy of the content. The top three categories are returned.
+               Supported languages: Arabic, English, French, German, Italian, Japanese,
+               Korean, Portuguese, Spanish.
         :param SyntaxOptions syntax: (optional) Returns tokens and sentences from
                the input text.
         """
-        self.categories = categories
         self.classifications = classifications
         self.concepts = concepts
         self.emotion = emotion
@@ -3576,15 +3575,13 @@ class Features():
         self.semantic_roles = semantic_roles
         self.sentiment = sentiment
         self.summarization = summarization
+        self.categories = categories
         self.syntax = syntax
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'Features':
         """Initialize a Features object from a json dictionary."""
         args = {}
-        if 'categories' in _dict:
-            args['categories'] = CategoriesOptions.from_dict(
-                _dict.get('categories'))
         if 'classifications' in _dict:
             args['classifications'] = ClassificationsOptions.from_dict(
                 _dict.get('classifications'))
@@ -3610,6 +3607,9 @@ class Features():
         if 'summarization' in _dict:
             args['summarization'] = SummarizationOptions.from_dict(
                 _dict.get('summarization'))
+        if 'categories' in _dict:
+            args['categories'] = CategoriesOptions.from_dict(
+                _dict.get('categories'))
         if 'syntax' in _dict:
             args['syntax'] = SyntaxOptions.from_dict(_dict.get('syntax'))
         return cls(**args)
@@ -3622,8 +3622,6 @@ class Features():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'categories') and self.categories is not None:
-            _dict['categories'] = self.categories.to_dict()
         if hasattr(self,
                    'classifications') and self.classifications is not None:
             _dict['classifications'] = self.classifications.to_dict()
@@ -3645,6 +3643,8 @@ class Features():
             _dict['sentiment'] = self.sentiment.to_dict()
         if hasattr(self, 'summarization') and self.summarization is not None:
             _dict['summarization'] = self.summarization.to_dict()
+        if hasattr(self, 'categories') and self.categories is not None:
+            _dict['categories'] = self.categories.to_dict()
         if hasattr(self, 'syntax') and self.syntax is not None:
             _dict['syntax'] = self.syntax.to_dict()
         return _dict
