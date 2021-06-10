@@ -1,3 +1,22 @@
+# [5.2.0](https://github.com/watson-developer-cloud/python-sdk/compare/v5.1.0...v5.2.0) (2021-06-10)
+
+
+### Bug Fixes
+
+* **compare-comply:** add deprecation notice for CC ([d006937](https://github.com/watson-developer-cloud/python-sdk/commit/d0069376dcd1e23076c12130feeea1b20010de06))
+* **lt:** fix character encoding for non latin langs ([900bd79](https://github.com/watson-developer-cloud/python-sdk/commit/900bd79bbeb7a28b82aa47d2e3345837f62fc306))
+* **nlu:** remove ListCategoriesModelsResponse ([c09022f](https://github.com/watson-developer-cloud/python-sdk/commit/c09022f8841104262351447ac5dccba6ef159805))
+* **tts:** remove extraneous filename param ([d6f9c5d](https://github.com/watson-developer-cloud/python-sdk/commit/d6f9c5d4b75bf303f363dfac68180351d7bcbc26))
+
+
+### Features
+
+* **assistantv1:** generation release changes ([ac146a1](https://github.com/watson-developer-cloud/python-sdk/commit/ac146a1efc5e148a636b17540399898c74222a29))
+* **assistantv2:** generation release changes ([d33caba](https://github.com/watson-developer-cloud/python-sdk/commit/d33caba954e764e4b512e4fce62750c2fd9b8cf1))
+* **discov2:** generation release changes ([0ea3ac0](https://github.com/watson-developer-cloud/python-sdk/commit/0ea3ac0ce1024138097e1777f8ecde5b45eaa92d))
+* **nlu:** generation release changes ([e5e71b6](https://github.com/watson-developer-cloud/python-sdk/commit/e5e71b655bc3d7477fd4244df28651fa91a82cd4))
+* **stt-tts:** generation release changes ([0600855](https://github.com/watson-developer-cloud/python-sdk/commit/06008553bdae0d2c0768d41a1d1878523e5bd810))
+
 # [5.1.0](https://github.com/watson-developer-cloud/python-sdk/compare/v5.0.2...v5.1.0) (2021-01-12)
 
 
