@@ -18,7 +18,7 @@ from setuptools.command.test import test as TestCommand
 import os
 import sys
 
-__version__ = '5.1.0'
+__version__ = '5.2.0'
 
 
 if sys.argv[-1] == 'publish':
