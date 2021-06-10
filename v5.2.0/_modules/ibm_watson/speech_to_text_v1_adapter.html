@@ -1,0 +1,444 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ibm_watson.speech_to_text_v1_adapter &#8212; Watson Developer Cloud Python SDK 5.2.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for ibm_watson.speech_to_text_v1_adapter</h1><div class="highlight"><pre>
+<span></span><span class="c1"># coding: utf-8</span>
+
+<span class="c1"># (C) Copyright IBM Corp. 2018, 2021.</span>
+<span class="c1">#</span>
+<span class="c1"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span class="c1"># you may not use this file except in compliance with the License.</span>
+<span class="c1"># You may obtain a copy of the License at</span>
+<span class="c1">#</span>
+<span class="c1">#      http://www.apache.org/licenses/LICENSE-2.0</span>
+<span class="c1">#</span>
+<span class="c1"># Unless required by applicable law or agreed to in writing, software</span>
+<span class="c1"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span class="c1"># See the License for the specific language governing permissions and</span>
+<span class="c1"># limitations under the License.</span>
+
+<span class="kn">from</span> <span class="nn">ibm_watson.websocket</span> <span class="kn">import</span> <span class="n">RecognizeCallback</span><span class="p">,</span> <span class="n">RecognizeListener</span><span class="p">,</span> <span class="n">AudioSource</span>
+<span class="kn">from</span> <span class="nn">.speech_to_text_v1</span> <span class="kn">import</span> <span class="n">SpeechToTextV1</span>
+<span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">urlencode</span>
+
+<span class="n">BEARER</span> <span class="o">=</span> <span class="s1">&#39;Bearer&#39;</span>
+
+
+<div class="viewcode-block" id="SpeechToTextV1Adapter"><a class="viewcode-back" href="../../apis/ibm_watson.speech_to_text_v1_adapter.html#ibm_watson.speech_to_text_v1_adapter.SpeechToTextV1Adapter">[docs]</a><span class="k">class</span> <span class="nc">SpeechToTextV1Adapter</span><span class="p">(</span><span class="n">SpeechToTextV1</span><span class="p">):</span>
+
+<div class="viewcode-block" id="SpeechToTextV1Adapter.recognize_using_websocket"><a class="viewcode-back" href="../../apis/ibm_watson.speech_to_text_v1_adapter.html#ibm_watson.speech_to_text_v1_adapter.SpeechToTextV1Adapter.recognize_using_websocket">[docs]</a>    <span class="k">def</span> <span class="nf">recognize_using_websocket</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                  <span class="n">audio</span><span class="p">,</span>
+                                  <span class="n">content_type</span><span class="p">,</span>
+                                  <span class="n">recognize_callback</span><span class="p">,</span>
+                                  <span class="n">model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">language_customization_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">acoustic_customization_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">customization_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">base_model_version</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">inactivity_timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">interim_results</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">keywords</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">keywords_threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">max_alternatives</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">word_alternatives_threshold</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">word_confidence</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">timestamps</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">profanity_filter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">smart_formatting</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">speaker_labels</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">http_proxy_host</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">http_proxy_port</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">customization_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">grammar_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">redaction</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">processing_metrics</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">processing_metrics_interval</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">audio_metrics</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">end_of_phrase_silence_time</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">split_transcript_at_phrase_end</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">speech_detector_sensitivity</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">background_audio_suppression</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">low_latency</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sends audio for speech recognition using web sockets.</span>
+
+<span class="sd">        </span>
+<span class="sd">        :param AudioSource audio: The audio to transcribe in the format specified by the</span>
+<span class="sd">            `Content-Type` header.</span>
+<span class="sd">        :param str content_type: The type of the input: audio/basic, audio/flac,</span>
+<span class="sd">            audio/l16, audio/mp3, audio/mpeg, audio/mulaw, audio/ogg, audio/ogg;codecs=opus,</span>
+<span class="sd">            audio/ogg;codecs=vorbis, audio/wav, audio/webm, audio/webm;codecs=opus, or</span>
+<span class="sd">            audio/webm;codecs=vorbis.</span>
+<span class="sd">        :param RecognizeCallback recognize_callback: The callback method for the websocket.</span>
+<span class="sd">        :param str model: (optional) The identifier of the model that is to be used</span>
+<span class="sd">               for the recognition request. (**Note:** The model `ar-AR_BroadbandModel` is</span>
+<span class="sd">               deprecated; use `ar-MS_BroadbandModel` instead.) See [Languages and</span>
+<span class="sd">               models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models)</span>
+<span class="sd">               and [Next-generation languages and</span>
+<span class="sd">               models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models-ng).</span>
+<span class="sd">        :param str language_customization_id: (optional) The customization ID</span>
+<span class="sd">               (GUID) of a custom language model that is to be used with the recognition</span>
+<span class="sd">               request. The base model of the specified custom language model must match</span>
+<span class="sd">               the model specified with the `model` parameter. You must make the request</span>
+<span class="sd">               with credentials for the instance of the service that owns the custom</span>
+<span class="sd">               model. By default, no custom language model is used. See [Using a custom</span>
+<span class="sd">               language model for speech</span>
+<span class="sd">               recognition](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-languageUse).</span>
+<span class="sd">               **Note:** Use this parameter instead of the deprecated `customization_id`</span>
+<span class="sd">               parameter.</span>
+<span class="sd">        :param str acoustic_customization_id: (optional) The customization ID</span>
+<span class="sd">               (GUID) of a custom acoustic model that is to be used with the recognition</span>
+<span class="sd">               request. The base model of the specified custom acoustic model must match</span>
+<span class="sd">               the model specified with the `model` parameter. You must make the request</span>
+<span class="sd">               with credentials for the instance of the service that owns the custom</span>
+<span class="sd">               model. By default, no custom acoustic model is used. See [Using a custom</span>
+<span class="sd">               acoustic model for speech</span>
+<span class="sd">               recognition](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-acousticUse).</span>
+<span class="sd">        :param str base_model_version: (optional) The version of the specified base</span>
+<span class="sd">               model that is to be used with the recognition request. Multiple versions of</span>
+<span class="sd">               a base model can exist when a model is updated for internal improvements.</span>
+<span class="sd">               The parameter is intended primarily for use with custom models that have</span>
+<span class="sd">               been upgraded for a new base model. The default value depends on whether</span>
+<span class="sd">               the parameter is used with or without a custom model. See [Making speech</span>
+<span class="sd">               recognition requests with upgraded custom</span>
+<span class="sd">               models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-custom-upgrade-use#custom-upgrade-use-recognition).</span>
+<span class="sd">        :param float customization_weight: (optional) If you specify the</span>
+<span class="sd">               customization ID (GUID) of a custom language model with the recognition</span>
+<span class="sd">               request, the customization weight tells the service how much weight to give</span>
+<span class="sd">               to words from the custom language model compared to those from the base</span>
+<span class="sd">               model for the current request.</span>
+<span class="sd">               Specify a value between 0.0 and 1.0. Unless a different customization</span>
+<span class="sd">               weight was specified for the custom model when it was trained, the default</span>
+<span class="sd">               value is 0.3. A customization weight that you specify overrides a weight</span>
+<span class="sd">               that was specified when the custom model was trained.</span>
+<span class="sd">               The default value yields the best performance in general. Assign a higher</span>
+<span class="sd">               value if your audio makes frequent use of OOV words from the custom model.</span>
+<span class="sd">               Use caution when setting the weight: a higher value can improve the</span>
+<span class="sd">               accuracy of phrases from the custom model&#39;s domain, but it can negatively</span>
+<span class="sd">               affect performance on non-domain phrases.</span>
+<span class="sd">               See [Using customization</span>
+<span class="sd">               weight](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-languageUse#weight).</span>
+<span class="sd">        :param int inactivity_timeout: (optional) The time in seconds after which,</span>
+<span class="sd">               if only silence (no speech) is detected in streaming audio, the connection</span>
+<span class="sd">               is closed with a 400 error. The parameter is useful for stopping audio</span>
+<span class="sd">               submission from a live microphone when a user simply walks away. Use `-1`</span>
+<span class="sd">               for infinity. See [Inactivity</span>
+<span class="sd">               timeout](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-input#timeouts-inactivity).</span>
+<span class="sd">        :param List[str] keywords: (optional) An array of keyword strings to spot</span>
+<span class="sd">               in the audio. Each keyword string can include one or more string tokens.</span>
+<span class="sd">               Keywords are spotted only in the final results, not in interim hypotheses.</span>
+<span class="sd">               If you specify any keywords, you must also specify a keywords threshold.</span>
+<span class="sd">               Omit the parameter or specify an empty array if you do not need to spot</span>
+<span class="sd">               keywords.</span>
+<span class="sd">               You can spot a maximum of 1000 keywords with a single request. A single</span>
+<span class="sd">               keyword can have a maximum length of 1024 characters, though the maximum</span>
+<span class="sd">               effective length for double-byte languages might be shorter. Keywords are</span>
+<span class="sd">               case-insensitive.</span>
+<span class="sd">               See [Keyword</span>
+<span class="sd">               spotting](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-spotting#keyword-spotting).</span>
+<span class="sd">        :param float keywords_threshold: (optional) A confidence value that is the</span>
+<span class="sd">               lower bound for spotting a keyword. A word is considered to match a keyword</span>
+<span class="sd">               if its confidence is greater than or equal to the threshold. Specify a</span>
+<span class="sd">               probability between 0.0 and 1.0. If you specify a threshold, you must also</span>
+<span class="sd">               specify one or more keywords. The service performs no keyword spotting if</span>
+<span class="sd">               you omit either parameter. See [Keyword</span>
+<span class="sd">               spotting](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-spotting#keyword-spotting).</span>
+<span class="sd">        :param int max_alternatives: (optional) The maximum number of alternative</span>
+<span class="sd">               transcripts that the service is to return. By default, the service returns</span>
+<span class="sd">               a single transcript. If you specify a value of `0`, the service uses the</span>
+<span class="sd">               default value, `1`. See [Maximum</span>
+<span class="sd">               alternatives](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-metadata#max-alternatives).</span>
+<span class="sd">        :param float word_alternatives_threshold: (optional) A confidence value</span>
+<span class="sd">               that is the lower bound for identifying a hypothesis as a possible word</span>
+<span class="sd">               alternative (also known as &quot;Confusion Networks&quot;). An alternative word is</span>
+<span class="sd">               considered if its confidence is greater than or equal to the threshold.</span>
+<span class="sd">               Specify a probability between 0.0 and 1.0. By default, the service computes</span>
+<span class="sd">               no alternative words. See [Word</span>
+<span class="sd">               alternatives](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-spotting#word-alternatives).</span>
+<span class="sd">        :param bool word_confidence: (optional) If `true`, the service returns a</span>
+<span class="sd">               confidence measure in the range of 0.0 to 1.0 for each word. By default,</span>
+<span class="sd">               the service returns no word confidence scores. See [Word</span>
+<span class="sd">               confidence](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-metadata#word-confidence).</span>
+<span class="sd">        :param bool timestamps: (optional) If `true`, the service returns time</span>
+<span class="sd">               alignment for each word. By default, no timestamps are returned. See [Word</span>
+<span class="sd">               timestamps](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-metadata#word-timestamps).</span>
+<span class="sd">        :param bool profanity_filter: (optional) If `true`, the service filters</span>
+<span class="sd">               profanity from all output except for keyword results by replacing</span>
+<span class="sd">               inappropriate words with a series of asterisks. Set the parameter to</span>
+<span class="sd">               `false` to return results with no censoring. Applies to US English and</span>
+<span class="sd">               Japanese transcription only. See [Profanity</span>
+<span class="sd">               filtering](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-formatting#profanity-filtering).</span>
+<span class="sd">        :param bool smart_formatting: (optional) If `true`, the service converts</span>
+<span class="sd">               dates, times, series of digits and numbers, phone numbers, currency values,</span>
+<span class="sd">               and internet addresses into more readable, conventional representations in</span>
+<span class="sd">               the final transcript of a recognition request. For US English, the service</span>
+<span class="sd">               also converts certain keyword strings to punctuation symbols. By default,</span>
+<span class="sd">               the service performs no smart formatting.</span>
+<span class="sd">               **Note:** Applies to US English, Japanese, and Spanish transcription only.</span>
+<span class="sd">               See [Smart</span>
+<span class="sd">               formatting](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-formatting#smart-formatting).</span>
+<span class="sd">        :param bool speaker_labels: (optional) If `true`, the response includes</span>
+<span class="sd">               labels that identify which words were spoken by which participants in a</span>
+<span class="sd">               multi-person exchange. By default, the service returns no speaker labels.</span>
+<span class="sd">               Setting `speaker_labels` to `true` forces the `timestamps` parameter to be</span>
+<span class="sd">               `true`, regardless of whether you specify `false` for the parameter.</span>
+<span class="sd">               * For previous-generation models, can be used for US English, Australian</span>
+<span class="sd">               English, German, Japanese, Korean, and Spanish (both broadband and</span>
+<span class="sd">               narrowband models) and UK English (narrowband model) transcription only.</span>
+<span class="sd">               * For next-generation models, can be used for English (Australian, UK, and</span>
+<span class="sd">               US), German, and Spanish transcription only.</span>
+<span class="sd">               Restrictions and limitations apply to the use of speaker labels for both</span>
+<span class="sd">               types of models. See [Speaker</span>
+<span class="sd">               labels](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-speaker-labels).</span>
+<span class="sd">        :param str http_proxy_host: http proxy host name.</span>
+<span class="sd">        :param str http_proxy_port: http proxy port. If not set, set to 80.</span>
+<span class="sd">        :param str customization_id: (optional) **Deprecated.** Use the</span>
+<span class="sd">               `language_customization_id` parameter to specify the customization ID</span>
+<span class="sd">               (GUID) of a custom language model that is to be used with the recognition</span>
+<span class="sd">               request. Do not specify both parameters with a request.</span>
+<span class="sd">        :param str grammar_name: (optional) The name of a grammar that is to be</span>
+<span class="sd">               used with the recognition request. If you specify a grammar, you must also</span>
+<span class="sd">               use the `language_customization_id` parameter to specify the name of the</span>
+<span class="sd">               custom language model for which the grammar is defined. The service</span>
+<span class="sd">               recognizes only strings that are recognized by the specified grammar; it</span>
+<span class="sd">               does not recognize other custom words from the model&#39;s words resource. See</span>
+<span class="sd">               [Using a grammar for speech</span>
+<span class="sd">               recognition](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-grammarUse).</span>
+<span class="sd">        :param bool redaction: (optional) If `true`, the service redacts, or masks,</span>
+<span class="sd">               numeric data from final transcripts. The feature redacts any number that</span>
+<span class="sd">               has three or more consecutive digits by replacing each digit with an `X`</span>
+<span class="sd">               character. It is intended to redact sensitive numeric data, such as credit</span>
+<span class="sd">               card numbers. By default, the service performs no redaction.</span>
+<span class="sd">               When you enable redaction, the service automatically enables smart</span>
+<span class="sd">               formatting, regardless of whether you explicitly disable that feature. To</span>
+<span class="sd">               ensure maximum security, the service also disables keyword spotting</span>
+<span class="sd">               (ignores the `keywords` and `keywords_threshold` parameters) and returns</span>
+<span class="sd">               only a single final transcript (forces the `max_alternatives` parameter to</span>
+<span class="sd">               be `1`).</span>
+<span class="sd">               **Note:** Applies to US English, Japanese, and Korean transcription only.</span>
+<span class="sd">               See [Numeric</span>
+<span class="sd">               redaction](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-formatting#numeric-redaction).</span>
+<span class="sd">        :param bool audio_metrics: (optional) If `true`, requests detailed</span>
+<span class="sd">               information about the signal characteristics of the input audio. The</span>
+<span class="sd">               service returns audio metrics with the final transcription results. By</span>
+<span class="sd">               default, the service returns no audio metrics.</span>
+<span class="sd">               See [Audio</span>
+<span class="sd">               metrics](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-metrics#audio-metrics).</span>
+<span class="sd">        :param float end_of_phrase_silence_time: (optional) If `true`, specifies</span>
+<span class="sd">               the duration of the pause interval at which the service splits a transcript</span>
+<span class="sd">               into multiple final results. If the service detects pauses or extended</span>
+<span class="sd">               silence before it reaches the end of the audio stream, its response can</span>
+<span class="sd">               include multiple final results. Silence indicates a point at which the</span>
+<span class="sd">               speaker pauses between spoken words or phrases.</span>
+<span class="sd">               Specify a value for the pause interval in the range of 0.0 to 120.0.</span>
+<span class="sd">               * A value greater than 0 specifies the interval that the service is to use</span>
+<span class="sd">               for speech recognition.</span>
+<span class="sd">               * A value of 0 indicates that the service is to use the default interval.</span>
+<span class="sd">               It is equivalent to omitting the parameter.</span>
+<span class="sd">               The default pause interval for most languages is 0.8 seconds; the default</span>
+<span class="sd">               for Chinese is 0.6 seconds.</span>
+<span class="sd">               See [End of phrase silence</span>
+<span class="sd">               time](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-parsing#silence-time).</span>
+<span class="sd">        :param bool split_transcript_at_phrase_end: (optional) If `true`, directs</span>
+<span class="sd">               the service to split the transcript into multiple final results based on</span>
+<span class="sd">               semantic features of the input, for example, at the conclusion of</span>
+<span class="sd">               meaningful phrases such as sentences. The service bases its understanding</span>
+<span class="sd">               of semantic features on the base language model that you use with a</span>
+<span class="sd">               request. Custom language models and grammars can also influence how and</span>
+<span class="sd">               where the service splits a transcript. By default, the service splits</span>
+<span class="sd">               transcripts based solely on the pause interval.</span>
+<span class="sd">               See [Split transcript at phrase</span>
+<span class="sd">               end](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-parsing#split-transcript).</span>
+<span class="sd">        :param float speech_detector_sensitivity: (optional) The sensitivity of</span>
+<span class="sd">               speech activity detection that the service is to perform. Use the parameter</span>
+<span class="sd">               to suppress word insertions from music, coughing, and other non-speech</span>
+<span class="sd">               events. The service biases the audio it passes for speech recognition by</span>
+<span class="sd">               evaluating the input audio against prior models of speech and non-speech</span>
+<span class="sd">               activity.</span>
+<span class="sd">               Specify a value between 0.0 and 1.0:</span>
+<span class="sd">               * 0.0 suppresses all audio (no speech is transcribed).</span>
+<span class="sd">               * 0.5 (the default) provides a reasonable compromise for the level of</span>
+<span class="sd">               sensitivity.</span>
+<span class="sd">               * 1.0 suppresses no audio (speech detection sensitivity is disabled).</span>
+<span class="sd">               The values increase on a monotonic curve. See [Speech detector</span>
+<span class="sd">               sensitivity](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-detection#detection-parameters-sensitivity).</span>
+<span class="sd">        :param float background_audio_suppression: (optional) The level to which</span>
+<span class="sd">               the service is to suppress background audio based on its volume to prevent</span>
+<span class="sd">               it from being transcribed as speech. Use the parameter to suppress side</span>
+<span class="sd">               conversations or background noise.</span>
+<span class="sd">               Specify a value in the range of 0.0 to 1.0:</span>
+<span class="sd">               * 0.0 (the default) provides no suppression (background audio suppression</span>
+<span class="sd">               is disabled).</span>
+<span class="sd">               * 0.5 provides a reasonable level of audio suppression for general usage.</span>
+<span class="sd">               * 1.0 suppresses all audio (no audio is transcribed).</span>
+<span class="sd">               The values increase on a monotonic curve. See [Background audio</span>
+<span class="sd">               suppression](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-detection#detection-parameters-suppression).</span>
+<span class="sd">        :param bool low_latency: (optional) If `true` for next-generation</span>
+<span class="sd">               `Multimedia` and `Telephony` models that support low latency, directs the</span>
+<span class="sd">               service to produce results even more quickly than it usually does.</span>
+<span class="sd">               Next-generation models produce transcription results faster than</span>
+<span class="sd">               previous-generation models. The `low_latency` parameter causes the models</span>
+<span class="sd">               to produce results even more quickly, though the results might be less</span>
+<span class="sd">               accurate when the parameter is used.</span>
+<span class="sd">               **Note:** The parameter is beta functionality. It is not available for</span>
+<span class="sd">               previous-generation `Broadband` and `Narrowband` models. It is available</span>
+<span class="sd">               only for some next-generation models.</span>
+<span class="sd">               * For a list of next-generation models that support low latency, see</span>
+<span class="sd">               [Supported language</span>
+<span class="sd">               models](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-models-ng#models-ng-supported)</span>
+<span class="sd">               for next-generation models.</span>
+<span class="sd">               * For more information about the `low_latency` parameter, see [Low</span>
+<span class="sd">               latency](https://cloud.ibm.com/docs/speech-to-text?topic=speech-to-text-interim#low-latency).</span>
+<span class="sd">        :param dict headers: A `dict` containing the request headers</span>
+<span class="sd">        :return: A `dict` containing the `SpeechRecognitionResults` response.</span>
+<span class="sd">        :rtype: dict</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">audio</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;audio must be provided&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">audio</span><span class="p">,</span> <span class="n">AudioSource</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                <span class="s1">&#39;audio is not of type AudioSource. Import the class from ibm_watson.websocket&#39;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">content_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;content_type must be provided&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">recognize_callback</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;recognize_callback must be provided&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">recognize_callback</span><span class="p">,</span> <span class="n">RecognizeCallback</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                <span class="s1">&#39;Callback is not a derived class of RecognizeCallback&#39;</span><span class="p">)</span>
+
+        <span class="n">request</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_headers</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">headers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_headers</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">if</span> <span class="s1">&#39;headers&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">headers</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;headers&#39;</span><span class="p">))</span>
+        <span class="n">request</span><span class="p">[</span><span class="s1">&#39;headers&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">headers</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">authenticator</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">authenticator</span><span class="o">.</span><span class="n">authenticate</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+
+        <span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">service_url</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;https:&#39;</span><span class="p">,</span> <span class="s1">&#39;wss:&#39;</span><span class="p">)</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;model&#39;</span><span class="p">:</span> <span class="n">model</span><span class="p">,</span>
+            <span class="s1">&#39;customization_id&#39;</span><span class="p">:</span> <span class="n">customization_id</span><span class="p">,</span>
+            <span class="s1">&#39;acoustic_customization_id&#39;</span><span class="p">:</span> <span class="n">acoustic_customization_id</span><span class="p">,</span>
+            <span class="s1">&#39;base_model_version&#39;</span><span class="p">:</span> <span class="n">base_model_version</span><span class="p">,</span>
+            <span class="s1">&#39;language_customization_id&#39;</span><span class="p">:</span> <span class="n">language_customization_id</span>
+        <span class="p">}</span>
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">}</span>
+        <span class="n">url</span> <span class="o">+=</span> <span class="s1">&#39;/v1/recognize?</span><span class="si">{0}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">urlencode</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
+        <span class="n">request</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">url</span>
+
+        <span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;customization_weight&#39;</span><span class="p">:</span> <span class="n">customization_weight</span><span class="p">,</span>
+            <span class="s1">&#39;content_type&#39;</span><span class="p">:</span> <span class="n">content_type</span><span class="p">,</span>
+            <span class="s1">&#39;inactivity_timeout&#39;</span><span class="p">:</span> <span class="n">inactivity_timeout</span><span class="p">,</span>
+            <span class="s1">&#39;interim_results&#39;</span><span class="p">:</span> <span class="n">interim_results</span><span class="p">,</span>
+            <span class="s1">&#39;keywords&#39;</span><span class="p">:</span> <span class="n">keywords</span><span class="p">,</span>
+            <span class="s1">&#39;keywords_threshold&#39;</span><span class="p">:</span> <span class="n">keywords_threshold</span><span class="p">,</span>
+            <span class="s1">&#39;max_alternatives&#39;</span><span class="p">:</span> <span class="n">max_alternatives</span><span class="p">,</span>
+            <span class="s1">&#39;word_alternatives_threshold&#39;</span><span class="p">:</span> <span class="n">word_alternatives_threshold</span><span class="p">,</span>
+            <span class="s1">&#39;word_confidence&#39;</span><span class="p">:</span> <span class="n">word_confidence</span><span class="p">,</span>
+            <span class="s1">&#39;timestamps&#39;</span><span class="p">:</span> <span class="n">timestamps</span><span class="p">,</span>
+            <span class="s1">&#39;profanity_filter&#39;</span><span class="p">:</span> <span class="n">profanity_filter</span><span class="p">,</span>
+            <span class="s1">&#39;smart_formatting&#39;</span><span class="p">:</span> <span class="n">smart_formatting</span><span class="p">,</span>
+            <span class="s1">&#39;speaker_labels&#39;</span><span class="p">:</span> <span class="n">speaker_labels</span><span class="p">,</span>
+            <span class="s1">&#39;grammar_name&#39;</span><span class="p">:</span> <span class="n">grammar_name</span><span class="p">,</span>
+            <span class="s1">&#39;redaction&#39;</span><span class="p">:</span> <span class="n">redaction</span><span class="p">,</span>
+            <span class="s1">&#39;processing_metrics&#39;</span><span class="p">:</span> <span class="n">processing_metrics</span><span class="p">,</span>
+            <span class="s1">&#39;processing_metrics_interval&#39;</span><span class="p">:</span> <span class="n">processing_metrics_interval</span><span class="p">,</span>
+            <span class="s1">&#39;audio_metrics&#39;</span><span class="p">:</span> <span class="n">audio_metrics</span><span class="p">,</span>
+            <span class="s1">&#39;end_of_phrase_silence_time&#39;</span><span class="p">:</span> <span class="n">end_of_phrase_silence_time</span><span class="p">,</span>
+            <span class="s1">&#39;split_transcript_at_phrase_end&#39;</span><span class="p">:</span> <span class="n">split_transcript_at_phrase_end</span><span class="p">,</span>
+            <span class="s1">&#39;speech_detector_sensitivity&#39;</span><span class="p">:</span> <span class="n">speech_detector_sensitivity</span><span class="p">,</span>
+            <span class="s1">&#39;background_audio_suppression&#39;</span><span class="p">:</span> <span class="n">background_audio_suppression</span><span class="p">,</span>
+            <span class="s1">&#39;low_latency&#39;</span><span class="p">:</span> <span class="n">low_latency</span>
+        <span class="p">}</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">options</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">}</span>
+        <span class="n">request</span><span class="p">[</span><span class="s1">&#39;options&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">options</span>
+
+        <span class="n">RecognizeListener</span><span class="p">(</span><span class="n">audio</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;options&#39;</span><span class="p">),</span> <span class="n">recognize_callback</span><span class="p">,</span>
+                          <span class="n">request</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;url&#39;</span><span class="p">),</span> <span class="n">request</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;headers&#39;</span><span class="p">),</span>
+                          <span class="n">http_proxy_host</span><span class="p">,</span> <span class="n">http_proxy_port</span><span class="p">,</span>
+                          <span class="bp">self</span><span class="o">.</span><span class="n">disable_ssl_verification</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

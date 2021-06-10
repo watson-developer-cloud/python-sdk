@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>ibm_watson.websocket.synthesize_listener module &#8212; Watson Developer Cloud Python SDK 5.2.0 documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="ibm_watson.websocket.synthesize_callback module" href="ibm_watson.websocket.synthesize_callback.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-ibm_watson.websocket.synthesize_listener">
+<span id="ibm-watson-websocket-synthesize-listener-module"></span><h1>ibm_watson.websocket.synthesize_listener module<a class="headerlink" href="#module-ibm_watson.websocket.synthesize_listener" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt id="ibm_watson.websocket.synthesize_listener.SynthesizeListener">
+<em class="property"><span class="pre">class</span> </em><code class="sig-name descname"><span class="pre">SynthesizeListener</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">options</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">http_proxy_host</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">http_proxy_port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verify</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/websocket/synthesize_listener.html#SynthesizeListener"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibm_watson.websocket.synthesize_listener.SynthesizeListener" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py method">
+<dt id="ibm_watson.websocket.synthesize_listener.SynthesizeListener.send_text">
+<code class="sig-name descname"><span class="pre">send_text</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/websocket/synthesize_listener.html#SynthesizeListener.send_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibm_watson.websocket.synthesize_listener.SynthesizeListener.send_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sends the text message
+Note: The service handles one request per connection</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.websocket.synthesize_listener.SynthesizeListener.on_open">
+<code class="sig-name descname"><span class="pre">on_open</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ws</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/websocket/synthesize_listener.html#SynthesizeListener.on_open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibm_watson.websocket.synthesize_listener.SynthesizeListener.on_open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback executed when a connection is opened to the server.
+Handles sending text to server</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ws</strong> – Websocket client</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.websocket.synthesize_listener.SynthesizeListener.on_data">
+<code class="sig-name descname"><span class="pre">on_data</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ws</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/websocket/synthesize_listener.html#SynthesizeListener.on_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibm_watson.websocket.synthesize_listener.SynthesizeListener.on_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback executed when message is received from the server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ws</strong> – Websocket client</p></li>
+<li><p><strong>message</strong> – utf-8 string which we get from the server.</p></li>
+<li><p><strong>message_type</strong> – Message type which is either ABNF.OPCODE_TEXT or ABNF.OPCODE_BINARY</p></li>
+<li><p><strong>fin</strong> – continue flag. If 0, the data continues.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.websocket.synthesize_listener.SynthesizeListener.on_error">
+<code class="sig-name descname"><span class="pre">on_error</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ws</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/websocket/synthesize_listener.html#SynthesizeListener.on_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibm_watson.websocket.synthesize_listener.SynthesizeListener.on_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback executed when an error is received</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ws</strong> – Websocket client</p></li>
+<li><p><strong>error</strong> – Exception object</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ibm_watson.websocket.synthesize_listener.SynthesizeListener.on_close">
+<code class="sig-name descname"><span class="pre">on_close</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ws</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ibm_watson/websocket/synthesize_listener.html#SynthesizeListener.on_close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ibm_watson.websocket.synthesize_listener.SynthesizeListener.on_close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback executed when websocket connection is closed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ws</strong> – Websocket client</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><h3>Useful Links</h3>
+<ul>
+  <li><a href="https://www.ibm.com/watson/developercloud/">Watson APIs</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk">GitHub</a></li>
+  <li><a href="http://github.com/watson-developer-cloud/python-sdk/issues">Issue Tracker</a></li>
+  <li><a href="http://stackoverflow.com/questions/ask?tags=ibm-watson">StackOverflow</a></li>
+</ul><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="ibm_watson.websocket.html">ibm_watson.websocket package</a><ul>
+      <li>Previous: <a href="ibm_watson.websocket.synthesize_callback.html" title="previous chapter">ibm_watson.websocket.synthesize_callback module</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
