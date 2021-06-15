@@ -21,8 +21,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python-version: ['3.5', '3.6', '3.7', '3.8']
-        os: [ubuntu-latest]
+        python-version: ['3.6', '3.7', '3.8']
+        os: [ubuntu-latest, windows-latest]
 
     steps:
     - uses: actions/checkout@v2
@@ -33,20 +33,20 @@ jobs:
     - name: Install dependencies
       run: |
         pip3 install -r requirements.txt
-        pip3 install -r requirements-dev.txt --use-deprecated=legacy-resolver
+        pip3 install -r requirements-dev.txt
         pip3 install --editable .
     - name: Execute Python unit tests for code coverage
-      if: matrix.python-version == '3.5'
+      if: matrix.python-version == '3.8' && matrix.os == 'ubuntu-latest'
       run: |
         pip3 install -U python-dotenv
         py.test --reruns 3 --cov=ibm_watson
     - name: Upload coverage to Codecov
-      if: matrix.python-version == '3.5'
+      if: matrix.python-version == '3.8' && matrix.os == 'ubuntu-latest'
       uses: codecov/codecov-action@v1
       with:
         name: py${{ matrix.python-version }}-${{ matrix.os }}
     - name: Execute Python unit tests
-      if: matrix.python-version != '3.5'
+      if: matrix.python-version != '3.8'
       run: |
         pip3 install -U python-dotenv
         py.test
