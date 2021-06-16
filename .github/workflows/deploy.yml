@@ -59,6 +59,5 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
       run: npx semantic-release --dry-run --branches 9388_gha
-    - name: Build binary wheel and a source tarball
-      run: python setup.py sdist
