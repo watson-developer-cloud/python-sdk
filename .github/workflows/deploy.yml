@@ -7,11 +7,8 @@
 name: Deploy and Publish
 
 on:
-  workflow_run:
-    workflows: ["Build and Test"]
-    branches: [ master ]
-    types:
-      - completed
+  push:
+    branches: [ '**' ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -37,7 +34,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip3 install -r requirements.txt
-        pip3 install -r requirements-dev.txt --use-deprecated=legacy-resolver
+        pip3 install -r requirements-dev.txt
         pip3 install --editable .
     - name: Install Semantic Release dependencies
       run: |
@@ -50,7 +47,6 @@ jobs:
         npm install -g @semantic-release/commit-analyzer
         npm install -g @semantic-release/release-notes-generator
     - name: Publish js docs
-      if: github.event.workflow_run.conclusion == 'success' && startsWith(github.ref, 'refs/tags')
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
         GHA_BRANCH: ${{ github.ref }} # non PR only need to get last part
@@ -59,18 +55,9 @@ jobs:
         sudo apt-get install python3-sphinx
         docs/publish_gha.sh
     - name: Publish to Git Releases and Tags
-      if: ${{ github.event.workflow_run.conclusion == 'success' }}
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       run: npx semantic-release --dry-run
     - name: Build binary wheel and a source tarball
       run: python setup.py sdist
-    - name: Publish a Python distribution to PyPI # must have built dist before
-      if: github.event.workflow_run.conclusion == 'success' && github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
-      uses: pypa/gh-action-pypi-publish@master
-      with:
-        password: ${{ secrets.PYPI_PASSWORD }}
-        user: watson-devex
-        repository_url: https://upload.pypi.org/legacy
-        verbose: false
