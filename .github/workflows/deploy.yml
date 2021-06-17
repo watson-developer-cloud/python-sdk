@@ -47,7 +47,7 @@ jobs:
         npm install -g @semantic-release/commit-analyzer
         npm install -g @semantic-release/release-notes-generator
         npm install -g semantic-release-pypi
-        pip3 install --upgrade setuptools wheel twine
+        pip3 install setuptools wheel twine
     - name: Publish js docs
       if: ${{ github.event.workflow_run.conclusion == 'success' }}
       env:
