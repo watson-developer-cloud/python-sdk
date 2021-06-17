@@ -6,12 +6,15 @@
 
 name: Deploy and Publish
 
+# on:
+#   workflow_run:
+#     workflows: ["Build and Test"]
+#     branches: [ master ]
+#     types:
+#       - completed
 on:
-  workflow_run:
-    workflows: ["Build and Test"]
-    branches: [ master ]
-    types:
-      - completed
+  push:
+    branches: [ '**' ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -34,11 +37,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12
-    - name: Install dependencies
-      run: |
-        pip3 install -r requirements.txt
-        pip3 install -r requirements-dev.txt
-        pip3 install --editable .
+    # - name: Install dependencies
+    #   run: |
+    #     pip3 install -r requirements.txt
+    #     pip3 install -r requirements-dev.txt
+    #     pip3 install --editable .
     - name: Install Semantic Release dependencies
       run: |
         sudo apt-get install bumpversion
@@ -61,9 +64,11 @@ jobs:
         sudo apt-get install python3-sphinx
         docs/publish_gha.sh
     - name: Publish to Git Releases and Tags
-      if: ${{ github.event.workflow_run.conclusion == 'success' }}
+      #if: ${{ github.event.workflow_run.conclusion == 'success' }}
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
-      run: npx semantic-release --dry-run # --branches 9388_gha
+      run: npx semantic-release --dry-run --branches 9388_gha
+    - name: Build binary wheel and a source tarball
+      run: python setup.py sdist

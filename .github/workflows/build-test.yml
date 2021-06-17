@@ -7,8 +7,8 @@
 name: Build and Test
 
 on:
-  push:
-    branches: [ '**' ]
+  # push:
+  #   branches: [ '**' ]
   pull_request:
     branches: [ master ]
 
