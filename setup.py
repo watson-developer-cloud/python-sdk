@@ -18,7 +18,7 @@ from setuptools.command.test import test as TestCommand
 import os
 import sys
 
-# __version__ = '5.2.0'
+__version__ = '5.2.0'
 
 
 if sys.argv[-1] == 'publish':
@@ -61,7 +61,7 @@ class PyTest(TestCommand):
 
 
 setup(name='ibm-watson',
-      # version=__version__,
+      version=__version__,
       description='Client library to use the IBM Watson Services',
       license='Apache 2.0',
       install_requires=['requests>=2.0, <3.0', 'python_dateutil>=2.5.3', 'websocket-client==0.48.0', 'ibm_cloud_sdk_core>=3.3.6, == 3.*'],
