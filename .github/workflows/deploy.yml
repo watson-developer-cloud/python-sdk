@@ -58,8 +58,10 @@ jobs:
         sudo apt-get install python3-sphinx
         docs/publish_gha.sh
     - name: Publish to Git Releases and Tags
+      if: ${{ github.event.workflow_run.conclusion == 'success' }}
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
-      run: npx semantic-release --dry-run --branches 9388_gha
+      run: npx semantic-release --dry-run
+    - name: Build binary wheel and a source tarball
+      run: python setup.py sdist
