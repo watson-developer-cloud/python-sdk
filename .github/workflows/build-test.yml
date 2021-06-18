@@ -7,8 +7,8 @@
 name: Build and Test
 
 on:
-  # push:
-  #   branches: [ '**' ]
+  push:
+    branches: [ '**' ]
   pull_request:
     branches: [ master ]
 
@@ -35,18 +35,18 @@ jobs:
         pip3 install -r requirements.txt
         pip3 install -r requirements-dev.txt
         pip3 install --editable .
-    - name: Execute Python unit tests for code coverage
-      if: matrix.python-version == '3.8' && matrix.os == 'ubuntu-latest'
+    - name: Execute Python 3.6/3.7 unit tests
+      if: matrix.python-version != '3.8'
       run: |
         pip3 install -U python-dotenv
+        py.test
+    - name: Execute Python 3.8 unit tests for code coverage
+      if: matrix.python-version == '3.8' && matrix.os == 'ubuntu-latest'
+      run: |
+        pip3 install -U python-dotenvz
         py.test --reruns 3 --cov=ibm_watson
     - name: Upload coverage to Codecov
       if: matrix.python-version == '3.8' && matrix.os == 'ubuntu-latest'
       uses: codecov/codecov-action@v1
       with:
         name: py${{ matrix.python-version }}-${{ matrix.os }}
-    - name: Execute Python unit tests
-      if: matrix.python-version != '3.8'
-      run: |
-        pip3 install -U python-dotenv
-        py.test

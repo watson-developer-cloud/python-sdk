@@ -19,7 +19,7 @@
     [
       "semantic-release-pypi",
       {
-        "repoUrl": "https://test.pypi.org/legacy/"
+        "repoUrl": "https://upload.pypi.org/legacy"
       }
     ],
     "@semantic-release/github"
