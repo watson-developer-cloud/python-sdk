@@ -17,7 +17,7 @@ on:
 
 jobs:
   build_test:
-    name: Build and Test on Python ${{ matrix.python-version }} and ${{ matrix.os }}
+    name: Build on Python ${{ matrix.python-version }} using ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -35,17 +35,18 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
+    - name: Install dependencies (ubuntu)
+      if: matrix.os == 'ubuntu-latest'
       run: |
         pip3 install -r requirements.txt
         pip3 install -r requirements-dev.txt
         pip3 install --editable .
-    # - name: Install dependencies (windows)
-    #   if: matrix.os == 'windows-latest' && matrix.python-version == '3.8'
-    #   run: |
-    #     pip3 install -r requirements.txt --use-deprecated=legacy-resolver
-    #     pip3 install -r requirements-dev.txt --use-deprecated=legacy-resolver
-    #     pip3 install --editable . --use-deprecated=legacy-resolver
+    - name: Install dependencies (windows)
+      if: matrix.os == 'windows-latest'
+      run: |
+        pip3 install -r requirements.txt --use-deprecated=legacy-resolver
+        pip3 install -r requirements-dev.txt --use-deprecated=legacy-resolver
+        pip3 install --editable . --use-deprecated=legacy-resolver
     - name: Execute Python 3.6/3.7 unit tests
       if: matrix.python-version != '3.8'
       run: |
