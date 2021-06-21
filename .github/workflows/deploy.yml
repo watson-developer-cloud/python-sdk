@@ -12,7 +12,6 @@ on:
     branches: [ master ]
     types:
       - completed
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -34,11 +33,6 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 12
-    - name: Install dependencies
-      run: |
-        pip3 install -r requirements.txt
-        pip3 install -r requirements-dev.txt --use-deprecated=legacy-resolver
-        pip3 install --editable .
     - name: Install Semantic Release dependencies
       run: |
         sudo apt-get install bumpversion
@@ -49,8 +43,10 @@ jobs:
         npm install -g @semantic-release/github
         npm install -g @semantic-release/commit-analyzer
         npm install -g @semantic-release/release-notes-generator
+        npm install -g semantic-release-pypi
+        pip3 install setuptools wheel twine
     - name: Publish js docs
-      if: github.event.workflow_run.conclusion == 'success' && startsWith(github.ref, 'refs/tags')
+      if: ${{ github.event.workflow_run.conclusion == 'success' }}
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
         GHA_BRANCH: ${{ github.ref }} # non PR only need to get last part
@@ -63,6 +59,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      run: npx semantic-release --dry-run
+        PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+      run: npx semantic-release #--dry-run --branches 9388_gha Uncomment for testxing purposes
     - name: Build binary wheel and a source tarball
       run: python setup.py sdist
