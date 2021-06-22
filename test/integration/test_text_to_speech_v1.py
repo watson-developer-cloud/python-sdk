@@ -133,3 +133,38 @@ class TestIntegrationTextToSpeechV1(unittest.TestCase):
         assert test_callback.fd is not None
         assert os.stat(file).st_size > 0
         os.remove(file)
+
+    # This is test will only be meaningful so long as en-AU_CraigVoice is a Neural type voice model
+    # Check this url for all Neutral type voice models: https://cloud.ibm.com/docs/text-to-speech?topic=text-to-speech-voices#languageVoices
+    def test_synthesize_using_websocket_neural(self):
+        file = 'tongue_twister.wav'
+
+        class MySynthesizeCallback(SynthesizeCallback):
+
+            def __init__(self):
+                SynthesizeCallback.__init__(self)
+                self.fd = None
+                self.error = None
+
+            def on_connected(self):
+                self.fd = open(file, 'ab')
+
+            def on_error(self, error):
+                self.error = error
+
+            def on_audio_stream(self, audio_stream):
+                self.fd.write(audio_stream)
+
+            def on_close(self):
+                self.fd.close()
+
+        test_callback = MySynthesizeCallback()
+        self.text_to_speech.synthesize_using_websocket(
+            'She sells seashells by the seashore',
+            test_callback,
+            accept='audio/wav',
+            voice='en-AU_CraigVoice')
+        assert test_callback.error is None
+        assert test_callback.fd is not None
+        assert os.stat(file).st_size > 0
+        os.remove(file)
