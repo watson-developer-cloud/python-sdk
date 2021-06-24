@@ -14,8 +14,14 @@
 # limitations under the License.
 
 from setuptools import setup
+from os import path
 
 __version__ = '5.2.0'
+
+# read contents of README file
+this_directory = path.abspath(path.dirname(__file__))
+with open(path.join(this_directory, 'README.md'), encoding='utf-8') as file:
+    readme_file = file.read()
 
 setup(name='ibm-watson',
       version=__version__,
@@ -26,7 +32,8 @@ setup(name='ibm-watson',
       license='Apache 2.0',
       author='IBM Watson',
       author_email='watdevex@us.ibm.com',
-      long_description=read_md('README.md'),
+      long_description=readme_file,
+      long_description_content_type='text/markdown',
       url='https://github.com/watson-developer-cloud/python-sdk',
       include_package_data=True,
       keywords='language, vision, question and answer' +
