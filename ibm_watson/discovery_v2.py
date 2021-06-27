@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2019, 2020.
+# (C) Copyright IBM Corp. 2019, 2021.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-a45d89ef-20201210-124536
+# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-902c9336-20210507-162723
 """
 IBM Watson&trade; Discovery is a cognitive search and content analytics engine that you
 can add to applications to identify patterns, trends and actionable insights to drive
@@ -539,6 +539,81 @@ class DiscoveryV2(BaseService):
         response = self.send(request)
         return response
 
+    def query_collection_notices(self,
+                                 project_id: str,
+                                 collection_id: str,
+                                 *,
+                                 filter: str = None,
+                                 query: str = None,
+                                 natural_language_query: str = None,
+                                 count: int = None,
+                                 offset: int = None,
+                                 **kwargs) -> DetailedResponse:
+        """
+        Query collection notices.
+
+        Finds collection-level notices (errors and warnings) that are generated when
+        documents are ingested.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the deploy page of the Discovery administrative tooling.
+        :param str collection_id: The ID of the collection.
+        :param str filter: (optional) A cacheable query that excludes documents
+               that don't mention the query content. Filter searches are better for
+               metadata-type searches and for assessing the concepts in the data set.
+        :param str query: (optional) A query search returns all documents in your
+               data set with full enrichments and full text, but with the most relevant
+               documents listed first.
+        :param str natural_language_query: (optional) A natural language query that
+               returns relevant documents by utilizing training data and natural language
+               understanding.
+        :param int count: (optional) Number of results to return. The maximum for
+               the **count** and **offset** values together in any one query is **10000**.
+        :param int offset: (optional) The number of query results to skip at the
+               beginning. For example, if the total number of results that are returned is
+               10 and the offset is 8, it returns the last two results. The maximum for
+               the **count** and **offset** values together in any one query is **10000**.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse with `dict` result representing a `QueryNoticesResponse` object
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        if collection_id is None:
+            raise ValueError('collection_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='query_collection_notices')
+        headers.update(sdk_headers)
+
+        params = {
+            'version': self.version,
+            'filter': filter,
+            'query': query,
+            'natural_language_query': natural_language_query,
+            'count': count,
+            'offset': offset
+        }
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+        headers['Accept'] = 'application/json'
+
+        path_param_keys = ['project_id', 'collection_id']
+        path_param_values = self.encode_path_vars(project_id, collection_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/projects/{project_id}/collections/{collection_id}/notices'.format(
+            **path_param_dict)
+        request = self.prepare_request(method='GET',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
     def query_notices(self,
                       project_id: str,
                       *,
@@ -549,11 +624,10 @@ class DiscoveryV2(BaseService):
                       offset: int = None,
                       **kwargs) -> DetailedResponse:
         """
-        Query system notices.
+        Query project notices.
 
-        Queries for notices (errors or warnings) that might have been generated by the
-        system. Notices are generated when ingesting documents and performing relevance
-        training.
+        Finds project-level notices (errors and warnings). Currently, project-level
+        notices are generated by relevancy training.
 
         :param str project_id: The ID of the project. This information can be found
                from the deploy page of the Discovery administrative tooling.
@@ -1234,6 +1308,50 @@ class DiscoveryV2(BaseService):
         response = self.send(request)
         return response
 
+    def delete_training_query(self, project_id: str, query_id: str,
+                              **kwargs) -> DetailedResponse:
+        """
+        Delete a training data query.
+
+        Removes details from a training data query, including the query string and all
+        examples.
+
+        :param str project_id: The ID of the project. This information can be found
+               from the deploy page of the Discovery administrative tooling.
+        :param str query_id: The ID of the query used for training.
+        :param dict headers: A `dict` containing the request headers
+        :return: A `DetailedResponse` containing the result, headers and HTTP status code.
+        :rtype: DetailedResponse
+        """
+
+        if project_id is None:
+            raise ValueError('project_id must be provided')
+        if query_id is None:
+            raise ValueError('query_id must be provided')
+        headers = {}
+        sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
+                                      service_version='V2',
+                                      operation_id='delete_training_query')
+        headers.update(sdk_headers)
+
+        params = {'version': self.version}
+
+        if 'headers' in kwargs:
+            headers.update(kwargs.get('headers'))
+
+        path_param_keys = ['project_id', 'query_id']
+        path_param_values = self.encode_path_vars(project_id, query_id)
+        path_param_dict = dict(zip(path_param_keys, path_param_values))
+        url = '/v2/projects/{project_id}/training_data/queries/{query_id}'.format(
+            **path_param_dict)
+        request = self.prepare_request(method='DELETE',
+                                       url=url,
+                                       headers=headers,
+                                       params=params)
+
+        response = self.send(request)
+        return response
+
     #########################
     # analyze
     #########################
@@ -1374,7 +1492,8 @@ class DiscoveryV2(BaseService):
 
         :param str project_id: The ID of the project. This information can be found
                from the deploy page of the Discovery administrative tooling.
-        :param CreateEnrichment enrichment:
+        :param CreateEnrichment enrichment: Information about a specific
+               enrichment.
         :param BinaryIO file: (optional) The enrichment file to upload.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -4762,6 +4881,26 @@ class QueryLargePassages():
           `100`.
     :attr int characters: (optional) The approximate number of characters that any
           one passage will have.
+    :attr bool find_answers: (optional) When true, `answer` objects are returned as
+          part of each passage in the query results. The primary difference between an
+          `answer` and a `passage` is that the length of a passage is defined by the
+          query, where the length of an `answer` is calculated by Discovery based on how
+          much text is needed to answer the question./n/nThis parameter is ignored if
+          passages are not enabled for the query, or no **natural_language_query** is
+          specified./n/nIf the **find_answers** parameter is set to `true` and
+          **per_document** parameter is also set to `true`, then the document search
+          results and the passage search results within each document are reordered using
+          the answer confidences. The goal of this reordering is to do as much as possible
+          to make sure that the first answer of the first passage of the first document is
+          the best answer. Similarly, if the **find_answers** parameter is set to `true`
+          and **per_document** parameter is set to `false`, then the passage search
+          results are reordered in decreasing order of the highest confidence answer for
+          each document and passage./n/nThe **find_answers** parameter is **beta**
+          functionality available only on managed instances and should not be used in a
+          production environment. This parameter is not available on installed instances
+          of Discovery.
+    :attr int max_answers_per_passage: (optional) The number of `answer` objects to
+          return per passage if the **find_answers** parmeter is specified as `true`.
     """
 
     def __init__(self,
@@ -4771,7 +4910,9 @@ class QueryLargePassages():
                  max_per_document: int = None,
                  fields: List[str] = None,
                  count: int = None,
-                 characters: int = None) -> None:
+                 characters: int = None,
+                 find_answers: bool = None,
+                 max_answers_per_passage: int = None) -> None:
         """
         Initialize a QueryLargePassages object.
 
@@ -4789,6 +4930,28 @@ class QueryLargePassages():
                maximum is `100`.
         :param int characters: (optional) The approximate number of characters that
                any one passage will have.
+        :param bool find_answers: (optional) When true, `answer` objects are
+               returned as part of each passage in the query results. The primary
+               difference between an `answer` and a `passage` is that the length of a
+               passage is defined by the query, where the length of an `answer` is
+               calculated by Discovery based on how much text is needed to answer the
+               question./n/nThis parameter is ignored if passages are not enabled for the
+               query, or no **natural_language_query** is specified./n/nIf the
+               **find_answers** parameter is set to `true` and **per_document** parameter
+               is also set to `true`, then the document search results and the passage
+               search results within each document are reordered using the answer
+               confidences. The goal of this reordering is to do as much as possible to
+               make sure that the first answer of the first passage of the first document
+               is the best answer. Similarly, if the **find_answers** parameter is set to
+               `true` and **per_document** parameter is set to `false`, then the passage
+               search results are reordered in decreasing order of the highest confidence
+               answer for each document and passage./n/nThe **find_answers** parameter is
+               **beta** functionality available only on managed instances and should not
+               be used in a production environment. This parameter is not available on
+               installed instances of Discovery.
+        :param int max_answers_per_passage: (optional) The number of `answer`
+               objects to return per passage if the **find_answers** parmeter is specified
+               as `true`.
         """
         self.enabled = enabled
         self.per_document = per_document
@@ -4796,6 +4959,8 @@ class QueryLargePassages():
         self.fields = fields
         self.count = count
         self.characters = characters
+        self.find_answers = find_answers
+        self.max_answers_per_passage = max_answers_per_passage
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'QueryLargePassages':
@@ -4813,6 +4978,11 @@ class QueryLargePassages():
             args['count'] = _dict.get('count')
         if 'characters' in _dict:
             args['characters'] = _dict.get('characters')
+        if 'find_answers' in _dict:
+            args['find_answers'] = _dict.get('find_answers')
+        if 'max_answers_per_passage' in _dict:
+            args['max_answers_per_passage'] = _dict.get(
+                'max_answers_per_passage')
         return cls(**args)
 
     @classmethod
@@ -4836,6 +5006,11 @@ class QueryLargePassages():
             _dict['count'] = self.count
         if hasattr(self, 'characters') and self.characters is not None:
             _dict['characters'] = self.characters
+        if hasattr(self, 'find_answers') and self.find_answers is not None:
+            _dict['find_answers'] = self.find_answers
+        if hasattr(self, 'max_answers_per_passage'
+                  ) and self.max_answers_per_passage is not None:
+            _dict['max_answers_per_passage'] = self.max_answers_per_passage
         return _dict
 
     def _to_dict(self):
@@ -5212,6 +5387,10 @@ class QueryResponsePassage():
           extracted passage in the originating field.
     :attr str field: (optional) The label of the field from which the passage has
           been extracted.
+    :attr float confidence: (optional) An estimate of the probability that the
+          passage is relevant.
+    :attr List[ResultPassageAnswer] answers: (optional) An array of extracted
+          answers to the specified query.
     """
 
     def __init__(self,
@@ -5222,7 +5401,9 @@ class QueryResponsePassage():
                  collection_id: str = None,
                  start_offset: int = None,
                  end_offset: int = None,
-                 field: str = None) -> None:
+                 field: str = None,
+                 confidence: float = None,
+                 answers: List['ResultPassageAnswer'] = None) -> None:
         """
         Initialize a QueryResponsePassage object.
 
@@ -5239,6 +5420,10 @@ class QueryResponsePassage():
                extracted passage in the originating field.
         :param str field: (optional) The label of the field from which the passage
                has been extracted.
+        :param float confidence: (optional) An estimate of the probability that the
+               passage is relevant.
+        :param List[ResultPassageAnswer] answers: (optional) An array of extracted
+               answers to the specified query.
         """
         self.passage_text = passage_text
         self.passage_score = passage_score
@@ -5247,6 +5432,8 @@ class QueryResponsePassage():
         self.start_offset = start_offset
         self.end_offset = end_offset
         self.field = field
+        self.confidence = confidence
+        self.answers = answers
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'QueryResponsePassage':
@@ -5266,6 +5453,12 @@ class QueryResponsePassage():
             args['end_offset'] = _dict.get('end_offset')
         if 'field' in _dict:
             args['field'] = _dict.get('field')
+        if 'confidence' in _dict:
+            args['confidence'] = _dict.get('confidence')
+        if 'answers' in _dict:
+            args['answers'] = [
+                ResultPassageAnswer.from_dict(x) for x in _dict.get('answers')
+            ]
         return cls(**args)
 
     @classmethod
@@ -5290,6 +5483,10 @@ class QueryResponsePassage():
             _dict['end_offset'] = self.end_offset
         if hasattr(self, 'field') and self.field is not None:
             _dict['field'] = self.field
+        if hasattr(self, 'confidence') and self.confidence is not None:
+            _dict['confidence'] = self.confidence
+        if hasattr(self, 'answers') and self.answers is not None:
+            _dict['answers'] = [x.to_dict() for x in self.answers]
         return _dict
 
     def _to_dict(self):
@@ -5536,6 +5733,10 @@ class QueryResultPassage():
           extracted passage in the originating field.
     :attr str field: (optional) The label of the field from which the passage has
           been extracted.
+    :attr float confidence: (optional) Estimate of the probability that the passage
+          is relevant.
+    :attr List[ResultPassageAnswer] answers: (optional) An arry of extracted answers
+          to the specified query.
     """
 
     def __init__(self,
@@ -5543,7 +5744,9 @@ class QueryResultPassage():
                  passage_text: str = None,
                  start_offset: int = None,
                  end_offset: int = None,
-                 field: str = None) -> None:
+                 field: str = None,
+                 confidence: float = None,
+                 answers: List['ResultPassageAnswer'] = None) -> None:
         """
         Initialize a QueryResultPassage object.
 
@@ -5554,11 +5757,17 @@ class QueryResultPassage():
                extracted passage in the originating field.
         :param str field: (optional) The label of the field from which the passage
                has been extracted.
+        :param float confidence: (optional) Estimate of the probability that the
+               passage is relevant.
+        :param List[ResultPassageAnswer] answers: (optional) An arry of extracted
+               answers to the specified query.
         """
         self.passage_text = passage_text
         self.start_offset = start_offset
         self.end_offset = end_offset
         self.field = field
+        self.confidence = confidence
+        self.answers = answers
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'QueryResultPassage':
@@ -5572,6 +5781,12 @@ class QueryResultPassage():
             args['end_offset'] = _dict.get('end_offset')
         if 'field' in _dict:
             args['field'] = _dict.get('field')
+        if 'confidence' in _dict:
+            args['confidence'] = _dict.get('confidence')
+        if 'answers' in _dict:
+            args['answers'] = [
+                ResultPassageAnswer.from_dict(x) for x in _dict.get('answers')
+            ]
         return cls(**args)
 
     @classmethod
@@ -5590,6 +5805,10 @@ class QueryResultPassage():
             _dict['end_offset'] = self.end_offset
         if hasattr(self, 'field') and self.field is not None:
             _dict['field'] = self.field
+        if hasattr(self, 'confidence') and self.confidence is not None:
+            _dict['confidence'] = self.confidence
+        if hasattr(self, 'answers') and self.answers is not None:
+            _dict['answers'] = [x.to_dict() for x in self.answers]
         return _dict
 
     def _to_dict(self):
@@ -6064,6 +6283,94 @@ class QueryTopHitsAggregationResult():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'QueryTopHitsAggregationResult') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class ResultPassageAnswer():
+    """
+    Object containing a potential answer to the specified query.
+
+    :attr str answer_text: (optional) Answer text for the specified query as
+          identified by Discovery.
+    :attr int start_offset: (optional) The position of the first character of the
+          extracted answer in the originating field.
+    :attr int end_offset: (optional) The position of the last character of the
+          extracted answer in the originating field.
+    :attr float confidence: (optional) An estimate of the probability that the
+          answer is relevant.
+    """
+
+    def __init__(self,
+                 *,
+                 answer_text: str = None,
+                 start_offset: int = None,
+                 end_offset: int = None,
+                 confidence: float = None) -> None:
+        """
+        Initialize a ResultPassageAnswer object.
+
+        :param str answer_text: (optional) Answer text for the specified query as
+               identified by Discovery.
+        :param int start_offset: (optional) The position of the first character of
+               the extracted answer in the originating field.
+        :param int end_offset: (optional) The position of the last character of the
+               extracted answer in the originating field.
+        :param float confidence: (optional) An estimate of the probability that the
+               answer is relevant.
+        """
+        self.answer_text = answer_text
+        self.start_offset = start_offset
+        self.end_offset = end_offset
+        self.confidence = confidence
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'ResultPassageAnswer':
+        """Initialize a ResultPassageAnswer object from a json dictionary."""
+        args = {}
+        if 'answer_text' in _dict:
+            args['answer_text'] = _dict.get('answer_text')
+        if 'start_offset' in _dict:
+            args['start_offset'] = _dict.get('start_offset')
+        if 'end_offset' in _dict:
+            args['end_offset'] = _dict.get('end_offset')
+        if 'confidence' in _dict:
+            args['confidence'] = _dict.get('confidence')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a ResultPassageAnswer object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'answer_text') and self.answer_text is not None:
+            _dict['answer_text'] = self.answer_text
+        if hasattr(self, 'start_offset') and self.start_offset is not None:
+            _dict['start_offset'] = self.start_offset
+        if hasattr(self, 'end_offset') and self.end_offset is not None:
+            _dict['end_offset'] = self.end_offset
+        if hasattr(self, 'confidence') and self.confidence is not None:
+            _dict['confidence'] = self.confidence
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this ResultPassageAnswer object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'ResultPassageAnswer') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'ResultPassageAnswer') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 

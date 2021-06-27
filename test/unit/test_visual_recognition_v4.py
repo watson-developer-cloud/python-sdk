@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2019, 2020.
+# (C) Copyright IBM Corp. 2019, 2021.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,7 +19,8 @@ Unit Tests for VisualRecognitionV4
 
 from datetime import datetime, timezone
 from ibm_cloud_sdk_core.authenticators.no_auth_authenticator import NoAuthAuthenticator
-from ibm_cloud_sdk_core.utils import date_to_string
+from ibm_cloud_sdk_core.utils import date_to_string, string_to_date
+from ibm_cloud_sdk_core.utils import datetime_to_string, string_to_datetime
 import inspect
 import io
 import json
@@ -33,13 +34,13 @@ from ibm_watson.visual_recognition_v4 import *
 
 version = 'testString'
 
-service = VisualRecognitionV4(
+_service = VisualRecognitionV4(
     authenticator=NoAuthAuthenticator(),
     version=version
     )
 
-base_url = 'https://api.us-south.visual-recognition.watson.cloud.ibm.com'
-service.set_service_url(base_url)
+_base_url = 'https://api.us-south.visual-recognition.watson.cloud.ibm.com'
+_service.set_service_url(_base_url)
 
 ##############################################################################
 # Start of Service: Analysis
@@ -66,7 +67,7 @@ class TestAnalyze():
         analyze()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/analyze')
+        url = self.preprocess_url(_base_url + '/v4/analyze')
         mock_response = '{"images": [{"source": {"type": "file", "filename": "filename", "archive_filename": "archive_filename", "source_url": "source_url", "resolved_url": "resolved_url"}, "dimensions": {"height": 6, "width": 5}, "objects": {"collections": [{"collection_id": "collection_id", "objects": [{"object": "object", "location": {"top": 3, "left": 4, "width": 5, "height": 6}, "score": 5}]}]}, "errors": [{"code": "invalid_field", "message": "message", "more_info": "more_info", "target": {"type": "field", "name": "name"}}]}], "warnings": [{"code": "invalid_field", "message": "message", "more_info": "more_info"}], "trace": "trace"}'
         responses.add(responses.POST,
                       url,
@@ -88,7 +89,7 @@ class TestAnalyze():
         threshold = 0.15
 
         # Invoke method
-        response = service.analyze(
+        response = _service.analyze(
             collection_ids,
             features,
             images_file=images_file,
@@ -108,7 +109,7 @@ class TestAnalyze():
         test_analyze_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/analyze')
+        url = self.preprocess_url(_base_url + '/v4/analyze')
         mock_response = '{"images": [{"source": {"type": "file", "filename": "filename", "archive_filename": "archive_filename", "source_url": "source_url", "resolved_url": "resolved_url"}, "dimensions": {"height": 6, "width": 5}, "objects": {"collections": [{"collection_id": "collection_id", "objects": [{"object": "object", "location": {"top": 3, "left": 4, "width": 5, "height": 6}, "score": 5}]}]}, "errors": [{"code": "invalid_field", "message": "message", "more_info": "more_info", "target": {"type": "field", "name": "name"}}]}], "warnings": [{"code": "invalid_field", "message": "message", "more_info": "more_info"}], "trace": "trace"}'
         responses.add(responses.POST,
                       url,
@@ -121,7 +122,7 @@ class TestAnalyze():
         features = ['objects']
 
         # Invoke method
-        response = service.analyze(
+        response = _service.analyze(
             collection_ids,
             features,
             headers={}
@@ -138,7 +139,7 @@ class TestAnalyze():
         test_analyze_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/analyze')
+        url = self.preprocess_url(_base_url + '/v4/analyze')
         mock_response = '{"images": [{"source": {"type": "file", "filename": "filename", "archive_filename": "archive_filename", "source_url": "source_url", "resolved_url": "resolved_url"}, "dimensions": {"height": 6, "width": 5}, "objects": {"collections": [{"collection_id": "collection_id", "objects": [{"object": "object", "location": {"top": 3, "left": 4, "width": 5, "height": 6}, "score": 5}]}]}, "errors": [{"code": "invalid_field", "message": "message", "more_info": "more_info", "target": {"type": "field", "name": "name"}}]}], "warnings": [{"code": "invalid_field", "message": "message", "more_info": "more_info"}], "trace": "trace"}'
         responses.add(responses.POST,
                       url,
@@ -158,7 +159,7 @@ class TestAnalyze():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.analyze(**req_copy)
+                _service.analyze(**req_copy)
 
 
 
@@ -192,8 +193,8 @@ class TestCreateCollection():
         create_collection()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "rscnn_ready": false, "description": "description"}}}'
+        url = self.preprocess_url(_base_url + '/v4/collections')
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "rscnn_ready": false, "description": "description"}}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -219,7 +220,7 @@ class TestCreateCollection():
         training_status = training_status_model
 
         # Invoke method
-        response = service.create_collection(
+        response = _service.create_collection(
             name=name,
             description=description,
             training_status=training_status,
@@ -242,8 +243,8 @@ class TestCreateCollection():
         test_create_collection_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "rscnn_ready": false, "description": "description"}}}'
+        url = self.preprocess_url(_base_url + '/v4/collections')
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "rscnn_ready": false, "description": "description"}}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -274,7 +275,7 @@ class TestCreateCollection():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.create_collection(**req_copy)
+                _service.create_collection(**req_copy)
 
 
 
@@ -298,8 +299,8 @@ class TestListCollections():
         list_collections()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections')
-        mock_response = '{"collections": [{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "rscnn_ready": false, "description": "description"}}}]}'
+        url = self.preprocess_url(_base_url + '/v4/collections')
+        mock_response = '{"collections": [{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "rscnn_ready": false, "description": "description"}}}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -307,7 +308,7 @@ class TestListCollections():
                       status=200)
 
         # Invoke method
-        response = service.list_collections()
+        response = _service.list_collections()
 
 
         # Check for correct operation
@@ -321,8 +322,8 @@ class TestListCollections():
         test_list_collections_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections')
-        mock_response = '{"collections": [{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "rscnn_ready": false, "description": "description"}}}]}'
+        url = self.preprocess_url(_base_url + '/v4/collections')
+        mock_response = '{"collections": [{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "rscnn_ready": false, "description": "description"}}}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -335,7 +336,7 @@ class TestListCollections():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.list_collections(**req_copy)
+                _service.list_collections(**req_copy)
 
 
 
@@ -359,8 +360,8 @@ class TestGetCollection():
         get_collection()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "rscnn_ready": false, "description": "description"}}}'
+        url = self.preprocess_url(_base_url + '/v4/collections/testString')
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "rscnn_ready": false, "description": "description"}}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -371,7 +372,7 @@ class TestGetCollection():
         collection_id = 'testString'
 
         # Invoke method
-        response = service.get_collection(
+        response = _service.get_collection(
             collection_id,
             headers={}
         )
@@ -387,8 +388,8 @@ class TestGetCollection():
         test_get_collection_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "rscnn_ready": false, "description": "description"}}}'
+        url = self.preprocess_url(_base_url + '/v4/collections/testString')
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "rscnn_ready": false, "description": "description"}}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -405,7 +406,7 @@ class TestGetCollection():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_collection(**req_copy)
+                _service.get_collection(**req_copy)
 
 
 
@@ -429,8 +430,8 @@ class TestUpdateCollection():
         update_collection()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "rscnn_ready": false, "description": "description"}}}'
+        url = self.preprocess_url(_base_url + '/v4/collections/testString')
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "rscnn_ready": false, "description": "description"}}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -457,7 +458,7 @@ class TestUpdateCollection():
         training_status = training_status_model
 
         # Invoke method
-        response = service.update_collection(
+        response = _service.update_collection(
             collection_id,
             name=name,
             description=description,
@@ -481,8 +482,8 @@ class TestUpdateCollection():
         test_update_collection_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "rscnn_ready": false, "description": "description"}}}'
+        url = self.preprocess_url(_base_url + '/v4/collections/testString')
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "rscnn_ready": false, "description": "description"}}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -493,7 +494,7 @@ class TestUpdateCollection():
         collection_id = 'testString'
 
         # Invoke method
-        response = service.update_collection(
+        response = _service.update_collection(
             collection_id,
             headers={}
         )
@@ -509,8 +510,8 @@ class TestUpdateCollection():
         test_update_collection_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "rscnn_ready": false, "description": "description"}}}'
+        url = self.preprocess_url(_base_url + '/v4/collections/testString')
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "rscnn_ready": false, "description": "description"}}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -527,7 +528,7 @@ class TestUpdateCollection():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.update_collection(**req_copy)
+                _service.update_collection(**req_copy)
 
 
 
@@ -551,7 +552,7 @@ class TestDeleteCollection():
         delete_collection()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString')
+        url = self.preprocess_url(_base_url + '/v4/collections/testString')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -560,7 +561,7 @@ class TestDeleteCollection():
         collection_id = 'testString'
 
         # Invoke method
-        response = service.delete_collection(
+        response = _service.delete_collection(
             collection_id,
             headers={}
         )
@@ -576,7 +577,7 @@ class TestDeleteCollection():
         test_delete_collection_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString')
+        url = self.preprocess_url(_base_url + '/v4/collections/testString')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -591,7 +592,7 @@ class TestDeleteCollection():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.delete_collection(**req_copy)
+                _service.delete_collection(**req_copy)
 
 
 
@@ -615,7 +616,7 @@ class TestGetModelFile():
         get_model_file()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString/model')
+        url = self.preprocess_url(_base_url + '/v4/collections/testString/model')
         mock_response = 'This is a mock binary response.'
         responses.add(responses.GET,
                       url,
@@ -629,7 +630,7 @@ class TestGetModelFile():
         model_format = 'rscnn'
 
         # Invoke method
-        response = service.get_model_file(
+        response = _service.get_model_file(
             collection_id,
             feature,
             model_format,
@@ -652,7 +653,7 @@ class TestGetModelFile():
         test_get_model_file_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString/model')
+        url = self.preprocess_url(_base_url + '/v4/collections/testString/model')
         mock_response = 'This is a mock binary response.'
         responses.add(responses.GET,
                       url,
@@ -674,7 +675,7 @@ class TestGetModelFile():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_model_file(**req_copy)
+                _service.get_model_file(**req_copy)
 
 
 
@@ -708,8 +709,8 @@ class TestAddImages():
         add_images()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString/images')
-        mock_response = '{"images": [{"image_id": "image_id", "updated": "2019-01-01T12:00:00", "created": "2019-01-01T12:00:00", "source": {"type": "file", "filename": "filename", "archive_filename": "archive_filename", "source_url": "source_url", "resolved_url": "resolved_url"}, "dimensions": {"height": 6, "width": 5}, "errors": [{"code": "invalid_field", "message": "message", "more_info": "more_info", "target": {"type": "field", "name": "name"}}], "training_data": {"objects": [{"object": "object", "location": {"top": 3, "left": 4, "width": 5, "height": 6}}]}}], "warnings": [{"code": "invalid_field", "message": "message", "more_info": "more_info"}], "trace": "trace"}'
+        url = self.preprocess_url(_base_url + '/v4/collections/testString/images')
+        mock_response = '{"images": [{"image_id": "image_id", "updated": "2019-01-01T12:00:00.000Z", "created": "2019-01-01T12:00:00.000Z", "source": {"type": "file", "filename": "filename", "archive_filename": "archive_filename", "source_url": "source_url", "resolved_url": "resolved_url"}, "dimensions": {"height": 6, "width": 5}, "errors": [{"code": "invalid_field", "message": "message", "more_info": "more_info", "target": {"type": "field", "name": "name"}}], "training_data": {"objects": [{"object": "object", "location": {"top": 3, "left": 4, "width": 5, "height": 6}}]}}], "warnings": [{"code": "invalid_field", "message": "message", "more_info": "more_info"}], "trace": "trace"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -726,10 +727,10 @@ class TestAddImages():
         collection_id = 'testString'
         images_file = [file_with_metadata_model]
         image_url = ['testString']
-        training_data = 'testString'
+        training_data = '{"objects":[{"object":"2018-Fit","location":{"left":33,"top":8,"width":760,"height":419}}]}'
 
         # Invoke method
-        response = service.add_images(
+        response = _service.add_images(
             collection_id,
             images_file=images_file,
             image_url=image_url,
@@ -748,8 +749,8 @@ class TestAddImages():
         test_add_images_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString/images')
-        mock_response = '{"images": [{"image_id": "image_id", "updated": "2019-01-01T12:00:00", "created": "2019-01-01T12:00:00", "source": {"type": "file", "filename": "filename", "archive_filename": "archive_filename", "source_url": "source_url", "resolved_url": "resolved_url"}, "dimensions": {"height": 6, "width": 5}, "errors": [{"code": "invalid_field", "message": "message", "more_info": "more_info", "target": {"type": "field", "name": "name"}}], "training_data": {"objects": [{"object": "object", "location": {"top": 3, "left": 4, "width": 5, "height": 6}}]}}], "warnings": [{"code": "invalid_field", "message": "message", "more_info": "more_info"}], "trace": "trace"}'
+        url = self.preprocess_url(_base_url + '/v4/collections/testString/images')
+        mock_response = '{"images": [{"image_id": "image_id", "updated": "2019-01-01T12:00:00.000Z", "created": "2019-01-01T12:00:00.000Z", "source": {"type": "file", "filename": "filename", "archive_filename": "archive_filename", "source_url": "source_url", "resolved_url": "resolved_url"}, "dimensions": {"height": 6, "width": 5}, "errors": [{"code": "invalid_field", "message": "message", "more_info": "more_info", "target": {"type": "field", "name": "name"}}], "training_data": {"objects": [{"object": "object", "location": {"top": 3, "left": 4, "width": 5, "height": 6}}]}}], "warnings": [{"code": "invalid_field", "message": "message", "more_info": "more_info"}], "trace": "trace"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -760,7 +761,7 @@ class TestAddImages():
         collection_id = 'testString'
 
         # Invoke method
-        response = service.add_images(
+        response = _service.add_images(
             collection_id,
             headers={}
         )
@@ -776,8 +777,8 @@ class TestAddImages():
         test_add_images_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString/images')
-        mock_response = '{"images": [{"image_id": "image_id", "updated": "2019-01-01T12:00:00", "created": "2019-01-01T12:00:00", "source": {"type": "file", "filename": "filename", "archive_filename": "archive_filename", "source_url": "source_url", "resolved_url": "resolved_url"}, "dimensions": {"height": 6, "width": 5}, "errors": [{"code": "invalid_field", "message": "message", "more_info": "more_info", "target": {"type": "field", "name": "name"}}], "training_data": {"objects": [{"object": "object", "location": {"top": 3, "left": 4, "width": 5, "height": 6}}]}}], "warnings": [{"code": "invalid_field", "message": "message", "more_info": "more_info"}], "trace": "trace"}'
+        url = self.preprocess_url(_base_url + '/v4/collections/testString/images')
+        mock_response = '{"images": [{"image_id": "image_id", "updated": "2019-01-01T12:00:00.000Z", "created": "2019-01-01T12:00:00.000Z", "source": {"type": "file", "filename": "filename", "archive_filename": "archive_filename", "source_url": "source_url", "resolved_url": "resolved_url"}, "dimensions": {"height": 6, "width": 5}, "errors": [{"code": "invalid_field", "message": "message", "more_info": "more_info", "target": {"type": "field", "name": "name"}}], "training_data": {"objects": [{"object": "object", "location": {"top": 3, "left": 4, "width": 5, "height": 6}}]}}], "warnings": [{"code": "invalid_field", "message": "message", "more_info": "more_info"}], "trace": "trace"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -794,7 +795,7 @@ class TestAddImages():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.add_images(**req_copy)
+                _service.add_images(**req_copy)
 
 
 
@@ -818,8 +819,8 @@ class TestListImages():
         list_images()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString/images')
-        mock_response = '{"images": [{"image_id": "image_id", "updated": "2019-01-01T12:00:00"}]}'
+        url = self.preprocess_url(_base_url + '/v4/collections/testString/images')
+        mock_response = '{"images": [{"image_id": "image_id", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -830,7 +831,7 @@ class TestListImages():
         collection_id = 'testString'
 
         # Invoke method
-        response = service.list_images(
+        response = _service.list_images(
             collection_id,
             headers={}
         )
@@ -846,8 +847,8 @@ class TestListImages():
         test_list_images_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString/images')
-        mock_response = '{"images": [{"image_id": "image_id", "updated": "2019-01-01T12:00:00"}]}'
+        url = self.preprocess_url(_base_url + '/v4/collections/testString/images')
+        mock_response = '{"images": [{"image_id": "image_id", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -864,7 +865,7 @@ class TestListImages():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.list_images(**req_copy)
+                _service.list_images(**req_copy)
 
 
 
@@ -888,8 +889,8 @@ class TestGetImageDetails():
         get_image_details()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString/images/testString')
-        mock_response = '{"image_id": "image_id", "updated": "2019-01-01T12:00:00", "created": "2019-01-01T12:00:00", "source": {"type": "file", "filename": "filename", "archive_filename": "archive_filename", "source_url": "source_url", "resolved_url": "resolved_url"}, "dimensions": {"height": 6, "width": 5}, "errors": [{"code": "invalid_field", "message": "message", "more_info": "more_info", "target": {"type": "field", "name": "name"}}], "training_data": {"objects": [{"object": "object", "location": {"top": 3, "left": 4, "width": 5, "height": 6}}]}}'
+        url = self.preprocess_url(_base_url + '/v4/collections/testString/images/testString')
+        mock_response = '{"image_id": "image_id", "updated": "2019-01-01T12:00:00.000Z", "created": "2019-01-01T12:00:00.000Z", "source": {"type": "file", "filename": "filename", "archive_filename": "archive_filename", "source_url": "source_url", "resolved_url": "resolved_url"}, "dimensions": {"height": 6, "width": 5}, "errors": [{"code": "invalid_field", "message": "message", "more_info": "more_info", "target": {"type": "field", "name": "name"}}], "training_data": {"objects": [{"object": "object", "location": {"top": 3, "left": 4, "width": 5, "height": 6}}]}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -901,7 +902,7 @@ class TestGetImageDetails():
         image_id = 'testString'
 
         # Invoke method
-        response = service.get_image_details(
+        response = _service.get_image_details(
             collection_id,
             image_id,
             headers={}
@@ -918,8 +919,8 @@ class TestGetImageDetails():
         test_get_image_details_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString/images/testString')
-        mock_response = '{"image_id": "image_id", "updated": "2019-01-01T12:00:00", "created": "2019-01-01T12:00:00", "source": {"type": "file", "filename": "filename", "archive_filename": "archive_filename", "source_url": "source_url", "resolved_url": "resolved_url"}, "dimensions": {"height": 6, "width": 5}, "errors": [{"code": "invalid_field", "message": "message", "more_info": "more_info", "target": {"type": "field", "name": "name"}}], "training_data": {"objects": [{"object": "object", "location": {"top": 3, "left": 4, "width": 5, "height": 6}}]}}'
+        url = self.preprocess_url(_base_url + '/v4/collections/testString/images/testString')
+        mock_response = '{"image_id": "image_id", "updated": "2019-01-01T12:00:00.000Z", "created": "2019-01-01T12:00:00.000Z", "source": {"type": "file", "filename": "filename", "archive_filename": "archive_filename", "source_url": "source_url", "resolved_url": "resolved_url"}, "dimensions": {"height": 6, "width": 5}, "errors": [{"code": "invalid_field", "message": "message", "more_info": "more_info", "target": {"type": "field", "name": "name"}}], "training_data": {"objects": [{"object": "object", "location": {"top": 3, "left": 4, "width": 5, "height": 6}}]}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -938,7 +939,7 @@ class TestGetImageDetails():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_image_details(**req_copy)
+                _service.get_image_details(**req_copy)
 
 
 
@@ -962,7 +963,7 @@ class TestDeleteImage():
         delete_image()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString/images/testString')
+        url = self.preprocess_url(_base_url + '/v4/collections/testString/images/testString')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -972,7 +973,7 @@ class TestDeleteImage():
         image_id = 'testString'
 
         # Invoke method
-        response = service.delete_image(
+        response = _service.delete_image(
             collection_id,
             image_id,
             headers={}
@@ -989,7 +990,7 @@ class TestDeleteImage():
         test_delete_image_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString/images/testString')
+        url = self.preprocess_url(_base_url + '/v4/collections/testString/images/testString')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -1006,7 +1007,7 @@ class TestDeleteImage():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.delete_image(**req_copy)
+                _service.delete_image(**req_copy)
 
 
 
@@ -1030,7 +1031,7 @@ class TestGetJpegImage():
         get_jpeg_image()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString/images/testString/jpeg')
+        url = self.preprocess_url(_base_url + '/v4/collections/testString/images/testString/jpeg')
         mock_response = 'This is a mock binary response.'
         responses.add(responses.GET,
                       url,
@@ -1044,7 +1045,7 @@ class TestGetJpegImage():
         size = 'full'
 
         # Invoke method
-        response = service.get_jpeg_image(
+        response = _service.get_jpeg_image(
             collection_id,
             image_id,
             size=size,
@@ -1066,7 +1067,7 @@ class TestGetJpegImage():
         test_get_jpeg_image_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString/images/testString/jpeg')
+        url = self.preprocess_url(_base_url + '/v4/collections/testString/images/testString/jpeg')
         mock_response = 'This is a mock binary response.'
         responses.add(responses.GET,
                       url,
@@ -1079,7 +1080,7 @@ class TestGetJpegImage():
         image_id = 'testString'
 
         # Invoke method
-        response = service.get_jpeg_image(
+        response = _service.get_jpeg_image(
             collection_id,
             image_id,
             headers={}
@@ -1096,7 +1097,7 @@ class TestGetJpegImage():
         test_get_jpeg_image_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString/images/testString/jpeg')
+        url = self.preprocess_url(_base_url + '/v4/collections/testString/images/testString/jpeg')
         mock_response = 'This is a mock binary response.'
         responses.add(responses.GET,
                       url,
@@ -1116,7 +1117,7 @@ class TestGetJpegImage():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_jpeg_image(**req_copy)
+                _service.get_jpeg_image(**req_copy)
 
 
 
@@ -1150,7 +1151,7 @@ class TestListObjectMetadata():
         list_object_metadata()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString/objects')
+        url = self.preprocess_url(_base_url + '/v4/collections/testString/objects')
         mock_response = '{"object_count": 12, "objects": [{"object": "object", "count": 5}]}'
         responses.add(responses.GET,
                       url,
@@ -1162,7 +1163,7 @@ class TestListObjectMetadata():
         collection_id = 'testString'
 
         # Invoke method
-        response = service.list_object_metadata(
+        response = _service.list_object_metadata(
             collection_id,
             headers={}
         )
@@ -1178,7 +1179,7 @@ class TestListObjectMetadata():
         test_list_object_metadata_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString/objects')
+        url = self.preprocess_url(_base_url + '/v4/collections/testString/objects')
         mock_response = '{"object_count": 12, "objects": [{"object": "object", "count": 5}]}'
         responses.add(responses.GET,
                       url,
@@ -1196,7 +1197,7 @@ class TestListObjectMetadata():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.list_object_metadata(**req_copy)
+                _service.list_object_metadata(**req_copy)
 
 
 
@@ -1220,7 +1221,7 @@ class TestUpdateObjectMetadata():
         update_object_metadata()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString/objects/testString')
+        url = self.preprocess_url(_base_url + '/v4/collections/testString/objects/testString')
         mock_response = '{"object": "object", "count": 5}'
         responses.add(responses.POST,
                       url,
@@ -1234,7 +1235,7 @@ class TestUpdateObjectMetadata():
         new_object = 'testString'
 
         # Invoke method
-        response = service.update_object_metadata(
+        response = _service.update_object_metadata(
             collection_id,
             object,
             new_object,
@@ -1255,7 +1256,7 @@ class TestUpdateObjectMetadata():
         test_update_object_metadata_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString/objects/testString')
+        url = self.preprocess_url(_base_url + '/v4/collections/testString/objects/testString')
         mock_response = '{"object": "object", "count": 5}'
         responses.add(responses.POST,
                       url,
@@ -1277,7 +1278,7 @@ class TestUpdateObjectMetadata():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.update_object_metadata(**req_copy)
+                _service.update_object_metadata(**req_copy)
 
 
 
@@ -1301,7 +1302,7 @@ class TestGetObjectMetadata():
         get_object_metadata()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString/objects/testString')
+        url = self.preprocess_url(_base_url + '/v4/collections/testString/objects/testString')
         mock_response = '{"object": "object", "count": 5}'
         responses.add(responses.GET,
                       url,
@@ -1314,7 +1315,7 @@ class TestGetObjectMetadata():
         object = 'testString'
 
         # Invoke method
-        response = service.get_object_metadata(
+        response = _service.get_object_metadata(
             collection_id,
             object,
             headers={}
@@ -1331,7 +1332,7 @@ class TestGetObjectMetadata():
         test_get_object_metadata_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString/objects/testString')
+        url = self.preprocess_url(_base_url + '/v4/collections/testString/objects/testString')
         mock_response = '{"object": "object", "count": 5}'
         responses.add(responses.GET,
                       url,
@@ -1351,7 +1352,7 @@ class TestGetObjectMetadata():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_object_metadata(**req_copy)
+                _service.get_object_metadata(**req_copy)
 
 
 
@@ -1375,7 +1376,7 @@ class TestDeleteObject():
         delete_object()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString/objects/testString')
+        url = self.preprocess_url(_base_url + '/v4/collections/testString/objects/testString')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -1385,7 +1386,7 @@ class TestDeleteObject():
         object = 'testString'
 
         # Invoke method
-        response = service.delete_object(
+        response = _service.delete_object(
             collection_id,
             object,
             headers={}
@@ -1402,7 +1403,7 @@ class TestDeleteObject():
         test_delete_object_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString/objects/testString')
+        url = self.preprocess_url(_base_url + '/v4/collections/testString/objects/testString')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -1419,7 +1420,7 @@ class TestDeleteObject():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.delete_object(**req_copy)
+                _service.delete_object(**req_copy)
 
 
 
@@ -1453,8 +1454,8 @@ class TestTrain():
         train()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString/train')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "rscnn_ready": false, "description": "description"}}}'
+        url = self.preprocess_url(_base_url + '/v4/collections/testString/train')
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "rscnn_ready": false, "description": "description"}}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1465,7 +1466,7 @@ class TestTrain():
         collection_id = 'testString'
 
         # Invoke method
-        response = service.train(
+        response = _service.train(
             collection_id,
             headers={}
         )
@@ -1481,8 +1482,8 @@ class TestTrain():
         test_train_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString/train')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "rscnn_ready": false, "description": "description"}}}'
+        url = self.preprocess_url(_base_url + '/v4/collections/testString/train')
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "image_count": 11, "training_status": {"objects": {"ready": false, "in_progress": false, "data_changed": true, "latest_failed": false, "rscnn_ready": false, "description": "description"}}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1499,7 +1500,7 @@ class TestTrain():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.train(**req_copy)
+                _service.train(**req_copy)
 
 
 
@@ -1523,7 +1524,7 @@ class TestAddImageTrainingData():
         add_image_training_data()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString/images/testString/training_data')
+        url = self.preprocess_url(_base_url + '/v4/collections/testString/images/testString/training_data')
         mock_response = '{"objects": [{"object": "object", "location": {"top": 3, "left": 4, "width": 5, "height": 6}}]}'
         responses.add(responses.POST,
                       url,
@@ -1549,7 +1550,7 @@ class TestAddImageTrainingData():
         objects = [training_data_object_model]
 
         # Invoke method
-        response = service.add_image_training_data(
+        response = _service.add_image_training_data(
             collection_id,
             image_id,
             objects=objects,
@@ -1570,7 +1571,7 @@ class TestAddImageTrainingData():
         test_add_image_training_data_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/collections/testString/images/testString/training_data')
+        url = self.preprocess_url(_base_url + '/v4/collections/testString/images/testString/training_data')
         mock_response = '{"objects": [{"object": "object", "location": {"top": 3, "left": 4, "width": 5, "height": 6}}]}'
         responses.add(responses.POST,
                       url,
@@ -1603,7 +1604,7 @@ class TestAddImageTrainingData():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.add_image_training_data(**req_copy)
+                _service.add_image_training_data(**req_copy)
 
 
 
@@ -1627,8 +1628,8 @@ class TestGetTrainingUsage():
         get_training_usage()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/training_usage')
-        mock_response = '{"start_time": "2019-01-01T12:00:00", "end_time": "2019-01-01T12:00:00", "completed_events": 16, "trained_images": 14, "events": [{"type": "objects", "collection_id": "collection_id", "completion_time": "2019-01-01T12:00:00", "status": "failed", "image_count": 11}]}'
+        url = self.preprocess_url(_base_url + '/v4/training_usage')
+        mock_response = '{"start_time": "2019-01-01T12:00:00.000Z", "end_time": "2019-01-01T12:00:00.000Z", "completed_events": 16, "trained_images": 14, "events": [{"type": "objects", "collection_id": "collection_id", "completion_time": "2019-01-01T12:00:00.000Z", "status": "failed", "image_count": 11}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1636,11 +1637,11 @@ class TestGetTrainingUsage():
                       status=200)
 
         # Set up parameter values
-        start_time = date.fromtimestamp(1580236840.123456)
-        end_time = date.fromtimestamp(1580236840.123456)
+        start_time = string_to_date('2019-01-01')
+        end_time = string_to_date('2019-01-01')
 
         # Invoke method
-        response = service.get_training_usage(
+        response = _service.get_training_usage(
             start_time=start_time,
             end_time=end_time,
             headers={}
@@ -1662,8 +1663,8 @@ class TestGetTrainingUsage():
         test_get_training_usage_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/training_usage')
-        mock_response = '{"start_time": "2019-01-01T12:00:00", "end_time": "2019-01-01T12:00:00", "completed_events": 16, "trained_images": 14, "events": [{"type": "objects", "collection_id": "collection_id", "completion_time": "2019-01-01T12:00:00", "status": "failed", "image_count": 11}]}'
+        url = self.preprocess_url(_base_url + '/v4/training_usage')
+        mock_response = '{"start_time": "2019-01-01T12:00:00.000Z", "end_time": "2019-01-01T12:00:00.000Z", "completed_events": 16, "trained_images": 14, "events": [{"type": "objects", "collection_id": "collection_id", "completion_time": "2019-01-01T12:00:00.000Z", "status": "failed", "image_count": 11}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1671,7 +1672,7 @@ class TestGetTrainingUsage():
                       status=200)
 
         # Invoke method
-        response = service.get_training_usage()
+        response = _service.get_training_usage()
 
 
         # Check for correct operation
@@ -1685,8 +1686,8 @@ class TestGetTrainingUsage():
         test_get_training_usage_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/training_usage')
-        mock_response = '{"start_time": "2019-01-01T12:00:00", "end_time": "2019-01-01T12:00:00", "completed_events": 16, "trained_images": 14, "events": [{"type": "objects", "collection_id": "collection_id", "completion_time": "2019-01-01T12:00:00", "status": "failed", "image_count": 11}]}'
+        url = self.preprocess_url(_base_url + '/v4/training_usage')
+        mock_response = '{"start_time": "2019-01-01T12:00:00.000Z", "end_time": "2019-01-01T12:00:00.000Z", "completed_events": 16, "trained_images": 14, "events": [{"type": "objects", "collection_id": "collection_id", "completion_time": "2019-01-01T12:00:00.000Z", "status": "failed", "image_count": 11}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1699,7 +1700,7 @@ class TestGetTrainingUsage():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_training_usage(**req_copy)
+                _service.get_training_usage(**req_copy)
 
 
 
@@ -1733,7 +1734,7 @@ class TestDeleteUserData():
         delete_user_data()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/user_data')
+        url = self.preprocess_url(_base_url + '/v4/user_data')
         responses.add(responses.DELETE,
                       url,
                       status=202)
@@ -1742,7 +1743,7 @@ class TestDeleteUserData():
         customer_id = 'testString'
 
         # Invoke method
-        response = service.delete_user_data(
+        response = _service.delete_user_data(
             customer_id,
             headers={}
         )
@@ -1762,7 +1763,7 @@ class TestDeleteUserData():
         test_delete_user_data_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v4/user_data')
+        url = self.preprocess_url(_base_url + '/v4/user_data')
         responses.add(responses.DELETE,
                       url,
                       status=202)
@@ -1777,7 +1778,7 @@ class TestDeleteUserData():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.delete_user_data(**req_copy)
+                _service.delete_user_data(**req_copy)
 
 
 
@@ -1902,8 +1903,8 @@ class TestCollection():
         collection_model_json['collection_id'] = 'testString'
         collection_model_json['name'] = 'testString'
         collection_model_json['description'] = 'testString'
-        collection_model_json['created'] = '2020-01-28T18:40:40.123456Z'
-        collection_model_json['updated'] = '2020-01-28T18:40:40.123456Z'
+        collection_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        collection_model_json['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
         collection_model_json['image_count'] = 38
         collection_model_json['training_status'] = collection_training_status_model
 
@@ -2031,8 +2032,8 @@ class TestCollectionsList():
         collection_model['collection_id'] = 'testString'
         collection_model['name'] = 'testString'
         collection_model['description'] = 'testString'
-        collection_model['created'] = '2020-01-28T18:40:40.123456Z'
-        collection_model['updated'] = '2020-01-28T18:40:40.123456Z'
+        collection_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        collection_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
         collection_model['image_count'] = 38
         collection_model['training_status'] = collection_training_status_model
 
@@ -2291,8 +2292,8 @@ class TestImageDetails():
         # Construct a json representation of a ImageDetails model
         image_details_model_json = {}
         image_details_model_json['image_id'] = 'testString'
-        image_details_model_json['updated'] = '2020-01-28T18:40:40.123456Z'
-        image_details_model_json['created'] = '2020-01-28T18:40:40.123456Z'
+        image_details_model_json['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        image_details_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
         image_details_model_json['source'] = image_source_model
         image_details_model_json['dimensions'] = image_dimensions_model
         image_details_model_json['errors'] = [error_model]
@@ -2361,8 +2362,8 @@ class TestImageDetailsList():
 
         image_details_model = {} # ImageDetails
         image_details_model['image_id'] = 'testString'
-        image_details_model['updated'] = '2020-01-28T18:40:40.123456Z'
-        image_details_model['created'] = '2020-01-28T18:40:40.123456Z'
+        image_details_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        image_details_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
         image_details_model['source'] = image_source_model
         image_details_model['dimensions'] = image_dimensions_model
         image_details_model['errors'] = [error_model]
@@ -2470,7 +2471,7 @@ class TestImageSummary():
         # Construct a json representation of a ImageSummary model
         image_summary_model_json = {}
         image_summary_model_json['image_id'] = 'testString'
-        image_summary_model_json['updated'] = '2020-01-28T18:40:40.123456Z'
+        image_summary_model_json['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
 
         # Construct a model instance of ImageSummary by calling from_dict on the json representation
         image_summary_model = ImageSummary.from_dict(image_summary_model_json)
@@ -2501,7 +2502,7 @@ class TestImageSummaryList():
 
         image_summary_model = {} # ImageSummary
         image_summary_model['image_id'] = 'testString'
-        image_summary_model['updated'] = '2020-01-28T18:40:40.123456Z'
+        image_summary_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
 
         # Construct a json representation of a ImageSummaryList model
         image_summary_list_model_json = {}
@@ -2818,7 +2819,7 @@ class TestTrainingEvent():
         training_event_model_json = {}
         training_event_model_json['type'] = 'objects'
         training_event_model_json['collection_id'] = 'testString'
-        training_event_model_json['completion_time'] = '2020-01-28T18:40:40.123456Z'
+        training_event_model_json['completion_time'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
         training_event_model_json['status'] = 'failed'
         training_event_model_json['image_count'] = 38
 
@@ -2852,14 +2853,14 @@ class TestTrainingEvents():
         training_event_model = {} # TrainingEvent
         training_event_model['type'] = 'objects'
         training_event_model['collection_id'] = 'testString'
-        training_event_model['completion_time'] = '2020-01-28T18:40:40.123456Z'
+        training_event_model['completion_time'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
         training_event_model['status'] = 'failed'
         training_event_model['image_count'] = 38
 
         # Construct a json representation of a TrainingEvents model
         training_events_model_json = {}
-        training_events_model_json['start_time'] = '2020-01-28T18:40:40.123456Z'
-        training_events_model_json['end_time'] = '2020-01-28T18:40:40.123456Z'
+        training_events_model_json['start_time'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        training_events_model_json['end_time'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
         training_events_model_json['completed_events'] = 38
         training_events_model_json['trained_images'] = 38
         training_events_model_json['events'] = [training_event_model]

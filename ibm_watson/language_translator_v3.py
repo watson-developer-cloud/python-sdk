@@ -174,7 +174,7 @@ class LanguageTranslatorV3(BaseService):
             'target': target
         }
         data = {k: v for (k, v) in data.items() if v is not None}
-        data = json.dumps(data)
+        data = json.dumps(data, ensure_ascii=False).encode('utf-8')
         headers['content-type'] = 'application/json'
 
         if 'headers' in kwargs:

@@ -57,6 +57,7 @@ class SynthesizeListener(object):
 
         self.ws_client.run_forever(http_proxy_host=self.http_proxy_host,
                                    http_proxy_port=self.http_proxy_port,
+                                   suppress_origin=True,
                                    sslopt={'cert_reqs': ssl.CERT_NONE}
                                    if self.verify is not None else None)
 

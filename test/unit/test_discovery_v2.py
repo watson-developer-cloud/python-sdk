@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2019, 2020.
+# (C) Copyright IBM Corp. 2021.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ Unit Tests for DiscoveryV2
 
 from datetime import datetime, timezone
 from ibm_cloud_sdk_core.authenticators.no_auth_authenticator import NoAuthAuthenticator
+from ibm_cloud_sdk_core.utils import datetime_to_string, string_to_datetime
 import inspect
 import io
 import json
@@ -32,13 +33,13 @@ from ibm_watson.discovery_v2 import *
 
 version = 'testString'
 
-service = DiscoveryV2(
+_service = DiscoveryV2(
     authenticator=NoAuthAuthenticator(),
     version=version
     )
 
-base_url = 'https://api.us-south.discovery.watson.cloud.ibm.com'
-service.set_service_url(base_url)
+_base_url = 'https://api.us-south.discovery.watson.cloud.ibm.com'
+_service.set_service_url(_base_url)
 
 ##############################################################################
 # Start of Service: Collections
@@ -65,7 +66,7 @@ class TestListCollections():
         list_collections()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/collections')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections')
         mock_response = '{"collections": [{"collection_id": "collection_id", "name": "name"}]}'
         responses.add(responses.GET,
                       url,
@@ -77,7 +78,7 @@ class TestListCollections():
         project_id = 'testString'
 
         # Invoke method
-        response = service.list_collections(
+        response = _service.list_collections(
             project_id,
             headers={}
         )
@@ -93,7 +94,7 @@ class TestListCollections():
         test_list_collections_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/collections')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections')
         mock_response = '{"collections": [{"collection_id": "collection_id", "name": "name"}]}'
         responses.add(responses.GET,
                       url,
@@ -111,7 +112,7 @@ class TestListCollections():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.list_collections(**req_copy)
+                _service.list_collections(**req_copy)
 
 
 
@@ -135,8 +136,8 @@ class TestCreateCollection():
         create_collection()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/collections')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00", "language": "language", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}]}'
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections')
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "language", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -156,7 +157,7 @@ class TestCreateCollection():
         enrichments = [collection_enrichment_model]
 
         # Invoke method
-        response = service.create_collection(
+        response = _service.create_collection(
             project_id,
             name,
             description=description,
@@ -182,8 +183,8 @@ class TestCreateCollection():
         test_create_collection_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/collections')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00", "language": "language", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}]}'
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections')
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "language", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -210,7 +211,7 @@ class TestCreateCollection():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.create_collection(**req_copy)
+                _service.create_collection(**req_copy)
 
 
 
@@ -234,8 +235,8 @@ class TestGetCollection():
         get_collection()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/collections/testString')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00", "language": "language", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}]}'
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString')
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "language", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -247,7 +248,7 @@ class TestGetCollection():
         collection_id = 'testString'
 
         # Invoke method
-        response = service.get_collection(
+        response = _service.get_collection(
             project_id,
             collection_id,
             headers={}
@@ -264,8 +265,8 @@ class TestGetCollection():
         test_get_collection_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/collections/testString')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00", "language": "language", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}]}'
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString')
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "language", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -284,7 +285,7 @@ class TestGetCollection():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_collection(**req_copy)
+                _service.get_collection(**req_copy)
 
 
 
@@ -308,8 +309,8 @@ class TestUpdateCollection():
         update_collection()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/collections/testString')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00", "language": "language", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}]}'
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString')
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "language", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -329,7 +330,7 @@ class TestUpdateCollection():
         enrichments = [collection_enrichment_model]
 
         # Invoke method
-        response = service.update_collection(
+        response = _service.update_collection(
             project_id,
             collection_id,
             name=name,
@@ -354,8 +355,8 @@ class TestUpdateCollection():
         test_update_collection_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/collections/testString')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00", "language": "language", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}]}'
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString')
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "language", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -382,7 +383,7 @@ class TestUpdateCollection():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.update_collection(**req_copy)
+                _service.update_collection(**req_copy)
 
 
 
@@ -406,7 +407,7 @@ class TestDeleteCollection():
         delete_collection()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/collections/testString')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -416,7 +417,7 @@ class TestDeleteCollection():
         collection_id = 'testString'
 
         # Invoke method
-        response = service.delete_collection(
+        response = _service.delete_collection(
             project_id,
             collection_id,
             headers={}
@@ -433,7 +434,7 @@ class TestDeleteCollection():
         test_delete_collection_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/collections/testString')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -450,7 +451,7 @@ class TestDeleteCollection():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.delete_collection(**req_copy)
+                _service.delete_collection(**req_copy)
 
 
 
@@ -484,8 +485,8 @@ class TestQuery():
         query()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 10}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field"}]}'
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/query')
+        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 10}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -510,6 +511,8 @@ class TestQuery():
         query_large_passages_model['fields'] = ['testString']
         query_large_passages_model['count'] = 100
         query_large_passages_model['characters'] = 50
+        query_large_passages_model['find_answers'] = True
+        query_large_passages_model['max_answers_per_passage'] = 38
 
         # Set up parameter values
         project_id = 'testString'
@@ -529,7 +532,7 @@ class TestQuery():
         passages = query_large_passages_model
 
         # Invoke method
-        response = service.query(
+        response = _service.query(
             project_id,
             collection_ids=collection_ids,
             filter=filter,
@@ -575,8 +578,8 @@ class TestQuery():
         test_query_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 10}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field"}]}'
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/query')
+        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 10}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -587,7 +590,7 @@ class TestQuery():
         project_id = 'testString'
 
         # Invoke method
-        response = service.query(
+        response = _service.query(
             project_id,
             headers={}
         )
@@ -603,8 +606,8 @@ class TestQuery():
         test_query_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 10}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field"}]}'
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/query')
+        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 10}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -621,7 +624,7 @@ class TestQuery():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.query(**req_copy)
+                _service.query(**req_copy)
 
 
 
@@ -645,7 +648,7 @@ class TestGetAutocompletion():
         get_autocompletion()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/autocompletion')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/autocompletion')
         mock_response = '{"completions": ["completions"]}'
         responses.add(responses.GET,
                       url,
@@ -661,7 +664,7 @@ class TestGetAutocompletion():
         count = 38
 
         # Invoke method
-        response = service.get_autocompletion(
+        response = _service.get_autocompletion(
             project_id,
             prefix,
             collection_ids=collection_ids,
@@ -688,7 +691,7 @@ class TestGetAutocompletion():
         test_get_autocompletion_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/autocompletion')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/autocompletion')
         mock_response = '{"completions": ["completions"]}'
         responses.add(responses.GET,
                       url,
@@ -701,7 +704,7 @@ class TestGetAutocompletion():
         prefix = 'testString'
 
         # Invoke method
-        response = service.get_autocompletion(
+        response = _service.get_autocompletion(
             project_id,
             prefix,
             headers={}
@@ -722,7 +725,7 @@ class TestGetAutocompletion():
         test_get_autocompletion_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/autocompletion')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/autocompletion')
         mock_response = '{"completions": ["completions"]}'
         responses.add(responses.GET,
                       url,
@@ -742,7 +745,129 @@ class TestGetAutocompletion():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_autocompletion(**req_copy)
+                _service.get_autocompletion(**req_copy)
+
+
+
+class TestQueryCollectionNotices():
+    """
+    Test Class for query_collection_notices
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_query_collection_notices_all_params(self):
+        """
+        query_collection_notices()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/notices')
+        mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+        filter = 'testString'
+        query = 'testString'
+        natural_language_query = 'testString'
+        count = 38
+        offset = 38
+
+        # Invoke method
+        response = _service.query_collection_notices(
+            project_id,
+            collection_id,
+            filter=filter,
+            query=query,
+            natural_language_query=natural_language_query,
+            count=count,
+            offset=offset,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+        # Validate query params
+        query_string = responses.calls[0].request.url.split('?',1)[1]
+        query_string = urllib.parse.unquote_plus(query_string)
+        assert 'filter={}'.format(filter) in query_string
+        assert 'query={}'.format(query) in query_string
+        assert 'natural_language_query={}'.format(natural_language_query) in query_string
+        assert 'count={}'.format(count) in query_string
+        assert 'offset={}'.format(offset) in query_string
+
+
+    @responses.activate
+    def test_query_collection_notices_required_params(self):
+        """
+        test_query_collection_notices_required_params()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/notices')
+        mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+
+        # Invoke method
+        response = _service.query_collection_notices(
+            project_id,
+            collection_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 200
+
+
+    @responses.activate
+    def test_query_collection_notices_value_error(self):
+        """
+        test_query_collection_notices_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/notices')
+        mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
+        responses.add(responses.GET,
+                      url,
+                      body=mock_response,
+                      content_type='application/json',
+                      status=200)
+
+        # Set up parameter values
+        project_id = 'testString'
+        collection_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "collection_id": collection_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.query_collection_notices(**req_copy)
 
 
 
@@ -766,8 +891,8 @@ class TestQueryNotices():
         query_notices()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/notices')
-        mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/notices')
+        mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -783,7 +908,7 @@ class TestQueryNotices():
         offset = 38
 
         # Invoke method
-        response = service.query_notices(
+        response = _service.query_notices(
             project_id,
             filter=filter,
             query=query,
@@ -812,8 +937,8 @@ class TestQueryNotices():
         test_query_notices_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/notices')
-        mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/notices')
+        mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -824,7 +949,7 @@ class TestQueryNotices():
         project_id = 'testString'
 
         # Invoke method
-        response = service.query_notices(
+        response = _service.query_notices(
             project_id,
             headers={}
         )
@@ -840,8 +965,8 @@ class TestQueryNotices():
         test_query_notices_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/notices')
-        mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/notices')
+        mock_response = '{"matching_results": 16, "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -858,7 +983,7 @@ class TestQueryNotices():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.query_notices(**req_copy)
+                _service.query_notices(**req_copy)
 
 
 
@@ -882,7 +1007,7 @@ class TestListFields():
         list_fields()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/fields')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/fields')
         mock_response = '{"fields": [{"field": "field", "type": "nested", "collection_id": "collection_id"}]}'
         responses.add(responses.GET,
                       url,
@@ -895,7 +1020,7 @@ class TestListFields():
         collection_ids = ['testString']
 
         # Invoke method
-        response = service.list_fields(
+        response = _service.list_fields(
             project_id,
             collection_ids=collection_ids,
             headers={}
@@ -916,7 +1041,7 @@ class TestListFields():
         test_list_fields_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/fields')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/fields')
         mock_response = '{"fields": [{"field": "field", "type": "nested", "collection_id": "collection_id"}]}'
         responses.add(responses.GET,
                       url,
@@ -928,7 +1053,7 @@ class TestListFields():
         project_id = 'testString'
 
         # Invoke method
-        response = service.list_fields(
+        response = _service.list_fields(
             project_id,
             headers={}
         )
@@ -944,7 +1069,7 @@ class TestListFields():
         test_list_fields_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/fields')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/fields')
         mock_response = '{"fields": [{"field": "field", "type": "nested", "collection_id": "collection_id"}]}'
         responses.add(responses.GET,
                       url,
@@ -962,7 +1087,7 @@ class TestListFields():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.list_fields(**req_copy)
+                _service.list_fields(**req_copy)
 
 
 
@@ -996,7 +1121,7 @@ class TestGetComponentSettings():
         get_component_settings()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/component_settings')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/component_settings')
         mock_response = '{"fields_shown": {"body": {"use_passage": false, "field": "field"}, "title": {"field": "field"}}, "autocomplete": true, "structured_search": false, "results_per_page": 16, "aggregations": [{"name": "name", "label": "label", "multiple_selections_allowed": false, "visualization_type": "auto"}]}'
         responses.add(responses.GET,
                       url,
@@ -1008,7 +1133,7 @@ class TestGetComponentSettings():
         project_id = 'testString'
 
         # Invoke method
-        response = service.get_component_settings(
+        response = _service.get_component_settings(
             project_id,
             headers={}
         )
@@ -1024,7 +1149,7 @@ class TestGetComponentSettings():
         test_get_component_settings_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/component_settings')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/component_settings')
         mock_response = '{"fields_shown": {"body": {"use_passage": false, "field": "field"}, "title": {"field": "field"}}, "autocomplete": true, "structured_search": false, "results_per_page": 16, "aggregations": [{"name": "name", "label": "label", "multiple_selections_allowed": false, "visualization_type": "auto"}]}'
         responses.add(responses.GET,
                       url,
@@ -1042,7 +1167,7 @@ class TestGetComponentSettings():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_component_settings(**req_copy)
+                _service.get_component_settings(**req_copy)
 
 
 
@@ -1076,7 +1201,7 @@ class TestAddDocument():
         add_document()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/collections/testString/documents')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/documents')
         mock_response = '{"document_id": "document_id", "status": "processing"}'
         responses.add(responses.POST,
                       url,
@@ -1094,7 +1219,7 @@ class TestAddDocument():
         x_watson_discovery_force = True
 
         # Invoke method
-        response = service.add_document(
+        response = _service.add_document(
             project_id,
             collection_id,
             file=file,
@@ -1116,7 +1241,7 @@ class TestAddDocument():
         test_add_document_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/collections/testString/documents')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/documents')
         mock_response = '{"document_id": "document_id", "status": "processing"}'
         responses.add(responses.POST,
                       url,
@@ -1129,7 +1254,7 @@ class TestAddDocument():
         collection_id = 'testString'
 
         # Invoke method
-        response = service.add_document(
+        response = _service.add_document(
             project_id,
             collection_id,
             headers={}
@@ -1146,7 +1271,7 @@ class TestAddDocument():
         test_add_document_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/collections/testString/documents')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/documents')
         mock_response = '{"document_id": "document_id", "status": "processing"}'
         responses.add(responses.POST,
                       url,
@@ -1166,7 +1291,7 @@ class TestAddDocument():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.add_document(**req_copy)
+                _service.add_document(**req_copy)
 
 
 
@@ -1190,7 +1315,7 @@ class TestUpdateDocument():
         update_document()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/collections/testString/documents/testString')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/documents/testString')
         mock_response = '{"document_id": "document_id", "status": "processing"}'
         responses.add(responses.POST,
                       url,
@@ -1209,7 +1334,7 @@ class TestUpdateDocument():
         x_watson_discovery_force = True
 
         # Invoke method
-        response = service.update_document(
+        response = _service.update_document(
             project_id,
             collection_id,
             document_id,
@@ -1232,7 +1357,7 @@ class TestUpdateDocument():
         test_update_document_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/collections/testString/documents/testString')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/documents/testString')
         mock_response = '{"document_id": "document_id", "status": "processing"}'
         responses.add(responses.POST,
                       url,
@@ -1246,7 +1371,7 @@ class TestUpdateDocument():
         document_id = 'testString'
 
         # Invoke method
-        response = service.update_document(
+        response = _service.update_document(
             project_id,
             collection_id,
             document_id,
@@ -1264,7 +1389,7 @@ class TestUpdateDocument():
         test_update_document_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/collections/testString/documents/testString')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/documents/testString')
         mock_response = '{"document_id": "document_id", "status": "processing"}'
         responses.add(responses.POST,
                       url,
@@ -1286,7 +1411,7 @@ class TestUpdateDocument():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.update_document(**req_copy)
+                _service.update_document(**req_copy)
 
 
 
@@ -1310,7 +1435,7 @@ class TestDeleteDocument():
         delete_document()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/collections/testString/documents/testString')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/documents/testString')
         mock_response = '{"document_id": "document_id", "status": "deleted"}'
         responses.add(responses.DELETE,
                       url,
@@ -1325,7 +1450,7 @@ class TestDeleteDocument():
         x_watson_discovery_force = True
 
         # Invoke method
-        response = service.delete_document(
+        response = _service.delete_document(
             project_id,
             collection_id,
             document_id,
@@ -1344,7 +1469,7 @@ class TestDeleteDocument():
         test_delete_document_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/collections/testString/documents/testString')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/documents/testString')
         mock_response = '{"document_id": "document_id", "status": "deleted"}'
         responses.add(responses.DELETE,
                       url,
@@ -1358,7 +1483,7 @@ class TestDeleteDocument():
         document_id = 'testString'
 
         # Invoke method
-        response = service.delete_document(
+        response = _service.delete_document(
             project_id,
             collection_id,
             document_id,
@@ -1376,7 +1501,7 @@ class TestDeleteDocument():
         test_delete_document_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/collections/testString/documents/testString')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/documents/testString')
         mock_response = '{"document_id": "document_id", "status": "deleted"}'
         responses.add(responses.DELETE,
                       url,
@@ -1398,7 +1523,7 @@ class TestDeleteDocument():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.delete_document(**req_copy)
+                _service.delete_document(**req_copy)
 
 
 
@@ -1432,8 +1557,8 @@ class TestListTrainingQueries():
         list_training_queries()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/training_data/queries')
-        mock_response = '{"queries": [{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}]}]}'
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/training_data/queries')
+        mock_response = '{"queries": [{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1444,7 +1569,7 @@ class TestListTrainingQueries():
         project_id = 'testString'
 
         # Invoke method
-        response = service.list_training_queries(
+        response = _service.list_training_queries(
             project_id,
             headers={}
         )
@@ -1460,8 +1585,8 @@ class TestListTrainingQueries():
         test_list_training_queries_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/training_data/queries')
-        mock_response = '{"queries": [{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}]}]}'
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/training_data/queries')
+        mock_response = '{"queries": [{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1478,7 +1603,7 @@ class TestListTrainingQueries():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.list_training_queries(**req_copy)
+                _service.list_training_queries(**req_copy)
 
 
 
@@ -1502,7 +1627,7 @@ class TestDeleteTrainingQueries():
         delete_training_queries()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/training_data/queries')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/training_data/queries')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -1511,7 +1636,7 @@ class TestDeleteTrainingQueries():
         project_id = 'testString'
 
         # Invoke method
-        response = service.delete_training_queries(
+        response = _service.delete_training_queries(
             project_id,
             headers={}
         )
@@ -1527,7 +1652,7 @@ class TestDeleteTrainingQueries():
         test_delete_training_queries_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/training_data/queries')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/training_data/queries')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -1542,7 +1667,7 @@ class TestDeleteTrainingQueries():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.delete_training_queries(**req_copy)
+                _service.delete_training_queries(**req_copy)
 
 
 
@@ -1566,8 +1691,8 @@ class TestCreateTrainingQuery():
         create_training_query()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/training_data/queries')
-        mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}]}'
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/training_data/queries')
+        mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1587,7 +1712,7 @@ class TestCreateTrainingQuery():
         filter = 'testString'
 
         # Invoke method
-        response = service.create_training_query(
+        response = _service.create_training_query(
             project_id,
             natural_language_query,
             examples,
@@ -1611,8 +1736,8 @@ class TestCreateTrainingQuery():
         test_create_training_query_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/training_data/queries')
-        mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}]}'
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/training_data/queries')
+        mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1640,7 +1765,7 @@ class TestCreateTrainingQuery():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.create_training_query(**req_copy)
+                _service.create_training_query(**req_copy)
 
 
 
@@ -1664,8 +1789,8 @@ class TestGetTrainingQuery():
         get_training_query()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/training_data/queries/testString')
-        mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}]}'
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/training_data/queries/testString')
+        mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1677,7 +1802,7 @@ class TestGetTrainingQuery():
         query_id = 'testString'
 
         # Invoke method
-        response = service.get_training_query(
+        response = _service.get_training_query(
             project_id,
             query_id,
             headers={}
@@ -1694,8 +1819,8 @@ class TestGetTrainingQuery():
         test_get_training_query_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/training_data/queries/testString')
-        mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}]}'
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/training_data/queries/testString')
+        mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1714,7 +1839,7 @@ class TestGetTrainingQuery():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_training_query(**req_copy)
+                _service.get_training_query(**req_copy)
 
 
 
@@ -1738,8 +1863,8 @@ class TestUpdateTrainingQuery():
         update_training_query()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/training_data/queries/testString')
-        mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}]}'
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/training_data/queries/testString')
+        mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1760,7 +1885,7 @@ class TestUpdateTrainingQuery():
         filter = 'testString'
 
         # Invoke method
-        response = service.update_training_query(
+        response = _service.update_training_query(
             project_id,
             query_id,
             natural_language_query,
@@ -1785,8 +1910,8 @@ class TestUpdateTrainingQuery():
         test_update_training_query_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/training_data/queries/testString')
-        mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00", "updated": "2019-01-01T12:00:00"}]}'
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/training_data/queries/testString')
+        mock_response = '{"query_id": "query_id", "natural_language_query": "natural_language_query", "filter": "filter", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"document_id": "document_id", "collection_id": "collection_id", "relevance": 9, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1816,7 +1941,75 @@ class TestUpdateTrainingQuery():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.update_training_query(**req_copy)
+                _service.update_training_query(**req_copy)
+
+
+
+class TestDeleteTrainingQuery():
+    """
+    Test Class for delete_training_query
+    """
+
+    def preprocess_url(self, request_url: str):
+        """
+        Preprocess the request URL to ensure the mock response will be found.
+        """
+        if re.fullmatch('.*/+', request_url) is None:
+            return request_url
+        else:
+            return re.compile(request_url.rstrip('/') + '/+')
+
+    @responses.activate
+    def test_delete_training_query_all_params(self):
+        """
+        delete_training_query()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/training_data/queries/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        project_id = 'testString'
+        query_id = 'testString'
+
+        # Invoke method
+        response = _service.delete_training_query(
+            project_id,
+            query_id,
+            headers={}
+        )
+
+        # Check for correct operation
+        assert len(responses.calls) == 1
+        assert response.status_code == 204
+
+
+    @responses.activate
+    def test_delete_training_query_value_error(self):
+        """
+        test_delete_training_query_value_error()
+        """
+        # Set up mock
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/training_data/queries/testString')
+        responses.add(responses.DELETE,
+                      url,
+                      status=204)
+
+        # Set up parameter values
+        project_id = 'testString'
+        query_id = 'testString'
+
+        # Pass in all but one required param and check for a ValueError
+        req_param_dict = {
+            "project_id": project_id,
+            "query_id": query_id,
+        }
+        for param in req_param_dict.keys():
+            req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
+            with pytest.raises(ValueError):
+                _service.delete_training_query(**req_copy)
 
 
 
@@ -1850,8 +2043,8 @@ class TestAnalyzeDocument():
         analyze_document()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/collections/testString/analyze')
-        mock_response = '{"notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "result": {"metadata": {"mapKey": {"anyKey": "anyValue"}}}}'
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/analyze')
+        mock_response = '{"notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "result": {"metadata": {"mapKey": {"anyKey": "anyValue"}}}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1867,7 +2060,7 @@ class TestAnalyzeDocument():
         metadata = 'testString'
 
         # Invoke method
-        response = service.analyze_document(
+        response = _service.analyze_document(
             project_id,
             collection_id,
             file=file,
@@ -1888,8 +2081,8 @@ class TestAnalyzeDocument():
         test_analyze_document_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/collections/testString/analyze')
-        mock_response = '{"notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "result": {"metadata": {"mapKey": {"anyKey": "anyValue"}}}}'
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/analyze')
+        mock_response = '{"notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "result": {"metadata": {"mapKey": {"anyKey": "anyValue"}}}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1901,7 +2094,7 @@ class TestAnalyzeDocument():
         collection_id = 'testString'
 
         # Invoke method
-        response = service.analyze_document(
+        response = _service.analyze_document(
             project_id,
             collection_id,
             headers={}
@@ -1918,8 +2111,8 @@ class TestAnalyzeDocument():
         test_analyze_document_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/collections/testString/analyze')
-        mock_response = '{"notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "result": {"metadata": {"mapKey": {"anyKey": "anyValue"}}}}'
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/analyze')
+        mock_response = '{"notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "result": {"metadata": {"mapKey": {"anyKey": "anyValue"}}}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1938,7 +2131,7 @@ class TestAnalyzeDocument():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.analyze_document(**req_copy)
+                _service.analyze_document(**req_copy)
 
 
 
@@ -1972,7 +2165,7 @@ class TestListEnrichments():
         list_enrichments()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/enrichments')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/enrichments')
         mock_response = '{"enrichments": [{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field"}}]}'
         responses.add(responses.GET,
                       url,
@@ -1984,7 +2177,7 @@ class TestListEnrichments():
         project_id = 'testString'
 
         # Invoke method
-        response = service.list_enrichments(
+        response = _service.list_enrichments(
             project_id,
             headers={}
         )
@@ -2000,7 +2193,7 @@ class TestListEnrichments():
         test_list_enrichments_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/enrichments')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/enrichments')
         mock_response = '{"enrichments": [{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field"}}]}'
         responses.add(responses.GET,
                       url,
@@ -2018,7 +2211,7 @@ class TestListEnrichments():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.list_enrichments(**req_copy)
+                _service.list_enrichments(**req_copy)
 
 
 
@@ -2042,7 +2235,7 @@ class TestCreateEnrichment():
         create_enrichment()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/enrichments')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/enrichments')
         mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field"}}'
         responses.add(responses.POST,
                       url,
@@ -2070,7 +2263,7 @@ class TestCreateEnrichment():
         file = io.BytesIO(b'This is a mock file.').getvalue()
 
         # Invoke method
-        response = service.create_enrichment(
+        response = _service.create_enrichment(
             project_id,
             enrichment,
             file=file,
@@ -2088,7 +2281,7 @@ class TestCreateEnrichment():
         test_create_enrichment_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/enrichments')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/enrichments')
         mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field"}}'
         responses.add(responses.POST,
                       url,
@@ -2115,7 +2308,7 @@ class TestCreateEnrichment():
         enrichment = create_enrichment_model
 
         # Invoke method
-        response = service.create_enrichment(
+        response = _service.create_enrichment(
             project_id,
             enrichment,
             headers={}
@@ -2132,7 +2325,7 @@ class TestCreateEnrichment():
         test_create_enrichment_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/enrichments')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/enrichments')
         mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field"}}'
         responses.add(responses.POST,
                       url,
@@ -2166,7 +2359,7 @@ class TestCreateEnrichment():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.create_enrichment(**req_copy)
+                _service.create_enrichment(**req_copy)
 
 
 
@@ -2190,7 +2383,7 @@ class TestGetEnrichment():
         get_enrichment()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/enrichments/testString')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/enrichments/testString')
         mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field"}}'
         responses.add(responses.GET,
                       url,
@@ -2203,7 +2396,7 @@ class TestGetEnrichment():
         enrichment_id = 'testString'
 
         # Invoke method
-        response = service.get_enrichment(
+        response = _service.get_enrichment(
             project_id,
             enrichment_id,
             headers={}
@@ -2220,7 +2413,7 @@ class TestGetEnrichment():
         test_get_enrichment_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/enrichments/testString')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/enrichments/testString')
         mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field"}}'
         responses.add(responses.GET,
                       url,
@@ -2240,7 +2433,7 @@ class TestGetEnrichment():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_enrichment(**req_copy)
+                _service.get_enrichment(**req_copy)
 
 
 
@@ -2264,7 +2457,7 @@ class TestUpdateEnrichment():
         update_enrichment()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/enrichments/testString')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/enrichments/testString')
         mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field"}}'
         responses.add(responses.POST,
                       url,
@@ -2279,7 +2472,7 @@ class TestUpdateEnrichment():
         description = 'testString'
 
         # Invoke method
-        response = service.update_enrichment(
+        response = _service.update_enrichment(
             project_id,
             enrichment_id,
             name,
@@ -2302,7 +2495,7 @@ class TestUpdateEnrichment():
         test_update_enrichment_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/enrichments/testString')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/enrichments/testString')
         mock_response = '{"enrichment_id": "enrichment_id", "name": "name", "description": "description", "type": "part_of_speech", "options": {"languages": ["languages"], "entity_type": "entity_type", "regular_expression": "regular_expression", "result_field": "result_field"}}'
         responses.add(responses.POST,
                       url,
@@ -2325,7 +2518,7 @@ class TestUpdateEnrichment():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.update_enrichment(**req_copy)
+                _service.update_enrichment(**req_copy)
 
 
 
@@ -2349,7 +2542,7 @@ class TestDeleteEnrichment():
         delete_enrichment()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/enrichments/testString')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/enrichments/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -2359,7 +2552,7 @@ class TestDeleteEnrichment():
         enrichment_id = 'testString'
 
         # Invoke method
-        response = service.delete_enrichment(
+        response = _service.delete_enrichment(
             project_id,
             enrichment_id,
             headers={}
@@ -2376,7 +2569,7 @@ class TestDeleteEnrichment():
         test_delete_enrichment_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString/enrichments/testString')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString/enrichments/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -2393,7 +2586,7 @@ class TestDeleteEnrichment():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.delete_enrichment(**req_copy)
+                _service.delete_enrichment(**req_copy)
 
 
 
@@ -2427,7 +2620,7 @@ class TestListProjects():
         list_projects()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects')
+        url = self.preprocess_url(_base_url + '/v2/projects')
         mock_response = '{"projects": [{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16}]}'
         responses.add(responses.GET,
                       url,
@@ -2436,7 +2629,7 @@ class TestListProjects():
                       status=200)
 
         # Invoke method
-        response = service.list_projects()
+        response = _service.list_projects()
 
 
         # Check for correct operation
@@ -2450,7 +2643,7 @@ class TestListProjects():
         test_list_projects_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects')
+        url = self.preprocess_url(_base_url + '/v2/projects')
         mock_response = '{"projects": [{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16}]}'
         responses.add(responses.GET,
                       url,
@@ -2464,7 +2657,7 @@ class TestListProjects():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.list_projects(**req_copy)
+                _service.list_projects(**req_copy)
 
 
 
@@ -2488,7 +2681,7 @@ class TestCreateProject():
         create_project()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects')
+        url = self.preprocess_url(_base_url + '/v2/projects')
         mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 12}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
         responses.add(responses.POST,
                       url,
@@ -2535,7 +2728,7 @@ class TestCreateProject():
         default_query_parameters = default_query_params_model
 
         # Invoke method
-        response = service.create_project(
+        response = _service.create_project(
             name,
             type,
             default_query_parameters=default_query_parameters,
@@ -2558,7 +2751,7 @@ class TestCreateProject():
         test_create_project_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects')
+        url = self.preprocess_url(_base_url + '/v2/projects')
         mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 12}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
         responses.add(responses.POST,
                       url,
@@ -2612,7 +2805,7 @@ class TestCreateProject():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.create_project(**req_copy)
+                _service.create_project(**req_copy)
 
 
 
@@ -2636,7 +2829,7 @@ class TestGetProject():
         get_project()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString')
         mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 12}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
         responses.add(responses.GET,
                       url,
@@ -2648,7 +2841,7 @@ class TestGetProject():
         project_id = 'testString'
 
         # Invoke method
-        response = service.get_project(
+        response = _service.get_project(
             project_id,
             headers={}
         )
@@ -2664,7 +2857,7 @@ class TestGetProject():
         test_get_project_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString')
         mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 12}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
         responses.add(responses.GET,
                       url,
@@ -2682,7 +2875,7 @@ class TestGetProject():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_project(**req_copy)
+                _service.get_project(**req_copy)
 
 
 
@@ -2706,7 +2899,7 @@ class TestUpdateProject():
         update_project()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString')
         mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 12}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
         responses.add(responses.POST,
                       url,
@@ -2719,7 +2912,7 @@ class TestUpdateProject():
         name = 'testString'
 
         # Invoke method
-        response = service.update_project(
+        response = _service.update_project(
             project_id,
             name=name,
             headers={}
@@ -2739,7 +2932,7 @@ class TestUpdateProject():
         test_update_project_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString')
         mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 12}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
         responses.add(responses.POST,
                       url,
@@ -2751,7 +2944,7 @@ class TestUpdateProject():
         project_id = 'testString'
 
         # Invoke method
-        response = service.update_project(
+        response = _service.update_project(
             project_id,
             headers={}
         )
@@ -2767,7 +2960,7 @@ class TestUpdateProject():
         test_update_project_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString')
         mock_response = '{"project_id": "project_id", "name": "name", "type": "document_retrieval", "relevancy_training_status": {"data_updated": "data_updated", "total_examples": 14, "sufficient_label_diversity": true, "processing": true, "minimum_examples_added": true, "successfully_trained": "successfully_trained", "available": false, "notices": 7, "minimum_queries_added": false}, "collection_count": 16, "default_query_parameters": {"collection_ids": ["collection_ids"], "passages": {"enabled": false, "count": 5, "fields": ["fields"], "characters": 10, "per_document": true, "max_per_document": 16}, "table_results": {"enabled": false, "count": 5, "per_document": 12}, "aggregation": "aggregation", "suggested_refinements": {"enabled": false, "count": 5}, "spelling_suggestions": true, "highlight": false, "count": 5, "sort": "sort", "return": ["return_"]}}'
         responses.add(responses.POST,
                       url,
@@ -2785,7 +2978,7 @@ class TestUpdateProject():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.update_project(**req_copy)
+                _service.update_project(**req_copy)
 
 
 
@@ -2809,7 +3002,7 @@ class TestDeleteProject():
         delete_project()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -2818,7 +3011,7 @@ class TestDeleteProject():
         project_id = 'testString'
 
         # Invoke method
-        response = service.delete_project(
+        response = _service.delete_project(
             project_id,
             headers={}
         )
@@ -2834,7 +3027,7 @@ class TestDeleteProject():
         test_delete_project_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/projects/testString')
+        url = self.preprocess_url(_base_url + '/v2/projects/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -2849,7 +3042,7 @@ class TestDeleteProject():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.delete_project(**req_copy)
+                _service.delete_project(**req_copy)
 
 
 
@@ -2883,7 +3076,7 @@ class TestDeleteUserData():
         delete_user_data()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/user_data')
+        url = self.preprocess_url(_base_url + '/v2/user_data')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -2892,7 +3085,7 @@ class TestDeleteUserData():
         customer_id = 'testString'
 
         # Invoke method
-        response = service.delete_user_data(
+        response = _service.delete_user_data(
             customer_id,
             headers={}
         )
@@ -2912,7 +3105,7 @@ class TestDeleteUserData():
         test_delete_user_data_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v2/user_data')
+        url = self.preprocess_url(_base_url + '/v2/user_data')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -2927,7 +3120,7 @@ class TestDeleteUserData():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.delete_user_data(**req_copy)
+                _service.delete_user_data(**req_copy)
 
 
 
@@ -2955,7 +3148,7 @@ class TestAnalyzedDocument():
 
         notice_model = {} # Notice
         notice_model['notice_id'] = 'testString'
-        notice_model['created'] = '2020-01-28T18:40:40.123456Z'
+        notice_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
         notice_model['document_id'] = 'testString'
         notice_model['collection_id'] = 'testString'
         notice_model['query_id'] = 'testString'
@@ -3068,7 +3261,7 @@ class TestCollectionDetails():
         collection_details_model_json['collection_id'] = 'testString'
         collection_details_model_json['name'] = 'testString'
         collection_details_model_json['description'] = 'testString'
-        collection_details_model_json['created'] = '2020-01-28T18:40:40.123456Z'
+        collection_details_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
         collection_details_model_json['language'] = 'testString'
         collection_details_model_json['enrichments'] = [collection_enrichment_model]
 
@@ -3898,7 +4091,7 @@ class TestNotice():
         # Construct a json representation of a Notice model
         notice_model_json = {}
         notice_model_json['notice_id'] = 'testString'
-        notice_model_json['created'] = '2020-01-28T18:40:40.123456Z'
+        notice_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
         notice_model_json['document_id'] = 'testString'
         notice_model_json['collection_id'] = 'testString'
         notice_model_json['query_id'] = 'testString'
@@ -4206,6 +4399,8 @@ class TestQueryLargePassages():
         query_large_passages_model_json['fields'] = ['testString']
         query_large_passages_model_json['count'] = 100
         query_large_passages_model_json['characters'] = 50
+        query_large_passages_model_json['find_answers'] = True
+        query_large_passages_model_json['max_answers_per_passage'] = 38
 
         # Construct a model instance of QueryLargePassages by calling from_dict on the json representation
         query_large_passages_model = QueryLargePassages.from_dict(query_large_passages_model_json)
@@ -4296,7 +4491,7 @@ class TestQueryNoticesResponse():
 
         notice_model = {} # Notice
         notice_model['notice_id'] = 'testString'
-        notice_model['created'] = '2020-01-28T18:40:40.123456Z'
+        notice_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
         notice_model['document_id'] = 'testString'
         notice_model['collection_id'] = 'testString'
         notice_model['query_id'] = 'testString'
@@ -4341,11 +4536,19 @@ class TestQueryResponse():
         query_result_metadata_model['collection_id'] = 'testString'
         query_result_metadata_model['confidence'] = 72.5
 
+        result_passage_answer_model = {} # ResultPassageAnswer
+        result_passage_answer_model['answer_text'] = 'testString'
+        result_passage_answer_model['start_offset'] = 38
+        result_passage_answer_model['end_offset'] = 38
+        result_passage_answer_model['confidence'] = 0
+
         query_result_passage_model = {} # QueryResultPassage
         query_result_passage_model['passage_text'] = 'testString'
         query_result_passage_model['start_offset'] = 38
         query_result_passage_model['end_offset'] = 38
         query_result_passage_model['field'] = 'testString'
+        query_result_passage_model['confidence'] = 0
+        query_result_passage_model['answers'] = [result_passage_answer_model]
 
         query_result_model = {} # QueryResult
         query_result_model['document_id'] = 'testString'
@@ -4483,6 +4686,8 @@ class TestQueryResponse():
         query_response_passage_model['start_offset'] = 38
         query_response_passage_model['end_offset'] = 38
         query_response_passage_model['field'] = 'testString'
+        query_response_passage_model['confidence'] = 0
+        query_response_passage_model['answers'] = [result_passage_answer_model]
 
         # Construct a json representation of a QueryResponse model
         query_response_model_json = {}
@@ -4520,6 +4725,14 @@ class TestQueryResponsePassage():
         Test serialization/deserialization for QueryResponsePassage
         """
 
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        result_passage_answer_model = {} # ResultPassageAnswer
+        result_passage_answer_model['answer_text'] = 'testString'
+        result_passage_answer_model['start_offset'] = 38
+        result_passage_answer_model['end_offset'] = 38
+        result_passage_answer_model['confidence'] = 0
+
         # Construct a json representation of a QueryResponsePassage model
         query_response_passage_model_json = {}
         query_response_passage_model_json['passage_text'] = 'testString'
@@ -4529,6 +4742,8 @@ class TestQueryResponsePassage():
         query_response_passage_model_json['start_offset'] = 38
         query_response_passage_model_json['end_offset'] = 38
         query_response_passage_model_json['field'] = 'testString'
+        query_response_passage_model_json['confidence'] = 0
+        query_response_passage_model_json['answers'] = [result_passage_answer_model]
 
         # Construct a model instance of QueryResponsePassage by calling from_dict on the json representation
         query_response_passage_model = QueryResponsePassage.from_dict(query_response_passage_model_json)
@@ -4562,11 +4777,19 @@ class TestQueryResult():
         query_result_metadata_model['collection_id'] = 'testString'
         query_result_metadata_model['confidence'] = 72.5
 
+        result_passage_answer_model = {} # ResultPassageAnswer
+        result_passage_answer_model['answer_text'] = 'testString'
+        result_passage_answer_model['start_offset'] = 38
+        result_passage_answer_model['end_offset'] = 38
+        result_passage_answer_model['confidence'] = 0
+
         query_result_passage_model = {} # QueryResultPassage
         query_result_passage_model['passage_text'] = 'testString'
         query_result_passage_model['start_offset'] = 38
         query_result_passage_model['end_offset'] = 38
         query_result_passage_model['field'] = 'testString'
+        query_result_passage_model['confidence'] = 0
+        query_result_passage_model['answers'] = [result_passage_answer_model]
 
         # Construct a json representation of a QueryResult model
         query_result_model_json = {}
@@ -4632,12 +4855,22 @@ class TestQueryResultPassage():
         Test serialization/deserialization for QueryResultPassage
         """
 
+        # Construct dict forms of any model objects needed in order to build this model.
+
+        result_passage_answer_model = {} # ResultPassageAnswer
+        result_passage_answer_model['answer_text'] = 'testString'
+        result_passage_answer_model['start_offset'] = 38
+        result_passage_answer_model['end_offset'] = 38
+        result_passage_answer_model['confidence'] = 0
+
         # Construct a json representation of a QueryResultPassage model
         query_result_passage_model_json = {}
         query_result_passage_model_json['passage_text'] = 'testString'
         query_result_passage_model_json['start_offset'] = 38
         query_result_passage_model_json['end_offset'] = 38
         query_result_passage_model_json['field'] = 'testString'
+        query_result_passage_model_json['confidence'] = 0
+        query_result_passage_model_json['answers'] = [result_passage_answer_model]
 
         # Construct a model instance of QueryResultPassage by calling from_dict on the json representation
         query_result_passage_model = QueryResultPassage.from_dict(query_result_passage_model_json)
@@ -4930,6 +5163,38 @@ class TestQueryTopHitsAggregationResult():
         # Convert model instance back to dict and verify no loss of data
         query_top_hits_aggregation_result_model_json2 = query_top_hits_aggregation_result_model.to_dict()
         assert query_top_hits_aggregation_result_model_json2 == query_top_hits_aggregation_result_model_json
+
+class TestResultPassageAnswer():
+    """
+    Test Class for ResultPassageAnswer
+    """
+
+    def test_result_passage_answer_serialization(self):
+        """
+        Test serialization/deserialization for ResultPassageAnswer
+        """
+
+        # Construct a json representation of a ResultPassageAnswer model
+        result_passage_answer_model_json = {}
+        result_passage_answer_model_json['answer_text'] = 'testString'
+        result_passage_answer_model_json['start_offset'] = 38
+        result_passage_answer_model_json['end_offset'] = 38
+        result_passage_answer_model_json['confidence'] = 0
+
+        # Construct a model instance of ResultPassageAnswer by calling from_dict on the json representation
+        result_passage_answer_model = ResultPassageAnswer.from_dict(result_passage_answer_model_json)
+        assert result_passage_answer_model != False
+
+        # Construct a model instance of ResultPassageAnswer by calling from_dict on the json representation
+        result_passage_answer_model_dict = ResultPassageAnswer.from_dict(result_passage_answer_model_json).__dict__
+        result_passage_answer_model2 = ResultPassageAnswer(**result_passage_answer_model_dict)
+
+        # Verify the model instances are equivalent
+        assert result_passage_answer_model == result_passage_answer_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        result_passage_answer_model_json2 = result_passage_answer_model.to_dict()
+        assert result_passage_answer_model_json2 == result_passage_answer_model_json
 
 class TestRetrievalDetails():
     """
@@ -5649,8 +5914,8 @@ class TestTrainingExample():
         training_example_model_json['document_id'] = 'testString'
         training_example_model_json['collection_id'] = 'testString'
         training_example_model_json['relevance'] = 38
-        training_example_model_json['created'] = '2020-01-28T18:40:40.123456Z'
-        training_example_model_json['updated'] = '2020-01-28T18:40:40.123456Z'
+        training_example_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        training_example_model_json['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
 
         # Construct a model instance of TrainingExample by calling from_dict on the json representation
         training_example_model = TrainingExample.from_dict(training_example_model_json)
@@ -5683,16 +5948,16 @@ class TestTrainingQuery():
         training_example_model['document_id'] = 'testString'
         training_example_model['collection_id'] = 'testString'
         training_example_model['relevance'] = 38
-        training_example_model['created'] = '2020-01-28T18:40:40.123456Z'
-        training_example_model['updated'] = '2020-01-28T18:40:40.123456Z'
+        training_example_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        training_example_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
 
         # Construct a json representation of a TrainingQuery model
         training_query_model_json = {}
         training_query_model_json['query_id'] = 'testString'
         training_query_model_json['natural_language_query'] = 'testString'
         training_query_model_json['filter'] = 'testString'
-        training_query_model_json['created'] = '2020-01-28T18:40:40.123456Z'
-        training_query_model_json['updated'] = '2020-01-28T18:40:40.123456Z'
+        training_query_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        training_query_model_json['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
         training_query_model_json['examples'] = [training_example_model]
 
         # Construct a model instance of TrainingQuery by calling from_dict on the json representation
@@ -5726,15 +5991,15 @@ class TestTrainingQuerySet():
         training_example_model['document_id'] = 'testString'
         training_example_model['collection_id'] = 'testString'
         training_example_model['relevance'] = 38
-        training_example_model['created'] = '2020-01-28T18:40:40.123456Z'
-        training_example_model['updated'] = '2020-01-28T18:40:40.123456Z'
+        training_example_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        training_example_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
 
         training_query_model = {} # TrainingQuery
         training_query_model['query_id'] = 'testString'
         training_query_model['natural_language_query'] = 'testString'
         training_query_model['filter'] = 'testString'
-        training_query_model['created'] = '2020-01-28T18:40:40.123456Z'
-        training_query_model['updated'] = '2020-01-28T18:40:40.123456Z'
+        training_query_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        training_query_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
         training_query_model['examples'] = [training_example_model]
 
         # Construct a json representation of a TrainingQuerySet model

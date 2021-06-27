@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2018, 2020.
+# (C) Copyright IBM Corp. 2018, 2021.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,13 +29,13 @@ from ibm_watson.tone_analyzer_v3 import *
 
 version = 'testString'
 
-service = ToneAnalyzerV3(
+_service = ToneAnalyzerV3(
     authenticator=NoAuthAuthenticator(),
     version=version
     )
 
-base_url = 'https://api.us-south.tone-analyzer.watson.cloud.ibm.com'
-service.set_service_url(base_url)
+_base_url = 'https://api.us-south.tone-analyzer.watson.cloud.ibm.com'
+_service.set_service_url(_base_url)
 
 ##############################################################################
 # Start of Service: Methods
@@ -62,7 +62,7 @@ class TestTone():
         tone()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/tone')
+        url = self.preprocess_url(_base_url + '/v3/tone')
         mock_response = '{"document_tone": {"tones": [{"score": 5, "tone_id": "tone_id", "tone_name": "tone_name"}], "tone_categories": [{"tones": [{"score": 5, "tone_id": "tone_id", "tone_name": "tone_name"}], "category_id": "category_id", "category_name": "category_name"}], "warning": "warning"}, "sentences_tone": [{"sentence_id": 11, "text": "text", "tones": [{"score": 5, "tone_id": "tone_id", "tone_name": "tone_name"}], "tone_categories": [{"tones": [{"score": 5, "tone_id": "tone_id", "tone_name": "tone_name"}], "category_id": "category_id", "category_name": "category_name"}], "input_from": 10, "input_to": 8}]}'
         responses.add(responses.POST,
                       url,
@@ -83,7 +83,7 @@ class TestTone():
         accept_language = 'ar'
 
         # Invoke method
-        response = service.tone(
+        response = _service.tone(
             tone_input,
             content_type=content_type,
             sentences=sentences,
@@ -110,7 +110,7 @@ class TestTone():
         test_tone_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/tone')
+        url = self.preprocess_url(_base_url + '/v3/tone')
         mock_response = '{"document_tone": {"tones": [{"score": 5, "tone_id": "tone_id", "tone_name": "tone_name"}], "tone_categories": [{"tones": [{"score": 5, "tone_id": "tone_id", "tone_name": "tone_name"}], "category_id": "category_id", "category_name": "category_name"}], "warning": "warning"}, "sentences_tone": [{"sentence_id": 11, "text": "text", "tones": [{"score": 5, "tone_id": "tone_id", "tone_name": "tone_name"}], "tone_categories": [{"tones": [{"score": 5, "tone_id": "tone_id", "tone_name": "tone_name"}], "category_id": "category_id", "category_name": "category_name"}], "input_from": 10, "input_to": 8}]}'
         responses.add(responses.POST,
                       url,
@@ -126,7 +126,7 @@ class TestTone():
         tone_input = tone_input_model
 
         # Invoke method
-        response = service.tone(
+        response = _service.tone(
             tone_input,
             headers={}
         )
@@ -143,7 +143,7 @@ class TestTone():
         test_tone_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/tone')
+        url = self.preprocess_url(_base_url + '/v3/tone')
         mock_response = '{"document_tone": {"tones": [{"score": 5, "tone_id": "tone_id", "tone_name": "tone_name"}], "tone_categories": [{"tones": [{"score": 5, "tone_id": "tone_id", "tone_name": "tone_name"}], "category_id": "category_id", "category_name": "category_name"}], "warning": "warning"}, "sentences_tone": [{"sentence_id": 11, "text": "text", "tones": [{"score": 5, "tone_id": "tone_id", "tone_name": "tone_name"}], "tone_categories": [{"tones": [{"score": 5, "tone_id": "tone_id", "tone_name": "tone_name"}], "category_id": "category_id", "category_name": "category_name"}], "input_from": 10, "input_to": 8}]}'
         responses.add(responses.POST,
                       url,
@@ -165,7 +165,7 @@ class TestTone():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.tone(**req_copy)
+                _service.tone(**req_copy)
 
 
 
@@ -189,7 +189,7 @@ class TestToneChat():
         tone_chat()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/tone_chat')
+        url = self.preprocess_url(_base_url + '/v3/tone_chat')
         mock_response = '{"utterances_tone": [{"utterance_id": 12, "utterance_text": "utterance_text", "tones": [{"score": 5, "tone_id": "excited", "tone_name": "tone_name"}], "error": "error"}], "warning": "warning"}'
         responses.add(responses.POST,
                       url,
@@ -208,7 +208,7 @@ class TestToneChat():
         accept_language = 'ar'
 
         # Invoke method
-        response = service.tone_chat(
+        response = _service.tone_chat(
             utterances,
             content_language=content_language,
             accept_language=accept_language,
@@ -229,7 +229,7 @@ class TestToneChat():
         test_tone_chat_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/tone_chat')
+        url = self.preprocess_url(_base_url + '/v3/tone_chat')
         mock_response = '{"utterances_tone": [{"utterance_id": 12, "utterance_text": "utterance_text", "tones": [{"score": 5, "tone_id": "excited", "tone_name": "tone_name"}], "error": "error"}], "warning": "warning"}'
         responses.add(responses.POST,
                       url,
@@ -246,7 +246,7 @@ class TestToneChat():
         utterances = [utterance_model]
 
         # Invoke method
-        response = service.tone_chat(
+        response = _service.tone_chat(
             utterances,
             headers={}
         )
@@ -265,7 +265,7 @@ class TestToneChat():
         test_tone_chat_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/tone_chat')
+        url = self.preprocess_url(_base_url + '/v3/tone_chat')
         mock_response = '{"utterances_tone": [{"utterance_id": 12, "utterance_text": "utterance_text", "tones": [{"score": 5, "tone_id": "excited", "tone_name": "tone_name"}], "error": "error"}], "warning": "warning"}'
         responses.add(responses.POST,
                       url,
@@ -288,7 +288,7 @@ class TestToneChat():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.tone_chat(**req_copy)
+                _service.tone_chat(**req_copy)
 
 
 

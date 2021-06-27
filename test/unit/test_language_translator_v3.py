@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2018, 2020.
+# (C) Copyright IBM Corp. 2018, 2021.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ Unit Tests for LanguageTranslatorV3
 
 from datetime import datetime, timezone
 from ibm_cloud_sdk_core.authenticators.no_auth_authenticator import NoAuthAuthenticator
+from ibm_cloud_sdk_core.utils import datetime_to_string, string_to_datetime
 import inspect
 import io
 import json
@@ -32,13 +33,13 @@ from ibm_watson.language_translator_v3 import *
 
 version = 'testString'
 
-service = LanguageTranslatorV3(
+_service = LanguageTranslatorV3(
     authenticator=NoAuthAuthenticator(),
     version=version
     )
 
-base_url = 'https://api.us-south.language-translator.watson.cloud.ibm.com'
-service.set_service_url(base_url)
+_base_url = 'https://api.us-south.language-translator.watson.cloud.ibm.com'
+_service.set_service_url(_base_url)
 
 ##############################################################################
 # Start of Service: Languages
@@ -65,7 +66,7 @@ class TestListLanguages():
         list_languages()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/languages')
+        url = self.preprocess_url(_base_url + '/v3/languages')
         mock_response = '{"languages": [{"language": "language", "language_name": "language_name", "native_language_name": "native_language_name", "country_code": "country_code", "words_separated": false, "direction": "direction", "supported_as_source": false, "supported_as_target": false, "identifiable": true}]}'
         responses.add(responses.GET,
                       url,
@@ -74,7 +75,7 @@ class TestListLanguages():
                       status=200)
 
         # Invoke method
-        response = service.list_languages()
+        response = _service.list_languages()
 
 
         # Check for correct operation
@@ -88,7 +89,7 @@ class TestListLanguages():
         test_list_languages_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/languages')
+        url = self.preprocess_url(_base_url + '/v3/languages')
         mock_response = '{"languages": [{"language": "language", "language_name": "language_name", "native_language_name": "native_language_name", "country_code": "country_code", "words_separated": false, "direction": "direction", "supported_as_source": false, "supported_as_target": false, "identifiable": true}]}'
         responses.add(responses.GET,
                       url,
@@ -102,7 +103,7 @@ class TestListLanguages():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.list_languages(**req_copy)
+                _service.list_languages(**req_copy)
 
 
 
@@ -136,7 +137,7 @@ class TestTranslate():
         translate()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/translate')
+        url = self.preprocess_url(_base_url + '/v3/translate')
         mock_response = '{"word_count": 10, "character_count": 15, "detected_language": "detected_language", "detected_language_confidence": 0, "translations": [{"translation": "translation"}]}'
         responses.add(responses.POST,
                       url,
@@ -151,7 +152,7 @@ class TestTranslate():
         target = 'testString'
 
         # Invoke method
-        response = service.translate(
+        response = _service.translate(
             text,
             model_id=model_id,
             source=source,
@@ -176,7 +177,7 @@ class TestTranslate():
         test_translate_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/translate')
+        url = self.preprocess_url(_base_url + '/v3/translate')
         mock_response = '{"word_count": 10, "character_count": 15, "detected_language": "detected_language", "detected_language_confidence": 0, "translations": [{"translation": "translation"}]}'
         responses.add(responses.POST,
                       url,
@@ -197,7 +198,7 @@ class TestTranslate():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.translate(**req_copy)
+                _service.translate(**req_copy)
 
 
 
@@ -231,7 +232,7 @@ class TestListIdentifiableLanguages():
         list_identifiable_languages()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/identifiable_languages')
+        url = self.preprocess_url(_base_url + '/v3/identifiable_languages')
         mock_response = '{"languages": [{"language": "language", "name": "name"}]}'
         responses.add(responses.GET,
                       url,
@@ -240,7 +241,7 @@ class TestListIdentifiableLanguages():
                       status=200)
 
         # Invoke method
-        response = service.list_identifiable_languages()
+        response = _service.list_identifiable_languages()
 
 
         # Check for correct operation
@@ -254,7 +255,7 @@ class TestListIdentifiableLanguages():
         test_list_identifiable_languages_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/identifiable_languages')
+        url = self.preprocess_url(_base_url + '/v3/identifiable_languages')
         mock_response = '{"languages": [{"language": "language", "name": "name"}]}'
         responses.add(responses.GET,
                       url,
@@ -268,7 +269,7 @@ class TestListIdentifiableLanguages():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.list_identifiable_languages(**req_copy)
+                _service.list_identifiable_languages(**req_copy)
 
 
 
@@ -292,7 +293,7 @@ class TestIdentify():
         identify()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/identify')
+        url = self.preprocess_url(_base_url + '/v3/identify')
         mock_response = '{"languages": [{"language": "language", "confidence": 0}]}'
         responses.add(responses.POST,
                       url,
@@ -304,7 +305,7 @@ class TestIdentify():
         text = 'testString'
 
         # Invoke method
-        response = service.identify(
+        response = _service.identify(
             text,
             headers={}
         )
@@ -322,7 +323,7 @@ class TestIdentify():
         test_identify_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/identify')
+        url = self.preprocess_url(_base_url + '/v3/identify')
         mock_response = '{"languages": [{"language": "language", "confidence": 0}]}'
         responses.add(responses.POST,
                       url,
@@ -340,7 +341,7 @@ class TestIdentify():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.identify(**req_copy)
+                _service.identify(**req_copy)
 
 
 
@@ -374,7 +375,7 @@ class TestListModels():
         list_models()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/models')
+        url = self.preprocess_url(_base_url + '/v3/models')
         mock_response = '{"models": [{"model_id": "model_id", "name": "name", "source": "source", "target": "target", "base_model_id": "base_model_id", "domain": "domain", "customizable": true, "default_model": false, "owner": "owner", "status": "uploading"}]}'
         responses.add(responses.GET,
                       url,
@@ -388,7 +389,7 @@ class TestListModels():
         default = True
 
         # Invoke method
-        response = service.list_models(
+        response = _service.list_models(
             source=source,
             target=target,
             default=default,
@@ -412,7 +413,7 @@ class TestListModels():
         test_list_models_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/models')
+        url = self.preprocess_url(_base_url + '/v3/models')
         mock_response = '{"models": [{"model_id": "model_id", "name": "name", "source": "source", "target": "target", "base_model_id": "base_model_id", "domain": "domain", "customizable": true, "default_model": false, "owner": "owner", "status": "uploading"}]}'
         responses.add(responses.GET,
                       url,
@@ -421,7 +422,7 @@ class TestListModels():
                       status=200)
 
         # Invoke method
-        response = service.list_models()
+        response = _service.list_models()
 
 
         # Check for correct operation
@@ -435,7 +436,7 @@ class TestListModels():
         test_list_models_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/models')
+        url = self.preprocess_url(_base_url + '/v3/models')
         mock_response = '{"models": [{"model_id": "model_id", "name": "name", "source": "source", "target": "target", "base_model_id": "base_model_id", "domain": "domain", "customizable": true, "default_model": false, "owner": "owner", "status": "uploading"}]}'
         responses.add(responses.GET,
                       url,
@@ -449,7 +450,7 @@ class TestListModels():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.list_models(**req_copy)
+                _service.list_models(**req_copy)
 
 
 
@@ -473,7 +474,7 @@ class TestCreateModel():
         create_model()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/models')
+        url = self.preprocess_url(_base_url + '/v3/models')
         mock_response = '{"model_id": "model_id", "name": "name", "source": "source", "target": "target", "base_model_id": "base_model_id", "domain": "domain", "customizable": true, "default_model": false, "owner": "owner", "status": "uploading"}'
         responses.add(responses.POST,
                       url,
@@ -488,7 +489,7 @@ class TestCreateModel():
         name = 'testString'
 
         # Invoke method
-        response = service.create_model(
+        response = _service.create_model(
             base_model_id,
             forced_glossary=forced_glossary,
             parallel_corpus=parallel_corpus,
@@ -512,7 +513,7 @@ class TestCreateModel():
         test_create_model_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/models')
+        url = self.preprocess_url(_base_url + '/v3/models')
         mock_response = '{"model_id": "model_id", "name": "name", "source": "source", "target": "target", "base_model_id": "base_model_id", "domain": "domain", "customizable": true, "default_model": false, "owner": "owner", "status": "uploading"}'
         responses.add(responses.POST,
                       url,
@@ -524,7 +525,7 @@ class TestCreateModel():
         base_model_id = 'testString'
 
         # Invoke method
-        response = service.create_model(
+        response = _service.create_model(
             base_model_id,
             headers={}
         )
@@ -544,7 +545,7 @@ class TestCreateModel():
         test_create_model_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/models')
+        url = self.preprocess_url(_base_url + '/v3/models')
         mock_response = '{"model_id": "model_id", "name": "name", "source": "source", "target": "target", "base_model_id": "base_model_id", "domain": "domain", "customizable": true, "default_model": false, "owner": "owner", "status": "uploading"}'
         responses.add(responses.POST,
                       url,
@@ -562,7 +563,7 @@ class TestCreateModel():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.create_model(**req_copy)
+                _service.create_model(**req_copy)
 
 
 
@@ -586,7 +587,7 @@ class TestDeleteModel():
         delete_model()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/models/testString')
+        url = self.preprocess_url(_base_url + '/v3/models/testString')
         mock_response = '{"status": "status"}'
         responses.add(responses.DELETE,
                       url,
@@ -598,7 +599,7 @@ class TestDeleteModel():
         model_id = 'testString'
 
         # Invoke method
-        response = service.delete_model(
+        response = _service.delete_model(
             model_id,
             headers={}
         )
@@ -614,7 +615,7 @@ class TestDeleteModel():
         test_delete_model_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/models/testString')
+        url = self.preprocess_url(_base_url + '/v3/models/testString')
         mock_response = '{"status": "status"}'
         responses.add(responses.DELETE,
                       url,
@@ -632,7 +633,7 @@ class TestDeleteModel():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.delete_model(**req_copy)
+                _service.delete_model(**req_copy)
 
 
 
@@ -656,7 +657,7 @@ class TestGetModel():
         get_model()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/models/testString')
+        url = self.preprocess_url(_base_url + '/v3/models/testString')
         mock_response = '{"model_id": "model_id", "name": "name", "source": "source", "target": "target", "base_model_id": "base_model_id", "domain": "domain", "customizable": true, "default_model": false, "owner": "owner", "status": "uploading"}'
         responses.add(responses.GET,
                       url,
@@ -668,7 +669,7 @@ class TestGetModel():
         model_id = 'testString'
 
         # Invoke method
-        response = service.get_model(
+        response = _service.get_model(
             model_id,
             headers={}
         )
@@ -684,7 +685,7 @@ class TestGetModel():
         test_get_model_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/models/testString')
+        url = self.preprocess_url(_base_url + '/v3/models/testString')
         mock_response = '{"model_id": "model_id", "name": "name", "source": "source", "target": "target", "base_model_id": "base_model_id", "domain": "domain", "customizable": true, "default_model": false, "owner": "owner", "status": "uploading"}'
         responses.add(responses.GET,
                       url,
@@ -702,7 +703,7 @@ class TestGetModel():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_model(**req_copy)
+                _service.get_model(**req_copy)
 
 
 
@@ -736,8 +737,8 @@ class TestListDocuments():
         list_documents()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/documents')
-        mock_response = '{"documents": [{"document_id": "document_id", "filename": "filename", "status": "processing", "model_id": "model_id", "base_model_id": "base_model_id", "source": "source", "detected_language_confidence": 0, "target": "target", "created": "2019-01-01T12:00:00", "completed": "2019-01-01T12:00:00", "word_count": 10, "character_count": 15}]}'
+        url = self.preprocess_url(_base_url + '/v3/documents')
+        mock_response = '{"documents": [{"document_id": "document_id", "filename": "filename", "status": "processing", "model_id": "model_id", "base_model_id": "base_model_id", "source": "source", "detected_language_confidence": 0, "target": "target", "created": "2019-01-01T12:00:00.000Z", "completed": "2019-01-01T12:00:00.000Z", "word_count": 10, "character_count": 15}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -745,7 +746,7 @@ class TestListDocuments():
                       status=200)
 
         # Invoke method
-        response = service.list_documents()
+        response = _service.list_documents()
 
 
         # Check for correct operation
@@ -759,8 +760,8 @@ class TestListDocuments():
         test_list_documents_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/documents')
-        mock_response = '{"documents": [{"document_id": "document_id", "filename": "filename", "status": "processing", "model_id": "model_id", "base_model_id": "base_model_id", "source": "source", "detected_language_confidence": 0, "target": "target", "created": "2019-01-01T12:00:00", "completed": "2019-01-01T12:00:00", "word_count": 10, "character_count": 15}]}'
+        url = self.preprocess_url(_base_url + '/v3/documents')
+        mock_response = '{"documents": [{"document_id": "document_id", "filename": "filename", "status": "processing", "model_id": "model_id", "base_model_id": "base_model_id", "source": "source", "detected_language_confidence": 0, "target": "target", "created": "2019-01-01T12:00:00.000Z", "completed": "2019-01-01T12:00:00.000Z", "word_count": 10, "character_count": 15}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -773,7 +774,7 @@ class TestListDocuments():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.list_documents(**req_copy)
+                _service.list_documents(**req_copy)
 
 
 
@@ -797,8 +798,8 @@ class TestTranslateDocument():
         translate_document()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/documents')
-        mock_response = '{"document_id": "document_id", "filename": "filename", "status": "processing", "model_id": "model_id", "base_model_id": "base_model_id", "source": "source", "detected_language_confidence": 0, "target": "target", "created": "2019-01-01T12:00:00", "completed": "2019-01-01T12:00:00", "word_count": 10, "character_count": 15}'
+        url = self.preprocess_url(_base_url + '/v3/documents')
+        mock_response = '{"document_id": "document_id", "filename": "filename", "status": "processing", "model_id": "model_id", "base_model_id": "base_model_id", "source": "source", "detected_language_confidence": 0, "target": "target", "created": "2019-01-01T12:00:00.000Z", "completed": "2019-01-01T12:00:00.000Z", "word_count": 10, "character_count": 15}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -815,7 +816,7 @@ class TestTranslateDocument():
         document_id = 'testString'
 
         # Invoke method
-        response = service.translate_document(
+        response = _service.translate_document(
             file,
             filename=filename,
             file_content_type=file_content_type,
@@ -837,8 +838,8 @@ class TestTranslateDocument():
         test_translate_document_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/documents')
-        mock_response = '{"document_id": "document_id", "filename": "filename", "status": "processing", "model_id": "model_id", "base_model_id": "base_model_id", "source": "source", "detected_language_confidence": 0, "target": "target", "created": "2019-01-01T12:00:00", "completed": "2019-01-01T12:00:00", "word_count": 10, "character_count": 15}'
+        url = self.preprocess_url(_base_url + '/v3/documents')
+        mock_response = '{"document_id": "document_id", "filename": "filename", "status": "processing", "model_id": "model_id", "base_model_id": "base_model_id", "source": "source", "detected_language_confidence": 0, "target": "target", "created": "2019-01-01T12:00:00.000Z", "completed": "2019-01-01T12:00:00.000Z", "word_count": 10, "character_count": 15}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -850,7 +851,7 @@ class TestTranslateDocument():
         filename = 'testString'
 
         # Invoke method
-        response = service.translate_document(
+        response = _service.translate_document(
             file,
             filename=filename,
             headers={}
@@ -867,8 +868,8 @@ class TestTranslateDocument():
         test_translate_document_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/documents')
-        mock_response = '{"document_id": "document_id", "filename": "filename", "status": "processing", "model_id": "model_id", "base_model_id": "base_model_id", "source": "source", "detected_language_confidence": 0, "target": "target", "created": "2019-01-01T12:00:00", "completed": "2019-01-01T12:00:00", "word_count": 10, "character_count": 15}'
+        url = self.preprocess_url(_base_url + '/v3/documents')
+        mock_response = '{"document_id": "document_id", "filename": "filename", "status": "processing", "model_id": "model_id", "base_model_id": "base_model_id", "source": "source", "detected_language_confidence": 0, "target": "target", "created": "2019-01-01T12:00:00.000Z", "completed": "2019-01-01T12:00:00.000Z", "word_count": 10, "character_count": 15}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -886,7 +887,7 @@ class TestTranslateDocument():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.translate_document(**req_copy)
+                _service.translate_document(**req_copy)
 
 
 
@@ -910,8 +911,8 @@ class TestGetDocumentStatus():
         get_document_status()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/documents/testString')
-        mock_response = '{"document_id": "document_id", "filename": "filename", "status": "processing", "model_id": "model_id", "base_model_id": "base_model_id", "source": "source", "detected_language_confidence": 0, "target": "target", "created": "2019-01-01T12:00:00", "completed": "2019-01-01T12:00:00", "word_count": 10, "character_count": 15}'
+        url = self.preprocess_url(_base_url + '/v3/documents/testString')
+        mock_response = '{"document_id": "document_id", "filename": "filename", "status": "processing", "model_id": "model_id", "base_model_id": "base_model_id", "source": "source", "detected_language_confidence": 0, "target": "target", "created": "2019-01-01T12:00:00.000Z", "completed": "2019-01-01T12:00:00.000Z", "word_count": 10, "character_count": 15}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -922,7 +923,7 @@ class TestGetDocumentStatus():
         document_id = 'testString'
 
         # Invoke method
-        response = service.get_document_status(
+        response = _service.get_document_status(
             document_id,
             headers={}
         )
@@ -938,8 +939,8 @@ class TestGetDocumentStatus():
         test_get_document_status_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/documents/testString')
-        mock_response = '{"document_id": "document_id", "filename": "filename", "status": "processing", "model_id": "model_id", "base_model_id": "base_model_id", "source": "source", "detected_language_confidence": 0, "target": "target", "created": "2019-01-01T12:00:00", "completed": "2019-01-01T12:00:00", "word_count": 10, "character_count": 15}'
+        url = self.preprocess_url(_base_url + '/v3/documents/testString')
+        mock_response = '{"document_id": "document_id", "filename": "filename", "status": "processing", "model_id": "model_id", "base_model_id": "base_model_id", "source": "source", "detected_language_confidence": 0, "target": "target", "created": "2019-01-01T12:00:00.000Z", "completed": "2019-01-01T12:00:00.000Z", "word_count": 10, "character_count": 15}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -956,7 +957,7 @@ class TestGetDocumentStatus():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_document_status(**req_copy)
+                _service.get_document_status(**req_copy)
 
 
 
@@ -980,7 +981,7 @@ class TestDeleteDocument():
         delete_document()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/documents/testString')
+        url = self.preprocess_url(_base_url + '/v3/documents/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -989,7 +990,7 @@ class TestDeleteDocument():
         document_id = 'testString'
 
         # Invoke method
-        response = service.delete_document(
+        response = _service.delete_document(
             document_id,
             headers={}
         )
@@ -1005,7 +1006,7 @@ class TestDeleteDocument():
         test_delete_document_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/documents/testString')
+        url = self.preprocess_url(_base_url + '/v3/documents/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -1020,7 +1021,7 @@ class TestDeleteDocument():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.delete_document(**req_copy)
+                _service.delete_document(**req_copy)
 
 
 
@@ -1044,7 +1045,7 @@ class TestGetTranslatedDocument():
         get_translated_document()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/documents/testString/translated_document')
+        url = self.preprocess_url(_base_url + '/v3/documents/testString/translated_document')
         mock_response = 'This is a mock binary response.'
         responses.add(responses.GET,
                       url,
@@ -1057,7 +1058,7 @@ class TestGetTranslatedDocument():
         accept = 'application/powerpoint'
 
         # Invoke method
-        response = service.get_translated_document(
+        response = _service.get_translated_document(
             document_id,
             accept=accept,
             headers={}
@@ -1074,7 +1075,7 @@ class TestGetTranslatedDocument():
         test_get_translated_document_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/documents/testString/translated_document')
+        url = self.preprocess_url(_base_url + '/v3/documents/testString/translated_document')
         mock_response = 'This is a mock binary response.'
         responses.add(responses.GET,
                       url,
@@ -1086,7 +1087,7 @@ class TestGetTranslatedDocument():
         document_id = 'testString'
 
         # Invoke method
-        response = service.get_translated_document(
+        response = _service.get_translated_document(
             document_id,
             headers={}
         )
@@ -1102,7 +1103,7 @@ class TestGetTranslatedDocument():
         test_get_translated_document_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/documents/testString/translated_document')
+        url = self.preprocess_url(_base_url + '/v3/documents/testString/translated_document')
         mock_response = 'This is a mock binary response.'
         responses.add(responses.GET,
                       url,
@@ -1120,7 +1121,7 @@ class TestGetTranslatedDocument():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.get_translated_document(**req_copy)
+                _service.get_translated_document(**req_copy)
 
 
 
@@ -1184,8 +1185,8 @@ class TestDocumentList():
         document_status_model['source'] = 'testString'
         document_status_model['detected_language_confidence'] = 0
         document_status_model['target'] = 'testString'
-        document_status_model['created'] = '2020-01-28T18:40:40.123456Z'
-        document_status_model['completed'] = '2020-01-28T18:40:40.123456Z'
+        document_status_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        document_status_model['completed'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
         document_status_model['word_count'] = 38
         document_status_model['character_count'] = 38
 
@@ -1228,8 +1229,8 @@ class TestDocumentStatus():
         document_status_model_json['source'] = 'testString'
         document_status_model_json['detected_language_confidence'] = 0
         document_status_model_json['target'] = 'testString'
-        document_status_model_json['created'] = '2020-01-28T18:40:40.123456Z'
-        document_status_model_json['completed'] = '2020-01-28T18:40:40.123456Z'
+        document_status_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        document_status_model_json['completed'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
         document_status_model_json['word_count'] = 38
         document_status_model_json['character_count'] = 38
 

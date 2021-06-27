@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2018, 2020.
+# (C) Copyright IBM Corp. 2018, 2021.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,13 +29,13 @@ from ibm_watson.personality_insights_v3 import *
 
 version = 'testString'
 
-service = PersonalityInsightsV3(
+_service = PersonalityInsightsV3(
     authenticator=NoAuthAuthenticator(),
     version=version
     )
 
-base_url = 'https://api.us-south.personality-insights.watson.cloud.ibm.com'
-service.set_service_url(base_url)
+_base_url = 'https://api.us-south.personality-insights.watson.cloud.ibm.com'
+_service.set_service_url(_base_url)
 
 ##############################################################################
 # Start of Service: Methods
@@ -62,7 +62,7 @@ class TestProfile():
         profile()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/profile')
+        url = self.preprocess_url(_base_url + '/v3/profile')
         mock_response = '{"processed_language": "ar", "word_count": 10, "word_count_message": "word_count_message", "personality": [{"trait_id": "trait_id", "name": "name", "category": "personality", "percentile": 10, "raw_score": 9, "significant": false}], "needs": [{"trait_id": "trait_id", "name": "name", "category": "personality", "percentile": 10, "raw_score": 9, "significant": false}], "values": [{"trait_id": "trait_id", "name": "name", "category": "personality", "percentile": 10, "raw_score": 9, "significant": false}], "behavior": [{"trait_id": "trait_id", "name": "name", "category": "category", "percentage": 10}], "consumption_preferences": [{"consumption_preference_category_id": "consumption_preference_category_id", "name": "name", "consumption_preferences": [{"consumption_preference_id": "consumption_preference_id", "name": "name", "score": 0.0}]}], "warnings": [{"warning_id": "WORD_COUNT_MESSAGE", "message": "message"}]}'
         responses.add(responses.POST,
                       url,
@@ -97,7 +97,7 @@ class TestProfile():
         consumption_preferences = True
 
         # Invoke method
-        response = service.profile(
+        response = _service.profile(
             content,
             accept,
             content_type=content_type,
@@ -127,7 +127,7 @@ class TestProfile():
         test_profile_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/profile')
+        url = self.preprocess_url(_base_url + '/v3/profile')
         mock_response = '{"processed_language": "ar", "word_count": 10, "word_count_message": "word_count_message", "personality": [{"trait_id": "trait_id", "name": "name", "category": "personality", "percentile": 10, "raw_score": 9, "significant": false}], "needs": [{"trait_id": "trait_id", "name": "name", "category": "personality", "percentile": 10, "raw_score": 9, "significant": false}], "values": [{"trait_id": "trait_id", "name": "name", "category": "personality", "percentile": 10, "raw_score": 9, "significant": false}], "behavior": [{"trait_id": "trait_id", "name": "name", "category": "category", "percentage": 10}], "consumption_preferences": [{"consumption_preference_category_id": "consumption_preference_category_id", "name": "name", "consumption_preferences": [{"consumption_preference_id": "consumption_preference_id", "name": "name", "score": 0.0}]}], "warnings": [{"warning_id": "WORD_COUNT_MESSAGE", "message": "message"}]}'
         responses.add(responses.POST,
                       url,
@@ -156,7 +156,7 @@ class TestProfile():
         accept = 'application/json'
 
         # Invoke method
-        response = service.profile(
+        response = _service.profile(
             content,
             accept,
             headers={}
@@ -174,7 +174,7 @@ class TestProfile():
         test_profile_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(base_url + '/v3/profile')
+        url = self.preprocess_url(_base_url + '/v3/profile')
         mock_response = '{"processed_language": "ar", "word_count": 10, "word_count_message": "word_count_message", "personality": [{"trait_id": "trait_id", "name": "name", "category": "personality", "percentile": 10, "raw_score": 9, "significant": false}], "needs": [{"trait_id": "trait_id", "name": "name", "category": "personality", "percentile": 10, "raw_score": 9, "significant": false}], "values": [{"trait_id": "trait_id", "name": "name", "category": "personality", "percentile": 10, "raw_score": 9, "significant": false}], "behavior": [{"trait_id": "trait_id", "name": "name", "category": "category", "percentage": 10}], "consumption_preferences": [{"consumption_preference_category_id": "consumption_preference_category_id", "name": "name", "consumption_preferences": [{"consumption_preference_id": "consumption_preference_id", "name": "name", "score": 0.0}]}], "warnings": [{"warning_id": "WORD_COUNT_MESSAGE", "message": "message"}]}'
         responses.add(responses.POST,
                       url,
@@ -210,7 +210,7 @@ class TestProfile():
         for param in req_param_dict.keys():
             req_copy = {key:val if key is not param else None for (key,val) in req_param_dict.items()}
             with pytest.raises(ValueError):
-                service.profile(**req_copy)
+                _service.profile(**req_copy)
 
 
 
