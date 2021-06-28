@@ -43,8 +43,6 @@ jobs:
         npm install -g @semantic-release/github
         npm install -g @semantic-release/commit-analyzer
         npm install -g @semantic-release/release-notes-generator
-        npm install -g semantic-release-pypi
-        pip3 install setuptools wheel twine
     - name: Publish js docs
       if: ${{ github.event.workflow_run.conclusion == 'success' }}
       env:
@@ -59,7 +57,13 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
       run: npx semantic-release #--dry-run --branches 9388_gha Uncomment for testxing purposes
     - name: Build binary wheel and a source tarball
-      run: python setup.py sdist
+      run: |
+        pip3 install setuptools wheel twine build
+        python -m build --sdist --outdir dist/
+    - name: Publish distribution to Test PyPI
+      uses: pypa/gh-action-pypi-publish@v1.4.2 # Try to update version tag every release
+      with:
+        password: ${{ secrets.PYPI_TOKEN }}
+        repository_url: https://upload.pypi.org/legacy/ # This must be changed if testing deploys to test.pypi.org

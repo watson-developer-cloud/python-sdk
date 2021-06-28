@@ -14,61 +14,27 @@
 # limitations under the License.
 
 from setuptools import setup
-from setuptools.command.test import test as TestCommand
-import os
-import sys
+from os import path
 
+__version__ = '5.2.0'
 
-if sys.argv[-1] == 'publish':
-    # test server
-    os.system('python setup.py register -r pypitest')
-    os.system('python setup.py sdist upload -r pypitest')
-
-    # production server
-    os.system('python setup.py register -r pypi')
-    os.system('python setup.py sdist upload -r pypi')
-    sys.exit()
-
-# Convert README.md to README.rst for pypi
-try:
-    from pypandoc import convert_file
-
-    def read_md(f):
-        return convert_file(f, 'rst')
-
-    # read_md = lambda f: convert(f, 'rst')
-except:
-    print('warning: pypandoc module not found, '
-          'could not convert Markdown to RST')
-
-    def read_md(f):
-        return open(f, 'rb').read().decode(encoding='utf-8')
-    # read_md = lambda f: open(f, 'rb').read().decode(encoding='utf-8')
-
-
-class PyTest(TestCommand):
-    def finalize_options(self):
-        TestCommand.finalize_options(self)
-        self.test_args = ['--strict', '--verbose', '--tb=long', 'test']
-        self.test_suite = True
-
-    def run_tests(self):
-        import pytest
-        errcode = pytest.main(self.test_args)
-        sys.exit(errcode)
-
+# read contents of README file
+this_directory = path.abspath(path.dirname(__file__))
+with open(path.join(this_directory, 'README.md'), encoding='utf-8') as file:
+    readme_file = file.read()
 
 setup(name='ibm-watson',
+      version=__version__,
       description='Client library to use the IBM Watson Services',
+      packages=['ibm_watson'],
+      install_requires=['requests>=2.0, <3.0', 'python_dateutil>=2.5.3', 'websocket-client==1.1.0', 'ibm_cloud_sdk_core>=3.3.6, == 3.*'],
+      tests_require=['responses', 'pytest', 'python_dotenv', 'pytest-rerunfailures'],
       license='Apache 2.0',
-      install_requires=['requests>=2.0, <3.0', 'python_dateutil>=2.5.3', 'websocket-client==0.48.0', 'ibm_cloud_sdk_core>=3.3.6, == 3.*'],
-      tests_require=['responses', 'pytest', 'python_dotenv', 'pytest-rerunfailures', 'tox'],
-      cmdclass={'test': PyTest},
       author='IBM Watson',
       author_email='watdevex@us.ibm.com',
-      long_description=read_md('README.md'),
+      long_description=readme_file,
+      long_description_content_type='text/markdown',
       url='https://github.com/watson-developer-cloud/python-sdk',
-      packages=['ibm_watson'],
       include_package_data=True,
       keywords='language, vision, question and answer' +
       ' tone_analyzer, natural language classifier,' +
@@ -81,7 +47,7 @@ setup(name='ibm-watson',
           'Programming Language :: Python',
           'Programming Language :: Python :: 2',
           'Programming Language :: Python :: 3',
-          'Development Status :: 4 - Beta',
+          'Development Status :: 5 - Production/Stable',
           'Intended Audience :: Developers',
           'License :: OSI Approved :: Apache Software License',
           'Operating System :: OS Independent',

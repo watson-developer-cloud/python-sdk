@@ -16,12 +16,6 @@
         "message": "chore(release): ${nextRelease.version} release notes\n\n${nextRelease.notes}"
       }
     ],
-    [
-      "semantic-release-pypi",
-      {
-        "repoUrl": "https://upload.pypi.org/legacy"
-      }
-    ],
     "@semantic-release/github"
   ]
 }
