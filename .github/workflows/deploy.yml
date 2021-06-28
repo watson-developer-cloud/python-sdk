@@ -7,13 +7,11 @@
 name: Deploy and Publish
 
 on:
-  push:
-      branches: [ '**' ]
-  # workflow_run:
-  #   workflows: ["Build and Test"]
-  #   branches: [ master ]
-  #   types:
-  #     - completed
+  workflow_run:
+    workflows: ["Build and Test"]
+    branches: [ master ]
+    types:
+      - completed
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -67,5 +65,5 @@ jobs:
     - name: Publish distribution to Test PyPI
       uses: pypa/gh-action-pypi-publish@v1.4.2 # Try to update version tag every release
       with:
-        password: ${{ secrets.TEST_PYPI_TOKEN }}
-        repository_url: https://test.pypi.org/legacy/
+        password: ${{ secrets.PYPI_TOKEN }}
+        repository_url: https://upload.pypi.org/legacy/ # This must be changed if testing deploys to test.pypi.org
