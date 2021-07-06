@@ -194,18 +194,21 @@ class RecognizeListener(object):
 
         # if in streaming
         elif 'results' in json_object or 'speaker_labels' in json_object:
-            hypothesis = ''
-            if 'results' in json_object:
-                hypothesis = json_object['results'][0]['alternatives'][0][
-                    'transcript']
-                b_final = (json_object['results'][0]['final'] is True)
-                transcripts = self.extract_transcripts(
-                    json_object['results'][0]['alternatives'])
+            # If results are present, extract the hypothesis and, if finalized, the full
+            # set of transcriptions and send them to the appropriate callbacks.
+            results = json_object.get('results')
+            if results:
+                b_final = (results[0].get('final') is True)
+                alternatives = results[0].get('alternatives')
+                if alternatives:
+                    hypothesis = alternatives[0].get('transcript')
+                    transcripts = self.extract_transcripts(alternatives)
+                    if b_final:
+                        self.callback.on_transcription(transcripts)
+                    if hypothesis:
+                        self.callback.on_hypothesis(hypothesis)
 
-                if b_final:
-                    self.callback.on_transcription(transcripts)
-
-                self.callback.on_hypothesis(hypothesis)
+            # Always call the on_data callback if 'results' or 'speaker_labels' are present
             self.callback.on_data(json_object)
 
     def on_error(self, ws, error):
