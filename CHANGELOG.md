@@ -1,3 +1,10 @@
+## [5.2.2](https://github.com/watson-developer-cloud/python-sdk/compare/v5.2.1...v5.2.2) (2021-07-06)
+
+
+### Bug Fixes
+
+* robustify the STT streaming results handling ([#768](https://github.com/watson-developer-cloud/python-sdk/issues/768)) ([264807d](https://github.com/watson-developer-cloud/python-sdk/commit/264807d7eb3287bbca56328496a477e042a9b2ca))
+
 ## [5.2.1](https://github.com/watson-developer-cloud/python-sdk/compare/v5.2.0...v5.2.1) (2021-06-28)
 
 
