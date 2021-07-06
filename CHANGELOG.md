@@ -1,3 +1,10 @@
+## [5.2.1](https://github.com/watson-developer-cloud/python-sdk/compare/v5.2.0...v5.2.1) (2021-06-28)
+
+
+### Bug Fixes
+
+* **tts:** remove origin header from websocket request ([e151e82](https://github.com/watson-developer-cloud/python-sdk/commit/e151e8271f4ddc2d0217beec8e84896e0e44539f))
+
 # [5.2.0](https://github.com/watson-developer-cloud/python-sdk/compare/v5.1.0...v5.2.0) (2021-06-10)
 
 
