@@ -11,41 +11,6 @@
 
 Python client library to quickly get started with the various [Watson APIs][wdc] services.
 
-<details>
-  <summary>Table of Contents</summary>
-
-  * [Before you begin](#before-you-begin)
-  * [Installation](#installation)
-  * [Examples](#examples)
-  * [Discovery v2 only on CP4D](#discovery-v2-only-on-cp4d)
-  * [Running in IBM Cloud](#running-in-ibm-cloud)
-  * [Authentication](#authentication)
-    * [Getting credentials](#getting-credentials)
-    * [IAM](#iam)
-    * [Username and password](#username-and-password)
-    * [No Authentication](#no-authentication)
-  * [Python version](#python-version)
-  * [Changes for v1.0](#changes-for-v10)
-  * [Changes for v2.0](#changes-for-v20)
-  * [Changes for v3.0](#changes-for-v30)
-  * [Changes for v4.0](#changes-for-v40)
-  * [Migration](#migration)
-  * [Configuring the http client](#configuring-the-http-client-supported-from-v110)
-  * [Disable SSL certificate verification](#disable-ssl-certificate-verification)
-  * [Setting the service url](#setting-the-service-url)
-  * [Sending request headers](#sending-request-headers)
-  * [Parsing HTTP response information](#parsing-http-response-information)
-  * [Getting the transaction ID](#getting-the-transaction-id)
-  * [Using Websockets](#using-websockets)
-  * [Cloud Pak for Data(CP4D)](#cloud-pak-for-data)
-  * [Logging](#logging)
-  * [Dependencies](#dependencies)
-  * [License](#license)
-  * [Contributing](#contributing)
-  * [Featured Projects](#featured-projects)
-
-</details>
-
 ## Announcements
 ### Updating endpoint URLs from watsonplatform.net
 Watson API endpoint URLs at watsonplatform.net are changing and will not work after 26 May 2021. Update your calls to use the newer endpoint URLs. For more information, see https://cloud.ibm.com/docs/watson?topic=watson-endpoint-change.
@@ -103,9 +68,6 @@ For more details see [#405](https://github.com/watson-developer-cloud/python-sdk
 ## Examples
 
 The [examples][examples] folder has basic and advanced examples. The examples within each service assume that you already have [service credentials](#getting-credentials).
-
-## Discovery v2 only on CP4D
-Discovery v2 is only available on Cloud Pak for Data.
 
 ## Running in IBM Cloud
 
