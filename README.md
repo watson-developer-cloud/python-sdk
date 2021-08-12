@@ -12,6 +12,11 @@
 Python client library to quickly get started with the various [Watson APIs][wdc] services.
 
 ## Announcements
+### Natural Language Classifier deprecation
+On 9 August 2021, IBM announced the deprecation of the Natural Language Classifier service. The service will no longer be available from 8 August 2022. As of 9 September 2021, you will not be able to create new instances. Existing instances will be supported until 8 August 2022. Any instance that still exists on that date will be deleted.
+
+As an alternative, we encourage you to consider migrating to the Natural Language Understanding service on IBM Cloud that uses deep learning to extract data and insights from text such as keywords, categories, sentiment, emotion, and syntax, along with advanced multi-label text classification capabilities, to provide even richer insights for your business or industry. For more information, see [Migrating to Natural Language Understanding](https://cloud.ibm.com/docs/natural-language-classifier?topic=natural-language-classifier-migrating).
+
 ### Updating endpoint URLs from watsonplatform.net
 Watson API endpoint URLs at watsonplatform.net are changing and will not work after 26 May 2021. Update your calls to use the newer endpoint URLs. For more information, see https://cloud.ibm.com/docs/watson?topic=watson-endpoint-change.
 
