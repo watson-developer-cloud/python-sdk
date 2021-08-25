@@ -63,6 +63,7 @@ jobs:
         pip3 install setuptools wheel twine build
         python -m build --sdist --outdir dist/
     - name: Publish distribution to Test PyPI
+      continue-on-error: true
       uses: pypa/gh-action-pypi-publish@v1.4.2 # Try to update version tag every release
       with:
         password: ${{ secrets.PYPI_TOKEN }}
