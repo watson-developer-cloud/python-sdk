@@ -16,7 +16,7 @@
 from setuptools import setup
 from os import path
 
-__version__ = '5.2.2'
+__version__ = '5.2.3'
 
 # read contents of README file
 this_directory = path.abspath(path.dirname(__file__))
