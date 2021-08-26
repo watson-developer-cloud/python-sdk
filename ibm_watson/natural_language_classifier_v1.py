@@ -45,15 +45,6 @@ class NaturalLanguageClassifierV1(BaseService):
     DEFAULT_SERVICE_URL = 'https://api.us-south.natural-language-classifier.watson.cloud.ibm.com'
     DEFAULT_SERVICE_NAME = 'natural_language_classifier'
 
-    print(
-            """
-            On 9 August 2021, IBM announced the deprecation of the Natural Language Classifier service.
-            The service will no longer be available from 8 August 2022. As of 9 September 2021, you will not be able to create new instances. 
-            Existing instances will be supported until 8 August 2022. Any instance that still exists on that date will be deleted.
-            For more information, see https://cloud.ibm.com/docs/natural-language-classifier?topic=natural-language-classifier-migrating
-            """
-        )
-
     def __init__(
         self,
         authenticator: Authenticator = None,
@@ -65,7 +56,15 @@ class NaturalLanguageClassifierV1(BaseService):
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
                about initializing the authenticator of your choice.
-        """
+        """  
+        print(
+            """
+            On 9 August 2021, IBM announced the deprecation of the Natural Language Classifier service.
+            The service will no longer be available from 8 August 2022. As of 9 September 2021, you will not be able to create new instances. 
+            Existing instances will be supported until 8 August 2022. Any instance that still exists on that date will be deleted.
+            For more information, see https://cloud.ibm.com/docs/natural-language-classifier?topic=natural-language-classifier-migrating
+            """
+        ) 
         if not authenticator:
             authenticator = get_authenticator_from_environment(service_name)
         BaseService.__init__(self,
