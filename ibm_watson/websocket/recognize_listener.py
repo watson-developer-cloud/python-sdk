@@ -220,7 +220,7 @@ class RecognizeListener(object):
         """
         self.callback.on_error(error)
 
-    def on_close(self, ws):
+    def on_close(self, ws, *args):
         """
         Callback executed when websocket connection is closed
 
