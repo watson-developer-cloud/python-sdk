@@ -53,6 +53,8 @@ class TestMessage():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -65,7 +67,7 @@ class TestMessage():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/message')
-        mock_response = '{"input": {"text": "text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": {"anyKey": "anyValue"}}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}'
+        mock_response = '{"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -75,9 +77,9 @@ class TestMessage():
         # Construct a dict representation of a MessageInput model
         message_input_model = {}
         message_input_model['text'] = 'testString'
-        message_input_model['spelling_suggestions'] = True
-        message_input_model['spelling_auto_correct'] = True
-        message_input_model['foo'] = { 'foo': 'bar' }
+        message_input_model['spelling_suggestions'] = False
+        message_input_model['spelling_auto_correct'] = False
+        message_input_model['foo'] = 'testString'
 
         # Construct a dict representation of a RuntimeIntent model
         runtime_intent_model = {}
@@ -149,7 +151,7 @@ class TestMessage():
         context_model['conversation_id'] = 'testString'
         context_model['system'] = {}
         context_model['metadata'] = message_context_metadata_model
-        context_model['foo'] = { 'foo': 'bar' }
+        context_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeVisitedDetails model
         dialog_node_visited_details_model = {}
@@ -200,18 +202,18 @@ class TestMessage():
         output_data_model['log_messages'] = [log_message_model]
         output_data_model['text'] = ['testString']
         output_data_model['generic'] = [runtime_response_generic_model]
-        output_data_model['foo'] = { 'foo': 'bar' }
+        output_data_model['foo'] = 'testString'
 
         # Set up parameter values
         workspace_id = 'testString'
         input = message_input_model
         intents = [runtime_intent_model]
         entities = [runtime_entity_model]
-        alternate_intents = True
+        alternate_intents = False
         context = context_model
         output = output_data_model
         user_id = 'testString'
-        nodes_visited_details = True
+        nodes_visited_details = False
 
         # Invoke method
         response = _service.message(
@@ -239,7 +241,7 @@ class TestMessage():
         assert req_body['input'] == message_input_model
         assert req_body['intents'] == [runtime_intent_model]
         assert req_body['entities'] == [runtime_entity_model]
-        assert req_body['alternate_intents'] == True
+        assert req_body['alternate_intents'] == False
         assert req_body['context'] == context_model
         assert req_body['output'] == output_data_model
         assert req_body['user_id'] == 'testString'
@@ -252,7 +254,7 @@ class TestMessage():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/message')
-        mock_response = '{"input": {"text": "text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": {"anyKey": "anyValue"}}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}'
+        mock_response = '{"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -280,7 +282,7 @@ class TestMessage():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/message')
-        mock_response = '{"input": {"text": "text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": {"anyKey": "anyValue"}}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}'
+        mock_response = '{"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -320,6 +322,8 @@ class TestBulkClassify():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -332,7 +336,7 @@ class TestBulkClassify():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/bulk_classify')
-        mock_response = '{"output": [{"input": {"text": "text"}, "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "intents": [{"intent": "intent", "confidence": 10}]}]}'
+        mock_response = '{"output": [{"input": {"text": "text"}, "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "intents": [{"intent": "intent", "confidence": 10}]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -369,7 +373,7 @@ class TestBulkClassify():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/bulk_classify')
-        mock_response = '{"output": [{"input": {"text": "text"}, "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "intents": [{"intent": "intent", "confidence": 10}]}]}'
+        mock_response = '{"output": [{"input": {"text": "text"}, "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "intents": [{"intent": "intent", "confidence": 10}]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -397,7 +401,7 @@ class TestBulkClassify():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/bulk_classify')
-        mock_response = '{"output": [{"input": {"text": "text"}, "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "intents": [{"intent": "intent", "confidence": 10}]}]}'
+        mock_response = '{"output": [{"input": {"text": "text"}, "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "intents": [{"intent": "intent", "confidence": 10}]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -437,6 +441,8 @@ class TestListWorkspaces():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -449,7 +455,7 @@ class TestListWorkspaces():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces')
-        mock_response = '{"workspaces": [{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}, "modifiers": {"overwrite": false}}, "context": {"integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}}, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": true, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "learning_opt_out": true, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": {"anyKey": "anyValue"}}, "spelling_suggestions": true, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
+        mock_response = '{"workspaces": [{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -458,10 +464,10 @@ class TestListWorkspaces():
 
         # Set up parameter values
         page_limit = 38
-        include_count = True
+        include_count = False
         sort = 'name'
         cursor = 'testString'
-        include_audit = True
+        include_audit = False
 
         # Invoke method
         response = _service.list_workspaces(
@@ -493,7 +499,7 @@ class TestListWorkspaces():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces')
-        mock_response = '{"workspaces": [{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}, "modifiers": {"overwrite": false}}, "context": {"integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}}, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": true, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "learning_opt_out": true, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": {"anyKey": "anyValue"}}, "spelling_suggestions": true, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
+        mock_response = '{"workspaces": [{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -516,7 +522,7 @@ class TestListWorkspaces():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces')
-        mock_response = '{"workspaces": [{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}, "modifiers": {"overwrite": false}}, "context": {"integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}}, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": true, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "learning_opt_out": true, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": {"anyKey": "anyValue"}}, "spelling_suggestions": true, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
+        mock_response = '{"workspaces": [{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -542,6 +548,8 @@ class TestCreateWorkspace():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -554,7 +562,7 @@ class TestCreateWorkspace():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces')
-        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}, "modifiers": {"overwrite": false}}, "context": {"integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}}, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": true, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "learning_opt_out": true, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": {"anyKey": "anyValue"}}, "spelling_suggestions": true, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
+        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -593,12 +601,12 @@ class TestCreateWorkspace():
         dialog_node_output_model['generic'] = [dialog_node_output_generic_model]
         dialog_node_output_model['integrations'] = {}
         dialog_node_output_model['modifiers'] = dialog_node_output_modifiers_model
-        dialog_node_output_model['foo'] = { 'foo': 'bar' }
+        dialog_node_output_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeContext model
         dialog_node_context_model = {}
         dialog_node_context_model['integrations'] = {}
-        dialog_node_context_model['foo'] = { 'foo': 'bar' }
+        dialog_node_context_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeNextStep model
         dialog_node_next_step_model = {}
@@ -634,7 +642,7 @@ class TestCreateWorkspace():
         dialog_node_model['digress_out'] = 'allow_returning'
         dialog_node_model['digress_out_slots'] = 'not_allowed'
         dialog_node_model['user_label'] = 'testString'
-        dialog_node_model['disambiguation_opt_out'] = True
+        dialog_node_model['disambiguation_opt_out'] = False
 
         # Construct a dict representation of a Counterexample model
         counterexample_model = {}
@@ -648,7 +656,7 @@ class TestCreateWorkspace():
         workspace_system_settings_disambiguation_model = {}
         workspace_system_settings_disambiguation_model['prompt'] = 'testString'
         workspace_system_settings_disambiguation_model['none_of_the_above_prompt'] = 'testString'
-        workspace_system_settings_disambiguation_model['enabled'] = True
+        workspace_system_settings_disambiguation_model['enabled'] = False
         workspace_system_settings_disambiguation_model['sensitivity'] = 'auto'
         workspace_system_settings_disambiguation_model['randomize'] = True
         workspace_system_settings_disambiguation_model['max_suggestions'] = 1
@@ -656,19 +664,19 @@ class TestCreateWorkspace():
 
         # Construct a dict representation of a WorkspaceSystemSettingsSystemEntities model
         workspace_system_settings_system_entities_model = {}
-        workspace_system_settings_system_entities_model['enabled'] = True
+        workspace_system_settings_system_entities_model['enabled'] = False
 
         # Construct a dict representation of a WorkspaceSystemSettingsOffTopic model
         workspace_system_settings_off_topic_model = {}
-        workspace_system_settings_off_topic_model['enabled'] = True
+        workspace_system_settings_off_topic_model['enabled'] = False
 
         # Construct a dict representation of a WorkspaceSystemSettings model
         workspace_system_settings_model = {}
         workspace_system_settings_model['tooling'] = workspace_system_settings_tooling_model
         workspace_system_settings_model['disambiguation'] = workspace_system_settings_disambiguation_model
         workspace_system_settings_model['human_agent_assist'] = {}
-        workspace_system_settings_model['spelling_suggestions'] = True
-        workspace_system_settings_model['spelling_auto_correct'] = True
+        workspace_system_settings_model['spelling_suggestions'] = False
+        workspace_system_settings_model['spelling_auto_correct'] = False
         workspace_system_settings_model['system_entities'] = workspace_system_settings_system_entities_model
         workspace_system_settings_model['off_topic'] = workspace_system_settings_off_topic_model
 
@@ -722,12 +730,12 @@ class TestCreateWorkspace():
         dialog_nodes = [dialog_node_model]
         counterexamples = [counterexample_model]
         metadata = {}
-        learning_opt_out = True
+        learning_opt_out = False
         system_settings = workspace_system_settings_model
         webhooks = [webhook_model]
         intents = [create_intent_model]
         entities = [create_entity_model]
-        include_audit = True
+        include_audit = False
 
         # Invoke method
         response = _service.create_workspace(
@@ -761,7 +769,7 @@ class TestCreateWorkspace():
         assert req_body['dialog_nodes'] == [dialog_node_model]
         assert req_body['counterexamples'] == [counterexample_model]
         assert req_body['metadata'] == {}
-        assert req_body['learning_opt_out'] == True
+        assert req_body['learning_opt_out'] == False
         assert req_body['system_settings'] == workspace_system_settings_model
         assert req_body['webhooks'] == [webhook_model]
         assert req_body['intents'] == [create_intent_model]
@@ -775,7 +783,7 @@ class TestCreateWorkspace():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces')
-        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}, "modifiers": {"overwrite": false}}, "context": {"integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}}, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": true, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "learning_opt_out": true, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": {"anyKey": "anyValue"}}, "spelling_suggestions": true, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
+        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -798,7 +806,7 @@ class TestCreateWorkspace():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces')
-        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}, "modifiers": {"overwrite": false}}, "context": {"integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}}, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": true, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "learning_opt_out": true, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": {"anyKey": "anyValue"}}, "spelling_suggestions": true, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
+        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -824,6 +832,8 @@ class TestGetWorkspace():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -836,7 +846,7 @@ class TestGetWorkspace():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString')
-        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}, "modifiers": {"overwrite": false}}, "context": {"integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}}, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": true, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "learning_opt_out": true, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": {"anyKey": "anyValue"}}, "spelling_suggestions": true, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
+        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -845,8 +855,8 @@ class TestGetWorkspace():
 
         # Set up parameter values
         workspace_id = 'testString'
-        export = True
-        include_audit = True
+        export = False
+        include_audit = False
         sort = 'stable'
 
         # Invoke method
@@ -876,7 +886,7 @@ class TestGetWorkspace():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString')
-        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}, "modifiers": {"overwrite": false}}, "context": {"integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}}, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": true, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "learning_opt_out": true, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": {"anyKey": "anyValue"}}, "spelling_suggestions": true, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
+        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -904,7 +914,7 @@ class TestGetWorkspace():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString')
-        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}, "modifiers": {"overwrite": false}}, "context": {"integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}}, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": true, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "learning_opt_out": true, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": {"anyKey": "anyValue"}}, "spelling_suggestions": true, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
+        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -934,6 +944,8 @@ class TestUpdateWorkspace():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -946,7 +958,7 @@ class TestUpdateWorkspace():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString')
-        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}, "modifiers": {"overwrite": false}}, "context": {"integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}}, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": true, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "learning_opt_out": true, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": {"anyKey": "anyValue"}}, "spelling_suggestions": true, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
+        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -985,12 +997,12 @@ class TestUpdateWorkspace():
         dialog_node_output_model['generic'] = [dialog_node_output_generic_model]
         dialog_node_output_model['integrations'] = {}
         dialog_node_output_model['modifiers'] = dialog_node_output_modifiers_model
-        dialog_node_output_model['foo'] = { 'foo': 'bar' }
+        dialog_node_output_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeContext model
         dialog_node_context_model = {}
         dialog_node_context_model['integrations'] = {}
-        dialog_node_context_model['foo'] = { 'foo': 'bar' }
+        dialog_node_context_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeNextStep model
         dialog_node_next_step_model = {}
@@ -1026,7 +1038,7 @@ class TestUpdateWorkspace():
         dialog_node_model['digress_out'] = 'allow_returning'
         dialog_node_model['digress_out_slots'] = 'not_allowed'
         dialog_node_model['user_label'] = 'testString'
-        dialog_node_model['disambiguation_opt_out'] = True
+        dialog_node_model['disambiguation_opt_out'] = False
 
         # Construct a dict representation of a Counterexample model
         counterexample_model = {}
@@ -1040,7 +1052,7 @@ class TestUpdateWorkspace():
         workspace_system_settings_disambiguation_model = {}
         workspace_system_settings_disambiguation_model['prompt'] = 'testString'
         workspace_system_settings_disambiguation_model['none_of_the_above_prompt'] = 'testString'
-        workspace_system_settings_disambiguation_model['enabled'] = True
+        workspace_system_settings_disambiguation_model['enabled'] = False
         workspace_system_settings_disambiguation_model['sensitivity'] = 'auto'
         workspace_system_settings_disambiguation_model['randomize'] = True
         workspace_system_settings_disambiguation_model['max_suggestions'] = 1
@@ -1048,19 +1060,19 @@ class TestUpdateWorkspace():
 
         # Construct a dict representation of a WorkspaceSystemSettingsSystemEntities model
         workspace_system_settings_system_entities_model = {}
-        workspace_system_settings_system_entities_model['enabled'] = True
+        workspace_system_settings_system_entities_model['enabled'] = False
 
         # Construct a dict representation of a WorkspaceSystemSettingsOffTopic model
         workspace_system_settings_off_topic_model = {}
-        workspace_system_settings_off_topic_model['enabled'] = True
+        workspace_system_settings_off_topic_model['enabled'] = False
 
         # Construct a dict representation of a WorkspaceSystemSettings model
         workspace_system_settings_model = {}
         workspace_system_settings_model['tooling'] = workspace_system_settings_tooling_model
         workspace_system_settings_model['disambiguation'] = workspace_system_settings_disambiguation_model
         workspace_system_settings_model['human_agent_assist'] = {}
-        workspace_system_settings_model['spelling_suggestions'] = True
-        workspace_system_settings_model['spelling_auto_correct'] = True
+        workspace_system_settings_model['spelling_suggestions'] = False
+        workspace_system_settings_model['spelling_auto_correct'] = False
         workspace_system_settings_model['system_entities'] = workspace_system_settings_system_entities_model
         workspace_system_settings_model['off_topic'] = workspace_system_settings_off_topic_model
 
@@ -1115,13 +1127,13 @@ class TestUpdateWorkspace():
         dialog_nodes = [dialog_node_model]
         counterexamples = [counterexample_model]
         metadata = {}
-        learning_opt_out = True
+        learning_opt_out = False
         system_settings = workspace_system_settings_model
         webhooks = [webhook_model]
         intents = [create_intent_model]
         entities = [create_entity_model]
-        append = True
-        include_audit = True
+        append = False
+        include_audit = False
 
         # Invoke method
         response = _service.update_workspace(
@@ -1158,7 +1170,7 @@ class TestUpdateWorkspace():
         assert req_body['dialog_nodes'] == [dialog_node_model]
         assert req_body['counterexamples'] == [counterexample_model]
         assert req_body['metadata'] == {}
-        assert req_body['learning_opt_out'] == True
+        assert req_body['learning_opt_out'] == False
         assert req_body['system_settings'] == workspace_system_settings_model
         assert req_body['webhooks'] == [webhook_model]
         assert req_body['intents'] == [create_intent_model]
@@ -1172,7 +1184,7 @@ class TestUpdateWorkspace():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString')
-        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}, "modifiers": {"overwrite": false}}, "context": {"integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}}, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": true, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "learning_opt_out": true, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": {"anyKey": "anyValue"}}, "spelling_suggestions": true, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
+        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1200,7 +1212,7 @@ class TestUpdateWorkspace():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString')
-        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}, "modifiers": {"overwrite": false}}, "context": {"integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}}, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": true, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "learning_opt_out": true, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": {"anyKey": "anyValue"}}, "spelling_suggestions": true, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
+        mock_response = '{"name": "name", "description": "description", "language": "language", "workspace_id": "workspace_id", "dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "counterexamples": [{"text": "text", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "metadata": {"mapKey": "anyValue"}, "learning_opt_out": false, "system_settings": {"tooling": {"store_generic_responses": false}, "disambiguation": {"prompt": "prompt", "none_of_the_above_prompt": "none_of_the_above_prompt", "enabled": false, "sensitivity": "auto", "randomize": false, "max_suggestions": 1, "suggestion_text_policy": "suggestion_text_policy"}, "human_agent_assist": {"mapKey": "anyValue"}, "spelling_suggestions": false, "spelling_auto_correct": false, "system_entities": {"enabled": false}, "off_topic": {"enabled": false}}, "status": "Non Existent", "webhooks": [{"url": "url", "name": "name", "headers": [{"name": "name", "value": "value"}]}], "intents": [{"intent": "intent", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "examples": [{"text": "text", "mentions": [{"entity": "entity", "location": [8]}], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1230,6 +1242,8 @@ class TestDeleteWorkspace():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1304,6 +1318,8 @@ class TestListIntents():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1325,12 +1341,12 @@ class TestListIntents():
 
         # Set up parameter values
         workspace_id = 'testString'
-        export = True
+        export = False
         page_limit = 38
-        include_count = True
+        include_count = False
         sort = 'intent'
         cursor = 'testString'
-        include_audit = True
+        include_audit = False
 
         # Invoke method
         response = _service.list_intents(
@@ -1423,6 +1439,8 @@ class TestCreateIntent():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1457,7 +1475,7 @@ class TestCreateIntent():
         intent = 'testString'
         description = 'testString'
         examples = [example_model]
-        include_audit = True
+        include_audit = False
 
         # Invoke method
         response = _service.create_intent(
@@ -1583,6 +1601,8 @@ class TestGetIntent():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1605,8 +1625,8 @@ class TestGetIntent():
         # Set up parameter values
         workspace_id = 'testString'
         intent = 'testString'
-        export = True
-        include_audit = True
+        export = False
+        include_audit = False
 
         # Invoke method
         response = _service.get_intent(
@@ -1696,6 +1716,8 @@ class TestUpdateIntent():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1731,8 +1753,8 @@ class TestUpdateIntent():
         new_intent = 'testString'
         new_description = 'testString'
         new_examples = [example_model]
-        append = True
-        include_audit = True
+        append = False
+        include_audit = False
 
         # Invoke method
         response = _service.update_intent(
@@ -1864,6 +1886,8 @@ class TestDeleteIntent():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1942,6 +1966,8 @@ class TestListExamples():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1965,10 +1991,10 @@ class TestListExamples():
         workspace_id = 'testString'
         intent = 'testString'
         page_limit = 38
-        include_count = True
+        include_count = False
         sort = 'text'
         cursor = 'testString'
-        include_audit = True
+        include_audit = False
 
         # Invoke method
         response = _service.list_examples(
@@ -2064,6 +2090,8 @@ class TestCreateExample():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2093,7 +2121,7 @@ class TestCreateExample():
         intent = 'testString'
         text = 'testString'
         mentions = [mention_model]
-        include_audit = True
+        include_audit = False
 
         # Invoke method
         response = _service.create_example(
@@ -2208,6 +2236,8 @@ class TestGetExample():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2231,7 +2261,7 @@ class TestGetExample():
         workspace_id = 'testString'
         intent = 'testString'
         text = 'testString'
-        include_audit = True
+        include_audit = False
 
         # Invoke method
         response = _service.get_example(
@@ -2324,6 +2354,8 @@ class TestUpdateExample():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2354,7 +2386,7 @@ class TestUpdateExample():
         text = 'testString'
         new_text = 'testString'
         new_mentions = [mention_model]
-        include_audit = True
+        include_audit = False
 
         # Invoke method
         response = _service.update_example(
@@ -2473,6 +2505,8 @@ class TestDeleteExample():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2555,6 +2589,8 @@ class TestListCounterexamples():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2577,10 +2613,10 @@ class TestListCounterexamples():
         # Set up parameter values
         workspace_id = 'testString'
         page_limit = 38
-        include_count = True
+        include_count = False
         sort = 'text'
         cursor = 'testString'
-        include_audit = True
+        include_audit = False
 
         # Invoke method
         response = _service.list_counterexamples(
@@ -2671,6 +2707,8 @@ class TestCreateCounterexample():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2693,7 +2731,7 @@ class TestCreateCounterexample():
         # Set up parameter values
         workspace_id = 'testString'
         text = 'testString'
-        include_audit = True
+        include_audit = False
 
         # Invoke method
         response = _service.create_counterexample(
@@ -2787,6 +2825,8 @@ class TestGetCounterexample():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2809,7 +2849,7 @@ class TestGetCounterexample():
         # Set up parameter values
         workspace_id = 'testString'
         text = 'testString'
-        include_audit = True
+        include_audit = False
 
         # Invoke method
         response = _service.get_counterexample(
@@ -2897,6 +2937,8 @@ class TestUpdateCounterexample():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2920,7 +2962,7 @@ class TestUpdateCounterexample():
         workspace_id = 'testString'
         text = 'testString'
         new_text = 'testString'
-        include_audit = True
+        include_audit = False
 
         # Invoke method
         response = _service.update_counterexample(
@@ -3018,6 +3060,8 @@ class TestDeleteCounterexample():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3096,6 +3140,8 @@ class TestListEntities():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3108,7 +3154,7 @@ class TestListEntities():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities')
-        mock_response = '{"entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
+        mock_response = '{"entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -3117,12 +3163,12 @@ class TestListEntities():
 
         # Set up parameter values
         workspace_id = 'testString'
-        export = True
+        export = False
         page_limit = 38
-        include_count = True
+        include_count = False
         sort = 'entity'
         cursor = 'testString'
-        include_audit = True
+        include_audit = False
 
         # Invoke method
         response = _service.list_entities(
@@ -3157,7 +3203,7 @@ class TestListEntities():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities')
-        mock_response = '{"entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
+        mock_response = '{"entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -3185,7 +3231,7 @@ class TestListEntities():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities')
-        mock_response = '{"entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
+        mock_response = '{"entities": [{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -3215,6 +3261,8 @@ class TestCreateEntity():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3227,7 +3275,7 @@ class TestCreateEntity():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities')
-        mock_response = '{"entity": "entity", "description": "description", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
+        mock_response = '{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -3249,7 +3297,7 @@ class TestCreateEntity():
         metadata = {}
         fuzzy_match = True
         values = [create_value_model]
-        include_audit = True
+        include_audit = False
 
         # Invoke method
         response = _service.create_entity(
@@ -3286,7 +3334,7 @@ class TestCreateEntity():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities')
-        mock_response = '{"entity": "entity", "description": "description", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
+        mock_response = '{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -3339,7 +3387,7 @@ class TestCreateEntity():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities')
-        mock_response = '{"entity": "entity", "description": "description", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
+        mock_response = '{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -3383,6 +3431,8 @@ class TestGetEntity():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3395,7 +3445,7 @@ class TestGetEntity():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString')
-        mock_response = '{"entity": "entity", "description": "description", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
+        mock_response = '{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -3405,8 +3455,8 @@ class TestGetEntity():
         # Set up parameter values
         workspace_id = 'testString'
         entity = 'testString'
-        export = True
-        include_audit = True
+        export = False
+        include_audit = False
 
         # Invoke method
         response = _service.get_entity(
@@ -3434,7 +3484,7 @@ class TestGetEntity():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString')
-        mock_response = '{"entity": "entity", "description": "description", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
+        mock_response = '{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -3464,7 +3514,7 @@ class TestGetEntity():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString')
-        mock_response = '{"entity": "entity", "description": "description", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
+        mock_response = '{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -3496,6 +3546,8 @@ class TestUpdateEntity():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3508,7 +3560,7 @@ class TestUpdateEntity():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString')
-        mock_response = '{"entity": "entity", "description": "description", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
+        mock_response = '{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -3531,8 +3583,8 @@ class TestUpdateEntity():
         new_metadata = {}
         new_fuzzy_match = True
         new_values = [create_value_model]
-        append = True
-        include_audit = True
+        append = False
+        include_audit = False
 
         # Invoke method
         response = _service.update_entity(
@@ -3572,7 +3624,7 @@ class TestUpdateEntity():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString')
-        mock_response = '{"entity": "entity", "description": "description", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
+        mock_response = '{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -3627,7 +3679,7 @@ class TestUpdateEntity():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString')
-        mock_response = '{"entity": "entity", "description": "description", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
+        mock_response = '{"entity": "entity", "description": "description", "metadata": {"mapKey": "anyValue"}, "fuzzy_match": false, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -3672,6 +3724,8 @@ class TestDeleteEntity():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3750,6 +3804,8 @@ class TestListMentions():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3772,8 +3828,8 @@ class TestListMentions():
         # Set up parameter values
         workspace_id = 'testString'
         entity = 'testString'
-        export = True
-        include_audit = True
+        export = False
+        include_audit = False
 
         # Invoke method
         response = _service.list_mentions(
@@ -3873,6 +3929,8 @@ class TestListValues():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3885,7 +3943,7 @@ class TestListValues():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values')
-        mock_response = '{"values": [{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
+        mock_response = '{"values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -3895,12 +3953,12 @@ class TestListValues():
         # Set up parameter values
         workspace_id = 'testString'
         entity = 'testString'
-        export = True
+        export = False
         page_limit = 38
-        include_count = True
+        include_count = False
         sort = 'value'
         cursor = 'testString'
-        include_audit = True
+        include_audit = False
 
         # Invoke method
         response = _service.list_values(
@@ -3936,7 +3994,7 @@ class TestListValues():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values')
-        mock_response = '{"values": [{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
+        mock_response = '{"values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -3966,7 +4024,7 @@ class TestListValues():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values')
-        mock_response = '{"values": [{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
+        mock_response = '{"values": [{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -3998,6 +4056,8 @@ class TestCreateValue():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -4010,7 +4070,7 @@ class TestCreateValue():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values')
-        mock_response = '{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -4025,7 +4085,7 @@ class TestCreateValue():
         type = 'synonyms'
         synonyms = ['testString']
         patterns = ['testString']
-        include_audit = True
+        include_audit = False
 
         # Invoke method
         response = _service.create_value(
@@ -4063,7 +4123,7 @@ class TestCreateValue():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values')
-        mock_response = '{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -4110,7 +4170,7 @@ class TestCreateValue():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values')
-        mock_response = '{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -4148,6 +4208,8 @@ class TestGetValue():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -4160,7 +4222,7 @@ class TestGetValue():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values/testString')
-        mock_response = '{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -4171,8 +4233,8 @@ class TestGetValue():
         workspace_id = 'testString'
         entity = 'testString'
         value = 'testString'
-        export = True
-        include_audit = True
+        export = False
+        include_audit = False
 
         # Invoke method
         response = _service.get_value(
@@ -4201,7 +4263,7 @@ class TestGetValue():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values/testString')
-        mock_response = '{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -4233,7 +4295,7 @@ class TestGetValue():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values/testString')
-        mock_response = '{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -4267,6 +4329,8 @@ class TestUpdateValue():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -4279,7 +4343,7 @@ class TestUpdateValue():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values/testString')
-        mock_response = '{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -4295,8 +4359,8 @@ class TestUpdateValue():
         new_type = 'synonyms'
         new_synonyms = ['testString']
         new_patterns = ['testString']
-        append = True
-        include_audit = True
+        append = False
+        include_audit = False
 
         # Invoke method
         response = _service.update_value(
@@ -4337,7 +4401,7 @@ class TestUpdateValue():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values/testString')
-        mock_response = '{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -4386,7 +4450,7 @@ class TestUpdateValue():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/entities/testString/values/testString')
-        mock_response = '{"value": "value", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"value": "value", "metadata": {"mapKey": "anyValue"}, "type": "synonyms", "synonyms": ["synonym"], "patterns": ["pattern"], "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -4425,6 +4489,8 @@ class TestDeleteValue():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -4507,6 +4573,8 @@ class TestListSynonyms():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -4531,10 +4599,10 @@ class TestListSynonyms():
         entity = 'testString'
         value = 'testString'
         page_limit = 38
-        include_count = True
+        include_count = False
         sort = 'synonym'
         cursor = 'testString'
-        include_audit = True
+        include_audit = False
 
         # Invoke method
         response = _service.list_synonyms(
@@ -4635,6 +4703,8 @@ class TestCreateSynonym():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -4659,7 +4729,7 @@ class TestCreateSynonym():
         entity = 'testString'
         value = 'testString'
         synonym = 'testString'
-        include_audit = True
+        include_audit = False
 
         # Invoke method
         response = _service.create_synonym(
@@ -4763,6 +4833,8 @@ class TestGetSynonym():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -4787,7 +4859,7 @@ class TestGetSynonym():
         entity = 'testString'
         value = 'testString'
         synonym = 'testString'
-        include_audit = True
+        include_audit = False
 
         # Invoke method
         response = _service.get_synonym(
@@ -4885,6 +4957,8 @@ class TestUpdateSynonym():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -4910,7 +4984,7 @@ class TestUpdateSynonym():
         value = 'testString'
         synonym = 'testString'
         new_synonym = 'testString'
-        include_audit = True
+        include_audit = False
 
         # Invoke method
         response = _service.update_synonym(
@@ -5018,6 +5092,8 @@ class TestDeleteSynonym():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -5104,6 +5180,8 @@ class TestListDialogNodes():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -5116,7 +5194,7 @@ class TestListDialogNodes():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/dialog_nodes')
-        mock_response = '{"dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}, "modifiers": {"overwrite": false}}, "context": {"integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}}, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": true, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
+        mock_response = '{"dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -5126,10 +5204,10 @@ class TestListDialogNodes():
         # Set up parameter values
         workspace_id = 'testString'
         page_limit = 38
-        include_count = True
+        include_count = False
         sort = 'dialog_node'
         cursor = 'testString'
-        include_audit = True
+        include_audit = False
 
         # Invoke method
         response = _service.list_dialog_nodes(
@@ -5162,7 +5240,7 @@ class TestListDialogNodes():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/dialog_nodes')
-        mock_response = '{"dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}, "modifiers": {"overwrite": false}}, "context": {"integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}}, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": true, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
+        mock_response = '{"dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -5190,7 +5268,7 @@ class TestListDialogNodes():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/dialog_nodes')
-        mock_response = '{"dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}, "modifiers": {"overwrite": false}}, "context": {"integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}}, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": true, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
+        mock_response = '{"dialog_nodes": [{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}], "pagination": {"refresh_url": "refresh_url", "next_url": "next_url", "total": 5, "matched": 7, "refresh_cursor": "refresh_cursor", "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -5220,6 +5298,8 @@ class TestCreateDialogNode():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -5232,7 +5312,7 @@ class TestCreateDialogNode():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/dialog_nodes')
-        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}, "modifiers": {"overwrite": false}}, "context": {"integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}}, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": true, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -5271,12 +5351,12 @@ class TestCreateDialogNode():
         dialog_node_output_model['generic'] = [dialog_node_output_generic_model]
         dialog_node_output_model['integrations'] = {}
         dialog_node_output_model['modifiers'] = dialog_node_output_modifiers_model
-        dialog_node_output_model['foo'] = { 'foo': 'bar' }
+        dialog_node_output_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeContext model
         dialog_node_context_model = {}
         dialog_node_context_model['integrations'] = {}
-        dialog_node_context_model['foo'] = { 'foo': 'bar' }
+        dialog_node_context_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeNextStep model
         dialog_node_next_step_model = {}
@@ -5312,8 +5392,8 @@ class TestCreateDialogNode():
         digress_out = 'allow_returning'
         digress_out_slots = 'not_allowed'
         user_label = 'testString'
-        disambiguation_opt_out = True
-        include_audit = True
+        disambiguation_opt_out = False
+        include_audit = False
 
         # Invoke method
         response = _service.create_dialog_node(
@@ -5368,7 +5448,7 @@ class TestCreateDialogNode():
         assert req_body['digress_out'] == 'allow_returning'
         assert req_body['digress_out_slots'] == 'not_allowed'
         assert req_body['user_label'] == 'testString'
-        assert req_body['disambiguation_opt_out'] == True
+        assert req_body['disambiguation_opt_out'] == False
 
 
     @responses.activate
@@ -5378,7 +5458,7 @@ class TestCreateDialogNode():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/dialog_nodes')
-        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}, "modifiers": {"overwrite": false}}, "context": {"integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}}, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": true, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -5417,12 +5497,12 @@ class TestCreateDialogNode():
         dialog_node_output_model['generic'] = [dialog_node_output_generic_model]
         dialog_node_output_model['integrations'] = {}
         dialog_node_output_model['modifiers'] = dialog_node_output_modifiers_model
-        dialog_node_output_model['foo'] = { 'foo': 'bar' }
+        dialog_node_output_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeContext model
         dialog_node_context_model = {}
         dialog_node_context_model['integrations'] = {}
-        dialog_node_context_model['foo'] = { 'foo': 'bar' }
+        dialog_node_context_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeNextStep model
         dialog_node_next_step_model = {}
@@ -5458,7 +5538,7 @@ class TestCreateDialogNode():
         digress_out = 'allow_returning'
         digress_out_slots = 'not_allowed'
         user_label = 'testString'
-        disambiguation_opt_out = True
+        disambiguation_opt_out = False
 
         # Invoke method
         response = _service.create_dialog_node(
@@ -5508,7 +5588,7 @@ class TestCreateDialogNode():
         assert req_body['digress_out'] == 'allow_returning'
         assert req_body['digress_out_slots'] == 'not_allowed'
         assert req_body['user_label'] == 'testString'
-        assert req_body['disambiguation_opt_out'] == True
+        assert req_body['disambiguation_opt_out'] == False
 
 
     @responses.activate
@@ -5518,7 +5598,7 @@ class TestCreateDialogNode():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/dialog_nodes')
-        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}, "modifiers": {"overwrite": false}}, "context": {"integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}}, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": true, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -5557,12 +5637,12 @@ class TestCreateDialogNode():
         dialog_node_output_model['generic'] = [dialog_node_output_generic_model]
         dialog_node_output_model['integrations'] = {}
         dialog_node_output_model['modifiers'] = dialog_node_output_modifiers_model
-        dialog_node_output_model['foo'] = { 'foo': 'bar' }
+        dialog_node_output_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeContext model
         dialog_node_context_model = {}
         dialog_node_context_model['integrations'] = {}
-        dialog_node_context_model['foo'] = { 'foo': 'bar' }
+        dialog_node_context_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeNextStep model
         dialog_node_next_step_model = {}
@@ -5598,7 +5678,7 @@ class TestCreateDialogNode():
         digress_out = 'allow_returning'
         digress_out_slots = 'not_allowed'
         user_label = 'testString'
-        disambiguation_opt_out = True
+        disambiguation_opt_out = False
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
@@ -5621,6 +5701,8 @@ class TestGetDialogNode():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -5633,7 +5715,7 @@ class TestGetDialogNode():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/dialog_nodes/testString')
-        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}, "modifiers": {"overwrite": false}}, "context": {"integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}}, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": true, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -5643,7 +5725,7 @@ class TestGetDialogNode():
         # Set up parameter values
         workspace_id = 'testString'
         dialog_node = 'testString'
-        include_audit = True
+        include_audit = False
 
         # Invoke method
         response = _service.get_dialog_node(
@@ -5669,7 +5751,7 @@ class TestGetDialogNode():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/dialog_nodes/testString')
-        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}, "modifiers": {"overwrite": false}}, "context": {"integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}}, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": true, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -5699,7 +5781,7 @@ class TestGetDialogNode():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/dialog_nodes/testString')
-        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}, "modifiers": {"overwrite": false}}, "context": {"integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}}, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": true, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -5731,6 +5813,8 @@ class TestUpdateDialogNode():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -5743,7 +5827,7 @@ class TestUpdateDialogNode():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/dialog_nodes/testString')
-        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}, "modifiers": {"overwrite": false}}, "context": {"integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}}, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": true, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -5782,12 +5866,12 @@ class TestUpdateDialogNode():
         dialog_node_output_model['generic'] = [dialog_node_output_generic_model]
         dialog_node_output_model['integrations'] = {}
         dialog_node_output_model['modifiers'] = dialog_node_output_modifiers_model
-        dialog_node_output_model['foo'] = { 'foo': 'bar' }
+        dialog_node_output_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeContext model
         dialog_node_context_model = {}
         dialog_node_context_model['integrations'] = {}
-        dialog_node_context_model['foo'] = { 'foo': 'bar' }
+        dialog_node_context_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeNextStep model
         dialog_node_next_step_model = {}
@@ -5824,8 +5908,8 @@ class TestUpdateDialogNode():
         new_digress_out = 'allow_returning'
         new_digress_out_slots = 'not_allowed'
         new_user_label = 'testString'
-        new_disambiguation_opt_out = True
-        include_audit = True
+        new_disambiguation_opt_out = False
+        include_audit = False
 
         # Invoke method
         response = _service.update_dialog_node(
@@ -5881,7 +5965,7 @@ class TestUpdateDialogNode():
         assert req_body['digress_out'] == 'allow_returning'
         assert req_body['digress_out_slots'] == 'not_allowed'
         assert req_body['user_label'] == 'testString'
-        assert req_body['disambiguation_opt_out'] == True
+        assert req_body['disambiguation_opt_out'] == False
 
 
     @responses.activate
@@ -5891,7 +5975,7 @@ class TestUpdateDialogNode():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/dialog_nodes/testString')
-        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}, "modifiers": {"overwrite": false}}, "context": {"integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}}, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": true, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -5930,12 +6014,12 @@ class TestUpdateDialogNode():
         dialog_node_output_model['generic'] = [dialog_node_output_generic_model]
         dialog_node_output_model['integrations'] = {}
         dialog_node_output_model['modifiers'] = dialog_node_output_modifiers_model
-        dialog_node_output_model['foo'] = { 'foo': 'bar' }
+        dialog_node_output_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeContext model
         dialog_node_context_model = {}
         dialog_node_context_model['integrations'] = {}
-        dialog_node_context_model['foo'] = { 'foo': 'bar' }
+        dialog_node_context_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeNextStep model
         dialog_node_next_step_model = {}
@@ -5972,7 +6056,7 @@ class TestUpdateDialogNode():
         new_digress_out = 'allow_returning'
         new_digress_out_slots = 'not_allowed'
         new_user_label = 'testString'
-        new_disambiguation_opt_out = True
+        new_disambiguation_opt_out = False
 
         # Invoke method
         response = _service.update_dialog_node(
@@ -6023,7 +6107,7 @@ class TestUpdateDialogNode():
         assert req_body['digress_out'] == 'allow_returning'
         assert req_body['digress_out_slots'] == 'not_allowed'
         assert req_body['user_label'] == 'testString'
-        assert req_body['disambiguation_opt_out'] == True
+        assert req_body['disambiguation_opt_out'] == False
 
 
     @responses.activate
@@ -6033,7 +6117,7 @@ class TestUpdateDialogNode():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/dialog_nodes/testString')
-        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}, "modifiers": {"overwrite": false}}, "context": {"integrations": {"mapKey": {"mapKey": {"anyKey": "anyValue"}}}}, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": true, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
+        mock_response = '{"dialog_node": "dialog_node", "description": "description", "conditions": "conditions", "parent": "parent", "previous_sibling": "previous_sibling", "output": {"generic": [{"response_type": "channel_transfer", "message_to_user": "message_to_user", "transfer_info": {"target": {"chat": {"url": "url"}}}, "channels": [{"channel": "chat"}]}], "integrations": {"mapKey": {"mapKey": "anyValue"}}, "modifiers": {"overwrite": true}}, "context": {"integrations": {"mapKey": {"mapKey": "anyValue"}}}, "metadata": {"mapKey": "anyValue"}, "next_step": {"behavior": "get_user_input", "dialog_node": "dialog_node", "selector": "condition"}, "title": "title", "type": "standard", "event_name": "focus", "variable": "variable", "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "digress_in": "not_available", "digress_out": "allow_returning", "digress_out_slots": "not_allowed", "user_label": "user_label", "disambiguation_opt_out": false, "disabled": true, "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -6072,12 +6156,12 @@ class TestUpdateDialogNode():
         dialog_node_output_model['generic'] = [dialog_node_output_generic_model]
         dialog_node_output_model['integrations'] = {}
         dialog_node_output_model['modifiers'] = dialog_node_output_modifiers_model
-        dialog_node_output_model['foo'] = { 'foo': 'bar' }
+        dialog_node_output_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeContext model
         dialog_node_context_model = {}
         dialog_node_context_model['integrations'] = {}
-        dialog_node_context_model['foo'] = { 'foo': 'bar' }
+        dialog_node_context_model['foo'] = 'testString'
 
         # Construct a dict representation of a DialogNodeNextStep model
         dialog_node_next_step_model = {}
@@ -6114,7 +6198,7 @@ class TestUpdateDialogNode():
         new_digress_out = 'allow_returning'
         new_digress_out_slots = 'not_allowed'
         new_user_label = 'testString'
-        new_disambiguation_opt_out = True
+        new_disambiguation_opt_out = False
 
         # Pass in all but one required param and check for a ValueError
         req_param_dict = {
@@ -6137,6 +6221,8 @@ class TestDeleteDialogNode():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -6215,6 +6301,8 @@ class TestListLogs():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -6227,7 +6315,7 @@ class TestListLogs():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/logs')
-        mock_response = '{"logs": [{"request": {"input": {"text": "text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": {"anyKey": "anyValue"}}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "response": {"input": {"text": "text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": {"anyKey": "anyValue"}}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "log_id": "log_id", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "workspace_id": "workspace_id", "language": "language"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
+        mock_response = '{"logs": [{"request": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "response": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "log_id": "log_id", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "workspace_id": "workspace_id", "language": "language"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -6270,7 +6358,7 @@ class TestListLogs():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/logs')
-        mock_response = '{"logs": [{"request": {"input": {"text": "text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": {"anyKey": "anyValue"}}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "response": {"input": {"text": "text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": {"anyKey": "anyValue"}}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "log_id": "log_id", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "workspace_id": "workspace_id", "language": "language"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
+        mock_response = '{"logs": [{"request": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "response": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "log_id": "log_id", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "workspace_id": "workspace_id", "language": "language"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -6298,7 +6386,7 @@ class TestListLogs():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/workspaces/testString/logs')
-        mock_response = '{"logs": [{"request": {"input": {"text": "text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": {"anyKey": "anyValue"}}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "response": {"input": {"text": "text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": {"anyKey": "anyValue"}}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "log_id": "log_id", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "workspace_id": "workspace_id", "language": "language"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
+        mock_response = '{"logs": [{"request": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "response": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "log_id": "log_id", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "workspace_id": "workspace_id", "language": "language"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -6328,6 +6416,8 @@ class TestListAllLogs():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -6340,7 +6430,7 @@ class TestListAllLogs():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/logs')
-        mock_response = '{"logs": [{"request": {"input": {"text": "text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": {"anyKey": "anyValue"}}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "response": {"input": {"text": "text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": {"anyKey": "anyValue"}}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "log_id": "log_id", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "workspace_id": "workspace_id", "language": "language"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
+        mock_response = '{"logs": [{"request": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "response": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "log_id": "log_id", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "workspace_id": "workspace_id", "language": "language"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -6381,7 +6471,7 @@ class TestListAllLogs():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/logs')
-        mock_response = '{"logs": [{"request": {"input": {"text": "text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": {"anyKey": "anyValue"}}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "response": {"input": {"text": "text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": {"anyKey": "anyValue"}}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "log_id": "log_id", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "workspace_id": "workspace_id", "language": "language"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
+        mock_response = '{"logs": [{"request": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "response": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "log_id": "log_id", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "workspace_id": "workspace_id", "language": "language"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -6413,7 +6503,7 @@ class TestListAllLogs():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/logs')
-        mock_response = '{"logs": [{"request": {"input": {"text": "text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": {"anyKey": "anyValue"}}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "response": {"input": {"text": "text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": {"anyKey": "anyValue"}}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": true, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": {"anyKey": "anyValue"}}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": {"anyKey": "anyValue"}}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "log_id": "log_id", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "workspace_id": "workspace_id", "language": "language"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
+        mock_response = '{"logs": [{"request": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "response": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}], "alternate_intents": false, "context": {"conversation_id": "conversation_id", "system": {"mapKey": "anyValue"}, "metadata": {"deployment": "deployment", "user_id": "user_id"}}, "output": {"nodes_visited": ["nodes_visited"], "nodes_visited_details": [{"dialog_node": "dialog_node", "title": "title", "conditions": "conditions"}], "log_messages": [{"level": "info", "msg": "msg", "code": "code", "source": {"type": "dialog_node", "dialog_node": "dialog_node"}}], "text": ["text"], "generic": [{"response_type": "option", "title": "title", "description": "description", "preference": "dropdown", "options": [{"label": "label", "value": {"input": {"text": "text", "spelling_suggestions": false, "spelling_auto_correct": false, "suggested_text": "suggested_text", "original_text": "original_text"}, "intents": [{"intent": "intent", "confidence": 10}], "entities": [{"entity": "entity", "location": [8], "value": "value", "confidence": 10, "metadata": {"mapKey": "anyValue"}, "groups": [{"group": "group", "location": [8]}], "interpretation": {"calendar_type": "calendar_type", "datetime_link": "datetime_link", "festival": "festival", "granularity": "day", "range_link": "range_link", "range_modifier": "range_modifier", "relative_day": 12, "relative_month": 14, "relative_week": 13, "relative_weekend": 16, "relative_year": 13, "specific_day": 12, "specific_day_of_week": "specific_day_of_week", "specific_month": 14, "specific_quarter": 16, "specific_year": 13, "numeric_value": 13, "subtype": "subtype", "part_of_day": "part_of_day", "relative_hour": 13, "relative_minute": 15, "relative_second": 15, "specific_hour": 13, "specific_minute": 15, "specific_second": 15, "timezone": "timezone"}, "alternatives": [{"value": "value", "confidence": 10}], "role": {"type": "date_from"}}]}}], "channels": [{"channel": "chat"}]}]}, "actions": [{"name": "name", "type": "client", "parameters": {"mapKey": "anyValue"}, "result_variable": "result_variable", "credentials": "credentials"}], "user_id": "user_id"}, "log_id": "log_id", "request_timestamp": "request_timestamp", "response_timestamp": "response_timestamp", "workspace_id": "workspace_id", "language": "language"}], "pagination": {"next_url": "next_url", "matched": 7, "next_cursor": "next_cursor"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -6453,6 +6543,8 @@ class TestDeleteUserData():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -6522,7 +6614,7 @@ class TestDeleteUserData():
 # Start of Model Tests
 ##############################################################################
 # region
-class TestAgentAvailabilityMessage():
+class TestModel_AgentAvailabilityMessage():
     """
     Test Class for AgentAvailabilityMessage
     """
@@ -6551,7 +6643,7 @@ class TestAgentAvailabilityMessage():
         agent_availability_message_model_json2 = agent_availability_message_model.to_dict()
         assert agent_availability_message_model_json2 == agent_availability_message_model_json
 
-class TestBulkClassifyOutput():
+class TestModel_BulkClassifyOutput():
     """
     Test Class for BulkClassifyOutput
     """
@@ -6641,7 +6733,7 @@ class TestBulkClassifyOutput():
         bulk_classify_output_model_json2 = bulk_classify_output_model.to_dict()
         assert bulk_classify_output_model_json2 == bulk_classify_output_model_json
 
-class TestBulkClassifyResponse():
+class TestModel_BulkClassifyResponse():
     """
     Test Class for BulkClassifyResponse
     """
@@ -6734,7 +6826,7 @@ class TestBulkClassifyResponse():
         bulk_classify_response_model_json2 = bulk_classify_response_model.to_dict()
         assert bulk_classify_response_model_json2 == bulk_classify_response_model_json
 
-class TestBulkClassifyUtterance():
+class TestModel_BulkClassifyUtterance():
     """
     Test Class for BulkClassifyUtterance
     """
@@ -6763,7 +6855,7 @@ class TestBulkClassifyUtterance():
         bulk_classify_utterance_model_json2 = bulk_classify_utterance_model.to_dict()
         assert bulk_classify_utterance_model_json2 == bulk_classify_utterance_model_json
 
-class TestCaptureGroup():
+class TestModel_CaptureGroup():
     """
     Test Class for CaptureGroup
     """
@@ -6793,7 +6885,7 @@ class TestCaptureGroup():
         capture_group_model_json2 = capture_group_model.to_dict()
         assert capture_group_model_json2 == capture_group_model_json
 
-class TestChannelTransferInfo():
+class TestModel_ChannelTransferInfo():
     """
     Test Class for ChannelTransferInfo
     """
@@ -6830,7 +6922,7 @@ class TestChannelTransferInfo():
         channel_transfer_info_model_json2 = channel_transfer_info_model.to_dict()
         assert channel_transfer_info_model_json2 == channel_transfer_info_model_json
 
-class TestChannelTransferTarget():
+class TestModel_ChannelTransferTarget():
     """
     Test Class for ChannelTransferTarget
     """
@@ -6864,7 +6956,7 @@ class TestChannelTransferTarget():
         channel_transfer_target_model_json2 = channel_transfer_target_model.to_dict()
         assert channel_transfer_target_model_json2 == channel_transfer_target_model_json
 
-class TestChannelTransferTargetChat():
+class TestModel_ChannelTransferTargetChat():
     """
     Test Class for ChannelTransferTargetChat
     """
@@ -6893,7 +6985,7 @@ class TestChannelTransferTargetChat():
         channel_transfer_target_chat_model_json2 = channel_transfer_target_chat_model.to_dict()
         assert channel_transfer_target_chat_model_json2 == channel_transfer_target_chat_model_json
 
-class TestContext():
+class TestModel_Context():
     """
     Test Class for Context
     """
@@ -6914,7 +7006,7 @@ class TestContext():
         context_model_json['conversation_id'] = 'testString'
         context_model_json['system'] = {}
         context_model_json['metadata'] = message_context_metadata_model
-        context_model_json['foo'] = { 'foo': 'bar' }
+        context_model_json['foo'] = 'testString'
 
         # Construct a model instance of Context by calling from_dict on the json representation
         context_model = Context.from_dict(context_model_json)
@@ -6931,7 +7023,17 @@ class TestContext():
         context_model_json2 = context_model.to_dict()
         assert context_model_json2 == context_model_json
 
-class TestCounterexample():
+        # Test get_properties and set_properties methods.
+        context_model.set_properties({})
+        actual_dict = context_model.get_properties()
+        assert actual_dict == {}
+
+        expected_dict = {'foo': 'testString'}
+        context_model.set_properties(expected_dict)
+        actual_dict = context_model.get_properties()
+        assert actual_dict == expected_dict
+
+class TestModel_Counterexample():
     """
     Test Class for Counterexample
     """
@@ -6944,8 +7046,8 @@ class TestCounterexample():
         # Construct a json representation of a Counterexample model
         counterexample_model_json = {}
         counterexample_model_json['text'] = 'testString'
-        counterexample_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        counterexample_model_json['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        counterexample_model_json['created'] = "2019-01-01T12:00:00Z"
+        counterexample_model_json['updated'] = "2019-01-01T12:00:00Z"
 
         # Construct a model instance of Counterexample by calling from_dict on the json representation
         counterexample_model = Counterexample.from_dict(counterexample_model_json)
@@ -6962,7 +7064,7 @@ class TestCounterexample():
         counterexample_model_json2 = counterexample_model.to_dict()
         assert counterexample_model_json2 == counterexample_model_json
 
-class TestCounterexampleCollection():
+class TestModel_CounterexampleCollection():
     """
     Test Class for CounterexampleCollection
     """
@@ -6976,8 +7078,8 @@ class TestCounterexampleCollection():
 
         counterexample_model = {} # Counterexample
         counterexample_model['text'] = 'testString'
-        counterexample_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        counterexample_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        counterexample_model['created'] = "2019-01-01T12:00:00Z"
+        counterexample_model['updated'] = "2019-01-01T12:00:00Z"
 
         pagination_model = {} # Pagination
         pagination_model['refresh_url'] = 'testString'
@@ -7007,7 +7109,7 @@ class TestCounterexampleCollection():
         counterexample_collection_model_json2 = counterexample_collection_model.to_dict()
         assert counterexample_collection_model_json2 == counterexample_collection_model_json
 
-class TestCreateEntity():
+class TestModel_CreateEntity():
     """
     Test Class for CreateEntity
     """
@@ -7025,8 +7127,8 @@ class TestCreateEntity():
         create_value_model['type'] = 'synonyms'
         create_value_model['synonyms'] = ['testString']
         create_value_model['patterns'] = ['testString']
-        create_value_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        create_value_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        create_value_model['created'] = "2019-01-01T12:00:00Z"
+        create_value_model['updated'] = "2019-01-01T12:00:00Z"
 
         # Construct a json representation of a CreateEntity model
         create_entity_model_json = {}
@@ -7034,8 +7136,8 @@ class TestCreateEntity():
         create_entity_model_json['description'] = 'testString'
         create_entity_model_json['metadata'] = {}
         create_entity_model_json['fuzzy_match'] = True
-        create_entity_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        create_entity_model_json['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        create_entity_model_json['created'] = "2019-01-01T12:00:00Z"
+        create_entity_model_json['updated'] = "2019-01-01T12:00:00Z"
         create_entity_model_json['values'] = [create_value_model]
 
         # Construct a model instance of CreateEntity by calling from_dict on the json representation
@@ -7053,7 +7155,7 @@ class TestCreateEntity():
         create_entity_model_json2 = create_entity_model.to_dict()
         assert create_entity_model_json2 == create_entity_model_json
 
-class TestCreateIntent():
+class TestModel_CreateIntent():
     """
     Test Class for CreateIntent
     """
@@ -7072,15 +7174,15 @@ class TestCreateIntent():
         example_model = {} # Example
         example_model['text'] = 'testString'
         example_model['mentions'] = [mention_model]
-        example_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        example_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        example_model['created'] = "2019-01-01T12:00:00Z"
+        example_model['updated'] = "2019-01-01T12:00:00Z"
 
         # Construct a json representation of a CreateIntent model
         create_intent_model_json = {}
         create_intent_model_json['intent'] = 'testString'
         create_intent_model_json['description'] = 'testString'
-        create_intent_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        create_intent_model_json['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        create_intent_model_json['created'] = "2019-01-01T12:00:00Z"
+        create_intent_model_json['updated'] = "2019-01-01T12:00:00Z"
         create_intent_model_json['examples'] = [example_model]
 
         # Construct a model instance of CreateIntent by calling from_dict on the json representation
@@ -7098,7 +7200,7 @@ class TestCreateIntent():
         create_intent_model_json2 = create_intent_model.to_dict()
         assert create_intent_model_json2 == create_intent_model_json
 
-class TestCreateValue():
+class TestModel_CreateValue():
     """
     Test Class for CreateValue
     """
@@ -7115,8 +7217,8 @@ class TestCreateValue():
         create_value_model_json['type'] = 'synonyms'
         create_value_model_json['synonyms'] = ['testString']
         create_value_model_json['patterns'] = ['testString']
-        create_value_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        create_value_model_json['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        create_value_model_json['created'] = "2019-01-01T12:00:00Z"
+        create_value_model_json['updated'] = "2019-01-01T12:00:00Z"
 
         # Construct a model instance of CreateValue by calling from_dict on the json representation
         create_value_model = CreateValue.from_dict(create_value_model_json)
@@ -7133,7 +7235,7 @@ class TestCreateValue():
         create_value_model_json2 = create_value_model.to_dict()
         assert create_value_model_json2 == create_value_model_json
 
-class TestDialogNode():
+class TestModel_DialogNode():
     """
     Test Class for DialogNode
     """
@@ -7170,11 +7272,11 @@ class TestDialogNode():
         dialog_node_output_model['generic'] = [dialog_node_output_generic_model]
         dialog_node_output_model['integrations'] = {}
         dialog_node_output_model['modifiers'] = dialog_node_output_modifiers_model
-        dialog_node_output_model['foo'] = { 'foo': 'bar' }
+        dialog_node_output_model['foo'] = 'testString'
 
         dialog_node_context_model = {} # DialogNodeContext
         dialog_node_context_model['integrations'] = {}
-        dialog_node_context_model['foo'] = { 'foo': 'bar' }
+        dialog_node_context_model['foo'] = 'testString'
 
         dialog_node_next_step_model = {} # DialogNodeNextStep
         dialog_node_next_step_model['behavior'] = 'get_user_input'
@@ -7208,10 +7310,10 @@ class TestDialogNode():
         dialog_node_model_json['digress_out'] = 'allow_returning'
         dialog_node_model_json['digress_out_slots'] = 'not_allowed'
         dialog_node_model_json['user_label'] = 'testString'
-        dialog_node_model_json['disambiguation_opt_out'] = True
+        dialog_node_model_json['disambiguation_opt_out'] = False
         dialog_node_model_json['disabled'] = True
-        dialog_node_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        dialog_node_model_json['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        dialog_node_model_json['created'] = "2019-01-01T12:00:00Z"
+        dialog_node_model_json['updated'] = "2019-01-01T12:00:00Z"
 
         # Construct a model instance of DialogNode by calling from_dict on the json representation
         dialog_node_model = DialogNode.from_dict(dialog_node_model_json)
@@ -7228,7 +7330,7 @@ class TestDialogNode():
         dialog_node_model_json2 = dialog_node_model.to_dict()
         assert dialog_node_model_json2 == dialog_node_model_json
 
-class TestDialogNodeAction():
+class TestModel_DialogNodeAction():
     """
     Test Class for DialogNodeAction
     """
@@ -7261,7 +7363,7 @@ class TestDialogNodeAction():
         dialog_node_action_model_json2 = dialog_node_action_model.to_dict()
         assert dialog_node_action_model_json2 == dialog_node_action_model_json
 
-class TestDialogNodeCollection():
+class TestModel_DialogNodeCollection():
     """
     Test Class for DialogNodeCollection
     """
@@ -7298,11 +7400,11 @@ class TestDialogNodeCollection():
         dialog_node_output_model['generic'] = [dialog_node_output_generic_model]
         dialog_node_output_model['integrations'] = {}
         dialog_node_output_model['modifiers'] = dialog_node_output_modifiers_model
-        dialog_node_output_model['foo'] = { 'foo': 'bar' }
+        dialog_node_output_model['foo'] = 'testString'
 
         dialog_node_context_model = {} # DialogNodeContext
         dialog_node_context_model['integrations'] = {}
-        dialog_node_context_model['foo'] = { 'foo': 'bar' }
+        dialog_node_context_model['foo'] = 'testString'
 
         dialog_node_next_step_model = {} # DialogNodeNextStep
         dialog_node_next_step_model['behavior'] = 'get_user_input'
@@ -7335,10 +7437,10 @@ class TestDialogNodeCollection():
         dialog_node_model['digress_out'] = 'allow_returning'
         dialog_node_model['digress_out_slots'] = 'not_allowed'
         dialog_node_model['user_label'] = 'testString'
-        dialog_node_model['disambiguation_opt_out'] = True
+        dialog_node_model['disambiguation_opt_out'] = False
         dialog_node_model['disabled'] = True
-        dialog_node_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        dialog_node_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        dialog_node_model['created'] = "2019-01-01T12:00:00Z"
+        dialog_node_model['updated'] = "2019-01-01T12:00:00Z"
 
         pagination_model = {} # Pagination
         pagination_model['refresh_url'] = 'testString'
@@ -7368,7 +7470,7 @@ class TestDialogNodeCollection():
         dialog_node_collection_model_json2 = dialog_node_collection_model.to_dict()
         assert dialog_node_collection_model_json2 == dialog_node_collection_model_json
 
-class TestDialogNodeContext():
+class TestModel_DialogNodeContext():
     """
     Test Class for DialogNodeContext
     """
@@ -7381,7 +7483,7 @@ class TestDialogNodeContext():
         # Construct a json representation of a DialogNodeContext model
         dialog_node_context_model_json = {}
         dialog_node_context_model_json['integrations'] = {}
-        dialog_node_context_model_json['foo'] = { 'foo': 'bar' }
+        dialog_node_context_model_json['foo'] = 'testString'
 
         # Construct a model instance of DialogNodeContext by calling from_dict on the json representation
         dialog_node_context_model = DialogNodeContext.from_dict(dialog_node_context_model_json)
@@ -7398,7 +7500,17 @@ class TestDialogNodeContext():
         dialog_node_context_model_json2 = dialog_node_context_model.to_dict()
         assert dialog_node_context_model_json2 == dialog_node_context_model_json
 
-class TestDialogNodeNextStep():
+        # Test get_properties and set_properties methods.
+        dialog_node_context_model.set_properties({})
+        actual_dict = dialog_node_context_model.get_properties()
+        assert actual_dict == {}
+
+        expected_dict = {'foo': 'testString'}
+        dialog_node_context_model.set_properties(expected_dict)
+        actual_dict = dialog_node_context_model.get_properties()
+        assert actual_dict == expected_dict
+
+class TestModel_DialogNodeNextStep():
     """
     Test Class for DialogNodeNextStep
     """
@@ -7429,7 +7541,7 @@ class TestDialogNodeNextStep():
         dialog_node_next_step_model_json2 = dialog_node_next_step_model.to_dict()
         assert dialog_node_next_step_model_json2 == dialog_node_next_step_model_json
 
-class TestDialogNodeOutput():
+class TestModel_DialogNodeOutput():
     """
     Test Class for DialogNodeOutput
     """
@@ -7467,7 +7579,7 @@ class TestDialogNodeOutput():
         dialog_node_output_model_json['generic'] = [dialog_node_output_generic_model]
         dialog_node_output_model_json['integrations'] = {}
         dialog_node_output_model_json['modifiers'] = dialog_node_output_modifiers_model
-        dialog_node_output_model_json['foo'] = { 'foo': 'bar' }
+        dialog_node_output_model_json['foo'] = 'testString'
 
         # Construct a model instance of DialogNodeOutput by calling from_dict on the json representation
         dialog_node_output_model = DialogNodeOutput.from_dict(dialog_node_output_model_json)
@@ -7484,7 +7596,17 @@ class TestDialogNodeOutput():
         dialog_node_output_model_json2 = dialog_node_output_model.to_dict()
         assert dialog_node_output_model_json2 == dialog_node_output_model_json
 
-class TestDialogNodeOutputConnectToAgentTransferInfo():
+        # Test get_properties and set_properties methods.
+        dialog_node_output_model.set_properties({})
+        actual_dict = dialog_node_output_model.get_properties()
+        assert actual_dict == {}
+
+        expected_dict = {'foo': 'testString'}
+        dialog_node_output_model.set_properties(expected_dict)
+        actual_dict = dialog_node_output_model.get_properties()
+        assert actual_dict == expected_dict
+
+class TestModel_DialogNodeOutputConnectToAgentTransferInfo():
     """
     Test Class for DialogNodeOutputConnectToAgentTransferInfo
     """
@@ -7513,7 +7635,7 @@ class TestDialogNodeOutputConnectToAgentTransferInfo():
         dialog_node_output_connect_to_agent_transfer_info_model_json2 = dialog_node_output_connect_to_agent_transfer_info_model.to_dict()
         assert dialog_node_output_connect_to_agent_transfer_info_model_json2 == dialog_node_output_connect_to_agent_transfer_info_model_json
 
-class TestDialogNodeOutputModifiers():
+class TestModel_DialogNodeOutputModifiers():
     """
     Test Class for DialogNodeOutputModifiers
     """
@@ -7542,7 +7664,7 @@ class TestDialogNodeOutputModifiers():
         dialog_node_output_modifiers_model_json2 = dialog_node_output_modifiers_model.to_dict()
         assert dialog_node_output_modifiers_model_json2 == dialog_node_output_modifiers_model_json
 
-class TestDialogNodeOutputOptionsElement():
+class TestModel_DialogNodeOutputOptionsElement():
     """
     Test Class for DialogNodeOutputOptionsElement
     """
@@ -7556,11 +7678,11 @@ class TestDialogNodeOutputOptionsElement():
 
         message_input_model = {} # MessageInput
         message_input_model['text'] = 'testString'
-        message_input_model['spelling_suggestions'] = True
-        message_input_model['spelling_auto_correct'] = True
+        message_input_model['spelling_suggestions'] = False
+        message_input_model['spelling_auto_correct'] = False
         message_input_model['suggested_text'] = 'testString'
         message_input_model['original_text'] = 'testString'
-        message_input_model['foo'] = { 'foo': 'bar' }
+        message_input_model['foo'] = 'testString'
 
         runtime_intent_model = {} # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
@@ -7641,7 +7763,7 @@ class TestDialogNodeOutputOptionsElement():
         dialog_node_output_options_element_model_json2 = dialog_node_output_options_element_model.to_dict()
         assert dialog_node_output_options_element_model_json2 == dialog_node_output_options_element_model_json
 
-class TestDialogNodeOutputOptionsElementValue():
+class TestModel_DialogNodeOutputOptionsElementValue():
     """
     Test Class for DialogNodeOutputOptionsElementValue
     """
@@ -7655,11 +7777,11 @@ class TestDialogNodeOutputOptionsElementValue():
 
         message_input_model = {} # MessageInput
         message_input_model['text'] = 'testString'
-        message_input_model['spelling_suggestions'] = True
-        message_input_model['spelling_auto_correct'] = True
+        message_input_model['spelling_suggestions'] = False
+        message_input_model['spelling_auto_correct'] = False
         message_input_model['suggested_text'] = 'testString'
         message_input_model['original_text'] = 'testString'
-        message_input_model['foo'] = { 'foo': 'bar' }
+        message_input_model['foo'] = 'testString'
 
         runtime_intent_model = {} # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
@@ -7736,7 +7858,7 @@ class TestDialogNodeOutputOptionsElementValue():
         dialog_node_output_options_element_value_model_json2 = dialog_node_output_options_element_value_model.to_dict()
         assert dialog_node_output_options_element_value_model_json2 == dialog_node_output_options_element_value_model_json
 
-class TestDialogNodeOutputTextValuesElement():
+class TestModel_DialogNodeOutputTextValuesElement():
     """
     Test Class for DialogNodeOutputTextValuesElement
     """
@@ -7765,7 +7887,7 @@ class TestDialogNodeOutputTextValuesElement():
         dialog_node_output_text_values_element_model_json2 = dialog_node_output_text_values_element_model.to_dict()
         assert dialog_node_output_text_values_element_model_json2 == dialog_node_output_text_values_element_model_json
 
-class TestDialogNodeVisitedDetails():
+class TestModel_DialogNodeVisitedDetails():
     """
     Test Class for DialogNodeVisitedDetails
     """
@@ -7796,7 +7918,7 @@ class TestDialogNodeVisitedDetails():
         dialog_node_visited_details_model_json2 = dialog_node_visited_details_model.to_dict()
         assert dialog_node_visited_details_model_json2 == dialog_node_visited_details_model_json
 
-class TestDialogSuggestion():
+class TestModel_DialogSuggestion():
     """
     Test Class for DialogSuggestion
     """
@@ -7810,11 +7932,11 @@ class TestDialogSuggestion():
 
         message_input_model = {} # MessageInput
         message_input_model['text'] = 'testString'
-        message_input_model['spelling_suggestions'] = True
-        message_input_model['spelling_auto_correct'] = True
+        message_input_model['spelling_suggestions'] = False
+        message_input_model['spelling_auto_correct'] = False
         message_input_model['suggested_text'] = 'testString'
         message_input_model['original_text'] = 'testString'
-        message_input_model['foo'] = { 'foo': 'bar' }
+        message_input_model['foo'] = 'testString'
 
         runtime_intent_model = {} # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
@@ -7897,7 +8019,7 @@ class TestDialogSuggestion():
         dialog_suggestion_model_json2 = dialog_suggestion_model.to_dict()
         assert dialog_suggestion_model_json2 == dialog_suggestion_model_json
 
-class TestDialogSuggestionValue():
+class TestModel_DialogSuggestionValue():
     """
     Test Class for DialogSuggestionValue
     """
@@ -7911,11 +8033,11 @@ class TestDialogSuggestionValue():
 
         message_input_model = {} # MessageInput
         message_input_model['text'] = 'testString'
-        message_input_model['spelling_suggestions'] = True
-        message_input_model['spelling_auto_correct'] = True
+        message_input_model['spelling_suggestions'] = False
+        message_input_model['spelling_auto_correct'] = False
         message_input_model['suggested_text'] = 'testString'
         message_input_model['original_text'] = 'testString'
-        message_input_model['foo'] = { 'foo': 'bar' }
+        message_input_model['foo'] = 'testString'
 
         runtime_intent_model = {} # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
@@ -7992,7 +8114,7 @@ class TestDialogSuggestionValue():
         dialog_suggestion_value_model_json2 = dialog_suggestion_value_model.to_dict()
         assert dialog_suggestion_value_model_json2 == dialog_suggestion_value_model_json
 
-class TestEntity():
+class TestModel_Entity():
     """
     Test Class for Entity
     """
@@ -8010,8 +8132,8 @@ class TestEntity():
         value_model['type'] = 'synonyms'
         value_model['synonyms'] = ['testString']
         value_model['patterns'] = ['testString']
-        value_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        value_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        value_model['created'] = "2019-01-01T12:00:00Z"
+        value_model['updated'] = "2019-01-01T12:00:00Z"
 
         # Construct a json representation of a Entity model
         entity_model_json = {}
@@ -8019,8 +8141,8 @@ class TestEntity():
         entity_model_json['description'] = 'testString'
         entity_model_json['metadata'] = {}
         entity_model_json['fuzzy_match'] = True
-        entity_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        entity_model_json['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        entity_model_json['created'] = "2019-01-01T12:00:00Z"
+        entity_model_json['updated'] = "2019-01-01T12:00:00Z"
         entity_model_json['values'] = [value_model]
 
         # Construct a model instance of Entity by calling from_dict on the json representation
@@ -8038,7 +8160,7 @@ class TestEntity():
         entity_model_json2 = entity_model.to_dict()
         assert entity_model_json2 == entity_model_json
 
-class TestEntityCollection():
+class TestModel_EntityCollection():
     """
     Test Class for EntityCollection
     """
@@ -8056,16 +8178,16 @@ class TestEntityCollection():
         value_model['type'] = 'synonyms'
         value_model['synonyms'] = ['testString']
         value_model['patterns'] = ['testString']
-        value_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        value_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        value_model['created'] = "2019-01-01T12:00:00Z"
+        value_model['updated'] = "2019-01-01T12:00:00Z"
 
         entity_model = {} # Entity
         entity_model['entity'] = 'testString'
         entity_model['description'] = 'testString'
         entity_model['metadata'] = {}
         entity_model['fuzzy_match'] = True
-        entity_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        entity_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        entity_model['created'] = "2019-01-01T12:00:00Z"
+        entity_model['updated'] = "2019-01-01T12:00:00Z"
         entity_model['values'] = [value_model]
 
         pagination_model = {} # Pagination
@@ -8096,7 +8218,7 @@ class TestEntityCollection():
         entity_collection_model_json2 = entity_collection_model.to_dict()
         assert entity_collection_model_json2 == entity_collection_model_json
 
-class TestEntityMention():
+class TestModel_EntityMention():
     """
     Test Class for EntityMention
     """
@@ -8127,7 +8249,7 @@ class TestEntityMention():
         entity_mention_model_json2 = entity_mention_model.to_dict()
         assert entity_mention_model_json2 == entity_mention_model_json
 
-class TestEntityMentionCollection():
+class TestModel_EntityMentionCollection():
     """
     Test Class for EntityMentionCollection
     """
@@ -8172,7 +8294,7 @@ class TestEntityMentionCollection():
         entity_mention_collection_model_json2 = entity_mention_collection_model.to_dict()
         assert entity_mention_collection_model_json2 == entity_mention_collection_model_json
 
-class TestExample():
+class TestModel_Example():
     """
     Test Class for Example
     """
@@ -8192,8 +8314,8 @@ class TestExample():
         example_model_json = {}
         example_model_json['text'] = 'testString'
         example_model_json['mentions'] = [mention_model]
-        example_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        example_model_json['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        example_model_json['created'] = "2019-01-01T12:00:00Z"
+        example_model_json['updated'] = "2019-01-01T12:00:00Z"
 
         # Construct a model instance of Example by calling from_dict on the json representation
         example_model = Example.from_dict(example_model_json)
@@ -8210,7 +8332,7 @@ class TestExample():
         example_model_json2 = example_model.to_dict()
         assert example_model_json2 == example_model_json
 
-class TestExampleCollection():
+class TestModel_ExampleCollection():
     """
     Test Class for ExampleCollection
     """
@@ -8229,8 +8351,8 @@ class TestExampleCollection():
         example_model = {} # Example
         example_model['text'] = 'testString'
         example_model['mentions'] = [mention_model]
-        example_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        example_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        example_model['created'] = "2019-01-01T12:00:00Z"
+        example_model['updated'] = "2019-01-01T12:00:00Z"
 
         pagination_model = {} # Pagination
         pagination_model['refresh_url'] = 'testString'
@@ -8260,7 +8382,7 @@ class TestExampleCollection():
         example_collection_model_json2 = example_collection_model.to_dict()
         assert example_collection_model_json2 == example_collection_model_json
 
-class TestIntent():
+class TestModel_Intent():
     """
     Test Class for Intent
     """
@@ -8279,15 +8401,15 @@ class TestIntent():
         example_model = {} # Example
         example_model['text'] = 'testString'
         example_model['mentions'] = [mention_model]
-        example_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        example_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        example_model['created'] = "2019-01-01T12:00:00Z"
+        example_model['updated'] = "2019-01-01T12:00:00Z"
 
         # Construct a json representation of a Intent model
         intent_model_json = {}
         intent_model_json['intent'] = 'testString'
         intent_model_json['description'] = 'testString'
-        intent_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        intent_model_json['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        intent_model_json['created'] = "2019-01-01T12:00:00Z"
+        intent_model_json['updated'] = "2019-01-01T12:00:00Z"
         intent_model_json['examples'] = [example_model]
 
         # Construct a model instance of Intent by calling from_dict on the json representation
@@ -8305,7 +8427,7 @@ class TestIntent():
         intent_model_json2 = intent_model.to_dict()
         assert intent_model_json2 == intent_model_json
 
-class TestIntentCollection():
+class TestModel_IntentCollection():
     """
     Test Class for IntentCollection
     """
@@ -8324,14 +8446,14 @@ class TestIntentCollection():
         example_model = {} # Example
         example_model['text'] = 'testString'
         example_model['mentions'] = [mention_model]
-        example_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        example_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        example_model['created'] = "2019-01-01T12:00:00Z"
+        example_model['updated'] = "2019-01-01T12:00:00Z"
 
         intent_model = {} # Intent
         intent_model['intent'] = 'testString'
         intent_model['description'] = 'testString'
-        intent_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        intent_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        intent_model['created'] = "2019-01-01T12:00:00Z"
+        intent_model['updated'] = "2019-01-01T12:00:00Z"
         intent_model['examples'] = [example_model]
 
         pagination_model = {} # Pagination
@@ -8362,7 +8484,7 @@ class TestIntentCollection():
         intent_collection_model_json2 = intent_collection_model.to_dict()
         assert intent_collection_model_json2 == intent_collection_model_json
 
-class TestLog():
+class TestModel_Log():
     """
     Test Class for Log
     """
@@ -8376,11 +8498,11 @@ class TestLog():
 
         message_input_model = {} # MessageInput
         message_input_model['text'] = 'testString'
-        message_input_model['spelling_suggestions'] = True
-        message_input_model['spelling_auto_correct'] = True
+        message_input_model['spelling_suggestions'] = False
+        message_input_model['spelling_auto_correct'] = False
         message_input_model['suggested_text'] = 'testString'
         message_input_model['original_text'] = 'testString'
-        message_input_model['foo'] = { 'foo': 'bar' }
+        message_input_model['foo'] = 'testString'
 
         runtime_intent_model = {} # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
@@ -8444,7 +8566,7 @@ class TestLog():
         context_model['conversation_id'] = 'testString'
         context_model['system'] = {}
         context_model['metadata'] = message_context_metadata_model
-        context_model['foo'] = { 'foo': 'bar' }
+        context_model['foo'] = 'testString'
 
         dialog_node_visited_details_model = {} # DialogNodeVisitedDetails
         dialog_node_visited_details_model['dialog_node'] = 'testString'
@@ -8487,7 +8609,7 @@ class TestLog():
         output_data_model['log_messages'] = [log_message_model]
         output_data_model['text'] = ['testString']
         output_data_model['generic'] = [runtime_response_generic_model]
-        output_data_model['foo'] = { 'foo': 'bar' }
+        output_data_model['foo'] = 'testString'
 
         dialog_node_action_model = {} # DialogNodeAction
         dialog_node_action_model['name'] = 'testString'
@@ -8500,7 +8622,7 @@ class TestLog():
         message_request_model['input'] = message_input_model
         message_request_model['intents'] = [runtime_intent_model]
         message_request_model['entities'] = [runtime_entity_model]
-        message_request_model['alternate_intents'] = True
+        message_request_model['alternate_intents'] = False
         message_request_model['context'] = context_model
         message_request_model['output'] = output_data_model
         message_request_model['actions'] = [dialog_node_action_model]
@@ -8510,7 +8632,7 @@ class TestLog():
         message_response_model['input'] = message_input_model
         message_response_model['intents'] = [runtime_intent_model]
         message_response_model['entities'] = [runtime_entity_model]
-        message_response_model['alternate_intents'] = True
+        message_response_model['alternate_intents'] = False
         message_response_model['context'] = context_model
         message_response_model['output'] = output_data_model
         message_response_model['actions'] = [dialog_node_action_model]
@@ -8541,7 +8663,7 @@ class TestLog():
         log_model_json2 = log_model.to_dict()
         assert log_model_json2 == log_model_json
 
-class TestLogCollection():
+class TestModel_LogCollection():
     """
     Test Class for LogCollection
     """
@@ -8555,11 +8677,11 @@ class TestLogCollection():
 
         message_input_model = {} # MessageInput
         message_input_model['text'] = 'testString'
-        message_input_model['spelling_suggestions'] = True
-        message_input_model['spelling_auto_correct'] = True
+        message_input_model['spelling_suggestions'] = False
+        message_input_model['spelling_auto_correct'] = False
         message_input_model['suggested_text'] = 'testString'
         message_input_model['original_text'] = 'testString'
-        message_input_model['foo'] = { 'foo': 'bar' }
+        message_input_model['foo'] = 'testString'
 
         runtime_intent_model = {} # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
@@ -8623,7 +8745,7 @@ class TestLogCollection():
         context_model['conversation_id'] = 'testString'
         context_model['system'] = {}
         context_model['metadata'] = message_context_metadata_model
-        context_model['foo'] = { 'foo': 'bar' }
+        context_model['foo'] = 'testString'
 
         dialog_node_visited_details_model = {} # DialogNodeVisitedDetails
         dialog_node_visited_details_model['dialog_node'] = 'testString'
@@ -8666,7 +8788,7 @@ class TestLogCollection():
         output_data_model['log_messages'] = [log_message_model]
         output_data_model['text'] = ['testString']
         output_data_model['generic'] = [runtime_response_generic_model]
-        output_data_model['foo'] = { 'foo': 'bar' }
+        output_data_model['foo'] = 'testString'
 
         dialog_node_action_model = {} # DialogNodeAction
         dialog_node_action_model['name'] = 'testString'
@@ -8679,7 +8801,7 @@ class TestLogCollection():
         message_request_model['input'] = message_input_model
         message_request_model['intents'] = [runtime_intent_model]
         message_request_model['entities'] = [runtime_entity_model]
-        message_request_model['alternate_intents'] = True
+        message_request_model['alternate_intents'] = False
         message_request_model['context'] = context_model
         message_request_model['output'] = output_data_model
         message_request_model['actions'] = [dialog_node_action_model]
@@ -8689,7 +8811,7 @@ class TestLogCollection():
         message_response_model['input'] = message_input_model
         message_response_model['intents'] = [runtime_intent_model]
         message_response_model['entities'] = [runtime_entity_model]
-        message_response_model['alternate_intents'] = True
+        message_response_model['alternate_intents'] = False
         message_response_model['context'] = context_model
         message_response_model['output'] = output_data_model
         message_response_model['actions'] = [dialog_node_action_model]
@@ -8729,7 +8851,7 @@ class TestLogCollection():
         log_collection_model_json2 = log_collection_model.to_dict()
         assert log_collection_model_json2 == log_collection_model_json
 
-class TestLogMessage():
+class TestModel_LogMessage():
     """
     Test Class for LogMessage
     """
@@ -8767,7 +8889,7 @@ class TestLogMessage():
         log_message_model_json2 = log_message_model.to_dict()
         assert log_message_model_json2 == log_message_model_json
 
-class TestLogMessageSource():
+class TestModel_LogMessageSource():
     """
     Test Class for LogMessageSource
     """
@@ -8797,7 +8919,7 @@ class TestLogMessageSource():
         log_message_source_model_json2 = log_message_source_model.to_dict()
         assert log_message_source_model_json2 == log_message_source_model_json
 
-class TestLogPagination():
+class TestModel_LogPagination():
     """
     Test Class for LogPagination
     """
@@ -8828,7 +8950,7 @@ class TestLogPagination():
         log_pagination_model_json2 = log_pagination_model.to_dict()
         assert log_pagination_model_json2 == log_pagination_model_json
 
-class TestMention():
+class TestModel_Mention():
     """
     Test Class for Mention
     """
@@ -8858,7 +8980,7 @@ class TestMention():
         mention_model_json2 = mention_model.to_dict()
         assert mention_model_json2 == mention_model_json
 
-class TestMessageContextMetadata():
+class TestModel_MessageContextMetadata():
     """
     Test Class for MessageContextMetadata
     """
@@ -8888,7 +9010,7 @@ class TestMessageContextMetadata():
         message_context_metadata_model_json2 = message_context_metadata_model.to_dict()
         assert message_context_metadata_model_json2 == message_context_metadata_model_json
 
-class TestMessageInput():
+class TestModel_MessageInput():
     """
     Test Class for MessageInput
     """
@@ -8901,11 +9023,11 @@ class TestMessageInput():
         # Construct a json representation of a MessageInput model
         message_input_model_json = {}
         message_input_model_json['text'] = 'testString'
-        message_input_model_json['spelling_suggestions'] = True
-        message_input_model_json['spelling_auto_correct'] = True
+        message_input_model_json['spelling_suggestions'] = False
+        message_input_model_json['spelling_auto_correct'] = False
         message_input_model_json['suggested_text'] = 'testString'
         message_input_model_json['original_text'] = 'testString'
-        message_input_model_json['foo'] = { 'foo': 'bar' }
+        message_input_model_json['foo'] = 'testString'
 
         # Construct a model instance of MessageInput by calling from_dict on the json representation
         message_input_model = MessageInput.from_dict(message_input_model_json)
@@ -8922,7 +9044,17 @@ class TestMessageInput():
         message_input_model_json2 = message_input_model.to_dict()
         assert message_input_model_json2 == message_input_model_json
 
-class TestMessageRequest():
+        # Test get_properties and set_properties methods.
+        message_input_model.set_properties({})
+        actual_dict = message_input_model.get_properties()
+        assert actual_dict == {}
+
+        expected_dict = {'foo': 'testString'}
+        message_input_model.set_properties(expected_dict)
+        actual_dict = message_input_model.get_properties()
+        assert actual_dict == expected_dict
+
+class TestModel_MessageRequest():
     """
     Test Class for MessageRequest
     """
@@ -8936,11 +9068,11 @@ class TestMessageRequest():
 
         message_input_model = {} # MessageInput
         message_input_model['text'] = 'testString'
-        message_input_model['spelling_suggestions'] = True
-        message_input_model['spelling_auto_correct'] = True
+        message_input_model['spelling_suggestions'] = False
+        message_input_model['spelling_auto_correct'] = False
         message_input_model['suggested_text'] = 'testString'
         message_input_model['original_text'] = 'testString'
-        message_input_model['foo'] = { 'foo': 'bar' }
+        message_input_model['foo'] = 'testString'
 
         runtime_intent_model = {} # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
@@ -9004,7 +9136,7 @@ class TestMessageRequest():
         context_model['conversation_id'] = 'testString'
         context_model['system'] = {}
         context_model['metadata'] = message_context_metadata_model
-        context_model['foo'] = { 'foo': 'bar' }
+        context_model['foo'] = 'testString'
 
         dialog_node_visited_details_model = {} # DialogNodeVisitedDetails
         dialog_node_visited_details_model['dialog_node'] = 'testString'
@@ -9047,7 +9179,7 @@ class TestMessageRequest():
         output_data_model['log_messages'] = [log_message_model]
         output_data_model['text'] = ['testString']
         output_data_model['generic'] = [runtime_response_generic_model]
-        output_data_model['foo'] = { 'foo': 'bar' }
+        output_data_model['foo'] = 'testString'
 
         dialog_node_action_model = {} # DialogNodeAction
         dialog_node_action_model['name'] = 'testString'
@@ -9061,7 +9193,7 @@ class TestMessageRequest():
         message_request_model_json['input'] = message_input_model
         message_request_model_json['intents'] = [runtime_intent_model]
         message_request_model_json['entities'] = [runtime_entity_model]
-        message_request_model_json['alternate_intents'] = True
+        message_request_model_json['alternate_intents'] = False
         message_request_model_json['context'] = context_model
         message_request_model_json['output'] = output_data_model
         message_request_model_json['actions'] = [dialog_node_action_model]
@@ -9082,7 +9214,7 @@ class TestMessageRequest():
         message_request_model_json2 = message_request_model.to_dict()
         assert message_request_model_json2 == message_request_model_json
 
-class TestMessageResponse():
+class TestModel_MessageResponse():
     """
     Test Class for MessageResponse
     """
@@ -9096,11 +9228,11 @@ class TestMessageResponse():
 
         message_input_model = {} # MessageInput
         message_input_model['text'] = 'testString'
-        message_input_model['spelling_suggestions'] = True
-        message_input_model['spelling_auto_correct'] = True
+        message_input_model['spelling_suggestions'] = False
+        message_input_model['spelling_auto_correct'] = False
         message_input_model['suggested_text'] = 'testString'
         message_input_model['original_text'] = 'testString'
-        message_input_model['foo'] = { 'foo': 'bar' }
+        message_input_model['foo'] = 'testString'
 
         runtime_intent_model = {} # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
@@ -9164,7 +9296,7 @@ class TestMessageResponse():
         context_model['conversation_id'] = 'testString'
         context_model['system'] = {}
         context_model['metadata'] = message_context_metadata_model
-        context_model['foo'] = { 'foo': 'bar' }
+        context_model['foo'] = 'testString'
 
         dialog_node_visited_details_model = {} # DialogNodeVisitedDetails
         dialog_node_visited_details_model['dialog_node'] = 'testString'
@@ -9207,7 +9339,7 @@ class TestMessageResponse():
         output_data_model['log_messages'] = [log_message_model]
         output_data_model['text'] = ['testString']
         output_data_model['generic'] = [runtime_response_generic_model]
-        output_data_model['foo'] = { 'foo': 'bar' }
+        output_data_model['foo'] = 'testString'
 
         dialog_node_action_model = {} # DialogNodeAction
         dialog_node_action_model['name'] = 'testString'
@@ -9221,7 +9353,7 @@ class TestMessageResponse():
         message_response_model_json['input'] = message_input_model
         message_response_model_json['intents'] = [runtime_intent_model]
         message_response_model_json['entities'] = [runtime_entity_model]
-        message_response_model_json['alternate_intents'] = True
+        message_response_model_json['alternate_intents'] = False
         message_response_model_json['context'] = context_model
         message_response_model_json['output'] = output_data_model
         message_response_model_json['actions'] = [dialog_node_action_model]
@@ -9242,7 +9374,7 @@ class TestMessageResponse():
         message_response_model_json2 = message_response_model.to_dict()
         assert message_response_model_json2 == message_response_model_json
 
-class TestOutputData():
+class TestModel_OutputData():
     """
     Test Class for OutputData
     """
@@ -9271,11 +9403,11 @@ class TestOutputData():
 
         message_input_model = {} # MessageInput
         message_input_model['text'] = 'testString'
-        message_input_model['spelling_suggestions'] = True
-        message_input_model['spelling_auto_correct'] = True
+        message_input_model['spelling_suggestions'] = False
+        message_input_model['spelling_auto_correct'] = False
         message_input_model['suggested_text'] = 'testString'
         message_input_model['original_text'] = 'testString'
-        message_input_model['foo'] = { 'foo': 'bar' }
+        message_input_model['foo'] = 'testString'
 
         runtime_intent_model = {} # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
@@ -9358,7 +9490,7 @@ class TestOutputData():
         output_data_model_json['log_messages'] = [log_message_model]
         output_data_model_json['text'] = ['testString']
         output_data_model_json['generic'] = [runtime_response_generic_model]
-        output_data_model_json['foo'] = { 'foo': 'bar' }
+        output_data_model_json['foo'] = 'testString'
 
         # Construct a model instance of OutputData by calling from_dict on the json representation
         output_data_model = OutputData.from_dict(output_data_model_json)
@@ -9375,7 +9507,17 @@ class TestOutputData():
         output_data_model_json2 = output_data_model.to_dict()
         assert output_data_model_json2 == output_data_model_json
 
-class TestPagination():
+        # Test get_properties and set_properties methods.
+        output_data_model.set_properties({})
+        actual_dict = output_data_model.get_properties()
+        assert actual_dict == {}
+
+        expected_dict = {'foo': 'testString'}
+        output_data_model.set_properties(expected_dict)
+        actual_dict = output_data_model.get_properties()
+        assert actual_dict == expected_dict
+
+class TestModel_Pagination():
     """
     Test Class for Pagination
     """
@@ -9409,7 +9551,7 @@ class TestPagination():
         pagination_model_json2 = pagination_model.to_dict()
         assert pagination_model_json2 == pagination_model_json
 
-class TestResponseGenericChannel():
+class TestModel_ResponseGenericChannel():
     """
     Test Class for ResponseGenericChannel
     """
@@ -9438,7 +9580,7 @@ class TestResponseGenericChannel():
         response_generic_channel_model_json2 = response_generic_channel_model.to_dict()
         assert response_generic_channel_model_json2 == response_generic_channel_model_json
 
-class TestRuntimeEntity():
+class TestModel_RuntimeEntity():
     """
     Test Class for RuntimeEntity
     """
@@ -9516,7 +9658,7 @@ class TestRuntimeEntity():
         runtime_entity_model_json2 = runtime_entity_model.to_dict()
         assert runtime_entity_model_json2 == runtime_entity_model_json
 
-class TestRuntimeEntityAlternative():
+class TestModel_RuntimeEntityAlternative():
     """
     Test Class for RuntimeEntityAlternative
     """
@@ -9546,7 +9688,7 @@ class TestRuntimeEntityAlternative():
         runtime_entity_alternative_model_json2 = runtime_entity_alternative_model.to_dict()
         assert runtime_entity_alternative_model_json2 == runtime_entity_alternative_model_json
 
-class TestRuntimeEntityInterpretation():
+class TestModel_RuntimeEntityInterpretation():
     """
     Test Class for RuntimeEntityInterpretation
     """
@@ -9600,7 +9742,7 @@ class TestRuntimeEntityInterpretation():
         runtime_entity_interpretation_model_json2 = runtime_entity_interpretation_model.to_dict()
         assert runtime_entity_interpretation_model_json2 == runtime_entity_interpretation_model_json
 
-class TestRuntimeEntityRole():
+class TestModel_RuntimeEntityRole():
     """
     Test Class for RuntimeEntityRole
     """
@@ -9629,7 +9771,7 @@ class TestRuntimeEntityRole():
         runtime_entity_role_model_json2 = runtime_entity_role_model.to_dict()
         assert runtime_entity_role_model_json2 == runtime_entity_role_model_json
 
-class TestRuntimeIntent():
+class TestModel_RuntimeIntent():
     """
     Test Class for RuntimeIntent
     """
@@ -9659,7 +9801,7 @@ class TestRuntimeIntent():
         runtime_intent_model_json2 = runtime_intent_model.to_dict()
         assert runtime_intent_model_json2 == runtime_intent_model_json
 
-class TestSynonym():
+class TestModel_Synonym():
     """
     Test Class for Synonym
     """
@@ -9672,8 +9814,8 @@ class TestSynonym():
         # Construct a json representation of a Synonym model
         synonym_model_json = {}
         synonym_model_json['synonym'] = 'testString'
-        synonym_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        synonym_model_json['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        synonym_model_json['created'] = "2019-01-01T12:00:00Z"
+        synonym_model_json['updated'] = "2019-01-01T12:00:00Z"
 
         # Construct a model instance of Synonym by calling from_dict on the json representation
         synonym_model = Synonym.from_dict(synonym_model_json)
@@ -9690,7 +9832,7 @@ class TestSynonym():
         synonym_model_json2 = synonym_model.to_dict()
         assert synonym_model_json2 == synonym_model_json
 
-class TestSynonymCollection():
+class TestModel_SynonymCollection():
     """
     Test Class for SynonymCollection
     """
@@ -9704,8 +9846,8 @@ class TestSynonymCollection():
 
         synonym_model = {} # Synonym
         synonym_model['synonym'] = 'testString'
-        synonym_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        synonym_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        synonym_model['created'] = "2019-01-01T12:00:00Z"
+        synonym_model['updated'] = "2019-01-01T12:00:00Z"
 
         pagination_model = {} # Pagination
         pagination_model['refresh_url'] = 'testString'
@@ -9735,7 +9877,7 @@ class TestSynonymCollection():
         synonym_collection_model_json2 = synonym_collection_model.to_dict()
         assert synonym_collection_model_json2 == synonym_collection_model_json
 
-class TestValue():
+class TestModel_Value():
     """
     Test Class for Value
     """
@@ -9752,8 +9894,8 @@ class TestValue():
         value_model_json['type'] = 'synonyms'
         value_model_json['synonyms'] = ['testString']
         value_model_json['patterns'] = ['testString']
-        value_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        value_model_json['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        value_model_json['created'] = "2019-01-01T12:00:00Z"
+        value_model_json['updated'] = "2019-01-01T12:00:00Z"
 
         # Construct a model instance of Value by calling from_dict on the json representation
         value_model = Value.from_dict(value_model_json)
@@ -9770,7 +9912,7 @@ class TestValue():
         value_model_json2 = value_model.to_dict()
         assert value_model_json2 == value_model_json
 
-class TestValueCollection():
+class TestModel_ValueCollection():
     """
     Test Class for ValueCollection
     """
@@ -9788,8 +9930,8 @@ class TestValueCollection():
         value_model['type'] = 'synonyms'
         value_model['synonyms'] = ['testString']
         value_model['patterns'] = ['testString']
-        value_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        value_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        value_model['created'] = "2019-01-01T12:00:00Z"
+        value_model['updated'] = "2019-01-01T12:00:00Z"
 
         pagination_model = {} # Pagination
         pagination_model['refresh_url'] = 'testString'
@@ -9819,7 +9961,7 @@ class TestValueCollection():
         value_collection_model_json2 = value_collection_model.to_dict()
         assert value_collection_model_json2 == value_collection_model_json
 
-class TestWebhook():
+class TestModel_Webhook():
     """
     Test Class for Webhook
     """
@@ -9856,7 +9998,7 @@ class TestWebhook():
         webhook_model_json2 = webhook_model.to_dict()
         assert webhook_model_json2 == webhook_model_json
 
-class TestWebhookHeader():
+class TestModel_WebhookHeader():
     """
     Test Class for WebhookHeader
     """
@@ -9886,7 +10028,7 @@ class TestWebhookHeader():
         webhook_header_model_json2 = webhook_header_model.to_dict()
         assert webhook_header_model_json2 == webhook_header_model_json
 
-class TestWorkspace():
+class TestModel_Workspace():
     """
     Test Class for Workspace
     """
@@ -9923,11 +10065,11 @@ class TestWorkspace():
         dialog_node_output_model['generic'] = [dialog_node_output_generic_model]
         dialog_node_output_model['integrations'] = {}
         dialog_node_output_model['modifiers'] = dialog_node_output_modifiers_model
-        dialog_node_output_model['foo'] = { 'foo': 'bar' }
+        dialog_node_output_model['foo'] = 'testString'
 
         dialog_node_context_model = {} # DialogNodeContext
         dialog_node_context_model['integrations'] = {}
-        dialog_node_context_model['foo'] = { 'foo': 'bar' }
+        dialog_node_context_model['foo'] = 'testString'
 
         dialog_node_next_step_model = {} # DialogNodeNextStep
         dialog_node_next_step_model['behavior'] = 'get_user_input'
@@ -9960,15 +10102,15 @@ class TestWorkspace():
         dialog_node_model['digress_out'] = 'allow_returning'
         dialog_node_model['digress_out_slots'] = 'not_allowed'
         dialog_node_model['user_label'] = 'testString'
-        dialog_node_model['disambiguation_opt_out'] = True
+        dialog_node_model['disambiguation_opt_out'] = False
         dialog_node_model['disabled'] = True
-        dialog_node_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        dialog_node_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        dialog_node_model['created'] = "2019-01-01T12:00:00Z"
+        dialog_node_model['updated'] = "2019-01-01T12:00:00Z"
 
         counterexample_model = {} # Counterexample
         counterexample_model['text'] = 'testString'
-        counterexample_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        counterexample_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        counterexample_model['created'] = "2019-01-01T12:00:00Z"
+        counterexample_model['updated'] = "2019-01-01T12:00:00Z"
 
         workspace_system_settings_tooling_model = {} # WorkspaceSystemSettingsTooling
         workspace_system_settings_tooling_model['store_generic_responses'] = True
@@ -9976,24 +10118,24 @@ class TestWorkspace():
         workspace_system_settings_disambiguation_model = {} # WorkspaceSystemSettingsDisambiguation
         workspace_system_settings_disambiguation_model['prompt'] = 'testString'
         workspace_system_settings_disambiguation_model['none_of_the_above_prompt'] = 'testString'
-        workspace_system_settings_disambiguation_model['enabled'] = True
+        workspace_system_settings_disambiguation_model['enabled'] = False
         workspace_system_settings_disambiguation_model['sensitivity'] = 'auto'
         workspace_system_settings_disambiguation_model['randomize'] = True
         workspace_system_settings_disambiguation_model['max_suggestions'] = 1
         workspace_system_settings_disambiguation_model['suggestion_text_policy'] = 'testString'
 
         workspace_system_settings_system_entities_model = {} # WorkspaceSystemSettingsSystemEntities
-        workspace_system_settings_system_entities_model['enabled'] = True
+        workspace_system_settings_system_entities_model['enabled'] = False
 
         workspace_system_settings_off_topic_model = {} # WorkspaceSystemSettingsOffTopic
-        workspace_system_settings_off_topic_model['enabled'] = True
+        workspace_system_settings_off_topic_model['enabled'] = False
 
         workspace_system_settings_model = {} # WorkspaceSystemSettings
         workspace_system_settings_model['tooling'] = workspace_system_settings_tooling_model
         workspace_system_settings_model['disambiguation'] = workspace_system_settings_disambiguation_model
         workspace_system_settings_model['human_agent_assist'] = {}
-        workspace_system_settings_model['spelling_suggestions'] = True
-        workspace_system_settings_model['spelling_auto_correct'] = True
+        workspace_system_settings_model['spelling_suggestions'] = False
+        workspace_system_settings_model['spelling_auto_correct'] = False
         workspace_system_settings_model['system_entities'] = workspace_system_settings_system_entities_model
         workspace_system_settings_model['off_topic'] = workspace_system_settings_off_topic_model
 
@@ -10013,14 +10155,14 @@ class TestWorkspace():
         example_model = {} # Example
         example_model['text'] = 'testString'
         example_model['mentions'] = [mention_model]
-        example_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        example_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        example_model['created'] = "2019-01-01T12:00:00Z"
+        example_model['updated'] = "2019-01-01T12:00:00Z"
 
         intent_model = {} # Intent
         intent_model['intent'] = 'testString'
         intent_model['description'] = 'testString'
-        intent_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        intent_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        intent_model['created'] = "2019-01-01T12:00:00Z"
+        intent_model['updated'] = "2019-01-01T12:00:00Z"
         intent_model['examples'] = [example_model]
 
         value_model = {} # Value
@@ -10029,16 +10171,16 @@ class TestWorkspace():
         value_model['type'] = 'synonyms'
         value_model['synonyms'] = ['testString']
         value_model['patterns'] = ['testString']
-        value_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        value_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        value_model['created'] = "2019-01-01T12:00:00Z"
+        value_model['updated'] = "2019-01-01T12:00:00Z"
 
         entity_model = {} # Entity
         entity_model['entity'] = 'testString'
         entity_model['description'] = 'testString'
         entity_model['metadata'] = {}
         entity_model['fuzzy_match'] = True
-        entity_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        entity_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        entity_model['created'] = "2019-01-01T12:00:00Z"
+        entity_model['updated'] = "2019-01-01T12:00:00Z"
         entity_model['values'] = [value_model]
 
         # Construct a json representation of a Workspace model
@@ -10049,10 +10191,10 @@ class TestWorkspace():
         workspace_model_json['workspace_id'] = 'testString'
         workspace_model_json['dialog_nodes'] = [dialog_node_model]
         workspace_model_json['counterexamples'] = [counterexample_model]
-        workspace_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        workspace_model_json['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        workspace_model_json['created'] = "2019-01-01T12:00:00Z"
+        workspace_model_json['updated'] = "2019-01-01T12:00:00Z"
         workspace_model_json['metadata'] = {}
-        workspace_model_json['learning_opt_out'] = True
+        workspace_model_json['learning_opt_out'] = False
         workspace_model_json['system_settings'] = workspace_system_settings_model
         workspace_model_json['status'] = 'Non Existent'
         workspace_model_json['webhooks'] = [webhook_model]
@@ -10074,7 +10216,7 @@ class TestWorkspace():
         workspace_model_json2 = workspace_model.to_dict()
         assert workspace_model_json2 == workspace_model_json
 
-class TestWorkspaceCollection():
+class TestModel_WorkspaceCollection():
     """
     Test Class for WorkspaceCollection
     """
@@ -10111,11 +10253,11 @@ class TestWorkspaceCollection():
         dialog_node_output_model['generic'] = [dialog_node_output_generic_model]
         dialog_node_output_model['integrations'] = {}
         dialog_node_output_model['modifiers'] = dialog_node_output_modifiers_model
-        dialog_node_output_model['foo'] = { 'foo': 'bar' }
+        dialog_node_output_model['foo'] = 'testString'
 
         dialog_node_context_model = {} # DialogNodeContext
         dialog_node_context_model['integrations'] = {}
-        dialog_node_context_model['foo'] = { 'foo': 'bar' }
+        dialog_node_context_model['foo'] = 'testString'
 
         dialog_node_next_step_model = {} # DialogNodeNextStep
         dialog_node_next_step_model['behavior'] = 'get_user_input'
@@ -10148,15 +10290,15 @@ class TestWorkspaceCollection():
         dialog_node_model['digress_out'] = 'allow_returning'
         dialog_node_model['digress_out_slots'] = 'not_allowed'
         dialog_node_model['user_label'] = 'testString'
-        dialog_node_model['disambiguation_opt_out'] = True
+        dialog_node_model['disambiguation_opt_out'] = False
         dialog_node_model['disabled'] = True
-        dialog_node_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        dialog_node_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        dialog_node_model['created'] = "2019-01-01T12:00:00Z"
+        dialog_node_model['updated'] = "2019-01-01T12:00:00Z"
 
         counterexample_model = {} # Counterexample
         counterexample_model['text'] = 'testString'
-        counterexample_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        counterexample_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        counterexample_model['created'] = "2019-01-01T12:00:00Z"
+        counterexample_model['updated'] = "2019-01-01T12:00:00Z"
 
         workspace_system_settings_tooling_model = {} # WorkspaceSystemSettingsTooling
         workspace_system_settings_tooling_model['store_generic_responses'] = True
@@ -10164,24 +10306,24 @@ class TestWorkspaceCollection():
         workspace_system_settings_disambiguation_model = {} # WorkspaceSystemSettingsDisambiguation
         workspace_system_settings_disambiguation_model['prompt'] = 'testString'
         workspace_system_settings_disambiguation_model['none_of_the_above_prompt'] = 'testString'
-        workspace_system_settings_disambiguation_model['enabled'] = True
+        workspace_system_settings_disambiguation_model['enabled'] = False
         workspace_system_settings_disambiguation_model['sensitivity'] = 'auto'
         workspace_system_settings_disambiguation_model['randomize'] = True
         workspace_system_settings_disambiguation_model['max_suggestions'] = 1
         workspace_system_settings_disambiguation_model['suggestion_text_policy'] = 'testString'
 
         workspace_system_settings_system_entities_model = {} # WorkspaceSystemSettingsSystemEntities
-        workspace_system_settings_system_entities_model['enabled'] = True
+        workspace_system_settings_system_entities_model['enabled'] = False
 
         workspace_system_settings_off_topic_model = {} # WorkspaceSystemSettingsOffTopic
-        workspace_system_settings_off_topic_model['enabled'] = True
+        workspace_system_settings_off_topic_model['enabled'] = False
 
         workspace_system_settings_model = {} # WorkspaceSystemSettings
         workspace_system_settings_model['tooling'] = workspace_system_settings_tooling_model
         workspace_system_settings_model['disambiguation'] = workspace_system_settings_disambiguation_model
         workspace_system_settings_model['human_agent_assist'] = {}
-        workspace_system_settings_model['spelling_suggestions'] = True
-        workspace_system_settings_model['spelling_auto_correct'] = True
+        workspace_system_settings_model['spelling_suggestions'] = False
+        workspace_system_settings_model['spelling_auto_correct'] = False
         workspace_system_settings_model['system_entities'] = workspace_system_settings_system_entities_model
         workspace_system_settings_model['off_topic'] = workspace_system_settings_off_topic_model
 
@@ -10201,14 +10343,14 @@ class TestWorkspaceCollection():
         example_model = {} # Example
         example_model['text'] = 'testString'
         example_model['mentions'] = [mention_model]
-        example_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        example_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        example_model['created'] = "2019-01-01T12:00:00Z"
+        example_model['updated'] = "2019-01-01T12:00:00Z"
 
         intent_model = {} # Intent
         intent_model['intent'] = 'testString'
         intent_model['description'] = 'testString'
-        intent_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        intent_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        intent_model['created'] = "2019-01-01T12:00:00Z"
+        intent_model['updated'] = "2019-01-01T12:00:00Z"
         intent_model['examples'] = [example_model]
 
         value_model = {} # Value
@@ -10217,16 +10359,16 @@ class TestWorkspaceCollection():
         value_model['type'] = 'synonyms'
         value_model['synonyms'] = ['testString']
         value_model['patterns'] = ['testString']
-        value_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        value_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        value_model['created'] = "2019-01-01T12:00:00Z"
+        value_model['updated'] = "2019-01-01T12:00:00Z"
 
         entity_model = {} # Entity
         entity_model['entity'] = 'testString'
         entity_model['description'] = 'testString'
         entity_model['metadata'] = {}
         entity_model['fuzzy_match'] = True
-        entity_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        entity_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        entity_model['created'] = "2019-01-01T12:00:00Z"
+        entity_model['updated'] = "2019-01-01T12:00:00Z"
         entity_model['values'] = [value_model]
 
         workspace_model = {} # Workspace
@@ -10236,10 +10378,10 @@ class TestWorkspaceCollection():
         workspace_model['workspace_id'] = 'testString'
         workspace_model['dialog_nodes'] = [dialog_node_model]
         workspace_model['counterexamples'] = [counterexample_model]
-        workspace_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        workspace_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        workspace_model['created'] = "2019-01-01T12:00:00Z"
+        workspace_model['updated'] = "2019-01-01T12:00:00Z"
         workspace_model['metadata'] = {}
-        workspace_model['learning_opt_out'] = True
+        workspace_model['learning_opt_out'] = False
         workspace_model['system_settings'] = workspace_system_settings_model
         workspace_model['status'] = 'Non Existent'
         workspace_model['webhooks'] = [webhook_model]
@@ -10274,7 +10416,7 @@ class TestWorkspaceCollection():
         workspace_collection_model_json2 = workspace_collection_model.to_dict()
         assert workspace_collection_model_json2 == workspace_collection_model_json
 
-class TestWorkspaceSystemSettings():
+class TestModel_WorkspaceSystemSettings():
     """
     Test Class for WorkspaceSystemSettings
     """
@@ -10292,25 +10434,25 @@ class TestWorkspaceSystemSettings():
         workspace_system_settings_disambiguation_model = {} # WorkspaceSystemSettingsDisambiguation
         workspace_system_settings_disambiguation_model['prompt'] = 'testString'
         workspace_system_settings_disambiguation_model['none_of_the_above_prompt'] = 'testString'
-        workspace_system_settings_disambiguation_model['enabled'] = True
+        workspace_system_settings_disambiguation_model['enabled'] = False
         workspace_system_settings_disambiguation_model['sensitivity'] = 'auto'
         workspace_system_settings_disambiguation_model['randomize'] = True
         workspace_system_settings_disambiguation_model['max_suggestions'] = 1
         workspace_system_settings_disambiguation_model['suggestion_text_policy'] = 'testString'
 
         workspace_system_settings_system_entities_model = {} # WorkspaceSystemSettingsSystemEntities
-        workspace_system_settings_system_entities_model['enabled'] = True
+        workspace_system_settings_system_entities_model['enabled'] = False
 
         workspace_system_settings_off_topic_model = {} # WorkspaceSystemSettingsOffTopic
-        workspace_system_settings_off_topic_model['enabled'] = True
+        workspace_system_settings_off_topic_model['enabled'] = False
 
         # Construct a json representation of a WorkspaceSystemSettings model
         workspace_system_settings_model_json = {}
         workspace_system_settings_model_json['tooling'] = workspace_system_settings_tooling_model
         workspace_system_settings_model_json['disambiguation'] = workspace_system_settings_disambiguation_model
         workspace_system_settings_model_json['human_agent_assist'] = {}
-        workspace_system_settings_model_json['spelling_suggestions'] = True
-        workspace_system_settings_model_json['spelling_auto_correct'] = True
+        workspace_system_settings_model_json['spelling_suggestions'] = False
+        workspace_system_settings_model_json['spelling_auto_correct'] = False
         workspace_system_settings_model_json['system_entities'] = workspace_system_settings_system_entities_model
         workspace_system_settings_model_json['off_topic'] = workspace_system_settings_off_topic_model
 
@@ -10329,7 +10471,7 @@ class TestWorkspaceSystemSettings():
         workspace_system_settings_model_json2 = workspace_system_settings_model.to_dict()
         assert workspace_system_settings_model_json2 == workspace_system_settings_model_json
 
-class TestWorkspaceSystemSettingsDisambiguation():
+class TestModel_WorkspaceSystemSettingsDisambiguation():
     """
     Test Class for WorkspaceSystemSettingsDisambiguation
     """
@@ -10343,7 +10485,7 @@ class TestWorkspaceSystemSettingsDisambiguation():
         workspace_system_settings_disambiguation_model_json = {}
         workspace_system_settings_disambiguation_model_json['prompt'] = 'testString'
         workspace_system_settings_disambiguation_model_json['none_of_the_above_prompt'] = 'testString'
-        workspace_system_settings_disambiguation_model_json['enabled'] = True
+        workspace_system_settings_disambiguation_model_json['enabled'] = False
         workspace_system_settings_disambiguation_model_json['sensitivity'] = 'auto'
         workspace_system_settings_disambiguation_model_json['randomize'] = True
         workspace_system_settings_disambiguation_model_json['max_suggestions'] = 1
@@ -10364,7 +10506,7 @@ class TestWorkspaceSystemSettingsDisambiguation():
         workspace_system_settings_disambiguation_model_json2 = workspace_system_settings_disambiguation_model.to_dict()
         assert workspace_system_settings_disambiguation_model_json2 == workspace_system_settings_disambiguation_model_json
 
-class TestWorkspaceSystemSettingsOffTopic():
+class TestModel_WorkspaceSystemSettingsOffTopic():
     """
     Test Class for WorkspaceSystemSettingsOffTopic
     """
@@ -10376,7 +10518,7 @@ class TestWorkspaceSystemSettingsOffTopic():
 
         # Construct a json representation of a WorkspaceSystemSettingsOffTopic model
         workspace_system_settings_off_topic_model_json = {}
-        workspace_system_settings_off_topic_model_json['enabled'] = True
+        workspace_system_settings_off_topic_model_json['enabled'] = False
 
         # Construct a model instance of WorkspaceSystemSettingsOffTopic by calling from_dict on the json representation
         workspace_system_settings_off_topic_model = WorkspaceSystemSettingsOffTopic.from_dict(workspace_system_settings_off_topic_model_json)
@@ -10393,7 +10535,7 @@ class TestWorkspaceSystemSettingsOffTopic():
         workspace_system_settings_off_topic_model_json2 = workspace_system_settings_off_topic_model.to_dict()
         assert workspace_system_settings_off_topic_model_json2 == workspace_system_settings_off_topic_model_json
 
-class TestWorkspaceSystemSettingsSystemEntities():
+class TestModel_WorkspaceSystemSettingsSystemEntities():
     """
     Test Class for WorkspaceSystemSettingsSystemEntities
     """
@@ -10405,7 +10547,7 @@ class TestWorkspaceSystemSettingsSystemEntities():
 
         # Construct a json representation of a WorkspaceSystemSettingsSystemEntities model
         workspace_system_settings_system_entities_model_json = {}
-        workspace_system_settings_system_entities_model_json['enabled'] = True
+        workspace_system_settings_system_entities_model_json['enabled'] = False
 
         # Construct a model instance of WorkspaceSystemSettingsSystemEntities by calling from_dict on the json representation
         workspace_system_settings_system_entities_model = WorkspaceSystemSettingsSystemEntities.from_dict(workspace_system_settings_system_entities_model_json)
@@ -10422,7 +10564,7 @@ class TestWorkspaceSystemSettingsSystemEntities():
         workspace_system_settings_system_entities_model_json2 = workspace_system_settings_system_entities_model.to_dict()
         assert workspace_system_settings_system_entities_model_json2 == workspace_system_settings_system_entities_model_json
 
-class TestWorkspaceSystemSettingsTooling():
+class TestModel_WorkspaceSystemSettingsTooling():
     """
     Test Class for WorkspaceSystemSettingsTooling
     """
@@ -10451,7 +10593,7 @@ class TestWorkspaceSystemSettingsTooling():
         workspace_system_settings_tooling_model_json2 = workspace_system_settings_tooling_model.to_dict()
         assert workspace_system_settings_tooling_model_json2 == workspace_system_settings_tooling_model_json
 
-class TestDialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer():
+class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer():
     """
     Test Class for DialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer
     """
@@ -10497,7 +10639,7 @@ class TestDialogNodeOutputGenericDialogNodeOutputResponseTypeChannelTransfer():
         dialog_node_output_generic_dialog_node_output_response_type_channel_transfer_model_json2 = dialog_node_output_generic_dialog_node_output_response_type_channel_transfer_model.to_dict()
         assert dialog_node_output_generic_dialog_node_output_response_type_channel_transfer_model_json2 == dialog_node_output_generic_dialog_node_output_response_type_channel_transfer_model_json
 
-class TestDialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent():
+class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent():
     """
     Test Class for DialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent
     """
@@ -10542,7 +10684,7 @@ class TestDialogNodeOutputGenericDialogNodeOutputResponseTypeConnectToAgent():
         dialog_node_output_generic_dialog_node_output_response_type_connect_to_agent_model_json2 = dialog_node_output_generic_dialog_node_output_response_type_connect_to_agent_model.to_dict()
         assert dialog_node_output_generic_dialog_node_output_response_type_connect_to_agent_model_json2 == dialog_node_output_generic_dialog_node_output_response_type_connect_to_agent_model_json
 
-class TestDialogNodeOutputGenericDialogNodeOutputResponseTypeImage():
+class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeImage():
     """
     Test Class for DialogNodeOutputGenericDialogNodeOutputResponseTypeImage
     """
@@ -10564,6 +10706,7 @@ class TestDialogNodeOutputGenericDialogNodeOutputResponseTypeImage():
         dialog_node_output_generic_dialog_node_output_response_type_image_model_json['title'] = 'testString'
         dialog_node_output_generic_dialog_node_output_response_type_image_model_json['description'] = 'testString'
         dialog_node_output_generic_dialog_node_output_response_type_image_model_json['channels'] = [response_generic_channel_model]
+        dialog_node_output_generic_dialog_node_output_response_type_image_model_json['alt_text'] = 'testString'
 
         # Construct a model instance of DialogNodeOutputGenericDialogNodeOutputResponseTypeImage by calling from_dict on the json representation
         dialog_node_output_generic_dialog_node_output_response_type_image_model = DialogNodeOutputGenericDialogNodeOutputResponseTypeImage.from_dict(dialog_node_output_generic_dialog_node_output_response_type_image_model_json)
@@ -10580,7 +10723,7 @@ class TestDialogNodeOutputGenericDialogNodeOutputResponseTypeImage():
         dialog_node_output_generic_dialog_node_output_response_type_image_model_json2 = dialog_node_output_generic_dialog_node_output_response_type_image_model.to_dict()
         assert dialog_node_output_generic_dialog_node_output_response_type_image_model_json2 == dialog_node_output_generic_dialog_node_output_response_type_image_model_json
 
-class TestDialogNodeOutputGenericDialogNodeOutputResponseTypeOption():
+class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeOption():
     """
     Test Class for DialogNodeOutputGenericDialogNodeOutputResponseTypeOption
     """
@@ -10594,11 +10737,11 @@ class TestDialogNodeOutputGenericDialogNodeOutputResponseTypeOption():
 
         message_input_model = {} # MessageInput
         message_input_model['text'] = 'testString'
-        message_input_model['spelling_suggestions'] = True
-        message_input_model['spelling_auto_correct'] = True
+        message_input_model['spelling_suggestions'] = False
+        message_input_model['spelling_auto_correct'] = False
         message_input_model['suggested_text'] = 'testString'
         message_input_model['original_text'] = 'testString'
-        message_input_model['foo'] = { 'foo': 'bar' }
+        message_input_model['foo'] = 'testString'
 
         runtime_intent_model = {} # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
@@ -10690,7 +10833,7 @@ class TestDialogNodeOutputGenericDialogNodeOutputResponseTypeOption():
         dialog_node_output_generic_dialog_node_output_response_type_option_model_json2 = dialog_node_output_generic_dialog_node_output_response_type_option_model.to_dict()
         assert dialog_node_output_generic_dialog_node_output_response_type_option_model_json2 == dialog_node_output_generic_dialog_node_output_response_type_option_model_json
 
-class TestDialogNodeOutputGenericDialogNodeOutputResponseTypePause():
+class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypePause():
     """
     Test Class for DialogNodeOutputGenericDialogNodeOutputResponseTypePause
     """
@@ -10727,7 +10870,7 @@ class TestDialogNodeOutputGenericDialogNodeOutputResponseTypePause():
         dialog_node_output_generic_dialog_node_output_response_type_pause_model_json2 = dialog_node_output_generic_dialog_node_output_response_type_pause_model.to_dict()
         assert dialog_node_output_generic_dialog_node_output_response_type_pause_model_json2 == dialog_node_output_generic_dialog_node_output_response_type_pause_model_json
 
-class TestDialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill():
+class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill():
     """
     Test Class for DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill
     """
@@ -10748,7 +10891,7 @@ class TestDialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill():
         dialog_node_output_generic_dialog_node_output_response_type_search_skill_model_json['query'] = 'testString'
         dialog_node_output_generic_dialog_node_output_response_type_search_skill_model_json['query_type'] = 'natural_language'
         dialog_node_output_generic_dialog_node_output_response_type_search_skill_model_json['filter'] = 'testString'
-        dialog_node_output_generic_dialog_node_output_response_type_search_skill_model_json['discovery_version'] = 'testString'
+        dialog_node_output_generic_dialog_node_output_response_type_search_skill_model_json['discovery_version'] = '2018-12-03'
         dialog_node_output_generic_dialog_node_output_response_type_search_skill_model_json['channels'] = [response_generic_channel_model]
 
         # Construct a model instance of DialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill by calling from_dict on the json representation
@@ -10766,7 +10909,7 @@ class TestDialogNodeOutputGenericDialogNodeOutputResponseTypeSearchSkill():
         dialog_node_output_generic_dialog_node_output_response_type_search_skill_model_json2 = dialog_node_output_generic_dialog_node_output_response_type_search_skill_model.to_dict()
         assert dialog_node_output_generic_dialog_node_output_response_type_search_skill_model_json2 == dialog_node_output_generic_dialog_node_output_response_type_search_skill_model_json
 
-class TestDialogNodeOutputGenericDialogNodeOutputResponseTypeText():
+class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeText():
     """
     Test Class for DialogNodeOutputGenericDialogNodeOutputResponseTypeText
     """
@@ -10789,7 +10932,7 @@ class TestDialogNodeOutputGenericDialogNodeOutputResponseTypeText():
         dialog_node_output_generic_dialog_node_output_response_type_text_model_json['response_type'] = 'text'
         dialog_node_output_generic_dialog_node_output_response_type_text_model_json['values'] = [dialog_node_output_text_values_element_model]
         dialog_node_output_generic_dialog_node_output_response_type_text_model_json['selection_policy'] = 'sequential'
-        dialog_node_output_generic_dialog_node_output_response_type_text_model_json['delimiter'] = 'testString'
+        dialog_node_output_generic_dialog_node_output_response_type_text_model_json['delimiter'] = '\n'
         dialog_node_output_generic_dialog_node_output_response_type_text_model_json['channels'] = [response_generic_channel_model]
 
         # Construct a model instance of DialogNodeOutputGenericDialogNodeOutputResponseTypeText by calling from_dict on the json representation
@@ -10807,7 +10950,7 @@ class TestDialogNodeOutputGenericDialogNodeOutputResponseTypeText():
         dialog_node_output_generic_dialog_node_output_response_type_text_model_json2 = dialog_node_output_generic_dialog_node_output_response_type_text_model.to_dict()
         assert dialog_node_output_generic_dialog_node_output_response_type_text_model_json2 == dialog_node_output_generic_dialog_node_output_response_type_text_model_json
 
-class TestDialogNodeOutputGenericDialogNodeOutputResponseTypeUserDefined():
+class TestModel_DialogNodeOutputGenericDialogNodeOutputResponseTypeUserDefined():
     """
     Test Class for DialogNodeOutputGenericDialogNodeOutputResponseTypeUserDefined
     """
@@ -10843,7 +10986,7 @@ class TestDialogNodeOutputGenericDialogNodeOutputResponseTypeUserDefined():
         dialog_node_output_generic_dialog_node_output_response_type_user_defined_model_json2 = dialog_node_output_generic_dialog_node_output_response_type_user_defined_model.to_dict()
         assert dialog_node_output_generic_dialog_node_output_response_type_user_defined_model_json2 == dialog_node_output_generic_dialog_node_output_response_type_user_defined_model_json
 
-class TestRuntimeResponseGenericRuntimeResponseTypeChannelTransfer():
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeChannelTransfer():
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypeChannelTransfer
     """
@@ -10889,7 +11032,7 @@ class TestRuntimeResponseGenericRuntimeResponseTypeChannelTransfer():
         runtime_response_generic_runtime_response_type_channel_transfer_model_json2 = runtime_response_generic_runtime_response_type_channel_transfer_model.to_dict()
         assert runtime_response_generic_runtime_response_type_channel_transfer_model_json2 == runtime_response_generic_runtime_response_type_channel_transfer_model_json
 
-class TestRuntimeResponseGenericRuntimeResponseTypeConnectToAgent():
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeConnectToAgent():
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypeConnectToAgent
     """
@@ -10936,7 +11079,7 @@ class TestRuntimeResponseGenericRuntimeResponseTypeConnectToAgent():
         runtime_response_generic_runtime_response_type_connect_to_agent_model_json2 = runtime_response_generic_runtime_response_type_connect_to_agent_model.to_dict()
         assert runtime_response_generic_runtime_response_type_connect_to_agent_model_json2 == runtime_response_generic_runtime_response_type_connect_to_agent_model_json
 
-class TestRuntimeResponseGenericRuntimeResponseTypeImage():
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeImage():
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypeImage
     """
@@ -10958,6 +11101,7 @@ class TestRuntimeResponseGenericRuntimeResponseTypeImage():
         runtime_response_generic_runtime_response_type_image_model_json['title'] = 'testString'
         runtime_response_generic_runtime_response_type_image_model_json['description'] = 'testString'
         runtime_response_generic_runtime_response_type_image_model_json['channels'] = [response_generic_channel_model]
+        runtime_response_generic_runtime_response_type_image_model_json['alt_text'] = 'testString'
 
         # Construct a model instance of RuntimeResponseGenericRuntimeResponseTypeImage by calling from_dict on the json representation
         runtime_response_generic_runtime_response_type_image_model = RuntimeResponseGenericRuntimeResponseTypeImage.from_dict(runtime_response_generic_runtime_response_type_image_model_json)
@@ -10974,7 +11118,7 @@ class TestRuntimeResponseGenericRuntimeResponseTypeImage():
         runtime_response_generic_runtime_response_type_image_model_json2 = runtime_response_generic_runtime_response_type_image_model.to_dict()
         assert runtime_response_generic_runtime_response_type_image_model_json2 == runtime_response_generic_runtime_response_type_image_model_json
 
-class TestRuntimeResponseGenericRuntimeResponseTypeOption():
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeOption():
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypeOption
     """
@@ -10988,11 +11132,11 @@ class TestRuntimeResponseGenericRuntimeResponseTypeOption():
 
         message_input_model = {} # MessageInput
         message_input_model['text'] = 'testString'
-        message_input_model['spelling_suggestions'] = True
-        message_input_model['spelling_auto_correct'] = True
+        message_input_model['spelling_suggestions'] = False
+        message_input_model['spelling_auto_correct'] = False
         message_input_model['suggested_text'] = 'testString'
         message_input_model['original_text'] = 'testString'
-        message_input_model['foo'] = { 'foo': 'bar' }
+        message_input_model['foo'] = 'testString'
 
         runtime_intent_model = {} # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
@@ -11084,7 +11228,7 @@ class TestRuntimeResponseGenericRuntimeResponseTypeOption():
         runtime_response_generic_runtime_response_type_option_model_json2 = runtime_response_generic_runtime_response_type_option_model.to_dict()
         assert runtime_response_generic_runtime_response_type_option_model_json2 == runtime_response_generic_runtime_response_type_option_model_json
 
-class TestRuntimeResponseGenericRuntimeResponseTypePause():
+class TestModel_RuntimeResponseGenericRuntimeResponseTypePause():
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypePause
     """
@@ -11121,7 +11265,7 @@ class TestRuntimeResponseGenericRuntimeResponseTypePause():
         runtime_response_generic_runtime_response_type_pause_model_json2 = runtime_response_generic_runtime_response_type_pause_model.to_dict()
         assert runtime_response_generic_runtime_response_type_pause_model_json2 == runtime_response_generic_runtime_response_type_pause_model_json
 
-class TestRuntimeResponseGenericRuntimeResponseTypeSuggestion():
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeSuggestion():
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypeSuggestion
     """
@@ -11135,11 +11279,11 @@ class TestRuntimeResponseGenericRuntimeResponseTypeSuggestion():
 
         message_input_model = {} # MessageInput
         message_input_model['text'] = 'testString'
-        message_input_model['spelling_suggestions'] = True
-        message_input_model['spelling_auto_correct'] = True
+        message_input_model['spelling_suggestions'] = False
+        message_input_model['spelling_auto_correct'] = False
         message_input_model['suggested_text'] = 'testString'
         message_input_model['original_text'] = 'testString'
-        message_input_model['foo'] = { 'foo': 'bar' }
+        message_input_model['foo'] = 'testString'
 
         runtime_intent_model = {} # RuntimeIntent
         runtime_intent_model['intent'] = 'testString'
@@ -11231,7 +11375,7 @@ class TestRuntimeResponseGenericRuntimeResponseTypeSuggestion():
         runtime_response_generic_runtime_response_type_suggestion_model_json2 = runtime_response_generic_runtime_response_type_suggestion_model.to_dict()
         assert runtime_response_generic_runtime_response_type_suggestion_model_json2 == runtime_response_generic_runtime_response_type_suggestion_model_json
 
-class TestRuntimeResponseGenericRuntimeResponseTypeText():
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeText():
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypeText
     """
@@ -11267,7 +11411,7 @@ class TestRuntimeResponseGenericRuntimeResponseTypeText():
         runtime_response_generic_runtime_response_type_text_model_json2 = runtime_response_generic_runtime_response_type_text_model.to_dict()
         assert runtime_response_generic_runtime_response_type_text_model_json2 == runtime_response_generic_runtime_response_type_text_model_json
 
-class TestRuntimeResponseGenericRuntimeResponseTypeUserDefined():
+class TestModel_RuntimeResponseGenericRuntimeResponseTypeUserDefined():
     """
     Test Class for RuntimeResponseGenericRuntimeResponseTypeUserDefined
     """

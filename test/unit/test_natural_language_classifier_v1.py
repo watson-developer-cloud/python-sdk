@@ -52,6 +52,8 @@ class TestClassify():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -129,6 +131,8 @@ class TestClassifyCollection():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -224,6 +228,8 @@ class TestCreateClassifier():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -298,6 +304,8 @@ class TestListClassifiers():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -335,6 +343,8 @@ class TestGetClassifier():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -405,6 +415,8 @@ class TestDeleteClassifier():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -470,7 +482,7 @@ class TestDeleteClassifier():
 # Start of Model Tests
 ##############################################################################
 # region
-class TestClassification():
+class TestModel_Classification():
     """
     Test Class for Classification
     """
@@ -509,7 +521,7 @@ class TestClassification():
         classification_model_json2 = classification_model.to_dict()
         assert classification_model_json2 == classification_model_json
 
-class TestClassificationCollection():
+class TestModel_ClassificationCollection():
     """
     Test Class for ClassificationCollection
     """
@@ -551,7 +563,7 @@ class TestClassificationCollection():
         classification_collection_model_json2 = classification_collection_model.to_dict()
         assert classification_collection_model_json2 == classification_collection_model_json
 
-class TestClassifiedClass():
+class TestModel_ClassifiedClass():
     """
     Test Class for ClassifiedClass
     """
@@ -581,7 +593,7 @@ class TestClassifiedClass():
         classified_class_model_json2 = classified_class_model.to_dict()
         assert classified_class_model_json2 == classified_class_model_json
 
-class TestClassifier():
+class TestModel_Classifier():
     """
     Test Class for Classifier
     """
@@ -597,7 +609,7 @@ class TestClassifier():
         classifier_model_json['url'] = 'testString'
         classifier_model_json['status'] = 'Non Existent'
         classifier_model_json['classifier_id'] = 'testString'
-        classifier_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        classifier_model_json['created'] = "2019-01-01T12:00:00Z"
         classifier_model_json['status_description'] = 'testString'
         classifier_model_json['language'] = 'testString'
 
@@ -616,7 +628,7 @@ class TestClassifier():
         classifier_model_json2 = classifier_model.to_dict()
         assert classifier_model_json2 == classifier_model_json
 
-class TestClassifierList():
+class TestModel_ClassifierList():
     """
     Test Class for ClassifierList
     """
@@ -633,7 +645,7 @@ class TestClassifierList():
         classifier_model['url'] = 'testString'
         classifier_model['status'] = 'Non Existent'
         classifier_model['classifier_id'] = 'testString'
-        classifier_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        classifier_model['created'] = "2019-01-01T12:00:00Z"
         classifier_model['status_description'] = 'testString'
         classifier_model['language'] = 'testString'
 
@@ -656,7 +668,7 @@ class TestClassifierList():
         classifier_list_model_json2 = classifier_list_model.to_dict()
         assert classifier_list_model_json2 == classifier_list_model_json
 
-class TestClassifyInput():
+class TestModel_ClassifyInput():
     """
     Test Class for ClassifyInput
     """
@@ -685,7 +697,7 @@ class TestClassifyInput():
         classify_input_model_json2 = classify_input_model.to_dict()
         assert classify_input_model_json2 == classify_input_model_json
 
-class TestCollectionItem():
+class TestModel_CollectionItem():
     """
     Test Class for CollectionItem
     """

@@ -55,6 +55,8 @@ class TestAnalyze():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -90,16 +92,16 @@ class TestAnalyze():
         # Construct a dict representation of a EntitiesOptions model
         entities_options_model = {}
         entities_options_model['limit'] = 250
-        entities_options_model['mentions'] = True
+        entities_options_model['mentions'] = False
         entities_options_model['model'] = 'testString'
-        entities_options_model['sentiment'] = True
-        entities_options_model['emotion'] = True
+        entities_options_model['sentiment'] = False
+        entities_options_model['emotion'] = False
 
         # Construct a dict representation of a KeywordsOptions model
         keywords_options_model = {}
         keywords_options_model['limit'] = 250
-        keywords_options_model['sentiment'] = True
-        keywords_options_model['emotion'] = True
+        keywords_options_model['sentiment'] = False
+        keywords_options_model['emotion'] = False
 
         # Construct a dict representation of a MetadataOptions model
         metadata_options_model = {}
@@ -111,8 +113,8 @@ class TestAnalyze():
         # Construct a dict representation of a SemanticRolesOptions model
         semantic_roles_options_model = {}
         semantic_roles_options_model['limit'] = 38
-        semantic_roles_options_model['keywords'] = True
-        semantic_roles_options_model['entities'] = True
+        semantic_roles_options_model['keywords'] = False
+        semantic_roles_options_model['entities'] = False
 
         # Construct a dict representation of a SentimentOptions model
         sentiment_options_model = {}
@@ -126,7 +128,7 @@ class TestAnalyze():
 
         # Construct a dict representation of a CategoriesOptions model
         categories_options_model = {}
-        categories_options_model['explanation'] = True
+        categories_options_model['explanation'] = False
         categories_options_model['limit'] = 10
         categories_options_model['model'] = 'testString'
 
@@ -163,7 +165,7 @@ class TestAnalyze():
         clean = True
         xpath = 'testString'
         fallback_to_raw = True
-        return_analyzed_text = True
+        return_analyzed_text = False
         language = 'testString'
         limit_text_characters = 38
 
@@ -194,7 +196,7 @@ class TestAnalyze():
         assert req_body['clean'] == True
         assert req_body['xpath'] == 'testString'
         assert req_body['fallback_to_raw'] == True
-        assert req_body['return_analyzed_text'] == True
+        assert req_body['return_analyzed_text'] == False
         assert req_body['language'] == 'testString'
         assert req_body['limit_text_characters'] == 38
 
@@ -229,16 +231,16 @@ class TestAnalyze():
         # Construct a dict representation of a EntitiesOptions model
         entities_options_model = {}
         entities_options_model['limit'] = 250
-        entities_options_model['mentions'] = True
+        entities_options_model['mentions'] = False
         entities_options_model['model'] = 'testString'
-        entities_options_model['sentiment'] = True
-        entities_options_model['emotion'] = True
+        entities_options_model['sentiment'] = False
+        entities_options_model['emotion'] = False
 
         # Construct a dict representation of a KeywordsOptions model
         keywords_options_model = {}
         keywords_options_model['limit'] = 250
-        keywords_options_model['sentiment'] = True
-        keywords_options_model['emotion'] = True
+        keywords_options_model['sentiment'] = False
+        keywords_options_model['emotion'] = False
 
         # Construct a dict representation of a MetadataOptions model
         metadata_options_model = {}
@@ -250,8 +252,8 @@ class TestAnalyze():
         # Construct a dict representation of a SemanticRolesOptions model
         semantic_roles_options_model = {}
         semantic_roles_options_model['limit'] = 38
-        semantic_roles_options_model['keywords'] = True
-        semantic_roles_options_model['entities'] = True
+        semantic_roles_options_model['keywords'] = False
+        semantic_roles_options_model['entities'] = False
 
         # Construct a dict representation of a SentimentOptions model
         sentiment_options_model = {}
@@ -265,7 +267,7 @@ class TestAnalyze():
 
         # Construct a dict representation of a CategoriesOptions model
         categories_options_model = {}
-        categories_options_model['explanation'] = True
+        categories_options_model['explanation'] = False
         categories_options_model['limit'] = 10
         categories_options_model['model'] = 'testString'
 
@@ -302,7 +304,7 @@ class TestAnalyze():
         clean = True
         xpath = 'testString'
         fallback_to_raw = True
-        return_analyzed_text = True
+        return_analyzed_text = False
         language = 'testString'
         limit_text_characters = 38
 
@@ -336,6 +338,8 @@ class TestListModels():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -397,6 +401,8 @@ class TestDeleteModel():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -477,6 +483,8 @@ class TestCreateSentimentModel():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -591,6 +599,8 @@ class TestListSentimentModels():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -652,6 +662,8 @@ class TestGetSentimentModel():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -722,6 +734,8 @@ class TestUpdateSentimentModel():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -842,6 +856,8 @@ class TestDeleteSentimentModel():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -922,6 +938,8 @@ class TestCreateCategoriesModel():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1038,6 +1056,8 @@ class TestListCategoriesModels():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1099,6 +1119,8 @@ class TestGetCategoriesModel():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1169,6 +1191,8 @@ class TestUpdateCategoriesModel():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1291,6 +1315,8 @@ class TestDeleteCategoriesModel():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1371,6 +1397,8 @@ class TestCreateClassificationsModel():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1487,6 +1515,8 @@ class TestListClassificationsModels():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1499,7 +1529,7 @@ class TestListClassificationsModels():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/models/classifications')
-        mock_response = '{"models": [{"models": [{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}]}]}'
+        mock_response = '{"models": [{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1522,7 +1552,7 @@ class TestListClassificationsModels():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/models/classifications')
-        mock_response = '{"models": [{"models": [{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}]}]}'
+        mock_response = '{"models": [{"name": "name", "user_metadata": {"mapKey": {"anyKey": "anyValue"}}, "language": "language", "description": "description", "model_version": "model_version", "workspace_id": "workspace_id", "version_description": "version_description", "features": ["features"], "status": "starting", "model_id": "model_id", "created": "2019-01-01T12:00:00.000Z", "notices": [{"message": "message"}], "last_trained": "2019-01-01T12:00:00.000Z", "last_deployed": "2019-01-01T12:00:00.000Z"}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1548,6 +1578,8 @@ class TestGetClassificationsModel():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1618,6 +1650,8 @@ class TestUpdateClassificationsModel():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1740,6 +1774,8 @@ class TestDeleteClassificationsModel():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1811,7 +1847,7 @@ class TestDeleteClassificationsModel():
 # Start of Model Tests
 ##############################################################################
 # region
-class TestAnalysisResults():
+class TestModel_AnalysisResults():
     """
     Test Class for AnalysisResults
     """
@@ -1878,7 +1914,7 @@ class TestAnalysisResults():
         categories_result_explanation_model['relevant_text'] = [categories_relevant_text_model]
 
         categories_result_model = {} # CategoriesResult
-        categories_result_model['label'] = '/technology and computing/software'
+        categories_result_model['label'] = '/technology and computing/computing/computer software and applications'
         categories_result_model['score'] = 0.594296
         categories_result_model['explanation'] = categories_result_explanation_model
 
@@ -2015,7 +2051,7 @@ class TestAnalysisResults():
         analysis_results_model_json2 = analysis_results_model.to_dict()
         assert analysis_results_model_json2 == analysis_results_model_json
 
-class TestAnalysisResultsUsage():
+class TestModel_AnalysisResultsUsage():
     """
     Test Class for AnalysisResultsUsage
     """
@@ -2046,7 +2082,7 @@ class TestAnalysisResultsUsage():
         analysis_results_usage_model_json2 = analysis_results_usage_model.to_dict()
         assert analysis_results_usage_model_json2 == analysis_results_usage_model_json
 
-class TestAuthor():
+class TestModel_Author():
     """
     Test Class for Author
     """
@@ -2075,7 +2111,7 @@ class TestAuthor():
         author_model_json2 = author_model.to_dict()
         assert author_model_json2 == author_model_json
 
-class TestCategoriesModel():
+class TestModel_CategoriesModel():
     """
     Test Class for CategoriesModel
     """
@@ -2088,7 +2124,7 @@ class TestCategoriesModel():
         # Construct dict forms of any model objects needed in order to build this model.
 
         notice_model = {} # Notice
-        notice_model['message'] = 'Not enough examples for class \'foo\'. 4 were given but 5 are required.'
+        notice_model['message'] = 'Training data validation failed: Too few examples for label insufficient_examples. Minimum of 5 required'
 
         # Construct a json representation of a CategoriesModel model
         categories_model_model_json = {}
@@ -2102,10 +2138,10 @@ class TestCategoriesModel():
         categories_model_model_json['features'] = ['testString']
         categories_model_model_json['status'] = 'starting'
         categories_model_model_json['model_id'] = 'testString'
-        categories_model_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        categories_model_model_json['created'] = "2019-01-01T12:00:00Z"
         categories_model_model_json['notices'] = [notice_model]
-        categories_model_model_json['last_trained'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        categories_model_model_json['last_deployed'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        categories_model_model_json['last_trained'] = "2019-01-01T12:00:00Z"
+        categories_model_model_json['last_deployed'] = "2019-01-01T12:00:00Z"
 
         # Construct a model instance of CategoriesModel by calling from_dict on the json representation
         categories_model_model = CategoriesModel.from_dict(categories_model_model_json)
@@ -2122,7 +2158,7 @@ class TestCategoriesModel():
         categories_model_model_json2 = categories_model_model.to_dict()
         assert categories_model_model_json2 == categories_model_model_json
 
-class TestCategoriesModelList():
+class TestModel_CategoriesModelList():
     """
     Test Class for CategoriesModelList
     """
@@ -2135,7 +2171,7 @@ class TestCategoriesModelList():
         # Construct dict forms of any model objects needed in order to build this model.
 
         notice_model = {} # Notice
-        notice_model['message'] = 'Not enough examples for class \'foo\'. 4 were given but 5 are required.'
+        notice_model['message'] = 'Training data validation failed: Too few examples for label insufficient_examples. Minimum of 5 required'
 
         categories_model_model = {} # CategoriesModel
         categories_model_model['name'] = 'testString'
@@ -2148,10 +2184,10 @@ class TestCategoriesModelList():
         categories_model_model['features'] = ['testString']
         categories_model_model['status'] = 'starting'
         categories_model_model['model_id'] = 'testString'
-        categories_model_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        categories_model_model['created'] = "2019-01-01T12:00:00Z"
         categories_model_model['notices'] = [notice_model]
-        categories_model_model['last_trained'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        categories_model_model['last_deployed'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        categories_model_model['last_trained'] = "2019-01-01T12:00:00Z"
+        categories_model_model['last_deployed'] = "2019-01-01T12:00:00Z"
 
         # Construct a json representation of a CategoriesModelList model
         categories_model_list_model_json = {}
@@ -2172,7 +2208,7 @@ class TestCategoriesModelList():
         categories_model_list_model_json2 = categories_model_list_model.to_dict()
         assert categories_model_list_model_json2 == categories_model_list_model_json
 
-class TestCategoriesOptions():
+class TestModel_CategoriesOptions():
     """
     Test Class for CategoriesOptions
     """
@@ -2184,7 +2220,7 @@ class TestCategoriesOptions():
 
         # Construct a json representation of a CategoriesOptions model
         categories_options_model_json = {}
-        categories_options_model_json['explanation'] = True
+        categories_options_model_json['explanation'] = False
         categories_options_model_json['limit'] = 10
         categories_options_model_json['model'] = 'testString'
 
@@ -2203,7 +2239,7 @@ class TestCategoriesOptions():
         categories_options_model_json2 = categories_options_model.to_dict()
         assert categories_options_model_json2 == categories_options_model_json
 
-class TestCategoriesRelevantText():
+class TestModel_CategoriesRelevantText():
     """
     Test Class for CategoriesRelevantText
     """
@@ -2232,7 +2268,7 @@ class TestCategoriesRelevantText():
         categories_relevant_text_model_json2 = categories_relevant_text_model.to_dict()
         assert categories_relevant_text_model_json2 == categories_relevant_text_model_json
 
-class TestCategoriesResult():
+class TestModel_CategoriesResult():
     """
     Test Class for CategoriesResult
     """
@@ -2271,7 +2307,7 @@ class TestCategoriesResult():
         categories_result_model_json2 = categories_result_model.to_dict()
         assert categories_result_model_json2 == categories_result_model_json
 
-class TestCategoriesResultExplanation():
+class TestModel_CategoriesResultExplanation():
     """
     Test Class for CategoriesResultExplanation
     """
@@ -2305,7 +2341,7 @@ class TestCategoriesResultExplanation():
         categories_result_explanation_model_json2 = categories_result_explanation_model.to_dict()
         assert categories_result_explanation_model_json2 == categories_result_explanation_model_json
 
-class TestClassificationsModel():
+class TestModel_ClassificationsModel():
     """
     Test Class for ClassificationsModel
     """
@@ -2318,7 +2354,7 @@ class TestClassificationsModel():
         # Construct dict forms of any model objects needed in order to build this model.
 
         notice_model = {} # Notice
-        notice_model['message'] = 'Not enough examples for class \'foo\'. 4 were given but 5 are required.'
+        notice_model['message'] = 'Training data validation failed: Too few examples for label insufficient_examples. Minimum of 5 required'
 
         # Construct a json representation of a ClassificationsModel model
         classifications_model_model_json = {}
@@ -2332,10 +2368,10 @@ class TestClassificationsModel():
         classifications_model_model_json['features'] = ['testString']
         classifications_model_model_json['status'] = 'starting'
         classifications_model_model_json['model_id'] = 'testString'
-        classifications_model_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        classifications_model_model_json['created'] = "2019-01-01T12:00:00Z"
         classifications_model_model_json['notices'] = [notice_model]
-        classifications_model_model_json['last_trained'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        classifications_model_model_json['last_deployed'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        classifications_model_model_json['last_trained'] = "2019-01-01T12:00:00Z"
+        classifications_model_model_json['last_deployed'] = "2019-01-01T12:00:00Z"
 
         # Construct a model instance of ClassificationsModel by calling from_dict on the json representation
         classifications_model_model = ClassificationsModel.from_dict(classifications_model_model_json)
@@ -2352,7 +2388,7 @@ class TestClassificationsModel():
         classifications_model_model_json2 = classifications_model_model.to_dict()
         assert classifications_model_model_json2 == classifications_model_model_json
 
-class TestClassificationsModelList():
+class TestModel_ClassificationsModelList():
     """
     Test Class for ClassificationsModelList
     """
@@ -2365,7 +2401,7 @@ class TestClassificationsModelList():
         # Construct dict forms of any model objects needed in order to build this model.
 
         notice_model = {} # Notice
-        notice_model['message'] = 'Not enough examples for class \'foo\'. 4 were given but 5 are required.'
+        notice_model['message'] = 'Training data validation failed: Too few examples for label insufficient_examples. Minimum of 5 required'
 
         classifications_model_model = {} # ClassificationsModel
         classifications_model_model['name'] = 'testString'
@@ -2378,10 +2414,10 @@ class TestClassificationsModelList():
         classifications_model_model['features'] = ['testString']
         classifications_model_model['status'] = 'starting'
         classifications_model_model['model_id'] = 'testString'
-        classifications_model_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        classifications_model_model['created'] = "2019-01-01T12:00:00Z"
         classifications_model_model['notices'] = [notice_model]
-        classifications_model_model['last_trained'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        classifications_model_model['last_deployed'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        classifications_model_model['last_trained'] = "2019-01-01T12:00:00Z"
+        classifications_model_model['last_deployed'] = "2019-01-01T12:00:00Z"
 
         # Construct a json representation of a ClassificationsModelList model
         classifications_model_list_model_json = {}
@@ -2402,7 +2438,7 @@ class TestClassificationsModelList():
         classifications_model_list_model_json2 = classifications_model_list_model.to_dict()
         assert classifications_model_list_model_json2 == classifications_model_list_model_json
 
-class TestClassificationsOptions():
+class TestModel_ClassificationsOptions():
     """
     Test Class for ClassificationsOptions
     """
@@ -2431,7 +2467,7 @@ class TestClassificationsOptions():
         classifications_options_model_json2 = classifications_options_model.to_dict()
         assert classifications_options_model_json2 == classifications_options_model_json
 
-class TestClassificationsResult():
+class TestModel_ClassificationsResult():
     """
     Test Class for ClassificationsResult
     """
@@ -2461,7 +2497,7 @@ class TestClassificationsResult():
         classifications_result_model_json2 = classifications_result_model.to_dict()
         assert classifications_result_model_json2 == classifications_result_model_json
 
-class TestConceptsOptions():
+class TestModel_ConceptsOptions():
     """
     Test Class for ConceptsOptions
     """
@@ -2490,7 +2526,7 @@ class TestConceptsOptions():
         concepts_options_model_json2 = concepts_options_model.to_dict()
         assert concepts_options_model_json2 == concepts_options_model_json
 
-class TestConceptsResult():
+class TestModel_ConceptsResult():
     """
     Test Class for ConceptsResult
     """
@@ -2521,7 +2557,7 @@ class TestConceptsResult():
         concepts_result_model_json2 = concepts_result_model.to_dict()
         assert concepts_result_model_json2 == concepts_result_model_json
 
-class TestDeleteModelResults():
+class TestModel_DeleteModelResults():
     """
     Test Class for DeleteModelResults
     """
@@ -2550,7 +2586,7 @@ class TestDeleteModelResults():
         delete_model_results_model_json2 = delete_model_results_model.to_dict()
         assert delete_model_results_model_json2 == delete_model_results_model_json
 
-class TestDisambiguationResult():
+class TestModel_DisambiguationResult():
     """
     Test Class for DisambiguationResult
     """
@@ -2581,7 +2617,7 @@ class TestDisambiguationResult():
         disambiguation_result_model_json2 = disambiguation_result_model.to_dict()
         assert disambiguation_result_model_json2 == disambiguation_result_model_json
 
-class TestDocumentEmotionResults():
+class TestModel_DocumentEmotionResults():
     """
     Test Class for DocumentEmotionResults
     """
@@ -2619,7 +2655,7 @@ class TestDocumentEmotionResults():
         document_emotion_results_model_json2 = document_emotion_results_model.to_dict()
         assert document_emotion_results_model_json2 == document_emotion_results_model_json
 
-class TestDocumentSentimentResults():
+class TestModel_DocumentSentimentResults():
     """
     Test Class for DocumentSentimentResults
     """
@@ -2649,7 +2685,7 @@ class TestDocumentSentimentResults():
         document_sentiment_results_model_json2 = document_sentiment_results_model.to_dict()
         assert document_sentiment_results_model_json2 == document_sentiment_results_model_json
 
-class TestEmotionOptions():
+class TestModel_EmotionOptions():
     """
     Test Class for EmotionOptions
     """
@@ -2679,7 +2715,7 @@ class TestEmotionOptions():
         emotion_options_model_json2 = emotion_options_model.to_dict()
         assert emotion_options_model_json2 == emotion_options_model_json
 
-class TestEmotionResult():
+class TestModel_EmotionResult():
     """
     Test Class for EmotionResult
     """
@@ -2725,7 +2761,7 @@ class TestEmotionResult():
         emotion_result_model_json2 = emotion_result_model.to_dict()
         assert emotion_result_model_json2 == emotion_result_model_json
 
-class TestEmotionScores():
+class TestModel_EmotionScores():
     """
     Test Class for EmotionScores
     """
@@ -2758,7 +2794,7 @@ class TestEmotionScores():
         emotion_scores_model_json2 = emotion_scores_model.to_dict()
         assert emotion_scores_model_json2 == emotion_scores_model_json
 
-class TestEntitiesOptions():
+class TestModel_EntitiesOptions():
     """
     Test Class for EntitiesOptions
     """
@@ -2771,10 +2807,10 @@ class TestEntitiesOptions():
         # Construct a json representation of a EntitiesOptions model
         entities_options_model_json = {}
         entities_options_model_json['limit'] = 250
-        entities_options_model_json['mentions'] = True
+        entities_options_model_json['mentions'] = False
         entities_options_model_json['model'] = 'testString'
-        entities_options_model_json['sentiment'] = True
-        entities_options_model_json['emotion'] = True
+        entities_options_model_json['sentiment'] = False
+        entities_options_model_json['emotion'] = False
 
         # Construct a model instance of EntitiesOptions by calling from_dict on the json representation
         entities_options_model = EntitiesOptions.from_dict(entities_options_model_json)
@@ -2791,7 +2827,7 @@ class TestEntitiesOptions():
         entities_options_model_json2 = entities_options_model.to_dict()
         assert entities_options_model_json2 == entities_options_model_json
 
-class TestEntitiesResult():
+class TestModel_EntitiesResult():
     """
     Test Class for EntitiesResult
     """
@@ -2850,7 +2886,7 @@ class TestEntitiesResult():
         entities_result_model_json2 = entities_result_model.to_dict()
         assert entities_result_model_json2 == entities_result_model_json
 
-class TestEntityMention():
+class TestModel_EntityMention():
     """
     Test Class for EntityMention
     """
@@ -2881,7 +2917,7 @@ class TestEntityMention():
         entity_mention_model_json2 = entity_mention_model.to_dict()
         assert entity_mention_model_json2 == entity_mention_model_json
 
-class TestFeatureSentimentResults():
+class TestModel_FeatureSentimentResults():
     """
     Test Class for FeatureSentimentResults
     """
@@ -2910,7 +2946,7 @@ class TestFeatureSentimentResults():
         feature_sentiment_results_model_json2 = feature_sentiment_results_model.to_dict()
         assert feature_sentiment_results_model_json2 == feature_sentiment_results_model_json
 
-class TestFeatures():
+class TestModel_Features():
     """
     Test Class for Features
     """
@@ -2934,15 +2970,15 @@ class TestFeatures():
 
         entities_options_model = {} # EntitiesOptions
         entities_options_model['limit'] = 250
-        entities_options_model['mentions'] = True
+        entities_options_model['mentions'] = False
         entities_options_model['model'] = 'testString'
-        entities_options_model['sentiment'] = True
-        entities_options_model['emotion'] = True
+        entities_options_model['sentiment'] = False
+        entities_options_model['emotion'] = False
 
         keywords_options_model = {} # KeywordsOptions
         keywords_options_model['limit'] = 250
-        keywords_options_model['sentiment'] = True
-        keywords_options_model['emotion'] = True
+        keywords_options_model['sentiment'] = False
+        keywords_options_model['emotion'] = False
 
         metadata_options_model = {} # MetadataOptions
 
@@ -2951,8 +2987,8 @@ class TestFeatures():
 
         semantic_roles_options_model = {} # SemanticRolesOptions
         semantic_roles_options_model['limit'] = 38
-        semantic_roles_options_model['keywords'] = True
-        semantic_roles_options_model['entities'] = True
+        semantic_roles_options_model['keywords'] = False
+        semantic_roles_options_model['entities'] = False
 
         sentiment_options_model = {} # SentimentOptions
         sentiment_options_model['document'] = True
@@ -2963,7 +2999,7 @@ class TestFeatures():
         summarization_options_model['limit'] = 10
 
         categories_options_model = {} # CategoriesOptions
-        categories_options_model['explanation'] = True
+        categories_options_model['explanation'] = False
         categories_options_model['limit'] = 10
         categories_options_model['model'] = 'testString'
 
@@ -3005,7 +3041,7 @@ class TestFeatures():
         features_model_json2 = features_model.to_dict()
         assert features_model_json2 == features_model_json
 
-class TestFeaturesResultsMetadata():
+class TestModel_FeaturesResultsMetadata():
     """
     Test Class for FeaturesResultsMetadata
     """
@@ -3046,7 +3082,7 @@ class TestFeaturesResultsMetadata():
         features_results_metadata_model_json2 = features_results_metadata_model.to_dict()
         assert features_results_metadata_model_json2 == features_results_metadata_model_json
 
-class TestFeed():
+class TestModel_Feed():
     """
     Test Class for Feed
     """
@@ -3075,7 +3111,7 @@ class TestFeed():
         feed_model_json2 = feed_model.to_dict()
         assert feed_model_json2 == feed_model_json
 
-class TestKeywordsOptions():
+class TestModel_KeywordsOptions():
     """
     Test Class for KeywordsOptions
     """
@@ -3088,8 +3124,8 @@ class TestKeywordsOptions():
         # Construct a json representation of a KeywordsOptions model
         keywords_options_model_json = {}
         keywords_options_model_json['limit'] = 250
-        keywords_options_model_json['sentiment'] = True
-        keywords_options_model_json['emotion'] = True
+        keywords_options_model_json['sentiment'] = False
+        keywords_options_model_json['emotion'] = False
 
         # Construct a model instance of KeywordsOptions by calling from_dict on the json representation
         keywords_options_model = KeywordsOptions.from_dict(keywords_options_model_json)
@@ -3106,7 +3142,7 @@ class TestKeywordsOptions():
         keywords_options_model_json2 = keywords_options_model.to_dict()
         assert keywords_options_model_json2 == keywords_options_model_json
 
-class TestKeywordsResult():
+class TestModel_KeywordsResult():
     """
     Test Class for KeywordsResult
     """
@@ -3151,60 +3187,7 @@ class TestKeywordsResult():
         keywords_result_model_json2 = keywords_result_model.to_dict()
         assert keywords_result_model_json2 == keywords_result_model_json
 
-class TestListClassificationsModelsResponse():
-    """
-    Test Class for ListClassificationsModelsResponse
-    """
-
-    def test_list_classifications_models_response_serialization(self):
-        """
-        Test serialization/deserialization for ListClassificationsModelsResponse
-        """
-
-        # Construct dict forms of any model objects needed in order to build this model.
-
-        notice_model = {} # Notice
-        notice_model['message'] = 'Not enough examples for class \'foo\'. 4 were given but 5 are required.'
-
-        classifications_model_model = {} # ClassificationsModel
-        classifications_model_model['name'] = 'testString'
-        classifications_model_model['user_metadata'] = {}
-        classifications_model_model['language'] = 'testString'
-        classifications_model_model['description'] = 'testString'
-        classifications_model_model['model_version'] = 'testString'
-        classifications_model_model['workspace_id'] = 'testString'
-        classifications_model_model['version_description'] = 'testString'
-        classifications_model_model['features'] = ['testString']
-        classifications_model_model['status'] = 'starting'
-        classifications_model_model['model_id'] = 'testString'
-        classifications_model_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        classifications_model_model['notices'] = [notice_model]
-        classifications_model_model['last_trained'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        classifications_model_model['last_deployed'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-
-        classifications_model_list_model = {} # ClassificationsModelList
-        classifications_model_list_model['models'] = [classifications_model_model]
-
-        # Construct a json representation of a ListClassificationsModelsResponse model
-        list_classifications_models_response_model_json = {}
-        list_classifications_models_response_model_json['models'] = [classifications_model_list_model]
-
-        # Construct a model instance of ListClassificationsModelsResponse by calling from_dict on the json representation
-        list_classifications_models_response_model = ListClassificationsModelsResponse.from_dict(list_classifications_models_response_model_json)
-        assert list_classifications_models_response_model != False
-
-        # Construct a model instance of ListClassificationsModelsResponse by calling from_dict on the json representation
-        list_classifications_models_response_model_dict = ListClassificationsModelsResponse.from_dict(list_classifications_models_response_model_json).__dict__
-        list_classifications_models_response_model2 = ListClassificationsModelsResponse(**list_classifications_models_response_model_dict)
-
-        # Verify the model instances are equivalent
-        assert list_classifications_models_response_model == list_classifications_models_response_model2
-
-        # Convert model instance back to dict and verify no loss of data
-        list_classifications_models_response_model_json2 = list_classifications_models_response_model.to_dict()
-        assert list_classifications_models_response_model_json2 == list_classifications_models_response_model_json
-
-class TestListModelsResults():
+class TestModel_ListModelsResults():
     """
     Test Class for ListModelsResults
     """
@@ -3225,7 +3208,7 @@ class TestListModelsResults():
         model_model['model_version'] = 'testString'
         model_model['version'] = 'testString'
         model_model['version_description'] = 'testString'
-        model_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        model_model['created'] = "2019-01-01T12:00:00Z"
 
         # Construct a json representation of a ListModelsResults model
         list_models_results_model_json = {}
@@ -3246,7 +3229,7 @@ class TestListModelsResults():
         list_models_results_model_json2 = list_models_results_model.to_dict()
         assert list_models_results_model_json2 == list_models_results_model_json
 
-class TestListSentimentModelsResponse():
+class TestModel_ListSentimentModelsResponse():
     """
     Test Class for ListSentimentModelsResponse
     """
@@ -3259,15 +3242,15 @@ class TestListSentimentModelsResponse():
         # Construct dict forms of any model objects needed in order to build this model.
 
         notice_model = {} # Notice
-        notice_model['message'] = 'Not enough examples for class \'foo\'. 4 were given but 5 are required.'
+        notice_model['message'] = 'Training data validation failed: Too few examples for label insufficient_examples. Minimum of 5 required'
 
         sentiment_model_model = {} # SentimentModel
         sentiment_model_model['features'] = ['testString']
         sentiment_model_model['status'] = 'starting'
         sentiment_model_model['model_id'] = 'testString'
-        sentiment_model_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        sentiment_model_model['last_trained'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        sentiment_model_model['last_deployed'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        sentiment_model_model['created'] = "2019-01-01T12:00:00Z"
+        sentiment_model_model['last_trained'] = "2019-01-01T12:00:00Z"
+        sentiment_model_model['last_deployed'] = "2019-01-01T12:00:00Z"
         sentiment_model_model['name'] = 'testString'
         sentiment_model_model['user_metadata'] = {}
         sentiment_model_model['language'] = 'testString'
@@ -3296,7 +3279,7 @@ class TestListSentimentModelsResponse():
         list_sentiment_models_response_model_json2 = list_sentiment_models_response_model.to_dict()
         assert list_sentiment_models_response_model_json2 == list_sentiment_models_response_model_json
 
-class TestMetadataOptions():
+class TestModel_MetadataOptions():
     """
     Test Class for MetadataOptions
     """
@@ -3324,7 +3307,7 @@ class TestMetadataOptions():
         metadata_options_model_json2 = metadata_options_model.to_dict()
         assert metadata_options_model_json2 == metadata_options_model_json
 
-class TestModel():
+class TestModel_Model():
     """
     Test Class for Model
     """
@@ -3344,7 +3327,7 @@ class TestModel():
         model_model_json['model_version'] = 'testString'
         model_model_json['version'] = 'testString'
         model_model_json['version_description'] = 'testString'
-        model_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        model_model_json['created'] = "2019-01-01T12:00:00Z"
 
         # Construct a model instance of Model by calling from_dict on the json representation
         model_model = Model.from_dict(model_model_json)
@@ -3361,7 +3344,7 @@ class TestModel():
         model_model_json2 = model_model.to_dict()
         assert model_model_json2 == model_model_json
 
-class TestNotice():
+class TestModel_Notice():
     """
     Test Class for Notice
     """
@@ -3390,7 +3373,7 @@ class TestNotice():
         notice_model_json2 = notice_model.to_dict()
         assert notice_model_json2 == notice_model_json
 
-class TestRelationArgument():
+class TestModel_RelationArgument():
     """
     Test Class for RelationArgument
     """
@@ -3427,7 +3410,7 @@ class TestRelationArgument():
         relation_argument_model_json2 = relation_argument_model.to_dict()
         assert relation_argument_model_json2 == relation_argument_model_json
 
-class TestRelationEntity():
+class TestModel_RelationEntity():
     """
     Test Class for RelationEntity
     """
@@ -3457,7 +3440,7 @@ class TestRelationEntity():
         relation_entity_model_json2 = relation_entity_model.to_dict()
         assert relation_entity_model_json2 == relation_entity_model_json
 
-class TestRelationsOptions():
+class TestModel_RelationsOptions():
     """
     Test Class for RelationsOptions
     """
@@ -3486,7 +3469,7 @@ class TestRelationsOptions():
         relations_options_model_json2 = relations_options_model.to_dict()
         assert relations_options_model_json2 == relations_options_model_json
 
-class TestRelationsResult():
+class TestModel_RelationsResult():
     """
     Test Class for RelationsResult
     """
@@ -3529,7 +3512,7 @@ class TestRelationsResult():
         relations_result_model_json2 = relations_result_model.to_dict()
         assert relations_result_model_json2 == relations_result_model_json
 
-class TestSemanticRolesEntity():
+class TestModel_SemanticRolesEntity():
     """
     Test Class for SemanticRolesEntity
     """
@@ -3559,7 +3542,7 @@ class TestSemanticRolesEntity():
         semantic_roles_entity_model_json2 = semantic_roles_entity_model.to_dict()
         assert semantic_roles_entity_model_json2 == semantic_roles_entity_model_json
 
-class TestSemanticRolesKeyword():
+class TestModel_SemanticRolesKeyword():
     """
     Test Class for SemanticRolesKeyword
     """
@@ -3588,7 +3571,7 @@ class TestSemanticRolesKeyword():
         semantic_roles_keyword_model_json2 = semantic_roles_keyword_model.to_dict()
         assert semantic_roles_keyword_model_json2 == semantic_roles_keyword_model_json
 
-class TestSemanticRolesOptions():
+class TestModel_SemanticRolesOptions():
     """
     Test Class for SemanticRolesOptions
     """
@@ -3601,8 +3584,8 @@ class TestSemanticRolesOptions():
         # Construct a json representation of a SemanticRolesOptions model
         semantic_roles_options_model_json = {}
         semantic_roles_options_model_json['limit'] = 38
-        semantic_roles_options_model_json['keywords'] = True
-        semantic_roles_options_model_json['entities'] = True
+        semantic_roles_options_model_json['keywords'] = False
+        semantic_roles_options_model_json['entities'] = False
 
         # Construct a model instance of SemanticRolesOptions by calling from_dict on the json representation
         semantic_roles_options_model = SemanticRolesOptions.from_dict(semantic_roles_options_model_json)
@@ -3619,7 +3602,7 @@ class TestSemanticRolesOptions():
         semantic_roles_options_model_json2 = semantic_roles_options_model.to_dict()
         assert semantic_roles_options_model_json2 == semantic_roles_options_model_json
 
-class TestSemanticRolesResult():
+class TestModel_SemanticRolesResult():
     """
     Test Class for SemanticRolesResult
     """
@@ -3678,7 +3661,7 @@ class TestSemanticRolesResult():
         semantic_roles_result_model_json2 = semantic_roles_result_model.to_dict()
         assert semantic_roles_result_model_json2 == semantic_roles_result_model_json
 
-class TestSemanticRolesResultAction():
+class TestModel_SemanticRolesResultAction():
     """
     Test Class for SemanticRolesResultAction
     """
@@ -3715,7 +3698,7 @@ class TestSemanticRolesResultAction():
         semantic_roles_result_action_model_json2 = semantic_roles_result_action_model.to_dict()
         assert semantic_roles_result_action_model_json2 == semantic_roles_result_action_model_json
 
-class TestSemanticRolesResultObject():
+class TestModel_SemanticRolesResultObject():
     """
     Test Class for SemanticRolesResultObject
     """
@@ -3750,7 +3733,7 @@ class TestSemanticRolesResultObject():
         semantic_roles_result_object_model_json2 = semantic_roles_result_object_model.to_dict()
         assert semantic_roles_result_object_model_json2 == semantic_roles_result_object_model_json
 
-class TestSemanticRolesResultSubject():
+class TestModel_SemanticRolesResultSubject():
     """
     Test Class for SemanticRolesResultSubject
     """
@@ -3790,7 +3773,7 @@ class TestSemanticRolesResultSubject():
         semantic_roles_result_subject_model_json2 = semantic_roles_result_subject_model.to_dict()
         assert semantic_roles_result_subject_model_json2 == semantic_roles_result_subject_model_json
 
-class TestSemanticRolesVerb():
+class TestModel_SemanticRolesVerb():
     """
     Test Class for SemanticRolesVerb
     """
@@ -3820,7 +3803,7 @@ class TestSemanticRolesVerb():
         semantic_roles_verb_model_json2 = semantic_roles_verb_model.to_dict()
         assert semantic_roles_verb_model_json2 == semantic_roles_verb_model_json
 
-class TestSentenceResult():
+class TestModel_SentenceResult():
     """
     Test Class for SentenceResult
     """
@@ -3850,7 +3833,7 @@ class TestSentenceResult():
         sentence_result_model_json2 = sentence_result_model.to_dict()
         assert sentence_result_model_json2 == sentence_result_model_json
 
-class TestSentimentModel():
+class TestModel_SentimentModel():
     """
     Test Class for SentimentModel
     """
@@ -3863,16 +3846,16 @@ class TestSentimentModel():
         # Construct dict forms of any model objects needed in order to build this model.
 
         notice_model = {} # Notice
-        notice_model['message'] = 'Not enough examples for class \'foo\'. 4 were given but 5 are required.'
+        notice_model['message'] = 'Training data validation failed: Too few examples for label insufficient_examples. Minimum of 5 required'
 
         # Construct a json representation of a SentimentModel model
         sentiment_model_model_json = {}
         sentiment_model_model_json['features'] = ['testString']
         sentiment_model_model_json['status'] = 'starting'
         sentiment_model_model_json['model_id'] = 'testString'
-        sentiment_model_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        sentiment_model_model_json['last_trained'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        sentiment_model_model_json['last_deployed'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        sentiment_model_model_json['created'] = "2019-01-01T12:00:00Z"
+        sentiment_model_model_json['last_trained'] = "2019-01-01T12:00:00Z"
+        sentiment_model_model_json['last_deployed'] = "2019-01-01T12:00:00Z"
         sentiment_model_model_json['name'] = 'testString'
         sentiment_model_model_json['user_metadata'] = {}
         sentiment_model_model_json['language'] = 'testString'
@@ -3897,7 +3880,7 @@ class TestSentimentModel():
         sentiment_model_model_json2 = sentiment_model_model.to_dict()
         assert sentiment_model_model_json2 == sentiment_model_model_json
 
-class TestSentimentOptions():
+class TestModel_SentimentOptions():
     """
     Test Class for SentimentOptions
     """
@@ -3928,7 +3911,7 @@ class TestSentimentOptions():
         sentiment_options_model_json2 = sentiment_options_model.to_dict()
         assert sentiment_options_model_json2 == sentiment_options_model_json
 
-class TestSentimentResult():
+class TestModel_SentimentResult():
     """
     Test Class for SentimentResult
     """
@@ -3968,7 +3951,7 @@ class TestSentimentResult():
         sentiment_result_model_json2 = sentiment_result_model.to_dict()
         assert sentiment_result_model_json2 == sentiment_result_model_json
 
-class TestSummarizationOptions():
+class TestModel_SummarizationOptions():
     """
     Test Class for SummarizationOptions
     """
@@ -3997,7 +3980,7 @@ class TestSummarizationOptions():
         summarization_options_model_json2 = summarization_options_model.to_dict()
         assert summarization_options_model_json2 == summarization_options_model_json
 
-class TestSyntaxOptions():
+class TestModel_SyntaxOptions():
     """
     Test Class for SyntaxOptions
     """
@@ -4033,7 +4016,7 @@ class TestSyntaxOptions():
         syntax_options_model_json2 = syntax_options_model.to_dict()
         assert syntax_options_model_json2 == syntax_options_model_json
 
-class TestSyntaxOptionsTokens():
+class TestModel_SyntaxOptionsTokens():
     """
     Test Class for SyntaxOptionsTokens
     """
@@ -4063,7 +4046,7 @@ class TestSyntaxOptionsTokens():
         syntax_options_tokens_model_json2 = syntax_options_tokens_model.to_dict()
         assert syntax_options_tokens_model_json2 == syntax_options_tokens_model_json
 
-class TestSyntaxResult():
+class TestModel_SyntaxResult():
     """
     Test Class for SyntaxResult
     """
@@ -4105,7 +4088,7 @@ class TestSyntaxResult():
         syntax_result_model_json2 = syntax_result_model.to_dict()
         assert syntax_result_model_json2 == syntax_result_model_json
 
-class TestTargetedEmotionResults():
+class TestModel_TargetedEmotionResults():
     """
     Test Class for TargetedEmotionResults
     """
@@ -4144,7 +4127,7 @@ class TestTargetedEmotionResults():
         targeted_emotion_results_model_json2 = targeted_emotion_results_model.to_dict()
         assert targeted_emotion_results_model_json2 == targeted_emotion_results_model_json
 
-class TestTargetedSentimentResults():
+class TestModel_TargetedSentimentResults():
     """
     Test Class for TargetedSentimentResults
     """
@@ -4174,7 +4157,7 @@ class TestTargetedSentimentResults():
         targeted_sentiment_results_model_json2 = targeted_sentiment_results_model.to_dict()
         assert targeted_sentiment_results_model_json2 == targeted_sentiment_results_model_json
 
-class TestTokenResult():
+class TestModel_TokenResult():
     """
     Test Class for TokenResult
     """

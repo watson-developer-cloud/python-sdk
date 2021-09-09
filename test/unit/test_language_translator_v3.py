@@ -31,7 +31,7 @@ import tempfile
 import urllib
 from ibm_watson.language_translator_v3 import *
 
-version = 'testString'
+version = '2018-05-01'
 
 _service = LanguageTranslatorV3(
     authenticator=NoAuthAuthenticator(),
@@ -55,6 +55,8 @@ class TestListLanguages():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -126,6 +128,8 @@ class TestTranslate():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -221,6 +225,8 @@ class TestListIdentifiableLanguages():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -282,6 +288,8 @@ class TestIdentify():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -364,6 +372,8 @@ class TestListModels():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -463,6 +473,8 @@ class TestCreateModel():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -576,6 +588,8 @@ class TestDeleteModel():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -646,6 +660,8 @@ class TestGetModel():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -726,6 +742,8 @@ class TestListDocuments():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -787,6 +805,8 @@ class TestTranslateDocument():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -900,6 +920,8 @@ class TestGetDocumentStatus():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -970,6 +992,8 @@ class TestDeleteDocument():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1034,6 +1058,8 @@ class TestGetTranslatedDocument():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1135,7 +1161,7 @@ class TestGetTranslatedDocument():
 # Start of Model Tests
 ##############################################################################
 # region
-class TestDeleteModelResult():
+class TestModel_DeleteModelResult():
     """
     Test Class for DeleteModelResult
     """
@@ -1164,7 +1190,7 @@ class TestDeleteModelResult():
         delete_model_result_model_json2 = delete_model_result_model.to_dict()
         assert delete_model_result_model_json2 == delete_model_result_model_json
 
-class TestDocumentList():
+class TestModel_DocumentList():
     """
     Test Class for DocumentList
     """
@@ -1185,8 +1211,8 @@ class TestDocumentList():
         document_status_model['source'] = 'testString'
         document_status_model['detected_language_confidence'] = 0
         document_status_model['target'] = 'testString'
-        document_status_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        document_status_model['completed'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        document_status_model['created'] = "2019-01-01T12:00:00Z"
+        document_status_model['completed'] = "2019-01-01T12:00:00Z"
         document_status_model['word_count'] = 38
         document_status_model['character_count'] = 38
 
@@ -1209,7 +1235,7 @@ class TestDocumentList():
         document_list_model_json2 = document_list_model.to_dict()
         assert document_list_model_json2 == document_list_model_json
 
-class TestDocumentStatus():
+class TestModel_DocumentStatus():
     """
     Test Class for DocumentStatus
     """
@@ -1229,8 +1255,8 @@ class TestDocumentStatus():
         document_status_model_json['source'] = 'testString'
         document_status_model_json['detected_language_confidence'] = 0
         document_status_model_json['target'] = 'testString'
-        document_status_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        document_status_model_json['completed'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        document_status_model_json['created'] = "2019-01-01T12:00:00Z"
+        document_status_model_json['completed'] = "2019-01-01T12:00:00Z"
         document_status_model_json['word_count'] = 38
         document_status_model_json['character_count'] = 38
 
@@ -1249,7 +1275,7 @@ class TestDocumentStatus():
         document_status_model_json2 = document_status_model.to_dict()
         assert document_status_model_json2 == document_status_model_json
 
-class TestIdentifiableLanguage():
+class TestModel_IdentifiableLanguage():
     """
     Test Class for IdentifiableLanguage
     """
@@ -1279,7 +1305,7 @@ class TestIdentifiableLanguage():
         identifiable_language_model_json2 = identifiable_language_model.to_dict()
         assert identifiable_language_model_json2 == identifiable_language_model_json
 
-class TestIdentifiableLanguages():
+class TestModel_IdentifiableLanguages():
     """
     Test Class for IdentifiableLanguages
     """
@@ -1314,7 +1340,7 @@ class TestIdentifiableLanguages():
         identifiable_languages_model_json2 = identifiable_languages_model.to_dict()
         assert identifiable_languages_model_json2 == identifiable_languages_model_json
 
-class TestIdentifiedLanguage():
+class TestModel_IdentifiedLanguage():
     """
     Test Class for IdentifiedLanguage
     """
@@ -1344,7 +1370,7 @@ class TestIdentifiedLanguage():
         identified_language_model_json2 = identified_language_model.to_dict()
         assert identified_language_model_json2 == identified_language_model_json
 
-class TestIdentifiedLanguages():
+class TestModel_IdentifiedLanguages():
     """
     Test Class for IdentifiedLanguages
     """
@@ -1379,7 +1405,7 @@ class TestIdentifiedLanguages():
         identified_languages_model_json2 = identified_languages_model.to_dict()
         assert identified_languages_model_json2 == identified_languages_model_json
 
-class TestLanguage():
+class TestModel_Language():
     """
     Test Class for Language
     """
@@ -1416,7 +1442,7 @@ class TestLanguage():
         language_model_json2 = language_model.to_dict()
         assert language_model_json2 == language_model_json
 
-class TestLanguages():
+class TestModel_Languages():
     """
     Test Class for Languages
     """
@@ -1458,7 +1484,7 @@ class TestLanguages():
         languages_model_json2 = languages_model.to_dict()
         assert languages_model_json2 == languages_model_json
 
-class TestTranslation():
+class TestModel_Translation():
     """
     Test Class for Translation
     """
@@ -1487,7 +1513,7 @@ class TestTranslation():
         translation_model_json2 = translation_model.to_dict()
         assert translation_model_json2 == translation_model_json
 
-class TestTranslationModel():
+class TestModel_TranslationModel():
     """
     Test Class for TranslationModel
     """
@@ -1525,7 +1551,7 @@ class TestTranslationModel():
         translation_model_model_json2 = translation_model_model.to_dict()
         assert translation_model_model_json2 == translation_model_model_json
 
-class TestTranslationModels():
+class TestModel_TranslationModels():
     """
     Test Class for TranslationModels
     """
@@ -1568,7 +1594,7 @@ class TestTranslationModels():
         translation_models_model_json2 = translation_models_model.to_dict()
         assert translation_models_model_json2 == translation_models_model_json
 
-class TestTranslationResult():
+class TestModel_TranslationResult():
     """
     Test Class for TranslationResult
     """

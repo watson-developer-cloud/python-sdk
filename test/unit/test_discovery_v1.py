@@ -56,6 +56,8 @@ class TestCreateEnvironment():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -137,6 +139,8 @@ class TestListEnvironments():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -230,6 +234,8 @@ class TestGetEnvironment():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -300,6 +306,8 @@ class TestUpdateEnvironment():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -384,6 +392,8 @@ class TestDeleteEnvironment():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -454,6 +464,8 @@ class TestListFields():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -542,6 +554,8 @@ class TestCreateConfiguration():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -554,7 +568,7 @@ class TestCreateConfiguration():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/configurations')
-        mock_response = '{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": true, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": {"anyKey": "anyValue"}}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": false, "time_zone": "time_zone", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": false, "crawl_speed": "gentle", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}'
+        mock_response = '{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -607,8 +621,8 @@ class TestCreateConfiguration():
 
         # Construct a dict representation of a SegmentSettings model
         segment_settings_model = {}
-        segment_settings_model['enabled'] = True
-        segment_settings_model['selector_tags'] = ['testString']
+        segment_settings_model['enabled'] = False
+        segment_settings_model['selector_tags'] = ['h1', 'h2']
         segment_settings_model['annotated_fields'] = ['testString']
 
         # Construct a dict representation of a NormalizationOperation model
@@ -688,15 +702,15 @@ class TestCreateConfiguration():
         enrichment_model['description'] = 'testString'
         enrichment_model['destination_field'] = 'testString'
         enrichment_model['source_field'] = 'testString'
-        enrichment_model['overwrite'] = True
+        enrichment_model['overwrite'] = False
         enrichment_model['enrichment'] = 'testString'
-        enrichment_model['ignore_downstream_errors'] = True
+        enrichment_model['ignore_downstream_errors'] = False
         enrichment_model['options'] = enrichment_options_model
 
         # Construct a dict representation of a SourceSchedule model
         source_schedule_model = {}
         source_schedule_model['enabled'] = True
-        source_schedule_model['time_zone'] = 'testString'
+        source_schedule_model['time_zone'] = 'America/New_York'
         source_schedule_model['frequency'] = 'daily'
 
         # Construct a dict representation of a SourceOptionsFolder model
@@ -719,11 +733,11 @@ class TestCreateConfiguration():
         source_options_web_crawl_model = {}
         source_options_web_crawl_model['url'] = 'testString'
         source_options_web_crawl_model['limit_to_starting_hosts'] = True
-        source_options_web_crawl_model['crawl_speed'] = 'gentle'
-        source_options_web_crawl_model['allow_untrusted_certificate'] = True
+        source_options_web_crawl_model['crawl_speed'] = 'normal'
+        source_options_web_crawl_model['allow_untrusted_certificate'] = False
         source_options_web_crawl_model['maximum_hops'] = 38
         source_options_web_crawl_model['request_timeout'] = 38
-        source_options_web_crawl_model['override_robots_txt'] = True
+        source_options_web_crawl_model['override_robots_txt'] = False
         source_options_web_crawl_model['blacklist'] = ['testString']
 
         # Construct a dict representation of a SourceOptionsBuckets model
@@ -788,7 +802,7 @@ class TestCreateConfiguration():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/configurations')
-        mock_response = '{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": true, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": {"anyKey": "anyValue"}}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": false, "time_zone": "time_zone", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": false, "crawl_speed": "gentle", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}'
+        mock_response = '{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -841,8 +855,8 @@ class TestCreateConfiguration():
 
         # Construct a dict representation of a SegmentSettings model
         segment_settings_model = {}
-        segment_settings_model['enabled'] = True
-        segment_settings_model['selector_tags'] = ['testString']
+        segment_settings_model['enabled'] = False
+        segment_settings_model['selector_tags'] = ['h1', 'h2']
         segment_settings_model['annotated_fields'] = ['testString']
 
         # Construct a dict representation of a NormalizationOperation model
@@ -922,15 +936,15 @@ class TestCreateConfiguration():
         enrichment_model['description'] = 'testString'
         enrichment_model['destination_field'] = 'testString'
         enrichment_model['source_field'] = 'testString'
-        enrichment_model['overwrite'] = True
+        enrichment_model['overwrite'] = False
         enrichment_model['enrichment'] = 'testString'
-        enrichment_model['ignore_downstream_errors'] = True
+        enrichment_model['ignore_downstream_errors'] = False
         enrichment_model['options'] = enrichment_options_model
 
         # Construct a dict representation of a SourceSchedule model
         source_schedule_model = {}
         source_schedule_model['enabled'] = True
-        source_schedule_model['time_zone'] = 'testString'
+        source_schedule_model['time_zone'] = 'America/New_York'
         source_schedule_model['frequency'] = 'daily'
 
         # Construct a dict representation of a SourceOptionsFolder model
@@ -953,11 +967,11 @@ class TestCreateConfiguration():
         source_options_web_crawl_model = {}
         source_options_web_crawl_model['url'] = 'testString'
         source_options_web_crawl_model['limit_to_starting_hosts'] = True
-        source_options_web_crawl_model['crawl_speed'] = 'gentle'
-        source_options_web_crawl_model['allow_untrusted_certificate'] = True
+        source_options_web_crawl_model['crawl_speed'] = 'normal'
+        source_options_web_crawl_model['allow_untrusted_certificate'] = False
         source_options_web_crawl_model['maximum_hops'] = 38
         source_options_web_crawl_model['request_timeout'] = 38
-        source_options_web_crawl_model['override_robots_txt'] = True
+        source_options_web_crawl_model['override_robots_txt'] = False
         source_options_web_crawl_model['blacklist'] = ['testString']
 
         # Construct a dict representation of a SourceOptionsBuckets model
@@ -1011,6 +1025,8 @@ class TestListConfigurations():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1023,7 +1039,7 @@ class TestListConfigurations():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/configurations')
-        mock_response = '{"configurations": [{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": true, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": {"anyKey": "anyValue"}}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": false, "time_zone": "time_zone", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": false, "crawl_speed": "gentle", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}]}'
+        mock_response = '{"configurations": [{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1057,7 +1073,7 @@ class TestListConfigurations():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/configurations')
-        mock_response = '{"configurations": [{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": true, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": {"anyKey": "anyValue"}}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": false, "time_zone": "time_zone", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": false, "crawl_speed": "gentle", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}]}'
+        mock_response = '{"configurations": [{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1085,7 +1101,7 @@ class TestListConfigurations():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/configurations')
-        mock_response = '{"configurations": [{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": true, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": {"anyKey": "anyValue"}}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": false, "time_zone": "time_zone", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": false, "crawl_speed": "gentle", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}]}'
+        mock_response = '{"configurations": [{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1115,6 +1131,8 @@ class TestGetConfiguration():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1127,7 +1145,7 @@ class TestGetConfiguration():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/configurations/testString')
-        mock_response = '{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": true, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": {"anyKey": "anyValue"}}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": false, "time_zone": "time_zone", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": false, "crawl_speed": "gentle", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}'
+        mock_response = '{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1157,7 +1175,7 @@ class TestGetConfiguration():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/configurations/testString')
-        mock_response = '{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": true, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": {"anyKey": "anyValue"}}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": false, "time_zone": "time_zone", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": false, "crawl_speed": "gentle", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}'
+        mock_response = '{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1189,6 +1207,8 @@ class TestUpdateConfiguration():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1201,7 +1221,7 @@ class TestUpdateConfiguration():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/configurations/testString')
-        mock_response = '{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": true, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": {"anyKey": "anyValue"}}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": false, "time_zone": "time_zone", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": false, "crawl_speed": "gentle", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}'
+        mock_response = '{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -1254,8 +1274,8 @@ class TestUpdateConfiguration():
 
         # Construct a dict representation of a SegmentSettings model
         segment_settings_model = {}
-        segment_settings_model['enabled'] = True
-        segment_settings_model['selector_tags'] = ['testString']
+        segment_settings_model['enabled'] = False
+        segment_settings_model['selector_tags'] = ['h1', 'h2']
         segment_settings_model['annotated_fields'] = ['testString']
 
         # Construct a dict representation of a NormalizationOperation model
@@ -1335,15 +1355,15 @@ class TestUpdateConfiguration():
         enrichment_model['description'] = 'testString'
         enrichment_model['destination_field'] = 'testString'
         enrichment_model['source_field'] = 'testString'
-        enrichment_model['overwrite'] = True
+        enrichment_model['overwrite'] = False
         enrichment_model['enrichment'] = 'testString'
-        enrichment_model['ignore_downstream_errors'] = True
+        enrichment_model['ignore_downstream_errors'] = False
         enrichment_model['options'] = enrichment_options_model
 
         # Construct a dict representation of a SourceSchedule model
         source_schedule_model = {}
         source_schedule_model['enabled'] = True
-        source_schedule_model['time_zone'] = 'testString'
+        source_schedule_model['time_zone'] = 'America/New_York'
         source_schedule_model['frequency'] = 'daily'
 
         # Construct a dict representation of a SourceOptionsFolder model
@@ -1366,11 +1386,11 @@ class TestUpdateConfiguration():
         source_options_web_crawl_model = {}
         source_options_web_crawl_model['url'] = 'testString'
         source_options_web_crawl_model['limit_to_starting_hosts'] = True
-        source_options_web_crawl_model['crawl_speed'] = 'gentle'
-        source_options_web_crawl_model['allow_untrusted_certificate'] = True
+        source_options_web_crawl_model['crawl_speed'] = 'normal'
+        source_options_web_crawl_model['allow_untrusted_certificate'] = False
         source_options_web_crawl_model['maximum_hops'] = 38
         source_options_web_crawl_model['request_timeout'] = 38
-        source_options_web_crawl_model['override_robots_txt'] = True
+        source_options_web_crawl_model['override_robots_txt'] = False
         source_options_web_crawl_model['blacklist'] = ['testString']
 
         # Construct a dict representation of a SourceOptionsBuckets model
@@ -1437,7 +1457,7 @@ class TestUpdateConfiguration():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/configurations/testString')
-        mock_response = '{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": true, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": {"anyKey": "anyValue"}}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": false, "time_zone": "time_zone", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": false, "crawl_speed": "gentle", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}'
+        mock_response = '{"configuration_id": "configuration_id", "name": "name", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "description": "description", "conversions": {"pdf": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}]}}, "word": {"heading": {"fonts": [{"level": 5, "min_size": 8, "max_size": 8, "bold": true, "italic": true, "name": "name"}], "styles": [{"level": 5, "names": ["names"]}]}}, "html": {"exclude_tags_completely": ["exclude_tags_completely"], "exclude_tags_keep_content": ["exclude_tags_keep_content"], "keep_content": {"xpaths": ["xpaths"]}, "exclude_content": {"xpaths": ["xpaths"]}, "keep_tag_attributes": ["keep_tag_attributes"], "exclude_tag_attributes": ["exclude_tag_attributes"]}, "segment": {"enabled": false, "selector_tags": ["selector_tags"], "annotated_fields": ["annotated_fields"]}, "json_normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "image_text_recognition": true}, "enrichments": [{"description": "description", "destination_field": "destination_field", "source_field": "source_field", "overwrite": false, "enrichment": "enrichment", "ignore_downstream_errors": false, "options": {"features": {"keywords": {"sentiment": false, "emotion": false, "limit": 5}, "entities": {"sentiment": false, "emotion": false, "limit": 5, "mentions": true, "mention_types": false, "sentence_locations": true, "model": "model"}, "sentiment": {"document": true, "targets": ["target"]}, "emotion": {"document": true, "targets": ["target"]}, "categories": {"mapKey": "anyValue"}, "semantic_roles": {"entities": true, "keywords": true, "limit": 5}, "relations": {"model": "model"}, "concepts": {"limit": 5}}, "language": "ar", "model": "model"}}], "normalizations": [{"operation": "copy", "source_field": "source_field", "destination_field": "destination_field"}], "source": {"type": "box", "credential_id": "credential_id", "schedule": {"enabled": true, "time_zone": "America/New_York", "frequency": "daily"}, "options": {"folders": [{"owner_user_id": "owner_user_id", "folder_id": "folder_id", "limit": 5}], "objects": [{"name": "name", "limit": 5}], "site_collections": [{"site_collection_path": "site_collection_path", "limit": 5}], "urls": [{"url": "url", "limit_to_starting_hosts": true, "crawl_speed": "normal", "allow_untrusted_certificate": false, "maximum_hops": 12, "request_timeout": 15, "override_robots_txt": false, "blacklist": ["blacklist"]}], "buckets": [{"name": "name", "limit": 5}], "crawl_all_buckets": false}}}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -1490,8 +1510,8 @@ class TestUpdateConfiguration():
 
         # Construct a dict representation of a SegmentSettings model
         segment_settings_model = {}
-        segment_settings_model['enabled'] = True
-        segment_settings_model['selector_tags'] = ['testString']
+        segment_settings_model['enabled'] = False
+        segment_settings_model['selector_tags'] = ['h1', 'h2']
         segment_settings_model['annotated_fields'] = ['testString']
 
         # Construct a dict representation of a NormalizationOperation model
@@ -1571,15 +1591,15 @@ class TestUpdateConfiguration():
         enrichment_model['description'] = 'testString'
         enrichment_model['destination_field'] = 'testString'
         enrichment_model['source_field'] = 'testString'
-        enrichment_model['overwrite'] = True
+        enrichment_model['overwrite'] = False
         enrichment_model['enrichment'] = 'testString'
-        enrichment_model['ignore_downstream_errors'] = True
+        enrichment_model['ignore_downstream_errors'] = False
         enrichment_model['options'] = enrichment_options_model
 
         # Construct a dict representation of a SourceSchedule model
         source_schedule_model = {}
         source_schedule_model['enabled'] = True
-        source_schedule_model['time_zone'] = 'testString'
+        source_schedule_model['time_zone'] = 'America/New_York'
         source_schedule_model['frequency'] = 'daily'
 
         # Construct a dict representation of a SourceOptionsFolder model
@@ -1602,11 +1622,11 @@ class TestUpdateConfiguration():
         source_options_web_crawl_model = {}
         source_options_web_crawl_model['url'] = 'testString'
         source_options_web_crawl_model['limit_to_starting_hosts'] = True
-        source_options_web_crawl_model['crawl_speed'] = 'gentle'
-        source_options_web_crawl_model['allow_untrusted_certificate'] = True
+        source_options_web_crawl_model['crawl_speed'] = 'normal'
+        source_options_web_crawl_model['allow_untrusted_certificate'] = False
         source_options_web_crawl_model['maximum_hops'] = 38
         source_options_web_crawl_model['request_timeout'] = 38
-        source_options_web_crawl_model['override_robots_txt'] = True
+        source_options_web_crawl_model['override_robots_txt'] = False
         source_options_web_crawl_model['blacklist'] = ['testString']
 
         # Construct a dict representation of a SourceOptionsBuckets model
@@ -1662,6 +1682,8 @@ class TestDeleteConfiguration():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1746,6 +1768,8 @@ class TestCreateCollection():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1758,7 +1782,7 @@ class TestCreateCollection():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/collections')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "configuration_id": "configuration_id", "language": "language", "document_counts": {"available": 9, "processing": 10, "failed": 6, "pending": 7}, "disk_usage": {"used_bytes": 10}, "training_status": {"total_examples": 14, "available": false, "processing": true, "minimum_queries_added": false, "minimum_examples_added": true, "sufficient_label_diversity": true, "notices": 7, "successfully_trained": "2019-01-01T12:00:00.000Z", "data_updated": "2019-01-01T12:00:00.000Z"}, "crawl_status": {"source_crawl": {"status": "running", "next_crawl": "2019-01-01T12:00:00.000Z"}}, "smart_document_understanding": {"enabled": false, "total_annotated_pages": 21, "total_pages": 11, "total_documents": 15, "custom_fields": {"defined": 7, "maximum_allowed": 15}}}'
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "configuration_id": "configuration_id", "language": "language", "document_counts": {"available": 9, "processing": 10, "failed": 6, "pending": 7}, "disk_usage": {"used_bytes": 10}, "training_status": {"total_examples": 14, "available": false, "processing": true, "minimum_queries_added": false, "minimum_examples_added": true, "sufficient_label_diversity": true, "notices": 7, "successfully_trained": "2019-01-01T12:00:00.000Z", "data_updated": "2019-01-01T12:00:00.000Z"}, "crawl_status": {"source_crawl": {"status": "running", "next_crawl": "2019-01-01T12:00:00.000Z"}}, "smart_document_understanding": {"enabled": true, "total_annotated_pages": 21, "total_pages": 11, "total_documents": 15, "custom_fields": {"defined": 7, "maximum_allowed": 15}}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1800,7 +1824,7 @@ class TestCreateCollection():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/collections')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "configuration_id": "configuration_id", "language": "language", "document_counts": {"available": 9, "processing": 10, "failed": 6, "pending": 7}, "disk_usage": {"used_bytes": 10}, "training_status": {"total_examples": 14, "available": false, "processing": true, "minimum_queries_added": false, "minimum_examples_added": true, "sufficient_label_diversity": true, "notices": 7, "successfully_trained": "2019-01-01T12:00:00.000Z", "data_updated": "2019-01-01T12:00:00.000Z"}, "crawl_status": {"source_crawl": {"status": "running", "next_crawl": "2019-01-01T12:00:00.000Z"}}, "smart_document_understanding": {"enabled": false, "total_annotated_pages": 21, "total_pages": 11, "total_documents": 15, "custom_fields": {"defined": 7, "maximum_allowed": 15}}}'
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "configuration_id": "configuration_id", "language": "language", "document_counts": {"available": 9, "processing": 10, "failed": 6, "pending": 7}, "disk_usage": {"used_bytes": 10}, "training_status": {"total_examples": 14, "available": false, "processing": true, "minimum_queries_added": false, "minimum_examples_added": true, "sufficient_label_diversity": true, "notices": 7, "successfully_trained": "2019-01-01T12:00:00.000Z", "data_updated": "2019-01-01T12:00:00.000Z"}, "crawl_status": {"source_crawl": {"status": "running", "next_crawl": "2019-01-01T12:00:00.000Z"}}, "smart_document_understanding": {"enabled": true, "total_annotated_pages": 21, "total_pages": 11, "total_documents": 15, "custom_fields": {"defined": 7, "maximum_allowed": 15}}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -1835,6 +1859,8 @@ class TestListCollections():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1847,7 +1873,7 @@ class TestListCollections():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/collections')
-        mock_response = '{"collections": [{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "configuration_id": "configuration_id", "language": "language", "document_counts": {"available": 9, "processing": 10, "failed": 6, "pending": 7}, "disk_usage": {"used_bytes": 10}, "training_status": {"total_examples": 14, "available": false, "processing": true, "minimum_queries_added": false, "minimum_examples_added": true, "sufficient_label_diversity": true, "notices": 7, "successfully_trained": "2019-01-01T12:00:00.000Z", "data_updated": "2019-01-01T12:00:00.000Z"}, "crawl_status": {"source_crawl": {"status": "running", "next_crawl": "2019-01-01T12:00:00.000Z"}}, "smart_document_understanding": {"enabled": false, "total_annotated_pages": 21, "total_pages": 11, "total_documents": 15, "custom_fields": {"defined": 7, "maximum_allowed": 15}}}]}'
+        mock_response = '{"collections": [{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "configuration_id": "configuration_id", "language": "language", "document_counts": {"available": 9, "processing": 10, "failed": 6, "pending": 7}, "disk_usage": {"used_bytes": 10}, "training_status": {"total_examples": 14, "available": false, "processing": true, "minimum_queries_added": false, "minimum_examples_added": true, "sufficient_label_diversity": true, "notices": 7, "successfully_trained": "2019-01-01T12:00:00.000Z", "data_updated": "2019-01-01T12:00:00.000Z"}, "crawl_status": {"source_crawl": {"status": "running", "next_crawl": "2019-01-01T12:00:00.000Z"}}, "smart_document_understanding": {"enabled": true, "total_annotated_pages": 21, "total_pages": 11, "total_documents": 15, "custom_fields": {"defined": 7, "maximum_allowed": 15}}}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1881,7 +1907,7 @@ class TestListCollections():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/collections')
-        mock_response = '{"collections": [{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "configuration_id": "configuration_id", "language": "language", "document_counts": {"available": 9, "processing": 10, "failed": 6, "pending": 7}, "disk_usage": {"used_bytes": 10}, "training_status": {"total_examples": 14, "available": false, "processing": true, "minimum_queries_added": false, "minimum_examples_added": true, "sufficient_label_diversity": true, "notices": 7, "successfully_trained": "2019-01-01T12:00:00.000Z", "data_updated": "2019-01-01T12:00:00.000Z"}, "crawl_status": {"source_crawl": {"status": "running", "next_crawl": "2019-01-01T12:00:00.000Z"}}, "smart_document_understanding": {"enabled": false, "total_annotated_pages": 21, "total_pages": 11, "total_documents": 15, "custom_fields": {"defined": 7, "maximum_allowed": 15}}}]}'
+        mock_response = '{"collections": [{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "configuration_id": "configuration_id", "language": "language", "document_counts": {"available": 9, "processing": 10, "failed": 6, "pending": 7}, "disk_usage": {"used_bytes": 10}, "training_status": {"total_examples": 14, "available": false, "processing": true, "minimum_queries_added": false, "minimum_examples_added": true, "sufficient_label_diversity": true, "notices": 7, "successfully_trained": "2019-01-01T12:00:00.000Z", "data_updated": "2019-01-01T12:00:00.000Z"}, "crawl_status": {"source_crawl": {"status": "running", "next_crawl": "2019-01-01T12:00:00.000Z"}}, "smart_document_understanding": {"enabled": true, "total_annotated_pages": 21, "total_pages": 11, "total_documents": 15, "custom_fields": {"defined": 7, "maximum_allowed": 15}}}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1909,7 +1935,7 @@ class TestListCollections():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/collections')
-        mock_response = '{"collections": [{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "configuration_id": "configuration_id", "language": "language", "document_counts": {"available": 9, "processing": 10, "failed": 6, "pending": 7}, "disk_usage": {"used_bytes": 10}, "training_status": {"total_examples": 14, "available": false, "processing": true, "minimum_queries_added": false, "minimum_examples_added": true, "sufficient_label_diversity": true, "notices": 7, "successfully_trained": "2019-01-01T12:00:00.000Z", "data_updated": "2019-01-01T12:00:00.000Z"}, "crawl_status": {"source_crawl": {"status": "running", "next_crawl": "2019-01-01T12:00:00.000Z"}}, "smart_document_understanding": {"enabled": false, "total_annotated_pages": 21, "total_pages": 11, "total_documents": 15, "custom_fields": {"defined": 7, "maximum_allowed": 15}}}]}'
+        mock_response = '{"collections": [{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "configuration_id": "configuration_id", "language": "language", "document_counts": {"available": 9, "processing": 10, "failed": 6, "pending": 7}, "disk_usage": {"used_bytes": 10}, "training_status": {"total_examples": 14, "available": false, "processing": true, "minimum_queries_added": false, "minimum_examples_added": true, "sufficient_label_diversity": true, "notices": 7, "successfully_trained": "2019-01-01T12:00:00.000Z", "data_updated": "2019-01-01T12:00:00.000Z"}, "crawl_status": {"source_crawl": {"status": "running", "next_crawl": "2019-01-01T12:00:00.000Z"}}, "smart_document_understanding": {"enabled": true, "total_annotated_pages": 21, "total_pages": 11, "total_documents": 15, "custom_fields": {"defined": 7, "maximum_allowed": 15}}}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1939,6 +1965,8 @@ class TestGetCollection():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1951,7 +1979,7 @@ class TestGetCollection():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "configuration_id": "configuration_id", "language": "language", "document_counts": {"available": 9, "processing": 10, "failed": 6, "pending": 7}, "disk_usage": {"used_bytes": 10}, "training_status": {"total_examples": 14, "available": false, "processing": true, "minimum_queries_added": false, "minimum_examples_added": true, "sufficient_label_diversity": true, "notices": 7, "successfully_trained": "2019-01-01T12:00:00.000Z", "data_updated": "2019-01-01T12:00:00.000Z"}, "crawl_status": {"source_crawl": {"status": "running", "next_crawl": "2019-01-01T12:00:00.000Z"}}, "smart_document_understanding": {"enabled": false, "total_annotated_pages": 21, "total_pages": 11, "total_documents": 15, "custom_fields": {"defined": 7, "maximum_allowed": 15}}}'
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "configuration_id": "configuration_id", "language": "language", "document_counts": {"available": 9, "processing": 10, "failed": 6, "pending": 7}, "disk_usage": {"used_bytes": 10}, "training_status": {"total_examples": 14, "available": false, "processing": true, "minimum_queries_added": false, "minimum_examples_added": true, "sufficient_label_diversity": true, "notices": 7, "successfully_trained": "2019-01-01T12:00:00.000Z", "data_updated": "2019-01-01T12:00:00.000Z"}, "crawl_status": {"source_crawl": {"status": "running", "next_crawl": "2019-01-01T12:00:00.000Z"}}, "smart_document_understanding": {"enabled": true, "total_annotated_pages": 21, "total_pages": 11, "total_documents": 15, "custom_fields": {"defined": 7, "maximum_allowed": 15}}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -1981,7 +2009,7 @@ class TestGetCollection():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "configuration_id": "configuration_id", "language": "language", "document_counts": {"available": 9, "processing": 10, "failed": 6, "pending": 7}, "disk_usage": {"used_bytes": 10}, "training_status": {"total_examples": 14, "available": false, "processing": true, "minimum_queries_added": false, "minimum_examples_added": true, "sufficient_label_diversity": true, "notices": 7, "successfully_trained": "2019-01-01T12:00:00.000Z", "data_updated": "2019-01-01T12:00:00.000Z"}, "crawl_status": {"source_crawl": {"status": "running", "next_crawl": "2019-01-01T12:00:00.000Z"}}, "smart_document_understanding": {"enabled": false, "total_annotated_pages": 21, "total_pages": 11, "total_documents": 15, "custom_fields": {"defined": 7, "maximum_allowed": 15}}}'
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "configuration_id": "configuration_id", "language": "language", "document_counts": {"available": 9, "processing": 10, "failed": 6, "pending": 7}, "disk_usage": {"used_bytes": 10}, "training_status": {"total_examples": 14, "available": false, "processing": true, "minimum_queries_added": false, "minimum_examples_added": true, "sufficient_label_diversity": true, "notices": 7, "successfully_trained": "2019-01-01T12:00:00.000Z", "data_updated": "2019-01-01T12:00:00.000Z"}, "crawl_status": {"source_crawl": {"status": "running", "next_crawl": "2019-01-01T12:00:00.000Z"}}, "smart_document_understanding": {"enabled": true, "total_annotated_pages": 21, "total_pages": 11, "total_documents": 15, "custom_fields": {"defined": 7, "maximum_allowed": 15}}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -2013,6 +2041,8 @@ class TestUpdateCollection():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2025,7 +2055,7 @@ class TestUpdateCollection():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "configuration_id": "configuration_id", "language": "language", "document_counts": {"available": 9, "processing": 10, "failed": 6, "pending": 7}, "disk_usage": {"used_bytes": 10}, "training_status": {"total_examples": 14, "available": false, "processing": true, "minimum_queries_added": false, "minimum_examples_added": true, "sufficient_label_diversity": true, "notices": 7, "successfully_trained": "2019-01-01T12:00:00.000Z", "data_updated": "2019-01-01T12:00:00.000Z"}, "crawl_status": {"source_crawl": {"status": "running", "next_crawl": "2019-01-01T12:00:00.000Z"}}, "smart_document_understanding": {"enabled": false, "total_annotated_pages": 21, "total_pages": 11, "total_documents": 15, "custom_fields": {"defined": 7, "maximum_allowed": 15}}}'
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "configuration_id": "configuration_id", "language": "language", "document_counts": {"available": 9, "processing": 10, "failed": 6, "pending": 7}, "disk_usage": {"used_bytes": 10}, "training_status": {"total_examples": 14, "available": false, "processing": true, "minimum_queries_added": false, "minimum_examples_added": true, "sufficient_label_diversity": true, "notices": 7, "successfully_trained": "2019-01-01T12:00:00.000Z", "data_updated": "2019-01-01T12:00:00.000Z"}, "crawl_status": {"source_crawl": {"status": "running", "next_crawl": "2019-01-01T12:00:00.000Z"}}, "smart_document_understanding": {"enabled": true, "total_annotated_pages": 21, "total_pages": 11, "total_documents": 15, "custom_fields": {"defined": 7, "maximum_allowed": 15}}}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -2066,7 +2096,7 @@ class TestUpdateCollection():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "configuration_id": "configuration_id", "language": "language", "document_counts": {"available": 9, "processing": 10, "failed": 6, "pending": 7}, "disk_usage": {"used_bytes": 10}, "training_status": {"total_examples": 14, "available": false, "processing": true, "minimum_queries_added": false, "minimum_examples_added": true, "sufficient_label_diversity": true, "notices": 7, "successfully_trained": "2019-01-01T12:00:00.000Z", "data_updated": "2019-01-01T12:00:00.000Z"}, "crawl_status": {"source_crawl": {"status": "running", "next_crawl": "2019-01-01T12:00:00.000Z"}}, "smart_document_understanding": {"enabled": false, "total_annotated_pages": 21, "total_pages": 11, "total_documents": 15, "custom_fields": {"defined": 7, "maximum_allowed": 15}}}'
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "updated": "2019-01-01T12:00:00.000Z", "status": "active", "configuration_id": "configuration_id", "language": "language", "document_counts": {"available": 9, "processing": 10, "failed": 6, "pending": 7}, "disk_usage": {"used_bytes": 10}, "training_status": {"total_examples": 14, "available": false, "processing": true, "minimum_queries_added": false, "minimum_examples_added": true, "sufficient_label_diversity": true, "notices": 7, "successfully_trained": "2019-01-01T12:00:00.000Z", "data_updated": "2019-01-01T12:00:00.000Z"}, "crawl_status": {"source_crawl": {"status": "running", "next_crawl": "2019-01-01T12:00:00.000Z"}}, "smart_document_understanding": {"enabled": true, "total_annotated_pages": 21, "total_pages": 11, "total_documents": 15, "custom_fields": {"defined": 7, "maximum_allowed": 15}}}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -2102,6 +2132,8 @@ class TestDeleteCollection():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2176,6 +2208,8 @@ class TestListCollectionFields():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2260,6 +2294,8 @@ class TestListExpansions():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2334,6 +2370,8 @@ class TestCreateExpansions():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2425,6 +2463,8 @@ class TestDeleteExpansions():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2493,6 +2533,8 @@ class TestGetTokenizationDictionaryStatus():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2567,6 +2609,8 @@ class TestCreateTokenizationDictionary():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2683,6 +2727,8 @@ class TestDeleteTokenizationDictionary():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2751,6 +2797,8 @@ class TestGetStopwordListStatus():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2825,6 +2873,8 @@ class TestCreateStopwordList():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2940,6 +2990,8 @@ class TestDeleteStopwordList():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3018,6 +3070,8 @@ class TestAddDocument():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3130,6 +3184,8 @@ class TestGetDocumentStatus():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3208,6 +3264,8 @@ class TestUpdateDocument():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3326,6 +3384,8 @@ class TestDeleteDocument():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3414,6 +3474,8 @@ class TestQuery():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3426,7 +3488,7 @@ class TestQuery():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -3445,18 +3507,18 @@ class TestQuery():
         return_ = 'testString'
         offset = 38
         sort = 'testString'
-        highlight = True
+        highlight = False
         passages_fields = 'testString'
         passages_count = 100
         passages_characters = 50
-        deduplicate = True
+        deduplicate = False
         deduplicate_field = 'testString'
-        similar = True
+        similar = False
         similar_document_ids = 'testString'
         similar_fields = 'testString'
         bias = 'testString'
-        spelling_suggestions = True
-        x_watson_logging_opt_out = True
+        spelling_suggestions = False
+        x_watson_logging_opt_out = False
 
         # Invoke method
         response = _service.query(
@@ -3500,17 +3562,17 @@ class TestQuery():
         assert req_body['return'] == 'testString'
         assert req_body['offset'] == 38
         assert req_body['sort'] == 'testString'
-        assert req_body['highlight'] == True
+        assert req_body['highlight'] == False
         assert req_body['passages.fields'] == 'testString'
         assert req_body['passages.count'] == 100
         assert req_body['passages.characters'] == 50
-        assert req_body['deduplicate'] == True
+        assert req_body['deduplicate'] == False
         assert req_body['deduplicate.field'] == 'testString'
-        assert req_body['similar'] == True
+        assert req_body['similar'] == False
         assert req_body['similar.document_ids'] == 'testString'
         assert req_body['similar.fields'] == 'testString'
         assert req_body['bias'] == 'testString'
-        assert req_body['spelling_suggestions'] == True
+        assert req_body['spelling_suggestions'] == False
 
 
     @responses.activate
@@ -3520,7 +3582,7 @@ class TestQuery():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -3550,7 +3612,7 @@ class TestQuery():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -3582,6 +3644,8 @@ class TestQueryNotices():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3594,7 +3658,7 @@ class TestQueryNotices():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/notices')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -3613,12 +3677,12 @@ class TestQueryNotices():
         return_ = ['testString']
         offset = 38
         sort = ['testString']
-        highlight = True
+        highlight = False
         passages_fields = ['testString']
         passages_count = 100
         passages_characters = 50
         deduplicate_field = 'testString'
-        similar = True
+        similar = False
         similar_document_ids = ['testString']
         similar_fields = ['testString']
 
@@ -3678,7 +3742,7 @@ class TestQueryNotices():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/notices')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -3708,7 +3772,7 @@ class TestQueryNotices():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/collections/testString/notices')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -3740,6 +3804,8 @@ class TestFederatedQuery():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3752,7 +3818,7 @@ class TestFederatedQuery():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -3771,17 +3837,17 @@ class TestFederatedQuery():
         return_ = 'testString'
         offset = 38
         sort = 'testString'
-        highlight = True
+        highlight = False
         passages_fields = 'testString'
         passages_count = 100
         passages_characters = 50
-        deduplicate = True
+        deduplicate = False
         deduplicate_field = 'testString'
-        similar = True
+        similar = False
         similar_document_ids = 'testString'
         similar_fields = 'testString'
         bias = 'testString'
-        x_watson_logging_opt_out = True
+        x_watson_logging_opt_out = False
 
         # Invoke method
         response = _service.federated_query(
@@ -3825,13 +3891,13 @@ class TestFederatedQuery():
         assert req_body['return'] == 'testString'
         assert req_body['offset'] == 38
         assert req_body['sort'] == 'testString'
-        assert req_body['highlight'] == True
+        assert req_body['highlight'] == False
         assert req_body['passages.fields'] == 'testString'
         assert req_body['passages.count'] == 100
         assert req_body['passages.characters'] == 50
-        assert req_body['deduplicate'] == True
+        assert req_body['deduplicate'] == False
         assert req_body['deduplicate.field'] == 'testString'
-        assert req_body['similar'] == True
+        assert req_body['similar'] == False
         assert req_body['similar.document_ids'] == 'testString'
         assert req_body['similar.fields'] == 'testString'
         assert req_body['bias'] == 'testString'
@@ -3844,7 +3910,7 @@ class TestFederatedQuery():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -3863,13 +3929,13 @@ class TestFederatedQuery():
         return_ = 'testString'
         offset = 38
         sort = 'testString'
-        highlight = True
+        highlight = False
         passages_fields = 'testString'
         passages_count = 100
         passages_characters = 50
-        deduplicate = True
+        deduplicate = False
         deduplicate_field = 'testString'
-        similar = True
+        similar = False
         similar_document_ids = 'testString'
         similar_fields = 'testString'
         bias = 'testString'
@@ -3915,13 +3981,13 @@ class TestFederatedQuery():
         assert req_body['return'] == 'testString'
         assert req_body['offset'] == 38
         assert req_body['sort'] == 'testString'
-        assert req_body['highlight'] == True
+        assert req_body['highlight'] == False
         assert req_body['passages.fields'] == 'testString'
         assert req_body['passages.count'] == 100
         assert req_body['passages.characters'] == 50
-        assert req_body['deduplicate'] == True
+        assert req_body['deduplicate'] == False
         assert req_body['deduplicate.field'] == 'testString'
-        assert req_body['similar'] == True
+        assert req_body['similar'] == False
         assert req_body['similar.document_ids'] == 'testString'
         assert req_body['similar.fields'] == 'testString'
         assert req_body['bias'] == 'testString'
@@ -3934,7 +4000,7 @@ class TestFederatedQuery():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18, "session_token": "session_token", "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query"}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -3953,13 +4019,13 @@ class TestFederatedQuery():
         return_ = 'testString'
         offset = 38
         sort = 'testString'
-        highlight = True
+        highlight = False
         passages_fields = 'testString'
         passages_count = 100
         passages_characters = 50
-        deduplicate = True
+        deduplicate = False
         deduplicate_field = 'testString'
-        similar = True
+        similar = False
         similar_document_ids = 'testString'
         similar_fields = 'testString'
         bias = 'testString'
@@ -3985,6 +4051,8 @@ class TestFederatedQueryNotices():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3997,7 +4065,7 @@ class TestFederatedQueryNotices():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/notices')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -4015,9 +4083,9 @@ class TestFederatedQueryNotices():
         return_ = ['testString']
         offset = 38
         sort = ['testString']
-        highlight = True
+        highlight = False
         deduplicate_field = 'testString'
-        similar = True
+        similar = False
         similar_document_ids = ['testString']
         similar_fields = ['testString']
 
@@ -4070,7 +4138,7 @@ class TestFederatedQueryNotices():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/notices')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -4104,7 +4172,7 @@ class TestFederatedQueryNotices():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/notices')
-        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
+        mock_response = '{"matching_results": 16, "results": [{"id": "id", "metadata": {"mapKey": "anyValue"}, "collection_id": "collection_id", "result_metadata": {"score": 5, "confidence": 10}, "code": 4, "filename": "filename", "file_type": "pdf", "sha1": "sha1", "notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}]}], "aggregations": [{"type": "histogram", "matching_results": 16, "field": "field", "interval": 8}], "passages": [{"document_id": "document_id", "passage_score": 13, "passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field"}], "duplicates_removed": 18}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -4136,6 +4204,8 @@ class TestGetAutocompletion():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -4270,6 +4340,8 @@ class TestListTrainingData():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -4344,6 +4416,8 @@ class TestAddTrainingData():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -4444,6 +4518,8 @@ class TestDeleteAllTrainingData():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -4512,6 +4588,8 @@ class TestGetTrainingData():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -4590,6 +4668,8 @@ class TestDeleteTrainingData():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -4662,6 +4742,8 @@ class TestListTrainingExamples():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -4740,6 +4822,8 @@ class TestCreateTrainingExample():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -4832,6 +4916,8 @@ class TestDeleteTrainingExample():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -4908,6 +4994,8 @@ class TestUpdateTrainingExample():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -5000,6 +5088,8 @@ class TestGetTrainingExample():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -5092,6 +5182,8 @@ class TestDeleteUserData():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -5170,6 +5262,8 @@ class TestCreateEvent():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -5193,7 +5287,7 @@ class TestCreateEvent():
         event_data_model = {}
         event_data_model['environment_id'] = 'testString'
         event_data_model['session_token'] = 'testString'
-        event_data_model['client_timestamp'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        event_data_model['client_timestamp'] = "2019-01-01T12:00:00Z"
         event_data_model['display_rank'] = 38
         event_data_model['collection_id'] = 'testString'
         event_data_model['document_id'] = 'testString'
@@ -5236,7 +5330,7 @@ class TestCreateEvent():
         event_data_model = {}
         event_data_model['environment_id'] = 'testString'
         event_data_model['session_token'] = 'testString'
-        event_data_model['client_timestamp'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        event_data_model['client_timestamp'] = "2019-01-01T12:00:00Z"
         event_data_model['display_rank'] = 38
         event_data_model['collection_id'] = 'testString'
         event_data_model['document_id'] = 'testString'
@@ -5266,6 +5360,8 @@ class TestQueryLog():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -5371,6 +5467,8 @@ class TestGetMetricsQuery():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -5468,6 +5566,8 @@ class TestGetMetricsQueryEvent():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -5565,6 +5665,8 @@ class TestGetMetricsQueryNoResults():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -5662,6 +5764,8 @@ class TestGetMetricsEventRate():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -5759,6 +5863,8 @@ class TestGetMetricsQueryTokenEvent():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -5862,6 +5968,8 @@ class TestListCredentials():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -5932,6 +6040,8 @@ class TestCreateCredentials():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -6060,6 +6170,8 @@ class TestGetCredentials():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -6134,6 +6246,8 @@ class TestUpdateCredentials():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -6266,6 +6380,8 @@ class TestDeleteCredentials():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -6350,6 +6466,8 @@ class TestListGateways():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -6420,6 +6538,8 @@ class TestCreateGateway():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -6523,6 +6643,8 @@ class TestGetGateway():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -6597,6 +6719,8 @@ class TestDeleteGateway():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -6672,7 +6796,7 @@ class TestDeleteGateway():
 # Start of Model Tests
 ##############################################################################
 # region
-class TestAggregationResult():
+class TestModel_AggregationResult():
     """
     Test Class for AggregationResult
     """
@@ -6702,7 +6826,7 @@ class TestAggregationResult():
         aggregation_result_model_json2 = aggregation_result_model.to_dict()
         assert aggregation_result_model_json2 == aggregation_result_model_json
 
-class TestCollection():
+class TestModel_Collection():
     """
     Test Class for Collection
     """
@@ -6731,12 +6855,12 @@ class TestCollection():
         training_status_model['minimum_examples_added'] = False
         training_status_model['sufficient_label_diversity'] = False
         training_status_model['notices'] = 0
-        training_status_model['successfully_trained'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        training_status_model['data_updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        training_status_model['successfully_trained'] = "2019-01-01T12:00:00Z"
+        training_status_model['data_updated'] = "2019-01-01T12:00:00Z"
 
         source_status_model = {} # SourceStatus
         source_status_model['status'] = 'complete'
-        source_status_model['next_crawl'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        source_status_model['next_crawl'] = "2019-01-01T12:00:00Z"
 
         collection_crawl_status_model = {} # CollectionCrawlStatus
         collection_crawl_status_model['source_crawl'] = source_status_model
@@ -6757,8 +6881,8 @@ class TestCollection():
         collection_model_json['collection_id'] = 'testString'
         collection_model_json['name'] = 'testString'
         collection_model_json['description'] = 'testString'
-        collection_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        collection_model_json['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        collection_model_json['created'] = "2019-01-01T12:00:00Z"
+        collection_model_json['updated'] = "2019-01-01T12:00:00Z"
         collection_model_json['status'] = 'active'
         collection_model_json['configuration_id'] = 'testString'
         collection_model_json['language'] = 'testString'
@@ -6783,7 +6907,7 @@ class TestCollection():
         collection_model_json2 = collection_model.to_dict()
         assert collection_model_json2 == collection_model_json
 
-class TestCollectionCrawlStatus():
+class TestModel_CollectionCrawlStatus():
     """
     Test Class for CollectionCrawlStatus
     """
@@ -6797,7 +6921,7 @@ class TestCollectionCrawlStatus():
 
         source_status_model = {} # SourceStatus
         source_status_model['status'] = 'running'
-        source_status_model['next_crawl'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        source_status_model['next_crawl'] = "2019-01-01T12:00:00Z"
 
         # Construct a json representation of a CollectionCrawlStatus model
         collection_crawl_status_model_json = {}
@@ -6818,7 +6942,7 @@ class TestCollectionCrawlStatus():
         collection_crawl_status_model_json2 = collection_crawl_status_model.to_dict()
         assert collection_crawl_status_model_json2 == collection_crawl_status_model_json
 
-class TestCollectionDiskUsage():
+class TestModel_CollectionDiskUsage():
     """
     Test Class for CollectionDiskUsage
     """
@@ -6847,7 +6971,7 @@ class TestCollectionDiskUsage():
         collection_disk_usage_model_json2 = collection_disk_usage_model.to_dict()
         assert collection_disk_usage_model_json2 == collection_disk_usage_model_json
 
-class TestCollectionUsage():
+class TestModel_CollectionUsage():
     """
     Test Class for CollectionUsage
     """
@@ -6877,7 +7001,7 @@ class TestCollectionUsage():
         collection_usage_model_json2 = collection_usage_model.to_dict()
         assert collection_usage_model_json2 == collection_usage_model_json
 
-class TestCompletions():
+class TestModel_Completions():
     """
     Test Class for Completions
     """
@@ -6906,7 +7030,7 @@ class TestCompletions():
         completions_model_json2 = completions_model.to_dict()
         assert completions_model_json2 == completions_model_json
 
-class TestConfiguration():
+class TestModel_Configuration():
     """
     Test Class for Configuration
     """
@@ -6956,7 +7080,7 @@ class TestConfiguration():
 
         segment_settings_model = {} # SegmentSettings
         segment_settings_model['enabled'] = True
-        segment_settings_model['selector_tags'] = ['testString']
+        segment_settings_model['selector_tags'] = ['h1', 'h2']
         segment_settings_model['annotated_fields'] = ['custom-field-1', 'custom-field-2']
 
         normalization_operation_model = {} # NormalizationOperation
@@ -7024,9 +7148,9 @@ class TestConfiguration():
         enrichment_model['description'] = 'testString'
         enrichment_model['destination_field'] = 'enriched_title'
         enrichment_model['source_field'] = 'title'
-        enrichment_model['overwrite'] = True
+        enrichment_model['overwrite'] = False
         enrichment_model['enrichment'] = 'natural_language_understanding'
-        enrichment_model['ignore_downstream_errors'] = True
+        enrichment_model['ignore_downstream_errors'] = False
         enrichment_model['options'] = enrichment_options_model
 
         source_schedule_model = {} # SourceSchedule
@@ -7050,11 +7174,11 @@ class TestConfiguration():
         source_options_web_crawl_model = {} # SourceOptionsWebCrawl
         source_options_web_crawl_model['url'] = 'testString'
         source_options_web_crawl_model['limit_to_starting_hosts'] = True
-        source_options_web_crawl_model['crawl_speed'] = 'gentle'
-        source_options_web_crawl_model['allow_untrusted_certificate'] = True
+        source_options_web_crawl_model['crawl_speed'] = 'normal'
+        source_options_web_crawl_model['allow_untrusted_certificate'] = False
         source_options_web_crawl_model['maximum_hops'] = 38
         source_options_web_crawl_model['request_timeout'] = 38
-        source_options_web_crawl_model['override_robots_txt'] = True
+        source_options_web_crawl_model['override_robots_txt'] = False
         source_options_web_crawl_model['blacklist'] = ['testString']
 
         source_options_buckets_model = {} # SourceOptionsBuckets
@@ -7079,8 +7203,8 @@ class TestConfiguration():
         configuration_model_json = {}
         configuration_model_json['configuration_id'] = 'testString'
         configuration_model_json['name'] = 'testString'
-        configuration_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        configuration_model_json['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        configuration_model_json['created'] = "2019-01-01T12:00:00Z"
+        configuration_model_json['updated'] = "2019-01-01T12:00:00Z"
         configuration_model_json['description'] = 'testString'
         configuration_model_json['conversions'] = conversions_model
         configuration_model_json['enrichments'] = [enrichment_model]
@@ -7102,7 +7226,7 @@ class TestConfiguration():
         configuration_model_json2 = configuration_model.to_dict()
         assert configuration_model_json2 == configuration_model_json
 
-class TestConversions():
+class TestModel_Conversions():
     """
     Test Class for Conversions
     """
@@ -7151,8 +7275,8 @@ class TestConversions():
         html_settings_model['exclude_tag_attributes'] = ['testString']
 
         segment_settings_model = {} # SegmentSettings
-        segment_settings_model['enabled'] = True
-        segment_settings_model['selector_tags'] = ['testString']
+        segment_settings_model['enabled'] = False
+        segment_settings_model['selector_tags'] = ['h1', 'h2']
         segment_settings_model['annotated_fields'] = ['testString']
 
         normalization_operation_model = {} # NormalizationOperation
@@ -7184,7 +7308,7 @@ class TestConversions():
         conversions_model_json2 = conversions_model.to_dict()
         assert conversions_model_json2 == conversions_model_json
 
-class TestCreateEventResponse():
+class TestModel_CreateEventResponse():
     """
     Test Class for CreateEventResponse
     """
@@ -7199,7 +7323,7 @@ class TestCreateEventResponse():
         event_data_model = {} # EventData
         event_data_model['environment_id'] = 'testString'
         event_data_model['session_token'] = 'testString'
-        event_data_model['client_timestamp'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        event_data_model['client_timestamp'] = "2019-01-01T12:00:00Z"
         event_data_model['display_rank'] = 38
         event_data_model['collection_id'] = 'testString'
         event_data_model['document_id'] = 'testString'
@@ -7225,7 +7349,7 @@ class TestCreateEventResponse():
         create_event_response_model_json2 = create_event_response_model.to_dict()
         assert create_event_response_model_json2 == create_event_response_model_json
 
-class TestCredentialDetails():
+class TestModel_CredentialDetails():
     """
     Test Class for CredentialDetails
     """
@@ -7272,7 +7396,7 @@ class TestCredentialDetails():
         credential_details_model_json2 = credential_details_model.to_dict()
         assert credential_details_model_json2 == credential_details_model_json
 
-class TestCredentials():
+class TestModel_Credentials():
     """
     Test Class for Credentials
     """
@@ -7327,7 +7451,7 @@ class TestCredentials():
         credentials_model_json2 = credentials_model.to_dict()
         assert credentials_model_json2 == credentials_model_json
 
-class TestCredentialsList():
+class TestModel_CredentialsList():
     """
     Test Class for CredentialsList
     """
@@ -7385,7 +7509,7 @@ class TestCredentialsList():
         credentials_list_model_json2 = credentials_list_model.to_dict()
         assert credentials_list_model_json2 == credentials_list_model_json
 
-class TestDeleteCollectionResponse():
+class TestModel_DeleteCollectionResponse():
     """
     Test Class for DeleteCollectionResponse
     """
@@ -7415,7 +7539,7 @@ class TestDeleteCollectionResponse():
         delete_collection_response_model_json2 = delete_collection_response_model.to_dict()
         assert delete_collection_response_model_json2 == delete_collection_response_model_json
 
-class TestDeleteConfigurationResponse():
+class TestModel_DeleteConfigurationResponse():
     """
     Test Class for DeleteConfigurationResponse
     """
@@ -7429,7 +7553,7 @@ class TestDeleteConfigurationResponse():
 
         notice_model = {} # Notice
         notice_model['notice_id'] = 'configuration_in_use'
-        notice_model['created'] = datetime_to_string(string_to_datetime("2016-09-28T12:34:00.000Z"))
+        notice_model['created'] = "2016-09-28T12:34:00Z"
         notice_model['document_id'] = 'testString'
         notice_model['query_id'] = 'testString'
         notice_model['severity'] = 'warning'
@@ -7457,7 +7581,7 @@ class TestDeleteConfigurationResponse():
         delete_configuration_response_model_json2 = delete_configuration_response_model.to_dict()
         assert delete_configuration_response_model_json2 == delete_configuration_response_model_json
 
-class TestDeleteCredentials():
+class TestModel_DeleteCredentials():
     """
     Test Class for DeleteCredentials
     """
@@ -7487,7 +7611,7 @@ class TestDeleteCredentials():
         delete_credentials_model_json2 = delete_credentials_model.to_dict()
         assert delete_credentials_model_json2 == delete_credentials_model_json
 
-class TestDeleteDocumentResponse():
+class TestModel_DeleteDocumentResponse():
     """
     Test Class for DeleteDocumentResponse
     """
@@ -7517,7 +7641,7 @@ class TestDeleteDocumentResponse():
         delete_document_response_model_json2 = delete_document_response_model.to_dict()
         assert delete_document_response_model_json2 == delete_document_response_model_json
 
-class TestDeleteEnvironmentResponse():
+class TestModel_DeleteEnvironmentResponse():
     """
     Test Class for DeleteEnvironmentResponse
     """
@@ -7547,7 +7671,7 @@ class TestDeleteEnvironmentResponse():
         delete_environment_response_model_json2 = delete_environment_response_model.to_dict()
         assert delete_environment_response_model_json2 == delete_environment_response_model_json
 
-class TestDiskUsage():
+class TestModel_DiskUsage():
     """
     Test Class for DiskUsage
     """
@@ -7577,7 +7701,7 @@ class TestDiskUsage():
         disk_usage_model_json2 = disk_usage_model.to_dict()
         assert disk_usage_model_json2 == disk_usage_model_json
 
-class TestDocumentAccepted():
+class TestModel_DocumentAccepted():
     """
     Test Class for DocumentAccepted
     """
@@ -7591,7 +7715,7 @@ class TestDocumentAccepted():
 
         notice_model = {} # Notice
         notice_model['notice_id'] = 'testString'
-        notice_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        notice_model['created'] = "2019-01-01T12:00:00Z"
         notice_model['document_id'] = 'testString'
         notice_model['query_id'] = 'testString'
         notice_model['severity'] = 'warning'
@@ -7619,7 +7743,7 @@ class TestDocumentAccepted():
         document_accepted_model_json2 = document_accepted_model.to_dict()
         assert document_accepted_model_json2 == document_accepted_model_json
 
-class TestDocumentCounts():
+class TestModel_DocumentCounts():
     """
     Test Class for DocumentCounts
     """
@@ -7651,7 +7775,7 @@ class TestDocumentCounts():
         document_counts_model_json2 = document_counts_model.to_dict()
         assert document_counts_model_json2 == document_counts_model_json
 
-class TestDocumentStatus():
+class TestModel_DocumentStatus():
     """
     Test Class for DocumentStatus
     """
@@ -7665,7 +7789,7 @@ class TestDocumentStatus():
 
         notice_model = {} # Notice
         notice_model['notice_id'] = 'index_342'
-        notice_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        notice_model['created'] = "2019-01-01T12:00:00Z"
         notice_model['document_id'] = 'f1360220-ea2d-4271-9d62-89a910b13c37'
         notice_model['query_id'] = 'testString'
         notice_model['severity'] = 'warning'
@@ -7698,7 +7822,7 @@ class TestDocumentStatus():
         document_status_model_json2 = document_status_model.to_dict()
         assert document_status_model_json2 == document_status_model_json
 
-class TestEnrichment():
+class TestModel_Enrichment():
     """
     Test Class for Enrichment
     """
@@ -7763,9 +7887,9 @@ class TestEnrichment():
         enrichment_model_json['description'] = 'testString'
         enrichment_model_json['destination_field'] = 'testString'
         enrichment_model_json['source_field'] = 'testString'
-        enrichment_model_json['overwrite'] = True
+        enrichment_model_json['overwrite'] = False
         enrichment_model_json['enrichment'] = 'testString'
-        enrichment_model_json['ignore_downstream_errors'] = True
+        enrichment_model_json['ignore_downstream_errors'] = False
         enrichment_model_json['options'] = enrichment_options_model
 
         # Construct a model instance of Enrichment by calling from_dict on the json representation
@@ -7783,7 +7907,7 @@ class TestEnrichment():
         enrichment_model_json2 = enrichment_model.to_dict()
         assert enrichment_model_json2 == enrichment_model_json
 
-class TestEnrichmentOptions():
+class TestModel_EnrichmentOptions():
     """
     Test Class for EnrichmentOptions
     """
@@ -7859,7 +7983,7 @@ class TestEnrichmentOptions():
         enrichment_options_model_json2 = enrichment_options_model.to_dict()
         assert enrichment_options_model_json2 == enrichment_options_model_json
 
-class TestEnvironment():
+class TestModel_Environment():
     """
     Test Class for Environment
     """
@@ -7899,8 +8023,8 @@ class TestEnvironment():
         environment_model_json['environment_id'] = 'testString'
         environment_model_json['name'] = 'testString'
         environment_model_json['description'] = 'testString'
-        environment_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        environment_model_json['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        environment_model_json['created'] = "2019-01-01T12:00:00Z"
+        environment_model_json['updated'] = "2019-01-01T12:00:00Z"
         environment_model_json['status'] = 'active'
         environment_model_json['read_only'] = True
         environment_model_json['size'] = 'LT'
@@ -7923,7 +8047,7 @@ class TestEnvironment():
         environment_model_json2 = environment_model.to_dict()
         assert environment_model_json2 == environment_model_json
 
-class TestEnvironmentDocuments():
+class TestModel_EnvironmentDocuments():
     """
     Test Class for EnvironmentDocuments
     """
@@ -7953,7 +8077,7 @@ class TestEnvironmentDocuments():
         environment_documents_model_json2 = environment_documents_model.to_dict()
         assert environment_documents_model_json2 == environment_documents_model_json
 
-class TestEventData():
+class TestModel_EventData():
     """
     Test Class for EventData
     """
@@ -7967,7 +8091,7 @@ class TestEventData():
         event_data_model_json = {}
         event_data_model_json['environment_id'] = 'testString'
         event_data_model_json['session_token'] = 'testString'
-        event_data_model_json['client_timestamp'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        event_data_model_json['client_timestamp'] = "2019-01-01T12:00:00Z"
         event_data_model_json['display_rank'] = 38
         event_data_model_json['collection_id'] = 'testString'
         event_data_model_json['document_id'] = 'testString'
@@ -7988,7 +8112,7 @@ class TestEventData():
         event_data_model_json2 = event_data_model.to_dict()
         assert event_data_model_json2 == event_data_model_json
 
-class TestExpansion():
+class TestModel_Expansion():
     """
     Test Class for Expansion
     """
@@ -8018,7 +8142,7 @@ class TestExpansion():
         expansion_model_json2 = expansion_model.to_dict()
         assert expansion_model_json2 == expansion_model_json
 
-class TestExpansions():
+class TestModel_Expansions():
     """
     Test Class for Expansions
     """
@@ -8053,7 +8177,7 @@ class TestExpansions():
         expansions_model_json2 = expansions_model.to_dict()
         assert expansions_model_json2 == expansions_model_json
 
-class TestField():
+class TestModel_Field():
     """
     Test Class for Field
     """
@@ -8083,7 +8207,7 @@ class TestField():
         field_model_json2 = field_model.to_dict()
         assert field_model_json2 == field_model_json
 
-class TestFontSetting():
+class TestModel_FontSetting():
     """
     Test Class for FontSetting
     """
@@ -8117,7 +8241,7 @@ class TestFontSetting():
         font_setting_model_json2 = font_setting_model.to_dict()
         assert font_setting_model_json2 == font_setting_model_json
 
-class TestGateway():
+class TestModel_Gateway():
     """
     Test Class for Gateway
     """
@@ -8150,7 +8274,7 @@ class TestGateway():
         gateway_model_json2 = gateway_model.to_dict()
         assert gateway_model_json2 == gateway_model_json
 
-class TestGatewayDelete():
+class TestModel_GatewayDelete():
     """
     Test Class for GatewayDelete
     """
@@ -8180,7 +8304,7 @@ class TestGatewayDelete():
         gateway_delete_model_json2 = gateway_delete_model.to_dict()
         assert gateway_delete_model_json2 == gateway_delete_model_json
 
-class TestGatewayList():
+class TestModel_GatewayList():
     """
     Test Class for GatewayList
     """
@@ -8218,7 +8342,7 @@ class TestGatewayList():
         gateway_list_model_json2 = gateway_list_model.to_dict()
         assert gateway_list_model_json2 == gateway_list_model_json
 
-class TestHtmlSettings():
+class TestModel_HtmlSettings():
     """
     Test Class for HtmlSettings
     """
@@ -8257,7 +8381,7 @@ class TestHtmlSettings():
         html_settings_model_json2 = html_settings_model.to_dict()
         assert html_settings_model_json2 == html_settings_model_json
 
-class TestIndexCapacity():
+class TestModel_IndexCapacity():
     """
     Test Class for IndexCapacity
     """
@@ -8302,7 +8426,7 @@ class TestIndexCapacity():
         index_capacity_model_json2 = index_capacity_model.to_dict()
         assert index_capacity_model_json2 == index_capacity_model_json
 
-class TestListCollectionFieldsResponse():
+class TestModel_ListCollectionFieldsResponse():
     """
     Test Class for ListCollectionFieldsResponse
     """
@@ -8337,7 +8461,7 @@ class TestListCollectionFieldsResponse():
         list_collection_fields_response_model_json2 = list_collection_fields_response_model.to_dict()
         assert list_collection_fields_response_model_json2 == list_collection_fields_response_model_json
 
-class TestListCollectionsResponse():
+class TestModel_ListCollectionsResponse():
     """
     Test Class for ListCollectionsResponse
     """
@@ -8366,12 +8490,12 @@ class TestListCollectionsResponse():
         training_status_model['minimum_examples_added'] = True
         training_status_model['sufficient_label_diversity'] = True
         training_status_model['notices'] = 38
-        training_status_model['successfully_trained'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        training_status_model['data_updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        training_status_model['successfully_trained'] = "2019-01-01T12:00:00Z"
+        training_status_model['data_updated'] = "2019-01-01T12:00:00Z"
 
         source_status_model = {} # SourceStatus
         source_status_model['status'] = 'running'
-        source_status_model['next_crawl'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        source_status_model['next_crawl'] = "2019-01-01T12:00:00Z"
 
         collection_crawl_status_model = {} # CollectionCrawlStatus
         collection_crawl_status_model['source_crawl'] = source_status_model
@@ -8391,8 +8515,8 @@ class TestListCollectionsResponse():
         collection_model['collection_id'] = 'f1360220-ea2d-4271-9d62-89a910b13c37'
         collection_model['name'] = 'example'
         collection_model['description'] = 'this is a demo collection'
-        collection_model['created'] = datetime_to_string(string_to_datetime("2015-08-24T18:42:25.324Z"))
-        collection_model['updated'] = datetime_to_string(string_to_datetime("2015-08-24T18:42:25.324Z"))
+        collection_model['created'] = "2015-08-24T18:42:25.324000Z"
+        collection_model['updated'] = "2015-08-24T18:42:25.324000Z"
         collection_model['status'] = 'active'
         collection_model['configuration_id'] = '6963be41-2dea-4f79-8f52-127c63c479b0'
         collection_model['language'] = 'en'
@@ -8421,7 +8545,7 @@ class TestListCollectionsResponse():
         list_collections_response_model_json2 = list_collections_response_model.to_dict()
         assert list_collections_response_model_json2 == list_collections_response_model_json
 
-class TestListConfigurationsResponse():
+class TestModel_ListConfigurationsResponse():
     """
     Test Class for ListConfigurationsResponse
     """
@@ -8470,8 +8594,8 @@ class TestListConfigurationsResponse():
         html_settings_model['exclude_tag_attributes'] = ['testString']
 
         segment_settings_model = {} # SegmentSettings
-        segment_settings_model['enabled'] = True
-        segment_settings_model['selector_tags'] = ['testString']
+        segment_settings_model['enabled'] = False
+        segment_settings_model['selector_tags'] = ['h1', 'h2']
         segment_settings_model['annotated_fields'] = ['testString']
 
         normalization_operation_model = {} # NormalizationOperation
@@ -8539,14 +8663,14 @@ class TestListConfigurationsResponse():
         enrichment_model['description'] = 'testString'
         enrichment_model['destination_field'] = 'testString'
         enrichment_model['source_field'] = 'testString'
-        enrichment_model['overwrite'] = True
+        enrichment_model['overwrite'] = False
         enrichment_model['enrichment'] = 'testString'
-        enrichment_model['ignore_downstream_errors'] = True
+        enrichment_model['ignore_downstream_errors'] = False
         enrichment_model['options'] = enrichment_options_model
 
         source_schedule_model = {} # SourceSchedule
         source_schedule_model['enabled'] = True
-        source_schedule_model['time_zone'] = 'testString'
+        source_schedule_model['time_zone'] = 'America/New_York'
         source_schedule_model['frequency'] = 'daily'
 
         source_options_folder_model = {} # SourceOptionsFolder
@@ -8565,11 +8689,11 @@ class TestListConfigurationsResponse():
         source_options_web_crawl_model = {} # SourceOptionsWebCrawl
         source_options_web_crawl_model['url'] = 'testString'
         source_options_web_crawl_model['limit_to_starting_hosts'] = True
-        source_options_web_crawl_model['crawl_speed'] = 'gentle'
-        source_options_web_crawl_model['allow_untrusted_certificate'] = True
+        source_options_web_crawl_model['crawl_speed'] = 'normal'
+        source_options_web_crawl_model['allow_untrusted_certificate'] = False
         source_options_web_crawl_model['maximum_hops'] = 38
         source_options_web_crawl_model['request_timeout'] = 38
-        source_options_web_crawl_model['override_robots_txt'] = True
+        source_options_web_crawl_model['override_robots_txt'] = False
         source_options_web_crawl_model['blacklist'] = ['testString']
 
         source_options_buckets_model = {} # SourceOptionsBuckets
@@ -8593,8 +8717,8 @@ class TestListConfigurationsResponse():
         configuration_model = {} # Configuration
         configuration_model['configuration_id'] = 'testString'
         configuration_model['name'] = 'testString'
-        configuration_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        configuration_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        configuration_model['created'] = "2019-01-01T12:00:00Z"
+        configuration_model['updated'] = "2019-01-01T12:00:00Z"
         configuration_model['description'] = 'testString'
         configuration_model['conversions'] = conversions_model
         configuration_model['enrichments'] = [enrichment_model]
@@ -8620,7 +8744,7 @@ class TestListConfigurationsResponse():
         list_configurations_response_model_json2 = list_configurations_response_model.to_dict()
         assert list_configurations_response_model_json2 == list_configurations_response_model_json
 
-class TestListEnvironmentsResponse():
+class TestModel_ListEnvironmentsResponse():
     """
     Test Class for ListEnvironmentsResponse
     """
@@ -8659,8 +8783,8 @@ class TestListEnvironmentsResponse():
         environment_model['environment_id'] = 'ecbda78e-fb06-40b1-a43f-a039fac0adc6'
         environment_model['name'] = 'byod_environment'
         environment_model['description'] = 'Private Data Environment'
-        environment_model['created'] = datetime_to_string(string_to_datetime("2017-07-14T12:54:40.985Z"))
-        environment_model['updated'] = datetime_to_string(string_to_datetime("2017-07-14T12:54:40.985Z"))
+        environment_model['created'] = "2017-07-14T12:54:40.985000Z"
+        environment_model['updated'] = "2017-07-14T12:54:40.985000Z"
         environment_model['status'] = 'active'
         environment_model['read_only'] = False
         environment_model['size'] = 'LT'
@@ -8687,7 +8811,7 @@ class TestListEnvironmentsResponse():
         list_environments_response_model_json2 = list_environments_response_model.to_dict()
         assert list_environments_response_model_json2 == list_environments_response_model_json
 
-class TestLogQueryResponse():
+class TestModel_LogQueryResponse():
     """
     Test Class for LogQueryResponse
     """
@@ -8716,8 +8840,8 @@ class TestLogQueryResponse():
         log_query_response_result_model['document_type'] = 'query'
         log_query_response_result_model['natural_language_query'] = 'testString'
         log_query_response_result_model['document_results'] = log_query_response_result_documents_model
-        log_query_response_result_model['created_timestamp'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        log_query_response_result_model['client_timestamp'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        log_query_response_result_model['created_timestamp'] = "2019-01-01T12:00:00Z"
+        log_query_response_result_model['client_timestamp'] = "2019-01-01T12:00:00Z"
         log_query_response_result_model['query_id'] = 'testString'
         log_query_response_result_model['session_token'] = 'testString'
         log_query_response_result_model['collection_id'] = 'testString'
@@ -8746,7 +8870,7 @@ class TestLogQueryResponse():
         log_query_response_model_json2 = log_query_response_model.to_dict()
         assert log_query_response_model_json2 == log_query_response_model_json
 
-class TestLogQueryResponseResult():
+class TestModel_LogQueryResponseResult():
     """
     Test Class for LogQueryResponseResult
     """
@@ -8776,8 +8900,8 @@ class TestLogQueryResponseResult():
         log_query_response_result_model_json['document_type'] = 'query'
         log_query_response_result_model_json['natural_language_query'] = 'testString'
         log_query_response_result_model_json['document_results'] = log_query_response_result_documents_model
-        log_query_response_result_model_json['created_timestamp'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        log_query_response_result_model_json['client_timestamp'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        log_query_response_result_model_json['created_timestamp'] = "2019-01-01T12:00:00Z"
+        log_query_response_result_model_json['client_timestamp'] = "2019-01-01T12:00:00Z"
         log_query_response_result_model_json['query_id'] = 'testString'
         log_query_response_result_model_json['session_token'] = 'testString'
         log_query_response_result_model_json['collection_id'] = 'testString'
@@ -8801,7 +8925,7 @@ class TestLogQueryResponseResult():
         log_query_response_result_model_json2 = log_query_response_result_model.to_dict()
         assert log_query_response_result_model_json2 == log_query_response_result_model_json
 
-class TestLogQueryResponseResultDocuments():
+class TestModel_LogQueryResponseResultDocuments():
     """
     Test Class for LogQueryResponseResultDocuments
     """
@@ -8840,7 +8964,7 @@ class TestLogQueryResponseResultDocuments():
         log_query_response_result_documents_model_json2 = log_query_response_result_documents_model.to_dict()
         assert log_query_response_result_documents_model_json2 == log_query_response_result_documents_model_json
 
-class TestLogQueryResponseResultDocumentsResult():
+class TestModel_LogQueryResponseResultDocumentsResult():
     """
     Test Class for LogQueryResponseResultDocumentsResult
     """
@@ -8873,7 +8997,7 @@ class TestLogQueryResponseResultDocumentsResult():
         log_query_response_result_documents_result_model_json2 = log_query_response_result_documents_result_model.to_dict()
         assert log_query_response_result_documents_result_model_json2 == log_query_response_result_documents_result_model_json
 
-class TestMetricAggregation():
+class TestModel_MetricAggregation():
     """
     Test Class for MetricAggregation
     """
@@ -8886,7 +9010,7 @@ class TestMetricAggregation():
         # Construct dict forms of any model objects needed in order to build this model.
 
         metric_aggregation_result_model = {} # MetricAggregationResult
-        metric_aggregation_result_model['key_as_string'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        metric_aggregation_result_model['key_as_string'] = "2019-01-01T12:00:00Z"
         metric_aggregation_result_model['key'] = 26
         metric_aggregation_result_model['matching_results'] = 38
         metric_aggregation_result_model['event_rate'] = 72.5
@@ -8912,7 +9036,7 @@ class TestMetricAggregation():
         metric_aggregation_model_json2 = metric_aggregation_model.to_dict()
         assert metric_aggregation_model_json2 == metric_aggregation_model_json
 
-class TestMetricAggregationResult():
+class TestModel_MetricAggregationResult():
     """
     Test Class for MetricAggregationResult
     """
@@ -8924,7 +9048,7 @@ class TestMetricAggregationResult():
 
         # Construct a json representation of a MetricAggregationResult model
         metric_aggregation_result_model_json = {}
-        metric_aggregation_result_model_json['key_as_string'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        metric_aggregation_result_model_json['key_as_string'] = "2019-01-01T12:00:00Z"
         metric_aggregation_result_model_json['key'] = 26
         metric_aggregation_result_model_json['matching_results'] = 38
         metric_aggregation_result_model_json['event_rate'] = 72.5
@@ -8944,7 +9068,7 @@ class TestMetricAggregationResult():
         metric_aggregation_result_model_json2 = metric_aggregation_result_model.to_dict()
         assert metric_aggregation_result_model_json2 == metric_aggregation_result_model_json
 
-class TestMetricResponse():
+class TestModel_MetricResponse():
     """
     Test Class for MetricResponse
     """
@@ -8957,7 +9081,7 @@ class TestMetricResponse():
         # Construct dict forms of any model objects needed in order to build this model.
 
         metric_aggregation_result_model = {} # MetricAggregationResult
-        metric_aggregation_result_model['key_as_string'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        metric_aggregation_result_model['key_as_string'] = "2019-01-01T12:00:00Z"
         metric_aggregation_result_model['key'] = 26
         metric_aggregation_result_model['matching_results'] = 38
         metric_aggregation_result_model['event_rate'] = 72.5
@@ -8986,7 +9110,7 @@ class TestMetricResponse():
         metric_response_model_json2 = metric_response_model.to_dict()
         assert metric_response_model_json2 == metric_response_model_json
 
-class TestMetricTokenAggregation():
+class TestModel_MetricTokenAggregation():
     """
     Test Class for MetricTokenAggregation
     """
@@ -9023,7 +9147,7 @@ class TestMetricTokenAggregation():
         metric_token_aggregation_model_json2 = metric_token_aggregation_model.to_dict()
         assert metric_token_aggregation_model_json2 == metric_token_aggregation_model_json
 
-class TestMetricTokenAggregationResult():
+class TestModel_MetricTokenAggregationResult():
     """
     Test Class for MetricTokenAggregationResult
     """
@@ -9054,7 +9178,7 @@ class TestMetricTokenAggregationResult():
         metric_token_aggregation_result_model_json2 = metric_token_aggregation_result_model.to_dict()
         assert metric_token_aggregation_result_model_json2 == metric_token_aggregation_result_model_json
 
-class TestMetricTokenResponse():
+class TestModel_MetricTokenResponse():
     """
     Test Class for MetricTokenResponse
     """
@@ -9094,7 +9218,7 @@ class TestMetricTokenResponse():
         metric_token_response_model_json2 = metric_token_response_model.to_dict()
         assert metric_token_response_model_json2 == metric_token_response_model_json
 
-class TestNluEnrichmentConcepts():
+class TestModel_NluEnrichmentConcepts():
     """
     Test Class for NluEnrichmentConcepts
     """
@@ -9123,7 +9247,7 @@ class TestNluEnrichmentConcepts():
         nlu_enrichment_concepts_model_json2 = nlu_enrichment_concepts_model.to_dict()
         assert nlu_enrichment_concepts_model_json2 == nlu_enrichment_concepts_model_json
 
-class TestNluEnrichmentEmotion():
+class TestModel_NluEnrichmentEmotion():
     """
     Test Class for NluEnrichmentEmotion
     """
@@ -9153,7 +9277,7 @@ class TestNluEnrichmentEmotion():
         nlu_enrichment_emotion_model_json2 = nlu_enrichment_emotion_model.to_dict()
         assert nlu_enrichment_emotion_model_json2 == nlu_enrichment_emotion_model_json
 
-class TestNluEnrichmentEntities():
+class TestModel_NluEnrichmentEntities():
     """
     Test Class for NluEnrichmentEntities
     """
@@ -9188,7 +9312,7 @@ class TestNluEnrichmentEntities():
         nlu_enrichment_entities_model_json2 = nlu_enrichment_entities_model.to_dict()
         assert nlu_enrichment_entities_model_json2 == nlu_enrichment_entities_model_json
 
-class TestNluEnrichmentFeatures():
+class TestModel_NluEnrichmentFeatures():
     """
     Test Class for NluEnrichmentFeatures
     """
@@ -9259,7 +9383,7 @@ class TestNluEnrichmentFeatures():
         nlu_enrichment_features_model_json2 = nlu_enrichment_features_model.to_dict()
         assert nlu_enrichment_features_model_json2 == nlu_enrichment_features_model_json
 
-class TestNluEnrichmentKeywords():
+class TestModel_NluEnrichmentKeywords():
     """
     Test Class for NluEnrichmentKeywords
     """
@@ -9290,7 +9414,7 @@ class TestNluEnrichmentKeywords():
         nlu_enrichment_keywords_model_json2 = nlu_enrichment_keywords_model.to_dict()
         assert nlu_enrichment_keywords_model_json2 == nlu_enrichment_keywords_model_json
 
-class TestNluEnrichmentRelations():
+class TestModel_NluEnrichmentRelations():
     """
     Test Class for NluEnrichmentRelations
     """
@@ -9319,7 +9443,7 @@ class TestNluEnrichmentRelations():
         nlu_enrichment_relations_model_json2 = nlu_enrichment_relations_model.to_dict()
         assert nlu_enrichment_relations_model_json2 == nlu_enrichment_relations_model_json
 
-class TestNluEnrichmentSemanticRoles():
+class TestModel_NluEnrichmentSemanticRoles():
     """
     Test Class for NluEnrichmentSemanticRoles
     """
@@ -9350,7 +9474,7 @@ class TestNluEnrichmentSemanticRoles():
         nlu_enrichment_semantic_roles_model_json2 = nlu_enrichment_semantic_roles_model.to_dict()
         assert nlu_enrichment_semantic_roles_model_json2 == nlu_enrichment_semantic_roles_model_json
 
-class TestNluEnrichmentSentiment():
+class TestModel_NluEnrichmentSentiment():
     """
     Test Class for NluEnrichmentSentiment
     """
@@ -9380,7 +9504,7 @@ class TestNluEnrichmentSentiment():
         nlu_enrichment_sentiment_model_json2 = nlu_enrichment_sentiment_model.to_dict()
         assert nlu_enrichment_sentiment_model_json2 == nlu_enrichment_sentiment_model_json
 
-class TestNormalizationOperation():
+class TestModel_NormalizationOperation():
     """
     Test Class for NormalizationOperation
     """
@@ -9411,7 +9535,7 @@ class TestNormalizationOperation():
         normalization_operation_model_json2 = normalization_operation_model.to_dict()
         assert normalization_operation_model_json2 == normalization_operation_model_json
 
-class TestNotice():
+class TestModel_Notice():
     """
     Test Class for Notice
     """
@@ -9424,7 +9548,7 @@ class TestNotice():
         # Construct a json representation of a Notice model
         notice_model_json = {}
         notice_model_json['notice_id'] = 'testString'
-        notice_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        notice_model_json['created'] = "2019-01-01T12:00:00Z"
         notice_model_json['document_id'] = 'testString'
         notice_model_json['query_id'] = 'testString'
         notice_model_json['severity'] = 'warning'
@@ -9446,7 +9570,7 @@ class TestNotice():
         notice_model_json2 = notice_model.to_dict()
         assert notice_model_json2 == notice_model_json
 
-class TestPdfHeadingDetection():
+class TestModel_PdfHeadingDetection():
     """
     Test Class for PdfHeadingDetection
     """
@@ -9485,7 +9609,7 @@ class TestPdfHeadingDetection():
         pdf_heading_detection_model_json2 = pdf_heading_detection_model.to_dict()
         assert pdf_heading_detection_model_json2 == pdf_heading_detection_model_json
 
-class TestPdfSettings():
+class TestModel_PdfSettings():
     """
     Test Class for PdfSettings
     """
@@ -9527,7 +9651,7 @@ class TestPdfSettings():
         pdf_settings_model_json2 = pdf_settings_model.to_dict()
         assert pdf_settings_model_json2 == pdf_settings_model_json
 
-class TestQueryAggregation():
+class TestModel_QueryAggregation():
     """
     Test Class for QueryAggregation
     """
@@ -9557,7 +9681,7 @@ class TestQueryAggregation():
         query_aggregation_model_json2 = query_aggregation_model.to_dict()
         assert query_aggregation_model_json2 == query_aggregation_model_json
 
-class TestQueryNoticesResponse():
+class TestModel_QueryNoticesResponse():
     """
     Test Class for QueryNoticesResponse
     """
@@ -9575,7 +9699,7 @@ class TestQueryNoticesResponse():
 
         notice_model = {} # Notice
         notice_model['notice_id'] = 'xpath_not_found'
-        notice_model['created'] = datetime_to_string(string_to_datetime("2016-09-20T17:26:17.000Z"))
+        notice_model['created'] = "2016-09-20T17:26:17Z"
         notice_model['document_id'] = '030ba125-29db-43f2-8552-f941ae30a7a8'
         notice_model['query_id'] = 'testString'
         notice_model['severity'] = 'warning'
@@ -9592,7 +9716,7 @@ class TestQueryNoticesResponse():
         query_notices_result_model['file_type'] = 'html'
         query_notices_result_model['sha1'] = 'de9f2c7fd25e1b3afad3e85a0bd17d9b100db4b3'
         query_notices_result_model['notices'] = [notice_model]
-        query_notices_result_model['foo'] = { 'foo': 'bar' }
+        query_notices_result_model['score'] = { 'foo': 'bar' }
 
         query_aggregation_model = {} # Histogram
         query_aggregation_model['type'] = 'histogram'
@@ -9631,7 +9755,7 @@ class TestQueryNoticesResponse():
         query_notices_response_model_json2 = query_notices_response_model.to_dict()
         assert query_notices_response_model_json2 == query_notices_response_model_json
 
-class TestQueryNoticesResult():
+class TestModel_QueryNoticesResult():
     """
     Test Class for QueryNoticesResult
     """
@@ -9649,7 +9773,7 @@ class TestQueryNoticesResult():
 
         notice_model = {} # Notice
         notice_model['notice_id'] = 'testString'
-        notice_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        notice_model['created'] = "2019-01-01T12:00:00Z"
         notice_model['document_id'] = 'testString'
         notice_model['query_id'] = 'testString'
         notice_model['severity'] = 'warning'
@@ -9684,7 +9808,17 @@ class TestQueryNoticesResult():
         query_notices_result_model_json2 = query_notices_result_model.to_dict()
         assert query_notices_result_model_json2 == query_notices_result_model_json
 
-class TestQueryPassages():
+        # Test get_properties and set_properties methods.
+        query_notices_result_model.set_properties({})
+        actual_dict = query_notices_result_model.get_properties()
+        assert actual_dict == {}
+
+        expected_dict = {'foo': { 'foo': 'bar' }}
+        query_notices_result_model.set_properties(expected_dict)
+        actual_dict = query_notices_result_model.get_properties()
+        assert actual_dict == expected_dict
+
+class TestModel_QueryPassages():
     """
     Test Class for QueryPassages
     """
@@ -9718,7 +9852,7 @@ class TestQueryPassages():
         query_passages_model_json2 = query_passages_model.to_dict()
         assert query_passages_model_json2 == query_passages_model_json
 
-class TestQueryResponse():
+class TestModel_QueryResponse():
     """
     Test Class for QueryResponse
     """
@@ -9739,7 +9873,7 @@ class TestQueryResponse():
         query_result_model['metadata'] = {}
         query_result_model['collection_id'] = 'testString'
         query_result_model['result_metadata'] = query_result_metadata_model
-        query_result_model['foo'] = { 'foo': 'bar' }
+        query_result_model['score'] = { 'foo': 'bar' }
 
         query_aggregation_model = {} # Histogram
         query_aggregation_model['type'] = 'histogram'
@@ -9784,7 +9918,7 @@ class TestQueryResponse():
         query_response_model_json2 = query_response_model.to_dict()
         assert query_response_model_json2 == query_response_model_json
 
-class TestQueryResult():
+class TestModel_QueryResult():
     """
     Test Class for QueryResult
     """
@@ -9823,7 +9957,17 @@ class TestQueryResult():
         query_result_model_json2 = query_result_model.to_dict()
         assert query_result_model_json2 == query_result_model_json
 
-class TestQueryResultMetadata():
+        # Test get_properties and set_properties methods.
+        query_result_model.set_properties({})
+        actual_dict = query_result_model.get_properties()
+        assert actual_dict == {}
+
+        expected_dict = {'foo': { 'foo': 'bar' }}
+        query_result_model.set_properties(expected_dict)
+        actual_dict = query_result_model.get_properties()
+        assert actual_dict == expected_dict
+
+class TestModel_QueryResultMetadata():
     """
     Test Class for QueryResultMetadata
     """
@@ -9853,7 +9997,7 @@ class TestQueryResultMetadata():
         query_result_metadata_model_json2 = query_result_metadata_model.to_dict()
         assert query_result_metadata_model_json2 == query_result_metadata_model_json
 
-class TestRetrievalDetails():
+class TestModel_RetrievalDetails():
     """
     Test Class for RetrievalDetails
     """
@@ -9882,7 +10026,7 @@ class TestRetrievalDetails():
         retrieval_details_model_json2 = retrieval_details_model.to_dict()
         assert retrieval_details_model_json2 == retrieval_details_model_json
 
-class TestSduStatus():
+class TestModel_SduStatus():
     """
     Test Class for SduStatus
     """
@@ -9921,7 +10065,7 @@ class TestSduStatus():
         sdu_status_model_json2 = sdu_status_model.to_dict()
         assert sdu_status_model_json2 == sdu_status_model_json
 
-class TestSduStatusCustomFields():
+class TestModel_SduStatusCustomFields():
     """
     Test Class for SduStatusCustomFields
     """
@@ -9951,7 +10095,7 @@ class TestSduStatusCustomFields():
         sdu_status_custom_fields_model_json2 = sdu_status_custom_fields_model.to_dict()
         assert sdu_status_custom_fields_model_json2 == sdu_status_custom_fields_model_json
 
-class TestSearchStatus():
+class TestModel_SearchStatus():
     """
     Test Class for SearchStatus
     """
@@ -9983,7 +10127,7 @@ class TestSearchStatus():
         search_status_model_json2 = search_status_model.to_dict()
         assert search_status_model_json2 == search_status_model_json
 
-class TestSegmentSettings():
+class TestModel_SegmentSettings():
     """
     Test Class for SegmentSettings
     """
@@ -9995,8 +10139,8 @@ class TestSegmentSettings():
 
         # Construct a json representation of a SegmentSettings model
         segment_settings_model_json = {}
-        segment_settings_model_json['enabled'] = True
-        segment_settings_model_json['selector_tags'] = ['testString']
+        segment_settings_model_json['enabled'] = False
+        segment_settings_model_json['selector_tags'] = ['h1', 'h2']
         segment_settings_model_json['annotated_fields'] = ['testString']
 
         # Construct a model instance of SegmentSettings by calling from_dict on the json representation
@@ -10014,7 +10158,7 @@ class TestSegmentSettings():
         segment_settings_model_json2 = segment_settings_model.to_dict()
         assert segment_settings_model_json2 == segment_settings_model_json
 
-class TestSource():
+class TestModel_Source():
     """
     Test Class for Source
     """
@@ -10028,7 +10172,7 @@ class TestSource():
 
         source_schedule_model = {} # SourceSchedule
         source_schedule_model['enabled'] = True
-        source_schedule_model['time_zone'] = 'testString'
+        source_schedule_model['time_zone'] = 'America/New_York'
         source_schedule_model['frequency'] = 'daily'
 
         source_options_folder_model = {} # SourceOptionsFolder
@@ -10047,11 +10191,11 @@ class TestSource():
         source_options_web_crawl_model = {} # SourceOptionsWebCrawl
         source_options_web_crawl_model['url'] = 'testString'
         source_options_web_crawl_model['limit_to_starting_hosts'] = True
-        source_options_web_crawl_model['crawl_speed'] = 'gentle'
-        source_options_web_crawl_model['allow_untrusted_certificate'] = True
+        source_options_web_crawl_model['crawl_speed'] = 'normal'
+        source_options_web_crawl_model['allow_untrusted_certificate'] = False
         source_options_web_crawl_model['maximum_hops'] = 38
         source_options_web_crawl_model['request_timeout'] = 38
-        source_options_web_crawl_model['override_robots_txt'] = True
+        source_options_web_crawl_model['override_robots_txt'] = False
         source_options_web_crawl_model['blacklist'] = ['testString']
 
         source_options_buckets_model = {} # SourceOptionsBuckets
@@ -10088,7 +10232,7 @@ class TestSource():
         source_model_json2 = source_model.to_dict()
         assert source_model_json2 == source_model_json
 
-class TestSourceOptions():
+class TestModel_SourceOptions():
     """
     Test Class for SourceOptions
     """
@@ -10116,11 +10260,11 @@ class TestSourceOptions():
         source_options_web_crawl_model = {} # SourceOptionsWebCrawl
         source_options_web_crawl_model['url'] = 'testString'
         source_options_web_crawl_model['limit_to_starting_hosts'] = True
-        source_options_web_crawl_model['crawl_speed'] = 'gentle'
-        source_options_web_crawl_model['allow_untrusted_certificate'] = True
+        source_options_web_crawl_model['crawl_speed'] = 'normal'
+        source_options_web_crawl_model['allow_untrusted_certificate'] = False
         source_options_web_crawl_model['maximum_hops'] = 38
         source_options_web_crawl_model['request_timeout'] = 38
-        source_options_web_crawl_model['override_robots_txt'] = True
+        source_options_web_crawl_model['override_robots_txt'] = False
         source_options_web_crawl_model['blacklist'] = ['testString']
 
         source_options_buckets_model = {} # SourceOptionsBuckets
@@ -10151,7 +10295,7 @@ class TestSourceOptions():
         source_options_model_json2 = source_options_model.to_dict()
         assert source_options_model_json2 == source_options_model_json
 
-class TestSourceOptionsBuckets():
+class TestModel_SourceOptionsBuckets():
     """
     Test Class for SourceOptionsBuckets
     """
@@ -10181,7 +10325,7 @@ class TestSourceOptionsBuckets():
         source_options_buckets_model_json2 = source_options_buckets_model.to_dict()
         assert source_options_buckets_model_json2 == source_options_buckets_model_json
 
-class TestSourceOptionsFolder():
+class TestModel_SourceOptionsFolder():
     """
     Test Class for SourceOptionsFolder
     """
@@ -10212,7 +10356,7 @@ class TestSourceOptionsFolder():
         source_options_folder_model_json2 = source_options_folder_model.to_dict()
         assert source_options_folder_model_json2 == source_options_folder_model_json
 
-class TestSourceOptionsObject():
+class TestModel_SourceOptionsObject():
     """
     Test Class for SourceOptionsObject
     """
@@ -10242,7 +10386,7 @@ class TestSourceOptionsObject():
         source_options_object_model_json2 = source_options_object_model.to_dict()
         assert source_options_object_model_json2 == source_options_object_model_json
 
-class TestSourceOptionsSiteColl():
+class TestModel_SourceOptionsSiteColl():
     """
     Test Class for SourceOptionsSiteColl
     """
@@ -10272,7 +10416,7 @@ class TestSourceOptionsSiteColl():
         source_options_site_coll_model_json2 = source_options_site_coll_model.to_dict()
         assert source_options_site_coll_model_json2 == source_options_site_coll_model_json
 
-class TestSourceOptionsWebCrawl():
+class TestModel_SourceOptionsWebCrawl():
     """
     Test Class for SourceOptionsWebCrawl
     """
@@ -10286,11 +10430,11 @@ class TestSourceOptionsWebCrawl():
         source_options_web_crawl_model_json = {}
         source_options_web_crawl_model_json['url'] = 'testString'
         source_options_web_crawl_model_json['limit_to_starting_hosts'] = True
-        source_options_web_crawl_model_json['crawl_speed'] = 'gentle'
-        source_options_web_crawl_model_json['allow_untrusted_certificate'] = True
+        source_options_web_crawl_model_json['crawl_speed'] = 'normal'
+        source_options_web_crawl_model_json['allow_untrusted_certificate'] = False
         source_options_web_crawl_model_json['maximum_hops'] = 38
         source_options_web_crawl_model_json['request_timeout'] = 38
-        source_options_web_crawl_model_json['override_robots_txt'] = True
+        source_options_web_crawl_model_json['override_robots_txt'] = False
         source_options_web_crawl_model_json['blacklist'] = ['testString']
 
         # Construct a model instance of SourceOptionsWebCrawl by calling from_dict on the json representation
@@ -10308,7 +10452,7 @@ class TestSourceOptionsWebCrawl():
         source_options_web_crawl_model_json2 = source_options_web_crawl_model.to_dict()
         assert source_options_web_crawl_model_json2 == source_options_web_crawl_model_json
 
-class TestSourceSchedule():
+class TestModel_SourceSchedule():
     """
     Test Class for SourceSchedule
     """
@@ -10321,7 +10465,7 @@ class TestSourceSchedule():
         # Construct a json representation of a SourceSchedule model
         source_schedule_model_json = {}
         source_schedule_model_json['enabled'] = True
-        source_schedule_model_json['time_zone'] = 'testString'
+        source_schedule_model_json['time_zone'] = 'America/New_York'
         source_schedule_model_json['frequency'] = 'daily'
 
         # Construct a model instance of SourceSchedule by calling from_dict on the json representation
@@ -10339,7 +10483,7 @@ class TestSourceSchedule():
         source_schedule_model_json2 = source_schedule_model.to_dict()
         assert source_schedule_model_json2 == source_schedule_model_json
 
-class TestSourceStatus():
+class TestModel_SourceStatus():
     """
     Test Class for SourceStatus
     """
@@ -10352,7 +10496,7 @@ class TestSourceStatus():
         # Construct a json representation of a SourceStatus model
         source_status_model_json = {}
         source_status_model_json['status'] = 'running'
-        source_status_model_json['next_crawl'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        source_status_model_json['next_crawl'] = "2019-01-01T12:00:00Z"
 
         # Construct a model instance of SourceStatus by calling from_dict on the json representation
         source_status_model = SourceStatus.from_dict(source_status_model_json)
@@ -10369,7 +10513,7 @@ class TestSourceStatus():
         source_status_model_json2 = source_status_model.to_dict()
         assert source_status_model_json2 == source_status_model_json
 
-class TestTokenDictRule():
+class TestModel_TokenDictRule():
     """
     Test Class for TokenDictRule
     """
@@ -10401,7 +10545,7 @@ class TestTokenDictRule():
         token_dict_rule_model_json2 = token_dict_rule_model.to_dict()
         assert token_dict_rule_model_json2 == token_dict_rule_model_json
 
-class TestTokenDictStatusResponse():
+class TestModel_TokenDictStatusResponse():
     """
     Test Class for TokenDictStatusResponse
     """
@@ -10431,7 +10575,7 @@ class TestTokenDictStatusResponse():
         token_dict_status_response_model_json2 = token_dict_status_response_model.to_dict()
         assert token_dict_status_response_model_json2 == token_dict_status_response_model_json
 
-class TestTopHitsResults():
+class TestModel_TopHitsResults():
     """
     Test Class for TopHitsResults
     """
@@ -10474,7 +10618,7 @@ class TestTopHitsResults():
         top_hits_results_model_json2 = top_hits_results_model.to_dict()
         assert top_hits_results_model_json2 == top_hits_results_model_json
 
-class TestTrainingDataSet():
+class TestModel_TrainingDataSet():
     """
     Test Class for TrainingDataSet
     """
@@ -10518,7 +10662,7 @@ class TestTrainingDataSet():
         training_data_set_model_json2 = training_data_set_model.to_dict()
         assert training_data_set_model_json2 == training_data_set_model_json
 
-class TestTrainingExample():
+class TestModel_TrainingExample():
     """
     Test Class for TrainingExample
     """
@@ -10549,7 +10693,7 @@ class TestTrainingExample():
         training_example_model_json2 = training_example_model.to_dict()
         assert training_example_model_json2 == training_example_model_json
 
-class TestTrainingExampleList():
+class TestModel_TrainingExampleList():
     """
     Test Class for TrainingExampleList
     """
@@ -10585,7 +10729,7 @@ class TestTrainingExampleList():
         training_example_list_model_json2 = training_example_list_model.to_dict()
         assert training_example_list_model_json2 == training_example_list_model_json
 
-class TestTrainingQuery():
+class TestModel_TrainingQuery():
     """
     Test Class for TrainingQuery
     """
@@ -10624,7 +10768,7 @@ class TestTrainingQuery():
         training_query_model_json2 = training_query_model.to_dict()
         assert training_query_model_json2 == training_query_model_json
 
-class TestTrainingStatus():
+class TestModel_TrainingStatus():
     """
     Test Class for TrainingStatus
     """
@@ -10643,8 +10787,8 @@ class TestTrainingStatus():
         training_status_model_json['minimum_examples_added'] = True
         training_status_model_json['sufficient_label_diversity'] = True
         training_status_model_json['notices'] = 38
-        training_status_model_json['successfully_trained'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        training_status_model_json['data_updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        training_status_model_json['successfully_trained'] = "2019-01-01T12:00:00Z"
+        training_status_model_json['data_updated'] = "2019-01-01T12:00:00Z"
 
         # Construct a model instance of TrainingStatus by calling from_dict on the json representation
         training_status_model = TrainingStatus.from_dict(training_status_model_json)
@@ -10661,7 +10805,7 @@ class TestTrainingStatus():
         training_status_model_json2 = training_status_model.to_dict()
         assert training_status_model_json2 == training_status_model_json
 
-class TestWordHeadingDetection():
+class TestModel_WordHeadingDetection():
     """
     Test Class for WordHeadingDetection
     """
@@ -10705,7 +10849,7 @@ class TestWordHeadingDetection():
         word_heading_detection_model_json2 = word_heading_detection_model.to_dict()
         assert word_heading_detection_model_json2 == word_heading_detection_model_json
 
-class TestWordSettings():
+class TestModel_WordSettings():
     """
     Test Class for WordSettings
     """
@@ -10752,7 +10896,7 @@ class TestWordSettings():
         word_settings_model_json2 = word_settings_model.to_dict()
         assert word_settings_model_json2 == word_settings_model_json
 
-class TestWordStyle():
+class TestModel_WordStyle():
     """
     Test Class for WordStyle
     """
@@ -10782,7 +10926,7 @@ class TestWordStyle():
         word_style_model_json2 = word_style_model.to_dict()
         assert word_style_model_json2 == word_style_model_json
 
-class TestXPathPatterns():
+class TestModel_XPathPatterns():
     """
     Test Class for XPathPatterns
     """
@@ -10811,7 +10955,7 @@ class TestXPathPatterns():
         x_path_patterns_model_json2 = x_path_patterns_model.to_dict()
         assert x_path_patterns_model_json2 == x_path_patterns_model_json
 
-class TestCalculation():
+class TestModel_Calculation():
     """
     Test Class for Calculation
     """
@@ -10843,7 +10987,7 @@ class TestCalculation():
         calculation_model_json2 = calculation_model.to_dict()
         assert calculation_model_json2 == calculation_model_json
 
-class TestFilter():
+class TestModel_Filter():
     """
     Test Class for Filter
     """
@@ -10874,7 +11018,7 @@ class TestFilter():
         filter_model_json2 = filter_model.to_dict()
         assert filter_model_json2 == filter_model_json
 
-class TestHistogram():
+class TestModel_Histogram():
     """
     Test Class for Histogram
     """
@@ -10906,7 +11050,7 @@ class TestHistogram():
         histogram_model_json2 = histogram_model.to_dict()
         assert histogram_model_json2 == histogram_model_json
 
-class TestNested():
+class TestModel_Nested():
     """
     Test Class for Nested
     """
@@ -10937,7 +11081,7 @@ class TestNested():
         nested_model_json2 = nested_model.to_dict()
         assert nested_model_json2 == nested_model_json
 
-class TestTerm():
+class TestModel_Term():
     """
     Test Class for Term
     """
@@ -10969,7 +11113,7 @@ class TestTerm():
         term_model_json2 = term_model.to_dict()
         assert term_model_json2 == term_model_json
 
-class TestTimeslice():
+class TestModel_Timeslice():
     """
     Test Class for Timeslice
     """
@@ -11002,7 +11146,7 @@ class TestTimeslice():
         timeslice_model_json2 = timeslice_model.to_dict()
         assert timeslice_model_json2 == timeslice_model_json
 
-class TestTopHits():
+class TestModel_TopHits():
     """
     Test Class for TopHits
     """

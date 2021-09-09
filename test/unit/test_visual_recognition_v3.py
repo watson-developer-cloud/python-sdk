@@ -55,6 +55,8 @@ class TestClassify():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -168,6 +170,8 @@ class TestCreateClassifier():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -276,6 +280,8 @@ class TestListClassifiers():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -369,6 +375,8 @@ class TestGetClassifier():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -439,6 +447,8 @@ class TestUpdateClassifier():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -543,6 +553,8 @@ class TestDeleteClassifier():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -617,6 +629,8 @@ class TestGetCoreMlModel():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -697,6 +711,8 @@ class TestDeleteUserData():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -766,7 +782,7 @@ class TestDeleteUserData():
 # Start of Model Tests
 ##############################################################################
 # region
-class TestClass():
+class TestModel_Class():
     """
     Test Class for Class
     """
@@ -795,7 +811,7 @@ class TestClass():
         class_model_json2 = class_model.to_dict()
         assert class_model_json2 == class_model_json
 
-class TestClassResult():
+class TestModel_ClassResult():
     """
     Test Class for ClassResult
     """
@@ -826,7 +842,7 @@ class TestClassResult():
         class_result_model_json2 = class_result_model.to_dict()
         assert class_result_model_json2 == class_result_model_json
 
-class TestClassifiedImage():
+class TestModel_ClassifiedImage():
     """
     Test Class for ClassifiedImage
     """
@@ -876,7 +892,7 @@ class TestClassifiedImage():
         classified_image_model_json2 = classified_image_model.to_dict()
         assert classified_image_model_json2 == classified_image_model_json
 
-class TestClassifiedImages():
+class TestModel_ClassifiedImages():
     """
     Test Class for ClassifiedImages
     """
@@ -936,7 +952,7 @@ class TestClassifiedImages():
         classified_images_model_json2 = classified_images_model.to_dict()
         assert classified_images_model_json2 == classified_images_model_json
 
-class TestClassifier():
+class TestModel_Classifier():
     """
     Test Class for Classifier
     """
@@ -959,10 +975,10 @@ class TestClassifier():
         classifier_model_json['status'] = 'ready'
         classifier_model_json['core_ml_enabled'] = True
         classifier_model_json['explanation'] = 'testString'
-        classifier_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        classifier_model_json['created'] = "2019-01-01T12:00:00Z"
         classifier_model_json['classes'] = [class_model]
-        classifier_model_json['retrained'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        classifier_model_json['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        classifier_model_json['retrained'] = "2019-01-01T12:00:00Z"
+        classifier_model_json['updated'] = "2019-01-01T12:00:00Z"
 
         # Construct a model instance of Classifier by calling from_dict on the json representation
         classifier_model = Classifier.from_dict(classifier_model_json)
@@ -979,7 +995,7 @@ class TestClassifier():
         classifier_model_json2 = classifier_model.to_dict()
         assert classifier_model_json2 == classifier_model_json
 
-class TestClassifierResult():
+class TestModel_ClassifierResult():
     """
     Test Class for ClassifierResult
     """
@@ -1017,7 +1033,7 @@ class TestClassifierResult():
         classifier_result_model_json2 = classifier_result_model.to_dict()
         assert classifier_result_model_json2 == classifier_result_model_json
 
-class TestClassifiers():
+class TestModel_Classifiers():
     """
     Test Class for Classifiers
     """
@@ -1039,10 +1055,10 @@ class TestClassifiers():
         classifier_model['status'] = 'ready'
         classifier_model['core_ml_enabled'] = True
         classifier_model['explanation'] = 'testString'
-        classifier_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        classifier_model['created'] = "2019-01-01T12:00:00Z"
         classifier_model['classes'] = [class_model]
-        classifier_model['retrained'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        classifier_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        classifier_model['retrained'] = "2019-01-01T12:00:00Z"
+        classifier_model['updated'] = "2019-01-01T12:00:00Z"
 
         # Construct a json representation of a Classifiers model
         classifiers_model_json = {}
@@ -1063,7 +1079,7 @@ class TestClassifiers():
         classifiers_model_json2 = classifiers_model.to_dict()
         assert classifiers_model_json2 == classifiers_model_json
 
-class TestErrorInfo():
+class TestModel_ErrorInfo():
     """
     Test Class for ErrorInfo
     """
@@ -1094,7 +1110,7 @@ class TestErrorInfo():
         error_info_model_json2 = error_info_model.to_dict()
         assert error_info_model_json2 == error_info_model_json
 
-class TestWarningInfo():
+class TestModel_WarningInfo():
     """
     Test Class for WarningInfo
     """

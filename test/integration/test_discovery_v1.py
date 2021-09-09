@@ -134,8 +134,7 @@ class Discoveryv1(TestCase):
         query_results = self.discovery.query(
             self.environment_id,
             self.collection_id,
-            filter='extracted_metadata.sha1::9181d244*',
-            return_fields='extracted_metadata.sha1').get_result()
+            filter='extracted_metadata.sha1::9181d244*').get_result()
         assert query_results is not None
 
     @pytest.mark.skip(

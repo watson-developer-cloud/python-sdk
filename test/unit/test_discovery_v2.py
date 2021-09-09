@@ -55,6 +55,8 @@ class TestListCollections():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -125,6 +127,8 @@ class TestCreateCollection():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -137,7 +141,7 @@ class TestCreateCollection():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v2/projects/testString/collections')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "language", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}]}'
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -153,7 +157,7 @@ class TestCreateCollection():
         project_id = 'testString'
         name = 'testString'
         description = 'testString'
-        language = 'testString'
+        language = 'en'
         enrichments = [collection_enrichment_model]
 
         # Invoke method
@@ -173,7 +177,7 @@ class TestCreateCollection():
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['name'] == 'testString'
         assert req_body['description'] == 'testString'
-        assert req_body['language'] == 'testString'
+        assert req_body['language'] == 'en'
         assert req_body['enrichments'] == [collection_enrichment_model]
 
 
@@ -184,7 +188,7 @@ class TestCreateCollection():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v2/projects/testString/collections')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "language", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}]}'
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -200,7 +204,7 @@ class TestCreateCollection():
         project_id = 'testString'
         name = 'testString'
         description = 'testString'
-        language = 'testString'
+        language = 'en'
         enrichments = [collection_enrichment_model]
 
         # Pass in all but one required param and check for a ValueError
@@ -224,6 +228,8 @@ class TestGetCollection():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -236,7 +242,7 @@ class TestGetCollection():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "language", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}]}'
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -266,7 +272,7 @@ class TestGetCollection():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "language", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}]}'
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -298,6 +304,8 @@ class TestUpdateCollection():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -310,7 +318,7 @@ class TestUpdateCollection():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "language", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}]}'
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -356,7 +364,7 @@ class TestUpdateCollection():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString')
-        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "language", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}]}'
+        mock_response = '{"collection_id": "collection_id", "name": "name", "description": "description", "created": "2019-01-01T12:00:00.000Z", "language": "en", "enrichments": [{"enrichment_id": "enrichment_id", "fields": ["fields"]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -396,6 +404,8 @@ class TestDeleteCollection():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -474,6 +484,8 @@ class TestQuery():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -486,7 +498,7 @@ class TestQuery():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v2/projects/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 10}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
+        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"mapKey": "anyValue"}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 10}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -509,9 +521,9 @@ class TestQuery():
         query_large_passages_model['per_document'] = True
         query_large_passages_model['max_per_document'] = 38
         query_large_passages_model['fields'] = ['testString']
-        query_large_passages_model['count'] = 100
+        query_large_passages_model['count'] = 400
         query_large_passages_model['characters'] = 50
-        query_large_passages_model['find_answers'] = True
+        query_large_passages_model['find_answers'] = False
         query_large_passages_model['max_answers_per_passage'] = 38
 
         # Set up parameter values
@@ -579,7 +591,7 @@ class TestQuery():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v2/projects/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 10}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
+        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"mapKey": "anyValue"}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 10}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -607,7 +619,7 @@ class TestQuery():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v2/projects/testString/query')
-        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"mapKey": {"anyKey": "anyValue"}}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 10}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
+        mock_response = '{"matching_results": 16, "results": [{"document_id": "document_id", "metadata": {"mapKey": "anyValue"}, "result_metadata": {"document_retrieval_source": "search", "collection_id": "collection_id", "confidence": 10}, "document_passages": [{"passage_text": "passage_text", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}], "aggregations": [{"type": "filter", "match": "match", "matching_results": 16}], "retrieval_details": {"document_retrieval_strategy": "untrained"}, "suggested_query": "suggested_query", "suggested_refinements": [{"text": "text"}], "table_results": [{"table_id": "table_id", "source_document_id": "source_document_id", "collection_id": "collection_id", "table_html": "table_html", "table_html_offset": 17, "table": {"location": {"begin": 5, "end": 3}, "text": "text", "section_title": {"text": "text", "location": {"begin": 5, "end": 3}}, "title": {"text": "text", "location": {"begin": 5, "end": 3}}, "table_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "row_headers": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "column_headers": [{"cell_id": "cell_id", "location": {"anyKey": "anyValue"}, "text": "text", "text_normalized": "text_normalized", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16}], "key_value_pairs": [{"key": {"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}, "value": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text"}]}], "body_cells": [{"cell_id": "cell_id", "location": {"begin": 5, "end": 3}, "text": "text", "row_index_begin": 15, "row_index_end": 13, "column_index_begin": 18, "column_index_end": 16, "row_header_ids": [{"id": "id"}], "row_header_texts": [{"text": "text"}], "row_header_texts_normalized": [{"text_normalized": "text_normalized"}], "column_header_ids": [{"id": "id"}], "column_header_texts": [{"text": "text"}], "column_header_texts_normalized": [{"text_normalized": "text_normalized"}], "attributes": [{"type": "type", "text": "text", "location": {"begin": 5, "end": 3}}]}], "contexts": [{"text": "text", "location": {"begin": 5, "end": 3}}]}}], "passages": [{"passage_text": "passage_text", "passage_score": 13, "document_id": "document_id", "collection_id": "collection_id", "start_offset": 12, "end_offset": 10, "field": "field", "confidence": 0, "answers": [{"answer_text": "answer_text", "start_offset": 12, "end_offset": 10, "confidence": 0}]}]}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -637,6 +649,8 @@ class TestGetAutocompletion():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -758,6 +772,8 @@ class TestQueryCollectionNotices():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -880,6 +896,8 @@ class TestQueryNotices():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -996,6 +1014,8 @@ class TestListFields():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1110,6 +1130,8 @@ class TestGetComponentSettings():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1190,6 +1212,8 @@ class TestAddDocument():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1216,7 +1240,7 @@ class TestAddDocument():
         filename = 'testString'
         file_content_type = 'application/json'
         metadata = 'testString'
-        x_watson_discovery_force = True
+        x_watson_discovery_force = False
 
         # Invoke method
         response = _service.add_document(
@@ -1304,6 +1328,8 @@ class TestUpdateDocument():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1331,7 +1357,7 @@ class TestUpdateDocument():
         filename = 'testString'
         file_content_type = 'application/json'
         metadata = 'testString'
-        x_watson_discovery_force = True
+        x_watson_discovery_force = False
 
         # Invoke method
         response = _service.update_document(
@@ -1424,6 +1450,8 @@ class TestDeleteDocument():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1447,7 +1475,7 @@ class TestDeleteDocument():
         project_id = 'testString'
         collection_id = 'testString'
         document_id = 'testString'
-        x_watson_discovery_force = True
+        x_watson_discovery_force = False
 
         # Invoke method
         response = _service.delete_document(
@@ -1546,6 +1574,8 @@ class TestListTrainingQueries():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1616,6 +1646,8 @@ class TestDeleteTrainingQueries():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1680,6 +1712,8 @@ class TestCreateTrainingQuery():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1778,6 +1812,8 @@ class TestGetTrainingQuery():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1852,6 +1888,8 @@ class TestUpdateTrainingQuery():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1954,6 +1992,8 @@ class TestDeleteTrainingQuery():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2032,6 +2072,8 @@ class TestAnalyzeDocument():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2044,7 +2086,7 @@ class TestAnalyzeDocument():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/analyze')
-        mock_response = '{"notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "result": {"metadata": {"mapKey": {"anyKey": "anyValue"}}}}'
+        mock_response = '{"notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "result": {"metadata": {"mapKey": "anyValue"}}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -2082,7 +2124,7 @@ class TestAnalyzeDocument():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/analyze')
-        mock_response = '{"notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "result": {"metadata": {"mapKey": {"anyKey": "anyValue"}}}}'
+        mock_response = '{"notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "result": {"metadata": {"mapKey": "anyValue"}}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -2112,7 +2154,7 @@ class TestAnalyzeDocument():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v2/projects/testString/collections/testString/analyze')
-        mock_response = '{"notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "result": {"metadata": {"mapKey": {"anyKey": "anyValue"}}}}'
+        mock_response = '{"notices": [{"notice_id": "notice_id", "created": "2019-01-01T12:00:00.000Z", "document_id": "document_id", "collection_id": "collection_id", "query_id": "query_id", "severity": "warning", "step": "step", "description": "description"}], "result": {"metadata": {"mapKey": "anyValue"}}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -2154,6 +2196,8 @@ class TestListEnrichments():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2224,6 +2268,8 @@ class TestCreateEnrichment():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2372,6 +2418,8 @@ class TestGetEnrichment():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2446,6 +2494,8 @@ class TestUpdateEnrichment():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2531,6 +2581,8 @@ class TestDeleteEnrichment():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2609,6 +2661,8 @@ class TestListProjects():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2670,6 +2724,8 @@ class TestCreateProject():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2818,6 +2874,8 @@ class TestGetProject():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2888,6 +2946,8 @@ class TestUpdateProject():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2991,6 +3051,8 @@ class TestDeleteProject():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3065,6 +3127,8 @@ class TestDeleteUserData():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3134,7 +3198,7 @@ class TestDeleteUserData():
 # Start of Model Tests
 ##############################################################################
 # region
-class TestAnalyzedDocument():
+class TestModel_AnalyzedDocument():
     """
     Test Class for AnalyzedDocument
     """
@@ -3148,7 +3212,7 @@ class TestAnalyzedDocument():
 
         notice_model = {} # Notice
         notice_model['notice_id'] = 'testString'
-        notice_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        notice_model['created'] = "2019-01-01T12:00:00Z"
         notice_model['document_id'] = 'testString'
         notice_model['collection_id'] = 'testString'
         notice_model['query_id'] = 'testString'
@@ -3180,7 +3244,7 @@ class TestAnalyzedDocument():
         analyzed_document_model_json2 = analyzed_document_model.to_dict()
         assert analyzed_document_model_json2 == analyzed_document_model_json
 
-class TestAnalyzedResult():
+class TestModel_AnalyzedResult():
     """
     Test Class for AnalyzedResult
     """
@@ -3210,7 +3274,17 @@ class TestAnalyzedResult():
         analyzed_result_model_json2 = analyzed_result_model.to_dict()
         assert analyzed_result_model_json2 == analyzed_result_model_json
 
-class TestCollection():
+        # Test get_properties and set_properties methods.
+        analyzed_result_model.set_properties({})
+        actual_dict = analyzed_result_model.get_properties()
+        assert actual_dict == {}
+
+        expected_dict = {'foo': { 'foo': 'bar' }}
+        analyzed_result_model.set_properties(expected_dict)
+        actual_dict = analyzed_result_model.get_properties()
+        assert actual_dict == expected_dict
+
+class TestModel_Collection():
     """
     Test Class for Collection
     """
@@ -3240,7 +3314,7 @@ class TestCollection():
         collection_model_json2 = collection_model.to_dict()
         assert collection_model_json2 == collection_model_json
 
-class TestCollectionDetails():
+class TestModel_CollectionDetails():
     """
     Test Class for CollectionDetails
     """
@@ -3261,8 +3335,8 @@ class TestCollectionDetails():
         collection_details_model_json['collection_id'] = 'testString'
         collection_details_model_json['name'] = 'testString'
         collection_details_model_json['description'] = 'testString'
-        collection_details_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        collection_details_model_json['language'] = 'testString'
+        collection_details_model_json['created'] = "2019-01-01T12:00:00Z"
+        collection_details_model_json['language'] = 'en'
         collection_details_model_json['enrichments'] = [collection_enrichment_model]
 
         # Construct a model instance of CollectionDetails by calling from_dict on the json representation
@@ -3280,7 +3354,7 @@ class TestCollectionDetails():
         collection_details_model_json2 = collection_details_model.to_dict()
         assert collection_details_model_json2 == collection_details_model_json
 
-class TestCollectionEnrichment():
+class TestModel_CollectionEnrichment():
     """
     Test Class for CollectionEnrichment
     """
@@ -3310,7 +3384,7 @@ class TestCollectionEnrichment():
         collection_enrichment_model_json2 = collection_enrichment_model.to_dict()
         assert collection_enrichment_model_json2 == collection_enrichment_model_json
 
-class TestCompletions():
+class TestModel_Completions():
     """
     Test Class for Completions
     """
@@ -3339,7 +3413,7 @@ class TestCompletions():
         completions_model_json2 = completions_model.to_dict()
         assert completions_model_json2 == completions_model_json
 
-class TestComponentSettingsAggregation():
+class TestModel_ComponentSettingsAggregation():
     """
     Test Class for ComponentSettingsAggregation
     """
@@ -3371,7 +3445,7 @@ class TestComponentSettingsAggregation():
         component_settings_aggregation_model_json2 = component_settings_aggregation_model.to_dict()
         assert component_settings_aggregation_model_json2 == component_settings_aggregation_model_json
 
-class TestComponentSettingsFieldsShown():
+class TestModel_ComponentSettingsFieldsShown():
     """
     Test Class for ComponentSettingsFieldsShown
     """
@@ -3410,7 +3484,7 @@ class TestComponentSettingsFieldsShown():
         component_settings_fields_shown_model_json2 = component_settings_fields_shown_model.to_dict()
         assert component_settings_fields_shown_model_json2 == component_settings_fields_shown_model_json
 
-class TestComponentSettingsFieldsShownBody():
+class TestModel_ComponentSettingsFieldsShownBody():
     """
     Test Class for ComponentSettingsFieldsShownBody
     """
@@ -3440,7 +3514,7 @@ class TestComponentSettingsFieldsShownBody():
         component_settings_fields_shown_body_model_json2 = component_settings_fields_shown_body_model.to_dict()
         assert component_settings_fields_shown_body_model_json2 == component_settings_fields_shown_body_model_json
 
-class TestComponentSettingsFieldsShownTitle():
+class TestModel_ComponentSettingsFieldsShownTitle():
     """
     Test Class for ComponentSettingsFieldsShownTitle
     """
@@ -3469,7 +3543,7 @@ class TestComponentSettingsFieldsShownTitle():
         component_settings_fields_shown_title_model_json2 = component_settings_fields_shown_title_model.to_dict()
         assert component_settings_fields_shown_title_model_json2 == component_settings_fields_shown_title_model_json
 
-class TestComponentSettingsResponse():
+class TestModel_ComponentSettingsResponse():
     """
     Test Class for ComponentSettingsResponse
     """
@@ -3521,7 +3595,7 @@ class TestComponentSettingsResponse():
         component_settings_response_model_json2 = component_settings_response_model.to_dict()
         assert component_settings_response_model_json2 == component_settings_response_model_json
 
-class TestCreateEnrichment():
+class TestModel_CreateEnrichment():
     """
     Test Class for CreateEnrichment
     """
@@ -3561,7 +3635,7 @@ class TestCreateEnrichment():
         create_enrichment_model_json2 = create_enrichment_model.to_dict()
         assert create_enrichment_model_json2 == create_enrichment_model_json
 
-class TestDefaultQueryParams():
+class TestModel_DefaultQueryParams():
     """
     Test Class for DefaultQueryParams
     """
@@ -3618,7 +3692,7 @@ class TestDefaultQueryParams():
         default_query_params_model_json2 = default_query_params_model.to_dict()
         assert default_query_params_model_json2 == default_query_params_model_json
 
-class TestDefaultQueryParamsPassages():
+class TestModel_DefaultQueryParamsPassages():
     """
     Test Class for DefaultQueryParamsPassages
     """
@@ -3652,7 +3726,7 @@ class TestDefaultQueryParamsPassages():
         default_query_params_passages_model_json2 = default_query_params_passages_model.to_dict()
         assert default_query_params_passages_model_json2 == default_query_params_passages_model_json
 
-class TestDefaultQueryParamsSuggestedRefinements():
+class TestModel_DefaultQueryParamsSuggestedRefinements():
     """
     Test Class for DefaultQueryParamsSuggestedRefinements
     """
@@ -3682,7 +3756,7 @@ class TestDefaultQueryParamsSuggestedRefinements():
         default_query_params_suggested_refinements_model_json2 = default_query_params_suggested_refinements_model.to_dict()
         assert default_query_params_suggested_refinements_model_json2 == default_query_params_suggested_refinements_model_json
 
-class TestDefaultQueryParamsTableResults():
+class TestModel_DefaultQueryParamsTableResults():
     """
     Test Class for DefaultQueryParamsTableResults
     """
@@ -3713,7 +3787,7 @@ class TestDefaultQueryParamsTableResults():
         default_query_params_table_results_model_json2 = default_query_params_table_results_model.to_dict()
         assert default_query_params_table_results_model_json2 == default_query_params_table_results_model_json
 
-class TestDeleteDocumentResponse():
+class TestModel_DeleteDocumentResponse():
     """
     Test Class for DeleteDocumentResponse
     """
@@ -3743,7 +3817,7 @@ class TestDeleteDocumentResponse():
         delete_document_response_model_json2 = delete_document_response_model.to_dict()
         assert delete_document_response_model_json2 == delete_document_response_model_json
 
-class TestDocumentAccepted():
+class TestModel_DocumentAccepted():
     """
     Test Class for DocumentAccepted
     """
@@ -3773,7 +3847,7 @@ class TestDocumentAccepted():
         document_accepted_model_json2 = document_accepted_model.to_dict()
         assert document_accepted_model_json2 == document_accepted_model_json
 
-class TestDocumentAttribute():
+class TestModel_DocumentAttribute():
     """
     Test Class for DocumentAttribute
     """
@@ -3810,7 +3884,7 @@ class TestDocumentAttribute():
         document_attribute_model_json2 = document_attribute_model.to_dict()
         assert document_attribute_model_json2 == document_attribute_model_json
 
-class TestEnrichment():
+class TestModel_Enrichment():
     """
     Test Class for Enrichment
     """
@@ -3851,7 +3925,7 @@ class TestEnrichment():
         enrichment_model_json2 = enrichment_model.to_dict()
         assert enrichment_model_json2 == enrichment_model_json
 
-class TestEnrichmentOptions():
+class TestModel_EnrichmentOptions():
     """
     Test Class for EnrichmentOptions
     """
@@ -3883,7 +3957,7 @@ class TestEnrichmentOptions():
         enrichment_options_model_json2 = enrichment_options_model.to_dict()
         assert enrichment_options_model_json2 == enrichment_options_model_json
 
-class TestEnrichments():
+class TestModel_Enrichments():
     """
     Test Class for Enrichments
     """
@@ -3927,7 +4001,7 @@ class TestEnrichments():
         enrichments_model_json2 = enrichments_model.to_dict()
         assert enrichments_model_json2 == enrichments_model_json
 
-class TestField():
+class TestModel_Field():
     """
     Test Class for Field
     """
@@ -3958,7 +4032,7 @@ class TestField():
         field_model_json2 = field_model.to_dict()
         assert field_model_json2 == field_model_json
 
-class TestListCollectionsResponse():
+class TestModel_ListCollectionsResponse():
     """
     Test Class for ListCollectionsResponse
     """
@@ -3993,7 +4067,7 @@ class TestListCollectionsResponse():
         list_collections_response_model_json2 = list_collections_response_model.to_dict()
         assert list_collections_response_model_json2 == list_collections_response_model_json
 
-class TestListFieldsResponse():
+class TestModel_ListFieldsResponse():
     """
     Test Class for ListFieldsResponse
     """
@@ -4029,7 +4103,7 @@ class TestListFieldsResponse():
         list_fields_response_model_json2 = list_fields_response_model.to_dict()
         assert list_fields_response_model_json2 == list_fields_response_model_json
 
-class TestListProjectsResponse():
+class TestModel_ListProjectsResponse():
     """
     Test Class for ListProjectsResponse
     """
@@ -4078,7 +4152,7 @@ class TestListProjectsResponse():
         list_projects_response_model_json2 = list_projects_response_model.to_dict()
         assert list_projects_response_model_json2 == list_projects_response_model_json
 
-class TestNotice():
+class TestModel_Notice():
     """
     Test Class for Notice
     """
@@ -4091,7 +4165,7 @@ class TestNotice():
         # Construct a json representation of a Notice model
         notice_model_json = {}
         notice_model_json['notice_id'] = 'testString'
-        notice_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        notice_model_json['created'] = "2019-01-01T12:00:00Z"
         notice_model_json['document_id'] = 'testString'
         notice_model_json['collection_id'] = 'testString'
         notice_model_json['query_id'] = 'testString'
@@ -4114,7 +4188,7 @@ class TestNotice():
         notice_model_json2 = notice_model.to_dict()
         assert notice_model_json2 == notice_model_json
 
-class TestProjectDetails():
+class TestModel_ProjectDetails():
     """
     Test Class for ProjectDetails
     """
@@ -4190,7 +4264,7 @@ class TestProjectDetails():
         project_details_model_json2 = project_details_model.to_dict()
         assert project_details_model_json2 == project_details_model_json
 
-class TestProjectListDetails():
+class TestModel_ProjectListDetails():
     """
     Test Class for ProjectListDetails
     """
@@ -4236,7 +4310,7 @@ class TestProjectListDetails():
         project_list_details_model_json2 = project_list_details_model.to_dict()
         assert project_list_details_model_json2 == project_list_details_model_json
 
-class TestProjectListDetailsRelevancyTrainingStatus():
+class TestModel_ProjectListDetailsRelevancyTrainingStatus():
     """
     Test Class for ProjectListDetailsRelevancyTrainingStatus
     """
@@ -4273,7 +4347,7 @@ class TestProjectListDetailsRelevancyTrainingStatus():
         project_list_details_relevancy_training_status_model_json2 = project_list_details_relevancy_training_status_model.to_dict()
         assert project_list_details_relevancy_training_status_model_json2 == project_list_details_relevancy_training_status_model_json
 
-class TestQueryAggregation():
+class TestModel_QueryAggregation():
     """
     Test Class for QueryAggregation
     """
@@ -4302,7 +4376,7 @@ class TestQueryAggregation():
         query_aggregation_model_json2 = query_aggregation_model.to_dict()
         assert query_aggregation_model_json2 == query_aggregation_model_json
 
-class TestQueryGroupByAggregationResult():
+class TestModel_QueryGroupByAggregationResult():
     """
     Test Class for QueryGroupByAggregationResult
     """
@@ -4343,7 +4417,7 @@ class TestQueryGroupByAggregationResult():
         query_group_by_aggregation_result_model_json2 = query_group_by_aggregation_result_model.to_dict()
         assert query_group_by_aggregation_result_model_json2 == query_group_by_aggregation_result_model_json
 
-class TestQueryHistogramAggregationResult():
+class TestModel_QueryHistogramAggregationResult():
     """
     Test Class for QueryHistogramAggregationResult
     """
@@ -4381,7 +4455,7 @@ class TestQueryHistogramAggregationResult():
         query_histogram_aggregation_result_model_json2 = query_histogram_aggregation_result_model.to_dict()
         assert query_histogram_aggregation_result_model_json2 == query_histogram_aggregation_result_model_json
 
-class TestQueryLargePassages():
+class TestModel_QueryLargePassages():
     """
     Test Class for QueryLargePassages
     """
@@ -4397,9 +4471,9 @@ class TestQueryLargePassages():
         query_large_passages_model_json['per_document'] = True
         query_large_passages_model_json['max_per_document'] = 38
         query_large_passages_model_json['fields'] = ['testString']
-        query_large_passages_model_json['count'] = 100
+        query_large_passages_model_json['count'] = 400
         query_large_passages_model_json['characters'] = 50
-        query_large_passages_model_json['find_answers'] = True
+        query_large_passages_model_json['find_answers'] = False
         query_large_passages_model_json['max_answers_per_passage'] = 38
 
         # Construct a model instance of QueryLargePassages by calling from_dict on the json representation
@@ -4417,7 +4491,7 @@ class TestQueryLargePassages():
         query_large_passages_model_json2 = query_large_passages_model.to_dict()
         assert query_large_passages_model_json2 == query_large_passages_model_json
 
-class TestQueryLargeSuggestedRefinements():
+class TestModel_QueryLargeSuggestedRefinements():
     """
     Test Class for QueryLargeSuggestedRefinements
     """
@@ -4447,7 +4521,7 @@ class TestQueryLargeSuggestedRefinements():
         query_large_suggested_refinements_model_json2 = query_large_suggested_refinements_model.to_dict()
         assert query_large_suggested_refinements_model_json2 == query_large_suggested_refinements_model_json
 
-class TestQueryLargeTableResults():
+class TestModel_QueryLargeTableResults():
     """
     Test Class for QueryLargeTableResults
     """
@@ -4477,7 +4551,7 @@ class TestQueryLargeTableResults():
         query_large_table_results_model_json2 = query_large_table_results_model.to_dict()
         assert query_large_table_results_model_json2 == query_large_table_results_model_json
 
-class TestQueryNoticesResponse():
+class TestModel_QueryNoticesResponse():
     """
     Test Class for QueryNoticesResponse
     """
@@ -4491,7 +4565,7 @@ class TestQueryNoticesResponse():
 
         notice_model = {} # Notice
         notice_model['notice_id'] = 'testString'
-        notice_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        notice_model['created'] = "2019-01-01T12:00:00Z"
         notice_model['document_id'] = 'testString'
         notice_model['collection_id'] = 'testString'
         notice_model['query_id'] = 'testString'
@@ -4519,7 +4593,7 @@ class TestQueryNoticesResponse():
         query_notices_response_model_json2 = query_notices_response_model.to_dict()
         assert query_notices_response_model_json2 == query_notices_response_model_json
 
-class TestQueryResponse():
+class TestModel_QueryResponse():
     """
     Test Class for QueryResponse
     """
@@ -4555,7 +4629,7 @@ class TestQueryResponse():
         query_result_model['metadata'] = {}
         query_result_model['result_metadata'] = query_result_metadata_model
         query_result_model['document_passages'] = [query_result_passage_model]
-        query_result_model['foo'] = { 'foo': 'bar' }
+        query_result_model['id'] = { 'foo': 'bar' }
 
         query_aggregation_model = {} # QueryFilterAggregation
         query_aggregation_model['type'] = 'filter'
@@ -4715,7 +4789,7 @@ class TestQueryResponse():
         query_response_model_json2 = query_response_model.to_dict()
         assert query_response_model_json2 == query_response_model_json
 
-class TestQueryResponsePassage():
+class TestModel_QueryResponsePassage():
     """
     Test Class for QueryResponsePassage
     """
@@ -4760,7 +4834,7 @@ class TestQueryResponsePassage():
         query_response_passage_model_json2 = query_response_passage_model.to_dict()
         assert query_response_passage_model_json2 == query_response_passage_model_json
 
-class TestQueryResult():
+class TestModel_QueryResult():
     """
     Test Class for QueryResult
     """
@@ -4814,7 +4888,17 @@ class TestQueryResult():
         query_result_model_json2 = query_result_model.to_dict()
         assert query_result_model_json2 == query_result_model_json
 
-class TestQueryResultMetadata():
+        # Test get_properties and set_properties methods.
+        query_result_model.set_properties({})
+        actual_dict = query_result_model.get_properties()
+        assert actual_dict == {}
+
+        expected_dict = {'foo': { 'foo': 'bar' }}
+        query_result_model.set_properties(expected_dict)
+        actual_dict = query_result_model.get_properties()
+        assert actual_dict == expected_dict
+
+class TestModel_QueryResultMetadata():
     """
     Test Class for QueryResultMetadata
     """
@@ -4845,7 +4929,7 @@ class TestQueryResultMetadata():
         query_result_metadata_model_json2 = query_result_metadata_model.to_dict()
         assert query_result_metadata_model_json2 == query_result_metadata_model_json
 
-class TestQueryResultPassage():
+class TestModel_QueryResultPassage():
     """
     Test Class for QueryResultPassage
     """
@@ -4887,7 +4971,7 @@ class TestQueryResultPassage():
         query_result_passage_model_json2 = query_result_passage_model.to_dict()
         assert query_result_passage_model_json2 == query_result_passage_model_json
 
-class TestQuerySuggestedRefinement():
+class TestModel_QuerySuggestedRefinement():
     """
     Test Class for QuerySuggestedRefinement
     """
@@ -4916,7 +5000,7 @@ class TestQuerySuggestedRefinement():
         query_suggested_refinement_model_json2 = query_suggested_refinement_model.to_dict()
         assert query_suggested_refinement_model_json2 == query_suggested_refinement_model_json
 
-class TestQueryTableResult():
+class TestModel_QueryTableResult():
     """
     Test Class for QueryTableResult
     """
@@ -5054,7 +5138,7 @@ class TestQueryTableResult():
         query_table_result_model_json2 = query_table_result_model.to_dict()
         assert query_table_result_model_json2 == query_table_result_model_json
 
-class TestQueryTermAggregationResult():
+class TestModel_QueryTermAggregationResult():
     """
     Test Class for QueryTermAggregationResult
     """
@@ -5095,7 +5179,7 @@ class TestQueryTermAggregationResult():
         query_term_aggregation_result_model_json2 = query_term_aggregation_result_model.to_dict()
         assert query_term_aggregation_result_model_json2 == query_term_aggregation_result_model_json
 
-class TestQueryTimesliceAggregationResult():
+class TestModel_QueryTimesliceAggregationResult():
     """
     Test Class for QueryTimesliceAggregationResult
     """
@@ -5134,7 +5218,7 @@ class TestQueryTimesliceAggregationResult():
         query_timeslice_aggregation_result_model_json2 = query_timeslice_aggregation_result_model.to_dict()
         assert query_timeslice_aggregation_result_model_json2 == query_timeslice_aggregation_result_model_json
 
-class TestQueryTopHitsAggregationResult():
+class TestModel_QueryTopHitsAggregationResult():
     """
     Test Class for QueryTopHitsAggregationResult
     """
@@ -5164,7 +5248,7 @@ class TestQueryTopHitsAggregationResult():
         query_top_hits_aggregation_result_model_json2 = query_top_hits_aggregation_result_model.to_dict()
         assert query_top_hits_aggregation_result_model_json2 == query_top_hits_aggregation_result_model_json
 
-class TestResultPassageAnswer():
+class TestModel_ResultPassageAnswer():
     """
     Test Class for ResultPassageAnswer
     """
@@ -5196,7 +5280,7 @@ class TestResultPassageAnswer():
         result_passage_answer_model_json2 = result_passage_answer_model.to_dict()
         assert result_passage_answer_model_json2 == result_passage_answer_model_json
 
-class TestRetrievalDetails():
+class TestModel_RetrievalDetails():
     """
     Test Class for RetrievalDetails
     """
@@ -5225,7 +5309,7 @@ class TestRetrievalDetails():
         retrieval_details_model_json2 = retrieval_details_model.to_dict()
         assert retrieval_details_model_json2 == retrieval_details_model_json
 
-class TestTableBodyCells():
+class TestModel_TableBodyCells():
     """
     Test Class for TableBodyCells
     """
@@ -5296,7 +5380,7 @@ class TestTableBodyCells():
         table_body_cells_model_json2 = table_body_cells_model.to_dict()
         assert table_body_cells_model_json2 == table_body_cells_model_json
 
-class TestTableCellKey():
+class TestModel_TableCellKey():
     """
     Test Class for TableCellKey
     """
@@ -5333,7 +5417,7 @@ class TestTableCellKey():
         table_cell_key_model_json2 = table_cell_key_model.to_dict()
         assert table_cell_key_model_json2 == table_cell_key_model_json
 
-class TestTableCellValues():
+class TestModel_TableCellValues():
     """
     Test Class for TableCellValues
     """
@@ -5370,7 +5454,7 @@ class TestTableCellValues():
         table_cell_values_model_json2 = table_cell_values_model.to_dict()
         assert table_cell_values_model_json2 == table_cell_values_model_json
 
-class TestTableColumnHeaderIds():
+class TestModel_TableColumnHeaderIds():
     """
     Test Class for TableColumnHeaderIds
     """
@@ -5399,7 +5483,7 @@ class TestTableColumnHeaderIds():
         table_column_header_ids_model_json2 = table_column_header_ids_model.to_dict()
         assert table_column_header_ids_model_json2 == table_column_header_ids_model_json
 
-class TestTableColumnHeaderTexts():
+class TestModel_TableColumnHeaderTexts():
     """
     Test Class for TableColumnHeaderTexts
     """
@@ -5428,7 +5512,7 @@ class TestTableColumnHeaderTexts():
         table_column_header_texts_model_json2 = table_column_header_texts_model.to_dict()
         assert table_column_header_texts_model_json2 == table_column_header_texts_model_json
 
-class TestTableColumnHeaderTextsNormalized():
+class TestModel_TableColumnHeaderTextsNormalized():
     """
     Test Class for TableColumnHeaderTextsNormalized
     """
@@ -5457,7 +5541,7 @@ class TestTableColumnHeaderTextsNormalized():
         table_column_header_texts_normalized_model_json2 = table_column_header_texts_normalized_model.to_dict()
         assert table_column_header_texts_normalized_model_json2 == table_column_header_texts_normalized_model_json
 
-class TestTableColumnHeaders():
+class TestModel_TableColumnHeaders():
     """
     Test Class for TableColumnHeaders
     """
@@ -5493,7 +5577,7 @@ class TestTableColumnHeaders():
         table_column_headers_model_json2 = table_column_headers_model.to_dict()
         assert table_column_headers_model_json2 == table_column_headers_model_json
 
-class TestTableElementLocation():
+class TestModel_TableElementLocation():
     """
     Test Class for TableElementLocation
     """
@@ -5523,7 +5607,7 @@ class TestTableElementLocation():
         table_element_location_model_json2 = table_element_location_model.to_dict()
         assert table_element_location_model_json2 == table_element_location_model_json
 
-class TestTableHeaders():
+class TestModel_TableHeaders():
     """
     Test Class for TableHeaders
     """
@@ -5558,7 +5642,7 @@ class TestTableHeaders():
         table_headers_model_json2 = table_headers_model.to_dict()
         assert table_headers_model_json2 == table_headers_model_json
 
-class TestTableKeyValuePairs():
+class TestModel_TableKeyValuePairs():
     """
     Test Class for TableKeyValuePairs
     """
@@ -5604,7 +5688,7 @@ class TestTableKeyValuePairs():
         table_key_value_pairs_model_json2 = table_key_value_pairs_model.to_dict()
         assert table_key_value_pairs_model_json2 == table_key_value_pairs_model_json
 
-class TestTableResultTable():
+class TestModel_TableResultTable():
     """
     Test Class for TableResultTable
     """
@@ -5734,7 +5818,7 @@ class TestTableResultTable():
         table_result_table_model_json2 = table_result_table_model.to_dict()
         assert table_result_table_model_json2 == table_result_table_model_json
 
-class TestTableRowHeaderIds():
+class TestModel_TableRowHeaderIds():
     """
     Test Class for TableRowHeaderIds
     """
@@ -5763,7 +5847,7 @@ class TestTableRowHeaderIds():
         table_row_header_ids_model_json2 = table_row_header_ids_model.to_dict()
         assert table_row_header_ids_model_json2 == table_row_header_ids_model_json
 
-class TestTableRowHeaderTexts():
+class TestModel_TableRowHeaderTexts():
     """
     Test Class for TableRowHeaderTexts
     """
@@ -5792,7 +5876,7 @@ class TestTableRowHeaderTexts():
         table_row_header_texts_model_json2 = table_row_header_texts_model.to_dict()
         assert table_row_header_texts_model_json2 == table_row_header_texts_model_json
 
-class TestTableRowHeaderTextsNormalized():
+class TestModel_TableRowHeaderTextsNormalized():
     """
     Test Class for TableRowHeaderTextsNormalized
     """
@@ -5821,7 +5905,7 @@ class TestTableRowHeaderTextsNormalized():
         table_row_header_texts_normalized_model_json2 = table_row_header_texts_normalized_model.to_dict()
         assert table_row_header_texts_normalized_model_json2 == table_row_header_texts_normalized_model_json
 
-class TestTableRowHeaders():
+class TestModel_TableRowHeaders():
     """
     Test Class for TableRowHeaders
     """
@@ -5863,7 +5947,7 @@ class TestTableRowHeaders():
         table_row_headers_model_json2 = table_row_headers_model.to_dict()
         assert table_row_headers_model_json2 == table_row_headers_model_json
 
-class TestTableTextLocation():
+class TestModel_TableTextLocation():
     """
     Test Class for TableTextLocation
     """
@@ -5899,7 +5983,7 @@ class TestTableTextLocation():
         table_text_location_model_json2 = table_text_location_model.to_dict()
         assert table_text_location_model_json2 == table_text_location_model_json
 
-class TestTrainingExample():
+class TestModel_TrainingExample():
     """
     Test Class for TrainingExample
     """
@@ -5914,8 +5998,8 @@ class TestTrainingExample():
         training_example_model_json['document_id'] = 'testString'
         training_example_model_json['collection_id'] = 'testString'
         training_example_model_json['relevance'] = 38
-        training_example_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        training_example_model_json['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        training_example_model_json['created'] = "2019-01-01T12:00:00Z"
+        training_example_model_json['updated'] = "2019-01-01T12:00:00Z"
 
         # Construct a model instance of TrainingExample by calling from_dict on the json representation
         training_example_model = TrainingExample.from_dict(training_example_model_json)
@@ -5932,7 +6016,7 @@ class TestTrainingExample():
         training_example_model_json2 = training_example_model.to_dict()
         assert training_example_model_json2 == training_example_model_json
 
-class TestTrainingQuery():
+class TestModel_TrainingQuery():
     """
     Test Class for TrainingQuery
     """
@@ -5948,16 +6032,16 @@ class TestTrainingQuery():
         training_example_model['document_id'] = 'testString'
         training_example_model['collection_id'] = 'testString'
         training_example_model['relevance'] = 38
-        training_example_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        training_example_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        training_example_model['created'] = "2019-01-01T12:00:00Z"
+        training_example_model['updated'] = "2019-01-01T12:00:00Z"
 
         # Construct a json representation of a TrainingQuery model
         training_query_model_json = {}
         training_query_model_json['query_id'] = 'testString'
         training_query_model_json['natural_language_query'] = 'testString'
         training_query_model_json['filter'] = 'testString'
-        training_query_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        training_query_model_json['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        training_query_model_json['created'] = "2019-01-01T12:00:00Z"
+        training_query_model_json['updated'] = "2019-01-01T12:00:00Z"
         training_query_model_json['examples'] = [training_example_model]
 
         # Construct a model instance of TrainingQuery by calling from_dict on the json representation
@@ -5975,7 +6059,7 @@ class TestTrainingQuery():
         training_query_model_json2 = training_query_model.to_dict()
         assert training_query_model_json2 == training_query_model_json
 
-class TestTrainingQuerySet():
+class TestModel_TrainingQuerySet():
     """
     Test Class for TrainingQuerySet
     """
@@ -5991,15 +6075,15 @@ class TestTrainingQuerySet():
         training_example_model['document_id'] = 'testString'
         training_example_model['collection_id'] = 'testString'
         training_example_model['relevance'] = 38
-        training_example_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        training_example_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        training_example_model['created'] = "2019-01-01T12:00:00Z"
+        training_example_model['updated'] = "2019-01-01T12:00:00Z"
 
         training_query_model = {} # TrainingQuery
         training_query_model['query_id'] = 'testString'
         training_query_model['natural_language_query'] = 'testString'
         training_query_model['filter'] = 'testString'
-        training_query_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        training_query_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        training_query_model['created'] = "2019-01-01T12:00:00Z"
+        training_query_model['updated'] = "2019-01-01T12:00:00Z"
         training_query_model['examples'] = [training_example_model]
 
         # Construct a json representation of a TrainingQuerySet model
@@ -6021,7 +6105,7 @@ class TestTrainingQuerySet():
         training_query_set_model_json2 = training_query_set_model.to_dict()
         assert training_query_set_model_json2 == training_query_set_model_json
 
-class TestQueryCalculationAggregation():
+class TestModel_QueryCalculationAggregation():
     """
     Test Class for QueryCalculationAggregation
     """
@@ -6052,7 +6136,7 @@ class TestQueryCalculationAggregation():
         query_calculation_aggregation_model_json2 = query_calculation_aggregation_model.to_dict()
         assert query_calculation_aggregation_model_json2 == query_calculation_aggregation_model_json
 
-class TestQueryFilterAggregation():
+class TestModel_QueryFilterAggregation():
     """
     Test Class for QueryFilterAggregation
     """
@@ -6083,7 +6167,7 @@ class TestQueryFilterAggregation():
         query_filter_aggregation_model_json2 = query_filter_aggregation_model.to_dict()
         assert query_filter_aggregation_model_json2 == query_filter_aggregation_model_json
 
-class TestQueryGroupByAggregation():
+class TestModel_QueryGroupByAggregation():
     """
     Test Class for QueryGroupByAggregation
     """
@@ -6112,7 +6196,7 @@ class TestQueryGroupByAggregation():
         query_group_by_aggregation_model_json2 = query_group_by_aggregation_model.to_dict()
         assert query_group_by_aggregation_model_json2 == query_group_by_aggregation_model_json
 
-class TestQueryHistogramAggregation():
+class TestModel_QueryHistogramAggregation():
     """
     Test Class for QueryHistogramAggregation
     """
@@ -6144,7 +6228,7 @@ class TestQueryHistogramAggregation():
         query_histogram_aggregation_model_json2 = query_histogram_aggregation_model.to_dict()
         assert query_histogram_aggregation_model_json2 == query_histogram_aggregation_model_json
 
-class TestQueryNestedAggregation():
+class TestModel_QueryNestedAggregation():
     """
     Test Class for QueryNestedAggregation
     """
@@ -6175,7 +6259,7 @@ class TestQueryNestedAggregation():
         query_nested_aggregation_model_json2 = query_nested_aggregation_model.to_dict()
         assert query_nested_aggregation_model_json2 == query_nested_aggregation_model_json
 
-class TestQueryTermAggregation():
+class TestModel_QueryTermAggregation():
     """
     Test Class for QueryTermAggregation
     """
@@ -6207,7 +6291,7 @@ class TestQueryTermAggregation():
         query_term_aggregation_model_json2 = query_term_aggregation_model.to_dict()
         assert query_term_aggregation_model_json2 == query_term_aggregation_model_json
 
-class TestQueryTimesliceAggregation():
+class TestModel_QueryTimesliceAggregation():
     """
     Test Class for QueryTimesliceAggregation
     """
@@ -6239,7 +6323,7 @@ class TestQueryTimesliceAggregation():
         query_timeslice_aggregation_model_json2 = query_timeslice_aggregation_model.to_dict()
         assert query_timeslice_aggregation_model_json2 == query_timeslice_aggregation_model_json
 
-class TestQueryTopHitsAggregation():
+class TestModel_QueryTopHitsAggregation():
     """
     Test Class for QueryTopHitsAggregation
     """

@@ -51,6 +51,8 @@ class TestProfile():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -77,10 +79,10 @@ class TestProfile():
         content_item_model['created'] = 26
         content_item_model['updated'] = 26
         content_item_model['contenttype'] = 'text/plain'
-        content_item_model['language'] = 'ar'
+        content_item_model['language'] = 'en'
         content_item_model['parentid'] = 'testString'
-        content_item_model['reply'] = True
-        content_item_model['forward'] = True
+        content_item_model['reply'] = False
+        content_item_model['forward'] = False
 
         # Construct a dict representation of a Content model
         content_model = {}
@@ -89,12 +91,12 @@ class TestProfile():
         # Set up parameter values
         content = content_model
         accept = 'application/json'
-        content_type = 'application/json'
-        content_language = 'ar'
-        accept_language = 'ar'
-        raw_scores = True
-        csv_headers = True
-        consumption_preferences = True
+        content_type = 'text/plain'
+        content_language = 'en'
+        accept_language = 'en'
+        raw_scores = False
+        csv_headers = False
+        consumption_preferences = False
 
         # Invoke method
         response = _service.profile(
@@ -142,10 +144,10 @@ class TestProfile():
         content_item_model['created'] = 26
         content_item_model['updated'] = 26
         content_item_model['contenttype'] = 'text/plain'
-        content_item_model['language'] = 'ar'
+        content_item_model['language'] = 'en'
         content_item_model['parentid'] = 'testString'
-        content_item_model['reply'] = True
-        content_item_model['forward'] = True
+        content_item_model['reply'] = False
+        content_item_model['forward'] = False
 
         # Construct a dict representation of a Content model
         content_model = {}
@@ -189,10 +191,10 @@ class TestProfile():
         content_item_model['created'] = 26
         content_item_model['updated'] = 26
         content_item_model['contenttype'] = 'text/plain'
-        content_item_model['language'] = 'ar'
+        content_item_model['language'] = 'en'
         content_item_model['parentid'] = 'testString'
-        content_item_model['reply'] = True
-        content_item_model['forward'] = True
+        content_item_model['reply'] = False
+        content_item_model['forward'] = False
 
         # Construct a dict representation of a Content model
         content_model = {}
@@ -224,7 +226,7 @@ class TestProfile():
 # Start of Model Tests
 ##############################################################################
 # region
-class TestBehavior():
+class TestModel_Behavior():
     """
     Test Class for Behavior
     """
@@ -256,7 +258,7 @@ class TestBehavior():
         behavior_model_json2 = behavior_model.to_dict()
         assert behavior_model_json2 == behavior_model_json
 
-class TestConsumptionPreferences():
+class TestModel_ConsumptionPreferences():
     """
     Test Class for ConsumptionPreferences
     """
@@ -287,7 +289,7 @@ class TestConsumptionPreferences():
         consumption_preferences_model_json2 = consumption_preferences_model.to_dict()
         assert consumption_preferences_model_json2 == consumption_preferences_model_json
 
-class TestConsumptionPreferencesCategory():
+class TestModel_ConsumptionPreferencesCategory():
     """
     Test Class for ConsumptionPreferencesCategory
     """
@@ -325,7 +327,7 @@ class TestConsumptionPreferencesCategory():
         consumption_preferences_category_model_json2 = consumption_preferences_category_model.to_dict()
         assert consumption_preferences_category_model_json2 == consumption_preferences_category_model_json
 
-class TestContent():
+class TestModel_Content():
     """
     Test Class for Content
     """
@@ -343,10 +345,10 @@ class TestContent():
         content_item_model['created'] = 26
         content_item_model['updated'] = 26
         content_item_model['contenttype'] = 'text/plain'
-        content_item_model['language'] = 'ar'
+        content_item_model['language'] = 'en'
         content_item_model['parentid'] = 'testString'
-        content_item_model['reply'] = True
-        content_item_model['forward'] = True
+        content_item_model['reply'] = False
+        content_item_model['forward'] = False
 
         # Construct a json representation of a Content model
         content_model_json = {}
@@ -367,7 +369,7 @@ class TestContent():
         content_model_json2 = content_model.to_dict()
         assert content_model_json2 == content_model_json
 
-class TestContentItem():
+class TestModel_ContentItem():
     """
     Test Class for ContentItem
     """
@@ -384,10 +386,10 @@ class TestContentItem():
         content_item_model_json['created'] = 26
         content_item_model_json['updated'] = 26
         content_item_model_json['contenttype'] = 'text/plain'
-        content_item_model_json['language'] = 'ar'
+        content_item_model_json['language'] = 'en'
         content_item_model_json['parentid'] = 'testString'
-        content_item_model_json['reply'] = True
-        content_item_model_json['forward'] = True
+        content_item_model_json['reply'] = False
+        content_item_model_json['forward'] = False
 
         # Construct a model instance of ContentItem by calling from_dict on the json representation
         content_item_model = ContentItem.from_dict(content_item_model_json)
@@ -404,7 +406,7 @@ class TestContentItem():
         content_item_model_json2 = content_item_model.to_dict()
         assert content_item_model_json2 == content_item_model_json
 
-class TestProfile():
+class TestModel_Profile():
     """
     Test Class for Profile
     """
@@ -471,7 +473,7 @@ class TestProfile():
         profile_model_json2 = profile_model.to_dict()
         assert profile_model_json2 == profile_model_json
 
-class TestTrait():
+class TestModel_Trait():
     """
     Test Class for Trait
     """
@@ -505,7 +507,7 @@ class TestTrait():
         trait_model_json2 = trait_model.to_dict()
         assert trait_model_json2 == trait_model_json
 
-class TestWarning():
+class TestModel_Warning():
     """
     Test Class for Warning
     """
