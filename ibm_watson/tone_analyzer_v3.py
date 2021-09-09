@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-a45d89ef-20201209-192237
+# IBM OpenAPI SDK Code Generator Version: 3.38.0-07189efd-20210827-205025
 """
 The IBM Watson&trade; Tone Analyzer service uses linguistic analysis to detect emotional
 and language tones in written text. The service can analyze tone at both the document and
@@ -25,6 +25,9 @@ customer appropriately, or to understand and improve their customer conversation
 **Note:** Request logging is disabled for the Tone Analyzer service. Regardless of whether
 you set the `X-Watson-Learning-Opt-Out` request header, the service does not log or retain
 data from requests and responses.
+
+API Version: 3.5.3
+See: https://cloud.ibm.com/docs/tone-analyzer
 """
 
 from enum import Enum
@@ -184,7 +187,7 @@ class ToneAnalyzerV3(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def tone_chat(self,
@@ -258,7 +261,7 @@ class ToneAnalyzerV3(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 

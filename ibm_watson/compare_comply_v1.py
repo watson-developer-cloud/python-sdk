@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-902c9336-20210507-162723
+# IBM OpenAPI SDK Code Generator Version: 3.38.0-07189efd-20210827-205025
 """
 IBM Watson&trade; Compare and Comply is discontinued. Existing instances are supported
 until 30 November 2021, but as of 1 December 2020, you can't create instances. Any
@@ -25,6 +25,9 @@ migration process, visit
 {: deprecated}
 Compare and Comply analyzes governing documents to provide details about critical aspects
 of the documents.
+
+API Version: 1.0
+See: https://cloud.ibm.com/docs/compare-comply?topic=compare-comply-about
 """
 
 from datetime import datetime
@@ -132,7 +135,7 @@ class CompareComplyV1(BaseService):
                                        params=params,
                                        files=form_data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -187,7 +190,7 @@ class CompareComplyV1(BaseService):
                                        params=params,
                                        files=form_data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -242,7 +245,7 @@ class CompareComplyV1(BaseService):
                                        params=params,
                                        files=form_data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -314,7 +317,7 @@ class CompareComplyV1(BaseService):
                                        params=params,
                                        files=form_data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -376,7 +379,7 @@ class CompareComplyV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def list_feedback(self,
@@ -488,7 +491,7 @@ class CompareComplyV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_feedback(self,
@@ -536,7 +539,7 @@ class CompareComplyV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_feedback(self,
@@ -584,7 +587,7 @@ class CompareComplyV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -690,7 +693,7 @@ class CompareComplyV1(BaseService):
                                        params=params,
                                        files=form_data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def list_batches(self, **kwargs) -> DetailedResponse:
@@ -722,7 +725,7 @@ class CompareComplyV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_batch(self, batch_id: str, **kwargs) -> DetailedResponse:
@@ -761,7 +764,7 @@ class CompareComplyV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def update_batch(self,
@@ -814,7 +817,7 @@ class CompareComplyV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 

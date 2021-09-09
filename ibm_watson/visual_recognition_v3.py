@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-a45d89ef-20201209-192237
+# IBM OpenAPI SDK Code Generator Version: 3.38.0-07189efd-20210827-205025
 """
 IBM Watson&trade; Visual Recognition is discontinued. Existing instances are supported
 until 1 December 2021, but as of 7 January 2021, you can't create instances. Any instance
@@ -23,6 +23,9 @@ that is provisioned on 1 December 2021 will be deleted.
 The IBM Watson Visual Recognition service uses deep learning algorithms to identify scenes
 and objects in images that you upload to the service. You can create and train a custom
 classifier to identify subjects that suit your needs.
+
+API Version: 3.0
+See: https://cloud.ibm.com/docs/visual-recognition
 """
 
 from datetime import datetime
@@ -182,7 +185,7 @@ class VisualRecognitionV3(BaseService):
                                        params=params,
                                        files=form_data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -236,6 +239,7 @@ class VisualRecognitionV3(BaseService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `Classifier` object
         """
+
         if name is None:
             raise ValueError('name must be provided')
         if not positive_examples:
@@ -279,7 +283,7 @@ class VisualRecognitionV3(BaseService):
                                        params=params,
                                        files=form_data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def list_classifiers(self,
@@ -314,7 +318,7 @@ class VisualRecognitionV3(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_classifier(self, classifier_id: str, **kwargs) -> DetailedResponse:
@@ -352,7 +356,7 @@ class VisualRecognitionV3(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def update_classifier(self,
@@ -406,6 +410,7 @@ class VisualRecognitionV3(BaseService):
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `Classifier` object
         """
+
         if classifier_id is None:
             raise ValueError('classifier_id must be provided')
         headers = {}
@@ -449,7 +454,7 @@ class VisualRecognitionV3(BaseService):
                                        params=params,
                                        files=form_data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_classifier(self, classifier_id: str,
@@ -486,7 +491,7 @@ class VisualRecognitionV3(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -531,7 +536,7 @@ class VisualRecognitionV3(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -576,7 +581,7 @@ class VisualRecognitionV3(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 

@@ -14,13 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-a45d89ef-20201209-192237
+# IBM OpenAPI SDK Code Generator Version: 3.38.0-07189efd-20210827-205025
 """
 IBM Watson&trade; Discovery is a cognitive search and content analytics engine that you
 can add to applications to identify patterns, trends and actionable insights to drive
 better decision-making. Securely unify structured and unstructured data with pre-enriched
 content, and use a simplified query language to eliminate the need for manual filtering of
 results.
+
+API Version: 1.0
+See: https://cloud.ibm.com/docs/discovery
 """
 
 from datetime import date
@@ -130,7 +133,7 @@ class DiscoveryV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def list_environments(self,
@@ -166,7 +169,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_environment(self, environment_id: str,
@@ -203,7 +206,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def update_environment(self,
@@ -259,7 +262,7 @@ class DiscoveryV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_environment(self, environment_id: str,
@@ -296,7 +299,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def list_fields(self, environment_id: str, collection_ids: List[str],
@@ -344,7 +347,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -441,7 +444,7 @@ class DiscoveryV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def list_configurations(self,
@@ -485,7 +488,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_configuration(self, environment_id: str, configuration_id: str,
@@ -527,7 +530,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def update_configuration(
@@ -624,7 +627,7 @@ class DiscoveryV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_configuration(self, environment_id: str, configuration_id: str,
@@ -673,7 +676,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -740,7 +743,7 @@ class DiscoveryV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def list_collections(self,
@@ -784,7 +787,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_collection(self, environment_id: str, collection_id: str,
@@ -825,7 +828,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def update_collection(self,
@@ -888,7 +891,7 @@ class DiscoveryV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_collection(self, environment_id: str, collection_id: str,
@@ -929,7 +932,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def list_collection_fields(self, environment_id: str, collection_id: str,
@@ -972,7 +975,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -1020,7 +1023,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def create_expansions(self, environment_id: str, collection_id: str,
@@ -1088,7 +1091,7 @@ class DiscoveryV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_expansions(self, environment_id: str, collection_id: str,
@@ -1131,7 +1134,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_tokenization_dictionary_status(self, environment_id: str,
@@ -1177,7 +1180,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def create_tokenization_dictionary(
@@ -1238,7 +1241,7 @@ class DiscoveryV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_tokenization_dictionary(self, environment_id: str,
@@ -1282,7 +1285,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_stopword_list_status(self, environment_id: str, collection_id: str,
@@ -1325,7 +1328,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def create_stopword_list(self,
@@ -1386,7 +1389,7 @@ class DiscoveryV1(BaseService):
                                        params=params,
                                        files=form_data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_stopword_list(self, environment_id: str, collection_id: str,
@@ -1429,7 +1432,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -1525,7 +1528,7 @@ class DiscoveryV1(BaseService):
                                        params=params,
                                        files=form_data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_document_status(self, environment_id: str, collection_id: str,
@@ -1575,7 +1578,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def update_document(self,
@@ -1656,7 +1659,7 @@ class DiscoveryV1(BaseService):
                                        params=params,
                                        files=form_data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_document(self, environment_id: str, collection_id: str,
@@ -1705,7 +1708,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -1879,7 +1882,7 @@ class DiscoveryV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def query_notices(self,
@@ -2019,7 +2022,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def federated_query(self,
@@ -2183,7 +2186,7 @@ class DiscoveryV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def federated_query_notices(self,
@@ -2307,7 +2310,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_autocompletion(self,
@@ -2328,8 +2331,7 @@ class DiscoveryV1(BaseService):
         :param str environment_id: The ID of the environment.
         :param str collection_id: The ID of the collection.
         :param str prefix: The prefix to use for autocompletion. For example, the
-               prefix `Ho` could autocomplete to `Hot`, `Housing`, or `How do I upgrade`.
-               Possible completions are.
+               prefix `Ho` could autocomplete to `hot`, `housing`, or `how`.
         :param str field: (optional) The field in the result documents that
                autocompletion suggestions are identified from.
         :param int count: (optional) The number of autocompletion suggestions to
@@ -2372,7 +2374,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -2419,7 +2421,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def add_training_data(self,
@@ -2487,7 +2489,7 @@ class DiscoveryV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_all_training_data(self, environment_id: str, collection_id: str,
@@ -2529,7 +2531,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_training_data(self, environment_id: str, collection_id: str,
@@ -2577,7 +2579,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_training_data(self, environment_id: str, collection_id: str,
@@ -2624,7 +2626,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def list_training_examples(self, environment_id: str, collection_id: str,
@@ -2671,7 +2673,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def create_training_example(self,
@@ -2740,7 +2742,7 @@ class DiscoveryV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_training_example(self, environment_id: str, collection_id: str,
@@ -2792,7 +2794,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def update_training_example(self,
@@ -2859,7 +2861,7 @@ class DiscoveryV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_training_example(self, environment_id: str, collection_id: str,
@@ -2912,7 +2914,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -2956,7 +2958,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -3008,7 +3010,7 @@ class DiscoveryV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def query_log(self,
@@ -3072,7 +3074,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_metrics_query(self,
@@ -3121,7 +3123,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_metrics_query_event(self,
@@ -3171,7 +3173,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_metrics_query_no_results(self,
@@ -3221,7 +3223,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_metrics_event_rate(self,
@@ -3271,7 +3273,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_metrics_query_token_event(self,
@@ -3312,7 +3314,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -3358,7 +3360,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def create_credentials(self,
@@ -3437,7 +3439,7 @@ class DiscoveryV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_credentials(self, environment_id: str, credential_id: str,
@@ -3483,7 +3485,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def update_credentials(self,
@@ -3566,7 +3568,7 @@ class DiscoveryV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_credentials(self, environment_id: str, credential_id: str,
@@ -3610,7 +3612,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -3653,7 +3655,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def create_gateway(self,
@@ -3703,7 +3705,7 @@ class DiscoveryV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_gateway(self, environment_id: str, gateway_id: str,
@@ -3746,7 +3748,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_gateway(self, environment_id: str, gateway_id: str,
@@ -3789,7 +3791,7 @@ class DiscoveryV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -6063,10 +6065,9 @@ class Enrichment():
           are `natural_language_understanding` and `elements`.
            When using `natual_language_understanding`, the **options** object must contain
           Natural Language Understanding options.
-           When using `elements` the **options** object must contain Element
-          Classification options. Additionally, when using the `elements` enrichment the
-          configuration specified and files ingested must meet all the criteria specified
-          in [the
+          When using `elements` the **options** object must contain Element Classification
+          options. Additionally, when using the `elements` enrichment the configuration
+          specified and files ingested must meet all the criteria specified in [the
           documentation](https://cloud.ibm.com/docs/discovery?topic=discovery-element-classification#element-classification).
     :attr bool ignore_downstream_errors: (optional) If true, then most errors
           generated during the enrichment process will be treated as warnings and will not
@@ -6098,7 +6099,7 @@ class Enrichment():
                options are `natural_language_understanding` and `elements`.
                 When using `natual_language_understanding`, the **options** object must
                contain Natural Language Understanding options.
-                When using `elements` the **options** object must contain Element
+               When using `elements` the **options** object must contain Element
                Classification options. Additionally, when using the `elements` enrichment
                the configuration specified and files ingested must meet all the criteria
                specified in [the
@@ -6210,8 +6211,8 @@ class EnrichmentOptions():
           (German), `it` (Italian), `pt` (Portuguese), `ru` (Russian), `es` (Spanish), and
           `sv` (Swedish). **Note:** Not all features support all languages, automatic
           detection is recommended.
-    :attr str model: (optional) *For use with `elements` enrichments only.* The
-          element extraction model to use. Models available are: `contract`.
+    :attr str model: (optional) For use with `elements` enrichments only. The
+          element extraction model to use. The only model available is `contract`.
     """
 
     def __init__(self,
@@ -6230,8 +6231,8 @@ class EnrichmentOptions():
                `fr` (French), `de` (German), `it` (Italian), `pt` (Portuguese), `ru`
                (Russian), `es` (Spanish), and `sv` (Swedish). **Note:** Not all features
                support all languages, automatic detection is recommended.
-        :param str model: (optional) *For use with `elements` enrichments only.*
-               The element extraction model to use. Models available are: `contract`.
+        :param str model: (optional) For use with `elements` enrichments only. The
+               element extraction model to use. The only model available is `contract`.
         """
         self.features = features
         self.language = language
@@ -9472,7 +9473,7 @@ class Notice():
           `smart_document_understanding_failed_warning`,
           `smart_document_understanding_page_error`,
           `smart_document_understanding_page_warning`. **Note:** This is not a complete
-          list, other values might be returned.
+          list; other values might be returned.
     :attr datetime created: (optional) The creation date of the collection in the
           format yyyy-MM-dd'T'HH:mm:ss.SSS'Z'.
     :attr str document_id: (optional) Unique identifier of the document.
@@ -9480,9 +9481,9 @@ class Notice():
           training.
     :attr str severity: (optional) Severity level of the notice.
     :attr str step: (optional) Ingestion or training step in which the notice
-          occurred. Typical step values include: `classify_elements`,
-          `smartDocumentUnderstanding`, `ingestion`, `indexing`, `convert`. **Note:** This
-          is not a complete list, other values might be returned.
+          occurred. Typical step values include: `smartDocumentUnderstanding`,
+          `ingestion`, `indexing`, `convert`. **Note:** This is not a complete list; other
+          values might be returned.
     :attr str description: (optional) The description of the notice.
     """
 
@@ -10057,6 +10058,29 @@ class QueryNoticesResult():
         """Return a json dictionary representing this model."""
         return self.to_dict()
 
+    def get_properties(self) -> Dict:
+        """Return a dictionary of arbitrary properties from this instance of QueryNoticesResult"""
+        _dict = {}
+
+        for _key in [
+                k for k in vars(self).keys()
+                if k not in QueryNoticesResult._properties
+        ]:
+            _dict[_key] = getattr(self, _key)
+        return _dict
+
+    def set_properties(self, _dict: dict):
+        """Set a dictionary of arbitrary properties to this instance of QueryNoticesResult"""
+        for _key in [
+                k for k in vars(self).keys()
+                if k not in QueryNoticesResult._properties
+        ]:
+            delattr(self, _key)
+
+        for _key, _value in _dict.items():
+            if _key not in QueryNoticesResult._properties:
+                setattr(self, _key, _value)
+
     def __str__(self) -> str:
         """Return a `str` version of this QueryNoticesResult object."""
         return json.dumps(self.to_dict(), indent=2)
@@ -10416,6 +10440,27 @@ class QueryResult():
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         return self.to_dict()
+
+    def get_properties(self) -> Dict:
+        """Return a dictionary of arbitrary properties from this instance of QueryResult"""
+        _dict = {}
+
+        for _key in [
+                k for k in vars(self).keys() if k not in QueryResult._properties
+        ]:
+            _dict[_key] = getattr(self, _key)
+        return _dict
+
+    def set_properties(self, _dict: dict):
+        """Set a dictionary of arbitrary properties to this instance of QueryResult"""
+        for _key in [
+                k for k in vars(self).keys() if k not in QueryResult._properties
+        ]:
+            delattr(self, _key)
+
+        for _key, _value in _dict.items():
+            if _key not in QueryResult._properties:
+                setattr(self, _key, _value)
 
     def __str__(self) -> str:
         """Return a `str` version of this QueryResult object."""

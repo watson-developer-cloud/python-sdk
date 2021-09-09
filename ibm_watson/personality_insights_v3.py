@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-902c9336-20210507-162723
+# IBM OpenAPI SDK Code Generator Version: 3.38.0-07189efd-20210827-205025
 """
 IBM Watson&trade; Personality Insights is discontinued. Existing instances are supported
 until 1 December 2021, but as of 1 December 2020, you cannot create new instances. Any
@@ -45,6 +45,9 @@ preferences](https://cloud.ibm.com/docs/personality-insights?topic=personality-i
 **Note:** Request logging is disabled for the Personality Insights service. Regardless of
 whether you set the `X-Watson-Learning-Opt-Out` request header, the service does not log
 or retain data from requests and responses.
+
+API Version: 3.4.4
+See: https://cloud.ibm.com/docs/personality-insights
 """
 
 from enum import Enum
@@ -233,7 +236,7 @@ class PersonalityInsightsV3(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
