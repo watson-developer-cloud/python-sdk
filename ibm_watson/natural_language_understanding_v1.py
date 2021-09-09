@@ -1,6 +1,6 @@
 # coding: utf-8
 
-# (C) Copyright IBM Corp. 2021.
+# (C) Copyright IBM Corp. 2017, 2021.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-902c9336-20210507-162723
+# IBM OpenAPI SDK Code Generator Version: 3.38.0-07189efd-20210827-205025
 """
 Analyze various features of text content at scale. Provide text, raw HTML, or a public URL
 and IBM Watson Natural Language Understanding will give you results for the features you
@@ -24,6 +24,9 @@ You can create [custom
 models](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-customizing)
 with Watson Knowledge Studio to detect custom entities and relations in Natural Language
 Understanding.
+
+API Version: 1.0
+See: https://cloud.ibm.com/docs/natural-language-understanding
 """
 
 from datetime import datetime
@@ -59,7 +62,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
         Construct a new client for the Natural Language Understanding service.
 
         :param str version: Release date of the API version you want to use.
-               Specify dates in YYYY-MM-DD format. The current version is `2021-03-25`.
+               Specify dates in YYYY-MM-DD format. The current version is `2021-08-01`.
 
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
@@ -182,7 +185,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -220,7 +223,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_model(self, model_id: str, **kwargs) -> DetailedResponse:
@@ -258,7 +261,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -337,7 +340,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                        params=params,
                                        files=form_data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def list_sentiment_models(self, **kwargs) -> DetailedResponse:
@@ -369,7 +372,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_sentiment_model(self, model_id: str, **kwargs) -> DetailedResponse:
@@ -407,7 +410,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def update_sentiment_model(self,
@@ -488,7 +491,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                        params=params,
                                        files=form_data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_sentiment_model(self, model_id: str,
@@ -528,7 +531,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -612,7 +615,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                        params=params,
                                        files=form_data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def list_categories_models(self, **kwargs) -> DetailedResponse:
@@ -644,7 +647,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_categories_model(self, model_id: str, **kwargs) -> DetailedResponse:
@@ -682,7 +685,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def update_categories_model(self,
@@ -768,7 +771,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                        params=params,
                                        files=form_data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_categories_model(self, model_id: str,
@@ -808,7 +811,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -829,9 +832,9 @@ class NaturalLanguageUnderstandingV1(BaseService):
         """
         Create classifications model.
 
-        (Beta) Creates a custom classifications model by uploading training data and
-        associated metadata. The model begins the training and deploying process and is
-        ready to use when the `status` is `available`.
+        Creates a custom classifications model by uploading training data and associated
+        metadata. The model begins the training and deploying process and is ready to use
+        when the `status` is `available`.
 
         :param str language: The 2-letter language code of this model.
         :param BinaryIO training_data: Training data in JSON format. For more
@@ -893,19 +896,18 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                        params=params,
                                        files=form_data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def list_classifications_models(self, **kwargs) -> DetailedResponse:
         """
         List classifications models.
 
-        (Beta) Returns all custom classifications models associated with this service
-        instance.
+        Returns all custom classifications models associated with this service instance.
 
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
-        :rtype: DetailedResponse with `dict` result representing a `ListClassificationsModelsResponse` object
+        :rtype: DetailedResponse with `dict` result representing a `ClassificationsModelList` object
         """
 
         headers = {}
@@ -927,7 +929,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_classifications_model(self, model_id: str,
@@ -935,7 +937,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
         """
         Get classifications model details.
 
-        (Beta) Returns the status of the classifications model with the given model ID.
+        Returns the status of the classifications model with the given model ID.
 
         :param str model_id: ID of the model.
         :param dict headers: A `dict` containing the request headers
@@ -966,7 +968,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def update_classifications_model(self,
@@ -984,8 +986,8 @@ class NaturalLanguageUnderstandingV1(BaseService):
         """
         Update classifications model.
 
-        (Beta) Overwrites the training data associated with this custom classifications
-        model and retrains the model. The new model replaces the current deployment.
+        Overwrites the training data associated with this custom classifications model and
+        retrains the model. The new model replaces the current deployment.
 
         :param str model_id: ID of the model.
         :param str language: The 2-letter language code of this model.
@@ -1053,7 +1055,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                        params=params,
                                        files=form_data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_classifications_model(self, model_id: str,
@@ -1061,9 +1063,8 @@ class NaturalLanguageUnderstandingV1(BaseService):
         """
         Delete classifications model.
 
-        (Beta) Un-deploys the custom classifications model with the given model ID and
-        deletes all associated customer data, including any training data or binary
-        artifacts.
+        Un-deploys the custom classifications model with the given model ID and deletes
+        all associated customer data, including any training data or binary artifacts.
 
         :param str model_id: ID of the model.
         :param dict headers: A `dict` containing the request headers
@@ -1095,7 +1096,7 @@ class NaturalLanguageUnderstandingV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -1756,7 +1757,8 @@ class CategoriesModelList():
 
 class CategoriesOptions():
     """
-    Returns a five-level taxonomy of the content. The top three categories are returned.
+    Returns a hierarchical taxonomy of the content. The top three categories are returned
+    by default.
     Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
     Portuguese, Spanish.
 
@@ -1897,7 +1899,7 @@ class CategoriesResult():
     """
     A categorization of the analyzed text.
 
-    :attr str label: (optional) The path to the category through the 5-level
+    :attr str label: (optional) The path to the category through the multi-level
           taxonomy hierarchy. For more information about the categories, see [Categories
           hierarchy](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-categories#categories-hierarchy).
     :attr float score: (optional) Confidence score for the category classification.
@@ -1914,9 +1916,9 @@ class CategoriesResult():
         """
         Initialize a CategoriesResult object.
 
-        :param str label: (optional) The path to the category through the 5-level
-               taxonomy hierarchy. For more information about the categories, see
-               [Categories
+        :param str label: (optional) The path to the category through the
+               multi-level taxonomy hierarchy. For more information about the categories,
+               see [Categories
                hierarchy](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-categories#categories-hierarchy).
         :param float score: (optional) Confidence score for the category
                classification. Higher values indicate greater confidence.
@@ -2305,7 +2307,7 @@ class ClassificationsOptions():
     Returns text classifications for the content.
     Supported languages: English only.
 
-    :attr str model: (optional) (Beta) Enter a [custom
+    :attr str model: (optional) Enter a [custom
           model](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-customizing)
           ID of the classification model to be used.
     """
@@ -2314,7 +2316,7 @@ class ClassificationsOptions():
         """
         Initialize a ClassificationsOptions object.
 
-        :param str model: (optional) (Beta) Enter a [custom
+        :param str model: (optional) Enter a [custom
                model](https://cloud.ibm.com/docs/natural-language-understanding?topic=natural-language-understanding-customizing)
                ID of the classification model to be used.
         """
@@ -3485,8 +3487,8 @@ class Features():
     :attr SummarizationOptions summarization: (optional) (Experimental) Returns a
           summary of content.
           Supported languages: English only.
-    :attr CategoriesOptions categories: (optional) Returns a five-level taxonomy of
-          the content. The top three categories are returned.
+    :attr CategoriesOptions categories: (optional) Returns a hierarchical taxonomy
+          of the content. The top three categories are returned by default.
           Supported languages: Arabic, English, French, German, Italian, Japanese, Korean,
           Portuguese, Spanish.
     :attr SyntaxOptions syntax: (optional) Returns tokens and sentences from the
@@ -3558,8 +3560,8 @@ class Features():
         :param SummarizationOptions summarization: (optional) (Experimental)
                Returns a summary of content.
                Supported languages: English only.
-        :param CategoriesOptions categories: (optional) Returns a five-level
-               taxonomy of the content. The top three categories are returned.
+        :param CategoriesOptions categories: (optional) Returns a hierarchical
+               taxonomy of the content. The top three categories are returned by default.
                Supported languages: Arabic, English, French, German, Italian, Japanese,
                Korean, Portuguese, Spanish.
         :param SyntaxOptions syntax: (optional) Returns tokens and sentences from
@@ -3986,65 +3988,6 @@ class KeywordsResult():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'KeywordsResult') -> bool:
-        """Return `true` when self and other are not equal, false otherwise."""
-        return not self == other
-
-
-class ListClassificationsModelsResponse():
-    """
-    ListClassificationsModelsResponse.
-
-    :attr List[ClassificationsModelList] models: (optional)
-    """
-
-    def __init__(self,
-                 *,
-                 models: List['ClassificationsModelList'] = None) -> None:
-        """
-        Initialize a ListClassificationsModelsResponse object.
-
-        :param List[ClassificationsModelList] models: (optional)
-        """
-        self.models = models
-
-    @classmethod
-    def from_dict(cls, _dict: Dict) -> 'ListClassificationsModelsResponse':
-        """Initialize a ListClassificationsModelsResponse object from a json dictionary."""
-        args = {}
-        if 'models' in _dict:
-            args['models'] = [
-                ClassificationsModelList.from_dict(x)
-                for x in _dict.get('models')
-            ]
-        return cls(**args)
-
-    @classmethod
-    def _from_dict(cls, _dict):
-        """Initialize a ListClassificationsModelsResponse object from a json dictionary."""
-        return cls.from_dict(_dict)
-
-    def to_dict(self) -> Dict:
-        """Return a json dictionary representing this model."""
-        _dict = {}
-        if hasattr(self, 'models') and self.models is not None:
-            _dict['models'] = [x.to_dict() for x in self.models]
-        return _dict
-
-    def _to_dict(self):
-        """Return a json dictionary representing this model."""
-        return self.to_dict()
-
-    def __str__(self) -> str:
-        """Return a `str` version of this ListClassificationsModelsResponse object."""
-        return json.dumps(self.to_dict(), indent=2)
-
-    def __eq__(self, other: 'ListClassificationsModelsResponse') -> bool:
-        """Return `true` when self and other are equal, false otherwise."""
-        if not isinstance(other, self.__class__):
-            return False
-        return self.__dict__ == other.__dict__
-
-    def __ne__(self, other: 'ListClassificationsModelsResponse') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
