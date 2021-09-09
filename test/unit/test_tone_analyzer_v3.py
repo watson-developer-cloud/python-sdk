@@ -51,6 +51,8 @@ class TestTone():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -80,7 +82,7 @@ class TestTone():
         sentences = True
         tones = ['emotion']
         content_language = 'en'
-        accept_language = 'ar'
+        accept_language = 'en'
 
         # Invoke method
         response = _service.tone(
@@ -178,6 +180,8 @@ class TestToneChat():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -205,7 +209,7 @@ class TestToneChat():
         # Set up parameter values
         utterances = [utterance_model]
         content_language = 'en'
-        accept_language = 'ar'
+        accept_language = 'en'
 
         # Invoke method
         response = _service.tone_chat(
@@ -302,7 +306,7 @@ class TestToneChat():
 # Start of Model Tests
 ##############################################################################
 # region
-class TestDocumentAnalysis():
+class TestModel_DocumentAnalysis():
     """
     Test Class for DocumentAnalysis
     """
@@ -345,7 +349,7 @@ class TestDocumentAnalysis():
         document_analysis_model_json2 = document_analysis_model.to_dict()
         assert document_analysis_model_json2 == document_analysis_model_json
 
-class TestSentenceAnalysis():
+class TestModel_SentenceAnalysis():
     """
     Test Class for SentenceAnalysis
     """
@@ -391,7 +395,7 @@ class TestSentenceAnalysis():
         sentence_analysis_model_json2 = sentence_analysis_model.to_dict()
         assert sentence_analysis_model_json2 == sentence_analysis_model_json
 
-class TestToneAnalysis():
+class TestModel_ToneAnalysis():
     """
     Test Class for ToneAnalysis
     """
@@ -446,7 +450,7 @@ class TestToneAnalysis():
         tone_analysis_model_json2 = tone_analysis_model.to_dict()
         assert tone_analysis_model_json2 == tone_analysis_model_json
 
-class TestToneCategory():
+class TestModel_ToneCategory():
     """
     Test Class for ToneCategory
     """
@@ -484,7 +488,7 @@ class TestToneCategory():
         tone_category_model_json2 = tone_category_model.to_dict()
         assert tone_category_model_json2 == tone_category_model_json
 
-class TestToneChatScore():
+class TestModel_ToneChatScore():
     """
     Test Class for ToneChatScore
     """
@@ -515,7 +519,7 @@ class TestToneChatScore():
         tone_chat_score_model_json2 = tone_chat_score_model.to_dict()
         assert tone_chat_score_model_json2 == tone_chat_score_model_json
 
-class TestToneInput():
+class TestModel_ToneInput():
     """
     Test Class for ToneInput
     """
@@ -544,7 +548,7 @@ class TestToneInput():
         tone_input_model_json2 = tone_input_model.to_dict()
         assert tone_input_model_json2 == tone_input_model_json
 
-class TestToneScore():
+class TestModel_ToneScore():
     """
     Test Class for ToneScore
     """
@@ -575,7 +579,7 @@ class TestToneScore():
         tone_score_model_json2 = tone_score_model.to_dict()
         assert tone_score_model_json2 == tone_score_model_json
 
-class TestUtterance():
+class TestModel_Utterance():
     """
     Test Class for Utterance
     """
@@ -605,7 +609,7 @@ class TestUtterance():
         utterance_model_json2 = utterance_model.to_dict()
         assert utterance_model_json2 == utterance_model_json
 
-class TestUtteranceAnalyses():
+class TestModel_UtteranceAnalyses():
     """
     Test Class for UtteranceAnalyses
     """
@@ -648,7 +652,7 @@ class TestUtteranceAnalyses():
         utterance_analyses_model_json2 = utterance_analyses_model.to_dict()
         assert utterance_analyses_model_json2 == utterance_analyses_model_json
 
-class TestUtteranceAnalysis():
+class TestModel_UtteranceAnalysis():
     """
     Test Class for UtteranceAnalysis
     """

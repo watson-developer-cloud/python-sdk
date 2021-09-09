@@ -56,6 +56,8 @@ class TestAnalyze():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -182,6 +184,8 @@ class TestCreateCollection():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -288,6 +292,8 @@ class TestListCollections():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -349,6 +355,8 @@ class TestGetCollection():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -419,6 +427,8 @@ class TestUpdateCollection():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -541,6 +551,8 @@ class TestDeleteCollection():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -605,6 +617,8 @@ class TestGetModelFile():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -698,6 +712,8 @@ class TestAddImages():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -808,6 +824,8 @@ class TestListImages():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -878,6 +896,8 @@ class TestGetImageDetails():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -952,6 +972,8 @@ class TestDeleteImage():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1020,6 +1042,8 @@ class TestGetJpegImage():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1140,6 +1164,8 @@ class TestListObjectMetadata():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1210,6 +1236,8 @@ class TestUpdateObjectMetadata():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1291,6 +1319,8 @@ class TestGetObjectMetadata():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1365,6 +1395,8 @@ class TestDeleteObject():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1443,6 +1475,8 @@ class TestTrain():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1513,6 +1547,8 @@ class TestAddImageTrainingData():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1617,6 +1653,8 @@ class TestGetTrainingUsage():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1723,6 +1761,8 @@ class TestDeleteUserData():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1792,7 +1832,7 @@ class TestDeleteUserData():
 # Start of Model Tests
 ##############################################################################
 # region
-class TestAnalyzeResponse():
+class TestModel_AnalyzeResponse():
     """
     Test Class for AnalyzeResponse
     """
@@ -1875,7 +1915,7 @@ class TestAnalyzeResponse():
         analyze_response_model_json2 = analyze_response_model.to_dict()
         assert analyze_response_model_json2 == analyze_response_model_json
 
-class TestCollection():
+class TestModel_Collection():
     """
     Test Class for Collection
     """
@@ -1903,8 +1943,8 @@ class TestCollection():
         collection_model_json['collection_id'] = 'testString'
         collection_model_json['name'] = 'testString'
         collection_model_json['description'] = 'testString'
-        collection_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        collection_model_json['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        collection_model_json['created'] = "2019-01-01T12:00:00Z"
+        collection_model_json['updated'] = "2019-01-01T12:00:00Z"
         collection_model_json['image_count'] = 38
         collection_model_json['training_status'] = collection_training_status_model
 
@@ -1923,7 +1963,7 @@ class TestCollection():
         collection_model_json2 = collection_model.to_dict()
         assert collection_model_json2 == collection_model_json
 
-class TestCollectionObjects():
+class TestModel_CollectionObjects():
     """
     Test Class for CollectionObjects
     """
@@ -1966,7 +2006,7 @@ class TestCollectionObjects():
         collection_objects_model_json2 = collection_objects_model.to_dict()
         assert collection_objects_model_json2 == collection_objects_model_json
 
-class TestCollectionTrainingStatus():
+class TestModel_CollectionTrainingStatus():
     """
     Test Class for CollectionTrainingStatus
     """
@@ -2005,7 +2045,7 @@ class TestCollectionTrainingStatus():
         collection_training_status_model_json2 = collection_training_status_model.to_dict()
         assert collection_training_status_model_json2 == collection_training_status_model_json
 
-class TestCollectionsList():
+class TestModel_CollectionsList():
     """
     Test Class for CollectionsList
     """
@@ -2032,8 +2072,8 @@ class TestCollectionsList():
         collection_model['collection_id'] = 'testString'
         collection_model['name'] = 'testString'
         collection_model['description'] = 'testString'
-        collection_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        collection_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        collection_model['created'] = "2019-01-01T12:00:00Z"
+        collection_model['updated'] = "2019-01-01T12:00:00Z"
         collection_model['image_count'] = 38
         collection_model['training_status'] = collection_training_status_model
 
@@ -2056,7 +2096,7 @@ class TestCollectionsList():
         collections_list_model_json2 = collections_list_model.to_dict()
         assert collections_list_model_json2 == collections_list_model_json
 
-class TestDetectedObjects():
+class TestModel_DetectedObjects():
     """
     Test Class for DetectedObjects
     """
@@ -2102,7 +2142,7 @@ class TestDetectedObjects():
         detected_objects_model_json2 = detected_objects_model.to_dict()
         assert detected_objects_model_json2 == detected_objects_model_json
 
-class TestError():
+class TestModel_Error():
     """
     Test Class for Error
     """
@@ -2140,7 +2180,7 @@ class TestError():
         error_model_json2 = error_model.to_dict()
         assert error_model_json2 == error_model_json
 
-class TestErrorTarget():
+class TestModel_ErrorTarget():
     """
     Test Class for ErrorTarget
     """
@@ -2170,7 +2210,7 @@ class TestErrorTarget():
         error_target_model_json2 = error_target_model.to_dict()
         assert error_target_model_json2 == error_target_model_json
 
-class TestImage():
+class TestModel_Image():
     """
     Test Class for Image
     """
@@ -2243,7 +2283,7 @@ class TestImage():
         image_model_json2 = image_model.to_dict()
         assert image_model_json2 == image_model_json
 
-class TestImageDetails():
+class TestModel_ImageDetails():
     """
     Test Class for ImageDetails
     """
@@ -2292,8 +2332,8 @@ class TestImageDetails():
         # Construct a json representation of a ImageDetails model
         image_details_model_json = {}
         image_details_model_json['image_id'] = 'testString'
-        image_details_model_json['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        image_details_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        image_details_model_json['updated'] = "2019-01-01T12:00:00Z"
+        image_details_model_json['created'] = "2019-01-01T12:00:00Z"
         image_details_model_json['source'] = image_source_model
         image_details_model_json['dimensions'] = image_dimensions_model
         image_details_model_json['errors'] = [error_model]
@@ -2314,7 +2354,7 @@ class TestImageDetails():
         image_details_model_json2 = image_details_model.to_dict()
         assert image_details_model_json2 == image_details_model_json
 
-class TestImageDetailsList():
+class TestModel_ImageDetailsList():
     """
     Test Class for ImageDetailsList
     """
@@ -2362,8 +2402,8 @@ class TestImageDetailsList():
 
         image_details_model = {} # ImageDetails
         image_details_model['image_id'] = 'testString'
-        image_details_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        image_details_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        image_details_model['updated'] = "2019-01-01T12:00:00Z"
+        image_details_model['created'] = "2019-01-01T12:00:00Z"
         image_details_model['source'] = image_source_model
         image_details_model['dimensions'] = image_dimensions_model
         image_details_model['errors'] = [error_model]
@@ -2395,7 +2435,7 @@ class TestImageDetailsList():
         image_details_list_model_json2 = image_details_list_model.to_dict()
         assert image_details_list_model_json2 == image_details_list_model_json
 
-class TestImageDimensions():
+class TestModel_ImageDimensions():
     """
     Test Class for ImageDimensions
     """
@@ -2425,7 +2465,7 @@ class TestImageDimensions():
         image_dimensions_model_json2 = image_dimensions_model.to_dict()
         assert image_dimensions_model_json2 == image_dimensions_model_json
 
-class TestImageSource():
+class TestModel_ImageSource():
     """
     Test Class for ImageSource
     """
@@ -2458,7 +2498,7 @@ class TestImageSource():
         image_source_model_json2 = image_source_model.to_dict()
         assert image_source_model_json2 == image_source_model_json
 
-class TestImageSummary():
+class TestModel_ImageSummary():
     """
     Test Class for ImageSummary
     """
@@ -2471,7 +2511,7 @@ class TestImageSummary():
         # Construct a json representation of a ImageSummary model
         image_summary_model_json = {}
         image_summary_model_json['image_id'] = 'testString'
-        image_summary_model_json['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        image_summary_model_json['updated'] = "2019-01-01T12:00:00Z"
 
         # Construct a model instance of ImageSummary by calling from_dict on the json representation
         image_summary_model = ImageSummary.from_dict(image_summary_model_json)
@@ -2488,7 +2528,7 @@ class TestImageSummary():
         image_summary_model_json2 = image_summary_model.to_dict()
         assert image_summary_model_json2 == image_summary_model_json
 
-class TestImageSummaryList():
+class TestModel_ImageSummaryList():
     """
     Test Class for ImageSummaryList
     """
@@ -2502,7 +2542,7 @@ class TestImageSummaryList():
 
         image_summary_model = {} # ImageSummary
         image_summary_model['image_id'] = 'testString'
-        image_summary_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        image_summary_model['updated'] = "2019-01-01T12:00:00Z"
 
         # Construct a json representation of a ImageSummaryList model
         image_summary_list_model_json = {}
@@ -2523,7 +2563,7 @@ class TestImageSummaryList():
         image_summary_list_model_json2 = image_summary_list_model.to_dict()
         assert image_summary_list_model_json2 == image_summary_list_model_json
 
-class TestLocation():
+class TestModel_Location():
     """
     Test Class for Location
     """
@@ -2555,7 +2595,7 @@ class TestLocation():
         location_model_json2 = location_model.to_dict()
         assert location_model_json2 == location_model_json
 
-class TestObjectDetail():
+class TestModel_ObjectDetail():
     """
     Test Class for ObjectDetail
     """
@@ -2594,7 +2634,7 @@ class TestObjectDetail():
         object_detail_model_json2 = object_detail_model.to_dict()
         assert object_detail_model_json2 == object_detail_model_json
 
-class TestObjectDetailLocation():
+class TestModel_ObjectDetailLocation():
     """
     Test Class for ObjectDetailLocation
     """
@@ -2626,7 +2666,7 @@ class TestObjectDetailLocation():
         object_detail_location_model_json2 = object_detail_location_model.to_dict()
         assert object_detail_location_model_json2 == object_detail_location_model_json
 
-class TestObjectMetadata():
+class TestModel_ObjectMetadata():
     """
     Test Class for ObjectMetadata
     """
@@ -2656,7 +2696,7 @@ class TestObjectMetadata():
         object_metadata_model_json2 = object_metadata_model.to_dict()
         assert object_metadata_model_json2 == object_metadata_model_json
 
-class TestObjectMetadataList():
+class TestModel_ObjectMetadataList():
     """
     Test Class for ObjectMetadataList
     """
@@ -2692,7 +2732,7 @@ class TestObjectMetadataList():
         object_metadata_list_model_json2 = object_metadata_list_model.to_dict()
         assert object_metadata_list_model_json2 == object_metadata_list_model_json
 
-class TestObjectTrainingStatus():
+class TestModel_ObjectTrainingStatus():
     """
     Test Class for ObjectTrainingStatus
     """
@@ -2726,7 +2766,7 @@ class TestObjectTrainingStatus():
         object_training_status_model_json2 = object_training_status_model.to_dict()
         assert object_training_status_model_json2 == object_training_status_model_json
 
-class TestTrainingDataObject():
+class TestModel_TrainingDataObject():
     """
     Test Class for TrainingDataObject
     """
@@ -2764,7 +2804,7 @@ class TestTrainingDataObject():
         training_data_object_model_json2 = training_data_object_model.to_dict()
         assert training_data_object_model_json2 == training_data_object_model_json
 
-class TestTrainingDataObjects():
+class TestModel_TrainingDataObjects():
     """
     Test Class for TrainingDataObjects
     """
@@ -2805,7 +2845,7 @@ class TestTrainingDataObjects():
         training_data_objects_model_json2 = training_data_objects_model.to_dict()
         assert training_data_objects_model_json2 == training_data_objects_model_json
 
-class TestTrainingEvent():
+class TestModel_TrainingEvent():
     """
     Test Class for TrainingEvent
     """
@@ -2819,7 +2859,7 @@ class TestTrainingEvent():
         training_event_model_json = {}
         training_event_model_json['type'] = 'objects'
         training_event_model_json['collection_id'] = 'testString'
-        training_event_model_json['completion_time'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        training_event_model_json['completion_time'] = "2019-01-01T12:00:00Z"
         training_event_model_json['status'] = 'failed'
         training_event_model_json['image_count'] = 38
 
@@ -2838,7 +2878,7 @@ class TestTrainingEvent():
         training_event_model_json2 = training_event_model.to_dict()
         assert training_event_model_json2 == training_event_model_json
 
-class TestTrainingEvents():
+class TestModel_TrainingEvents():
     """
     Test Class for TrainingEvents
     """
@@ -2853,14 +2893,14 @@ class TestTrainingEvents():
         training_event_model = {} # TrainingEvent
         training_event_model['type'] = 'objects'
         training_event_model['collection_id'] = 'testString'
-        training_event_model['completion_time'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        training_event_model['completion_time'] = "2019-01-01T12:00:00Z"
         training_event_model['status'] = 'failed'
         training_event_model['image_count'] = 38
 
         # Construct a json representation of a TrainingEvents model
         training_events_model_json = {}
-        training_events_model_json['start_time'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        training_events_model_json['end_time'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        training_events_model_json['start_time'] = "2019-01-01T12:00:00Z"
+        training_events_model_json['end_time'] = "2019-01-01T12:00:00Z"
         training_events_model_json['completed_events'] = 38
         training_events_model_json['trained_images'] = 38
         training_events_model_json['events'] = [training_event_model]
@@ -2880,7 +2920,7 @@ class TestTrainingEvents():
         training_events_model_json2 = training_events_model.to_dict()
         assert training_events_model_json2 == training_events_model_json
 
-class TestTrainingStatus():
+class TestModel_TrainingStatus():
     """
     Test Class for TrainingStatus
     """
@@ -2919,7 +2959,7 @@ class TestTrainingStatus():
         training_status_model_json2 = training_status_model.to_dict()
         assert training_status_model_json2 == training_status_model_json
 
-class TestUpdateObjectMetadata():
+class TestModel_UpdateObjectMetadata():
     """
     Test Class for UpdateObjectMetadata
     """
@@ -2949,7 +2989,7 @@ class TestUpdateObjectMetadata():
         update_object_metadata_model_json2 = update_object_metadata_model.to_dict()
         assert update_object_metadata_model_json2 == update_object_metadata_model_json
 
-class TestWarning():
+class TestModel_Warning():
     """
     Test Class for Warning
     """
@@ -2980,7 +3020,7 @@ class TestWarning():
         warning_model_json2 = warning_model.to_dict()
         assert warning_model_json2 == warning_model_json
 
-class TestFileWithMetadata():
+class TestModel_FileWithMetadata():
     """
     Test Class for FileWithMetadata
     """

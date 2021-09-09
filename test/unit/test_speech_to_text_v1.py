@@ -51,6 +51,8 @@ class TestListModels():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -88,6 +90,8 @@ class TestGetModel():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -168,6 +172,8 @@ class TestRecognize():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -190,7 +196,7 @@ class TestRecognize():
         # Set up parameter values
         audio = io.BytesIO(b'This is a mock file.').getvalue()
         content_type = 'application/octet-stream'
-        model = 'ar-AR_BroadbandModel'
+        model = 'en-US_BroadbandModel'
         language_customization_id = 'testString'
         acoustic_customization_id = 'testString'
         base_model_version = 'testString'
@@ -200,20 +206,20 @@ class TestRecognize():
         keywords_threshold = 72.5
         max_alternatives = 38
         word_alternatives_threshold = 72.5
-        word_confidence = True
-        timestamps = True
+        word_confidence = False
+        timestamps = False
         profanity_filter = True
-        smart_formatting = True
-        speaker_labels = True
+        smart_formatting = False
+        speaker_labels = False
         customization_id = 'testString'
         grammar_name = 'testString'
-        redaction = True
-        audio_metrics = True
+        redaction = False
+        audio_metrics = False
         end_of_phrase_silence_time = 72.5
-        split_transcript_at_phrase_end = True
+        split_transcript_at_phrase_end = False
         speech_detector_sensitivity = 72.5
         background_audio_suppression = 72.5
-        low_latency = True
+        low_latency = False
 
         # Invoke method
         response = _service.recognize(
@@ -355,6 +361,8 @@ class TestRegisterCallback():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -464,6 +472,8 @@ class TestUnregisterCallback():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -532,6 +542,8 @@ class TestCreateJob():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -554,7 +566,7 @@ class TestCreateJob():
         # Set up parameter values
         audio = io.BytesIO(b'This is a mock file.').getvalue()
         content_type = 'application/octet-stream'
-        model = 'ar-AR_BroadbandModel'
+        model = 'en-US_BroadbandModel'
         callback_url = 'testString'
         events = 'recognitions.started'
         user_token = 'testString'
@@ -568,22 +580,22 @@ class TestCreateJob():
         keywords_threshold = 72.5
         max_alternatives = 38
         word_alternatives_threshold = 72.5
-        word_confidence = True
-        timestamps = True
+        word_confidence = False
+        timestamps = False
         profanity_filter = True
-        smart_formatting = True
-        speaker_labels = True
+        smart_formatting = False
+        speaker_labels = False
         customization_id = 'testString'
         grammar_name = 'testString'
-        redaction = True
-        processing_metrics = True
+        redaction = False
+        processing_metrics = False
         processing_metrics_interval = 72.5
-        audio_metrics = True
+        audio_metrics = False
         end_of_phrase_silence_time = 72.5
-        split_transcript_at_phrase_end = True
+        split_transcript_at_phrase_end = False
         speech_detector_sensitivity = 72.5
         background_audio_suppression = 72.5
-        low_latency = True
+        low_latency = False
 
         # Invoke method
         response = _service.create_job(
@@ -727,6 +739,8 @@ class TestCheckJobs():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -764,6 +778,8 @@ class TestCheckJob():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -834,6 +850,8 @@ class TestDeleteJob():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -908,6 +926,8 @@ class TestCreateLanguageModel():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -929,7 +949,7 @@ class TestCreateLanguageModel():
 
         # Set up parameter values
         name = 'testString'
-        base_model_name = 'de-DE_BroadbandModel'
+        base_model_name = 'ar-MS_Telephony'
         dialect = 'testString'
         description = 'testString'
 
@@ -948,7 +968,7 @@ class TestCreateLanguageModel():
         # Validate body params
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['name'] == 'testString'
-        assert req_body['base_model_name'] == 'de-DE_BroadbandModel'
+        assert req_body['base_model_name'] == 'ar-MS_Telephony'
         assert req_body['dialect'] == 'testString'
         assert req_body['description'] == 'testString'
 
@@ -969,7 +989,7 @@ class TestCreateLanguageModel():
 
         # Set up parameter values
         name = 'testString'
-        base_model_name = 'de-DE_BroadbandModel'
+        base_model_name = 'ar-MS_Telephony'
         dialect = 'testString'
         description = 'testString'
 
@@ -994,6 +1014,8 @@ class TestListLanguageModels():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1063,6 +1085,8 @@ class TestGetLanguageModel():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1133,6 +1157,8 @@ class TestDeleteLanguageModel():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1197,6 +1223,8 @@ class TestTrainLanguageModel():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1304,6 +1332,8 @@ class TestResetLanguageModel():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1368,6 +1398,8 @@ class TestUpgradeLanguageModel():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1442,6 +1474,8 @@ class TestListCorpora():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1512,6 +1546,8 @@ class TestAddCorpus():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1532,7 +1568,7 @@ class TestAddCorpus():
         customization_id = 'testString'
         corpus_name = 'testString'
         corpus_file = io.BytesIO(b'This is a mock file.').getvalue()
-        allow_overwrite = True
+        allow_overwrite = False
 
         # Invoke method
         response = _service.add_corpus(
@@ -1619,6 +1655,8 @@ class TestGetCorpus():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1693,6 +1731,8 @@ class TestDeleteCorpus():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1771,6 +1811,8 @@ class TestListWords():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1878,6 +1920,8 @@ class TestAddWords():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1961,6 +2005,8 @@ class TestAddWord():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2043,6 +2089,8 @@ class TestGetWord():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2117,6 +2165,8 @@ class TestDeleteWord():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2195,6 +2245,8 @@ class TestListGrammars():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2265,6 +2317,8 @@ class TestAddGrammar():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2286,7 +2340,7 @@ class TestAddGrammar():
         grammar_name = 'testString'
         grammar_file = 'testString'
         content_type = 'application/srgs'
-        allow_overwrite = True
+        allow_overwrite = False
 
         # Invoke method
         response = _service.add_grammar(
@@ -2380,6 +2434,8 @@ class TestGetGrammar():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2454,6 +2510,8 @@ class TestDeleteGrammar():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2532,6 +2590,8 @@ class TestCreateAcousticModel():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2614,6 +2674,8 @@ class TestListAcousticModels():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2683,6 +2745,8 @@ class TestGetAcousticModel():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2753,6 +2817,8 @@ class TestDeleteAcousticModel():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2817,6 +2883,8 @@ class TestTrainAcousticModel():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2921,6 +2989,8 @@ class TestResetAcousticModel():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -2985,6 +3055,8 @@ class TestUpgradeAcousticModel():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3004,7 +3076,7 @@ class TestUpgradeAcousticModel():
         # Set up parameter values
         customization_id = 'testString'
         custom_language_model_id = 'testString'
-        force = True
+        force = False
 
         # Invoke method
         response = _service.upgrade_acoustic_model(
@@ -3093,6 +3165,8 @@ class TestListAudio():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3163,6 +3237,8 @@ class TestAddAudio():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3185,7 +3261,7 @@ class TestAddAudio():
         audio_resource = io.BytesIO(b'This is a mock file.').getvalue()
         content_type = 'application/zip'
         contained_content_type = 'audio/alaw'
-        allow_overwrite = True
+        allow_overwrite = False
 
         # Invoke method
         response = _service.add_audio(
@@ -3276,6 +3352,8 @@ class TestGetAudio():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3350,6 +3428,8 @@ class TestDeleteAudio():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3428,6 +3508,8 @@ class TestDeleteUserData():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -3497,7 +3579,7 @@ class TestDeleteUserData():
 # Start of Model Tests
 ##############################################################################
 # region
-class TestAcousticModel():
+class TestModel_AcousticModel():
     """
     Test Class for AcousticModel
     """
@@ -3537,7 +3619,7 @@ class TestAcousticModel():
         acoustic_model_model_json2 = acoustic_model_model.to_dict()
         assert acoustic_model_model_json2 == acoustic_model_model_json
 
-class TestAcousticModels():
+class TestModel_AcousticModels():
     """
     Test Class for AcousticModels
     """
@@ -3582,7 +3664,7 @@ class TestAcousticModels():
         acoustic_models_model_json2 = acoustic_models_model.to_dict()
         assert acoustic_models_model_json2 == acoustic_models_model_json
 
-class TestAudioDetails():
+class TestModel_AudioDetails():
     """
     Test Class for AudioDetails
     """
@@ -3614,7 +3696,7 @@ class TestAudioDetails():
         audio_details_model_json2 = audio_details_model.to_dict()
         assert audio_details_model_json2 == audio_details_model_json
 
-class TestAudioListing():
+class TestModel_AudioListing():
     """
     Test Class for AudioListing
     """
@@ -3662,7 +3744,7 @@ class TestAudioListing():
         audio_listing_model_json2 = audio_listing_model.to_dict()
         assert audio_listing_model_json2 == audio_listing_model_json
 
-class TestAudioMetrics():
+class TestModel_AudioMetrics():
     """
     Test Class for AudioMetrics
     """
@@ -3710,7 +3792,7 @@ class TestAudioMetrics():
         audio_metrics_model_json2 = audio_metrics_model.to_dict()
         assert audio_metrics_model_json2 == audio_metrics_model_json
 
-class TestAudioMetricsDetails():
+class TestModel_AudioMetricsDetails():
     """
     Test Class for AudioMetricsDetails
     """
@@ -3754,7 +3836,7 @@ class TestAudioMetricsDetails():
         audio_metrics_details_model_json2 = audio_metrics_details_model.to_dict()
         assert audio_metrics_details_model_json2 == audio_metrics_details_model_json
 
-class TestAudioMetricsHistogramBin():
+class TestModel_AudioMetricsHistogramBin():
     """
     Test Class for AudioMetricsHistogramBin
     """
@@ -3785,7 +3867,7 @@ class TestAudioMetricsHistogramBin():
         audio_metrics_histogram_bin_model_json2 = audio_metrics_histogram_bin_model.to_dict()
         assert audio_metrics_histogram_bin_model_json2 == audio_metrics_histogram_bin_model_json
 
-class TestAudioResource():
+class TestModel_AudioResource():
     """
     Test Class for AudioResource
     """
@@ -3825,7 +3907,7 @@ class TestAudioResource():
         audio_resource_model_json2 = audio_resource_model.to_dict()
         assert audio_resource_model_json2 == audio_resource_model_json
 
-class TestAudioResources():
+class TestModel_AudioResources():
     """
     Test Class for AudioResources
     """
@@ -3869,7 +3951,7 @@ class TestAudioResources():
         audio_resources_model_json2 = audio_resources_model.to_dict()
         assert audio_resources_model_json2 == audio_resources_model_json
 
-class TestCorpora():
+class TestModel_Corpora():
     """
     Test Class for Corpora
     """
@@ -3907,7 +3989,7 @@ class TestCorpora():
         corpora_model_json2 = corpora_model.to_dict()
         assert corpora_model_json2 == corpora_model_json
 
-class TestCorpus():
+class TestModel_Corpus():
     """
     Test Class for Corpus
     """
@@ -3940,7 +4022,7 @@ class TestCorpus():
         corpus_model_json2 = corpus_model.to_dict()
         assert corpus_model_json2 == corpus_model_json
 
-class TestCustomWord():
+class TestModel_CustomWord():
     """
     Test Class for CustomWord
     """
@@ -3971,7 +4053,7 @@ class TestCustomWord():
         custom_word_model_json2 = custom_word_model.to_dict()
         assert custom_word_model_json2 == custom_word_model_json
 
-class TestGrammar():
+class TestModel_Grammar():
     """
     Test Class for Grammar
     """
@@ -4003,7 +4085,7 @@ class TestGrammar():
         grammar_model_json2 = grammar_model.to_dict()
         assert grammar_model_json2 == grammar_model_json
 
-class TestGrammars():
+class TestModel_Grammars():
     """
     Test Class for Grammars
     """
@@ -4040,7 +4122,7 @@ class TestGrammars():
         grammars_model_json2 = grammars_model.to_dict()
         assert grammars_model_json2 == grammars_model_json
 
-class TestKeywordResult():
+class TestModel_KeywordResult():
     """
     Test Class for KeywordResult
     """
@@ -4072,7 +4154,7 @@ class TestKeywordResult():
         keyword_result_model_json2 = keyword_result_model.to_dict()
         assert keyword_result_model_json2 == keyword_result_model_json
 
-class TestLanguageModel():
+class TestModel_LanguageModel():
     """
     Test Class for LanguageModel
     """
@@ -4114,7 +4196,7 @@ class TestLanguageModel():
         language_model_model_json2 = language_model_model.to_dict()
         assert language_model_model_json2 == language_model_model_json
 
-class TestLanguageModels():
+class TestModel_LanguageModels():
     """
     Test Class for LanguageModels
     """
@@ -4161,7 +4243,7 @@ class TestLanguageModels():
         language_models_model_json2 = language_models_model.to_dict()
         assert language_models_model_json2 == language_models_model_json
 
-class TestProcessedAudio():
+class TestModel_ProcessedAudio():
     """
     Test Class for ProcessedAudio
     """
@@ -4193,7 +4275,7 @@ class TestProcessedAudio():
         processed_audio_model_json2 = processed_audio_model.to_dict()
         assert processed_audio_model_json2 == processed_audio_model_json
 
-class TestProcessingMetrics():
+class TestModel_ProcessingMetrics():
     """
     Test Class for ProcessingMetrics
     """
@@ -4232,7 +4314,7 @@ class TestProcessingMetrics():
         processing_metrics_model_json2 = processing_metrics_model.to_dict()
         assert processing_metrics_model_json2 == processing_metrics_model_json
 
-class TestRecognitionJob():
+class TestModel_RecognitionJob():
     """
     Test Class for RecognitionJob
     """
@@ -4344,7 +4426,7 @@ class TestRecognitionJob():
         recognition_job_model_json2 = recognition_job_model.to_dict()
         assert recognition_job_model_json2 == recognition_job_model_json
 
-class TestRecognitionJobs():
+class TestModel_RecognitionJobs():
     """
     Test Class for RecognitionJobs
     """
@@ -4459,7 +4541,7 @@ class TestRecognitionJobs():
         recognition_jobs_model_json2 = recognition_jobs_model.to_dict()
         assert recognition_jobs_model_json2 == recognition_jobs_model_json
 
-class TestRegisterStatus():
+class TestModel_RegisterStatus():
     """
     Test Class for RegisterStatus
     """
@@ -4489,7 +4571,7 @@ class TestRegisterStatus():
         register_status_model_json2 = register_status_model.to_dict()
         assert register_status_model_json2 == register_status_model_json
 
-class TestSpeakerLabelsResult():
+class TestModel_SpeakerLabelsResult():
     """
     Test Class for SpeakerLabelsResult
     """
@@ -4522,7 +4604,7 @@ class TestSpeakerLabelsResult():
         speaker_labels_result_model_json2 = speaker_labels_result_model.to_dict()
         assert speaker_labels_result_model_json2 == speaker_labels_result_model_json
 
-class TestSpeechModel():
+class TestModel_SpeechModel():
     """
     Test Class for SpeechModel
     """
@@ -4563,7 +4645,7 @@ class TestSpeechModel():
         speech_model_model_json2 = speech_model_model.to_dict()
         assert speech_model_model_json2 == speech_model_model_json
 
-class TestSpeechModels():
+class TestModel_SpeechModels():
     """
     Test Class for SpeechModels
     """
@@ -4607,7 +4689,7 @@ class TestSpeechModels():
         speech_models_model_json2 = speech_models_model.to_dict()
         assert speech_models_model_json2 == speech_models_model_json
 
-class TestSpeechRecognitionAlternative():
+class TestModel_SpeechRecognitionAlternative():
     """
     Test Class for SpeechRecognitionAlternative
     """
@@ -4639,7 +4721,7 @@ class TestSpeechRecognitionAlternative():
         speech_recognition_alternative_model_json2 = speech_recognition_alternative_model.to_dict()
         assert speech_recognition_alternative_model_json2 == speech_recognition_alternative_model_json
 
-class TestSpeechRecognitionResult():
+class TestModel_SpeechRecognitionResult():
     """
     Test Class for SpeechRecognitionResult
     """
@@ -4695,7 +4777,7 @@ class TestSpeechRecognitionResult():
         speech_recognition_result_model_json2 = speech_recognition_result_model.to_dict()
         assert speech_recognition_result_model_json2 == speech_recognition_result_model_json
 
-class TestSpeechRecognitionResults():
+class TestModel_SpeechRecognitionResults():
     """
     Test Class for SpeechRecognitionResults
     """
@@ -4797,7 +4879,7 @@ class TestSpeechRecognitionResults():
         speech_recognition_results_model_json2 = speech_recognition_results_model.to_dict()
         assert speech_recognition_results_model_json2 == speech_recognition_results_model_json
 
-class TestSupportedFeatures():
+class TestModel_SupportedFeatures():
     """
     Test Class for SupportedFeatures
     """
@@ -4828,7 +4910,7 @@ class TestSupportedFeatures():
         supported_features_model_json2 = supported_features_model.to_dict()
         assert supported_features_model_json2 == supported_features_model_json
 
-class TestTrainingResponse():
+class TestModel_TrainingResponse():
     """
     Test Class for TrainingResponse
     """
@@ -4863,7 +4945,7 @@ class TestTrainingResponse():
         training_response_model_json2 = training_response_model.to_dict()
         assert training_response_model_json2 == training_response_model_json
 
-class TestTrainingWarning():
+class TestModel_TrainingWarning():
     """
     Test Class for TrainingWarning
     """
@@ -4893,7 +4975,7 @@ class TestTrainingWarning():
         training_warning_model_json2 = training_warning_model.to_dict()
         assert training_warning_model_json2 == training_warning_model_json
 
-class TestWord():
+class TestModel_Word():
     """
     Test Class for Word
     """
@@ -4932,7 +5014,7 @@ class TestWord():
         word_model_json2 = word_model.to_dict()
         assert word_model_json2 == word_model_json
 
-class TestWordAlternativeResult():
+class TestModel_WordAlternativeResult():
     """
     Test Class for WordAlternativeResult
     """
@@ -4962,7 +5044,7 @@ class TestWordAlternativeResult():
         word_alternative_result_model_json2 = word_alternative_result_model.to_dict()
         assert word_alternative_result_model_json2 == word_alternative_result_model_json
 
-class TestWordAlternativeResults():
+class TestModel_WordAlternativeResults():
     """
     Test Class for WordAlternativeResults
     """
@@ -4999,7 +5081,7 @@ class TestWordAlternativeResults():
         word_alternative_results_model_json2 = word_alternative_results_model.to_dict()
         assert word_alternative_results_model_json2 == word_alternative_results_model_json
 
-class TestWordError():
+class TestModel_WordError():
     """
     Test Class for WordError
     """
@@ -5028,7 +5110,7 @@ class TestWordError():
         word_error_model_json2 = word_error_model.to_dict()
         assert word_error_model_json2 == word_error_model_json
 
-class TestWords():
+class TestModel_Words():
     """
     Test Class for Words
     """

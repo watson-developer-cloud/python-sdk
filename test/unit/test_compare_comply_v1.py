@@ -55,6 +55,8 @@ class TestConvertToHtml():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -171,6 +173,8 @@ class TestClassifyElements():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -287,6 +291,8 @@ class TestExtractTables():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -403,6 +409,8 @@ class TestCompareDocuments():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -427,8 +435,8 @@ class TestCompareDocuments():
         file_2 = io.BytesIO(b'This is a mock file.').getvalue()
         file_1_content_type = 'application/pdf'
         file_2_content_type = 'application/pdf'
-        file_1_label = 'testString'
-        file_2_label = 'testString'
+        file_1_label = 'file_1'
+        file_2_label = 'file_2'
         model = 'contracts'
 
         # Invoke method
@@ -533,6 +541,8 @@ class TestAddFeedback():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -710,6 +720,8 @@ class TestListFeedback():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -842,6 +854,8 @@ class TestGetFeedback():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -946,6 +960,8 @@ class TestDeleteFeedback():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1060,6 +1076,8 @@ class TestCreateBatch():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1205,6 +1223,8 @@ class TestListBatches():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1266,6 +1286,8 @@ class TestGetBatch():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1336,6 +1358,8 @@ class TestUpdateBatch():
         """
         Preprocess the request URL to ensure the mock response will be found.
         """
+        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
+        request_url = urllib.parse.quote(request_url, safe=':/')
         if re.fullmatch('.*/+', request_url) is None:
             return request_url
         else:
@@ -1452,7 +1476,7 @@ class TestUpdateBatch():
 # Start of Model Tests
 ##############################################################################
 # region
-class TestAddress():
+class TestModel_Address():
     """
     Test Class for Address
     """
@@ -1488,7 +1512,7 @@ class TestAddress():
         address_model_json2 = address_model.to_dict()
         assert address_model_json2 == address_model_json
 
-class TestAlignedElement():
+class TestModel_AlignedElement():
     """
     Test Class for AlignedElement
     """
@@ -1549,7 +1573,7 @@ class TestAlignedElement():
         aligned_element_model_json2 = aligned_element_model.to_dict()
         assert aligned_element_model_json2 == aligned_element_model_json
 
-class TestAttribute():
+class TestModel_Attribute():
     """
     Test Class for Attribute
     """
@@ -1586,7 +1610,7 @@ class TestAttribute():
         attribute_model_json2 = attribute_model.to_dict()
         assert attribute_model_json2 == attribute_model_json
 
-class TestBatchStatus():
+class TestModel_BatchStatus():
     """
     Test Class for BatchStatus
     """
@@ -1614,8 +1638,8 @@ class TestBatchStatus():
         batch_status_model_json['batch_id'] = 'testString'
         batch_status_model_json['document_counts'] = doc_counts_model
         batch_status_model_json['status'] = 'testString'
-        batch_status_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        batch_status_model_json['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        batch_status_model_json['created'] = "2019-01-01T12:00:00Z"
+        batch_status_model_json['updated'] = "2019-01-01T12:00:00Z"
 
         # Construct a model instance of BatchStatus by calling from_dict on the json representation
         batch_status_model = BatchStatus.from_dict(batch_status_model_json)
@@ -1632,7 +1656,7 @@ class TestBatchStatus():
         batch_status_model_json2 = batch_status_model.to_dict()
         assert batch_status_model_json2 == batch_status_model_json
 
-class TestBatches():
+class TestModel_Batches():
     """
     Test Class for Batches
     """
@@ -1659,8 +1683,8 @@ class TestBatches():
         batch_status_model['batch_id'] = 'testString'
         batch_status_model['document_counts'] = doc_counts_model
         batch_status_model['status'] = 'testString'
-        batch_status_model['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
-        batch_status_model['updated'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        batch_status_model['created'] = "2019-01-01T12:00:00Z"
+        batch_status_model['updated'] = "2019-01-01T12:00:00Z"
 
         # Construct a json representation of a Batches model
         batches_model_json = {}
@@ -1681,7 +1705,7 @@ class TestBatches():
         batches_model_json2 = batches_model.to_dict()
         assert batches_model_json2 == batches_model_json
 
-class TestBodyCells():
+class TestModel_BodyCells():
     """
     Test Class for BodyCells
     """
@@ -1734,7 +1758,7 @@ class TestBodyCells():
         body_cells_model_json2 = body_cells_model.to_dict()
         assert body_cells_model_json2 == body_cells_model_json
 
-class TestCategory():
+class TestModel_Category():
     """
     Test Class for Category
     """
@@ -1765,7 +1789,7 @@ class TestCategory():
         category_model_json2 = category_model.to_dict()
         assert category_model_json2 == category_model_json
 
-class TestCategoryComparison():
+class TestModel_CategoryComparison():
     """
     Test Class for CategoryComparison
     """
@@ -1794,7 +1818,7 @@ class TestCategoryComparison():
         category_comparison_model_json2 = category_comparison_model.to_dict()
         assert category_comparison_model_json2 == category_comparison_model_json
 
-class TestClassifyReturn():
+class TestModel_ClassifyReturn():
     """
     Test Class for ClassifyReturn
     """
@@ -2056,7 +2080,7 @@ class TestClassifyReturn():
         classify_return_model_json2 = classify_return_model.to_dict()
         assert classify_return_model_json2 == classify_return_model_json
 
-class TestColumnHeaders():
+class TestModel_ColumnHeaders():
     """
     Test Class for ColumnHeaders
     """
@@ -2092,7 +2116,7 @@ class TestColumnHeaders():
         column_headers_model_json2 = column_headers_model.to_dict()
         assert column_headers_model_json2 == column_headers_model_json
 
-class TestCompareReturn():
+class TestModel_CompareReturn():
     """
     Test Class for CompareReturn
     """
@@ -2174,7 +2198,7 @@ class TestCompareReturn():
         compare_return_model_json2 = compare_return_model.to_dict()
         assert compare_return_model_json2 == compare_return_model_json
 
-class TestContact():
+class TestModel_Contact():
     """
     Test Class for Contact
     """
@@ -2204,7 +2228,7 @@ class TestContact():
         contact_model_json2 = contact_model.to_dict()
         assert contact_model_json2 == contact_model_json
 
-class TestContexts():
+class TestModel_Contexts():
     """
     Test Class for Contexts
     """
@@ -2240,7 +2264,7 @@ class TestContexts():
         contexts_model_json2 = contexts_model.to_dict()
         assert contexts_model_json2 == contexts_model_json
 
-class TestContractAmts():
+class TestModel_ContractAmts():
     """
     Test Class for ContractAmts
     """
@@ -2285,7 +2309,7 @@ class TestContractAmts():
         contract_amts_model_json2 = contract_amts_model.to_dict()
         assert contract_amts_model_json2 == contract_amts_model_json
 
-class TestContractCurrencies():
+class TestModel_ContractCurrencies():
     """
     Test Class for ContractCurrencies
     """
@@ -2324,7 +2348,7 @@ class TestContractCurrencies():
         contract_currencies_model_json2 = contract_currencies_model.to_dict()
         assert contract_currencies_model_json2 == contract_currencies_model_json
 
-class TestContractTerms():
+class TestModel_ContractTerms():
     """
     Test Class for ContractTerms
     """
@@ -2369,7 +2393,7 @@ class TestContractTerms():
         contract_terms_model_json2 = contract_terms_model.to_dict()
         assert contract_terms_model_json2 == contract_terms_model_json
 
-class TestContractTypes():
+class TestModel_ContractTypes():
     """
     Test Class for ContractTypes
     """
@@ -2407,7 +2431,7 @@ class TestContractTypes():
         contract_types_model_json2 = contract_types_model.to_dict()
         assert contract_types_model_json2 == contract_types_model_json
 
-class TestDocCounts():
+class TestModel_DocCounts():
     """
     Test Class for DocCounts
     """
@@ -2439,7 +2463,7 @@ class TestDocCounts():
         doc_counts_model_json2 = doc_counts_model.to_dict()
         assert doc_counts_model_json2 == doc_counts_model_json
 
-class TestDocInfo():
+class TestModel_DocInfo():
     """
     Test Class for DocInfo
     """
@@ -2470,7 +2494,7 @@ class TestDocInfo():
         doc_info_model_json2 = doc_info_model.to_dict()
         assert doc_info_model_json2 == doc_info_model_json
 
-class TestDocStructure():
+class TestModel_DocStructure():
     """
     Test Class for DocStructure
     """
@@ -2525,7 +2549,7 @@ class TestDocStructure():
         doc_structure_model_json2 = doc_structure_model.to_dict()
         assert doc_structure_model_json2 == doc_structure_model_json
 
-class TestDocument():
+class TestModel_Document():
     """
     Test Class for Document
     """
@@ -2557,7 +2581,7 @@ class TestDocument():
         document_model_json2 = document_model.to_dict()
         assert document_model_json2 == document_model_json
 
-class TestEffectiveDates():
+class TestModel_EffectiveDates():
     """
     Test Class for EffectiveDates
     """
@@ -2596,7 +2620,7 @@ class TestEffectiveDates():
         effective_dates_model_json2 = effective_dates_model.to_dict()
         assert effective_dates_model_json2 == effective_dates_model_json
 
-class TestElement():
+class TestModel_Element():
     """
     Test Class for Element
     """
@@ -2654,7 +2678,7 @@ class TestElement():
         element_model_json2 = element_model.to_dict()
         assert element_model_json2 == element_model_json
 
-class TestElementLocations():
+class TestModel_ElementLocations():
     """
     Test Class for ElementLocations
     """
@@ -2684,7 +2708,7 @@ class TestElementLocations():
         element_locations_model_json2 = element_locations_model.to_dict()
         assert element_locations_model_json2 == element_locations_model_json
 
-class TestElementPair():
+class TestModel_ElementPair():
     """
     Test Class for ElementPair
     """
@@ -2739,7 +2763,7 @@ class TestElementPair():
         element_pair_model_json2 = element_pair_model.to_dict()
         assert element_pair_model_json2 == element_pair_model_json
 
-class TestFeedbackDataInput():
+class TestModel_FeedbackDataInput():
     """
     Test Class for FeedbackDataInput
     """
@@ -2807,7 +2831,7 @@ class TestFeedbackDataInput():
         feedback_data_input_model_json2 = feedback_data_input_model.to_dict()
         assert feedback_data_input_model_json2 == feedback_data_input_model_json
 
-class TestFeedbackDataOutput():
+class TestModel_FeedbackDataOutput():
     """
     Test Class for FeedbackDataOutput
     """
@@ -2883,7 +2907,7 @@ class TestFeedbackDataOutput():
         feedback_data_output_model_json2 = feedback_data_output_model.to_dict()
         assert feedback_data_output_model_json2 == feedback_data_output_model_json
 
-class TestFeedbackDeleted():
+class TestModel_FeedbackDeleted():
     """
     Test Class for FeedbackDeleted
     """
@@ -2913,7 +2937,7 @@ class TestFeedbackDeleted():
         feedback_deleted_model_json2 = feedback_deleted_model.to_dict()
         assert feedback_deleted_model_json2 == feedback_deleted_model_json
 
-class TestFeedbackList():
+class TestModel_FeedbackList():
     """
     Test Class for FeedbackList
     """
@@ -2975,7 +2999,7 @@ class TestFeedbackList():
 
         get_feedback_model = {} # GetFeedback
         get_feedback_model['feedback_id'] = '9730b437-cb86-4d40-9a84-ff6948bb3dd1'
-        get_feedback_model['created'] = datetime_to_string(string_to_datetime("2018-07-03T10:16:05-0500"))
+        get_feedback_model['created'] = "2018-07-03T15:16:05Z"
         get_feedback_model['comment'] = 'testString'
         get_feedback_model['feedback_data'] = feedback_data_output_model
 
@@ -2998,7 +3022,7 @@ class TestFeedbackList():
         feedback_list_model_json2 = feedback_list_model.to_dict()
         assert feedback_list_model_json2 == feedback_list_model_json
 
-class TestFeedbackReturn():
+class TestModel_FeedbackReturn():
     """
     Test Class for FeedbackReturn
     """
@@ -3063,7 +3087,7 @@ class TestFeedbackReturn():
         feedback_return_model_json['feedback_id'] = 'testString'
         feedback_return_model_json['user_id'] = 'testString'
         feedback_return_model_json['comment'] = 'testString'
-        feedback_return_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        feedback_return_model_json['created'] = "2019-01-01T12:00:00Z"
         feedback_return_model_json['feedback_data'] = feedback_data_output_model
 
         # Construct a model instance of FeedbackReturn by calling from_dict on the json representation
@@ -3081,7 +3105,7 @@ class TestFeedbackReturn():
         feedback_return_model_json2 = feedback_return_model.to_dict()
         assert feedback_return_model_json2 == feedback_return_model_json
 
-class TestGetFeedback():
+class TestModel_GetFeedback():
     """
     Test Class for GetFeedback
     """
@@ -3144,7 +3168,7 @@ class TestGetFeedback():
         # Construct a json representation of a GetFeedback model
         get_feedback_model_json = {}
         get_feedback_model_json['feedback_id'] = 'testString'
-        get_feedback_model_json['created'] = datetime_to_string(string_to_datetime("2019-01-01T12:00:00.000Z"))
+        get_feedback_model_json['created'] = "2019-01-01T12:00:00Z"
         get_feedback_model_json['comment'] = 'testString'
         get_feedback_model_json['feedback_data'] = feedback_data_output_model
 
@@ -3163,7 +3187,7 @@ class TestGetFeedback():
         get_feedback_model_json2 = get_feedback_model.to_dict()
         assert get_feedback_model_json2 == get_feedback_model_json
 
-class TestHTMLReturn():
+class TestModel_HTMLReturn():
     """
     Test Class for HTMLReturn
     """
@@ -3196,7 +3220,7 @@ class TestHTMLReturn():
         html_return_model_json2 = html_return_model.to_dict()
         assert html_return_model_json2 == html_return_model_json
 
-class TestInterpretation():
+class TestModel_Interpretation():
     """
     Test Class for Interpretation
     """
@@ -3227,7 +3251,7 @@ class TestInterpretation():
         interpretation_model_json2 = interpretation_model.to_dict()
         assert interpretation_model_json2 == interpretation_model_json
 
-class TestKey():
+class TestModel_Key():
     """
     Test Class for Key
     """
@@ -3264,7 +3288,7 @@ class TestKey():
         key_model_json2 = key_model.to_dict()
         assert key_model_json2 == key_model_json
 
-class TestKeyValuePair():
+class TestModel_KeyValuePair():
     """
     Test Class for KeyValuePair
     """
@@ -3310,7 +3334,7 @@ class TestKeyValuePair():
         key_value_pair_model_json2 = key_value_pair_model.to_dict()
         assert key_value_pair_model_json2 == key_value_pair_model_json
 
-class TestLabel():
+class TestModel_Label():
     """
     Test Class for Label
     """
@@ -3340,7 +3364,7 @@ class TestLabel():
         label_model_json2 = label_model.to_dict()
         assert label_model_json2 == label_model_json
 
-class TestLeadingSentence():
+class TestModel_LeadingSentence():
     """
     Test Class for LeadingSentence
     """
@@ -3381,7 +3405,7 @@ class TestLeadingSentence():
         leading_sentence_model_json2 = leading_sentence_model.to_dict()
         assert leading_sentence_model_json2 == leading_sentence_model_json
 
-class TestLocation():
+class TestModel_Location():
     """
     Test Class for Location
     """
@@ -3411,7 +3435,7 @@ class TestLocation():
         location_model_json2 = location_model.to_dict()
         assert location_model_json2 == location_model_json
 
-class TestMention():
+class TestModel_Mention():
     """
     Test Class for Mention
     """
@@ -3447,7 +3471,7 @@ class TestMention():
         mention_model_json2 = mention_model.to_dict()
         assert mention_model_json2 == mention_model_json
 
-class TestOriginalLabelsIn():
+class TestModel_OriginalLabelsIn():
     """
     Test Class for OriginalLabelsIn
     """
@@ -3493,7 +3517,7 @@ class TestOriginalLabelsIn():
         original_labels_in_model_json2 = original_labels_in_model.to_dict()
         assert original_labels_in_model_json2 == original_labels_in_model_json
 
-class TestOriginalLabelsOut():
+class TestModel_OriginalLabelsOut():
     """
     Test Class for OriginalLabelsOut
     """
@@ -3539,7 +3563,7 @@ class TestOriginalLabelsOut():
         original_labels_out_model_json2 = original_labels_out_model.to_dict()
         assert original_labels_out_model_json2 == original_labels_out_model_json
 
-class TestPagination():
+class TestModel_Pagination():
     """
     Test Class for Pagination
     """
@@ -3572,7 +3596,7 @@ class TestPagination():
         pagination_model_json2 = pagination_model.to_dict()
         assert pagination_model_json2 == pagination_model_json
 
-class TestParagraphs():
+class TestModel_Paragraphs():
     """
     Test Class for Paragraphs
     """
@@ -3607,7 +3631,7 @@ class TestParagraphs():
         paragraphs_model_json2 = paragraphs_model.to_dict()
         assert paragraphs_model_json2 == paragraphs_model_json
 
-class TestParties():
+class TestModel_Parties():
     """
     Test Class for Parties
     """
@@ -3659,7 +3683,7 @@ class TestParties():
         parties_model_json2 = parties_model.to_dict()
         assert parties_model_json2 == parties_model_json
 
-class TestPaymentTerms():
+class TestModel_PaymentTerms():
     """
     Test Class for PaymentTerms
     """
@@ -3704,7 +3728,7 @@ class TestPaymentTerms():
         payment_terms_model_json2 = payment_terms_model.to_dict()
         assert payment_terms_model_json2 == payment_terms_model_json
 
-class TestRowHeaders():
+class TestModel_RowHeaders():
     """
     Test Class for RowHeaders
     """
@@ -3746,7 +3770,7 @@ class TestRowHeaders():
         row_headers_model_json2 = row_headers_model.to_dict()
         assert row_headers_model_json2 == row_headers_model_json
 
-class TestSectionTitle():
+class TestModel_SectionTitle():
     """
     Test Class for SectionTitle
     """
@@ -3782,7 +3806,7 @@ class TestSectionTitle():
         section_title_model_json2 = section_title_model.to_dict()
         assert section_title_model_json2 == section_title_model_json
 
-class TestSectionTitles():
+class TestModel_SectionTitles():
     """
     Test Class for SectionTitles
     """
@@ -3824,7 +3848,7 @@ class TestSectionTitles():
         section_titles_model_json2 = section_titles_model.to_dict()
         assert section_titles_model_json2 == section_titles_model_json
 
-class TestShortDoc():
+class TestModel_ShortDoc():
     """
     Test Class for ShortDoc
     """
@@ -3854,7 +3878,7 @@ class TestShortDoc():
         short_doc_model_json2 = short_doc_model.to_dict()
         assert short_doc_model_json2 == short_doc_model_json
 
-class TestTableHeaders():
+class TestModel_TableHeaders():
     """
     Test Class for TableHeaders
     """
@@ -3889,7 +3913,7 @@ class TestTableHeaders():
         table_headers_model_json2 = table_headers_model.to_dict()
         assert table_headers_model_json2 == table_headers_model_json
 
-class TestTableReturn():
+class TestModel_TableReturn():
     """
     Test Class for TableReturn
     """
@@ -4020,7 +4044,7 @@ class TestTableReturn():
         table_return_model_json2 = table_return_model.to_dict()
         assert table_return_model_json2 == table_return_model_json
 
-class TestTableTitle():
+class TestModel_TableTitle():
     """
     Test Class for TableTitle
     """
@@ -4056,7 +4080,7 @@ class TestTableTitle():
         table_title_model_json2 = table_title_model.to_dict()
         assert table_title_model_json2 == table_title_model_json
 
-class TestTables():
+class TestModel_Tables():
     """
     Test Class for Tables
     """
@@ -4176,7 +4200,7 @@ class TestTables():
         tables_model_json2 = tables_model.to_dict()
         assert tables_model_json2 == tables_model_json
 
-class TestTerminationDates():
+class TestModel_TerminationDates():
     """
     Test Class for TerminationDates
     """
@@ -4215,7 +4239,7 @@ class TestTerminationDates():
         termination_dates_model_json2 = termination_dates_model.to_dict()
         assert termination_dates_model_json2 == termination_dates_model_json
 
-class TestTypeLabel():
+class TestModel_TypeLabel():
     """
     Test Class for TypeLabel
     """
@@ -4252,7 +4276,7 @@ class TestTypeLabel():
         type_label_model_json2 = type_label_model.to_dict()
         assert type_label_model_json2 == type_label_model_json
 
-class TestTypeLabelComparison():
+class TestModel_TypeLabelComparison():
     """
     Test Class for TypeLabelComparison
     """
@@ -4287,7 +4311,7 @@ class TestTypeLabelComparison():
         type_label_comparison_model_json2 = type_label_comparison_model.to_dict()
         assert type_label_comparison_model_json2 == type_label_comparison_model_json
 
-class TestUnalignedElement():
+class TestModel_UnalignedElement():
     """
     Test Class for UnalignedElement
     """
@@ -4342,7 +4366,7 @@ class TestUnalignedElement():
         unaligned_element_model_json2 = unaligned_element_model.to_dict()
         assert unaligned_element_model_json2 == unaligned_element_model_json
 
-class TestUpdatedLabelsIn():
+class TestModel_UpdatedLabelsIn():
     """
     Test Class for UpdatedLabelsIn
     """
@@ -4388,7 +4412,7 @@ class TestUpdatedLabelsIn():
         updated_labels_in_model_json2 = updated_labels_in_model.to_dict()
         assert updated_labels_in_model_json2 == updated_labels_in_model_json
 
-class TestUpdatedLabelsOut():
+class TestModel_UpdatedLabelsOut():
     """
     Test Class for UpdatedLabelsOut
     """
@@ -4434,7 +4458,7 @@ class TestUpdatedLabelsOut():
         updated_labels_out_model_json2 = updated_labels_out_model.to_dict()
         assert updated_labels_out_model_json2 == updated_labels_out_model_json
 
-class TestValue():
+class TestModel_Value():
     """
     Test Class for Value
     """
