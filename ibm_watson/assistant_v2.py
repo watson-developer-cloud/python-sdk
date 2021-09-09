@@ -14,13 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-902c9336-20210507-162723
+# IBM OpenAPI SDK Code Generator Version: 3.38.0-07189efd-20210827-205025
 """
 The IBM Watson&trade; Assistant service combines machine learning, natural language
 understanding, and an integrated dialog editor to create conversation flows between your
 apps and your users.
 The Assistant v2 API provides runtime methods your client application can use to send user
 input to an assistant and receive a response.
+
+API Version: 2.0
+See: https://cloud.ibm.com/docs/assistant
 """
 
 from enum import Enum
@@ -56,7 +59,7 @@ class AssistantV2(BaseService):
         Construct a new client for the Assistant service.
 
         :param str version: Release date of the API version you want to use.
-               Specify dates in YYYY-MM-DD format. The current version is `2020-09-24`.
+               Specify dates in YYYY-MM-DD format. The current version is `2021-06-14`.
 
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
@@ -121,7 +124,7 @@ class AssistantV2(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_session(self, assistant_id: str, session_id: str,
@@ -171,7 +174,7 @@ class AssistantV2(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -259,7 +262,7 @@ class AssistantV2(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def message_stateless(self,
@@ -338,7 +341,7 @@ class AssistantV2(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -401,7 +404,7 @@ class AssistantV2(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -472,7 +475,7 @@ class AssistantV2(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -522,7 +525,7 @@ class AssistantV2(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -2286,9 +2289,23 @@ class MessageContextGlobalSystem():
           or `tomorrow`. This can be useful for simulating past or future times for
           testing purposes, or when analyzing documents such as news articles.
           This value must be a UTC time value formatted according to ISO 8601 (for
-          example, `2019-06-26T12:00:00Z` for noon on 26 June 2019.
+          example, `2021-06-26T12:00:00Z` for noon UTC on 26 June 2021).
           This property is included only if the new system entities are enabled for the
           skill.
+    :attr str session_start_time: (optional) The time at which the session started.
+          With the stateful `message` method, the start time is always present, and is set
+          by the service based on the time the session was created. With the stateless
+          `message` method, the start time is set by the service in the response to the
+          first message, and should be returned as part of the context with each
+          subsequent message in the session.
+          This value is a UTC time value formatted according to ISO 8601 (for example,
+          `2021-06-26T12:00:00Z` for noon UTC on 26 June 2021).
+    :attr str state: (optional) An encoded string that represents the configuration
+          state of the assistant at the beginning of the conversation. If you are using
+          the stateless `message` method, save this value and then send it in the context
+          of the subsequent message request to avoid disruptions if there are
+          configuration changes during the conversation (such as a change to a skill the
+          assistant uses).
     """
 
     def __init__(self,
@@ -2297,7 +2314,9 @@ class MessageContextGlobalSystem():
                  user_id: str = None,
                  turn_count: int = None,
                  locale: str = None,
-                 reference_time: str = None) -> None:
+                 reference_time: str = None,
+                 session_start_time: str = None,
+                 state: str = None) -> None:
         """
         Initialize a MessageContextGlobalSystem object.
 
@@ -2332,15 +2351,31 @@ class MessageContextGlobalSystem():
                or future times for testing purposes, or when analyzing documents such as
                news articles.
                This value must be a UTC time value formatted according to ISO 8601 (for
-               example, `2019-06-26T12:00:00Z` for noon on 26 June 2019.
+               example, `2021-06-26T12:00:00Z` for noon UTC on 26 June 2021).
                This property is included only if the new system entities are enabled for
                the skill.
+        :param str session_start_time: (optional) The time at which the session
+               started. With the stateful `message` method, the start time is always
+               present, and is set by the service based on the time the session was
+               created. With the stateless `message` method, the start time is set by the
+               service in the response to the first message, and should be returned as
+               part of the context with each subsequent message in the session.
+               This value is a UTC time value formatted according to ISO 8601 (for
+               example, `2021-06-26T12:00:00Z` for noon UTC on 26 June 2021).
+        :param str state: (optional) An encoded string that represents the
+               configuration state of the assistant at the beginning of the conversation.
+               If you are using the stateless `message` method, save this value and then
+               send it in the context of the subsequent message request to avoid
+               disruptions if there are configuration changes during the conversation
+               (such as a change to a skill the assistant uses).
         """
         self.timezone = timezone
         self.user_id = user_id
         self.turn_count = turn_count
         self.locale = locale
         self.reference_time = reference_time
+        self.session_start_time = session_start_time
+        self.state = state
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'MessageContextGlobalSystem':
@@ -2356,6 +2391,10 @@ class MessageContextGlobalSystem():
             args['locale'] = _dict.get('locale')
         if 'reference_time' in _dict:
             args['reference_time'] = _dict.get('reference_time')
+        if 'session_start_time' in _dict:
+            args['session_start_time'] = _dict.get('session_start_time')
+        if 'state' in _dict:
+            args['state'] = _dict.get('state')
         return cls(**args)
 
     @classmethod
@@ -2376,6 +2415,12 @@ class MessageContextGlobalSystem():
             _dict['locale'] = self.locale
         if hasattr(self, 'reference_time') and self.reference_time is not None:
             _dict['reference_time'] = self.reference_time
+        if hasattr(
+                self,
+                'session_start_time') and self.session_start_time is not None:
+            _dict['session_start_time'] = self.session_start_time
+        if hasattr(self, 'state') and self.state is not None:
+            _dict['state'] = self.state
         return _dict
 
     def _to_dict(self):
@@ -2553,6 +2598,29 @@ class MessageContextSkillSystem():
         """Return a json dictionary representing this model."""
         return self.to_dict()
 
+    def get_properties(self) -> Dict:
+        """Return a dictionary of arbitrary properties from this instance of MessageContextSkillSystem"""
+        _dict = {}
+
+        for _key in [
+                k for k in vars(self).keys()
+                if k not in MessageContextSkillSystem._properties
+        ]:
+            _dict[_key] = getattr(self, _key)
+        return _dict
+
+    def set_properties(self, _dict: dict):
+        """Set a dictionary of arbitrary properties to this instance of MessageContextSkillSystem"""
+        for _key in [
+                k for k in vars(self).keys()
+                if k not in MessageContextSkillSystem._properties
+        ]:
+            delattr(self, _key)
+
+        for _key, _value in _dict.items():
+            if _key not in MessageContextSkillSystem._properties:
+                setattr(self, _key, _value)
+
     def __str__(self) -> str:
         """Return a `str` version of this MessageContextSkillSystem object."""
         return json.dumps(self.to_dict(), indent=2)
@@ -2648,8 +2716,12 @@ class MessageInput():
     """
     An input object that includes the input text.
 
-    :attr str message_type: (optional) The type of user input. Currently, only text
-          input is supported.
+    :attr str message_type: (optional) The type of the message:
+          - `text`: The user input is processed normally by the assistant.
+          - `search`: Only search results are returned. (Any dialog or actions skill is
+          bypassed.)
+          **Note:** A `search` message results in an error if no search skill is
+          configured for the assistant.
     :attr str text: (optional) The text of the user input. This string cannot
           contain carriage return, newline, or tab characters.
     :attr List[RuntimeIntent] intents: (optional) Intents to use when evaluating the
@@ -2674,8 +2746,12 @@ class MessageInput():
         """
         Initialize a MessageInput object.
 
-        :param str message_type: (optional) The type of user input. Currently, only
-               text input is supported.
+        :param str message_type: (optional) The type of the message:
+               - `text`: The user input is processed normally by the assistant.
+               - `search`: Only search results are returned. (Any dialog or actions skill
+               is bypassed.)
+               **Note:** A `search` message results in an error if no search skill is
+               configured for the assistant.
         :param str text: (optional) The text of the user input. This string cannot
                contain carriage return, newline, or tab characters.
         :param List[RuntimeIntent] intents: (optional) Intents to use when
@@ -2762,9 +2838,15 @@ class MessageInput():
 
     class MessageTypeEnum(str, Enum):
         """
-        The type of user input. Currently, only text input is supported.
+        The type of the message:
+        - `text`: The user input is processed normally by the assistant.
+        - `search`: Only search results are returned. (Any dialog or actions skill is
+        bypassed.)
+        **Note:** A `search` message results in an error if no search skill is configured
+        for the assistant.
         """
         TEXT = 'text'
+        SEARCH = 'search'
 
 
 class MessageInputOptions():
@@ -3083,8 +3165,12 @@ class MessageInputStateless():
     """
     An input object that includes the input text.
 
-    :attr str message_type: (optional) The type of user input. Currently, only text
-          input is supported.
+    :attr str message_type: (optional) The type of the message:
+          - `text`: The user input is processed normally by the assistant.
+          - `search`: Only search results are returned. (Any dialog or actions skill is
+          bypassed.)
+          **Note:** A `search` message results in an error if no search skill is
+          configured for the assistant.
     :attr str text: (optional) The text of the user input. This string cannot
           contain carriage return, newline, or tab characters.
     :attr List[RuntimeIntent] intents: (optional) Intents to use when evaluating the
@@ -3109,8 +3195,12 @@ class MessageInputStateless():
         """
         Initialize a MessageInputStateless object.
 
-        :param str message_type: (optional) The type of user input. Currently, only
-               text input is supported.
+        :param str message_type: (optional) The type of the message:
+               - `text`: The user input is processed normally by the assistant.
+               - `search`: Only search results are returned. (Any dialog or actions skill
+               is bypassed.)
+               **Note:** A `search` message results in an error if no search skill is
+               configured for the assistant.
         :param str text: (optional) The text of the user input. This string cannot
                contain carriage return, newline, or tab characters.
         :param List[RuntimeIntent] intents: (optional) Intents to use when
@@ -3197,9 +3287,15 @@ class MessageInputStateless():
 
     class MessageTypeEnum(str, Enum):
         """
-        The type of user input. Currently, only text input is supported.
+        The type of the message:
+        - `text`: The user input is processed normally by the assistant.
+        - `search`: Only search results are returned. (Any dialog or actions skill is
+        bypassed.)
+        **Note:** A `search` message results in an error if no search skill is configured
+        for the assistant.
         """
         TEXT = 'text'
+        SEARCH = 'search'
 
 
 class MessageOutput():
@@ -3899,13 +3995,16 @@ class RuntimeEntity():
     The entity value that was recognized in the user input.
 
     :attr str entity: An entity detected in the input.
-    :attr List[int] location: An array of zero-based character offsets that indicate
-          where the detected entity values begin and end in the input text.
+    :attr List[int] location: (optional) An array of zero-based character offsets
+          that indicate where the detected entity values begin and end in the input text.
     :attr str value: The term in the input text that was recognized as an entity
           value.
     :attr float confidence: (optional) A decimal percentage that represents Watson's
           confidence in the recognized entity.
-    :attr dict metadata: (optional) Any metadata for the entity.
+    :attr dict metadata: (optional) **Deprecated.** Any metadata for the entity.
+          Beginning with the `2021-06-14` API version, the `metadata` property is no
+          longer returned. For information about system entities recognized in the user
+          input, see the `interpretation` property.
     :attr List[CaptureGroup] groups: (optional) The recognized capture groups for
           the entity, as defined by the entity pattern.
     :attr RuntimeEntityInterpretation interpretation: (optional) An object
@@ -3928,9 +4027,9 @@ class RuntimeEntity():
 
     def __init__(self,
                  entity: str,
-                 location: List[int],
                  value: str,
                  *,
+                 location: List[int] = None,
                  confidence: float = None,
                  metadata: dict = None,
                  groups: List['CaptureGroup'] = None,
@@ -3941,13 +4040,18 @@ class RuntimeEntity():
         Initialize a RuntimeEntity object.
 
         :param str entity: An entity detected in the input.
-        :param List[int] location: An array of zero-based character offsets that
-               indicate where the detected entity values begin and end in the input text.
         :param str value: The term in the input text that was recognized as an
                entity value.
+        :param List[int] location: (optional) An array of zero-based character
+               offsets that indicate where the detected entity values begin and end in the
+               input text.
         :param float confidence: (optional) A decimal percentage that represents
                Watson's confidence in the recognized entity.
-        :param dict metadata: (optional) Any metadata for the entity.
+        :param dict metadata: (optional) **Deprecated.** Any metadata for the
+               entity.
+               Beginning with the `2021-06-14` API version, the `metadata` property is no
+               longer returned. For information about system entities recognized in the
+               user input, see the `interpretation` property.
         :param List[CaptureGroup] groups: (optional) The recognized capture groups
                for the entity, as defined by the entity pattern.
         :param RuntimeEntityInterpretation interpretation: (optional) An object
@@ -3991,10 +4095,6 @@ class RuntimeEntity():
             )
         if 'location' in _dict:
             args['location'] = _dict.get('location')
-        else:
-            raise ValueError(
-                'Required property \'location\' not present in RuntimeEntity JSON'
-            )
         if 'value' in _dict:
             args['value'] = _dict.get('value')
         else:
@@ -4934,6 +5034,29 @@ class SearchResultHighlight():
         """Return a json dictionary representing this model."""
         return self.to_dict()
 
+    def get_properties(self) -> Dict:
+        """Return a dictionary of arbitrary properties from this instance of SearchResultHighlight"""
+        _dict = {}
+
+        for _key in [
+                k for k in vars(self).keys()
+                if k not in SearchResultHighlight._properties
+        ]:
+            _dict[_key] = getattr(self, _key)
+        return _dict
+
+    def set_properties(self, _dict: dict):
+        """Set a dictionary of arbitrary properties to this instance of SearchResultHighlight"""
+        for _key in [
+                k for k in vars(self).keys()
+                if k not in SearchResultHighlight._properties
+        ]:
+            delattr(self, _key)
+
+        for _key, _value in _dict.items():
+            if _key not in SearchResultHighlight._properties:
+                setattr(self, _key, _value)
+
     def __str__(self) -> str:
         """Return a `str` version of this SearchResultHighlight object."""
         return json.dumps(self.to_dict(), indent=2)
@@ -5691,13 +5814,15 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
 
     :attr str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
-    :attr str source: The URL of the image.
+    :attr str source: The `https:` URL of the image.
     :attr str title: (optional) The title to show before the response.
     :attr str description: (optional) The description to show with the the response.
     :attr List[ResponseGenericChannel] channels: (optional) An array of objects
           specifying channels for which the response is intended. If **channels** is
           present, the response is intended for a built-in integration and should not be
           handled by an API client.
+    :attr str alt_text: (optional) Descriptive text that can be used for screen
+          readers or other situations where the image cannot be seen.
     """
 
     def __init__(self,
@@ -5706,14 +5831,15 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
                  *,
                  title: str = None,
                  description: str = None,
-                 channels: List['ResponseGenericChannel'] = None) -> None:
+                 channels: List['ResponseGenericChannel'] = None,
+                 alt_text: str = None) -> None:
         """
         Initialize a RuntimeResponseGenericRuntimeResponseTypeImage object.
 
         :param str response_type: The type of response returned by the dialog node.
                The specified response type must be supported by the client application or
                channel.
-        :param str source: The URL of the image.
+        :param str source: The `https:` URL of the image.
         :param str title: (optional) The title to show before the response.
         :param str description: (optional) The description to show with the the
                response.
@@ -5721,6 +5847,8 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
                objects specifying channels for which the response is intended. If
                **channels** is present, the response is intended for a built-in
                integration and should not be handled by an API client.
+        :param str alt_text: (optional) Descriptive text that can be used for
+               screen readers or other situations where the image cannot be seen.
         """
         # pylint: disable=super-init-not-called
         self.response_type = response_type
@@ -5728,6 +5856,7 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
         self.title = title
         self.description = description
         self.channels = channels
+        self.alt_text = alt_text
 
     @classmethod
     def from_dict(
@@ -5756,6 +5885,8 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
                 ResponseGenericChannel.from_dict(x)
                 for x in _dict.get('channels')
             ]
+        if 'alt_text' in _dict:
+            args['alt_text'] = _dict.get('alt_text')
         return cls(**args)
 
     @classmethod
@@ -5776,6 +5907,8 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
             _dict['description'] = self.description
         if hasattr(self, 'channels') and self.channels is not None:
             _dict['channels'] = [x.to_dict() for x in self.channels]
+        if hasattr(self, 'alt_text') and self.alt_text is not None:
+            _dict['alt_text'] = self.alt_text
         return _dict
 
     def _to_dict(self):
