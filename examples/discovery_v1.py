@@ -6,7 +6,7 @@ authenticator = IAMAuthenticator('your_api_key')
 discovery = DiscoveryV1(
     version='2018-08-01',
     authenticator=authenticator)
-discovery.set_service_url('https://gateway.watsonplatform.net/discovery/api')
+discovery.set_service_url('https://api.us-south.discovery.watson.cloud.ibm.com')
 
 environments = discovery.list_environments().get_result()
 print(json.dumps(environments, indent=2))

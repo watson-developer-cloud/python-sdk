@@ -11,7 +11,7 @@ test_url = 'https://www.ibm.com/ibm/ginni/images' \
 service = VisualRecognitionV3(
     '2018-03-19',
     authenticator=authenticator)
-service.set_service_url('https://gateway.watsonplatform.net/visual-recognition/api')
+service.set_service_url('https://api.us-south.visual-recognition.watson.cloud.ibm.com')
 
 # with open(abspath('resources/cars.zip'), 'rb') as cars, \
 #      open(abspath('resources/trucks.zip'), 'rb') as trucks:

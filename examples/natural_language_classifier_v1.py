@@ -6,7 +6,7 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 authenticator = IAMAuthenticator('your_api_key')
 service = NaturalLanguageClassifierV1(authenticator=authenticator)
-service.set_service_url('https://gateway.watsonplatform.net/natural-language-classifier/api')
+service.set_service_url('https://api.us-south.natural-language-classifier.watson.cloud.ibm.com')
 
 classifiers = service.list_classifiers().get_result()
 print(json.dumps(classifiers, indent=2))

@@ -8,7 +8,7 @@ authenticator = IAMAuthenticator('your apikey')
 compare_comply = CompareComplyV1(
     version='2018-03-23',
     authenticator=authenticator)
-compare_comply.set_service_url('https://gateway.watsonplatform.net/compare-comply/api')
+compare_comply.set_service_url('https://api.us-south.compare-comply.watson.cloud.ibm.com')
 
 print('Convert to HTML')
 contract = os.path.abspath('resources/contract_A.pdf')

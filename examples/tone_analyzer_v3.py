@@ -14,7 +14,7 @@ from ibm_watson.tone_analyzer_v3 import ToneInput
 
 # Authentication via external config like VCAP_SERVICES
 service = ToneAnalyzerV3(version='2017-09-21')
-service.set_service_url('https://gateway.watsonplatform.net/tone-analyzer/api')
+service.set_service_url('https://api.us-south.tone-analyzer.watson.cloud.ibm.com')
 
 print("\ntone_chat() example 1:\n")
 utterances = [{

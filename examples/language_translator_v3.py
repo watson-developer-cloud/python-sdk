@@ -7,7 +7,7 @@ authenticator = IAMAuthenticator('your_api_key')
 language_translator = LanguageTranslatorV3(
     version='2018-05-01',
     authenticator=authenticator)
-language_translator.set_service_url('https://gateway.watsonplatform.net/language-translator/api')
+language_translator.set_service_url('https://api.us-south.language-translator.watson.cloud.ibm.com')
 
 ## Translate
 translation = language_translator.translate(
