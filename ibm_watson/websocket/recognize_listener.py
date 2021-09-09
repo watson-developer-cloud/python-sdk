@@ -198,15 +198,24 @@ class RecognizeListener(object):
             # set of transcriptions and send them to the appropriate callbacks.
             results = json_object.get('results')
             if results:
-                b_final = (results[0].get('final') is True)
-                alternatives = results[0].get('alternatives')
-                if alternatives:
-                    hypothesis = alternatives[0].get('transcript')
-                    transcripts = self.extract_transcripts(alternatives)
-                    if b_final:
-                        self.callback.on_transcription(transcripts)
-                    if hypothesis:
-                        self.callback.on_hypothesis(hypothesis)
+                if (self.options.get('interim_results') is True):
+                    b_final = (results[0].get('final') is True)
+                    alternatives = results[0].get('alternatives')
+                    if alternatives:
+                        hypothesis = alternatives[0].get('transcript')
+                        transcripts = self.extract_transcripts(alternatives)
+                        if b_final:
+                            self.callback.on_transcription(transcripts)
+                        if hypothesis:
+                            self.callback.on_hypothesis(hypothesis)
+                else:
+                    final_transcript = []
+                    for result in results:
+                        transcript = self.extract_transcripts(
+                            result.get('alternatives'))
+                        final_transcript.append(transcript)
+
+                    self.callback.on_transcription(final_transcript)
 
             # Always call the on_data callback if 'results' or 'speaker_labels' are present
             self.callback.on_data(json_object)
