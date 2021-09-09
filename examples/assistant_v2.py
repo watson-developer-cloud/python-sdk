@@ -6,7 +6,7 @@ authenticator = IAMAuthenticator('your apikey')
 assistant = AssistantV2(
     version='2018-09-20',
     authenticator=authenticator)
-assistant.set_service_url('https://gateway.watsonplatform.net/assistant/api')
+assistant.set_service_url('https://api.us-south.assistant.watson.cloud.ibm.com')
 
 #########################
 # Sessions

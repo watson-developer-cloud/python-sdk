@@ -13,7 +13,7 @@ from ibm_watson import AssistantV1
 
 # Authentication via external config like VCAP_SERVICES
 assistant = AssistantV1(version='2018-07-10')
-assistant.set_service_url('https://gateway.watsonplatform.net/assistant/api')
+assistant.set_service_url('https://api.us-south.assistant.watson.cloud.ibm.com')
 
 #########################
 # Workspaces

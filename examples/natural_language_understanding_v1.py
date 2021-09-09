@@ -13,7 +13,7 @@ from ibm_watson.natural_language_understanding_v1 import Features, EntitiesOptio
 # Authentication via external config like VCAP_SERVICES
 service = NaturalLanguageUnderstandingV1(
     version='2018-03-16')
-service.set_service_url('https://gateway.watsonplatform.net/natural-language-understanding/api')
+service.set_service_url('https://api.us-south.natural-language-understanding.watson.cloud.ibm.com')
 
 response = service.analyze(
     text='Bruce Banner is the Hulk and Bruce Wayne is BATMAN! '

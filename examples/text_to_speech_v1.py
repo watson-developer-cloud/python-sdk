@@ -7,7 +7,7 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 authenticator = IAMAuthenticator('your_api_key')
 service = TextToSpeechV1(authenticator=authenticator)
-service.set_service_url('https://stream.watsonplatform.net/text-to-speech/api')
+service.set_service_url('https://api.us-south.text-to-speech.watson.cloud.ibm.com')
 
 voices = service.list_voices().get_result()
 print(json.dumps(voices, indent=2))
