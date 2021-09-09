@@ -14,13 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-a45d89ef-20201209-192237
+# IBM OpenAPI SDK Code Generator Version: 3.38.0-07189efd-20210827-205025
 """
 IBM Watson&trade; Language Translator translates text from one language to another. The
 service offers multiple IBM-provided translation models that you can customize based on
 your unique terminology and language. Use Language Translator to take news from across the
 globe and present it in your language, communicate with your customers in their own
 language, and more.
+
+API Version: 3.0.0
+See: https://cloud.ibm.com/docs/language-translator
 """
 
 from datetime import datetime
@@ -112,7 +115,7 @@ class LanguageTranslatorV3(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -188,7 +191,7 @@ class LanguageTranslatorV3(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -226,7 +229,7 @@ class LanguageTranslatorV3(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def identify(self, text: Union[str, TextIO], **kwargs) -> DetailedResponse:
@@ -265,7 +268,7 @@ class LanguageTranslatorV3(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -320,7 +323,7 @@ class LanguageTranslatorV3(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def create_model(self,
@@ -459,7 +462,7 @@ class LanguageTranslatorV3(BaseService):
                                        params=params,
                                        files=form_data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_model(self, model_id: str, **kwargs) -> DetailedResponse:
@@ -497,7 +500,7 @@ class LanguageTranslatorV3(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_model(self, model_id: str, **kwargs) -> DetailedResponse:
@@ -537,7 +540,7 @@ class LanguageTranslatorV3(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -573,7 +576,7 @@ class LanguageTranslatorV3(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def translate_document(self,
@@ -659,7 +662,7 @@ class LanguageTranslatorV3(BaseService):
                                        params=params,
                                        files=form_data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_document_status(self, document_id: str,
@@ -698,7 +701,7 @@ class LanguageTranslatorV3(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_document(self, document_id: str, **kwargs) -> DetailedResponse:
@@ -735,7 +738,7 @@ class LanguageTranslatorV3(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_translated_document(self,
@@ -792,7 +795,7 @@ class LanguageTranslatorV3(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 

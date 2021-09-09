@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-a45d89ef-20201209-192237
+# IBM OpenAPI SDK Code Generator Version: 3.38.0-07189efd-20210827-205025
 """
 IBM Watson&trade; Visual Recognition is discontinued. Existing instances are supported
 until 1 December 2021, but as of 7 January 2021, you can't create instances. Any instance
@@ -22,6 +22,9 @@ that is provisioned on 1 December 2021 will be deleted.
 {: deprecated}
 Provide images to the IBM Watson Visual Recognition service for analysis. The service
 detects objects based on a set of images with training data.
+
+API Version: 4.0
+See: https://cloud.ibm.com/docs/visual-recognition?topic=visual-recognition-object-detection-overview
 """
 
 from datetime import date
@@ -164,7 +167,7 @@ class VisualRecognitionV4(BaseService):
                                        params=params,
                                        files=form_data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -227,7 +230,7 @@ class VisualRecognitionV4(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def list_collections(self, **kwargs) -> DetailedResponse:
@@ -259,7 +262,7 @@ class VisualRecognitionV4(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_collection(self, collection_id: str, **kwargs) -> DetailedResponse:
@@ -297,7 +300,7 @@ class VisualRecognitionV4(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def update_collection(self,
@@ -361,7 +364,7 @@ class VisualRecognitionV4(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_collection(self, collection_id: str,
@@ -400,7 +403,7 @@ class VisualRecognitionV4(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_model_file(self, collection_id: str, feature: str,
@@ -455,7 +458,7 @@ class VisualRecognitionV4(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -540,7 +543,7 @@ class VisualRecognitionV4(BaseService):
                                        params=params,
                                        files=form_data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def list_images(self, collection_id: str, **kwargs) -> DetailedResponse:
@@ -578,7 +581,7 @@ class VisualRecognitionV4(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_image_details(self, collection_id: str, image_id: str,
@@ -621,7 +624,7 @@ class VisualRecognitionV4(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_image(self, collection_id: str, image_id: str,
@@ -664,7 +667,7 @@ class VisualRecognitionV4(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_jpeg_image(self,
@@ -715,7 +718,7 @@ class VisualRecognitionV4(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -759,7 +762,7 @@ class VisualRecognitionV4(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def update_object_metadata(self, collection_id: str, object: str,
@@ -814,7 +817,7 @@ class VisualRecognitionV4(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_object_metadata(self, collection_id: str, object: str,
@@ -857,7 +860,7 @@ class VisualRecognitionV4(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_object(self, collection_id: str, object: str,
@@ -901,7 +904,7 @@ class VisualRecognitionV4(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -945,7 +948,7 @@ class VisualRecognitionV4(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def add_image_training_data(self,
@@ -1008,7 +1011,7 @@ class VisualRecognitionV4(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_training_usage(self,
@@ -1056,7 +1059,7 @@ class VisualRecognitionV4(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -1101,7 +1104,7 @@ class VisualRecognitionV4(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
