@@ -14,13 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-902c9336-20210507-162723
+# IBM OpenAPI SDK Code Generator Version: 3.38.0-07189efd-20210827-205025
 """
 The IBM Watson&trade; Assistant service combines machine learning, natural language
 understanding, and an integrated dialog editor to create conversation flows between your
 apps and your users.
 The Assistant v1 API provides authoring methods your application can use to create or
 update a workspace.
+
+API Version: 1.0
+See: https://cloud.ibm.com/docs/assistant
 """
 
 from datetime import datetime
@@ -57,7 +60,7 @@ class AssistantV1(BaseService):
         Construct a new client for the Assistant service.
 
         :param str version: Release date of the API version you want to use.
-               Specify dates in YYYY-MM-DD format. The current version is `2020-04-01`.
+               Specify dates in YYYY-MM-DD format. The current version is `2021-06-14`.
 
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
@@ -185,7 +188,7 @@ class AssistantV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -245,7 +248,7 @@ class AssistantV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -308,7 +311,7 @@ class AssistantV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def create_workspace(self,
@@ -408,7 +411,7 @@ class AssistantV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_workspace(self,
@@ -467,7 +470,7 @@ class AssistantV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def update_workspace(self,
@@ -588,7 +591,7 @@ class AssistantV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_workspace(self, workspace_id: str, **kwargs) -> DetailedResponse:
@@ -626,7 +629,7 @@ class AssistantV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -702,7 +705,7 @@ class AssistantV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def create_intent(self,
@@ -774,7 +777,7 @@ class AssistantV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_intent(self,
@@ -832,7 +835,7 @@ class AssistantV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def update_intent(self,
@@ -922,7 +925,7 @@ class AssistantV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_intent(self, workspace_id: str, intent: str,
@@ -965,7 +968,7 @@ class AssistantV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -1041,7 +1044,7 @@ class AssistantV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def create_example(self,
@@ -1110,7 +1113,7 @@ class AssistantV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_example(self,
@@ -1163,7 +1166,7 @@ class AssistantV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def update_example(self,
@@ -1234,7 +1237,7 @@ class AssistantV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_example(self, workspace_id: str, intent: str, text: str,
@@ -1280,7 +1283,7 @@ class AssistantV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -1352,7 +1355,7 @@ class AssistantV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def create_counterexample(self,
@@ -1413,7 +1416,7 @@ class AssistantV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_counterexample(self,
@@ -1464,7 +1467,7 @@ class AssistantV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def update_counterexample(self,
@@ -1526,7 +1529,7 @@ class AssistantV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_counterexample(self, workspace_id: str, text: str,
@@ -1571,7 +1574,7 @@ class AssistantV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -1647,7 +1650,7 @@ class AssistantV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def create_entity(self,
@@ -1728,7 +1731,7 @@ class AssistantV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_entity(self,
@@ -1786,7 +1789,7 @@ class AssistantV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def update_entity(self,
@@ -1883,7 +1886,7 @@ class AssistantV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_entity(self, workspace_id: str, entity: str,
@@ -1926,7 +1929,7 @@ class AssistantV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -1989,7 +1992,7 @@ class AssistantV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -2070,7 +2073,7 @@ class AssistantV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def create_value(self,
@@ -2157,7 +2160,7 @@ class AssistantV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_value(self,
@@ -2219,7 +2222,7 @@ class AssistantV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def update_value(self,
@@ -2325,7 +2328,7 @@ class AssistantV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_value(self, workspace_id: str, entity: str, value: str,
@@ -2371,7 +2374,7 @@ class AssistantV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -2450,7 +2453,7 @@ class AssistantV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def create_synonym(self,
@@ -2519,7 +2522,7 @@ class AssistantV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_synonym(self,
@@ -2577,7 +2580,7 @@ class AssistantV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def update_synonym(self,
@@ -2649,7 +2652,7 @@ class AssistantV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_synonym(self, workspace_id: str, entity: str, value: str,
@@ -2699,7 +2702,7 @@ class AssistantV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -2770,7 +2773,7 @@ class AssistantV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def create_dialog_node(self,
@@ -2922,7 +2925,7 @@ class AssistantV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_dialog_node(self,
@@ -2972,7 +2975,7 @@ class AssistantV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def update_dialog_node(self,
@@ -3129,7 +3132,7 @@ class AssistantV1(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_dialog_node(self, workspace_id: str, dialog_node: str,
@@ -3173,7 +3176,7 @@ class AssistantV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -3239,7 +3242,7 @@ class AssistantV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def list_all_logs(self,
@@ -3258,7 +3261,9 @@ class AssistantV1(BaseService):
                matching the specified filter. You must specify a filter query that
                includes a value for `language`, as well as a value for
                `request.context.system.assistant_id`, `workspace_id`, or
-               `request.context.metadata.deployment`. For more information, see the
+               `request.context.metadata.deployment`. These required filters must be
+               specified using the exact match (`::`) operator. For more information, see
+               the
                [documentation](https://cloud.ibm.com/docs/assistant?topic=assistant-filter-reference#filter-reference).
         :param str sort: (optional) How to sort the returned log events. You can
                sort by **request_timestamp**. To reverse the sort order, prefix the
@@ -3298,7 +3303,7 @@ class AssistantV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -3348,7 +3353,7 @@ class AssistantV1(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -4056,6 +4061,27 @@ class Context():
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         return self.to_dict()
+
+    def get_properties(self) -> Dict:
+        """Return a dictionary of arbitrary properties from this instance of Context"""
+        _dict = {}
+
+        for _key in [
+                k for k in vars(self).keys() if k not in Context._properties
+        ]:
+            _dict[_key] = getattr(self, _key)
+        return _dict
+
+    def set_properties(self, _dict: dict):
+        """Set a dictionary of arbitrary properties to this instance of Context"""
+        for _key in [
+                k for k in vars(self).keys() if k not in Context._properties
+        ]:
+            delattr(self, _key)
+
+        for _key, _value in _dict.items():
+            if _key not in Context._properties:
+                setattr(self, _key, _value)
 
     def __str__(self) -> str:
         """Return a `str` version of this Context object."""
@@ -5176,6 +5202,29 @@ class DialogNodeContext():
         """Return a json dictionary representing this model."""
         return self.to_dict()
 
+    def get_properties(self) -> Dict:
+        """Return a dictionary of arbitrary properties from this instance of DialogNodeContext"""
+        _dict = {}
+
+        for _key in [
+                k for k in vars(self).keys()
+                if k not in DialogNodeContext._properties
+        ]:
+            _dict[_key] = getattr(self, _key)
+        return _dict
+
+    def set_properties(self, _dict: dict):
+        """Set a dictionary of arbitrary properties to this instance of DialogNodeContext"""
+        for _key in [
+                k for k in vars(self).keys()
+                if k not in DialogNodeContext._properties
+        ]:
+            delattr(self, _key)
+
+        for _key, _value in _dict.items():
+            if _key not in DialogNodeContext._properties:
+                setattr(self, _key, _value)
+
     def __str__(self) -> str:
         """Return a `str` version of this DialogNodeContext object."""
         return json.dumps(self.to_dict(), indent=2)
@@ -5435,6 +5484,29 @@ class DialogNodeOutput():
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         return self.to_dict()
+
+    def get_properties(self) -> Dict:
+        """Return a dictionary of arbitrary properties from this instance of DialogNodeOutput"""
+        _dict = {}
+
+        for _key in [
+                k for k in vars(self).keys()
+                if k not in DialogNodeOutput._properties
+        ]:
+            _dict[_key] = getattr(self, _key)
+        return _dict
+
+    def set_properties(self, _dict: dict):
+        """Set a dictionary of arbitrary properties to this instance of DialogNodeOutput"""
+        for _key in [
+                k for k in vars(self).keys()
+                if k not in DialogNodeOutput._properties
+        ]:
+            delattr(self, _key)
+
+        for _key, _value in _dict.items():
+            if _key not in DialogNodeOutput._properties:
+                setattr(self, _key, _value)
 
     def __str__(self) -> str:
         """Return a `str` version of this DialogNodeOutput object."""
@@ -7550,6 +7622,29 @@ class MessageInput():
         """Return a json dictionary representing this model."""
         return self.to_dict()
 
+    def get_properties(self) -> Dict:
+        """Return a dictionary of arbitrary properties from this instance of MessageInput"""
+        _dict = {}
+
+        for _key in [
+                k for k in vars(self).keys()
+                if k not in MessageInput._properties
+        ]:
+            _dict[_key] = getattr(self, _key)
+        return _dict
+
+    def set_properties(self, _dict: dict):
+        """Set a dictionary of arbitrary properties to this instance of MessageInput"""
+        for _key in [
+                k for k in vars(self).keys()
+                if k not in MessageInput._properties
+        ]:
+            delattr(self, _key)
+
+        for _key, _value in _dict.items():
+            if _key not in MessageInput._properties:
+                setattr(self, _key, _value)
+
     def __str__(self) -> str:
         """Return a `str` version of this MessageInput object."""
         return json.dumps(self.to_dict(), indent=2)
@@ -8020,6 +8115,27 @@ class OutputData():
         """Return a json dictionary representing this model."""
         return self.to_dict()
 
+    def get_properties(self) -> Dict:
+        """Return a dictionary of arbitrary properties from this instance of OutputData"""
+        _dict = {}
+
+        for _key in [
+                k for k in vars(self).keys() if k not in OutputData._properties
+        ]:
+            _dict[_key] = getattr(self, _key)
+        return _dict
+
+    def set_properties(self, _dict: dict):
+        """Set a dictionary of arbitrary properties to this instance of OutputData"""
+        for _key in [
+                k for k in vars(self).keys() if k not in OutputData._properties
+        ]:
+            delattr(self, _key)
+
+        for _key, _value in _dict.items():
+            if _key not in OutputData._properties:
+                setattr(self, _key, _value)
+
     def __str__(self) -> str:
         """Return a `str` version of this OutputData object."""
         return json.dumps(self.to_dict(), indent=2)
@@ -8216,12 +8332,15 @@ class RuntimeEntity():
     A term from the request that was identified as an entity.
 
     :attr str entity: An entity detected in the input.
-    :attr List[int] location: An array of zero-based character offsets that indicate
-          where the detected entity values begin and end in the input text.
+    :attr List[int] location: (optional) An array of zero-based character offsets
+          that indicate where the detected entity values begin and end in the input text.
     :attr str value: The entity value that was recognized in the user input.
     :attr float confidence: (optional) A decimal percentage that represents Watson's
           confidence in the recognized entity.
-    :attr dict metadata: (optional) Any metadata for the entity.
+    :attr dict metadata: (optional) **Deprecated.** Any metadata for the entity.
+          Beginning with the `2021-06-14` API version, the `metadata` property is no
+          longer returned. For information about system entities recognized in the user
+          input, see the `interpretation` property.
     :attr List[CaptureGroup] groups: (optional) The recognized capture groups for
           the entity, as defined by the entity pattern.
     :attr RuntimeEntityInterpretation interpretation: (optional) An object
@@ -8242,9 +8361,9 @@ class RuntimeEntity():
 
     def __init__(self,
                  entity: str,
-                 location: List[int],
                  value: str,
                  *,
+                 location: List[int] = None,
                  confidence: float = None,
                  metadata: dict = None,
                  groups: List['CaptureGroup'] = None,
@@ -8255,12 +8374,17 @@ class RuntimeEntity():
         Initialize a RuntimeEntity object.
 
         :param str entity: An entity detected in the input.
-        :param List[int] location: An array of zero-based character offsets that
-               indicate where the detected entity values begin and end in the input text.
         :param str value: The entity value that was recognized in the user input.
+        :param List[int] location: (optional) An array of zero-based character
+               offsets that indicate where the detected entity values begin and end in the
+               input text.
         :param float confidence: (optional) A decimal percentage that represents
                Watson's confidence in the recognized entity.
-        :param dict metadata: (optional) Any metadata for the entity.
+        :param dict metadata: (optional) **Deprecated.** Any metadata for the
+               entity.
+               Beginning with the `2021-06-14` API version, the `metadata` property is no
+               longer returned. For information about system entities recognized in the
+               user input, see the `interpretation` property.
         :param List[CaptureGroup] groups: (optional) The recognized capture groups
                for the entity, as defined by the entity pattern.
         :param RuntimeEntityInterpretation interpretation: (optional) An object
@@ -8302,10 +8426,6 @@ class RuntimeEntity():
             )
         if 'location' in _dict:
             args['location'] = _dict.get('location')
-        else:
-            raise ValueError(
-                'Required property \'location\' not present in RuntimeEntity JSON'
-            )
         if 'value' in _dict:
             args['value'] = _dict.get('value')
         else:
@@ -9993,9 +10113,8 @@ class WorkspaceSystemSettingsDisambiguation():
     :attr bool enabled: (optional) Whether the disambiguation feature is enabled for
           the workspace.
     :attr str sensitivity: (optional) The sensitivity of the disambiguation feature
-          to intent detection conflicts. Set to **high** if you want the disambiguation
-          feature to be triggered more often. This can be useful for testing or
-          demonstration purposes.
+          to intent detection uncertainty. Higher sensitivity means that the
+          disambiguation feature is triggered more often and includes more choices.
     :attr bool randomize: (optional) Whether the order in which disambiguation
           suggestions are presented should be randomized (but still influenced by relative
           confidence).
@@ -10024,9 +10143,8 @@ class WorkspaceSystemSettingsDisambiguation():
         :param bool enabled: (optional) Whether the disambiguation feature is
                enabled for the workspace.
         :param str sensitivity: (optional) The sensitivity of the disambiguation
-               feature to intent detection conflicts. Set to **high** if you want the
-               disambiguation feature to be triggered more often. This can be useful for
-               testing or demonstration purposes.
+               feature to intent detection uncertainty. Higher sensitivity means that the
+               disambiguation feature is triggered more often and includes more choices.
         :param bool randomize: (optional) Whether the order in which disambiguation
                suggestions are presented should be randomized (but still influenced by
                relative confidence).
@@ -10110,12 +10228,16 @@ class WorkspaceSystemSettingsDisambiguation():
 
     class SensitivityEnum(str, Enum):
         """
-        The sensitivity of the disambiguation feature to intent detection conflicts. Set
-        to **high** if you want the disambiguation feature to be triggered more often.
-        This can be useful for testing or demonstration purposes.
+        The sensitivity of the disambiguation feature to intent detection uncertainty.
+        Higher sensitivity means that the disambiguation feature is triggered more often
+        and includes more choices.
         """
         AUTO = 'auto'
         HIGH = 'high'
+        MEDIUM_HIGH = 'medium_high'
+        MEDIUM = 'medium'
+        MEDIUM_LOW = 'medium_low'
+        LOW = 'low'
 
 
 class WorkspaceSystemSettingsOffTopic():
@@ -10551,12 +10673,14 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeImage(
 
     :attr str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
-    :attr str source: The URL of the image.
+    :attr str source: The `https:` URL of the image.
     :attr str title: (optional) An optional title to show before the response.
     :attr str description: (optional) An optional description to show with the
           response.
     :attr List[ResponseGenericChannel] channels: (optional) An array of objects
           specifying channels for which the response is intended.
+    :attr str alt_text: (optional) Descriptive text that can be used for screen
+          readers or other situations where the image cannot be seen.
     """
 
     def __init__(self,
@@ -10565,19 +10689,22 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeImage(
                  *,
                  title: str = None,
                  description: str = None,
-                 channels: List['ResponseGenericChannel'] = None) -> None:
+                 channels: List['ResponseGenericChannel'] = None,
+                 alt_text: str = None) -> None:
         """
         Initialize a DialogNodeOutputGenericDialogNodeOutputResponseTypeImage object.
 
         :param str response_type: The type of response returned by the dialog node.
                The specified response type must be supported by the client application or
                channel.
-        :param str source: The URL of the image.
+        :param str source: The `https:` URL of the image.
         :param str title: (optional) An optional title to show before the response.
         :param str description: (optional) An optional description to show with the
                response.
         :param List[ResponseGenericChannel] channels: (optional) An array of
                objects specifying channels for which the response is intended.
+        :param str alt_text: (optional) Descriptive text that can be used for
+               screen readers or other situations where the image cannot be seen.
         """
         # pylint: disable=super-init-not-called
         self.response_type = response_type
@@ -10585,6 +10712,7 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeImage(
         self.title = title
         self.description = description
         self.channels = channels
+        self.alt_text = alt_text
 
     @classmethod
     def from_dict(
@@ -10613,6 +10741,8 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeImage(
                 ResponseGenericChannel.from_dict(x)
                 for x in _dict.get('channels')
             ]
+        if 'alt_text' in _dict:
+            args['alt_text'] = _dict.get('alt_text')
         return cls(**args)
 
     @classmethod
@@ -10633,6 +10763,8 @@ class DialogNodeOutputGenericDialogNodeOutputResponseTypeImage(
             _dict['description'] = self.description
         if hasattr(self, 'channels') and self.channels is not None:
             _dict['channels'] = [x.to_dict() for x in self.channels]
+        if hasattr(self, 'alt_text') and self.alt_text is not None:
+            _dict['alt_text'] = self.alt_text
         return _dict
 
     def _to_dict(self):
@@ -11583,7 +11715,7 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
 
     :attr str response_type: The type of response returned by the dialog node. The
           specified response type must be supported by the client application or channel.
-    :attr str source: The URL of the image.
+    :attr str source: The `https:` URL of the image.
     :attr str title: (optional) The title or introductory text to show before the
           response.
     :attr str description: (optional) The description to show with the the response.
@@ -11591,6 +11723,8 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
           specifying channels for which the response is intended. If **channels** is
           present, the response is intended for a built-in integration and should not be
           handled by an API client.
+    :attr str alt_text: (optional) Descriptive text that can be used for screen
+          readers or other situations where the image cannot be seen.
     """
 
     def __init__(self,
@@ -11599,14 +11733,15 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
                  *,
                  title: str = None,
                  description: str = None,
-                 channels: List['ResponseGenericChannel'] = None) -> None:
+                 channels: List['ResponseGenericChannel'] = None,
+                 alt_text: str = None) -> None:
         """
         Initialize a RuntimeResponseGenericRuntimeResponseTypeImage object.
 
         :param str response_type: The type of response returned by the dialog node.
                The specified response type must be supported by the client application or
                channel.
-        :param str source: The URL of the image.
+        :param str source: The `https:` URL of the image.
         :param str title: (optional) The title or introductory text to show before
                the response.
         :param str description: (optional) The description to show with the the
@@ -11615,6 +11750,8 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
                objects specifying channels for which the response is intended. If
                **channels** is present, the response is intended for a built-in
                integration and should not be handled by an API client.
+        :param str alt_text: (optional) Descriptive text that can be used for
+               screen readers or other situations where the image cannot be seen.
         """
         # pylint: disable=super-init-not-called
         self.response_type = response_type
@@ -11622,6 +11759,7 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
         self.title = title
         self.description = description
         self.channels = channels
+        self.alt_text = alt_text
 
     @classmethod
     def from_dict(
@@ -11650,6 +11788,8 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
                 ResponseGenericChannel.from_dict(x)
                 for x in _dict.get('channels')
             ]
+        if 'alt_text' in _dict:
+            args['alt_text'] = _dict.get('alt_text')
         return cls(**args)
 
     @classmethod
@@ -11670,6 +11810,8 @@ class RuntimeResponseGenericRuntimeResponseTypeImage(RuntimeResponseGeneric):
             _dict['description'] = self.description
         if hasattr(self, 'channels') and self.channels is not None:
             _dict['channels'] = [x.to_dict() for x in self.channels]
+        if hasattr(self, 'alt_text') and self.alt_text is not None:
+            _dict['alt_text'] = self.alt_text
         return _dict
 
     def _to_dict(self):
