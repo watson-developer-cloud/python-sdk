@@ -14,13 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# IBM OpenAPI SDK Code Generator Version: 99-SNAPSHOT-902c9336-20210507-162723
+# IBM OpenAPI SDK Code Generator Version: 3.38.0-07189efd-20210827-205025
 """
 IBM Watson&trade; Discovery is a cognitive search and content analytics engine that you
 can add to applications to identify patterns, trends and actionable insights to drive
 better decision-making. Securely unify structured and unstructured data with pre-enriched
 content, and use a simplified query language to eliminate the need for manual filtering of
 results.
+
+API Version: 2.0
+See: https://cloud.ibm.com/docs/discovery-data
 """
 
 from datetime import datetime
@@ -58,7 +61,7 @@ class DiscoveryV2(BaseService):
         Construct a new client for the Discovery service.
 
         :param str version: Release date of the version of the API you want to use.
-               Specify dates in YYYY-MM-DD format. The current version is `2019-11-22`.
+               Specify dates in YYYY-MM-DD format. The current version is `2020-08-30`.
 
         :param Authenticator authenticator: The authenticator specifies the authentication mechanism.
                Get up to date information from https://github.com/IBM/python-sdk-core/blob/master/README.md
@@ -86,7 +89,7 @@ class DiscoveryV2(BaseService):
         Lists existing collections for the specified project.
 
         :param str project_id: The ID of the project. This information can be found
-               from the deploy page of the Discovery administrative tooling.
+               from the *Integrate and Deploy* page in Discovery.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `ListCollectionsResponse` object
@@ -115,7 +118,7 @@ class DiscoveryV2(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def create_collection(self,
@@ -132,7 +135,7 @@ class DiscoveryV2(BaseService):
         Create a new collection in the specified project.
 
         :param str project_id: The ID of the project. This information can be found
-               from the deploy page of the Discovery administrative tooling.
+               from the *Integrate and Deploy* page in Discovery.
         :param str name: The name of the collection.
         :param str description: (optional) A description of the collection.
         :param str language: (optional) The language of the collection.
@@ -181,7 +184,7 @@ class DiscoveryV2(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_collection(self, project_id: str, collection_id: str,
@@ -192,7 +195,7 @@ class DiscoveryV2(BaseService):
         Get details about the specified collection.
 
         :param str project_id: The ID of the project. This information can be found
-               from the deploy page of the Discovery administrative tooling.
+               from the *Integrate and Deploy* page in Discovery.
         :param str collection_id: The ID of the collection.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -225,7 +228,7 @@ class DiscoveryV2(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def update_collection(self,
@@ -242,7 +245,7 @@ class DiscoveryV2(BaseService):
         Updates the specified collection's name, description, and enrichments.
 
         :param str project_id: The ID of the project. This information can be found
-               from the deploy page of the Discovery administrative tooling.
+               from the *Integrate and Deploy* page in Discovery.
         :param str collection_id: The ID of the collection.
         :param str name: (optional) The name of the collection.
         :param str description: (optional) A description of the collection.
@@ -291,7 +294,7 @@ class DiscoveryV2(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_collection(self, project_id: str, collection_id: str,
@@ -303,7 +306,7 @@ class DiscoveryV2(BaseService):
         specified collection and not shared is also deleted.
 
         :param str project_id: The ID of the project. This information can be found
-               from the deploy page of the Discovery administrative tooling.
+               from the *Integrate and Deploy* page in Discovery.
         :param str collection_id: The ID of the collection.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -335,7 +338,7 @@ class DiscoveryV2(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -373,7 +376,7 @@ class DiscoveryV2(BaseService):
         settings.
 
         :param str project_id: The ID of the project. This information can be found
-               from the deploy page of the Discovery administrative tooling.
+               from the *Integrate and Deploy* page in Discovery.
         :param List[str] collection_ids: (optional) A comma-separated list of
                collection IDs to be queried against.
         :param str filter: (optional) A cacheable query that excludes documents
@@ -392,16 +395,15 @@ class DiscoveryV2(BaseService):
                possible aggregations, see the Query reference.
         :param int count: (optional) Number of results to return.
         :param List[str] return_: (optional) A list of the fields in the document
-               hierarchy to return. If this parameter not specified, then all top-level
-               fields are returned.
+               hierarchy to return. If this parameter is an empty list, then all fields
+               are returned.
         :param int offset: (optional) The number of query results to skip at the
                beginning. For example, if the total number of results that are returned is
                10 and the offset is 8, it returns the last two results.
         :param str sort: (optional) A comma-separated list of fields in the
                document to sort on. You can optionally specify a sort direction by
                prefixing the field with `-` for descending or `+` for ascending. Ascending
-               is the default sort direction if no prefix is specified. This parameter
-               cannot be used in the same query as the **bias** parameter.
+               is the default sort direction if no prefix is specified.
         :param bool highlight: (optional) When `true`, a highlight field is
                returned for each result which contains the fields which match the query
                with `<em></em>` tags around the matching query terms.
@@ -413,7 +415,7 @@ class DiscoveryV2(BaseService):
         :param QueryLargeTableResults table_results: (optional) Configuration for
                table retrieval.
         :param QueryLargeSuggestedRefinements suggested_refinements: (optional)
-               Configuration for suggested refinements.
+               Configuration for suggested refinements. Available with Premium plans only.
         :param QueryLargePassages passages: (optional) Configuration for passage
                retrieval.
         :param dict headers: A `dict` containing the request headers
@@ -471,7 +473,7 @@ class DiscoveryV2(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_autocompletion(self,
@@ -488,10 +490,9 @@ class DiscoveryV2(BaseService):
         Returns completion query suggestions for the specified prefix.
 
         :param str project_id: The ID of the project. This information can be found
-               from the deploy page of the Discovery administrative tooling.
+               from the *Integrate and Deploy* page in Discovery.
         :param str prefix: The prefix to use for autocompletion. For example, the
-               prefix `Ho` could autocomplete to `Hot`, `Housing`, or `How do I upgrade`.
-               Possible completions are.
+               prefix `Ho` could autocomplete to `hot`, `housing`, or `how`.
         :param List[str] collection_ids: (optional) Comma separated list of the
                collection IDs. If this parameter is not specified, all collections in the
                project are used.
@@ -536,7 +537,7 @@ class DiscoveryV2(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def query_collection_notices(self,
@@ -556,7 +557,7 @@ class DiscoveryV2(BaseService):
         documents are ingested.
 
         :param str project_id: The ID of the project. This information can be found
-               from the deploy page of the Discovery administrative tooling.
+               from the *Integrate and Deploy* page in Discovery.
         :param str collection_id: The ID of the collection.
         :param str filter: (optional) A cacheable query that excludes documents
                that don't mention the query content. Filter searches are better for
@@ -611,7 +612,7 @@ class DiscoveryV2(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def query_notices(self,
@@ -630,7 +631,7 @@ class DiscoveryV2(BaseService):
         notices are generated by relevancy training.
 
         :param str project_id: The ID of the project. This information can be found
-               from the deploy page of the Discovery administrative tooling.
+               from the *Integrate and Deploy* page in Discovery.
         :param str filter: (optional) A cacheable query that excludes documents
                that don't mention the query content. Filter searches are better for
                metadata-type searches and for assessing the concepts in the data set.
@@ -681,7 +682,7 @@ class DiscoveryV2(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def list_fields(self,
@@ -696,7 +697,7 @@ class DiscoveryV2(BaseService):
         collections.
 
         :param str project_id: The ID of the project. This information can be found
-               from the deploy page of the Discovery administrative tooling.
+               from the *Integrate and Deploy* page in Discovery.
         :param List[str] collection_ids: (optional) Comma separated list of the
                collection IDs. If this parameter is not specified, all collections in the
                project are used.
@@ -731,7 +732,7 @@ class DiscoveryV2(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -746,7 +747,7 @@ class DiscoveryV2(BaseService):
         Returns default configuration settings for components.
 
         :param str project_id: The ID of the project. This information can be found
-               from the deploy page of the Discovery administrative tooling.
+               from the *Integrate and Deploy* page in Discovery.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `ComponentSettingsResponse` object
@@ -776,7 +777,7 @@ class DiscoveryV2(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -797,36 +798,35 @@ class DiscoveryV2(BaseService):
         Add a document.
 
         Add a document to a collection with optional metadata.
-         Returns immediately after the system has accepted the document for processing.
+        Returns immediately after the system has accepted the document for processing.
           * The user must provide document content, metadata, or both. If the request is
         missing both document content and metadata, it is rejected.
-          * The user can set the **Content-Type** parameter on the **file** part to
-        indicate the media type of the document. If the **Content-Type** parameter is
-        missing or is one of the generic media types (for example,
-        `application/octet-stream`), then the service attempts to automatically detect the
-        document's media type.
-          * The following field names are reserved and will be filtered out if present
-        after normalization: `id`, `score`, `highlight`, and any field with the prefix of:
-        `_`, `+`, or `-`
+          * You can set the **Content-Type** parameter on the **file** part to indicate
+        the media type of the document. If the **Content-Type** parameter is missing or is
+        one of the generic media types (for example, `application/octet-stream`), then the
+        service attempts to automatically detect the document's media type.
+          * The following field names are reserved and are filtered out if present after
+        normalization: `id`, `score`, `highlight`, and any field with the prefix of: `_`,
+        `+`, or `-`
           * Fields with empty name values after normalization are filtered out before
         indexing.
-          * Fields containing the following characters after normalization are filtered
+          * Fields that contain the following characters after normalization are filtered
         out before indexing: `#` and `,`
-          If the document is uploaded to a collection that has it's data shared with
-        another collection, the **X-Watson-Discovery-Force** header must be set to `true`.
-         **Note:** Documents can be added with a specific **document_id** by using the
-        **/v2/projects/{project_id}/collections/{collection_id}/documents** method.
-        **Note:** This operation only works on collections created to accept direct file
-        uploads. It cannot be used to modify a collection that connects to an external
-        source such as Microsoft SharePoint.
+          If the document is uploaded to a collection that shares its data with another
+        collection, the **X-Watson-Discovery-Force** header must be set to `true`.
+        **Note:** You can assign an ID to a document that you add by appending the ID to
+        the endpoint
+        (`/v2/projects/{project_id}/collections/{collection_id}/documents/{document_id}`).
+        If a document already exists with the specified ID, it is replaced.
+        **Note:** This operation works with a file upload collection. It cannot be used to
+        modify a collection that crawls an external data source.
 
         :param str project_id: The ID of the project. This information can be found
-               from the deploy page of the Discovery administrative tooling.
+               from the *Integrate and Deploy* page in Discovery.
         :param str collection_id: The ID of the collection.
-        :param BinaryIO file: (optional) The content of the document to ingest. The
-               maximum supported file size when adding a file to a collection is 50
-               megabytes, the maximum supported file size when testing a configuration is
-               1 megabyte. Files larger than the supported size are rejected.
+        :param BinaryIO file: (optional) The content of the document to ingest. For
+               maximum supported file size limits, see [the
+               documentation](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-collections#collections-doc-limits).
         :param str filename: (optional) The filename for file.
         :param str file_content_type: (optional) The content type of file.
         :param str metadata: (optional) The maximum supported metadata file size is
@@ -881,7 +881,7 @@ class DiscoveryV2(BaseService):
                                        params=params,
                                        files=form_data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def update_document(self,
@@ -900,24 +900,23 @@ class DiscoveryV2(BaseService):
 
         Replace an existing document or add a document with a specified **document_id**.
         Starts ingesting a document with optional metadata.
-        If the document is uploaded to a collection that has it's data shared with another
+        If the document is uploaded to a collection that shares its data with another
         collection, the **X-Watson-Discovery-Force** header must be set to `true`.
         **Note:** When uploading a new document with this method it automatically replaces
         any document stored with the same **document_id** if it exists.
         **Note:** This operation only works on collections created to accept direct file
         uploads. It cannot be used to modify a collection that connects to an external
         source such as Microsoft SharePoint.
-        **Note:** If an uploaded document is segmented, all segments will be overwritten,
-        even if the updated version of the document has fewer segments.
+        **Note:** If an uploaded document is segmented, all segments are overwritten, even
+        if the updated version of the document has fewer segments.
 
         :param str project_id: The ID of the project. This information can be found
-               from the deploy page of the Discovery administrative tooling.
+               from the *Integrate and Deploy* page in Discovery.
         :param str collection_id: The ID of the collection.
         :param str document_id: The ID of the document.
-        :param BinaryIO file: (optional) The content of the document to ingest. The
-               maximum supported file size when adding a file to a collection is 50
-               megabytes, the maximum supported file size when testing a configuration is
-               1 megabyte. Files larger than the supported size are rejected.
+        :param BinaryIO file: (optional) The content of the document to ingest. For
+               maximum supported file size limits, see [the
+               documentation](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-collections#collections-doc-limits).
         :param str filename: (optional) The filename for file.
         :param str file_content_type: (optional) The content type of file.
         :param str metadata: (optional) The maximum supported metadata file size is
@@ -975,7 +974,7 @@ class DiscoveryV2(BaseService):
                                        params=params,
                                        files=form_data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_document(self,
@@ -998,7 +997,7 @@ class DiscoveryV2(BaseService):
         all segments by deleting using the `parent_document_id` of a segment result.
 
         :param str project_id: The ID of the project. This information can be found
-               from the deploy page of the Discovery administrative tooling.
+               from the *Integrate and Deploy* page in Discovery.
         :param str collection_id: The ID of the collection.
         :param str document_id: The ID of the document.
         :param bool x_watson_discovery_force: (optional) When `true`, the uploaded
@@ -1038,7 +1037,7 @@ class DiscoveryV2(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -1053,7 +1052,7 @@ class DiscoveryV2(BaseService):
         List the training queries for the specified project.
 
         :param str project_id: The ID of the project. This information can be found
-               from the deploy page of the Discovery administrative tooling.
+               from the *Integrate and Deploy* page in Discovery.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `TrainingQuerySet` object
@@ -1083,7 +1082,7 @@ class DiscoveryV2(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_training_queries(self, project_id: str,
@@ -1094,7 +1093,7 @@ class DiscoveryV2(BaseService):
         Removes all training queries for the specified project.
 
         :param str project_id: The ID of the project. This information can be found
-               from the deploy page of the Discovery administrative tooling.
+               from the *Integrate and Deploy* page in Discovery.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1123,7 +1122,7 @@ class DiscoveryV2(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def create_training_query(self,
@@ -1140,7 +1139,7 @@ class DiscoveryV2(BaseService):
         and natural language query.
 
         :param str project_id: The ID of the project. This information can be found
-               from the deploy page of the Discovery administrative tooling.
+               from the *Integrate and Deploy* page in Discovery.
         :param str natural_language_query: The natural text query for the training
                query.
         :param List[TrainingExample] examples: Array of training examples.
@@ -1190,7 +1189,7 @@ class DiscoveryV2(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_training_query(self, project_id: str, query_id: str,
@@ -1202,7 +1201,7 @@ class DiscoveryV2(BaseService):
         examples.
 
         :param str project_id: The ID of the project. This information can be found
-               from the deploy page of the Discovery administrative tooling.
+               from the *Integrate and Deploy* page in Discovery.
         :param str query_id: The ID of the query used for training.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -1235,7 +1234,7 @@ class DiscoveryV2(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def update_training_query(self,
@@ -1252,7 +1251,7 @@ class DiscoveryV2(BaseService):
         Updates an existing training query and it's examples.
 
         :param str project_id: The ID of the project. This information can be found
-               from the deploy page of the Discovery administrative tooling.
+               from the *Integrate and Deploy* page in Discovery.
         :param str query_id: The ID of the query used for training.
         :param str natural_language_query: The natural text query for the training
                query.
@@ -1305,7 +1304,7 @@ class DiscoveryV2(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_training_query(self, project_id: str, query_id: str,
@@ -1317,7 +1316,7 @@ class DiscoveryV2(BaseService):
         examples.
 
         :param str project_id: The ID of the project. This information can be found
-               from the deploy page of the Discovery administrative tooling.
+               from the *Integrate and Deploy* page in Discovery.
         :param str query_id: The ID of the query used for training.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -1349,7 +1348,7 @@ class DiscoveryV2(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -1368,20 +1367,17 @@ class DiscoveryV2(BaseService):
         """
         Analyze a Document.
 
-        Process a document using the specified collection's settings and return it for
-        realtime use.
-        **Note:** Documents processed using this method are not added to the specified
-        collection.
-        **Note:** This method is only supported on IBM Cloud Pak for Data instances of
-        Discovery.
+        Process a document and return it for realtime use. Supports JSON files only.
+        The document is processed according to the collection's configuration settings but
+        is not stored in the collection.
+        **Note:** This method is supported on installed instances of Discovery only.
 
         :param str project_id: The ID of the project. This information can be found
-               from the deploy page of the Discovery administrative tooling.
+               from the *Integrate and Deploy* page in Discovery.
         :param str collection_id: The ID of the collection.
-        :param BinaryIO file: (optional) The content of the document to ingest. The
-               maximum supported file size when adding a file to a collection is 50
-               megabytes, the maximum supported file size when testing a configuration is
-               1 megabyte. Files larger than the supported size are rejected.
+        :param BinaryIO file: (optional) The content of the document to ingest. For
+               maximum supported file size limits, see [the
+               documentation](https://cloud.ibm.com/docs/discovery-data?topic=discovery-data-collections#collections-doc-limits).
         :param str filename: (optional) The filename for file.
         :param str file_content_type: (optional) The content type of file.
         :param str metadata: (optional) The maximum supported metadata file size is
@@ -1433,7 +1429,7 @@ class DiscoveryV2(BaseService):
                                        params=params,
                                        files=form_data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -1444,10 +1440,12 @@ class DiscoveryV2(BaseService):
         """
         List Enrichments.
 
-        List the enrichments available to this project.
+        Lists the enrichments available to this project. The *Part of Speech* and
+        *Sentiment of Phrases* enrichments might be listed, but are reserved for internal
+        use only.
 
         :param str project_id: The ID of the project. This information can be found
-               from the deploy page of the Discovery administrative tooling.
+               from the *Integrate and Deploy* page in Discovery.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `Enrichments` object
@@ -1476,7 +1474,7 @@ class DiscoveryV2(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def create_enrichment(self,
@@ -1488,10 +1486,10 @@ class DiscoveryV2(BaseService):
         """
         Create an enrichment.
 
-        Create an enrichment for use with the specified project/.
+        Create an enrichment for use with the specified project.
 
         :param str project_id: The ID of the project. This information can be found
-               from the deploy page of the Discovery administrative tooling.
+               from the *Integrate and Deploy* page in Discovery.
         :param CreateEnrichment enrichment: Information about a specific
                enrichment.
         :param BinaryIO file: (optional) The enrichment file to upload.
@@ -1532,7 +1530,7 @@ class DiscoveryV2(BaseService):
                                        params=params,
                                        files=form_data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_enrichment(self, project_id: str, enrichment_id: str,
@@ -1543,7 +1541,7 @@ class DiscoveryV2(BaseService):
         Get details about a specific enrichment.
 
         :param str project_id: The ID of the project. This information can be found
-               from the deploy page of the Discovery administrative tooling.
+               from the *Integrate and Deploy* page in Discovery.
         :param str enrichment_id: The ID of the enrichment.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -1576,7 +1574,7 @@ class DiscoveryV2(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def update_enrichment(self,
@@ -1592,7 +1590,7 @@ class DiscoveryV2(BaseService):
         Updates an existing enrichment's name and description.
 
         :param str project_id: The ID of the project. This information can be found
-               from the deploy page of the Discovery administrative tooling.
+               from the *Integrate and Deploy* page in Discovery.
         :param str enrichment_id: The ID of the enrichment.
         :param str name: A new name for the enrichment.
         :param str description: (optional) A new description for the enrichment.
@@ -1635,7 +1633,7 @@ class DiscoveryV2(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_enrichment(self, project_id: str, enrichment_id: str,
@@ -1647,7 +1645,7 @@ class DiscoveryV2(BaseService):
         **Note:** Only enrichments that have been manually created can be deleted.
 
         :param str project_id: The ID of the project. This information can be found
-               from the deploy page of the Discovery administrative tooling.
+               from the *Integrate and Deploy* page in Discovery.
         :param str enrichment_id: The ID of the enrichment.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -1679,7 +1677,7 @@ class DiscoveryV2(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -1715,7 +1713,7 @@ class DiscoveryV2(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def create_project(self,
@@ -1730,7 +1728,11 @@ class DiscoveryV2(BaseService):
         Create a new project for this instance.
 
         :param str name: The human readable name of this project.
-        :param str type: The project type of this project.
+        :param str type: The type of project.
+               The `content_intelligence` type is a *Document Retrieval for Contracts*
+               project and the `other` type is a *Custom* project.
+               The `content_mining` and `content_intelligence` types are available with
+               Premium plan managed deployments and installed deployments only.
         :param DefaultQueryParams default_query_parameters: (optional) Default
                query parameters for this project.
         :param dict headers: A `dict` containing the request headers
@@ -1772,7 +1774,7 @@ class DiscoveryV2(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def get_project(self, project_id: str, **kwargs) -> DetailedResponse:
@@ -1782,7 +1784,7 @@ class DiscoveryV2(BaseService):
         Get details on the specified project.
 
         :param str project_id: The ID of the project. This information can be found
-               from the deploy page of the Discovery administrative tooling.
+               from the *Integrate and Deploy* page in Discovery.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `ProjectDetails` object
@@ -1811,7 +1813,7 @@ class DiscoveryV2(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def update_project(self,
@@ -1825,7 +1827,7 @@ class DiscoveryV2(BaseService):
         Update the specified project's name.
 
         :param str project_id: The ID of the project. This information can be found
-               from the deploy page of the Discovery administrative tooling.
+               from the *Integrate and Deploy* page in Discovery.
         :param str name: (optional) The new name to give this project.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
@@ -1861,7 +1863,7 @@ class DiscoveryV2(BaseService):
                                        params=params,
                                        data=data)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     def delete_project(self, project_id: str, **kwargs) -> DetailedResponse:
@@ -1873,7 +1875,7 @@ class DiscoveryV2(BaseService):
         project, including all collections.
 
         :param str project_id: The ID of the project. This information can be found
-               from the deploy page of the Discovery administrative tooling.
+               from the *Integrate and Deploy* page in Discovery.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse
@@ -1901,7 +1903,7 @@ class DiscoveryV2(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
     #########################
@@ -1946,7 +1948,7 @@ class DiscoveryV2(BaseService):
                                        headers=headers,
                                        params=params)
 
-        response = self.send(request)
+        response = self.send(request, **kwargs)
         return response
 
 
@@ -2008,7 +2010,7 @@ class AnalyzeDocumentEnums:
 
 class AnalyzedDocument():
     """
-    An object containing the converted document and any identified enrichments.
+    An object that contains the converted document and any identified enrichments.
 
     :attr List[Notice] notices: (optional) Array of document results that match the
           query.
@@ -2126,6 +2128,29 @@ class AnalyzedResult():
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         return self.to_dict()
+
+    def get_properties(self) -> Dict:
+        """Return a dictionary of arbitrary properties from this instance of AnalyzedResult"""
+        _dict = {}
+
+        for _key in [
+                k for k in vars(self).keys()
+                if k not in AnalyzedResult._properties
+        ]:
+            _dict[_key] = getattr(self, _key)
+        return _dict
+
+    def set_properties(self, _dict: dict):
+        """Set a dictionary of arbitrary properties to this instance of AnalyzedResult"""
+        for _key in [
+                k for k in vars(self).keys()
+                if k not in AnalyzedResult._properties
+        ]:
+            delattr(self, _key)
+
+        for _key, _value in _dict.items():
+            if _key not in AnalyzedResult._properties:
+                setattr(self, _key, _value)
 
     def __str__(self) -> str:
         """Return a `str` version of this AnalyzedResult object."""
@@ -2314,6 +2339,8 @@ class CollectionEnrichment():
     :attr str enrichment_id: (optional) The unique identifier of this enrichment.
     :attr List[str] fields: (optional) An array of field names that the enrichment
           is applied to.
+          If you apply an enrichment to a field from a JSON file, the data is converted to
+          an array automatically, even if the field contains a single value.
     """
 
     def __init__(self,
@@ -2327,6 +2354,9 @@ class CollectionEnrichment():
                enrichment.
         :param List[str] fields: (optional) An array of field names that the
                enrichment is applied to.
+               If you apply an enrichment to a field from a JSON file, the data is
+               converted to an array automatically, even if the field contains a single
+               value.
         """
         self.enrichment_id = enrichment_id
         self.fields = fields
@@ -2376,7 +2406,7 @@ class CollectionEnrichment():
 
 class Completions():
     """
-    An object containing an array of autocompletion suggestions.
+    An object that contains an array of autocompletion suggestions.
 
     :attr List[str] completions: (optional) Array of autocomplete suggestion based
           on the provided prefix.
@@ -2820,8 +2850,9 @@ class CreateEnrichment():
     :attr str name: (optional) The human readable name for this enrichment.
     :attr str description: (optional) The description of this enrichment.
     :attr str type: (optional) The type of this enrichment.
-    :attr EnrichmentOptions options: (optional) A object containing options for the
-          current enrichment.
+    :attr EnrichmentOptions options: (optional) An object that contains options for
+          the current enrichment. Starting with version `2020-08-30`, the enrichment
+          options are not included in responses from the List Enrichments method.
     """
 
     def __init__(self,
@@ -2836,8 +2867,10 @@ class CreateEnrichment():
         :param str name: (optional) The human readable name for this enrichment.
         :param str description: (optional) The description of this enrichment.
         :param str type: (optional) The type of this enrichment.
-        :param EnrichmentOptions options: (optional) A object containing options
-               for the current enrichment.
+        :param EnrichmentOptions options: (optional) An object that contains
+               options for the current enrichment. Starting with version `2020-08-30`, the
+               enrichment options are not included in responses from the List Enrichments
+               method.
         """
         self.name = name
         self.description = description
@@ -2918,7 +2951,8 @@ class DefaultQueryParams():
     :attr str aggregation: (optional) A string representing the default aggregation
           query for the project.
     :attr DefaultQueryParamsSuggestedRefinements suggested_refinements: (optional)
-          Object containing suggested refinement settings.
+          Object that contains suggested refinement settings. Available with Premium plans
+          only.
     :attr bool spelling_suggestions: (optional) When `true`, a spelling suggestions
           for the query are returned by default.
     :attr bool highlight: (optional) When `true`, a highlights for the query are
@@ -2956,7 +2990,8 @@ class DefaultQueryParams():
         :param str aggregation: (optional) A string representing the default
                aggregation query for the project.
         :param DefaultQueryParamsSuggestedRefinements suggested_refinements:
-               (optional) Object containing suggested refinement settings.
+               (optional) Object that contains suggested refinement settings. Available
+               with Premium plans only.
         :param bool spelling_suggestions: (optional) When `true`, a spelling
                suggestions for the query are returned by default.
         :param bool highlight: (optional) When `true`, a highlights for the query
@@ -3173,10 +3208,10 @@ class DefaultQueryParamsPassages():
 
 class DefaultQueryParamsSuggestedRefinements():
     """
-    Object containing suggested refinement settings.
+    Object that contains suggested refinement settings. Available with Premium plans only.
 
-    :attr bool enabled: (optional) When `true`, a suggested refinements for the
-          query are returned by default.
+    :attr bool enabled: (optional) When `true`, suggested refinements for the query
+          are returned by default.
     :attr int count: (optional) The number of suggested refinements to return by
           default.
     """
@@ -3185,8 +3220,8 @@ class DefaultQueryParamsSuggestedRefinements():
         """
         Initialize a DefaultQueryParamsSuggestedRefinements object.
 
-        :param bool enabled: (optional) When `true`, a suggested refinements for
-               the query are returned by default.
+        :param bool enabled: (optional) When `true`, suggested refinements for the
+               query are returned by default.
         :param int count: (optional) The number of suggested refinements to return
                by default.
         """
@@ -3545,8 +3580,9 @@ class Enrichment():
     :attr str name: (optional) The human readable name for this enrichment.
     :attr str description: (optional) The description of this enrichment.
     :attr str type: (optional) The type of this enrichment.
-    :attr EnrichmentOptions options: (optional) A object containing options for the
-          current enrichment.
+    :attr EnrichmentOptions options: (optional) An object that contains options for
+          the current enrichment. Starting with version `2020-08-30`, the enrichment
+          options are not included in responses from the List Enrichments method.
     """
 
     def __init__(self,
@@ -3562,8 +3598,10 @@ class Enrichment():
         :param str name: (optional) The human readable name for this enrichment.
         :param str description: (optional) The description of this enrichment.
         :param str type: (optional) The type of this enrichment.
-        :param EnrichmentOptions options: (optional) A object containing options
-               for the current enrichment.
+        :param EnrichmentOptions options: (optional) An object that contains
+               options for the current enrichment. Starting with version `2020-08-30`, the
+               enrichment options are not included in responses from the List Enrichments
+               method.
         """
         self.enrichment_id = enrichment_id
         self.name = name
@@ -3642,19 +3680,22 @@ class Enrichment():
 
 class EnrichmentOptions():
     """
-    A object containing options for the current enrichment.
+    An object that contains options for the current enrichment. Starting with version
+    `2020-08-30`, the enrichment options are not included in responses from the List
+    Enrichments method.
 
     :attr List[str] languages: (optional) An array of supported languages for this
-          enrichment.
-    :attr str entity_type: (optional) The type of entity. Required when creating
-          `dictionary` and `regular_expression` **type** enrichment. Not valid when
-          creating any other type of enrichment.
-    :attr str regular_expression: (optional) The regular expression to apply for
-          this enrichment. Required only when the **type** of enrichment being created is
-          a `regular_expression`. Not valid when creating any other type of enrichment.
-    :attr str result_field: (optional) The name of the result document field that
-          this enrichment creates. Required only when the enrichment **type** is
+          enrichment. Required when `type` is `dictionary`. Optional when `type` is
           `rule_based`. Not valid when creating any other type of enrichment.
+    :attr str entity_type: (optional) The name of the entity type. This value is
+          used as the field name in the index. Required when `type` is `dictionary` or
+          `regular_expression`. Not valid when creating any other type of enrichment.
+    :attr str regular_expression: (optional) The regular expression to apply for
+          this enrichment. Required when `type` is `regular_expression`. Not valid when
+          creating any other type of enrichment.
+    :attr str result_field: (optional) The name of the result document field that
+          this enrichment creates. Required when `type` is `rule_based`. Not valid when
+          creating any other type of enrichment.
     """
 
     def __init__(self,
@@ -3667,17 +3708,18 @@ class EnrichmentOptions():
         Initialize a EnrichmentOptions object.
 
         :param List[str] languages: (optional) An array of supported languages for
-               this enrichment.
-        :param str entity_type: (optional) The type of entity. Required when
-               creating `dictionary` and `regular_expression` **type** enrichment. Not
-               valid when creating any other type of enrichment.
+               this enrichment. Required when `type` is `dictionary`. Optional when `type`
+               is `rule_based`. Not valid when creating any other type of enrichment.
+        :param str entity_type: (optional) The name of the entity type. This value
+               is used as the field name in the index. Required when `type` is
+               `dictionary` or `regular_expression`. Not valid when creating any other
+               type of enrichment.
         :param str regular_expression: (optional) The regular expression to apply
-               for this enrichment. Required only when the **type** of enrichment being
-               created is a `regular_expression`. Not valid when creating any other type
-               of enrichment.
+               for this enrichment. Required when `type` is `regular_expression`. Not
+               valid when creating any other type of enrichment.
         :param str result_field: (optional) The name of the result document field
-               that this enrichment creates. Required only when the enrichment **type** is
-               `rule_based`. Not valid when creating any other type of enrichment.
+               that this enrichment creates. Required when `type` is `rule_based`. Not
+               valid when creating any other type of enrichment.
         """
         self.languages = languages
         self.entity_type = entity_type
@@ -3739,7 +3781,7 @@ class EnrichmentOptions():
 
 class Enrichments():
     """
-    An object containing an array of enrichment definitions.
+    An object that contains an array of enrichment definitions.
 
     :attr List[Enrichment] enrichments: (optional) An array of enrichment
           definitions.
@@ -3797,7 +3839,7 @@ class Enrichments():
 
 class Field():
     """
-    Object containing field details.
+    Object that contains field details.
 
     :attr str field: (optional) The name of the field.
     :attr str type: (optional) The type of the field.
@@ -3884,17 +3926,17 @@ class Field():
 
 class ListCollectionsResponse():
     """
-    Response object containing an array of collection details.
+    Response object that contains an array of collection details.
 
-    :attr List[Collection] collections: (optional) An array containing information
-          about each collection in the project.
+    :attr List[Collection] collections: (optional) An array that contains
+          information about each collection in the project.
     """
 
     def __init__(self, *, collections: List['Collection'] = None) -> None:
         """
         Initialize a ListCollectionsResponse object.
 
-        :param List[Collection] collections: (optional) An array containing
+        :param List[Collection] collections: (optional) An array that contains
                information about each collection in the project.
         """
         self.collections = collections
@@ -3950,16 +3992,16 @@ class ListFieldsResponse():
     example, `warnings.properties.severity` means that the `warnings` object has a
     property called `severity`).
 
-    :attr List[Field] fields: (optional) An array containing information about each
-          field in the collections.
+    :attr List[Field] fields: (optional) An array that contains information about
+          each field in the collections.
     """
 
     def __init__(self, *, fields: List['Field'] = None) -> None:
         """
         Initialize a ListFieldsResponse object.
 
-        :param List[Field] fields: (optional) An array containing information about
-               each field in the collections.
+        :param List[Field] fields: (optional) An array that contains information
+               about each field in the collections.
         """
         self.fields = fields
 
@@ -4196,7 +4238,11 @@ class ProjectDetails():
 
     :attr str project_id: (optional) The unique identifier of this project.
     :attr str name: (optional) The human readable name of this project.
-    :attr str type: (optional) The project type of this project.
+    :attr str type: (optional) The type of project.
+          The `content_intelligence` type is a *Document Retrieval for Contracts* project
+          and the `other` type is a *Custom* project.
+          The `content_mining` and `content_intelligence` types are available with Premium
+          plan managed deployments and installed deployments only.
     :attr ProjectListDetailsRelevancyTrainingStatus relevancy_training_status:
           (optional) Relevancy training status information for this project.
     :attr int collection_count: (optional) The number of collections configured in
@@ -4218,7 +4264,11 @@ class ProjectDetails():
         Initialize a ProjectDetails object.
 
         :param str name: (optional) The human readable name of this project.
-        :param str type: (optional) The project type of this project.
+        :param str type: (optional) The type of project.
+               The `content_intelligence` type is a *Document Retrieval for Contracts*
+               project and the `other` type is a *Custom* project.
+               The `content_mining` and `content_intelligence` types are available with
+               Premium plan managed deployments and installed deployments only.
         :param ProjectListDetailsRelevancyTrainingStatus relevancy_training_status:
                (optional) Relevancy training status information for this project.
         :param DefaultQueryParams default_query_parameters: (optional) Default
@@ -4302,11 +4352,16 @@ class ProjectDetails():
 
     class TypeEnum(str, Enum):
         """
-        The project type of this project.
+        The type of project.
+        The `content_intelligence` type is a *Document Retrieval for Contracts* project
+        and the `other` type is a *Custom* project.
+        The `content_mining` and `content_intelligence` types are available with Premium
+        plan managed deployments and installed deployments only.
         """
         DOCUMENT_RETRIEVAL = 'document_retrieval'
-        ANSWER_RETRIEVAL = 'answer_retrieval'
+        CONVERSATIONAL_SEARCH = 'conversational_search'
         CONTENT_MINING = 'content_mining'
+        CONTENT_INTELLIGENCE = 'content_intelligence'
         OTHER = 'other'
 
 
@@ -4316,7 +4371,11 @@ class ProjectListDetails():
 
     :attr str project_id: (optional) The unique identifier of this project.
     :attr str name: (optional) The human readable name of this project.
-    :attr str type: (optional) The project type of this project.
+    :attr str type: (optional) The type of project.
+          The `content_intelligence` type is a *Document Retrieval for Contracts* project
+          and the `other` type is a *Custom* project.
+          The `content_mining` and `content_intelligence` types are available with Premium
+          plan managed deployments and installed deployments only.
     :attr ProjectListDetailsRelevancyTrainingStatus relevancy_training_status:
           (optional) Relevancy training status information for this project.
     :attr int collection_count: (optional) The number of collections configured in
@@ -4335,7 +4394,11 @@ class ProjectListDetails():
         Initialize a ProjectListDetails object.
 
         :param str name: (optional) The human readable name of this project.
-        :param str type: (optional) The project type of this project.
+        :param str type: (optional) The type of project.
+               The `content_intelligence` type is a *Document Retrieval for Contracts*
+               project and the `other` type is a *Custom* project.
+               The `content_mining` and `content_intelligence` types are available with
+               Premium plan managed deployments and installed deployments only.
         :param ProjectListDetailsRelevancyTrainingStatus relevancy_training_status:
                (optional) Relevancy training status information for this project.
         """
@@ -4408,11 +4471,16 @@ class ProjectListDetails():
 
     class TypeEnum(str, Enum):
         """
-        The project type of this project.
+        The type of project.
+        The `content_intelligence` type is a *Document Retrieval for Contracts* project
+        and the `other` type is a *Custom* project.
+        The `content_mining` and `content_intelligence` types are available with Premium
+        plan managed deployments and installed deployments only.
         """
         DOCUMENT_RETRIEVAL = 'document_retrieval'
-        ANSWER_RETRIEVAL = 'answer_retrieval'
+        CONVERSATIONAL_SEARCH = 'conversational_search'
         CONTENT_MINING = 'content_mining'
+        CONTENT_INTELLIGENCE = 'content_intelligence'
         OTHER = 'other'
 
 
@@ -4658,7 +4726,7 @@ class QueryGroupByAggregationResult():
     Top value result for the term aggregation.
 
     :attr str key: Value of the field with a non-zero frequency in the document set.
-    :attr int matching_results: Number of documents containing the 'key'.
+    :attr int matching_results: Number of documents that contain the 'key'.
     :attr float relevancy: (optional) The relevancy for this group.
     :attr int total_matching_documents: (optional) The number of documents which
           have the group as the value of specified field in the whole set of documents in
@@ -4666,8 +4734,8 @@ class QueryGroupByAggregationResult():
     :attr int estimated_matching_documents: (optional) The estimated number of
           documents which would match the query and also meet the condition. Returned only
           when the `relevancy` parameter is set to `true`.
-    :attr List[QueryAggregation] aggregations: (optional) An array of sub
-          aggregations.
+    :attr List[QueryAggregation] aggregations: (optional) An array of
+          sub-aggregations.
     """
 
     def __init__(self,
@@ -4683,7 +4751,7 @@ class QueryGroupByAggregationResult():
 
         :param str key: Value of the field with a non-zero frequency in the
                document set.
-        :param int matching_results: Number of documents containing the 'key'.
+        :param int matching_results: Number of documents that contain the 'key'.
         :param float relevancy: (optional) The relevancy for this group.
         :param int total_matching_documents: (optional) The number of documents
                which have the group as the value of specified field in the whole set of
@@ -4692,8 +4760,8 @@ class QueryGroupByAggregationResult():
         :param int estimated_matching_documents: (optional) The estimated number of
                documents which would match the query and also meet the condition. Returned
                only when the `relevancy` parameter is set to `true`.
-        :param List[QueryAggregation] aggregations: (optional) An array of sub
-               aggregations.
+        :param List[QueryAggregation] aggregations: (optional) An array of
+               sub-aggregations.
         """
         self.key = key
         self.matching_results = matching_results
@@ -4784,8 +4852,8 @@ class QueryHistogramAggregationResult():
     :attr int key: The value of the upper bound for the numeric segment.
     :attr int matching_results: Number of documents with the specified key as the
           upper bound.
-    :attr List[QueryAggregation] aggregations: (optional) An array of sub
-          aggregations.
+    :attr List[QueryAggregation] aggregations: (optional) An array of
+          sub-aggregations.
     """
 
     def __init__(self,
@@ -4799,8 +4867,8 @@ class QueryHistogramAggregationResult():
         :param int key: The value of the upper bound for the numeric segment.
         :param int matching_results: Number of documents with the specified key as
                the upper bound.
-        :param List[QueryAggregation] aggregations: (optional) An array of sub
-               aggregations.
+        :param List[QueryAggregation] aggregations: (optional) An array of
+               sub-aggregations.
         """
         self.key = key
         self.matching_results = matching_results
@@ -4870,35 +4938,38 @@ class QueryLargePassages():
 
     :attr bool enabled: (optional) A passages query that returns the most relevant
           passages from the results.
-    :attr bool per_document: (optional) When `true`, passages will be returned
-          within their respective result.
+    :attr bool per_document: (optional) If `true`, ranks the documents by document
+          quality, and then returns the highest-ranked passages per document in a
+          `document_passages` field for each document entry in the results list of the
+          response.
+          If `false`, ranks the passages from all of the documents by passage quality
+          regardless of the document quality and returns them in a separate `passages`
+          field in the response.
     :attr int max_per_document: (optional) Maximum number of passages to return per
-          result.
-    :attr List[str] fields: (optional) A list of fields that passages are drawn
-          from. If this parameter not specified, then all top-level fields are included.
-    :attr int count: (optional) The maximum number of passages to return. The search
-          returns fewer passages if the requested total is not found. The maximum is
-          `100`.
+          document in the result. Ignored if `passages.per_document` is `false`.
+    :attr List[str] fields: (optional) A list of fields to extract passages from. If
+          this parameter is an empty list, then all root-level fields are included.
+    :attr int count: (optional) The maximum number of passages to return. Ignored if
+          `passages.per_document` is `true`.
     :attr int characters: (optional) The approximate number of characters that any
           one passage will have.
     :attr bool find_answers: (optional) When true, `answer` objects are returned as
           part of each passage in the query results. The primary difference between an
           `answer` and a `passage` is that the length of a passage is defined by the
           query, where the length of an `answer` is calculated by Discovery based on how
-          much text is needed to answer the question./n/nThis parameter is ignored if
-          passages are not enabled for the query, or no **natural_language_query** is
-          specified./n/nIf the **find_answers** parameter is set to `true` and
-          **per_document** parameter is also set to `true`, then the document search
-          results and the passage search results within each document are reordered using
-          the answer confidences. The goal of this reordering is to do as much as possible
-          to make sure that the first answer of the first passage of the first document is
-          the best answer. Similarly, if the **find_answers** parameter is set to `true`
-          and **per_document** parameter is set to `false`, then the passage search
-          results are reordered in decreasing order of the highest confidence answer for
-          each document and passage./n/nThe **find_answers** parameter is **beta**
-          functionality available only on managed instances and should not be used in a
-          production environment. This parameter is not available on installed instances
-          of Discovery.
+          much text is needed to answer the question.
+          This parameter is ignored if passages are not enabled for the query, or no
+          **natural_language_query** is specified.
+          If the **find_answers** parameter is set to `true` and **per_document**
+          parameter is also set to `true`, then the document search results and the
+          passage search results within each document are reordered using the answer
+          confidences. The goal of this reordering is to place the best answer as the
+          first answer of the first passage of the first document. Similarly, if the
+          **find_answers** parameter is set to `true` and **per_document** parameter is
+          set to `false`, then the passage search results are reordered in decreasing
+          order of the highest confidence answer for each document and passage.
+          The **find_answers** parameter is available only on managed instances of
+          Discovery.
     :attr int max_answers_per_passage: (optional) The number of `answer` objects to
           return per passage if the **find_answers** parmeter is specified as `true`.
     """
@@ -4918,16 +4989,21 @@ class QueryLargePassages():
 
         :param bool enabled: (optional) A passages query that returns the most
                relevant passages from the results.
-        :param bool per_document: (optional) When `true`, passages will be returned
-               within their respective result.
+        :param bool per_document: (optional) If `true`, ranks the documents by
+               document quality, and then returns the highest-ranked passages per document
+               in a `document_passages` field for each document entry in the results list
+               of the response.
+               If `false`, ranks the passages from all of the documents by passage quality
+               regardless of the document quality and returns them in a separate
+               `passages` field in the response.
         :param int max_per_document: (optional) Maximum number of passages to
-               return per result.
-        :param List[str] fields: (optional) A list of fields that passages are
-               drawn from. If this parameter not specified, then all top-level fields are
+               return per document in the result. Ignored if `passages.per_document` is
+               `false`.
+        :param List[str] fields: (optional) A list of fields to extract passages
+               from. If this parameter is an empty list, then all root-level fields are
                included.
-        :param int count: (optional) The maximum number of passages to return. The
-               search returns fewer passages if the requested total is not found. The
-               maximum is `100`.
+        :param int count: (optional) The maximum number of passages to return.
+               Ignored if `passages.per_document` is `true`.
         :param int characters: (optional) The approximate number of characters that
                any one passage will have.
         :param bool find_answers: (optional) When true, `answer` objects are
@@ -4935,20 +5011,20 @@ class QueryLargePassages():
                difference between an `answer` and a `passage` is that the length of a
                passage is defined by the query, where the length of an `answer` is
                calculated by Discovery based on how much text is needed to answer the
-               question./n/nThis parameter is ignored if passages are not enabled for the
-               query, or no **natural_language_query** is specified./n/nIf the
+               question.
+               This parameter is ignored if passages are not enabled for the query, or no
+               **natural_language_query** is specified.
+               If the **find_answers** parameter is set to `true` and **per_document**
+               parameter is also set to `true`, then the document search results and the
+               passage search results within each document are reordered using the answer
+               confidences. The goal of this reordering is to place the best answer as the
+               first answer of the first passage of the first document. Similarly, if the
                **find_answers** parameter is set to `true` and **per_document** parameter
-               is also set to `true`, then the document search results and the passage
-               search results within each document are reordered using the answer
-               confidences. The goal of this reordering is to do as much as possible to
-               make sure that the first answer of the first passage of the first document
-               is the best answer. Similarly, if the **find_answers** parameter is set to
-               `true` and **per_document** parameter is set to `false`, then the passage
-               search results are reordered in decreasing order of the highest confidence
-               answer for each document and passage./n/nThe **find_answers** parameter is
-               **beta** functionality available only on managed instances and should not
-               be used in a production environment. This parameter is not available on
-               installed instances of Discovery.
+               is set to `false`, then the passage search results are reordered in
+               decreasing order of the highest confidence answer for each document and
+               passage.
+               The **find_answers** parameter is available only on managed instances of
+               Discovery.
         :param int max_answers_per_passage: (optional) The number of `answer`
                objects to return per passage if the **find_answers** parmeter is specified
                as `true`.
@@ -5034,7 +5110,7 @@ class QueryLargePassages():
 
 class QueryLargeSuggestedRefinements():
     """
-    Configuration for suggested refinements.
+    Configuration for suggested refinements. Available with Premium plans only.
 
     :attr bool enabled: (optional) Whether to perform suggested refinements.
     :attr int count: (optional) Maximum number of suggested refinements texts to be
@@ -5158,7 +5234,7 @@ class QueryLargeTableResults():
 
 class QueryNoticesResponse():
     """
-    Object containing notice query results.
+    Object that contains notice query results.
 
     :attr int matching_results: (optional) The number of matching results.
     :attr List[Notice] notices: (optional) Array of document results that match the
@@ -5227,10 +5303,10 @@ class QueryNoticesResponse():
 
 class QueryResponse():
     """
-    A response containing the documents and aggregations for the query.
+    A response that contains the documents and aggregations for the query.
 
     :attr int matching_results: (optional) The number of matching results for the
-          query.
+          query. Results that match due to a curation only are not counted in the total.
     :attr List[QueryResult] results: (optional) Array of document results for the
           query.
     :attr List[QueryAggregation] aggregations: (optional) Array of aggregations for
@@ -5242,8 +5318,8 @@ class QueryResponse():
     :attr List[QuerySuggestedRefinement] suggested_refinements: (optional) Array of
           suggested refinements.
     :attr List[QueryTableResult] table_results: (optional) Array of table results.
-    :attr List[QueryResponsePassage] passages: (optional) Passages returned by
-          Discovery.
+    :attr List[QueryResponsePassage] passages: (optional) Passages that best match
+          the query from across all of the collections in the project.
     """
 
     def __init__(self,
@@ -5260,7 +5336,8 @@ class QueryResponse():
         Initialize a QueryResponse object.
 
         :param int matching_results: (optional) The number of matching results for
-               the query.
+               the query. Results that match due to a curation only are not counted in the
+               total.
         :param List[QueryResult] results: (optional) Array of document results for
                the query.
         :param List[QueryAggregation] aggregations: (optional) Array of
@@ -5273,8 +5350,8 @@ class QueryResponse():
                Array of suggested refinements.
         :param List[QueryTableResult] table_results: (optional) Array of table
                results.
-        :param List[QueryResponsePassage] passages: (optional) Passages returned by
-               Discovery.
+        :param List[QueryResponsePassage] passages: (optional) Passages that best
+               match the query from across all of the collections in the project.
         """
         self.matching_results = matching_results
         self.results = results
@@ -5383,7 +5460,7 @@ class QueryResponsePassage():
     :attr str collection_id: (optional) The unique identifier of the collection.
     :attr int start_offset: (optional) The position of the first character of the
           extracted passage in the originating field.
-    :attr int end_offset: (optional) The position of the last character of the
+    :attr int end_offset: (optional) The position after the last character of the
           extracted passage in the originating field.
     :attr str field: (optional) The label of the field from which the passage has
           been extracted.
@@ -5416,8 +5493,8 @@ class QueryResponsePassage():
                collection.
         :param int start_offset: (optional) The position of the first character of
                the extracted passage in the originating field.
-        :param int end_offset: (optional) The position of the last character of the
-               extracted passage in the originating field.
+        :param int end_offset: (optional) The position after the last character of
+               the extracted passage in the originating field.
         :param str field: (optional) The label of the field from which the passage
                has been extracted.
         :param float confidence: (optional) An estimate of the probability that the
@@ -5515,8 +5592,8 @@ class QueryResult():
     :attr str document_id: The unique identifier of the document.
     :attr dict metadata: (optional) Metadata of the document.
     :attr QueryResultMetadata result_metadata: Metadata of a query result.
-    :attr List[QueryResultPassage] document_passages: (optional) Passages returned
-          by Discovery.
+    :attr List[QueryResultPassage] document_passages: (optional) Passages from the
+          document that best matches the query.
     """
 
     # The set of defined properties for the class
@@ -5536,8 +5613,8 @@ class QueryResult():
         :param str document_id: The unique identifier of the document.
         :param QueryResultMetadata result_metadata: Metadata of a query result.
         :param dict metadata: (optional) Metadata of the document.
-        :param List[QueryResultPassage] document_passages: (optional) Passages
-               returned by Discovery.
+        :param List[QueryResultPassage] document_passages: (optional) Passages from
+               the document that best matches the query.
         :param **kwargs: (optional) Any additional properties.
         """
         self.document_id = document_id
@@ -5605,6 +5682,27 @@ class QueryResult():
     def _to_dict(self):
         """Return a json dictionary representing this model."""
         return self.to_dict()
+
+    def get_properties(self) -> Dict:
+        """Return a dictionary of arbitrary properties from this instance of QueryResult"""
+        _dict = {}
+
+        for _key in [
+                k for k in vars(self).keys() if k not in QueryResult._properties
+        ]:
+            _dict[_key] = getattr(self, _key)
+        return _dict
+
+    def set_properties(self, _dict: dict):
+        """Set a dictionary of arbitrary properties to this instance of QueryResult"""
+        for _key in [
+                k for k in vars(self).keys() if k not in QueryResult._properties
+        ]:
+            delattr(self, _key)
+
+        for _key, _value in _dict.items():
+            if _key not in QueryResult._properties:
+                setattr(self, _key, _value)
 
     def __str__(self) -> str:
         """Return a `str` version of this QueryResult object."""
@@ -5729,7 +5827,7 @@ class QueryResultPassage():
     :attr str passage_text: (optional) The content of the extracted passage.
     :attr int start_offset: (optional) The position of the first character of the
           extracted passage in the originating field.
-    :attr int end_offset: (optional) The position of the last character of the
+    :attr int end_offset: (optional) The position after the last character of the
           extracted passage in the originating field.
     :attr str field: (optional) The label of the field from which the passage has
           been extracted.
@@ -5753,8 +5851,8 @@ class QueryResultPassage():
         :param str passage_text: (optional) The content of the extracted passage.
         :param int start_offset: (optional) The position of the first character of
                the extracted passage in the originating field.
-        :param int end_offset: (optional) The position of the last character of the
-               extracted passage in the originating field.
+        :param int end_offset: (optional) The position after the last character of
+               the extracted passage in the originating field.
         :param str field: (optional) The label of the field from which the passage
                has been extracted.
         :param float confidence: (optional) Estimate of the probability that the
@@ -5996,7 +6094,7 @@ class QueryTermAggregationResult():
     Top value result for the term aggregation.
 
     :attr str key: Value of the field with a non-zero frequency in the document set.
-    :attr int matching_results: Number of documents containing the 'key'.
+    :attr int matching_results: Number of documents that contain the 'key'.
     :attr float relevancy: (optional) The relevancy for this term.
     :attr int total_matching_documents: (optional) The number of documents which
           have the term as the value of specified field in the whole set of documents in
@@ -6004,8 +6102,8 @@ class QueryTermAggregationResult():
     :attr int estimated_matching_documents: (optional) The estimated number of
           documents which would match the query and also meet the condition. Returned only
           when the `relevancy` parameter is set to `true`.
-    :attr List[QueryAggregation] aggregations: (optional) An array of sub
-          aggregations.
+    :attr List[QueryAggregation] aggregations: (optional) An array of
+          sub-aggregations.
     """
 
     def __init__(self,
@@ -6021,7 +6119,7 @@ class QueryTermAggregationResult():
 
         :param str key: Value of the field with a non-zero frequency in the
                document set.
-        :param int matching_results: Number of documents containing the 'key'.
+        :param int matching_results: Number of documents that contain the 'key'.
         :param float relevancy: (optional) The relevancy for this term.
         :param int total_matching_documents: (optional) The number of documents
                which have the term as the value of specified field in the whole set of
@@ -6030,8 +6128,8 @@ class QueryTermAggregationResult():
         :param int estimated_matching_documents: (optional) The estimated number of
                documents which would match the query and also meet the condition. Returned
                only when the `relevancy` parameter is set to `true`.
-        :param List[QueryAggregation] aggregations: (optional) An array of sub
-               aggregations.
+        :param List[QueryAggregation] aggregations: (optional) An array of
+               sub-aggregations.
         """
         self.key = key
         self.matching_results = matching_results
@@ -6125,8 +6223,8 @@ class QueryTimesliceAggregationResult():
           in UNIX milliseconds since epoch.
     :attr int matching_results: Number of documents with the specified key as the
           upper bound.
-    :attr List[QueryAggregation] aggregations: (optional) An array of sub
-          aggregations.
+    :attr List[QueryAggregation] aggregations: (optional) An array of
+          sub-aggregations.
     """
 
     def __init__(self,
@@ -6144,8 +6242,8 @@ class QueryTimesliceAggregationResult():
                interval in UNIX milliseconds since epoch.
         :param int matching_results: Number of documents with the specified key as
                the upper bound.
-        :param List[QueryAggregation] aggregations: (optional) An array of sub
-               aggregations.
+        :param List[QueryAggregation] aggregations: (optional) An array of
+               sub-aggregations.
         """
         self.key_as_string = key_as_string
         self.key = key
@@ -6220,7 +6318,7 @@ class QueryTimesliceAggregationResult():
 
 class QueryTopHitsAggregationResult():
     """
-    A query response containing the matching documents for the preceding aggregations.
+    A query response that contains the matching documents for the preceding aggregations.
 
     :attr int matching_results: Number of matching results.
     :attr List[dict] hits: (optional) An array of the document results.
@@ -6289,13 +6387,13 @@ class QueryTopHitsAggregationResult():
 
 class ResultPassageAnswer():
     """
-    Object containing a potential answer to the specified query.
+    Object that contains a potential answer to the specified query.
 
     :attr str answer_text: (optional) Answer text for the specified query as
           identified by Discovery.
     :attr int start_offset: (optional) The position of the first character of the
           extracted answer in the originating field.
-    :attr int end_offset: (optional) The position of the last character of the
+    :attr int end_offset: (optional) The position after the last character of the
           extracted answer in the originating field.
     :attr float confidence: (optional) An estimate of the probability that the
           answer is relevant.
@@ -6314,8 +6412,8 @@ class ResultPassageAnswer():
                identified by Discovery.
         :param int start_offset: (optional) The position of the first character of
                the extracted answer in the originating field.
-        :param int end_offset: (optional) The position of the last character of the
-               extracted answer in the originating field.
+        :param int end_offset: (optional) The position after the last character of
+               the extracted answer in the originating field.
         :param float confidence: (optional) An estimate of the probability that the
                answer is relevant.
         """
@@ -6382,8 +6480,8 @@ class RetrievalDetails():
     :attr str document_retrieval_strategy: (optional) Identifies the document
           retrieval strategy used for this query. `relevancy_training` indicates that the
           results were returned using a relevancy trained model.
-           **Note**: In the event of trained collections being queried, but the trained
-          model is not used to return results, the **document_retrieval_strategy** will be
+          **Note**: In the event of trained collections being queried, but the trained
+          model is not used to return results, the **document_retrieval_strategy** is
           listed as `untrained`.
     """
 
@@ -6394,9 +6492,9 @@ class RetrievalDetails():
         :param str document_retrieval_strategy: (optional) Identifies the document
                retrieval strategy used for this query. `relevancy_training` indicates that
                the results were returned using a relevancy trained model.
-                **Note**: In the event of trained collections being queried, but the
+               **Note**: In the event of trained collections being queried, but the
                trained model is not used to return results, the
-               **document_retrieval_strategy** will be listed as `untrained`.
+               **document_retrieval_strategy** is listed as `untrained`.
         """
         self.document_retrieval_strategy = document_retrieval_strategy
 
@@ -6446,9 +6544,9 @@ class RetrievalDetails():
         Identifies the document retrieval strategy used for this query.
         `relevancy_training` indicates that the results were returned using a relevancy
         trained model.
-         **Note**: In the event of trained collections being queried, but the trained
-        model is not used to return results, the **document_retrieval_strategy** will be
-        listed as `untrained`.
+        **Note**: In the event of trained collections being queried, but the trained model
+        is not used to return results, the **document_retrieval_strategy** is listed as
+        `untrained`.
         """
         UNTRAINED = 'untrained'
         RELEVANCY_TRAINING = 'relevancy_training'
@@ -7964,7 +8062,7 @@ class TableTextLocation():
 
 class TrainingExample():
     """
-    Object containing example response details for a training query.
+    Object that contains example response details for a training query.
 
     :attr str document_id: The document ID associated with this training example.
     :attr str collection_id: The collection ID associated with this training
@@ -8065,7 +8163,7 @@ class TrainingExample():
 
 class TrainingQuery():
     """
-    Object containing training query details.
+    Object that contains training query details.
 
     :attr str query_id: (optional) The query ID associated with the training query.
     :attr str natural_language_query: The natural text query for the training query.
@@ -8306,13 +8404,13 @@ class QueryCalculationAggregation(QueryAggregation):
 
 class QueryFilterAggregation(QueryAggregation):
     """
-    A modifier that will narrow down the document set of the sub aggregations it precedes.
+    A modifier that narrows the document set of the sub-aggregations it precedes.
 
-    :attr str match: The filter written in Discovery Query Language syntax applied
-          to the documents before sub aggregations are run.
-    :attr int matching_results: Number of documents matching the filter.
-    :attr List[QueryAggregation] aggregations: (optional) An array of sub
-          aggregations.
+    :attr str match: The filter that is written in Discovery Query Language syntax
+          and is applied to the documents before sub-aggregations are run.
+    :attr int matching_results: Number of documents that match the filter.
+    :attr List[QueryAggregation] aggregations: (optional) An array of
+          sub-aggregations.
     """
 
     def __init__(self,
@@ -8327,11 +8425,11 @@ class QueryFilterAggregation(QueryAggregation):
         :param str type: The type of aggregation command used. Options include:
                term, histogram, timeslice, nested, filter, min, max, sum, average,
                unique_count, and top_hits.
-        :param str match: The filter written in Discovery Query Language syntax
-               applied to the documents before sub aggregations are run.
-        :param int matching_results: Number of documents matching the filter.
-        :param List[QueryAggregation] aggregations: (optional) An array of sub
-               aggregations.
+        :param str match: The filter that is written in Discovery Query Language
+               syntax and is applied to the documents before sub-aggregations are run.
+        :param int matching_results: Number of documents that match the filter.
+        :param List[QueryAggregation] aggregations: (optional) An array of
+               sub-aggregations.
         """
         self.type = type
         self.match = match
@@ -8484,7 +8582,7 @@ class QueryHistogramAggregation(QueryAggregation):
     numeric field to describe the category.
 
     :attr str field: The numeric field name used to create the histogram.
-    :attr int interval: The size of the sections the results are split into.
+    :attr int interval: The size of the sections that the results are split into.
     :attr str name: (optional) Identifier specified in the query request of this
           aggregation.
     :attr List[QueryHistogramAggregationResult] results: (optional) Array of numeric
@@ -8506,7 +8604,8 @@ class QueryHistogramAggregation(QueryAggregation):
                term, histogram, timeslice, nested, filter, min, max, sum, average,
                unique_count, and top_hits.
         :param str field: The numeric field name used to create the histogram.
-        :param int interval: The size of the sections the results are split into.
+        :param int interval: The size of the sections that the results are split
+               into.
         :param str name: (optional) Identifier specified in the query request of
                this aggregation.
         :param List[QueryHistogramAggregationResult] results: (optional) Array of
@@ -8590,14 +8689,14 @@ class QueryHistogramAggregation(QueryAggregation):
 
 class QueryNestedAggregation(QueryAggregation):
     """
-    A restriction that alter the document set used for sub aggregations it precedes to
-    nested documents found in the field specified.
+    A restriction that alters the document set that is used for sub-aggregations it
+    precedes to nested documents found in the field specified.
 
-    :attr str path: The path to the document field to scope sub aggregations to.
+    :attr str path: The path to the document field to scope sub-aggregations to.
     :attr int matching_results: Number of nested documents found in the specified
           field.
-    :attr List[QueryAggregation] aggregations: (optional) An array of sub
-          aggregations.
+    :attr List[QueryAggregation] aggregations: (optional) An array of
+          sub-aggregations.
     """
 
     def __init__(self,
@@ -8612,12 +8711,12 @@ class QueryNestedAggregation(QueryAggregation):
         :param str type: The type of aggregation command used. Options include:
                term, histogram, timeslice, nested, filter, min, max, sum, average,
                unique_count, and top_hits.
-        :param str path: The path to the document field to scope sub aggregations
+        :param str path: The path to the document field to scope sub-aggregations
                to.
         :param int matching_results: Number of nested documents found in the
                specified field.
-        :param List[QueryAggregation] aggregations: (optional) An array of sub
-               aggregations.
+        :param List[QueryAggregation] aggregations: (optional) An array of
+               sub-aggregations.
         """
         self.type = type
         self.path = path
