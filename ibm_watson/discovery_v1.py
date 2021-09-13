@@ -3368,7 +3368,7 @@ class DiscoveryV1(BaseService):
                            *,
                            source_type: str = None,
                            credential_details: 'CredentialDetails' = None,
-                           status: str = None,
+                           status: 'StatusDetails' = None,
                            **kwargs) -> DetailedResponse:
         """
         Create credentials.
@@ -3393,11 +3393,8 @@ class DiscoveryV1(BaseService):
         :param CredentialDetails credential_details: (optional) Object containing
                details of the stored credentials.
                Obtain credentials for your source from the administrator of the source.
-        :param str status: (optional) The current status of this set of
-               credentials. `connected` indicates that the credentials are available to
-               use with the source configuration of a collection. `invalid` refers to the
-               credentials (for example, the password provided has expired) and must be
-               corrected before they can be used with a collection.
+        :param StatusDetails status: (optional) Object that contains details about
+               the status of the authentication process.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `Credentials` object
@@ -3407,6 +3404,8 @@ class DiscoveryV1(BaseService):
             raise ValueError('environment_id must be provided')
         if credential_details is not None:
             credential_details = convert_model(credential_details)
+        if status is not None:
+            status = convert_model(status)
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
@@ -3494,7 +3493,7 @@ class DiscoveryV1(BaseService):
                            *,
                            source_type: str = None,
                            credential_details: 'CredentialDetails' = None,
-                           status: str = None,
+                           status: 'StatusDetails' = None,
                            **kwargs) -> DetailedResponse:
         """
         Update credentials.
@@ -3520,11 +3519,8 @@ class DiscoveryV1(BaseService):
         :param CredentialDetails credential_details: (optional) Object containing
                details of the stored credentials.
                Obtain credentials for your source from the administrator of the source.
-        :param str status: (optional) The current status of this set of
-               credentials. `connected` indicates that the credentials are available to
-               use with the source configuration of a collection. `invalid` refers to the
-               credentials (for example, the password provided has expired) and must be
-               corrected before they can be used with a collection.
+        :param StatusDetails status: (optional) Object that contains details about
+               the status of the authentication process.
         :param dict headers: A `dict` containing the request headers
         :return: A `DetailedResponse` containing the result, headers and HTTP status code.
         :rtype: DetailedResponse with `dict` result representing a `Credentials` object
@@ -3536,6 +3532,8 @@ class DiscoveryV1(BaseService):
             raise ValueError('credential_id must be provided')
         if credential_details is not None:
             credential_details = convert_model(credential_details)
+        if status is not None:
+            status = convert_model(status)
         headers = {}
         sdk_headers = get_sdk_headers(service_name=self.DEFAULT_SERVICE_NAME,
                                       service_version='V1',
@@ -5077,11 +5075,8 @@ class Credentials():
     :attr CredentialDetails credential_details: (optional) Object containing details
           of the stored credentials.
           Obtain credentials for your source from the administrator of the source.
-    :attr str status: (optional) The current status of this set of credentials.
-          `connected` indicates that the credentials are available to use with the source
-          configuration of a collection. `invalid` refers to the credentials (for example,
-          the password provided has expired) and must be corrected before they can be used
-          with a collection.
+    :attr StatusDetails status: (optional) Object that contains details about the
+          status of the authentication process.
     """
 
     def __init__(self,
@@ -5089,7 +5084,7 @@ class Credentials():
                  credential_id: str = None,
                  source_type: str = None,
                  credential_details: 'CredentialDetails' = None,
-                 status: str = None) -> None:
+                 status: 'StatusDetails' = None) -> None:
         """
         Initialize a Credentials object.
 
@@ -5107,11 +5102,8 @@ class Credentials():
         :param CredentialDetails credential_details: (optional) Object containing
                details of the stored credentials.
                Obtain credentials for your source from the administrator of the source.
-        :param str status: (optional) The current status of this set of
-               credentials. `connected` indicates that the credentials are available to
-               use with the source configuration of a collection. `invalid` refers to the
-               credentials (for example, the password provided has expired) and must be
-               corrected before they can be used with a collection.
+        :param StatusDetails status: (optional) Object that contains details about
+               the status of the authentication process.
         """
         self.credential_id = credential_id
         self.source_type = source_type
@@ -5130,7 +5122,7 @@ class Credentials():
             args['credential_details'] = CredentialDetails.from_dict(
                 _dict.get('credential_details'))
         if 'status' in _dict:
-            args['status'] = _dict.get('status')
+            args['status'] = StatusDetails.from_dict(_dict.get('status'))
         return cls(**args)
 
     @classmethod
@@ -5151,7 +5143,7 @@ class Credentials():
                 'credential_details') and self.credential_details is not None:
             _dict['credential_details'] = self.credential_details.to_dict()
         if hasattr(self, 'status') and self.status is not None:
-            _dict['status'] = self.status
+            _dict['status'] = self.status.to_dict()
         return _dict
 
     def _to_dict(self):
@@ -5189,16 +5181,6 @@ class Credentials():
         SHAREPOINT = 'sharepoint'
         WEB_CRAWL = 'web_crawl'
         CLOUD_OBJECT_STORAGE = 'cloud_object_storage'
-
-    class StatusEnum(str, Enum):
-        """
-        The current status of this set of credentials. `connected` indicates that the
-        credentials are available to use with the source configuration of a collection.
-        `invalid` refers to the credentials (for example, the password provided has
-        expired) and must be corrected before they can be used with a collection.
-        """
-        CONNECTED = 'connected'
-        INVALID = 'invalid'
 
 
 class CredentialsList():
@@ -11979,6 +11961,74 @@ class SourceStatus():
         NOT_CONFIGURED = 'not_configured'
         QUEUED = 'queued'
         UNKNOWN = 'unknown'
+
+
+class StatusDetails():
+    """
+    Object that contains details about the status of the authentication process.
+
+    :attr bool authentication: (optional) Indicates whether the credential is
+          accepted by the target data source.
+    :attr str error_message: (optional) If `authentication` is `false`, a message
+          describes why the authentication was unsuccessful.
+    """
+
+    def __init__(self,
+                 *,
+                 authentication: bool = None,
+                 error_message: str = None) -> None:
+        """
+        Initialize a StatusDetails object.
+
+        :param bool authentication: (optional) Indicates whether the credential is
+               accepted by the target data source.
+        :param str error_message: (optional) If `authentication` is `false`, a
+               message describes why the authentication was unsuccessful.
+        """
+        self.authentication = authentication
+        self.error_message = error_message
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'StatusDetails':
+        """Initialize a StatusDetails object from a json dictionary."""
+        args = {}
+        if 'authentication' in _dict:
+            args['authentication'] = _dict.get('authentication')
+        if 'error_message' in _dict:
+            args['error_message'] = _dict.get('error_message')
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a StatusDetails object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'authentication') and self.authentication is not None:
+            _dict['authentication'] = self.authentication
+        if hasattr(self, 'error_message') and self.error_message is not None:
+            _dict['error_message'] = self.error_message
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this StatusDetails object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'StatusDetails') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'StatusDetails') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
 
 
 class TokenDictRule():
