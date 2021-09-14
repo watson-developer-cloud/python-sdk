@@ -11967,33 +11967,33 @@ class StatusDetails():
     """
     Object that contains details about the status of the authentication process.
 
-    :attr bool authentication: (optional) Indicates whether the credential is
+    :attr bool authenticated: (optional) Indicates whether the credential is
           accepted by the target data source.
-    :attr str error_message: (optional) If `authentication` is `false`, a message
+    :attr str error_message: (optional) If `authenticated` is `false`, a message
           describes why the authentication was unsuccessful.
     """
 
     def __init__(self,
                  *,
-                 authentication: bool = None,
+                 authenticated: bool = None,
                  error_message: str = None) -> None:
         """
         Initialize a StatusDetails object.
 
-        :param bool authentication: (optional) Indicates whether the credential is
+        :param bool authenticated: (optional) Indicates whether the credential is
                accepted by the target data source.
-        :param str error_message: (optional) If `authentication` is `false`, a
+        :param str error_message: (optional) If `authenticated` is `false`, a
                message describes why the authentication was unsuccessful.
         """
-        self.authentication = authentication
+        self.authenticated = authenticated
         self.error_message = error_message
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'StatusDetails':
         """Initialize a StatusDetails object from a json dictionary."""
         args = {}
-        if 'authentication' in _dict:
-            args['authentication'] = _dict.get('authentication')
+        if 'authenticated' in _dict:
+            args['authenticated'] = _dict.get('authenticated')
         if 'error_message' in _dict:
             args['error_message'] = _dict.get('error_message')
         return cls(**args)
@@ -12006,8 +12006,8 @@ class StatusDetails():
     def to_dict(self) -> Dict:
         """Return a json dictionary representing this model."""
         _dict = {}
-        if hasattr(self, 'authentication') and self.authentication is not None:
-            _dict['authentication'] = self.authentication
+        if hasattr(self, 'authenticated') and self.authenticated is not None:
+            _dict['authenticated'] = self.authenticated
         if hasattr(self, 'error_message') and self.error_message is not None:
             _dict['error_message'] = self.error_message
         return _dict

@@ -5982,7 +5982,7 @@ class TestListCredentials():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/credentials')
-        mock_response = '{"credentials": [{"credential_id": "credential_id", "source_type": "box", "credential_details": {"credential_type": "oauth2", "client_id": "client_id", "enterprise_id": "enterprise_id", "url": "url", "username": "username", "organization_url": "organization_url", "site_collection.path": "site_collection_path", "client_secret": "client_secret", "public_key_id": "public_key_id", "private_key": "private_key", "passphrase": "passphrase", "password": "password", "gateway_id": "gateway_id", "source_version": "online", "web_application_url": "web_application_url", "domain": "domain", "endpoint": "endpoint", "access_key_id": "access_key_id", "secret_access_key": "secret_access_key"}, "status": {"authentication": true, "error_message": "error_message"}}]}'
+        mock_response = '{"credentials": [{"credential_id": "credential_id", "source_type": "box", "credential_details": {"credential_type": "oauth2", "client_id": "client_id", "enterprise_id": "enterprise_id", "url": "url", "username": "username", "organization_url": "organization_url", "site_collection.path": "site_collection_path", "client_secret": "client_secret", "public_key_id": "public_key_id", "private_key": "private_key", "passphrase": "passphrase", "password": "password", "gateway_id": "gateway_id", "source_version": "online", "web_application_url": "web_application_url", "domain": "domain", "endpoint": "endpoint", "access_key_id": "access_key_id", "secret_access_key": "secret_access_key"}, "status": {"authenticated": false, "error_message": "error_message"}}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -6010,7 +6010,7 @@ class TestListCredentials():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/credentials')
-        mock_response = '{"credentials": [{"credential_id": "credential_id", "source_type": "box", "credential_details": {"credential_type": "oauth2", "client_id": "client_id", "enterprise_id": "enterprise_id", "url": "url", "username": "username", "organization_url": "organization_url", "site_collection.path": "site_collection_path", "client_secret": "client_secret", "public_key_id": "public_key_id", "private_key": "private_key", "passphrase": "passphrase", "password": "password", "gateway_id": "gateway_id", "source_version": "online", "web_application_url": "web_application_url", "domain": "domain", "endpoint": "endpoint", "access_key_id": "access_key_id", "secret_access_key": "secret_access_key"}, "status": {"authentication": true, "error_message": "error_message"}}]}'
+        mock_response = '{"credentials": [{"credential_id": "credential_id", "source_type": "box", "credential_details": {"credential_type": "oauth2", "client_id": "client_id", "enterprise_id": "enterprise_id", "url": "url", "username": "username", "organization_url": "organization_url", "site_collection.path": "site_collection_path", "client_secret": "client_secret", "public_key_id": "public_key_id", "private_key": "private_key", "passphrase": "passphrase", "password": "password", "gateway_id": "gateway_id", "source_version": "online", "web_application_url": "web_application_url", "domain": "domain", "endpoint": "endpoint", "access_key_id": "access_key_id", "secret_access_key": "secret_access_key"}, "status": {"authenticated": false, "error_message": "error_message"}}]}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -6054,7 +6054,7 @@ class TestCreateCredentials():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/credentials')
-        mock_response = '{"credential_id": "credential_id", "source_type": "box", "credential_details": {"credential_type": "oauth2", "client_id": "client_id", "enterprise_id": "enterprise_id", "url": "url", "username": "username", "organization_url": "organization_url", "site_collection.path": "site_collection_path", "client_secret": "client_secret", "public_key_id": "public_key_id", "private_key": "private_key", "passphrase": "passphrase", "password": "password", "gateway_id": "gateway_id", "source_version": "online", "web_application_url": "web_application_url", "domain": "domain", "endpoint": "endpoint", "access_key_id": "access_key_id", "secret_access_key": "secret_access_key"}, "status": {"authentication": true, "error_message": "error_message"}}'
+        mock_response = '{"credential_id": "credential_id", "source_type": "box", "credential_details": {"credential_type": "oauth2", "client_id": "client_id", "enterprise_id": "enterprise_id", "url": "url", "username": "username", "organization_url": "organization_url", "site_collection.path": "site_collection_path", "client_secret": "client_secret", "public_key_id": "public_key_id", "private_key": "private_key", "passphrase": "passphrase", "password": "password", "gateway_id": "gateway_id", "source_version": "online", "web_application_url": "web_application_url", "domain": "domain", "endpoint": "endpoint", "access_key_id": "access_key_id", "secret_access_key": "secret_access_key"}, "status": {"authenticated": false, "error_message": "error_message"}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -6085,7 +6085,7 @@ class TestCreateCredentials():
 
         # Construct a dict representation of a StatusDetails model
         status_details_model = {}
-        status_details_model['authentication'] = True
+        status_details_model['authenticated'] = True
         status_details_model['error_message'] = 'testString'
 
         # Set up parameter values
@@ -6120,7 +6120,7 @@ class TestCreateCredentials():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/credentials')
-        mock_response = '{"credential_id": "credential_id", "source_type": "box", "credential_details": {"credential_type": "oauth2", "client_id": "client_id", "enterprise_id": "enterprise_id", "url": "url", "username": "username", "organization_url": "organization_url", "site_collection.path": "site_collection_path", "client_secret": "client_secret", "public_key_id": "public_key_id", "private_key": "private_key", "passphrase": "passphrase", "password": "password", "gateway_id": "gateway_id", "source_version": "online", "web_application_url": "web_application_url", "domain": "domain", "endpoint": "endpoint", "access_key_id": "access_key_id", "secret_access_key": "secret_access_key"}, "status": {"authentication": true, "error_message": "error_message"}}'
+        mock_response = '{"credential_id": "credential_id", "source_type": "box", "credential_details": {"credential_type": "oauth2", "client_id": "client_id", "enterprise_id": "enterprise_id", "url": "url", "username": "username", "organization_url": "organization_url", "site_collection.path": "site_collection_path", "client_secret": "client_secret", "public_key_id": "public_key_id", "private_key": "private_key", "passphrase": "passphrase", "password": "password", "gateway_id": "gateway_id", "source_version": "online", "web_application_url": "web_application_url", "domain": "domain", "endpoint": "endpoint", "access_key_id": "access_key_id", "secret_access_key": "secret_access_key"}, "status": {"authenticated": false, "error_message": "error_message"}}'
         responses.add(responses.POST,
                       url,
                       body=mock_response,
@@ -6151,7 +6151,7 @@ class TestCreateCredentials():
 
         # Construct a dict representation of a StatusDetails model
         status_details_model = {}
-        status_details_model['authentication'] = True
+        status_details_model['authenticated'] = True
         status_details_model['error_message'] = 'testString'
 
         # Set up parameter values
@@ -6194,7 +6194,7 @@ class TestGetCredentials():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/credentials/testString')
-        mock_response = '{"credential_id": "credential_id", "source_type": "box", "credential_details": {"credential_type": "oauth2", "client_id": "client_id", "enterprise_id": "enterprise_id", "url": "url", "username": "username", "organization_url": "organization_url", "site_collection.path": "site_collection_path", "client_secret": "client_secret", "public_key_id": "public_key_id", "private_key": "private_key", "passphrase": "passphrase", "password": "password", "gateway_id": "gateway_id", "source_version": "online", "web_application_url": "web_application_url", "domain": "domain", "endpoint": "endpoint", "access_key_id": "access_key_id", "secret_access_key": "secret_access_key"}, "status": {"authentication": true, "error_message": "error_message"}}'
+        mock_response = '{"credential_id": "credential_id", "source_type": "box", "credential_details": {"credential_type": "oauth2", "client_id": "client_id", "enterprise_id": "enterprise_id", "url": "url", "username": "username", "organization_url": "organization_url", "site_collection.path": "site_collection_path", "client_secret": "client_secret", "public_key_id": "public_key_id", "private_key": "private_key", "passphrase": "passphrase", "password": "password", "gateway_id": "gateway_id", "source_version": "online", "web_application_url": "web_application_url", "domain": "domain", "endpoint": "endpoint", "access_key_id": "access_key_id", "secret_access_key": "secret_access_key"}, "status": {"authenticated": false, "error_message": "error_message"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -6224,7 +6224,7 @@ class TestGetCredentials():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/credentials/testString')
-        mock_response = '{"credential_id": "credential_id", "source_type": "box", "credential_details": {"credential_type": "oauth2", "client_id": "client_id", "enterprise_id": "enterprise_id", "url": "url", "username": "username", "organization_url": "organization_url", "site_collection.path": "site_collection_path", "client_secret": "client_secret", "public_key_id": "public_key_id", "private_key": "private_key", "passphrase": "passphrase", "password": "password", "gateway_id": "gateway_id", "source_version": "online", "web_application_url": "web_application_url", "domain": "domain", "endpoint": "endpoint", "access_key_id": "access_key_id", "secret_access_key": "secret_access_key"}, "status": {"authentication": true, "error_message": "error_message"}}'
+        mock_response = '{"credential_id": "credential_id", "source_type": "box", "credential_details": {"credential_type": "oauth2", "client_id": "client_id", "enterprise_id": "enterprise_id", "url": "url", "username": "username", "organization_url": "organization_url", "site_collection.path": "site_collection_path", "client_secret": "client_secret", "public_key_id": "public_key_id", "private_key": "private_key", "passphrase": "passphrase", "password": "password", "gateway_id": "gateway_id", "source_version": "online", "web_application_url": "web_application_url", "domain": "domain", "endpoint": "endpoint", "access_key_id": "access_key_id", "secret_access_key": "secret_access_key"}, "status": {"authenticated": false, "error_message": "error_message"}}'
         responses.add(responses.GET,
                       url,
                       body=mock_response,
@@ -6270,7 +6270,7 @@ class TestUpdateCredentials():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/credentials/testString')
-        mock_response = '{"credential_id": "credential_id", "source_type": "box", "credential_details": {"credential_type": "oauth2", "client_id": "client_id", "enterprise_id": "enterprise_id", "url": "url", "username": "username", "organization_url": "organization_url", "site_collection.path": "site_collection_path", "client_secret": "client_secret", "public_key_id": "public_key_id", "private_key": "private_key", "passphrase": "passphrase", "password": "password", "gateway_id": "gateway_id", "source_version": "online", "web_application_url": "web_application_url", "domain": "domain", "endpoint": "endpoint", "access_key_id": "access_key_id", "secret_access_key": "secret_access_key"}, "status": {"authentication": true, "error_message": "error_message"}}'
+        mock_response = '{"credential_id": "credential_id", "source_type": "box", "credential_details": {"credential_type": "oauth2", "client_id": "client_id", "enterprise_id": "enterprise_id", "url": "url", "username": "username", "organization_url": "organization_url", "site_collection.path": "site_collection_path", "client_secret": "client_secret", "public_key_id": "public_key_id", "private_key": "private_key", "passphrase": "passphrase", "password": "password", "gateway_id": "gateway_id", "source_version": "online", "web_application_url": "web_application_url", "domain": "domain", "endpoint": "endpoint", "access_key_id": "access_key_id", "secret_access_key": "secret_access_key"}, "status": {"authenticated": false, "error_message": "error_message"}}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -6301,7 +6301,7 @@ class TestUpdateCredentials():
 
         # Construct a dict representation of a StatusDetails model
         status_details_model = {}
-        status_details_model['authentication'] = True
+        status_details_model['authenticated'] = True
         status_details_model['error_message'] = 'testString'
 
         # Set up parameter values
@@ -6338,7 +6338,7 @@ class TestUpdateCredentials():
         """
         # Set up mock
         url = self.preprocess_url(_base_url + '/v1/environments/testString/credentials/testString')
-        mock_response = '{"credential_id": "credential_id", "source_type": "box", "credential_details": {"credential_type": "oauth2", "client_id": "client_id", "enterprise_id": "enterprise_id", "url": "url", "username": "username", "organization_url": "organization_url", "site_collection.path": "site_collection_path", "client_secret": "client_secret", "public_key_id": "public_key_id", "private_key": "private_key", "passphrase": "passphrase", "password": "password", "gateway_id": "gateway_id", "source_version": "online", "web_application_url": "web_application_url", "domain": "domain", "endpoint": "endpoint", "access_key_id": "access_key_id", "secret_access_key": "secret_access_key"}, "status": {"authentication": true, "error_message": "error_message"}}'
+        mock_response = '{"credential_id": "credential_id", "source_type": "box", "credential_details": {"credential_type": "oauth2", "client_id": "client_id", "enterprise_id": "enterprise_id", "url": "url", "username": "username", "organization_url": "organization_url", "site_collection.path": "site_collection_path", "client_secret": "client_secret", "public_key_id": "public_key_id", "private_key": "private_key", "passphrase": "passphrase", "password": "password", "gateway_id": "gateway_id", "source_version": "online", "web_application_url": "web_application_url", "domain": "domain", "endpoint": "endpoint", "access_key_id": "access_key_id", "secret_access_key": "secret_access_key"}, "status": {"authenticated": false, "error_message": "error_message"}}'
         responses.add(responses.PUT,
                       url,
                       body=mock_response,
@@ -6369,7 +6369,7 @@ class TestUpdateCredentials():
 
         # Construct a dict representation of a StatusDetails model
         status_details_model = {}
-        status_details_model['authentication'] = True
+        status_details_model['authenticated'] = True
         status_details_model['error_message'] = 'testString'
 
         # Set up parameter values
@@ -7450,7 +7450,7 @@ class TestModel_Credentials():
         credential_details_model['secret_access_key'] = 'testString'
 
         status_details_model = {} # StatusDetails
-        status_details_model['authentication'] = True
+        status_details_model['authenticated'] = True
         status_details_model['error_message'] = 'testString'
 
         # Construct a json representation of a Credentials model
@@ -7509,7 +7509,7 @@ class TestModel_CredentialsList():
         credential_details_model['secret_access_key'] = 'testString'
 
         status_details_model = {} # StatusDetails
-        status_details_model['authentication'] = True
+        status_details_model['authenticated'] = True
         status_details_model['error_message'] = 'testString'
 
         credentials_model = {} # Credentials
@@ -10553,7 +10553,7 @@ class TestModel_StatusDetails():
 
         # Construct a json representation of a StatusDetails model
         status_details_model_json = {}
-        status_details_model_json['authentication'] = True
+        status_details_model_json['authenticated'] = True
         status_details_model_json['error_message'] = 'testString'
 
         # Construct a model instance of StatusDetails by calling from_dict on the json representation
