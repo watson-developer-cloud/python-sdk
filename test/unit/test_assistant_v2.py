@@ -4009,6 +4009,10 @@ class TestModel_SearchResult():
         search_result_highlight_model['url'] = ['testString']
         search_result_highlight_model['foo'] = ['testString']
 
+        search_result_answer_model = {} # SearchResultAnswer
+        search_result_answer_model['text'] = 'testString'
+        search_result_answer_model['confidence'] = 0
+
         # Construct a json representation of a SearchResult model
         search_result_model_json = {}
         search_result_model_json['id'] = 'testString'
@@ -4017,6 +4021,7 @@ class TestModel_SearchResult():
         search_result_model_json['title'] = 'testString'
         search_result_model_json['url'] = 'testString'
         search_result_model_json['highlight'] = search_result_highlight_model
+        search_result_model_json['answers'] = [search_result_answer_model]
 
         # Construct a model instance of SearchResult by calling from_dict on the json representation
         search_result_model = SearchResult.from_dict(search_result_model_json)
@@ -4032,6 +4037,36 @@ class TestModel_SearchResult():
         # Convert model instance back to dict and verify no loss of data
         search_result_model_json2 = search_result_model.to_dict()
         assert search_result_model_json2 == search_result_model_json
+
+class TestModel_SearchResultAnswer():
+    """
+    Test Class for SearchResultAnswer
+    """
+
+    def test_search_result_answer_serialization(self):
+        """
+        Test serialization/deserialization for SearchResultAnswer
+        """
+
+        # Construct a json representation of a SearchResultAnswer model
+        search_result_answer_model_json = {}
+        search_result_answer_model_json['text'] = 'testString'
+        search_result_answer_model_json['confidence'] = 0
+
+        # Construct a model instance of SearchResultAnswer by calling from_dict on the json representation
+        search_result_answer_model = SearchResultAnswer.from_dict(search_result_answer_model_json)
+        assert search_result_answer_model != False
+
+        # Construct a model instance of SearchResultAnswer by calling from_dict on the json representation
+        search_result_answer_model_dict = SearchResultAnswer.from_dict(search_result_answer_model_json).__dict__
+        search_result_answer_model2 = SearchResultAnswer(**search_result_answer_model_dict)
+
+        # Verify the model instances are equivalent
+        assert search_result_answer_model == search_result_answer_model2
+
+        # Convert model instance back to dict and verify no loss of data
+        search_result_answer_model_json2 = search_result_answer_model.to_dict()
+        assert search_result_answer_model_json2 == search_result_answer_model_json
 
 class TestModel_SearchResultHighlight():
     """
@@ -4567,6 +4602,10 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeSearch():
         search_result_highlight_model['url'] = ['testString']
         search_result_highlight_model['foo'] = ['testString']
 
+        search_result_answer_model = {} # SearchResultAnswer
+        search_result_answer_model['text'] = 'testString'
+        search_result_answer_model['confidence'] = 0
+
         search_result_model = {} # SearchResult
         search_result_model['id'] = 'testString'
         search_result_model['result_metadata'] = search_result_metadata_model
@@ -4574,6 +4613,7 @@ class TestModel_RuntimeResponseGenericRuntimeResponseTypeSearch():
         search_result_model['title'] = 'testString'
         search_result_model['url'] = 'testString'
         search_result_model['highlight'] = search_result_highlight_model
+        search_result_model['answers'] = [search_result_answer_model]
 
         response_generic_channel_model = {} # ResponseGenericChannel
         response_generic_channel_model['channel'] = 'testString'

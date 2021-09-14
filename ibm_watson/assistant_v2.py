@@ -4843,6 +4843,12 @@ class SearchResult():
     :attr SearchResultHighlight highlight: (optional) An object containing segments
           of text from search results with query-matching text highlighted using HTML
           `<em>` tags.
+    :attr List[SearchResultAnswer] answers: (optional) An array specifying segments
+          of text within the result that were identified as direct answers to the search
+          query. Currently, only the single answer with the highest confidence (if any) is
+          returned.
+          **Note:** This property uses the answer finding beta feature, and is available
+          only if the search skill is connected to a Discovery v2 service instance.
     """
 
     def __init__(self,
@@ -4852,7 +4858,8 @@ class SearchResult():
                  body: str = None,
                  title: str = None,
                  url: str = None,
-                 highlight: 'SearchResultHighlight' = None) -> None:
+                 highlight: 'SearchResultHighlight' = None,
+                 answers: List['SearchResultAnswer'] = None) -> None:
         """
         Initialize a SearchResult object.
 
@@ -4873,6 +4880,13 @@ class SearchResult():
         :param SearchResultHighlight highlight: (optional) An object containing
                segments of text from search results with query-matching text highlighted
                using HTML `<em>` tags.
+        :param List[SearchResultAnswer] answers: (optional) An array specifying
+               segments of text within the result that were identified as direct answers
+               to the search query. Currently, only the single answer with the highest
+               confidence (if any) is returned.
+               **Note:** This property uses the answer finding beta feature, and is
+               available only if the search skill is connected to a Discovery v2 service
+               instance.
         """
         self.id = id
         self.result_metadata = result_metadata
@@ -4880,6 +4894,7 @@ class SearchResult():
         self.title = title
         self.url = url
         self.highlight = highlight
+        self.answers = answers
 
     @classmethod
     def from_dict(cls, _dict: Dict) -> 'SearchResult':
@@ -4906,6 +4921,10 @@ class SearchResult():
         if 'highlight' in _dict:
             args['highlight'] = SearchResultHighlight.from_dict(
                 _dict.get('highlight'))
+        if 'answers' in _dict:
+            args['answers'] = [
+                SearchResultAnswer.from_dict(x) for x in _dict.get('answers')
+            ]
         return cls(**args)
 
     @classmethod
@@ -4929,6 +4948,8 @@ class SearchResult():
             _dict['url'] = self.url
         if hasattr(self, 'highlight') and self.highlight is not None:
             _dict['highlight'] = self.highlight.to_dict()
+        if hasattr(self, 'answers') and self.answers is not None:
+            _dict['answers'] = [x.to_dict() for x in self.answers]
         return _dict
 
     def _to_dict(self):
@@ -4946,6 +4967,78 @@ class SearchResult():
         return self.__dict__ == other.__dict__
 
     def __ne__(self, other: 'SearchResult') -> bool:
+        """Return `true` when self and other are not equal, false otherwise."""
+        return not self == other
+
+
+class SearchResultAnswer():
+    """
+    An object specifing a segment of text that was identified as a direct answer to the
+    search query.
+
+    :attr str text: The text of the answer.
+    :attr float confidence: The confidence score for the answer, as returned by the
+          Discovery service.
+    """
+
+    def __init__(self, text: str, confidence: float) -> None:
+        """
+        Initialize a SearchResultAnswer object.
+
+        :param str text: The text of the answer.
+        :param float confidence: The confidence score for the answer, as returned
+               by the Discovery service.
+        """
+        self.text = text
+        self.confidence = confidence
+
+    @classmethod
+    def from_dict(cls, _dict: Dict) -> 'SearchResultAnswer':
+        """Initialize a SearchResultAnswer object from a json dictionary."""
+        args = {}
+        if 'text' in _dict:
+            args['text'] = _dict.get('text')
+        else:
+            raise ValueError(
+                'Required property \'text\' not present in SearchResultAnswer JSON'
+            )
+        if 'confidence' in _dict:
+            args['confidence'] = _dict.get('confidence')
+        else:
+            raise ValueError(
+                'Required property \'confidence\' not present in SearchResultAnswer JSON'
+            )
+        return cls(**args)
+
+    @classmethod
+    def _from_dict(cls, _dict):
+        """Initialize a SearchResultAnswer object from a json dictionary."""
+        return cls.from_dict(_dict)
+
+    def to_dict(self) -> Dict:
+        """Return a json dictionary representing this model."""
+        _dict = {}
+        if hasattr(self, 'text') and self.text is not None:
+            _dict['text'] = self.text
+        if hasattr(self, 'confidence') and self.confidence is not None:
+            _dict['confidence'] = self.confidence
+        return _dict
+
+    def _to_dict(self):
+        """Return a json dictionary representing this model."""
+        return self.to_dict()
+
+    def __str__(self) -> str:
+        """Return a `str` version of this SearchResultAnswer object."""
+        return json.dumps(self.to_dict(), indent=2)
+
+    def __eq__(self, other: 'SearchResultAnswer') -> bool:
+        """Return `true` when self and other are equal, false otherwise."""
+        if not isinstance(other, self.__class__):
+            return False
+        return self.__dict__ == other.__dict__
+
+    def __ne__(self, other: 'SearchResultAnswer') -> bool:
         """Return `true` when self and other are not equal, false otherwise."""
         return not self == other
 
