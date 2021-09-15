@@ -1,3 +1,31 @@
+# [5.3.0](https://github.com/watson-developer-cloud/python-sdk/compare/v5.2.3...v5.3.0) (2021-09-14)
+
+
+### Bug Fixes
+
+* **disco_v1:** update type of status to reflect service changes ([ab880f0](https://github.com/watson-developer-cloud/python-sdk/commit/ab880f04ae2ec5983e74175cd7b1dc83bd24f022))
+* **disco_v2:** project types enum updated/fixed ([a598231](https://github.com/watson-developer-cloud/python-sdk/commit/a598231df416e8cbf4453342b42ce5a5d8c6be85))
+* **nlu:** fix listClassificationsModels response model ([9954e59](https://github.com/watson-developer-cloud/python-sdk/commit/9954e59df889b45b761ef206ad8dedd9502e762a))
+* **wss:** fix on_transcription parsing issue including tests ([1b05e1b](https://github.com/watson-developer-cloud/python-sdk/commit/1b05e1b3169b8c904fd17c3834d4e61779fa511c))
+
+
+### Features
+
+* **assistant_v1:** add alt_text and sensitivity options, location now optional ([0a6c540](https://github.com/watson-developer-cloud/python-sdk/commit/0a6c540f4a5d6abf25e35f9b8b20d6d191744a43))
+* **assistant_v2:** same as v1, add more properties ([c2ca53b](https://github.com/watson-developer-cloud/python-sdk/commit/c2ca53bf1bdc55790787d926ffa23f1cc12b3cee))
+* **assistant_v2,disco_v1:** add answers property to response model, fix typo ([611b7c9](https://github.com/watson-developer-cloud/python-sdk/commit/611b7c91644fb2238712cfed964ea7376b0d076a))
+* **stt&tts:** new models added ([67ee967](https://github.com/watson-developer-cloud/python-sdk/commit/67ee967726c022b9e883bef786cb82a59b86be28))
+
+
+## [5.2.3](https://github.com/watson-developer-cloud/python-sdk/compare/v5.2.2...v5.2.3) (2021-08-26)
+
+
+### Bug Fixes
+
+* **nlc:** add deprecation warning ([d1ec209](https://github.com/watson-developer-cloud/python-sdk/commit/d1ec209484320c2a61c735721148a66f58e6f7b1)), closes [#9624](https://github.com/watson-developer-cloud/python-sdk/issues/9624)
+* **nlc:** move deprecation warning ([09a6dd4](https://github.com/watson-developer-cloud/python-sdk/commit/09a6dd4d7b26664cb92d8652f8d54ca96d9404a9))
+* **nlc:** move deprecation warning ([3658ee8](https://github.com/watson-developer-cloud/python-sdk/commit/3658ee856c3ddba77a64589631b4605ae3c8c86c))
+
 ## [5.2.2](https://github.com/watson-developer-cloud/python-sdk/compare/v5.2.1...v5.2.2) (2021-07-06)
 
 
