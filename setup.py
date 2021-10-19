@@ -13,6 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Installling dependencies
+
 from setuptools import setup
 from os import path
 
@@ -34,6 +36,7 @@ setup(name='ibm-watson',
       author_email='watdevex@us.ibm.com',
       long_description=readme_file,
       long_description_content_type='text/markdown',
+      # Specifying URL
       url='https://github.com/watson-developer-cloud/python-sdk',
       include_package_data=True,
       keywords='language, vision, question and answer' +
