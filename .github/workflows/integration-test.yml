@@ -75,7 +75,7 @@ jobs:
         DISCOVERY_V2_COLLECTION_ID: ${{ secrets.D2_COLLECTION_ID }}
       run: |
         pip3 install -U python-dotenv
-        pytest test/unit/test_natural_language_classifier_v1.py
+        pytest test/integration/test_natural_language_classifier_v1.py
 
 # Do not notify on success.  We will leave the code here just in case we decide to switch gears
     - name: Notify slack on success
