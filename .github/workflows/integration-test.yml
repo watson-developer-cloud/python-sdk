@@ -73,9 +73,10 @@ jobs:
         DISCOVERY_V2_APIKEY: ${{ secrets.D2_APIKEY }}
         DISCOVERY_V2_PROJECT_ID: ${{ secrets.D2_PROJECT_ID }}
         DISCOVERY_V2_COLLECTION_ID: ${{ secrets.D2_COLLECTION_ID }}
-        VCAP_SERVICES: '{"natural_language_classifier":[{"credentials":{"url":"https://api.us-south.natural-language-classifier.watson.cloud.ibm.com","apikey":${NATURAL_LANGUAGE_CLASSIFIER_APIKEY}}}]}'
+        VCAP_SERVICES: {"natural_language_classifier":[{"credentials":{"url":"https://api.us-south.natural-language-classifier.watson.cloud.ibm.com","apikey":${NATURAL_LANGUAGE_CLASSIFIER_APIKEY}}}]}
       run: |
         pip3 install -U python-dotenv
+        echo $VCAP_SERVICES
         pytest test/integration/test_natural_language_classifier_v1.py -rap
 
 # Do not notify on success.  We will leave the code here just in case we decide to switch gears
