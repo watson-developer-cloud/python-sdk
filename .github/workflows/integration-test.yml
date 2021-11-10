@@ -76,7 +76,7 @@ jobs:
         # VCAP_SERVICES: {"natural_language_classifier":[{"credentials":{"url":"https://api.us-south.natural-language-classifier.watson.cloud.ibm.com","apikey":${NATURAL_LANGUAGE_CLASSIFIER_APIKEY}}}]}
       run: |
         pip3 install -U python-dotenv
-        VCAP_SERVICES={"natural_language_classifier":[{"credentials":{"url":$NATURAL_LANGUAGE_CLASSIFIER_URL,"apikey":${NATURAL_LANGUAGE_CLASSIFIER_APIKEY}}}]}
+        export VCAP_SERVICES={"natural_language_classifier":[{"credentials":{"url":$NATURAL_LANGUAGE_CLASSIFIER_URL,"apikey":${NATURAL_LANGUAGE_CLASSIFIER_APIKEY}}}]}
         echo "VCAP_SERVICES variable: $VCAP_SERVICES"
         pytest test/integration/test_natural_language_classifier_v1.py -rap
 
