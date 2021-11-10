@@ -77,8 +77,9 @@ jobs:
       run: |
         pip3 install -U python-dotenv
         echo "VCAP_SERVICES=$HOME/data" >> $GITHUB_ENV
-        echo "Working variable from variable: $VCAP_SERVICES"
-        pytest test/integration/test_natural_language_classifier_v1.py -rap
+        echo "VCAP_SERVICES variable: $VCAP_SERVICES"
+        echo "GITHUB_ENV variable: $GITHUB_ENV"
+      #     pytest test/integration/test_natural_language_classifier_v1.py -rap
 
 # Do not notify on success.  We will leave the code here just in case we decide to switch gears
     - name: Notify slack on success
