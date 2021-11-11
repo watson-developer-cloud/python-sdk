@@ -42,7 +42,7 @@ jobs:
         # IBM_CREDENTIALS_FILE: "ddd/lll"
         VCAP_SERVICES: "shit"
         # APIKEY: "dd"
-        NATURAL_LANGUAGE_CLASSIFIER_AUTH_TYPE: "iam"
+        # NATURAL_LANGUAGE_CLASSIFIER_AUTH_TYPE: "iam"
       run: |
         pip3 install -U python-dotenv
         echo "VCAP_SERVICES variable: $VCAP_SERVICES"
