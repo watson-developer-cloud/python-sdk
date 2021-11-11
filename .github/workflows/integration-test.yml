@@ -39,9 +39,10 @@ jobs:
       env:
         NATURAL_LANGUAGE_CLASSIFIER_URL: "https://api.us-south.natural-language-classifier.watson.cloud.ibm.com"
         NATURAL_LANGUAGE_CLASSIFIER_APIKEY: ${{ secrets.NLC_APIKEY }}
-        IBM_CREDENTIALS_FILE: "ddd/lll"
+        # IBM_CREDENTIALS_FILE: "ddd/lll"
         VCAP_SERVICES: "shit"
-        APIKEY: "dd"
+        # APIKEY: "dd"
+        NATURAL_LANGUAGE_CLASSIFIER_AUTH_TYPE: "iam"
       run: |
         pip3 install -U python-dotenv
         echo "VCAP_SERVICES variable: $VCAP_SERVICES"
