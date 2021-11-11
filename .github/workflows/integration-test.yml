@@ -72,6 +72,9 @@ jobs:
         VCAP_SERVICES: "justNeededToFoolTests"
       run: |
         pip3 install -U python-dotenv
+        pytest test/integration/test_compare_comply_v1.py -rap
+        pytest test/integration/test_discovery_v1.py -rap
+        pytest test/integration/test_discovery_v2.py -rap
         pytest test/integration/test_language_translator_v3.py -rap
         pytest test/integration/test_natural_language_classifier_v1.py -rap
         pytest test/integration/test_speech_to_text_v1.py -rap
