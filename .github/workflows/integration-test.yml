@@ -74,8 +74,8 @@ jobs:
         pip3 install -U python-dotenv
         pytest test/integration/test_language_translator_v3.py -rap
         pytest test/integration/test_natural_language_classifier_v1.py -rap
-      #  pytest test/integration/test_speech_to_text_v1.py -rap
-      #  pytest test/integration/test_text_to_speech_v1.py -rap
+#        pytest test/integration/test_speech_to_text_v1.py -rap
+#        pytest test/integration/test_text_to_speech_v1.py -rap
         pytest test/integration/test_visual_recognition_v3.py -rap
         pytest test/integration/test_visual_recognition_v4.py -rap
 
