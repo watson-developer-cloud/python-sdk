@@ -73,7 +73,7 @@ jobs:
         DISCOVERY_V2_APIKEY: ${{ secrets.D2_APIKEY }}
         DISCOVERY_V2_PROJECT_ID: ${{ secrets.D2_PROJECT_ID }}
         DISCOVERY_V2_COLLECTION_ID: ${{ secrets.D2_COLLECTION_ID }}
-        VCAP_SERVICES: '{"natural_language_classifier":[{"credentials":{"url":"https://api.us-south.natural-language-classifier.watson.cloud.ibm.com","apikey":"UuhYsd-ACLwOKnwtDYPF1gFvYeFSAC0FZ5tpK3DIMOX6"}}]}'
+        VCAP_SERVICES: '{"natural_language_classifier":[{"credentials":{"url":"https://api.us-south.natural-language-classifier.watson.cloud.ibm.com","apikey":"hello"}}]}'
       run: |
         pip3 install -U python-dotenv
         echo "VCAP_SERVICES variable: $VCAP_SERVICES"
