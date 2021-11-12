@@ -12,7 +12,7 @@ import pytest
                     reason='requires DISCOVERY_V2_APIKEY')
 class Discoveryv2(TestCase):
     discovery = None
-    project_id = 'f0b9920b-caa8-4b89-abf7-e250989eee5a'  # This project is created for integration testing
+    project_id = os.getenv('DISCOVERY_V2_PROJECT_ID')  # This project is created for integration testing
     collection_id = None
     collection_name = 'python_test_collection'
 
