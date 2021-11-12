@@ -69,7 +69,6 @@ jobs:
         DISCOVERY_V2_PROJECT_ID: ${{ secrets.D2_PROJECT_ID }}
         DISCOVERY_V2_COLLECTION_ID: ${{ secrets.D2_COLLECTION_ID }}
         DISCOVERY_V2_URL: "https://api.us-south.discovery.watson.cloud.ibm.com"
-        # VCAP_SERVICES: "justNeededToFoolTests"
       run: |
         pip3 install -U python-dotenv
         pytest test/integration/test_compare_comply_v1.py -rap
