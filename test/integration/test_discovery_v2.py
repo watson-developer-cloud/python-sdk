@@ -18,12 +18,12 @@ class Discoveryv2(TestCase):
 
     @classmethod
     def setup_class(cls):
-        authenticator = IAMAuthenticator('apikey')
+        authenticator = IAMAuthenticator(apikey=os.getenv('DISCOVERY_V2_APIKEY'))
         cls.discovery = ibm_watson.DiscoveryV2(
             version='2020-08-12',
             authenticator=authenticator
         )
-        cls.discovery.set_service_url('url')
+        cls.discovery.set_service_url(url=os.getenv('DISCOVERY_V2_URL'))
         cls.discovery.set_default_headers({
             'X-Watson-Learning-Opt-Out': '1',
             'X-Watson-Test': '1'
