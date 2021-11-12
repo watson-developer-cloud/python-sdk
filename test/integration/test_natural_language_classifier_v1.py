@@ -9,8 +9,8 @@ import time
 FIVE_SECONDS = 5
 
 
-@pytest.mark.skipif(os.getenv('VCAP_SERVICES') is None,
-                    reason='requires VCAP_SERVICES')
+@pytest.mark.skipif(os.getenv('NATURAL_LANGUAGE_CLASSIFIER_APIKEY') is None,
+                    reason='requires NATURAL_LANGUAGE_CLASSIFIER_APIKEY')
 class TestNaturalLanguageClassifierV1(TestCase):
 
     def setUp(self):

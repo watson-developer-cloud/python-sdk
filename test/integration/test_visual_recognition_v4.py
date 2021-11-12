@@ -7,8 +7,8 @@ from unittest import TestCase
 from ibm_watson.visual_recognition_v4 import AnalyzeEnums, FileWithMetadata, TrainingDataObject, Location
 
 
-@pytest.mark.skipif(os.getenv('VCAP_SERVICES') is None,
-                    reason='requires VCAP_SERVICES')
+@pytest.mark.skipif(os.getenv('VISUAL_RECOGNITION_APIKEY') is None,
+                    reason='requires VISUAL_RECOGNITION_APIKEY')
 class IntegrationTestVisualRecognitionV3(TestCase):
     visual_recognition = None
 

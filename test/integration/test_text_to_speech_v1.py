@@ -6,8 +6,8 @@ import pytest
 import os
 
 
-@pytest.mark.skipif(os.getenv('VCAP_SERVICES') is None,
-                    reason='requires VCAP_SERVICES')
+@pytest.mark.skipif(os.getenv('TEXT_TO_SPEECH_APIKEY') is None,
+                    reason='requires TEXT_TO_SPEECH_APIKEY')
 class TestIntegrationTextToSpeechV1(unittest.TestCase):
     text_to_speech = None
     original_customizations = None

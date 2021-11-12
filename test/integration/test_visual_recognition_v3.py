@@ -6,8 +6,8 @@ from os.path import abspath
 from unittest import TestCase
 
 
-@pytest.mark.skipif(os.getenv('VCAP_SERVICES') is None,
-                    reason='requires VCAP_SERVICES')
+@pytest.mark.skipif(os.getenv('VISUAL_RECOGNITION_APIKEY') is None,
+                    reason='requires VISUAL_RECOGNITION_APIKEY')
 class IntegrationTestVisualRecognitionV3(TestCase):
     visual_recognition = None
     classifier_id = None

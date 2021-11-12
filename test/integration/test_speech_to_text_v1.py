@@ -6,8 +6,8 @@ import pytest
 import threading
 
 
-@pytest.mark.skipif(os.getenv('VCAP_SERVICES') is None,
-                    reason='requires VCAP_SERVICES')
+@pytest.mark.skipif(os.getenv('SPEECH_TO_TEXT_APIKEY') is None,
+                    reason='requires SPEECH_TO_TEXT_APIKEY')
 class TestSpeechToTextV1(TestCase):
     text_to_speech = None
     custom_models = None
