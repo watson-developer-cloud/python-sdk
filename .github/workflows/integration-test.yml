@@ -76,6 +76,8 @@ jobs:
         pytest test/integration/test_discovery_v2.py -rap
         pytest test/integration/test_language_translator_v3.py -rap
         pytest test/integration/test_natural_language_classifier_v1.py -rap
+        pytest test/integration/test_natural_language_understanding_v1.py -rap
+        pytest test/integration/test_personality_insights_v3.py -rap
         pytest test/integration/test_speech_to_text_v1.py -rap
         pytest test/integration/test_text_to_speech_v1.py -rap
         pytest test/integration/test_visual_recognition_v3.py -rap
