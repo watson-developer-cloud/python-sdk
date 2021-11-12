@@ -8,8 +8,8 @@ import ibm_watson
 import pytest
 
 
-@pytest.mark.skipif(os.getenv('TEST_DISCO_V2') is None,
-                    reason='only test in cpd and prem')
+@pytest.mark.skipif(os.getenv('DISCOVERY_V2_APIKEY') is None,
+                    reason='requires DISCOVERY_V2_APIKEY')
 class Discoveryv2(TestCase):
     discovery = None
     project_id = 'f0b9920b-caa8-4b89-abf7-e250989eee5a'  # This project is created for integration testing
@@ -111,6 +111,7 @@ class Discoveryv2(TestCase):
             )
 
     # can only test in CPD
+    @pytest.mark.skip(reason="can only test in CPD")
     def test_analyze(self):
         authenticator = BearerTokenAuthenticator('<bearer_token>')
         discovery_cpd = ibm_watson.DiscoveryV2(
