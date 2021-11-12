@@ -6,11 +6,11 @@ import random
 import pytest
 
 
-@pytest.mark.skipif(os.getenv('VCAP_SERVICES') is None,
-                    reason='requires VCAP_SERVICES')
+@pytest.mark.skipif(os.getenv('DISCOVERY_APIKEY') is None,
+                    reason='requires DISCOVERY_APIKEY')
 class Discoveryv1(TestCase):
     discovery = None
-    environment_id = '62b0dd87-eefa-40bf-81d6-cf9bc82692ab'  # This environment is created for integration testing
+    environment_id = os.getenv('DISCOVERY_ENVIRONMENT_ID')  # This environment is created for integration testing
     collection_id = None
     collection_name = 'FOR-PYTHON-DELETE-ME'
 

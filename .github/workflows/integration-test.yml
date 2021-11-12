@@ -54,7 +54,7 @@ jobs:
         VISUAL_RECOGNITION_APIKEY: ${{ secrets.VR_APIKEY }}
         VISUAL_RECOGNITION_COLLECTION_ID: ${{ secrets.VR_COLLECTION_ID }}
         VISUAL_RECOGNITION_URL: "https://api.us-south.visual-recognition.watson.cloud.ibm.com"
-        # COMPARE_COMPLY_APIKEY: ${{ secrets.CC_APIKEY }}
+        COMPARE_COMPLY_APIKEY: ${{ secrets.CC_APIKEY }}
         COMPARE_COMPLY_FEEDBACK_ID: ${{ secrets.CC_FEEDBACK_ID }}
         COMPARE_COMPLY_URL: "https://api.us-south.compare-comply.watson.cloud.ibm.com"
         ASSISTANT_APIKEY: ${{ secrets.WA_APIKEY }}
