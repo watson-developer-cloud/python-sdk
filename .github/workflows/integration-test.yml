@@ -80,6 +80,7 @@ jobs:
         pytest test/integration/test_personality_insights_v3.py -rap
         pytest test/integration/test_speech_to_text_v1.py -rap
         pytest test/integration/test_text_to_speech_v1.py -rap
+        pytest test/integration/test_tone_analyzer_v3.py -rap
         pytest test/integration/test_visual_recognition_v3.py -rap
         pytest test/integration/test_visual_recognition_v4.py -rap
 
