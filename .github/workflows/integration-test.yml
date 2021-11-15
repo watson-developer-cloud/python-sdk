@@ -71,6 +71,7 @@ jobs:
         DISCOVERY_V2_URL: "https://api.us-south.discovery.watson.cloud.ibm.com"
       run: |
         pip3 install -U python-dotenv
+        pytest test/integration/test_assistant_v1.py -rap
         pytest test/integration/test_compare_comply_v1.py -rap
         pytest test/integration/test_discovery_v1.py -rap
         pytest test/integration/test_discovery_v2.py -rap
