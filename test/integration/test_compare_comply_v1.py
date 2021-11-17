@@ -7,8 +7,8 @@ from unittest import TestCase
 from ibm_watson.compare_comply_v1 import TableReturn
 
 
-@pytest.mark.skipif(os.getenv('VCAP_SERVICES') is None,
-                    reason='requires VCAP_SERVICES')
+@pytest.mark.skipif(os.getenv('COMPARE_COMPLY_APIKEY') is None,
+                    reason='requires COMPARE_COMPLY_APIKEY')
 class IntegrationTestCompareComplyV1(TestCase):
     compare_comply = None
 

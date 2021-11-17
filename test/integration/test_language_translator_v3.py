@@ -6,8 +6,8 @@ import pytest
 import os
 
 
-@pytest.mark.skipif(os.getenv('VCAP_SERVICES') is None,
-                    reason='requires VCAP_SERVICES')
+@pytest.mark.skipif(os.getenv('LANGUAGE_TRANSLATOR_APIKEY') is None,
+                    reason='requires LANGUAGE_TRANSLATOR_APIKEY')
 class TestIntegrationLanguageTranslatorV3(unittest.TestCase):
 
     @classmethod
