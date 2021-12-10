@@ -260,7 +260,7 @@ For more information, follow the [MIGRATION-V4](https://github.com/watson-develo
 To move from v3.x to v4.0, refer to the [MIGRATION-V4](https://github.com/watson-developer-cloud/python-sdk/blob/master/MIGRATION-V4.md).
 
 ## Configuring the http client (Supported from v1.1.0)
-To set client configs like timeout use the `set_http_config()` function and pass it a dictionary of configs. For example for a Assistant service instance
+To set client configs like timeout use the `set_http_config()` function and pass it a dictionary of configs. See this [documentation](https://2.python-requests.org/en/master/api/#requests.request) for more information about the options. All options shown except `method`, `url`, `headers`, `params`, `data`, and `auth` are configurable via `set_http_config()`. For example for a Assistant service instance
 
 ```python
 from ibm_watson import AssistantV1
@@ -268,14 +268,49 @@ from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 
 authenticator = IAMAuthenticator('your apikey')
 assistant = AssistantV1(
-    version='2018-07-10',
+    version='2021-11-27',
     authenticator=authenticator)
-assistant.set_service_url('https://gateway.watsonplatform.net/assistant/api')
+assistant.set_service_url('https://api.us-south.assistant.watson.cloud.ibm.com')
 
 assistant.set_http_config({'timeout': 100})
 response = assistant.message(workspace_id=workspace_id, input={
     'text': 'What\'s the weather like?'}).get_result()
 print(json.dumps(response, indent=2))
+```
+
+### Use behind a corporate proxy
+To use the SDK with any proxies you may have they can be set as shown below. For documentation on proxies see [here](https://2.python-requests.org/en/latest/user/advanced/#proxies)
+
+See this example configuration:
+```python
+from ibm_watson import AssistantV1
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+
+authenticator = IAMAuthenticator('your apikey')
+assistant = AssistantV1(
+    version='2021-11-27',
+    authenticator=authenticator)
+assistant.set_service_url('https://api.us-south.assistant.watson.cloud.ibm.com')
+
+assistant.set_http_config({'proxies': {
+  'http': 'http://10.10.1.10:3128',
+  'https': 'http://10.10.1.10:1080',
+}})
+```
+
+### Sending custom certificates
+To send custom certificates as a security measure in your request, use the cert property of the HTTPS Agent.
+```python
+from ibm_watson import AssistantV1
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+
+authenticator = IAMAuthenticator('your apikey')
+assistant = AssistantV1(
+    version='2021-11-27',
+    authenticator=authenticator)
+assistant.set_service_url('https://api.us-south.assistant.watson.cloud.ibm.com')
+
+assistant.set_http_config({'cert': ('path_to_cert_file','path_to_key_file')})
 ```
 
 ## Disable SSL certificate verification
