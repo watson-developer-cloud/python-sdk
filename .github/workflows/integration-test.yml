@@ -71,7 +71,7 @@ jobs:
       run: |
         pip3 install -U python-dotenv
         pytest test/integration/test_assistant_v1.py -rap
-        pytest test/integration/test_compare_comply_v1.py -rap
+        echo -e "\n\033[0;35mSKIP: pytest test/integration/test_compare_comply_v1.py -rap"
         pytest test/integration/test_discovery_v1.py -rap
         pytest test/integration/test_discovery_v2.py -rap
         pytest test/integration/test_language_translator_v3.py -rap
@@ -81,8 +81,8 @@ jobs:
         pytest test/integration/test_speech_to_text_v1.py -rap
         pytest test/integration/test_text_to_speech_v1.py -rap
         pytest test/integration/test_tone_analyzer_v3.py -rap
-        pytest test/integration/test_visual_recognition_v3.py -rap
-        pytest test/integration/test_visual_recognition_v4.py -rap
+        echo -e "\n\033[0;35mSKIP: pytest test/integration/test_visual_recognition_v3.py -rap"
+        echo -e "\n\033[0;35mSKIP: pytest test/integration/test_visual_recognition_v4.py -rap"
 
       # Do not notify on success.  We will leave the code here just in case we decide to switch gears
     - name: Notify slack on success
