@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2021.
+# (C) Copyright IBM Corp. 2022.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -32,10 +32,37 @@ from ibm_watson.text_to_speech_v1 import *
 
 _service = TextToSpeechV1(
     authenticator=NoAuthAuthenticator()
-    )
+)
 
 _base_url = 'https://api.us-south.text-to-speech.watson.cloud.ibm.com'
 _service.set_service_url(_base_url)
+
+
+def preprocess_url(operation_path: str):
+    """
+    Returns the request url associated with the specified operation path.
+    This will be base_url concatenated with a quoted version of operation_path.
+    The returned request URL is used to register the mock response so it needs
+    to match the request URL that is formed by the requests library.
+    """
+    # First, unquote the path since it might have some quoted/escaped characters in it
+    # due to how the generator inserts the operation paths into the unit test code.
+    operation_path = urllib.parse.unquote(operation_path)
+
+    # Next, quote the path using urllib so that we approximate what will
+    # happen during request processing.
+    operation_path = urllib.parse.quote(operation_path, safe='/')
+
+    # Finally, form the request URL from the base URL and operation path.
+    request_url = _base_url + operation_path
+
+    # If the request url does NOT end with a /, then just return it as-is.
+    # Otherwise, return a regular expression that matches one or more trailing /.
+    if re.fullmatch('.*/+', request_url) is None:
+        return request_url
+    else:
+        return re.compile(request_url.rstrip('/') + '/+')
+
 
 ##############################################################################
 # Start of Service: Voices
@@ -47,24 +74,13 @@ class TestListVoices():
     Test Class for list_voices
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_list_voices_all_params(self):
         """
         list_voices()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/voices')
+        url = preprocess_url('/v1/voices')
         mock_response = '{"voices": [{"url": "url", "gender": "gender", "name": "name", "language": "language", "description": "description", "customizable": true, "supported_features": {"custom_pronunciation": true, "voice_transformation": true}, "customization": {"customization_id": "customization_id", "name": "name", "language": "language", "owner": "owner", "created": "created", "last_modified": "last_modified", "description": "description", "words": [{"word": "word", "translation": "translation", "part_of_speech": "Dosi"}], "prompts": [{"prompt": "prompt", "prompt_id": "prompt_id", "status": "status", "error": "error", "speaker_id": "speaker_id"}]}}]}'
         responses.add(responses.GET,
                       url,
@@ -80,22 +96,19 @@ class TestListVoices():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_voices_all_params_with_retries(self):
+        # Enable retries and run test_list_voices_all_params.
+        _service.enable_retries()
+        self.test_list_voices_all_params()
+
+        # Disable retries and run test_list_voices_all_params.
+        _service.disable_retries()
+        self.test_list_voices_all_params()
 
 class TestGetVoice():
     """
     Test Class for get_voice
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_voice_all_params(self):
@@ -103,7 +116,7 @@ class TestGetVoice():
         get_voice()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/voices/ar-AR_OmarVoice')
+        url = preprocess_url('/v1/voices/ar-AR_OmarVoice')
         mock_response = '{"url": "url", "gender": "gender", "name": "name", "language": "language", "description": "description", "customizable": true, "supported_features": {"custom_pronunciation": true, "voice_transformation": true}, "customization": {"customization_id": "customization_id", "name": "name", "language": "language", "owner": "owner", "created": "created", "last_modified": "last_modified", "description": "description", "words": [{"word": "word", "translation": "translation", "part_of_speech": "Dosi"}], "prompts": [{"prompt": "prompt", "prompt_id": "prompt_id", "status": "status", "error": "error", "speaker_id": "speaker_id"}]}}'
         responses.add(responses.GET,
                       url,
@@ -130,6 +143,14 @@ class TestGetVoice():
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'customization_id={}'.format(customization_id) in query_string
 
+    def test_get_voice_all_params_with_retries(self):
+        # Enable retries and run test_get_voice_all_params.
+        _service.enable_retries()
+        self.test_get_voice_all_params()
+
+        # Disable retries and run test_get_voice_all_params.
+        _service.disable_retries()
+        self.test_get_voice_all_params()
 
     @responses.activate
     def test_get_voice_required_params(self):
@@ -137,7 +158,7 @@ class TestGetVoice():
         test_get_voice_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/voices/ar-AR_OmarVoice')
+        url = preprocess_url('/v1/voices/ar-AR_OmarVoice')
         mock_response = '{"url": "url", "gender": "gender", "name": "name", "language": "language", "description": "description", "customizable": true, "supported_features": {"custom_pronunciation": true, "voice_transformation": true}, "customization": {"customization_id": "customization_id", "name": "name", "language": "language", "owner": "owner", "created": "created", "last_modified": "last_modified", "description": "description", "words": [{"word": "word", "translation": "translation", "part_of_speech": "Dosi"}], "prompts": [{"prompt": "prompt", "prompt_id": "prompt_id", "status": "status", "error": "error", "speaker_id": "speaker_id"}]}}'
         responses.add(responses.GET,
                       url,
@@ -158,6 +179,14 @@ class TestGetVoice():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_voice_required_params_with_retries(self):
+        # Enable retries and run test_get_voice_required_params.
+        _service.enable_retries()
+        self.test_get_voice_required_params()
+
+        # Disable retries and run test_get_voice_required_params.
+        _service.disable_retries()
+        self.test_get_voice_required_params()
 
     @responses.activate
     def test_get_voice_value_error(self):
@@ -165,7 +194,7 @@ class TestGetVoice():
         test_get_voice_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/voices/ar-AR_OmarVoice')
+        url = preprocess_url('/v1/voices/ar-AR_OmarVoice')
         mock_response = '{"url": "url", "gender": "gender", "name": "name", "language": "language", "description": "description", "customizable": true, "supported_features": {"custom_pronunciation": true, "voice_transformation": true}, "customization": {"customization_id": "customization_id", "name": "name", "language": "language", "owner": "owner", "created": "created", "last_modified": "last_modified", "description": "description", "words": [{"word": "word", "translation": "translation", "part_of_speech": "Dosi"}], "prompts": [{"prompt": "prompt", "prompt_id": "prompt_id", "status": "status", "error": "error", "speaker_id": "speaker_id"}]}}'
         responses.add(responses.GET,
                       url,
@@ -186,6 +215,14 @@ class TestGetVoice():
                 _service.get_voice(**req_copy)
 
 
+    def test_get_voice_value_error_with_retries(self):
+        # Enable retries and run test_get_voice_value_error.
+        _service.enable_retries()
+        self.test_get_voice_value_error()
+
+        # Disable retries and run test_get_voice_value_error.
+        _service.disable_retries()
+        self.test_get_voice_value_error()
 
 # endregion
 ##############################################################################
@@ -202,24 +239,13 @@ class TestSynthesize():
     Test Class for synthesize
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_synthesize_all_params(self):
         """
         synthesize()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/synthesize')
+        url = preprocess_url('/v1/synthesize')
         mock_response = 'This is a mock binary response.'
         responses.add(responses.POST,
                       url,
@@ -254,6 +280,14 @@ class TestSynthesize():
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['text'] == 'testString'
 
+    def test_synthesize_all_params_with_retries(self):
+        # Enable retries and run test_synthesize_all_params.
+        _service.enable_retries()
+        self.test_synthesize_all_params()
+
+        # Disable retries and run test_synthesize_all_params.
+        _service.disable_retries()
+        self.test_synthesize_all_params()
 
     @responses.activate
     def test_synthesize_required_params(self):
@@ -261,7 +295,7 @@ class TestSynthesize():
         test_synthesize_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/synthesize')
+        url = preprocess_url('/v1/synthesize')
         mock_response = 'This is a mock binary response.'
         responses.add(responses.POST,
                       url,
@@ -285,6 +319,14 @@ class TestSynthesize():
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['text'] == 'testString'
 
+    def test_synthesize_required_params_with_retries(self):
+        # Enable retries and run test_synthesize_required_params.
+        _service.enable_retries()
+        self.test_synthesize_required_params()
+
+        # Disable retries and run test_synthesize_required_params.
+        _service.disable_retries()
+        self.test_synthesize_required_params()
 
     @responses.activate
     def test_synthesize_value_error(self):
@@ -292,7 +334,7 @@ class TestSynthesize():
         test_synthesize_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/synthesize')
+        url = preprocess_url('/v1/synthesize')
         mock_response = 'This is a mock binary response.'
         responses.add(responses.POST,
                       url,
@@ -313,6 +355,14 @@ class TestSynthesize():
                 _service.synthesize(**req_copy)
 
 
+    def test_synthesize_value_error_with_retries(self):
+        # Enable retries and run test_synthesize_value_error.
+        _service.enable_retries()
+        self.test_synthesize_value_error()
+
+        # Disable retries and run test_synthesize_value_error.
+        _service.disable_retries()
+        self.test_synthesize_value_error()
 
 # endregion
 ##############################################################################
@@ -329,24 +379,13 @@ class TestGetPronunciation():
     Test Class for get_pronunciation
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_get_pronunciation_all_params(self):
         """
         get_pronunciation()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/pronunciation')
+        url = preprocess_url('/v1/pronunciation')
         mock_response = '{"pronunciation": "pronunciation"}'
         responses.add(responses.GET,
                       url,
@@ -380,6 +419,14 @@ class TestGetPronunciation():
         assert 'format={}'.format(format) in query_string
         assert 'customization_id={}'.format(customization_id) in query_string
 
+    def test_get_pronunciation_all_params_with_retries(self):
+        # Enable retries and run test_get_pronunciation_all_params.
+        _service.enable_retries()
+        self.test_get_pronunciation_all_params()
+
+        # Disable retries and run test_get_pronunciation_all_params.
+        _service.disable_retries()
+        self.test_get_pronunciation_all_params()
 
     @responses.activate
     def test_get_pronunciation_required_params(self):
@@ -387,7 +434,7 @@ class TestGetPronunciation():
         test_get_pronunciation_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/pronunciation')
+        url = preprocess_url('/v1/pronunciation')
         mock_response = '{"pronunciation": "pronunciation"}'
         responses.add(responses.GET,
                       url,
@@ -412,6 +459,14 @@ class TestGetPronunciation():
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'text={}'.format(text) in query_string
 
+    def test_get_pronunciation_required_params_with_retries(self):
+        # Enable retries and run test_get_pronunciation_required_params.
+        _service.enable_retries()
+        self.test_get_pronunciation_required_params()
+
+        # Disable retries and run test_get_pronunciation_required_params.
+        _service.disable_retries()
+        self.test_get_pronunciation_required_params()
 
     @responses.activate
     def test_get_pronunciation_value_error(self):
@@ -419,7 +474,7 @@ class TestGetPronunciation():
         test_get_pronunciation_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/pronunciation')
+        url = preprocess_url('/v1/pronunciation')
         mock_response = '{"pronunciation": "pronunciation"}'
         responses.add(responses.GET,
                       url,
@@ -440,6 +495,14 @@ class TestGetPronunciation():
                 _service.get_pronunciation(**req_copy)
 
 
+    def test_get_pronunciation_value_error_with_retries(self):
+        # Enable retries and run test_get_pronunciation_value_error.
+        _service.enable_retries()
+        self.test_get_pronunciation_value_error()
+
+        # Disable retries and run test_get_pronunciation_value_error.
+        _service.disable_retries()
+        self.test_get_pronunciation_value_error()
 
 # endregion
 ##############################################################################
@@ -456,24 +519,13 @@ class TestCreateCustomModel():
     Test Class for create_custom_model
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_create_custom_model_all_params(self):
         """
         create_custom_model()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/customizations')
+        url = preprocess_url('/v1/customizations')
         mock_response = '{"customization_id": "customization_id", "name": "name", "language": "language", "owner": "owner", "created": "created", "last_modified": "last_modified", "description": "description", "words": [{"word": "word", "translation": "translation", "part_of_speech": "Dosi"}], "prompts": [{"prompt": "prompt", "prompt_id": "prompt_id", "status": "status", "error": "error", "speaker_id": "speaker_id"}]}'
         responses.add(responses.POST,
                       url,
@@ -503,6 +555,14 @@ class TestCreateCustomModel():
         assert req_body['language'] == 'en-US'
         assert req_body['description'] == 'testString'
 
+    def test_create_custom_model_all_params_with_retries(self):
+        # Enable retries and run test_create_custom_model_all_params.
+        _service.enable_retries()
+        self.test_create_custom_model_all_params()
+
+        # Disable retries and run test_create_custom_model_all_params.
+        _service.disable_retries()
+        self.test_create_custom_model_all_params()
 
     @responses.activate
     def test_create_custom_model_value_error(self):
@@ -510,7 +570,7 @@ class TestCreateCustomModel():
         test_create_custom_model_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/customizations')
+        url = preprocess_url('/v1/customizations')
         mock_response = '{"customization_id": "customization_id", "name": "name", "language": "language", "owner": "owner", "created": "created", "last_modified": "last_modified", "description": "description", "words": [{"word": "word", "translation": "translation", "part_of_speech": "Dosi"}], "prompts": [{"prompt": "prompt", "prompt_id": "prompt_id", "status": "status", "error": "error", "speaker_id": "speaker_id"}]}'
         responses.add(responses.POST,
                       url,
@@ -533,22 +593,19 @@ class TestCreateCustomModel():
                 _service.create_custom_model(**req_copy)
 
 
+    def test_create_custom_model_value_error_with_retries(self):
+        # Enable retries and run test_create_custom_model_value_error.
+        _service.enable_retries()
+        self.test_create_custom_model_value_error()
+
+        # Disable retries and run test_create_custom_model_value_error.
+        _service.disable_retries()
+        self.test_create_custom_model_value_error()
 
 class TestListCustomModels():
     """
     Test Class for list_custom_models
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_list_custom_models_all_params(self):
@@ -556,7 +613,7 @@ class TestListCustomModels():
         list_custom_models()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/customizations')
+        url = preprocess_url('/v1/customizations')
         mock_response = '{"customizations": [{"customization_id": "customization_id", "name": "name", "language": "language", "owner": "owner", "created": "created", "last_modified": "last_modified", "description": "description", "words": [{"word": "word", "translation": "translation", "part_of_speech": "Dosi"}], "prompts": [{"prompt": "prompt", "prompt_id": "prompt_id", "status": "status", "error": "error", "speaker_id": "speaker_id"}]}]}'
         responses.add(responses.GET,
                       url,
@@ -581,6 +638,14 @@ class TestListCustomModels():
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'language={}'.format(language) in query_string
 
+    def test_list_custom_models_all_params_with_retries(self):
+        # Enable retries and run test_list_custom_models_all_params.
+        _service.enable_retries()
+        self.test_list_custom_models_all_params()
+
+        # Disable retries and run test_list_custom_models_all_params.
+        _service.disable_retries()
+        self.test_list_custom_models_all_params()
 
     @responses.activate
     def test_list_custom_models_required_params(self):
@@ -588,7 +653,7 @@ class TestListCustomModels():
         test_list_custom_models_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/customizations')
+        url = preprocess_url('/v1/customizations')
         mock_response = '{"customizations": [{"customization_id": "customization_id", "name": "name", "language": "language", "owner": "owner", "created": "created", "last_modified": "last_modified", "description": "description", "words": [{"word": "word", "translation": "translation", "part_of_speech": "Dosi"}], "prompts": [{"prompt": "prompt", "prompt_id": "prompt_id", "status": "status", "error": "error", "speaker_id": "speaker_id"}]}]}'
         responses.add(responses.GET,
                       url,
@@ -604,22 +669,19 @@ class TestListCustomModels():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_custom_models_required_params_with_retries(self):
+        # Enable retries and run test_list_custom_models_required_params.
+        _service.enable_retries()
+        self.test_list_custom_models_required_params()
+
+        # Disable retries and run test_list_custom_models_required_params.
+        _service.disable_retries()
+        self.test_list_custom_models_required_params()
 
 class TestUpdateCustomModel():
     """
     Test Class for update_custom_model
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_update_custom_model_all_params(self):
@@ -627,7 +689,7 @@ class TestUpdateCustomModel():
         update_custom_model()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/customizations/testString')
+        url = preprocess_url('/v1/customizations/testString')
         responses.add(responses.POST,
                       url,
                       status=200)
@@ -662,6 +724,14 @@ class TestUpdateCustomModel():
         assert req_body['description'] == 'testString'
         assert req_body['words'] == [word_model]
 
+    def test_update_custom_model_all_params_with_retries(self):
+        # Enable retries and run test_update_custom_model_all_params.
+        _service.enable_retries()
+        self.test_update_custom_model_all_params()
+
+        # Disable retries and run test_update_custom_model_all_params.
+        _service.disable_retries()
+        self.test_update_custom_model_all_params()
 
     @responses.activate
     def test_update_custom_model_value_error(self):
@@ -669,7 +739,7 @@ class TestUpdateCustomModel():
         test_update_custom_model_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/customizations/testString')
+        url = preprocess_url('/v1/customizations/testString')
         responses.add(responses.POST,
                       url,
                       status=200)
@@ -696,22 +766,19 @@ class TestUpdateCustomModel():
                 _service.update_custom_model(**req_copy)
 
 
+    def test_update_custom_model_value_error_with_retries(self):
+        # Enable retries and run test_update_custom_model_value_error.
+        _service.enable_retries()
+        self.test_update_custom_model_value_error()
+
+        # Disable retries and run test_update_custom_model_value_error.
+        _service.disable_retries()
+        self.test_update_custom_model_value_error()
 
 class TestGetCustomModel():
     """
     Test Class for get_custom_model
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_custom_model_all_params(self):
@@ -719,7 +786,7 @@ class TestGetCustomModel():
         get_custom_model()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/customizations/testString')
+        url = preprocess_url('/v1/customizations/testString')
         mock_response = '{"customization_id": "customization_id", "name": "name", "language": "language", "owner": "owner", "created": "created", "last_modified": "last_modified", "description": "description", "words": [{"word": "word", "translation": "translation", "part_of_speech": "Dosi"}], "prompts": [{"prompt": "prompt", "prompt_id": "prompt_id", "status": "status", "error": "error", "speaker_id": "speaker_id"}]}'
         responses.add(responses.GET,
                       url,
@@ -740,6 +807,14 @@ class TestGetCustomModel():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_custom_model_all_params_with_retries(self):
+        # Enable retries and run test_get_custom_model_all_params.
+        _service.enable_retries()
+        self.test_get_custom_model_all_params()
+
+        # Disable retries and run test_get_custom_model_all_params.
+        _service.disable_retries()
+        self.test_get_custom_model_all_params()
 
     @responses.activate
     def test_get_custom_model_value_error(self):
@@ -747,7 +822,7 @@ class TestGetCustomModel():
         test_get_custom_model_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/customizations/testString')
+        url = preprocess_url('/v1/customizations/testString')
         mock_response = '{"customization_id": "customization_id", "name": "name", "language": "language", "owner": "owner", "created": "created", "last_modified": "last_modified", "description": "description", "words": [{"word": "word", "translation": "translation", "part_of_speech": "Dosi"}], "prompts": [{"prompt": "prompt", "prompt_id": "prompt_id", "status": "status", "error": "error", "speaker_id": "speaker_id"}]}'
         responses.add(responses.GET,
                       url,
@@ -768,22 +843,19 @@ class TestGetCustomModel():
                 _service.get_custom_model(**req_copy)
 
 
+    def test_get_custom_model_value_error_with_retries(self):
+        # Enable retries and run test_get_custom_model_value_error.
+        _service.enable_retries()
+        self.test_get_custom_model_value_error()
+
+        # Disable retries and run test_get_custom_model_value_error.
+        _service.disable_retries()
+        self.test_get_custom_model_value_error()
 
 class TestDeleteCustomModel():
     """
     Test Class for delete_custom_model
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_custom_model_all_params(self):
@@ -791,7 +863,7 @@ class TestDeleteCustomModel():
         delete_custom_model()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/customizations/testString')
+        url = preprocess_url('/v1/customizations/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -809,6 +881,14 @@ class TestDeleteCustomModel():
         assert len(responses.calls) == 1
         assert response.status_code == 204
 
+    def test_delete_custom_model_all_params_with_retries(self):
+        # Enable retries and run test_delete_custom_model_all_params.
+        _service.enable_retries()
+        self.test_delete_custom_model_all_params()
+
+        # Disable retries and run test_delete_custom_model_all_params.
+        _service.disable_retries()
+        self.test_delete_custom_model_all_params()
 
     @responses.activate
     def test_delete_custom_model_value_error(self):
@@ -816,7 +896,7 @@ class TestDeleteCustomModel():
         test_delete_custom_model_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/customizations/testString')
+        url = preprocess_url('/v1/customizations/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -834,6 +914,14 @@ class TestDeleteCustomModel():
                 _service.delete_custom_model(**req_copy)
 
 
+    def test_delete_custom_model_value_error_with_retries(self):
+        # Enable retries and run test_delete_custom_model_value_error.
+        _service.enable_retries()
+        self.test_delete_custom_model_value_error()
+
+        # Disable retries and run test_delete_custom_model_value_error.
+        _service.disable_retries()
+        self.test_delete_custom_model_value_error()
 
 # endregion
 ##############################################################################
@@ -850,24 +938,13 @@ class TestAddWords():
     Test Class for add_words
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_add_words_all_params(self):
         """
         add_words()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/customizations/testString/words')
+        url = preprocess_url('/v1/customizations/testString/words')
         responses.add(responses.POST,
                       url,
                       status=200)
@@ -896,6 +973,14 @@ class TestAddWords():
         req_body = json.loads(str(responses.calls[0].request.body, 'utf-8'))
         assert req_body['words'] == [word_model]
 
+    def test_add_words_all_params_with_retries(self):
+        # Enable retries and run test_add_words_all_params.
+        _service.enable_retries()
+        self.test_add_words_all_params()
+
+        # Disable retries and run test_add_words_all_params.
+        _service.disable_retries()
+        self.test_add_words_all_params()
 
     @responses.activate
     def test_add_words_value_error(self):
@@ -903,7 +988,7 @@ class TestAddWords():
         test_add_words_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/customizations/testString/words')
+        url = preprocess_url('/v1/customizations/testString/words')
         responses.add(responses.POST,
                       url,
                       status=200)
@@ -929,22 +1014,19 @@ class TestAddWords():
                 _service.add_words(**req_copy)
 
 
+    def test_add_words_value_error_with_retries(self):
+        # Enable retries and run test_add_words_value_error.
+        _service.enable_retries()
+        self.test_add_words_value_error()
+
+        # Disable retries and run test_add_words_value_error.
+        _service.disable_retries()
+        self.test_add_words_value_error()
 
 class TestListWords():
     """
     Test Class for list_words
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_list_words_all_params(self):
@@ -952,7 +1034,7 @@ class TestListWords():
         list_words()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/customizations/testString/words')
+        url = preprocess_url('/v1/customizations/testString/words')
         mock_response = '{"words": [{"word": "word", "translation": "translation", "part_of_speech": "Dosi"}]}'
         responses.add(responses.GET,
                       url,
@@ -973,6 +1055,14 @@ class TestListWords():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_words_all_params_with_retries(self):
+        # Enable retries and run test_list_words_all_params.
+        _service.enable_retries()
+        self.test_list_words_all_params()
+
+        # Disable retries and run test_list_words_all_params.
+        _service.disable_retries()
+        self.test_list_words_all_params()
 
     @responses.activate
     def test_list_words_value_error(self):
@@ -980,7 +1070,7 @@ class TestListWords():
         test_list_words_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/customizations/testString/words')
+        url = preprocess_url('/v1/customizations/testString/words')
         mock_response = '{"words": [{"word": "word", "translation": "translation", "part_of_speech": "Dosi"}]}'
         responses.add(responses.GET,
                       url,
@@ -1001,22 +1091,19 @@ class TestListWords():
                 _service.list_words(**req_copy)
 
 
+    def test_list_words_value_error_with_retries(self):
+        # Enable retries and run test_list_words_value_error.
+        _service.enable_retries()
+        self.test_list_words_value_error()
+
+        # Disable retries and run test_list_words_value_error.
+        _service.disable_retries()
+        self.test_list_words_value_error()
 
 class TestAddWord():
     """
     Test Class for add_word
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_add_word_all_params(self):
@@ -1024,7 +1111,7 @@ class TestAddWord():
         add_word()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/customizations/testString/words/testString')
+        url = preprocess_url('/v1/customizations/testString/words/testString')
         responses.add(responses.PUT,
                       url,
                       status=200)
@@ -1052,6 +1139,14 @@ class TestAddWord():
         assert req_body['translation'] == 'testString'
         assert req_body['part_of_speech'] == 'Dosi'
 
+    def test_add_word_all_params_with_retries(self):
+        # Enable retries and run test_add_word_all_params.
+        _service.enable_retries()
+        self.test_add_word_all_params()
+
+        # Disable retries and run test_add_word_all_params.
+        _service.disable_retries()
+        self.test_add_word_all_params()
 
     @responses.activate
     def test_add_word_value_error(self):
@@ -1059,7 +1154,7 @@ class TestAddWord():
         test_add_word_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/customizations/testString/words/testString')
+        url = preprocess_url('/v1/customizations/testString/words/testString')
         responses.add(responses.PUT,
                       url,
                       status=200)
@@ -1082,22 +1177,19 @@ class TestAddWord():
                 _service.add_word(**req_copy)
 
 
+    def test_add_word_value_error_with_retries(self):
+        # Enable retries and run test_add_word_value_error.
+        _service.enable_retries()
+        self.test_add_word_value_error()
+
+        # Disable retries and run test_add_word_value_error.
+        _service.disable_retries()
+        self.test_add_word_value_error()
 
 class TestGetWord():
     """
     Test Class for get_word
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_word_all_params(self):
@@ -1105,7 +1197,7 @@ class TestGetWord():
         get_word()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/customizations/testString/words/testString')
+        url = preprocess_url('/v1/customizations/testString/words/testString')
         mock_response = '{"translation": "translation", "part_of_speech": "Dosi"}'
         responses.add(responses.GET,
                       url,
@@ -1128,6 +1220,14 @@ class TestGetWord():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_word_all_params_with_retries(self):
+        # Enable retries and run test_get_word_all_params.
+        _service.enable_retries()
+        self.test_get_word_all_params()
+
+        # Disable retries and run test_get_word_all_params.
+        _service.disable_retries()
+        self.test_get_word_all_params()
 
     @responses.activate
     def test_get_word_value_error(self):
@@ -1135,7 +1235,7 @@ class TestGetWord():
         test_get_word_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/customizations/testString/words/testString')
+        url = preprocess_url('/v1/customizations/testString/words/testString')
         mock_response = '{"translation": "translation", "part_of_speech": "Dosi"}'
         responses.add(responses.GET,
                       url,
@@ -1158,22 +1258,19 @@ class TestGetWord():
                 _service.get_word(**req_copy)
 
 
+    def test_get_word_value_error_with_retries(self):
+        # Enable retries and run test_get_word_value_error.
+        _service.enable_retries()
+        self.test_get_word_value_error()
+
+        # Disable retries and run test_get_word_value_error.
+        _service.disable_retries()
+        self.test_get_word_value_error()
 
 class TestDeleteWord():
     """
     Test Class for delete_word
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_word_all_params(self):
@@ -1181,7 +1278,7 @@ class TestDeleteWord():
         delete_word()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/customizations/testString/words/testString')
+        url = preprocess_url('/v1/customizations/testString/words/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -1201,6 +1298,14 @@ class TestDeleteWord():
         assert len(responses.calls) == 1
         assert response.status_code == 204
 
+    def test_delete_word_all_params_with_retries(self):
+        # Enable retries and run test_delete_word_all_params.
+        _service.enable_retries()
+        self.test_delete_word_all_params()
+
+        # Disable retries and run test_delete_word_all_params.
+        _service.disable_retries()
+        self.test_delete_word_all_params()
 
     @responses.activate
     def test_delete_word_value_error(self):
@@ -1208,7 +1313,7 @@ class TestDeleteWord():
         test_delete_word_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/customizations/testString/words/testString')
+        url = preprocess_url('/v1/customizations/testString/words/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -1228,6 +1333,14 @@ class TestDeleteWord():
                 _service.delete_word(**req_copy)
 
 
+    def test_delete_word_value_error_with_retries(self):
+        # Enable retries and run test_delete_word_value_error.
+        _service.enable_retries()
+        self.test_delete_word_value_error()
+
+        # Disable retries and run test_delete_word_value_error.
+        _service.disable_retries()
+        self.test_delete_word_value_error()
 
 # endregion
 ##############################################################################
@@ -1244,24 +1357,13 @@ class TestListCustomPrompts():
     Test Class for list_custom_prompts
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_list_custom_prompts_all_params(self):
         """
         list_custom_prompts()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/customizations/testString/prompts')
+        url = preprocess_url('/v1/customizations/testString/prompts')
         mock_response = '{"prompts": [{"prompt": "prompt", "prompt_id": "prompt_id", "status": "status", "error": "error", "speaker_id": "speaker_id"}]}'
         responses.add(responses.GET,
                       url,
@@ -1282,6 +1384,14 @@ class TestListCustomPrompts():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_custom_prompts_all_params_with_retries(self):
+        # Enable retries and run test_list_custom_prompts_all_params.
+        _service.enable_retries()
+        self.test_list_custom_prompts_all_params()
+
+        # Disable retries and run test_list_custom_prompts_all_params.
+        _service.disable_retries()
+        self.test_list_custom_prompts_all_params()
 
     @responses.activate
     def test_list_custom_prompts_value_error(self):
@@ -1289,7 +1399,7 @@ class TestListCustomPrompts():
         test_list_custom_prompts_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/customizations/testString/prompts')
+        url = preprocess_url('/v1/customizations/testString/prompts')
         mock_response = '{"prompts": [{"prompt": "prompt", "prompt_id": "prompt_id", "status": "status", "error": "error", "speaker_id": "speaker_id"}]}'
         responses.add(responses.GET,
                       url,
@@ -1310,22 +1420,19 @@ class TestListCustomPrompts():
                 _service.list_custom_prompts(**req_copy)
 
 
+    def test_list_custom_prompts_value_error_with_retries(self):
+        # Enable retries and run test_list_custom_prompts_value_error.
+        _service.enable_retries()
+        self.test_list_custom_prompts_value_error()
+
+        # Disable retries and run test_list_custom_prompts_value_error.
+        _service.disable_retries()
+        self.test_list_custom_prompts_value_error()
 
 class TestAddCustomPrompt():
     """
     Test Class for add_custom_prompt
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_add_custom_prompt_all_params(self):
@@ -1333,7 +1440,7 @@ class TestAddCustomPrompt():
         add_custom_prompt()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/customizations/testString/prompts/testString')
+        url = preprocess_url('/v1/customizations/testString/prompts/testString')
         mock_response = '{"prompt": "prompt", "prompt_id": "prompt_id", "status": "status", "error": "error", "speaker_id": "speaker_id"}'
         responses.add(responses.POST,
                       url,
@@ -1365,6 +1472,14 @@ class TestAddCustomPrompt():
         assert len(responses.calls) == 1
         assert response.status_code == 201
 
+    def test_add_custom_prompt_all_params_with_retries(self):
+        # Enable retries and run test_add_custom_prompt_all_params.
+        _service.enable_retries()
+        self.test_add_custom_prompt_all_params()
+
+        # Disable retries and run test_add_custom_prompt_all_params.
+        _service.disable_retries()
+        self.test_add_custom_prompt_all_params()
 
     @responses.activate
     def test_add_custom_prompt_value_error(self):
@@ -1372,7 +1487,7 @@ class TestAddCustomPrompt():
         test_add_custom_prompt_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/customizations/testString/prompts/testString')
+        url = preprocess_url('/v1/customizations/testString/prompts/testString')
         mock_response = '{"prompt": "prompt", "prompt_id": "prompt_id", "status": "status", "error": "error", "speaker_id": "speaker_id"}'
         responses.add(responses.POST,
                       url,
@@ -1404,22 +1519,19 @@ class TestAddCustomPrompt():
                 _service.add_custom_prompt(**req_copy)
 
 
+    def test_add_custom_prompt_value_error_with_retries(self):
+        # Enable retries and run test_add_custom_prompt_value_error.
+        _service.enable_retries()
+        self.test_add_custom_prompt_value_error()
+
+        # Disable retries and run test_add_custom_prompt_value_error.
+        _service.disable_retries()
+        self.test_add_custom_prompt_value_error()
 
 class TestGetCustomPrompt():
     """
     Test Class for get_custom_prompt
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_custom_prompt_all_params(self):
@@ -1427,7 +1539,7 @@ class TestGetCustomPrompt():
         get_custom_prompt()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/customizations/testString/prompts/testString')
+        url = preprocess_url('/v1/customizations/testString/prompts/testString')
         mock_response = '{"prompt": "prompt", "prompt_id": "prompt_id", "status": "status", "error": "error", "speaker_id": "speaker_id"}'
         responses.add(responses.GET,
                       url,
@@ -1450,6 +1562,14 @@ class TestGetCustomPrompt():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_custom_prompt_all_params_with_retries(self):
+        # Enable retries and run test_get_custom_prompt_all_params.
+        _service.enable_retries()
+        self.test_get_custom_prompt_all_params()
+
+        # Disable retries and run test_get_custom_prompt_all_params.
+        _service.disable_retries()
+        self.test_get_custom_prompt_all_params()
 
     @responses.activate
     def test_get_custom_prompt_value_error(self):
@@ -1457,7 +1577,7 @@ class TestGetCustomPrompt():
         test_get_custom_prompt_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/customizations/testString/prompts/testString')
+        url = preprocess_url('/v1/customizations/testString/prompts/testString')
         mock_response = '{"prompt": "prompt", "prompt_id": "prompt_id", "status": "status", "error": "error", "speaker_id": "speaker_id"}'
         responses.add(responses.GET,
                       url,
@@ -1480,22 +1600,19 @@ class TestGetCustomPrompt():
                 _service.get_custom_prompt(**req_copy)
 
 
+    def test_get_custom_prompt_value_error_with_retries(self):
+        # Enable retries and run test_get_custom_prompt_value_error.
+        _service.enable_retries()
+        self.test_get_custom_prompt_value_error()
+
+        # Disable retries and run test_get_custom_prompt_value_error.
+        _service.disable_retries()
+        self.test_get_custom_prompt_value_error()
 
 class TestDeleteCustomPrompt():
     """
     Test Class for delete_custom_prompt
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_custom_prompt_all_params(self):
@@ -1503,7 +1620,7 @@ class TestDeleteCustomPrompt():
         delete_custom_prompt()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/customizations/testString/prompts/testString')
+        url = preprocess_url('/v1/customizations/testString/prompts/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -1523,6 +1640,14 @@ class TestDeleteCustomPrompt():
         assert len(responses.calls) == 1
         assert response.status_code == 204
 
+    def test_delete_custom_prompt_all_params_with_retries(self):
+        # Enable retries and run test_delete_custom_prompt_all_params.
+        _service.enable_retries()
+        self.test_delete_custom_prompt_all_params()
+
+        # Disable retries and run test_delete_custom_prompt_all_params.
+        _service.disable_retries()
+        self.test_delete_custom_prompt_all_params()
 
     @responses.activate
     def test_delete_custom_prompt_value_error(self):
@@ -1530,7 +1655,7 @@ class TestDeleteCustomPrompt():
         test_delete_custom_prompt_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/customizations/testString/prompts/testString')
+        url = preprocess_url('/v1/customizations/testString/prompts/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -1550,6 +1675,14 @@ class TestDeleteCustomPrompt():
                 _service.delete_custom_prompt(**req_copy)
 
 
+    def test_delete_custom_prompt_value_error_with_retries(self):
+        # Enable retries and run test_delete_custom_prompt_value_error.
+        _service.enable_retries()
+        self.test_delete_custom_prompt_value_error()
+
+        # Disable retries and run test_delete_custom_prompt_value_error.
+        _service.disable_retries()
+        self.test_delete_custom_prompt_value_error()
 
 # endregion
 ##############################################################################
@@ -1566,24 +1699,13 @@ class TestListSpeakerModels():
     Test Class for list_speaker_models
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_list_speaker_models_all_params(self):
         """
         list_speaker_models()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/speakers')
+        url = preprocess_url('/v1/speakers')
         mock_response = '{"speakers": [{"speaker_id": "speaker_id", "name": "name"}]}'
         responses.add(responses.GET,
                       url,
@@ -1599,22 +1721,19 @@ class TestListSpeakerModels():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_speaker_models_all_params_with_retries(self):
+        # Enable retries and run test_list_speaker_models_all_params.
+        _service.enable_retries()
+        self.test_list_speaker_models_all_params()
+
+        # Disable retries and run test_list_speaker_models_all_params.
+        _service.disable_retries()
+        self.test_list_speaker_models_all_params()
 
 class TestCreateSpeakerModel():
     """
     Test Class for create_speaker_model
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_create_speaker_model_all_params(self):
@@ -1622,7 +1741,7 @@ class TestCreateSpeakerModel():
         create_speaker_model()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/speakers')
+        url = preprocess_url('/v1/speakers')
         mock_response = '{"speaker_id": "speaker_id"}'
         responses.add(responses.POST,
                       url,
@@ -1651,6 +1770,14 @@ class TestCreateSpeakerModel():
         # Validate body params
         assert responses.calls[0].request.body == audio
 
+    def test_create_speaker_model_all_params_with_retries(self):
+        # Enable retries and run test_create_speaker_model_all_params.
+        _service.enable_retries()
+        self.test_create_speaker_model_all_params()
+
+        # Disable retries and run test_create_speaker_model_all_params.
+        _service.disable_retries()
+        self.test_create_speaker_model_all_params()
 
     @responses.activate
     def test_create_speaker_model_value_error(self):
@@ -1658,7 +1785,7 @@ class TestCreateSpeakerModel():
         test_create_speaker_model_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/speakers')
+        url = preprocess_url('/v1/speakers')
         mock_response = '{"speaker_id": "speaker_id"}'
         responses.add(responses.POST,
                       url,
@@ -1681,22 +1808,19 @@ class TestCreateSpeakerModel():
                 _service.create_speaker_model(**req_copy)
 
 
+    def test_create_speaker_model_value_error_with_retries(self):
+        # Enable retries and run test_create_speaker_model_value_error.
+        _service.enable_retries()
+        self.test_create_speaker_model_value_error()
+
+        # Disable retries and run test_create_speaker_model_value_error.
+        _service.disable_retries()
+        self.test_create_speaker_model_value_error()
 
 class TestGetSpeakerModel():
     """
     Test Class for get_speaker_model
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_speaker_model_all_params(self):
@@ -1704,7 +1828,7 @@ class TestGetSpeakerModel():
         get_speaker_model()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/speakers/testString')
+        url = preprocess_url('/v1/speakers/testString')
         mock_response = '{"customizations": [{"customization_id": "customization_id", "prompts": [{"prompt": "prompt", "prompt_id": "prompt_id", "status": "status", "error": "error"}]}]}'
         responses.add(responses.GET,
                       url,
@@ -1725,6 +1849,14 @@ class TestGetSpeakerModel():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_speaker_model_all_params_with_retries(self):
+        # Enable retries and run test_get_speaker_model_all_params.
+        _service.enable_retries()
+        self.test_get_speaker_model_all_params()
+
+        # Disable retries and run test_get_speaker_model_all_params.
+        _service.disable_retries()
+        self.test_get_speaker_model_all_params()
 
     @responses.activate
     def test_get_speaker_model_value_error(self):
@@ -1732,7 +1864,7 @@ class TestGetSpeakerModel():
         test_get_speaker_model_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/speakers/testString')
+        url = preprocess_url('/v1/speakers/testString')
         mock_response = '{"customizations": [{"customization_id": "customization_id", "prompts": [{"prompt": "prompt", "prompt_id": "prompt_id", "status": "status", "error": "error"}]}]}'
         responses.add(responses.GET,
                       url,
@@ -1753,22 +1885,19 @@ class TestGetSpeakerModel():
                 _service.get_speaker_model(**req_copy)
 
 
+    def test_get_speaker_model_value_error_with_retries(self):
+        # Enable retries and run test_get_speaker_model_value_error.
+        _service.enable_retries()
+        self.test_get_speaker_model_value_error()
+
+        # Disable retries and run test_get_speaker_model_value_error.
+        _service.disable_retries()
+        self.test_get_speaker_model_value_error()
 
 class TestDeleteSpeakerModel():
     """
     Test Class for delete_speaker_model
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_speaker_model_all_params(self):
@@ -1776,7 +1905,7 @@ class TestDeleteSpeakerModel():
         delete_speaker_model()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/speakers/testString')
+        url = preprocess_url('/v1/speakers/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -1794,6 +1923,14 @@ class TestDeleteSpeakerModel():
         assert len(responses.calls) == 1
         assert response.status_code == 204
 
+    def test_delete_speaker_model_all_params_with_retries(self):
+        # Enable retries and run test_delete_speaker_model_all_params.
+        _service.enable_retries()
+        self.test_delete_speaker_model_all_params()
+
+        # Disable retries and run test_delete_speaker_model_all_params.
+        _service.disable_retries()
+        self.test_delete_speaker_model_all_params()
 
     @responses.activate
     def test_delete_speaker_model_value_error(self):
@@ -1801,7 +1938,7 @@ class TestDeleteSpeakerModel():
         test_delete_speaker_model_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/speakers/testString')
+        url = preprocess_url('/v1/speakers/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -1819,6 +1956,14 @@ class TestDeleteSpeakerModel():
                 _service.delete_speaker_model(**req_copy)
 
 
+    def test_delete_speaker_model_value_error_with_retries(self):
+        # Enable retries and run test_delete_speaker_model_value_error.
+        _service.enable_retries()
+        self.test_delete_speaker_model_value_error()
+
+        # Disable retries and run test_delete_speaker_model_value_error.
+        _service.disable_retries()
+        self.test_delete_speaker_model_value_error()
 
 # endregion
 ##############################################################################
@@ -1835,24 +1980,13 @@ class TestDeleteUserData():
     Test Class for delete_user_data
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_delete_user_data_all_params(self):
         """
         delete_user_data()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/user_data')
+        url = preprocess_url('/v1/user_data')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -1874,6 +2008,14 @@ class TestDeleteUserData():
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'customer_id={}'.format(customer_id) in query_string
 
+    def test_delete_user_data_all_params_with_retries(self):
+        # Enable retries and run test_delete_user_data_all_params.
+        _service.enable_retries()
+        self.test_delete_user_data_all_params()
+
+        # Disable retries and run test_delete_user_data_all_params.
+        _service.disable_retries()
+        self.test_delete_user_data_all_params()
 
     @responses.activate
     def test_delete_user_data_value_error(self):
@@ -1881,7 +2023,7 @@ class TestDeleteUserData():
         test_delete_user_data_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v1/user_data')
+        url = preprocess_url('/v1/user_data')
         responses.add(responses.DELETE,
                       url,
                       status=200)
@@ -1899,6 +2041,14 @@ class TestDeleteUserData():
                 _service.delete_user_data(**req_copy)
 
 
+    def test_delete_user_data_value_error_with_retries(self):
+        # Enable retries and run test_delete_user_data_value_error.
+        _service.enable_retries()
+        self.test_delete_user_data_value_error()
+
+        # Disable retries and run test_delete_user_data_value_error.
+        _service.disable_retries()
+        self.test_delete_user_data_value_error()
 
 # endregion
 ##############################################################################
