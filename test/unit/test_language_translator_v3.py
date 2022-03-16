@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# (C) Copyright IBM Corp. 2018, 2021.
+# (C) Copyright IBM Corp. 2018, 2022.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -36,10 +36,37 @@ version = '2018-05-01'
 _service = LanguageTranslatorV3(
     authenticator=NoAuthAuthenticator(),
     version=version
-    )
+)
 
 _base_url = 'https://api.us-south.language-translator.watson.cloud.ibm.com'
 _service.set_service_url(_base_url)
+
+
+def preprocess_url(operation_path: str):
+    """
+    Returns the request url associated with the specified operation path.
+    This will be base_url concatenated with a quoted version of operation_path.
+    The returned request URL is used to register the mock response so it needs
+    to match the request URL that is formed by the requests library.
+    """
+    # First, unquote the path since it might have some quoted/escaped characters in it
+    # due to how the generator inserts the operation paths into the unit test code.
+    operation_path = urllib.parse.unquote(operation_path)
+
+    # Next, quote the path using urllib so that we approximate what will
+    # happen during request processing.
+    operation_path = urllib.parse.quote(operation_path, safe='/')
+
+    # Finally, form the request URL from the base URL and operation path.
+    request_url = _base_url + operation_path
+
+    # If the request url does NOT end with a /, then just return it as-is.
+    # Otherwise, return a regular expression that matches one or more trailing /.
+    if re.fullmatch('.*/+', request_url) is None:
+        return request_url
+    else:
+        return re.compile(request_url.rstrip('/') + '/+')
+
 
 ##############################################################################
 # Start of Service: Languages
@@ -51,24 +78,13 @@ class TestListLanguages():
     Test Class for list_languages
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_list_languages_all_params(self):
         """
         list_languages()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/languages')
+        url = preprocess_url('/v3/languages')
         mock_response = '{"languages": [{"language": "language", "language_name": "language_name", "native_language_name": "native_language_name", "country_code": "country_code", "words_separated": false, "direction": "direction", "supported_as_source": false, "supported_as_target": false, "identifiable": true}]}'
         responses.add(responses.GET,
                       url,
@@ -84,6 +100,14 @@ class TestListLanguages():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_languages_all_params_with_retries(self):
+        # Enable retries and run test_list_languages_all_params.
+        _service.enable_retries()
+        self.test_list_languages_all_params()
+
+        # Disable retries and run test_list_languages_all_params.
+        _service.disable_retries()
+        self.test_list_languages_all_params()
 
     @responses.activate
     def test_list_languages_value_error(self):
@@ -91,7 +115,7 @@ class TestListLanguages():
         test_list_languages_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/languages')
+        url = preprocess_url('/v3/languages')
         mock_response = '{"languages": [{"language": "language", "language_name": "language_name", "native_language_name": "native_language_name", "country_code": "country_code", "words_separated": false, "direction": "direction", "supported_as_source": false, "supported_as_target": false, "identifiable": true}]}'
         responses.add(responses.GET,
                       url,
@@ -108,6 +132,14 @@ class TestListLanguages():
                 _service.list_languages(**req_copy)
 
 
+    def test_list_languages_value_error_with_retries(self):
+        # Enable retries and run test_list_languages_value_error.
+        _service.enable_retries()
+        self.test_list_languages_value_error()
+
+        # Disable retries and run test_list_languages_value_error.
+        _service.disable_retries()
+        self.test_list_languages_value_error()
 
 # endregion
 ##############################################################################
@@ -124,24 +156,13 @@ class TestTranslate():
     Test Class for translate
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_translate_all_params(self):
         """
         translate()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/translate')
+        url = preprocess_url('/v3/translate')
         mock_response = '{"word_count": 10, "character_count": 15, "detected_language": "detected_language", "detected_language_confidence": 0, "translations": [{"translation": "translation"}]}'
         responses.add(responses.POST,
                       url,
@@ -174,6 +195,14 @@ class TestTranslate():
         assert req_body['source'] == 'testString'
         assert req_body['target'] == 'testString'
 
+    def test_translate_all_params_with_retries(self):
+        # Enable retries and run test_translate_all_params.
+        _service.enable_retries()
+        self.test_translate_all_params()
+
+        # Disable retries and run test_translate_all_params.
+        _service.disable_retries()
+        self.test_translate_all_params()
 
     @responses.activate
     def test_translate_value_error(self):
@@ -181,7 +210,7 @@ class TestTranslate():
         test_translate_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/translate')
+        url = preprocess_url('/v3/translate')
         mock_response = '{"word_count": 10, "character_count": 15, "detected_language": "detected_language", "detected_language_confidence": 0, "translations": [{"translation": "translation"}]}'
         responses.add(responses.POST,
                       url,
@@ -205,6 +234,14 @@ class TestTranslate():
                 _service.translate(**req_copy)
 
 
+    def test_translate_value_error_with_retries(self):
+        # Enable retries and run test_translate_value_error.
+        _service.enable_retries()
+        self.test_translate_value_error()
+
+        # Disable retries and run test_translate_value_error.
+        _service.disable_retries()
+        self.test_translate_value_error()
 
 # endregion
 ##############################################################################
@@ -221,24 +258,13 @@ class TestListIdentifiableLanguages():
     Test Class for list_identifiable_languages
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_list_identifiable_languages_all_params(self):
         """
         list_identifiable_languages()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/identifiable_languages')
+        url = preprocess_url('/v3/identifiable_languages')
         mock_response = '{"languages": [{"language": "language", "name": "name"}]}'
         responses.add(responses.GET,
                       url,
@@ -254,6 +280,14 @@ class TestListIdentifiableLanguages():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_identifiable_languages_all_params_with_retries(self):
+        # Enable retries and run test_list_identifiable_languages_all_params.
+        _service.enable_retries()
+        self.test_list_identifiable_languages_all_params()
+
+        # Disable retries and run test_list_identifiable_languages_all_params.
+        _service.disable_retries()
+        self.test_list_identifiable_languages_all_params()
 
     @responses.activate
     def test_list_identifiable_languages_value_error(self):
@@ -261,7 +295,7 @@ class TestListIdentifiableLanguages():
         test_list_identifiable_languages_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/identifiable_languages')
+        url = preprocess_url('/v3/identifiable_languages')
         mock_response = '{"languages": [{"language": "language", "name": "name"}]}'
         responses.add(responses.GET,
                       url,
@@ -278,22 +312,19 @@ class TestListIdentifiableLanguages():
                 _service.list_identifiable_languages(**req_copy)
 
 
+    def test_list_identifiable_languages_value_error_with_retries(self):
+        # Enable retries and run test_list_identifiable_languages_value_error.
+        _service.enable_retries()
+        self.test_list_identifiable_languages_value_error()
+
+        # Disable retries and run test_list_identifiable_languages_value_error.
+        _service.disable_retries()
+        self.test_list_identifiable_languages_value_error()
 
 class TestIdentify():
     """
     Test Class for identify
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_identify_all_params(self):
@@ -301,7 +332,7 @@ class TestIdentify():
         identify()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/identify')
+        url = preprocess_url('/v3/identify')
         mock_response = '{"languages": [{"language": "language", "confidence": 0}]}'
         responses.add(responses.POST,
                       url,
@@ -324,6 +355,14 @@ class TestIdentify():
         # Validate body params
         assert str(responses.calls[0].request.body, 'utf-8') == text
 
+    def test_identify_all_params_with_retries(self):
+        # Enable retries and run test_identify_all_params.
+        _service.enable_retries()
+        self.test_identify_all_params()
+
+        # Disable retries and run test_identify_all_params.
+        _service.disable_retries()
+        self.test_identify_all_params()
 
     @responses.activate
     def test_identify_value_error(self):
@@ -331,7 +370,7 @@ class TestIdentify():
         test_identify_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/identify')
+        url = preprocess_url('/v3/identify')
         mock_response = '{"languages": [{"language": "language", "confidence": 0}]}'
         responses.add(responses.POST,
                       url,
@@ -352,6 +391,14 @@ class TestIdentify():
                 _service.identify(**req_copy)
 
 
+    def test_identify_value_error_with_retries(self):
+        # Enable retries and run test_identify_value_error.
+        _service.enable_retries()
+        self.test_identify_value_error()
+
+        # Disable retries and run test_identify_value_error.
+        _service.disable_retries()
+        self.test_identify_value_error()
 
 # endregion
 ##############################################################################
@@ -368,24 +415,13 @@ class TestListModels():
     Test Class for list_models
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_list_models_all_params(self):
         """
         list_models()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/models')
+        url = preprocess_url('/v3/models')
         mock_response = '{"models": [{"model_id": "model_id", "name": "name", "source": "source", "target": "target", "base_model_id": "base_model_id", "domain": "domain", "customizable": true, "default_model": false, "owner": "owner", "status": "uploading"}]}'
         responses.add(responses.GET,
                       url,
@@ -416,6 +452,14 @@ class TestListModels():
         assert 'target={}'.format(target) in query_string
         assert 'default={}'.format('true' if default else 'false') in query_string
 
+    def test_list_models_all_params_with_retries(self):
+        # Enable retries and run test_list_models_all_params.
+        _service.enable_retries()
+        self.test_list_models_all_params()
+
+        # Disable retries and run test_list_models_all_params.
+        _service.disable_retries()
+        self.test_list_models_all_params()
 
     @responses.activate
     def test_list_models_required_params(self):
@@ -423,7 +467,7 @@ class TestListModels():
         test_list_models_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/models')
+        url = preprocess_url('/v3/models')
         mock_response = '{"models": [{"model_id": "model_id", "name": "name", "source": "source", "target": "target", "base_model_id": "base_model_id", "domain": "domain", "customizable": true, "default_model": false, "owner": "owner", "status": "uploading"}]}'
         responses.add(responses.GET,
                       url,
@@ -439,6 +483,14 @@ class TestListModels():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_models_required_params_with_retries(self):
+        # Enable retries and run test_list_models_required_params.
+        _service.enable_retries()
+        self.test_list_models_required_params()
+
+        # Disable retries and run test_list_models_required_params.
+        _service.disable_retries()
+        self.test_list_models_required_params()
 
     @responses.activate
     def test_list_models_value_error(self):
@@ -446,7 +498,7 @@ class TestListModels():
         test_list_models_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/models')
+        url = preprocess_url('/v3/models')
         mock_response = '{"models": [{"model_id": "model_id", "name": "name", "source": "source", "target": "target", "base_model_id": "base_model_id", "domain": "domain", "customizable": true, "default_model": false, "owner": "owner", "status": "uploading"}]}'
         responses.add(responses.GET,
                       url,
@@ -463,22 +515,19 @@ class TestListModels():
                 _service.list_models(**req_copy)
 
 
+    def test_list_models_value_error_with_retries(self):
+        # Enable retries and run test_list_models_value_error.
+        _service.enable_retries()
+        self.test_list_models_value_error()
+
+        # Disable retries and run test_list_models_value_error.
+        _service.disable_retries()
+        self.test_list_models_value_error()
 
 class TestCreateModel():
     """
     Test Class for create_model
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_create_model_all_params(self):
@@ -486,7 +535,7 @@ class TestCreateModel():
         create_model()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/models')
+        url = preprocess_url('/v3/models')
         mock_response = '{"model_id": "model_id", "name": "name", "source": "source", "target": "target", "base_model_id": "base_model_id", "domain": "domain", "customizable": true, "default_model": false, "owner": "owner", "status": "uploading"}'
         responses.add(responses.POST,
                       url,
@@ -518,6 +567,14 @@ class TestCreateModel():
         assert 'base_model_id={}'.format(base_model_id) in query_string
         assert 'name={}'.format(name) in query_string
 
+    def test_create_model_all_params_with_retries(self):
+        # Enable retries and run test_create_model_all_params.
+        _service.enable_retries()
+        self.test_create_model_all_params()
+
+        # Disable retries and run test_create_model_all_params.
+        _service.disable_retries()
+        self.test_create_model_all_params()
 
     @responses.activate
     def test_create_model_required_params(self):
@@ -525,7 +582,7 @@ class TestCreateModel():
         test_create_model_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/models')
+        url = preprocess_url('/v3/models')
         mock_response = '{"model_id": "model_id", "name": "name", "source": "source", "target": "target", "base_model_id": "base_model_id", "domain": "domain", "customizable": true, "default_model": false, "owner": "owner", "status": "uploading"}'
         responses.add(responses.POST,
                       url,
@@ -550,6 +607,14 @@ class TestCreateModel():
         query_string = urllib.parse.unquote_plus(query_string)
         assert 'base_model_id={}'.format(base_model_id) in query_string
 
+    def test_create_model_required_params_with_retries(self):
+        # Enable retries and run test_create_model_required_params.
+        _service.enable_retries()
+        self.test_create_model_required_params()
+
+        # Disable retries and run test_create_model_required_params.
+        _service.disable_retries()
+        self.test_create_model_required_params()
 
     @responses.activate
     def test_create_model_value_error(self):
@@ -557,7 +622,7 @@ class TestCreateModel():
         test_create_model_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/models')
+        url = preprocess_url('/v3/models')
         mock_response = '{"model_id": "model_id", "name": "name", "source": "source", "target": "target", "base_model_id": "base_model_id", "domain": "domain", "customizable": true, "default_model": false, "owner": "owner", "status": "uploading"}'
         responses.add(responses.POST,
                       url,
@@ -578,22 +643,19 @@ class TestCreateModel():
                 _service.create_model(**req_copy)
 
 
+    def test_create_model_value_error_with_retries(self):
+        # Enable retries and run test_create_model_value_error.
+        _service.enable_retries()
+        self.test_create_model_value_error()
+
+        # Disable retries and run test_create_model_value_error.
+        _service.disable_retries()
+        self.test_create_model_value_error()
 
 class TestDeleteModel():
     """
     Test Class for delete_model
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_model_all_params(self):
@@ -601,7 +663,7 @@ class TestDeleteModel():
         delete_model()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/models/testString')
+        url = preprocess_url('/v3/models/testString')
         mock_response = '{"status": "status"}'
         responses.add(responses.DELETE,
                       url,
@@ -622,6 +684,14 @@ class TestDeleteModel():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_delete_model_all_params_with_retries(self):
+        # Enable retries and run test_delete_model_all_params.
+        _service.enable_retries()
+        self.test_delete_model_all_params()
+
+        # Disable retries and run test_delete_model_all_params.
+        _service.disable_retries()
+        self.test_delete_model_all_params()
 
     @responses.activate
     def test_delete_model_value_error(self):
@@ -629,7 +699,7 @@ class TestDeleteModel():
         test_delete_model_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/models/testString')
+        url = preprocess_url('/v3/models/testString')
         mock_response = '{"status": "status"}'
         responses.add(responses.DELETE,
                       url,
@@ -650,22 +720,19 @@ class TestDeleteModel():
                 _service.delete_model(**req_copy)
 
 
+    def test_delete_model_value_error_with_retries(self):
+        # Enable retries and run test_delete_model_value_error.
+        _service.enable_retries()
+        self.test_delete_model_value_error()
+
+        # Disable retries and run test_delete_model_value_error.
+        _service.disable_retries()
+        self.test_delete_model_value_error()
 
 class TestGetModel():
     """
     Test Class for get_model
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_model_all_params(self):
@@ -673,7 +740,7 @@ class TestGetModel():
         get_model()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/models/testString')
+        url = preprocess_url('/v3/models/testString')
         mock_response = '{"model_id": "model_id", "name": "name", "source": "source", "target": "target", "base_model_id": "base_model_id", "domain": "domain", "customizable": true, "default_model": false, "owner": "owner", "status": "uploading"}'
         responses.add(responses.GET,
                       url,
@@ -694,6 +761,14 @@ class TestGetModel():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_model_all_params_with_retries(self):
+        # Enable retries and run test_get_model_all_params.
+        _service.enable_retries()
+        self.test_get_model_all_params()
+
+        # Disable retries and run test_get_model_all_params.
+        _service.disable_retries()
+        self.test_get_model_all_params()
 
     @responses.activate
     def test_get_model_value_error(self):
@@ -701,7 +776,7 @@ class TestGetModel():
         test_get_model_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/models/testString')
+        url = preprocess_url('/v3/models/testString')
         mock_response = '{"model_id": "model_id", "name": "name", "source": "source", "target": "target", "base_model_id": "base_model_id", "domain": "domain", "customizable": true, "default_model": false, "owner": "owner", "status": "uploading"}'
         responses.add(responses.GET,
                       url,
@@ -722,6 +797,14 @@ class TestGetModel():
                 _service.get_model(**req_copy)
 
 
+    def test_get_model_value_error_with_retries(self):
+        # Enable retries and run test_get_model_value_error.
+        _service.enable_retries()
+        self.test_get_model_value_error()
+
+        # Disable retries and run test_get_model_value_error.
+        _service.disable_retries()
+        self.test_get_model_value_error()
 
 # endregion
 ##############################################################################
@@ -738,24 +821,13 @@ class TestListDocuments():
     Test Class for list_documents
     """
 
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
-
     @responses.activate
     def test_list_documents_all_params(self):
         """
         list_documents()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/documents')
+        url = preprocess_url('/v3/documents')
         mock_response = '{"documents": [{"document_id": "document_id", "filename": "filename", "status": "processing", "model_id": "model_id", "base_model_id": "base_model_id", "source": "source", "detected_language_confidence": 0, "target": "target", "created": "2019-01-01T12:00:00.000Z", "completed": "2019-01-01T12:00:00.000Z", "word_count": 10, "character_count": 15}]}'
         responses.add(responses.GET,
                       url,
@@ -771,6 +843,14 @@ class TestListDocuments():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_list_documents_all_params_with_retries(self):
+        # Enable retries and run test_list_documents_all_params.
+        _service.enable_retries()
+        self.test_list_documents_all_params()
+
+        # Disable retries and run test_list_documents_all_params.
+        _service.disable_retries()
+        self.test_list_documents_all_params()
 
     @responses.activate
     def test_list_documents_value_error(self):
@@ -778,7 +858,7 @@ class TestListDocuments():
         test_list_documents_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/documents')
+        url = preprocess_url('/v3/documents')
         mock_response = '{"documents": [{"document_id": "document_id", "filename": "filename", "status": "processing", "model_id": "model_id", "base_model_id": "base_model_id", "source": "source", "detected_language_confidence": 0, "target": "target", "created": "2019-01-01T12:00:00.000Z", "completed": "2019-01-01T12:00:00.000Z", "word_count": 10, "character_count": 15}]}'
         responses.add(responses.GET,
                       url,
@@ -795,22 +875,19 @@ class TestListDocuments():
                 _service.list_documents(**req_copy)
 
 
+    def test_list_documents_value_error_with_retries(self):
+        # Enable retries and run test_list_documents_value_error.
+        _service.enable_retries()
+        self.test_list_documents_value_error()
+
+        # Disable retries and run test_list_documents_value_error.
+        _service.disable_retries()
+        self.test_list_documents_value_error()
 
 class TestTranslateDocument():
     """
     Test Class for translate_document
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_translate_document_all_params(self):
@@ -818,7 +895,7 @@ class TestTranslateDocument():
         translate_document()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/documents')
+        url = preprocess_url('/v3/documents')
         mock_response = '{"document_id": "document_id", "filename": "filename", "status": "processing", "model_id": "model_id", "base_model_id": "base_model_id", "source": "source", "detected_language_confidence": 0, "target": "target", "created": "2019-01-01T12:00:00.000Z", "completed": "2019-01-01T12:00:00.000Z", "word_count": 10, "character_count": 15}'
         responses.add(responses.POST,
                       url,
@@ -851,6 +928,14 @@ class TestTranslateDocument():
         assert len(responses.calls) == 1
         assert response.status_code == 202
 
+    def test_translate_document_all_params_with_retries(self):
+        # Enable retries and run test_translate_document_all_params.
+        _service.enable_retries()
+        self.test_translate_document_all_params()
+
+        # Disable retries and run test_translate_document_all_params.
+        _service.disable_retries()
+        self.test_translate_document_all_params()
 
     @responses.activate
     def test_translate_document_required_params(self):
@@ -858,7 +943,7 @@ class TestTranslateDocument():
         test_translate_document_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/documents')
+        url = preprocess_url('/v3/documents')
         mock_response = '{"document_id": "document_id", "filename": "filename", "status": "processing", "model_id": "model_id", "base_model_id": "base_model_id", "source": "source", "detected_language_confidence": 0, "target": "target", "created": "2019-01-01T12:00:00.000Z", "completed": "2019-01-01T12:00:00.000Z", "word_count": 10, "character_count": 15}'
         responses.add(responses.POST,
                       url,
@@ -881,6 +966,14 @@ class TestTranslateDocument():
         assert len(responses.calls) == 1
         assert response.status_code == 202
 
+    def test_translate_document_required_params_with_retries(self):
+        # Enable retries and run test_translate_document_required_params.
+        _service.enable_retries()
+        self.test_translate_document_required_params()
+
+        # Disable retries and run test_translate_document_required_params.
+        _service.disable_retries()
+        self.test_translate_document_required_params()
 
     @responses.activate
     def test_translate_document_value_error(self):
@@ -888,7 +981,7 @@ class TestTranslateDocument():
         test_translate_document_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/documents')
+        url = preprocess_url('/v3/documents')
         mock_response = '{"document_id": "document_id", "filename": "filename", "status": "processing", "model_id": "model_id", "base_model_id": "base_model_id", "source": "source", "detected_language_confidence": 0, "target": "target", "created": "2019-01-01T12:00:00.000Z", "completed": "2019-01-01T12:00:00.000Z", "word_count": 10, "character_count": 15}'
         responses.add(responses.POST,
                       url,
@@ -910,22 +1003,19 @@ class TestTranslateDocument():
                 _service.translate_document(**req_copy)
 
 
+    def test_translate_document_value_error_with_retries(self):
+        # Enable retries and run test_translate_document_value_error.
+        _service.enable_retries()
+        self.test_translate_document_value_error()
+
+        # Disable retries and run test_translate_document_value_error.
+        _service.disable_retries()
+        self.test_translate_document_value_error()
 
 class TestGetDocumentStatus():
     """
     Test Class for get_document_status
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_document_status_all_params(self):
@@ -933,7 +1023,7 @@ class TestGetDocumentStatus():
         get_document_status()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/documents/testString')
+        url = preprocess_url('/v3/documents/testString')
         mock_response = '{"document_id": "document_id", "filename": "filename", "status": "processing", "model_id": "model_id", "base_model_id": "base_model_id", "source": "source", "detected_language_confidence": 0, "target": "target", "created": "2019-01-01T12:00:00.000Z", "completed": "2019-01-01T12:00:00.000Z", "word_count": 10, "character_count": 15}'
         responses.add(responses.GET,
                       url,
@@ -954,6 +1044,14 @@ class TestGetDocumentStatus():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_document_status_all_params_with_retries(self):
+        # Enable retries and run test_get_document_status_all_params.
+        _service.enable_retries()
+        self.test_get_document_status_all_params()
+
+        # Disable retries and run test_get_document_status_all_params.
+        _service.disable_retries()
+        self.test_get_document_status_all_params()
 
     @responses.activate
     def test_get_document_status_value_error(self):
@@ -961,7 +1059,7 @@ class TestGetDocumentStatus():
         test_get_document_status_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/documents/testString')
+        url = preprocess_url('/v3/documents/testString')
         mock_response = '{"document_id": "document_id", "filename": "filename", "status": "processing", "model_id": "model_id", "base_model_id": "base_model_id", "source": "source", "detected_language_confidence": 0, "target": "target", "created": "2019-01-01T12:00:00.000Z", "completed": "2019-01-01T12:00:00.000Z", "word_count": 10, "character_count": 15}'
         responses.add(responses.GET,
                       url,
@@ -982,22 +1080,19 @@ class TestGetDocumentStatus():
                 _service.get_document_status(**req_copy)
 
 
+    def test_get_document_status_value_error_with_retries(self):
+        # Enable retries and run test_get_document_status_value_error.
+        _service.enable_retries()
+        self.test_get_document_status_value_error()
+
+        # Disable retries and run test_get_document_status_value_error.
+        _service.disable_retries()
+        self.test_get_document_status_value_error()
 
 class TestDeleteDocument():
     """
     Test Class for delete_document
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_delete_document_all_params(self):
@@ -1005,7 +1100,7 @@ class TestDeleteDocument():
         delete_document()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/documents/testString')
+        url = preprocess_url('/v3/documents/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -1023,6 +1118,14 @@ class TestDeleteDocument():
         assert len(responses.calls) == 1
         assert response.status_code == 204
 
+    def test_delete_document_all_params_with_retries(self):
+        # Enable retries and run test_delete_document_all_params.
+        _service.enable_retries()
+        self.test_delete_document_all_params()
+
+        # Disable retries and run test_delete_document_all_params.
+        _service.disable_retries()
+        self.test_delete_document_all_params()
 
     @responses.activate
     def test_delete_document_value_error(self):
@@ -1030,7 +1133,7 @@ class TestDeleteDocument():
         test_delete_document_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/documents/testString')
+        url = preprocess_url('/v3/documents/testString')
         responses.add(responses.DELETE,
                       url,
                       status=204)
@@ -1048,22 +1151,19 @@ class TestDeleteDocument():
                 _service.delete_document(**req_copy)
 
 
+    def test_delete_document_value_error_with_retries(self):
+        # Enable retries and run test_delete_document_value_error.
+        _service.enable_retries()
+        self.test_delete_document_value_error()
+
+        # Disable retries and run test_delete_document_value_error.
+        _service.disable_retries()
+        self.test_delete_document_value_error()
 
 class TestGetTranslatedDocument():
     """
     Test Class for get_translated_document
     """
-
-    def preprocess_url(self, request_url: str):
-        """
-        Preprocess the request URL to ensure the mock response will be found.
-        """
-        request_url = urllib.parse.unquote(request_url) # don't double-encode if already encoded
-        request_url = urllib.parse.quote(request_url, safe=':/')
-        if re.fullmatch('.*/+', request_url) is None:
-            return request_url
-        else:
-            return re.compile(request_url.rstrip('/') + '/+')
 
     @responses.activate
     def test_get_translated_document_all_params(self):
@@ -1071,7 +1171,7 @@ class TestGetTranslatedDocument():
         get_translated_document()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/documents/testString/translated_document')
+        url = preprocess_url('/v3/documents/testString/translated_document')
         mock_response = 'This is a mock binary response.'
         responses.add(responses.GET,
                       url,
@@ -1094,6 +1194,14 @@ class TestGetTranslatedDocument():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_translated_document_all_params_with_retries(self):
+        # Enable retries and run test_get_translated_document_all_params.
+        _service.enable_retries()
+        self.test_get_translated_document_all_params()
+
+        # Disable retries and run test_get_translated_document_all_params.
+        _service.disable_retries()
+        self.test_get_translated_document_all_params()
 
     @responses.activate
     def test_get_translated_document_required_params(self):
@@ -1101,7 +1209,7 @@ class TestGetTranslatedDocument():
         test_get_translated_document_required_params()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/documents/testString/translated_document')
+        url = preprocess_url('/v3/documents/testString/translated_document')
         mock_response = 'This is a mock binary response.'
         responses.add(responses.GET,
                       url,
@@ -1122,6 +1230,14 @@ class TestGetTranslatedDocument():
         assert len(responses.calls) == 1
         assert response.status_code == 200
 
+    def test_get_translated_document_required_params_with_retries(self):
+        # Enable retries and run test_get_translated_document_required_params.
+        _service.enable_retries()
+        self.test_get_translated_document_required_params()
+
+        # Disable retries and run test_get_translated_document_required_params.
+        _service.disable_retries()
+        self.test_get_translated_document_required_params()
 
     @responses.activate
     def test_get_translated_document_value_error(self):
@@ -1129,7 +1245,7 @@ class TestGetTranslatedDocument():
         test_get_translated_document_value_error()
         """
         # Set up mock
-        url = self.preprocess_url(_base_url + '/v3/documents/testString/translated_document')
+        url = preprocess_url('/v3/documents/testString/translated_document')
         mock_response = 'This is a mock binary response.'
         responses.add(responses.GET,
                       url,
@@ -1150,6 +1266,14 @@ class TestGetTranslatedDocument():
                 _service.get_translated_document(**req_copy)
 
 
+    def test_get_translated_document_value_error_with_retries(self):
+        # Enable retries and run test_get_translated_document_value_error.
+        _service.enable_retries()
+        self.test_get_translated_document_value_error()
+
+        # Disable retries and run test_get_translated_document_value_error.
+        _service.disable_retries()
+        self.test_get_translated_document_value_error()
 
 # endregion
 ##############################################################################
@@ -1211,8 +1335,8 @@ class TestModel_DocumentList():
         document_status_model['source'] = 'testString'
         document_status_model['detected_language_confidence'] = 0
         document_status_model['target'] = 'testString'
-        document_status_model['created'] = "2019-01-01T12:00:00Z"
-        document_status_model['completed'] = "2019-01-01T12:00:00Z"
+        document_status_model['created'] = '2019-01-01T12:00:00Z'
+        document_status_model['completed'] = '2019-01-01T12:00:00Z'
         document_status_model['word_count'] = 38
         document_status_model['character_count'] = 38
 
@@ -1255,8 +1379,8 @@ class TestModel_DocumentStatus():
         document_status_model_json['source'] = 'testString'
         document_status_model_json['detected_language_confidence'] = 0
         document_status_model_json['target'] = 'testString'
-        document_status_model_json['created'] = "2019-01-01T12:00:00Z"
-        document_status_model_json['completed'] = "2019-01-01T12:00:00Z"
+        document_status_model_json['created'] = '2019-01-01T12:00:00Z'
+        document_status_model_json['completed'] = '2019-01-01T12:00:00Z'
         document_status_model_json['word_count'] = 38
         document_status_model_json['character_count'] = 38
 
