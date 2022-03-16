@@ -9,10 +9,7 @@ from os.path import join, dirname
 from glob import glob
 
 # tests to include
-includes = [
-    'assistant_v1.py', 'natural_language_understanding_v1.py',
-    'personality_insights_v3.py', 'tone_analyzer_v3.py'
-]
+includes = ['assistant_v1.py', 'natural_language_understanding_v1.py']
 
 # examples path. /examples
 examples_path = join(dirname(__file__), '../../', 'examples', '*.py')
